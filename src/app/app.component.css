@@ -1,0 +1,113 @@
+.highlighted {
+    /*text-decoration: underline;*/
+    /*text-decoration-color: red;*/
+
+    border-radius: 4px;
+    background-color: #FF0000;
+    border: none;
+
+    /*padding: 4px;*/
+
+    /*padding-top: 1.5px;*/
+    /*padding-left: 2.5px;*/
+    /*padding-bottom: 1.5px;*/
+    /*padding-right: 2.5px;*/
+
+    /*color: blue;*/
+}
+
+.loanword {
+    background-color: #FFD182;
+}
+
+.typo {
+    background-color: #FFC8C8;
+}
+
+.styling {
+    background-color: #A1B6DC;
+}
+
+.suggestion {
+    background-color: #EAEAEA;
+}
+
+/*some cute color*/
+/*background-color: #98B4D4;*/
+
+/*TODO
+   .suggestion:hover {*/
+/*    color: #EAEAEA;*/
+/*}*/
+
+.btnUnselected {
+    color: white;
+    background-color: #A9A9A9;
+}
+
+.customPopover {
+    border-radius: 4px;
+
+    padding-top: -1px;
+    padding-left: 3px;
+    padding-bottom: 2px;
+    padding-right: 3px;
+
+    /*max-width: 200px;*/
+    z-index: 99;
+    position: absolute;
+    background-color: #F3F3F3;
+    top: 12%;
+    left: 30%;
+}
+
+.popoverSuggestion {
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #DADADA;
+
+    padding-top: 1px;
+    padding-left: 3px;
+    padding-bottom: 2px;
+    padding-right: 3px;
+
+    font-size: 87%;
+}
+
+.tinyVerticalLine {
+    color: #C0C0C0;
+    font-weight: lighter;
+    font-size: 70%;
+}
+
+/* Responsive layout - makes a one column layout instead of a two-column layout */
+@media (max-width: 800px) {
+    #topzzz {
+        flex-direction: column;
+        gap: 2rem !important;
+    }
+
+    /*TODO improve code*/
+    #editor {
+        min-height: 18rem !important;
+    }
+
+    #corrections {
+        gap: 0.4rem !important;
+    }
+
+    .customPopover {
+        top: 18%;
+    }
+}
+
+/*TODO I don't like these two a lot, write better responsive code, I assume ideally this should be added in flex-stuff*/
+@media (min-width: 800px) {
+    #inputo {
+        width: 35%;
+    }
+
+    #outputo {
+        width: 35%;
+    }
+}

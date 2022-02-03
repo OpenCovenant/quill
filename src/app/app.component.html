@@ -1,0 +1,124 @@
+<div>
+    <nav class="navbar navbar-light justify-content-center" style="background-color: #F1F1F1">
+        <span class="navbar-brand mb-0 h1">penda</span>
+    </nav>
+
+    <div id="topzzz" style="display: flex; justify-content: space-between; gap: 5rem;">
+        <div id="inputo" class="inputText mt-4" style="max-width: 45rem; margin-right: 2rem; margin-left: 2rem;">
+            <div class="card border-secondary">
+                <div class="card-header" style="display: flex; justify-content: space-evenly;">
+                    <button id="{{writeTextToggleButtonID}}" type="button" class="btn btn-sm btn-secondary active"
+                            aria-pressed="true" (click)="toggleWriteTextButton()">SHKRUAJ TEKST
+                    </button>
+                    <div class="vr"></div>
+                    <button id="{{uploadDocumentToggleButtonID}}" type="button" class="btn btn-sm btnUnselected"
+                            (click)="toggleUploadDocumentButton()">NGARKO&nbsp;DOKUMENT
+                    </button>
+                </div>
+                <div class="card-body" *ngIf="displayWriteTextOrUploadDocumentFlag">
+                    <div>
+                        <div id="editor" class="border" contenteditable="true"
+                             (input)="onTextChange()" style="max-width: 100%; min-height: 30rem; padding: 0.3rem;"
+                             spellcheck="false" autocapitalize="off" role="textbox" aria-multiline="true"></div>
+                    </div>
+                    <span style="font-size: 0.8rem;">
+                        {{characterCount}}&nbsp;{{characterCount === 1 ? 'karakter' : 'karaktere'}}&comma;&nbsp;{{wordCount}}
+                        fjalë</span>
+                </div>
+                <div class="card-body" *ngIf="!displayWriteTextOrUploadDocumentFlag">
+                    <div class="text-center" style="max-width: 100%; min-height: 31.5rem;">
+                        <h5 class="card-title">Mbështesim dokumenta <b>PDF</b>.</h5>
+                        <p class="card-text">Së shpejti dhe <b>Word</b>, <b>Libre</b>.</p>
+                        <br>
+                        <div>
+                            <label for="documentUploadingHiddenInput" class="btn btn-primary">SHTYP&nbsp;KËTU&nbsp;<i
+                                    class="bi bi-file-text"></i></label>
+                            <input id="documentUploadingHiddenInput" type="file"
+                                   (change)="uploadDocument($event)"
+                                   placeholder="SHTYP KËTU" accept=".pdf"
+                                   style="display:none;"> <!--TODO--> <!-- ,.doc,.docx,.odt-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="outputo" class="outputTexts mt-4" style="max-width: 45rem; margin-left: 2rem; margin-right: 2rem;">
+            <div class="card border-secondary mt-2" *ngFor="let textMarking of processedText?.textMarkings; index as i">
+                <div class="card-header" style="display: flex; justify-content: space-between;">
+                    <div>
+                        <button class="highlighted {{textMarking.type}}" style="cursor: default;">
+                            {{processedText?.text?.slice(textMarking.from, textMarking.to)}}</button>
+                    </div>
+                    <div>
+                        <button (click)="deleteTextMarking(i)"
+                                class="btn btn-outline-danger btn-sm">HIQ&nbsp;<i class="bi bi-trash"></i></button>
+                    </div>
+                </div>
+                <!-- TODO it is apparent that this should be improved -->
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><b>({{textMarking.description}})</b>&nbsp;fjala
+                        <b>{{processedText?.text?.slice(textMarking.from, textMarking.to)}}</b>&nbsp;nuk ekziston<span
+                                *ngIf="textMarking.corrections.length > 0">, a doje të shkruaje
+                            <div id="corrections" style="display: flex; justify-content: center; gap: 1rem;">
+                                <button *ngIf="textMarking.corrections.length >= 1" class="highlighted suggestion"
+                                        (click)="chooseCorrection(i, 0)" style="cursor: pointer;"><b
+                                >{{textMarking.corrections[0]}}</b></button>
+                                <button *ngIf="textMarking.corrections.length >= 2" class="highlighted suggestion"
+                                        (click)="chooseCorrection(i, 1)" style="cursor: pointer;"><b
+                                >{{textMarking.corrections[1]}}</b></button>
+                                <button *ngIf="textMarking.corrections.length >= 3" class="highlighted suggestion"
+                                        (click)="chooseCorrection( i, 2)" style="cursor: pointer;"><b
+                                >{{textMarking.corrections[2]}}</b></button>
+                                <button *ngIf="textMarking.corrections.length >= 4" class="highlighted suggestion"
+                                        (click)="chooseCorrection(i, 3)" style="cursor: pointer;"><b
+                                >{{textMarking.corrections[3]}}</b></button>
+                                <button *ngIf="textMarking.corrections.length >= 5" class="highlighted suggestion"
+                                        (click)="chooseCorrection(i, 4)" style="cursor: pointer;"><b
+                                >{{textMarking.corrections[4]}}</b></button>
+                            </div>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+
+            <hr class="mt-4 mb-4">
+
+            <div class="card border-secondary mt-3" style="max-width: 45rem;">
+                <div class="card-header">PLAGJIATURË (vjen së shpejti)</div>
+                <div class="card-body">
+                    <h6 class="card-title">{{firstDummyPercentage}}% - Libri A, Autor X</h6>
+                    <h6 class="card-title">{{secondDummyPercentage}}% - Libri B, Autor Y</h6>
+                    <h6 class="card-title">{{thirdDummyPercentage}}% - Libri C, Autor Z</h6>
+                </div>
+
+                <!--                <div class="d-flex justify-content-center">-->
+                <!--                    <div id="loadingSpinner" class="spinner-border" role="status">-->
+                <!--                        <span class="visually-hidden">Loading...</span>-->
+                <!--                    </div>-->
+                <!--                </div>-->
+            </div>
+        </div>
+    </div>
+
+    <div class="page-footer text-center text-white" style="margin-top: 5.5rem; background-color: #F5F5F5;">
+        <footer>
+            <div class="container pt-4">
+                <section class="mb-4">
+                    <a class="btn btn-link btn-floating btn-lg text-dark m-1"
+                       href="https://github.com/OpenCovenant/quill"
+                       role="button">
+                        <i class="bi bi-github"></i>
+                    </a>
+                    <!--                    <a class="btn btn-link btn-floating btn-lg text-dark m-1" href="#!" role="button">-->
+                    <!--                        <i class="bi bi-linkedin"></i>-->
+                    <!--                    </a>-->
+                </section>
+            </div>
+
+            <div class="text-center text-dark p-3" style="background-color: #F1F1F1;">
+                <span class="text-dark">OpenCovenant</span>
+            </div>
+        </footer>
+    </div>
+</div>
