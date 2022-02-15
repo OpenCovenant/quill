@@ -55,27 +55,14 @@
                                 class="btn btn-outline-danger btn-sm">HIQ&nbsp;<i class="bi bi-trash"></i></button>
                     </div>
                 </div>
-                <!-- TODO it is apparent that this should be improved -->
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item"><b>({{textMarking.description}})</b>&nbsp;fjala
                         <b>{{processedText?.text?.slice(textMarking.from, textMarking.to)}}</b>&nbsp;nuk ekziston<span
                                 *ngIf="textMarking.corrections.length > 0">, a doje të shkruaje
                             <div id="corrections" style="display: flex; justify-content: center; gap: 1rem;">
-                                <button *ngIf="textMarking.corrections.length >= 1" class="highlighted suggestion"
-                                        (click)="chooseCorrection(i, 0)" style="cursor: pointer;"><b
-                                >{{textMarking.corrections[0]}}</b></button>
-                                <button *ngIf="textMarking.corrections.length >= 2" class="highlighted suggestion"
-                                        (click)="chooseCorrection(i, 1)" style="cursor: pointer;"><b
-                                >{{textMarking.corrections[1]}}</b></button>
-                                <button *ngIf="textMarking.corrections.length >= 3" class="highlighted suggestion"
-                                        (click)="chooseCorrection( i, 2)" style="cursor: pointer;"><b
-                                >{{textMarking.corrections[2]}}</b></button>
-                                <button *ngIf="textMarking.corrections.length >= 4" class="highlighted suggestion"
-                                        (click)="chooseCorrection(i, 3)" style="cursor: pointer;"><b
-                                >{{textMarking.corrections[3]}}</b></button>
-                                <button *ngIf="textMarking.corrections.length >= 5" class="highlighted suggestion"
-                                        (click)="chooseCorrection(i, 4)" style="cursor: pointer;"><b
-                                >{{textMarking.corrections[4]}}</b></button>
+                                <button *ngFor="let correction of textMarking.corrections; index as j"
+                                        class="highlighted suggestion" (click)="chooseCorrection(i, j)"
+                                        style="cursor: pointer;"><b>{{correction}}</b></button>
                             </div>
                         </span>
                     </li>
