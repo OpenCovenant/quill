@@ -3,5 +3,5 @@ export interface TextMarking {
     to: number;
     type: string;
     description: string;
-    corrections: Array<string>;
+    suggestions: Array<string>;
 }
