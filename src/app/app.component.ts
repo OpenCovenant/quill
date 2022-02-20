@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {ProcessedText} from "./ProcessedText";
 import {TextMarking} from "./TextMarking";
 import {environment} from "../environments/environment";
+import {Subject, switchMap} from "rxjs";
 
 @Component({
     selector: 'app-root',
@@ -25,6 +26,7 @@ export class AppComponent {
     displayWriteTextOrUploadDocumentFlag: any = true;
     characterCount: number = 0;
     wordCount: number = 0;
+    makeRequest$ = new Subject();
 
     firstDummyPercentage: number = 80 + Math.floor(Math.random() * 5);
     secondDummyPercentage: number = 5 + Math.floor(Math.random() * 4);
@@ -32,9 +34,38 @@ export class AppComponent {
 
     constructor(private http: HttpClient, private elementRef: ElementRef) {
         this.initializeURLs();
+
+        this.makeRequest$.pipe(switchMap((innerText) => {
+            return this.http.post(this.checkSpellingURL, innerText);
+        })).subscribe(this.textMarkingSubscription());
+
         // should any other call be made here? probably not... actually even this should be removed soon
         this.http.get(this.pingURL).subscribe(() => {
             console.log('pinging server...');
+        });
+    }
+
+    textMarkingSubscription() {
+        return ((processedText: any) => {
+            this.processedText = processedText as ProcessedText;
+
+            const editor = document.getElementById(this.EDITOR_KEY)!;
+            const writtenText = editor.innerText;
+            if (this.processedText?.textMarkings.length != 0) {
+                let textWithHighlights: string = '';
+                let previousFromIndex: number = 0;
+                this.processedText?.textMarkings.forEach(tM => {
+                    const markingType = tM.type;
+                    textWithHighlights += writtenText.slice(previousFromIndex, tM.from) +
+                        '<span><button type="button" class="buttonToGenerateAPopover highlighted ' + markingType + '">' + writtenText.slice(tM.from, tM.to) + '</button></span>';
+                    previousFromIndex = tM.to;
+                });
+                textWithHighlights += writtenText.slice(previousFromIndex, writtenText.length);
+                editor.innerHTML = textWithHighlights;
+                this.listenForPopovers()
+            }
+
+            this.setCaretToEnd();
         });
     }
 
@@ -84,28 +115,8 @@ export class AppComponent {
     onTextChange() {
         this.updateCharacterCount();
         this.updateWordCount();
-        if (this.stoppedTypingAWord()) {
-            const editor = document.getElementById(this.EDITOR_KEY)!;
-            this.http.post(this.checkSpellingURL, editor.innerText).subscribe(next => {
-                this.processedText = next as ProcessedText;
-
-                const writtenText = editor.innerText;
-                if (this.processedText?.textMarkings.length != 0) {
-                    let textWithHighlights: string = '';
-                    let previousFromIndex: number = 0;
-                    this.processedText?.textMarkings.forEach(tM => {
-                        const markingType = tM.type;
-                        textWithHighlights += writtenText.slice(previousFromIndex, tM.from) +
-                            '<span><button type="button" class="buttonToGenerateAPopover highlighted ' + markingType + '">' + writtenText.slice(tM.from, tM.to) + '</button></span>';
-                        previousFromIndex = tM.to;
-                    });
-                    textWithHighlights += writtenText.slice(previousFromIndex, writtenText.length);
-                    editor.innerHTML = textWithHighlights;
-                    this.listenForPopovers()
-                }
-
-                this.setCaretToEnd();
-            });
+        if (this.stoppedTypingAWord()) { // TODO what about the case when changes are made to the text before its end
+            this.makeRequest$.next(document.getElementById(this.EDITOR_KEY)!.innerText);
         }
     }
 
