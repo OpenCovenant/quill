@@ -129,8 +129,9 @@ export class AppComponent {
 
     stoppedTypingAWord() {
         // TODO this list should probably be moved somewhere, and adapted accordingly
-        const WORD_TERMINATING_CHARACTER_CODES = [33 /*!*/, 34 /*"*/, 38 /*&*/, 40 /*(*/, 41 /*)*/, 44 /*,*/, 46 /*.*/,
-            47 /*/*/, 59 /*;*/, 63 /*?*/, 92 /*\*/, 160 /* */, 171 /*«*/, 187/*»*/, 8220 /*“*/, 8221 /*”*/, 8230 /*…*/];
+        const WORD_TERMINATING_CHARACTER_CODES = [10 /*\n*/, 33 /*!*/, 34 /*"*/, 38 /*&*/, 40 /*(*/, 41 /*)*/, 44 /*,*/,
+            46 /*.*/, 47 /*/*/, 58 /*:*/, 59 /*;*/, 63 /*?*/, 92 /*\*/, 160 /* */, 171 /*«*/, 187/*»*/, 8220 /*“*/,
+            8221 /*”*/, 8230 /*…*/];
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
         const lastCharacterCode = editor.innerText.charCodeAt(editor.innerText.length - 1);
         return WORD_TERMINATING_CHARACTER_CODES.includes(lastCharacterCode);
