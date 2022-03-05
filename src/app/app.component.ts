@@ -163,7 +163,7 @@ export class AppComponent {
         }
     }
 
-    chooseCorrection(textMarkingIndex: number, correctionIndex: number) {
+    chooseSuggestion(textMarkingIndex: number, suggestionIndex: number) {
         if (document.getElementById(this.POPOVER_KEY) != null) {
             document.getElementById(this.POPOVER_KEY)!.remove();
         }
@@ -175,7 +175,7 @@ export class AppComponent {
         const leftWrittenText = writtenText?.slice(0, textMarking.from);
         const rightWrittenText = writtenText?.slice(textMarking.to, writtenText.length);
 
-        const modifiedWrittenText = leftWrittenText + textMarking.corrections[correctionIndex] + rightWrittenText;
+        const modifiedWrittenText = leftWrittenText + textMarking.suggestions[suggestionIndex] + rightWrittenText;
 
         editor.innerHTML = modifiedWrittenText;
 
@@ -245,8 +245,8 @@ export class AppComponent {
         }
 
         const maxSuggestions = 3;
-        const corrections = this.processedText?.textMarkings[textMarkingIndex].corrections!;
-        popover.innerHTML = corrections.map(corr => '<span class="popoverSuggestion">' + corr + '</span>')
+        const suggestions = this.processedText?.textMarkings[textMarkingIndex].suggestions!;
+        popover.innerHTML = suggestions.map(sugg => '<span class="popoverSuggestion">' + sugg + '</span>')
             .slice(0, maxSuggestions).join("&nbsp<span class='tinyVerticalLine'>|</span>&nbsp");
         // .join("&nbsp<span class='vr tinyVerticalLine'></span>&nbsp");
         // TODO try button
@@ -279,7 +279,7 @@ export class AppComponent {
         const popoverSuggestions = this.elementRef.nativeElement.querySelectorAll(".popoverSuggestion")
         if (popoverSuggestions) {
             popoverSuggestions.forEach((node: any, suggestionIndex: number) =>
-                node.addEventListener('click', this.chooseCorrection.bind(this, textMarkingIndex, suggestionIndex)));
+                node.addEventListener('click', this.chooseSuggestion.bind(this, textMarkingIndex, suggestionIndex)));
         }
     }
 }

@@ -58,11 +58,11 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item"><b>({{textMarking.description}})</b>&nbsp;fjala
                         <b>{{processedText?.text?.slice(textMarking.from, textMarking.to)}}</b>&nbsp;nuk ekziston<span
-                                *ngIf="textMarking.corrections.length > 0">, a doje të shkruaje
-                            <div id="corrections" style="display: flex; justify-content: center; gap: 1rem;">
-                                <button *ngFor="let correction of textMarking.corrections; index as j"
-                                        class="highlighted suggestion" (click)="chooseCorrection(i, j)"
-                                        style="cursor: pointer;"><b>{{correction}}</b></button>
+                                *ngIf="textMarking.suggestions.length > 0">, a doje të shkruaje
+                            <div id="suggestions" style="display: flex; justify-content: center; gap: 1rem;">
+                                <button *ngFor="let suggestion of textMarking.suggestions; index as j"
+                                        class="highlighted suggestion" (click)="chooseSuggestion(i, j)"
+                                        style="cursor: pointer;"><b>{{suggestion}}</b></button>
                             </div>
                         </span>
                     </li>
