@@ -178,8 +178,6 @@ export class AppComponent {
 
         const modifiedWrittenText = leftWrittenText + textMarking.suggestions[suggestionIndex] + rightWrittenText;
 
-        editor.innerHTML = modifiedWrittenText;
-
         this.http.post(this.checkSpellingURL, modifiedWrittenText).subscribe(next => {
             this.processedText = next as ProcessedText;
 
@@ -194,7 +192,7 @@ export class AppComponent {
                 });
                 textWithHighlights += modifiedWrittenText.slice(previousFromIndex, modifiedWrittenText.length);
                 editor.innerHTML = textWithHighlights;
-                this.listenForPopovers()
+                this.listenForPopovers();
             }
 
             this.setCaretToEnd();
