@@ -2,7 +2,7 @@ import {Component, ElementRef, ViewEncapsulation} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 
 import {ProcessedText} from "./ProcessedText";
-import {TextMarking} from "./TextMarking";
+import {TextMarking} from "./Models/TextMarking";
 import {environment} from "../environments/environment";
 
 @Component({
@@ -25,10 +25,6 @@ export class AppComponent {
     displayWriteTextOrUploadDocumentFlag: any = true;
     characterCount: number = 0;
     wordCount: number = 0;
-
-    firstDummyPercentage: number = 80 + Math.floor(Math.random() * 5);
-    secondDummyPercentage: number = 5 + Math.floor(Math.random() * 4);
-    thirdDummyPercentage: number = 3 + Math.floor(Math.random() * 2);
 
     constructor(private http: HttpClient, private elementRef: ElementRef) {
         this.initializeURLs();
@@ -86,7 +82,7 @@ export class AppComponent {
         this.updateWordCount();
         if (this.stoppedTypingAWord()) {
             const editor = document.getElementById(this.EDITOR_KEY)!;
-            this.http.post(this.checkSpellingURL, editor.innerText).subscribe(next => {
+            this.http.post(this.checkSpellingURL + "?limit=5", editor.innerText).subscribe(next => {
                 this.processedText = next as ProcessedText;
 
                 const writtenText = editor.innerText;
@@ -96,7 +92,7 @@ export class AppComponent {
                     this.processedText?.textMarkings.forEach(tM => {
                         const markingType = tM.type;
                         textWithHighlights += writtenText.slice(previousFromIndex, tM.from) +
-                            '<span><button type="button" class="buttonToGenerateAPopover highlighted ' + markingType + '">' + writtenText.slice(tM.from, tM.to) + '</button></span>';
+                            '<span class="spanToGenerateAPopover highlighted ' + markingType + '">' + writtenText.slice(tM.from, tM.to) + '</span>';
                         previousFromIndex = tM.to;
                     });
                     textWithHighlights += writtenText.slice(previousFromIndex, writtenText.length);
@@ -107,6 +103,14 @@ export class AppComponent {
                 this.setCaretToEnd();
             });
         }
+    }
+
+    onTextPaste($event: any) {
+        $event.preventDefault()
+
+        const text = ($event.originalEvent || $event).clipboardData.getData('text/plain');
+
+        document.execCommand("insertHTML", false, text);
     }
 
     updateCharacterCount() {
@@ -134,7 +138,11 @@ export class AppComponent {
             8221 /*”*/, 8230 /*…*/];
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
         const lastCharacterCode = editor.innerText.charCodeAt(editor.innerText.length - 1);
-        return WORD_TERMINATING_CHARACTER_CODES.includes(lastCharacterCode);
+        const stoppedTyping: boolean = WORD_TERMINATING_CHARACTER_CODES.includes(lastCharacterCode);
+
+        const deleted: boolean = false; // $event.key === 'Backspace' || $event.key === 'Delete';
+
+        return stoppedTyping || deleted;
     }
 
     setCaretToEnd() {
@@ -176,9 +184,9 @@ export class AppComponent {
         const leftWrittenText = writtenText?.slice(0, textMarking.from);
         const rightWrittenText = writtenText?.slice(textMarking.to, writtenText.length);
 
-        const modifiedWrittenText = leftWrittenText + textMarking.suggestions[suggestionIndex] + rightWrittenText;
+        const modifiedWrittenText = leftWrittenText + textMarking.suggestions[suggestionIndex].action + rightWrittenText;
 
-        this.http.post(this.checkSpellingURL, modifiedWrittenText).subscribe(next => {
+        this.http.post(this.checkSpellingURL + "?limit=5", modifiedWrittenText).subscribe(next => {
             this.processedText = next as ProcessedText;
 
             if (this.processedText?.textMarkings.length != 0) {
@@ -187,12 +195,12 @@ export class AppComponent {
                 this.processedText?.textMarkings.forEach(tM => {
                     const markingType = tM.type;
                     textWithHighlights += modifiedWrittenText.slice(previousFromIndex, tM.from) +
-                        '<span><button type="button" class="buttonToGenerateAPopover highlighted ' + markingType + '">' + modifiedWrittenText.slice(tM.from, tM.to) + '</button></span>';
+                        '<span class="spanToGenerateAPopover highlighted ' + markingType + '">' + modifiedWrittenText.slice(tM.from, tM.to) + '</span>';
                     previousFromIndex = tM.to;
                 });
                 textWithHighlights += modifiedWrittenText.slice(previousFromIndex, modifiedWrittenText.length);
                 editor.innerHTML = textWithHighlights;
-                this.listenForPopovers();
+                this.listenForPopovers()
             }
 
             this.setCaretToEnd();
@@ -216,7 +224,7 @@ export class AppComponent {
     }
 
     listenForPopovers() {
-        const textMarkings = this.elementRef.nativeElement.querySelectorAll(".buttonToGenerateAPopover");
+        const textMarkings = this.elementRef.nativeElement.querySelectorAll(".spanToGenerateAPopover");
         if (textMarkings) {
             textMarkings.forEach((node: any, index: number) =>
                 node.addEventListener('click', this.showPopover.bind(this, index)));
@@ -234,7 +242,7 @@ export class AppComponent {
         popover.id = this.POPOVER_KEY;
         popover.classList.add("customPopover");
 
-        const textMarkingRect = document.getElementsByClassName('buttonToGenerateAPopover')[textMarkingIndex]
+        const textMarkingRect = document.getElementsByClassName('spanToGenerateAPopover')[textMarkingIndex]
             .getBoundingClientRect();
         popover.style.left = textMarkingRect.left - 90 + 'px';
         if (window.matchMedia('(max-width: 800px)').matches) {
@@ -245,7 +253,7 @@ export class AppComponent {
 
         const maxSuggestions = 3;
         const suggestions = this.processedText?.textMarkings[textMarkingIndex].suggestions!;
-        popover.innerHTML = suggestions.map(sugg => '<span class="popoverSuggestion">' + sugg + '</span>')
+        popover.innerHTML = suggestions.map(sugg => '<span class="popoverSuggestion">' + sugg.display + '</span>')
             .slice(0, maxSuggestions).join("&nbsp<span class='tinyVerticalLine'>|</span>&nbsp");
         // .join("&nbsp<span class='vr tinyVerticalLine'></span>&nbsp");
         // TODO try button
@@ -263,7 +271,7 @@ export class AppComponent {
         const that = this;
         document.onclick = function (e) {
             const htmlElement = e.target as HTMLElement;
-            if (htmlElement.id !== that.POPOVER_KEY && !htmlElement.classList.contains('buttonToGenerateAPopover')) {
+            if (htmlElement.id !== that.POPOVER_KEY && !htmlElement.classList.contains('spanToGenerateAPopover')) {
                 const popoverToRemove = document.getElementById(that.POPOVER_KEY);
                 if (popoverToRemove != null) {
                     popoverToRemove.remove();
