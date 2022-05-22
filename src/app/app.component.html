@@ -94,8 +94,8 @@
                  class="card border-secondary {{i > 0 ? 'mt-2':''}}">
                 <div class="card-header" style="display: flex; justify-content: space-between;">
                     <div>
-                        <button style="cursor: default;"
-                                class="highlighted {{textMarking.type}}">{{processedText?.text?.slice(textMarking.from, textMarking.to)}}</button>
+                        <button class="highlighted {{textMarking.type}}"
+                                style="cursor: default;">{{processedText?.text?.slice(textMarking.from, textMarking.to)}}</button>
                     </div>
                     <div>
                         <button (click)="deleteTextMarking(i)" class="btn btn-outline-danger btn-sm">HIQ&nbsp;<i
