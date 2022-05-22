@@ -1,58 +1,105 @@
 <div>
-    <nav class="navbar navbar-light justify-content-center" style="background-color: #F1F1F1">
-        <span class="navbar-brand mb-0 h1">penda</span>
-    </nav>
+    <div>
+        <nav class="navbar navbar-light" style="background-color: #F1F1F1;">
+            <div style="margin-left: 3rem; font-size: 1.4rem;">
+                <button type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleMenu"
+                        aria-controls="navbarToggleMenu" class="navbar-toggler" style="border: none;">
+                    <span class="navbar-toggler-icon" style="width: 1.4rem;"></span>
+                    <span style="color: black;">&nbsp;penda</span>
+                </button>
+            </div>
+        </nav>
+    </div>
 
-    <div id="topzzz" style="display: flex; justify-content: space-between; gap: 5rem;">
-        <div id="inputo" class="inputText mt-4" style="max-width: 45rem; margin-right: 2rem; margin-left: 2rem;">
+    <div id="topzzz" style="display: flex; justify-content: space-between; gap: 1rem;">
+        <div id="inputo" class="inputText mt-5" style="flex: 0 0 60%; margin-left: 3rem;">
             <div class="card border-secondary">
                 <div class="card-header" style="display: flex; justify-content: space-evenly;">
-                    <button id="{{writeTextToggleButtonID}}" type="button" class="btn btn-sm btn-secondary active"
-                            aria-pressed="true" (click)="toggleWriteTextButton()">SHKRUAJ TEKST
+                    <button id="{{writeTextToggleButtonID}}" (click)="toggleWriteTextButton()" type="button"
+                            aria-pressed="true" class="btn btn-sm btn-secondary active">SHKRIM
                     </button>
                     <div class="vr"></div>
-                    <button id="{{uploadDocumentToggleButtonID}}" type="button" class="btn btn-sm btnUnselected"
-                            (click)="toggleUploadDocumentButton()">NGARKO&nbsp;DOKUMENT
+                    <button id="{{uploadDocumentToggleButtonID}}" (click)="toggleUploadDocumentButton()" type="button"
+                            class="btn btn-sm btnUnselected">DOKUMENT
                     </button>
                 </div>
                 <div class="card-body" *ngIf="displayWriteTextOrUploadDocumentFlag">
                     <div>
-                        <div id="editor" class="border" contenteditable="true"
-                             (input)="onTextChange()" style="max-width: 100%; min-height: 30rem; padding: 0.3rem;"
-                             spellcheck="false" autocapitalize="off" role="textbox" aria-multiline="true"></div>
+                        <div id="editor" contenteditable="true" (input)="onTextChange()" (paste)="onTextPaste($event)"
+                             spellcheck="false" autocapitalize="off" role="textbox"
+                             data-placeholder="Shkruaj këtu ose ngarko një dokument." aria-multiline="true"
+                             class="border"
+                             style="max-width: 100%; min-height: 30rem; padding: 0.3rem; font-size: 17px;">
+                        </div>
                     </div>
-                    <span style="font-size: 0.8rem;">
-                        {{characterCount}}&nbsp;{{characterCount === 1 ? 'karakter' : 'karaktere'}}&comma;&nbsp;{{wordCount}}
-                        fjalë</span>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem;">
+                        <span>{{characterCount}}&nbsp;{{characterCount === 1 ? 'karakter' : 'karaktere'}}&comma;&nbsp;{{wordCount}}&nbsp;fjalë</span>
+                        <span>{{processedText === undefined ? 0 : processedText!.textMarkings.length}}&nbsp;{{processedText !== undefined && processedText!.textMarkings.length === 1 ? 'shenjim' : 'shenjime'}}</span>
+                    </div>
                 </div>
                 <div class="card-body" *ngIf="!displayWriteTextOrUploadDocumentFlag">
-                    <div class="text-center" style="max-width: 100%; min-height: 31.5rem;">
+                    <div class="text-center">
+                        <br>
                         <h5 class="card-title">Mbështesim dokumenta <b>PDF</b>.</h5>
                         <p class="card-text">Së shpejti dhe <b>Word</b>, <b>Libre</b>.</p>
                         <br>
-                        <div>
-                            <label for="documentUploadingHiddenInput" class="btn btn-primary">SHTYP&nbsp;KËTU&nbsp;<i
-                                    class="bi bi-file-text"></i></label>
-                            <input id="documentUploadingHiddenInput" type="file"
-                                   (change)="uploadDocument($event)"
-                                   placeholder="SHTYP KËTU" accept=".pdf"
-                                   style="display:none;"> <!--TODO--> <!-- ,.doc,.docx,.odt-->
-                        </div>
+                        <label for="documentUploadingHiddenInput" class="btn btn-primary">SHTYP&nbsp;KËTU&nbsp;<i
+                            class="bi bi-file-text"></i></label>
+                        <input id="documentUploadingHiddenInput" type="file" (change)="uploadDocument($event)"
+                               placeholder="SHTYP KËTU" accept=".pdf" style="display:none;"> <!--TODO-->
+                        <!-- ,.doc,.docx,.odt-->
                     </div>
+                    <br>
                 </div>
             </div>
         </div>
+        <div id="outputo" class="outputTexts mt-5" style="flex: 0 0 30%; margin-right: 3rem;">
+            <div *ngIf="processedText === undefined || processedText!.textMarkings.length === 0">
+                <div class="card border-secondary">
+                    <div class="card-header" style="display: flex; justify-content: space-between;">
+                        <div>
+                            <button class="highlighted typo" style="cursor: default;">gabime shkrimi</button>
+                        </div>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><b>pa gabime</b> - <span>këtu do shikosh shenjime për fjalë të shkruara gabim, apo edhe shenja pikësimi</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card border-secondary mt-4">
+                    <div class="card-header" style="display: flex; justify-content: space-between;">
+                        <div>
+                            <button class="highlighted loanword" style="cursor: default;">sugjerime huazimesh</button>
+                        </div>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><b>vetëm shqip për tani</b> - <span>mund të hasësh shenjime për huazime jo të standardizuara</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card border-secondary mt-4">
+                    <div class="card-header" style="display: flex; justify-content: space-between;">
+                        <div>
+                            <button class="highlighted stylistic" style="cursor: default;">shenjime stilistike</button>
+                        </div>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><b>asnjë shenjim deri më kaq</b> - <span>mbase prit për shembull për fjali tepër të gjata</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
-        <div id="outputo" class="outputTexts mt-4" style="max-width: 45rem; margin-left: 2rem; margin-right: 2rem;">
-            <div class="card border-secondary mt-2" *ngFor="let textMarking of processedText?.textMarkings; index as i">
+            <div *ngFor="let textMarking of processedText?.textMarkings; index as i"
+                 class="card border-secondary {{i > 0 ? 'mt-2':''}}">
                 <div class="card-header" style="display: flex; justify-content: space-between;">
                     <div>
-                        <button class="highlighted {{textMarking.type}}" style="cursor: default;">
-                            {{processedText?.text?.slice(textMarking.from, textMarking.to)}}</button>
+                        <button class="highlighted {{textMarking.type}}"
+                                style="cursor: default;">{{processedText?.text?.slice(textMarking.from, textMarking.to)}}</button>
                     </div>
                     <div>
-                        <button (click)="deleteTextMarking(i)"
-                                class="btn btn-outline-danger btn-sm">HIQ&nbsp;<i class="bi bi-trash"></i></button>
+                        <button (click)="deleteTextMarking(i)" class="btn btn-outline-danger btn-sm">HIQ&nbsp;<i
+                            class="bi bi-trash"></i></button>
                     </div>
                 </div>
                 <ul class="list-group list-group-flush">
@@ -61,9 +108,9 @@
                         <span *ngIf="textMarking.suggestions.length > 0">
                             <div id="suggestions" style="display: flex; justify-content: center; gap: 1rem;">
                                 <button *ngFor="let suggestion of textMarking.suggestions; index as j"
-                                        class="highlighted suggestion" (click)="chooseSuggestion(i, j)"
+                                        (click)="chooseSuggestion(i, j)" class="highlighted suggestion"
                                         style="cursor: pointer;">
-                                    <b>{{suggestion}}</b>
+                                    <b>{{suggestion.display}}</b>
                                 </button>
                             </div>
                         </span>
@@ -71,42 +118,20 @@
                 </ul>
             </div>
 
-            <hr class="mt-4 mb-4">
-
-            <div class="card border-secondary mt-3" style="max-width: 45rem;">
-                <div class="card-header">PLAGJIATURË (vjen së shpejti)</div>
-                <div class="card-body">
-                    <h6 class="card-title">{{firstDummyPercentage}}% - Libri A, Autor X</h6>
-                    <h6 class="card-title">{{secondDummyPercentage}}% - Libri B, Autor Y</h6>
-                    <h6 class="card-title">{{thirdDummyPercentage}}% - Libri C, Autor Z</h6>
-                </div>
-
-                <!--                <div class="d-flex justify-content-center">-->
-                <!--                    <div id="loadingSpinner" class="spinner-border" role="status">-->
-                <!--                        <span class="visually-hidden">Loading...</span>-->
-                <!--                    </div>-->
-                <!--                </div>-->
-            </div>
+            <!--                <div class="d-flex justify-content-center">-->
+            <!--                    <div id="loadingSpinner" class="spinner-border" role="status">-->
+            <!--                        <span class="visually-hidden">Loading...</span>-->
+            <!--                    </div>-->
+            <!--                </div>-->
         </div>
     </div>
-
-    <div class="page-footer text-center text-white" style="margin-top: 5.5rem; background-color: #F5F5F5;">
+    <div class="page-footer text-center text-white" style="margin-top: 13.4rem; background-color: #F5F5F5;">
         <footer>
-            <div class="container pt-4">
-                <section class="mb-4">
-                    <a class="btn btn-link btn-floating btn-lg text-dark m-1"
-                       href="https://github.com/OpenCovenant/quill"
-                       role="button">
-                        <i class="bi bi-github"></i>
-                    </a>
-                    <!--                    <a class="btn btn-link btn-floating btn-lg text-dark m-1" href="#!" role="button">-->
-                    <!--                        <i class="bi bi-linkedin"></i>-->
-                    <!--                    </a>-->
-                </section>
-            </div>
-
-            <div class="text-center text-dark p-3" style="background-color: #F1F1F1;">
-                <span class="text-dark">OpenCovenant</span>
+            <div class="container">
+                <section><a href="https://github.com/OpenCovenant/quill" role="button"
+                            class="btn btn-link btn-floating text-dark m-1"
+                            style="text-decoration: none; font-size: 15px;"><span>GitHub&nbsp;</span><i
+                    class="bi bi-github"></i></a></section>
             </div>
         </footer>
     </div>
