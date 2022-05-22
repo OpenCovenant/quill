@@ -110,7 +110,13 @@ export class AppComponent {
 
         const text = ($event.originalEvent || $event).clipboardData.getData('text/plain');
 
-        document.execCommand("insertHTML", false, text);
+        const splitText: string = text.split(/\r?\n/).map((paragraph: string) => "<p>" + paragraph + "</p>").join("");
+
+        console.log(splitText);
+
+        // perhaps replace <p></p> with a <br> or something similar
+
+        document.execCommand("insertHTML", false, splitText);
     }
 
     updateCharacterCount() {
