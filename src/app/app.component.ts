@@ -200,7 +200,7 @@ export class AppComponent {
                 });
                 textWithHighlights += modifiedWrittenText.slice(previousFromIndex, modifiedWrittenText.length);
                 editor.innerHTML = textWithHighlights;
-                this.listenForPopovers()
+                this.listenForPopovers();
             }
 
             this.setCaretToEnd();
