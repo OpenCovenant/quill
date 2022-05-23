@@ -18,13 +18,14 @@ export class AppComponent {
     writeTextToggleButtonID: string = 'writeTextToggleButton'
     uploadDocumentToggleButtonID: string = 'uploadDocumentToggleButton'
     baseURL!: string;
-    checkSpellingURL!: string;
+    generateMarkingsURL!: string;
     uploadDocumentURL!: string;
     pingURL!: string;
     processedText: ProcessedText | undefined;
     displayWriteTextOrUploadDocumentFlag: any = true;
     characterCount: number = 0;
     wordCount: number = 0;
+    savedSelection: any;
 
     constructor(private http: HttpClient, private elementRef: ElementRef) {
         this.initializeURLs();
@@ -36,7 +37,7 @@ export class AppComponent {
 
     initializeURLs() {
         this.baseURL = environment.baseURL;
-        this.checkSpellingURL = this.baseURL + '/api/generateMarkings';
+        this.generateMarkingsURL = this.baseURL + '/api/generateMarkings';
         this.uploadDocumentURL = this.baseURL + '/api/uploadDocument';
         this.pingURL = this.baseURL + '/api/ping';
     }
@@ -82,7 +83,7 @@ export class AppComponent {
         this.updateWordCount();
         if (this.stoppedTypingAWord()) {
             const editor = document.getElementById(this.EDITOR_KEY)!;
-            this.http.post(this.checkSpellingURL + "?limit=5", editor.innerText).subscribe(next => {
+            this.http.post(this.generateMarkingsURL + "?limit=5", editor.innerText).subscribe(next => {
                 this.processedText = next as ProcessedText;
 
                 const writtenText = editor.innerText;
@@ -96,11 +97,13 @@ export class AppComponent {
                         previousFromIndex = tM.to;
                     });
                     textWithHighlights += writtenText.slice(previousFromIndex, writtenText.length);
+                    this.savedSelection = this.saveSelection(editor);
                     editor.innerHTML = textWithHighlights;
+                    if (this.savedSelection) {
+                        this.restoreSelection(editor, this.savedSelection);
+                    }
                     this.listenForPopovers()
                 }
-
-                this.setCaretToEnd();
             });
         }
     }
@@ -145,19 +148,6 @@ export class AppComponent {
         return stoppedTyping || deleted;
     }
 
-    setCaretToEnd() {
-        const target: HTMLDivElement = document.getElementById(this.EDITOR_KEY) as HTMLDivElement;
-        const range = document.createRange();
-        const selection = window.getSelection();
-        range.selectNodeContents(target);
-        range.collapse(false);
-        selection?.removeAllRanges();
-        selection?.addRange(range);
-        target.focus();
-        range.detach();
-        target.scrollTop = target.scrollHeight;
-    }
-
     uploadDocument($event: any) {
         const fileList: FileList = $event.target.files;
         if (fileList.length === 1) {
@@ -186,7 +176,7 @@ export class AppComponent {
 
         const modifiedWrittenText = leftWrittenText + textMarking.suggestions[suggestionIndex].action + rightWrittenText;
 
-        this.http.post(this.checkSpellingURL + "?limit=5", modifiedWrittenText).subscribe(next => {
+        this.http.post(this.generateMarkingsURL + "?limit=5", modifiedWrittenText).subscribe(next => {
             this.processedText = next as ProcessedText;
 
             if (this.processedText?.textMarkings.length != 0) {
@@ -199,11 +189,14 @@ export class AppComponent {
                     previousFromIndex = tM.to;
                 });
                 textWithHighlights += modifiedWrittenText.slice(previousFromIndex, modifiedWrittenText.length);
+                this.savedSelection = this.saveSelection(editor);
                 editor.innerHTML = textWithHighlights;
+                if (this.savedSelection) {
+                    this.restoreSelection(editor, this.savedSelection);
+                }
                 this.listenForPopovers();
             }
 
-            this.setCaretToEnd();
             this.updateCharacterCount();
             this.updateWordCount();
         });
@@ -221,6 +214,50 @@ export class AppComponent {
 
         this.processedText!.textMarkings = this.processedText!.textMarkings
             .filter(tM => tM != this.processedText!.textMarkings[index]);
+    }
+
+    saveSelection(elementNode: any) {
+        const range = window.getSelection()!.getRangeAt(0);
+        const preSelectionRange = range.cloneRange();
+        preSelectionRange.selectNodeContents(elementNode);
+        preSelectionRange.setEnd(range.startContainer, range.startOffset);
+        const start = preSelectionRange.toString().length;
+
+        return {
+            start: start,
+            end: start + range.toString().length
+        }
+    };
+
+    restoreSelection(elementNode: any, savedSelection: any) {
+        let charIndex = 0, range = document.createRange();
+        range.setStart(elementNode, 0);
+        range.collapse(true);
+        let nodeStack = [elementNode], node, foundStart = false, stop = false;
+
+        while (!stop && (node = nodeStack.pop())) {
+            if (node.nodeType == 3) {
+                const nextCharIndex = charIndex + node.length;
+                if (!foundStart && savedSelection.start >= charIndex && savedSelection.start <= nextCharIndex) {
+                    range.setStart(node, savedSelection.start - charIndex);
+                    foundStart = true;
+                }
+                if (foundStart && savedSelection.end >= charIndex && savedSelection.end <= nextCharIndex) {
+                    range.setEnd(node, savedSelection.end - charIndex);
+                    stop = true;
+                }
+                charIndex = nextCharIndex;
+            } else {
+                let i = node.childNodes.length;
+                while (i--) {
+                    nodeStack.push(node.childNodes[i]);
+                }
+            }
+        }
+
+        const selection = window.getSelection()!;
+        selection.removeAllRanges();
+        selection.addRange(range);
     }
 
     listenForPopovers() {
