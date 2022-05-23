@@ -1,14 +1,31 @@
 <div style="display: flex; min-height: 100vh; flex-direction: column;">
     <div>
         <nav class="navbar navbar-light" style="background-color: #F1F1F1;">
-            <div style="margin-left: 3rem; font-size: 1.4rem;">
-                <button type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleMenu"
-                        aria-controls="navbarToggleMenu" class="navbar-toggler" style="border: none;">
+            <div style="margin-left: 2rem; font-size: 1.4rem;">
+                <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasStart"
+                        aria-controls="offcanvasStart" class="btn" style="border: none; " id="offcanvasStartButton">
                     <span class="navbar-toggler-icon" style="width: 1.4rem;"></span>
-                    <span style="color: black;">&nbsp;penda</span>
                 </button>
+                <span style="color: black; font-size: 20px;">&nbsp;penda</span>
             </div>
         </nav>
+    </div>
+
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasStart" aria-labelledby="offcanvasStartLabel">
+        <div class="offcanvas-header">
+            <h5 id="offcanvasStartLabel">penda</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <hr>
+        <br>
+        <div class="offcanvas-body">
+            <div class="list-group list-group-flush">
+                <a href="https://github.com/OpenCovenant" role="button"
+                   class="list-group-item list-group-item-action mb-3">Rreth Nesh</a>
+                <a href="https://github.com/OpenCovenant/quill" role="button"
+                   class="list-group-item list-group-item-action mb-3">Rreth penda</a>
+            </div>
+        </div>
     </div>
 
     <div id="topzzz" style="display: flex; justify-content: space-between; gap: 1rem; flex: 1;">
