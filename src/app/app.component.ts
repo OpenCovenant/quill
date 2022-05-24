@@ -116,6 +116,71 @@ export class AppComponent {
         document.execCommand("insertHTML", false, text);
     }
 
+    markText(node: HTMLElement, textMarkings: TextMarking[]) {
+        const SPAN_TAG = 'span';
+
+        const childNodes = node.childNodes;
+        for (let i = 0; i < textMarkings.length; i++) {
+            console.log('iterating markings', node.innerHTML);
+            let traversalIndex = 0;
+            const textMarking: TextMarking = textMarkings[i];
+            for (let j = 0; j < childNodes.length && traversalIndex < node.innerText.length; j++) {
+                console.log('iterating child nodes', node.innerHTML);
+                const childNode: HTMLElement = childNodes[j] as HTMLElement;
+
+                if (childNode.nodeType === 1) { // element node
+                    console.log('inside element node')
+                    const currentTextContent = childNode.textContent!;
+
+                    this.markText(childNode, textMarkings.slice(i));
+
+                    traversalIndex += currentTextContent.length;
+                    // leetcode code qe shkruaja, imitating recursive code
+                } else if (childNode.nodeType === 3) { // text node
+                    const currentTextContent = childNode.textContent!;
+                    const trueFrom = textMarking.from;
+                    const trueTo = textMarking.to;
+                    const relativeFrom = textMarking.from - traversalIndex;
+                    const relativeTo = textMarking.to - traversalIndex;
+
+                    const trueLeft = traversalIndex;
+                    const trueRight = traversalIndex + currentTextContent.length;
+                    const relativeLeft = 0;
+                    const relativeRight = currentTextContent.length;
+
+                    let newNodes = [];
+
+                    if (trueLeft < trueFrom) {
+                        const newTextContent = currentTextContent.slice(relativeLeft, relativeFrom);
+                        console.log('inside text node, left', currentTextContent, newTextContent, traversalIndex, trueFrom)
+                        newNodes.push(document.createTextNode(newTextContent));
+                    }
+
+                    if (relativeLeft <= relativeFrom && relativeRight >= relativeTo) {
+                        const newNode = document.createElement(SPAN_TAG);
+                        newNode.classList.add(textMarking.type);
+                        newNode.textContent = currentTextContent.slice(relativeFrom, relativeTo);
+                        newNodes.push(newNode)
+                    }
+
+                    if (trueRight > trueTo) {
+                        console.log('here')
+                        const newTextContent = currentTextContent.slice(trueTo, trueRight);
+                        newNodes.push(document.createTextNode(newTextContent));
+                    }
+
+                    childNode.replaceWith(...newNodes);
+
+                    // child replace
+
+                    // child append
+
+                    traversalIndex += currentTextContent.length;
+                }
+            }
+        }
+    }
+
     updateCharacterCount() {
         this.characterCount = document.getElementById(this.EDITOR_KEY)!.innerText.length;
     }
