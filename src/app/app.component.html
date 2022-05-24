@@ -43,7 +43,7 @@
                 <div class="card-body" *ngIf="displayWriteTextOrUploadDocumentFlag">
                     <div>
                         <div id="editor" contenteditable="true" (input)="onTextChange()" (paste)="onTextPaste($event)"
-                             spellcheck="false" autocapitalize="off" role="textbox"
+                             [innerHTML]="innerHTMLOfEditor" spellcheck="false" autocapitalize="off" role="textbox"
                              data-placeholder="Shkruaj këtu ose ngarko një dokument." aria-multiline="true"
                              class="border"
                              style="max-width: 100%; min-height: 30rem; padding: 0.3rem; font-size: 17px;">
