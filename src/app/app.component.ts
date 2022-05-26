@@ -26,6 +26,7 @@ export class AppComponent {
     characterCount: number = 0;
     wordCount: number = 0;
     savedSelection: any;
+    innerHTMLOfEditor: any;
 
     constructor(private http: HttpClient, private elementRef: ElementRef) {
         this.initializeURLs();
@@ -66,6 +67,8 @@ export class AppComponent {
         const uploadDocumentToggleButton = document.getElementById(this.uploadDocumentToggleButtonID);
 
         if (!uploadDocumentToggleButton?.classList.contains('active')) {
+            this.innerHTMLOfEditor = document.getElementById(this.EDITOR_KEY)!.innerHTML;
+
             writeTextToggleButton?.classList.remove('active');
             writeTextToggleButton?.classList.remove('btn-secondary');
             writeTextToggleButton?.classList.add('btnUnselected')
@@ -260,6 +263,12 @@ export class AppComponent {
                     this.restoreSelection(editor, this.savedSelection);
                 }
                 this.listenForPopovers();
+            } else {
+                this.savedSelection = this.saveSelection(editor);
+                editor.innerHTML = modifiedWrittenText;
+                if (this.savedSelection) {
+                    this.restoreSelection(editor, this.savedSelection);
+                }
             }
 
             this.updateCharacterCount();
@@ -390,5 +399,14 @@ export class AppComponent {
             popoverSuggestions.forEach((node: any, suggestionIndex: number) =>
                 node.addEventListener('click', this.chooseSuggestion.bind(this, textMarkingIndex, suggestionIndex)));
         }
+    }
+
+    editorHasText(): boolean {
+        return document.getElementById(this.EDITOR_KEY)!.innerText !== "";
+    }
+
+    clearEditor() {
+        document.getElementById(this.EDITOR_KEY)!.innerHTML = "";
+        this.processedText = undefined;
     }
 }
