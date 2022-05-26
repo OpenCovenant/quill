@@ -335,4 +335,13 @@ export class AppComponent {
                 node.addEventListener('click', this.chooseSuggestion.bind(this, textMarkingIndex, suggestionIndex)));
         }
     }
+
+    editorHasText(): boolean {
+        return document.getElementById(this.EDITOR_KEY)!.innerText !== "";
+    }
+
+    clearEditor() {
+        document.getElementById(this.EDITOR_KEY)!.innerHTML = "";
+        this.processedText = undefined;
+    }
 }
