@@ -41,14 +41,19 @@
                     </button>
                 </div>
                 <div class="card-body" *ngIf="displayWriteTextOrUploadDocumentFlag">
-                    <div>
+                    <div style="display: flex;">
                         <div id="editor" contenteditable="true" (input)="onTextChange()" (paste)="onTextPaste($event)"
                              [innerHTML]="innerHTMLOfEditor" spellcheck="false" autocapitalize="off" role="textbox"
                              data-placeholder="Shkruaj këtu ose ngarko një dokument." aria-multiline="true"
-                             class="border"
-                             style="max-width: 100%; min-height: 30rem; padding: 0.3rem; font-size: 17px;">
+                             style="min-width: 96%; min-height: 30rem; font-size: 17px; padding-right: 2%; outline: 0 solid transparent;">
+                        </div>
+                        <div style="min-width: 4%;" *ngIf="editorHasText()">
+                            <span id="clearEditorSpan" (click)="clearEditor()"
+                                  style="font-size: 36px; border-radius: 40%; cursor: pointer"><i class="bi bi-x"></i>
+                            </span>
                         </div>
                     </div>
+                    <hr>
                     <div style="display: flex; justify-content: space-between; font-size: 0.8rem;">
                         <span>{{characterCount}}&nbsp;{{characterCount === 1 ? 'karakter' : 'karaktere'}}&comma;&nbsp;{{wordCount}}&nbsp;fjalë</span>
                         <span>{{processedText === undefined ? 0 : processedText!.textMarkings.length}}&nbsp;{{processedText !== undefined && processedText!.textMarkings.length === 1 ? 'shenjim' : 'shenjime'}}</span>

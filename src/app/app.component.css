@@ -54,6 +54,10 @@
     background-color: #E3E3E3;
 }
 
+#clearEditorSpan:hover {
+    background-color: #F3F3F3;
+}
+
 .customPopover {
     border-radius: 4px;
 
@@ -115,6 +119,10 @@
 
     #outputo {
         margin-left: 3rem;
+    }
+
+    #clearEditorSpan {
+        font-size: 160% !important;
     }
 }
 
