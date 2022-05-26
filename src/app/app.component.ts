@@ -198,6 +198,12 @@ export class AppComponent {
                     this.restoreSelection(editor, this.savedSelection);
                 }
                 this.listenForPopovers();
+            } else {
+                this.savedSelection = this.saveSelection(editor);
+                editor.innerHTML = modifiedWrittenText;
+                if (this.savedSelection) {
+                    this.restoreSelection(editor, this.savedSelection);
+                }
             }
 
             this.updateCharacterCount();
