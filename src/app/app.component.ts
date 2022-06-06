@@ -13,8 +13,11 @@ import {environment} from "../environments/environment";
 })
 export class AppComponent {
     title: string = 'penda';
+
     EDITOR_KEY: string = 'editor';
     POPOVER_KEY: string = 'popover';
+    LINE_BROKEN_PARAGRAPH: string = '<p><br></p>';
+
     writeTextToggleButtonID: string = 'writeTextToggleButton'
     uploadDocumentToggleButtonID: string = 'uploadDocumentToggleButton'
     baseURL!: string;
@@ -26,7 +29,7 @@ export class AppComponent {
     characterCount: number = 0;
     wordCount: number = 0;
     savedSelection: any;
-    innerHTMLOfEditor: any;
+    innerHTMLOfEditor: any = this.LINE_BROKEN_PARAGRAPH;
 
     constructor(private http: HttpClient, private elementRef: ElementRef) {
         this.initializeURLs();
@@ -111,18 +114,13 @@ export class AppComponent {
         }
     }
 
+    // TODO data-placeholder broke
     onTextPaste($event: any) {
         $event.preventDefault()
 
         const text = ($event.originalEvent || $event).clipboardData.getData('text/plain');
 
-        const splitText: string = text.split(/\r?\n/).map((paragraph: string) => "<p>" + paragraph + "</p>").join("");
-
-        console.log(splitText);
-
-        // perhaps replace <p></p> with a <br> or something similar
-
-        document.execCommand("insertHTML", false, splitText);
+        document.execCommand("insertText", false, text);
     }
 
     updateCharacterCount() {
@@ -343,11 +341,11 @@ export class AppComponent {
     }
 
     editorHasText(): boolean {
-        return document.getElementById(this.EDITOR_KEY)!.innerText !== "";
+        return document.getElementById(this.EDITOR_KEY)!.innerHTML !== this.LINE_BROKEN_PARAGRAPH;
     }
 
     clearEditor() {
-        document.getElementById(this.EDITOR_KEY)!.innerHTML = "";
+        document.getElementById(this.EDITOR_KEY)!.innerHTML = this.LINE_BROKEN_PARAGRAPH;
         this.processedText = undefined;
     }
 }
