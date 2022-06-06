@@ -89,10 +89,10 @@ export class AppComponent {
         this.updateWordCount();
         if (this.stoppedTypingAWord()) {
             const editor = document.getElementById(this.EDITOR_KEY)!;
-            this.http.post(this.generateMarkingsURL + "?limit=5", editor.innerText).subscribe(next => {
+            this.http.post(this.generateMarkingsURL + "?limit=5", editor.innerHTML).subscribe(next => {
                 this.processedText = next as ProcessedText;
 
-                const writtenText = editor.innerText;
+                const writtenText = editor.innerText; // TODO will have to be done per paragraph (or so), iterate!
                 if (this.processedText?.textMarkings.length != 0) {
                     let textWithHighlights: string = '';
                     let previousFromIndex: number = 0;
