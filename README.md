@@ -1,4 +1,4 @@
-# quill-fe
+# quill
 
 Front-end for the **penda** project. Additional details can be found in
 the [quill](https://github.com/OpenCovenant/quill) repository.
