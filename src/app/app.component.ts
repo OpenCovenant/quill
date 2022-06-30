@@ -81,10 +81,11 @@ export class AppComponent {
         }
     }
 
-    onTextChange() {
+    onTextChange($event: any) {
         this.updateCharacterCount();
         this.updateWordCount();
-        if (this.stoppedTypingAWord()) {
+        const onTextPaste: boolean = $event.inputType === ''; // TODO use an alternative to (input) to begin with
+        if (this.stoppedTypingAWord() || onTextPaste) {
             const editor = document.getElementById(this.EDITOR_KEY)!;
             this.http.post(this.generateMarkingsURL + "?limit=5", editor.innerText).subscribe(next => {
                 this.processedText = next as ProcessedText;
