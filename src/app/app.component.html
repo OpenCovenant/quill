@@ -81,7 +81,8 @@
                 <div class="card border-secondary">
                     <div class="card-header" style="display: flex; justify-content: space-between;">
                         <div>
-                            <button class="highlighted typo" style="cursor: default;">gabime shkrimi</button>
+                            <span class="highlighted typo"
+                                  style="display: inline-block; padding-left: 6px; padding-right: 6px; color: black;">gabime shkrimi</span>
                         </div>
                     </div>
                     <ul class="list-group list-group-flush">
@@ -92,7 +93,8 @@
                 <div class="card border-secondary mt-4">
                     <div class="card-header" style="display: flex; justify-content: space-between;">
                         <div>
-                            <button class="highlighted loanword" style="cursor: default;">sugjerime huazimesh</button>
+                            <span class="highlighted loanword"
+                                  style="display: inline-block; padding-left: 6px; padding-right: 6px; color: black;">sugjerime huazimesh</span>
                         </div>
                     </div>
                     <ul class="list-group list-group-flush">
@@ -103,7 +105,8 @@
                 <div class="card border-secondary mt-4">
                     <div class="card-header" style="display: flex; justify-content: space-between;">
                         <div>
-                            <button class="highlighted stylistic" style="cursor: default;">shenjime stilistike</button>
+                            <span class="highlighted stylistic"
+                                  style="display: inline-block; padding-left: 6px; padding-right: 6px; color: black;">shenjime stilistike</span>
                         </div>
                     </div>
                     <ul class="list-group list-group-flush">
@@ -117,8 +120,9 @@
                  class="card border-secondary {{i > 0 ? 'mt-2':''}}">
                 <div class="card-header" style="display: flex; justify-content: space-between;">
                     <div>
-                        <button class="highlighted {{textMarking.type}}"
-                                style="cursor: default;">{{processedText?.text?.slice(textMarking.from, textMarking.to)}}</button>
+                        <span
+                            class="{{textMarking.type}}"
+                            style="display: inline-block; padding: 3px 6px; border-radius: 4px; color: black;">{{processedText?.text?.slice(textMarking.from, textMarking.to)}}</span>
                     </div>
                     <div>
                         <button (click)="deleteTextMarking(i)" class="btn btn-outline-danger btn-sm">HIQ&nbsp;<i
@@ -132,7 +136,7 @@
                             <div id="suggestions" style="display: flex; justify-content: center; gap: 1rem;">
                                 <button *ngFor="let suggestion of textMarking.suggestions; index as j"
                                         (click)="chooseSuggestion(i, j)" class="highlighted suggestion"
-                                        style="cursor: pointer;">
+                                        style="color: black;">
                                     <b>{{suggestion.display}}</b>
                                 </button>
                             </div>
