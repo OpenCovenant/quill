@@ -1,7 +1,7 @@
 # quill
 
 Front-end for the **penda** project. Additional details can be found in
-the [quill](https://github.com/OpenCovenant/quill) repository.
+the [ink](https://github.com/OpenCovenant/ink) repository.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.3.
 
