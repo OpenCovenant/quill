@@ -63,13 +63,13 @@
                 <div class="card-body" *ngIf="!displayWriteTextOrUploadDocumentFlag">
                     <div class="text-center">
                         <br>
-                        <h5 class="card-title">Mbështesim dokumenta <b>PDF</b>.</h5>
-                        <p class="card-text">Së shpejti dhe <b>Word</b>, <b>Libre</b>.</p>
+                        <h5 class="card-title">Mbështesim dokumenta <b>Word</b>, <b>PDF</b>.</h5>
+                        <p class="card-text">Së shpejti dhe <b>Libre</b>.</p>
                         <br>
                         <label for="documentUploadingHiddenInput" class="btn btn-primary">SHTYP&nbsp;KËTU&nbsp;<i
                             class="bi bi-file-text"></i></label>
                         <input id="documentUploadingHiddenInput" type="file" (change)="uploadDocument($event)"
-                               placeholder="SHTYP KËTU" accept=".pdf" style="display:none;"> <!--TODO-->
+                               placeholder="SHTYP KËTU" accept=".pdf,.doc,.docx" style="display:none;"> <!--TODO-->
                         <!-- ,.doc,.docx,.odt-->
                     </div>
                     <br>
