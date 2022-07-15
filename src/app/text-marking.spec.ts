@@ -2,7 +2,7 @@ import {TestBed} from '@angular/core/testing';
 import {AppComponent} from './app.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {TextMarking} from "./Models/TextMarking";
-import {Suggestion} from "./Models/Suggestion";
+import {markText} from "./text-marking";
 
 describe('Marker', () => {
     const EDITOR_ID = "editor";
@@ -32,8 +32,7 @@ describe('Marker', () => {
             suggestions: [{display: '', action: ''}]
         }];
 
-        const app = TestBed.createComponent(AppComponent).componentInstance;
-        app.markText(editor, markings);
+        markText(editor, markings);
 
         const expectedHMTL = '<span class="typo">asd</span>';
         const expectedEditor = document.createElement('div');
@@ -42,7 +41,6 @@ describe('Marker', () => {
 
         expect(editor).toEqual(expectedEditor);
     });
-
 
     it(`mark the typo preceded by a non-marking`, () => {
         const html = 'pra asd';
@@ -59,8 +57,7 @@ describe('Marker', () => {
             suggestions: [{display: '', action: ''}]
         }];
 
-        const app = TestBed.createComponent(AppComponent).componentInstance;
-        app.markText(editor, markings);
+        markText(editor, markings);
 
         const expectedHMTL = 'pra <span class="typo">asd</span>';
         const expectedEditor = document.createElement('div');
@@ -69,7 +66,6 @@ describe('Marker', () => {
 
         expect(editor).toEqual(expectedEditor);
     });
-
 
     it(`mark the typo succeeded by a non-marking`, () => {
         const html = 'asd kaq';
@@ -86,8 +82,7 @@ describe('Marker', () => {
             suggestions: [{display: '', action: ''}]
         }];
 
-        const app = TestBed.createComponent(AppComponent).componentInstance;
-        app.markText(editor, markings);
+        markText(editor, markings);
 
         const expectedHMTL = '<span class="typo">asd</span> kaq';
         const expectedEditor = document.createElement('div');
@@ -96,7 +91,6 @@ describe('Marker', () => {
 
         expect(editor).toEqual(expectedEditor);
     });
-
 
     it(`mark the stylistic`, () => {
         const html = 'asd kaq';
@@ -113,8 +107,7 @@ describe('Marker', () => {
             suggestions: [{display: '', action: ''}]
         }];
 
-        const app = TestBed.createComponent(AppComponent).componentInstance;
-        app.markText(editor, markings);
+        markText(editor, markings);
 
         const expectedHMTL = '<span class="stylistic">asd</span> kaq';
         const expectedEditor = document.createElement('div');
@@ -139,8 +132,7 @@ describe('Marker', () => {
             suggestions: [{display: '', action: ''}]
         }];
 
-        const app = TestBed.createComponent(AppComponent).componentInstance;
-        app.markText(editor, markings);
+        markText(editor, markings);
 
         const expectedHMTL = '<span class="loanword">asd</span> kaq';
         const expectedEditor = document.createElement('div');
@@ -149,7 +141,6 @@ describe('Marker', () => {
 
         expect(editor).toEqual(expectedEditor);
     });
-
 
     it(`mark both consequent typos separated by a space`, () => {
         const html = 'asd kli';
@@ -173,15 +164,12 @@ describe('Marker', () => {
             suggestions: [{display: '', action: ''}]
         }];
 
-        const app = TestBed.createComponent(AppComponent).componentInstance;
-        app.markText(editor, markings);
+        markText(editor, markings);
 
         const expectedHMTL = '<span class="typo">asd</span> <span class="typo">kli</span>';
         const expectedEditor = document.createElement('div');
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
-        console.log(editor);
-        console.log(expectedEditor);
 
         expect(editor).toEqual(expectedEditor);
     });
@@ -208,8 +196,7 @@ describe('Marker', () => {
             suggestions: [{display: '', action: ''}]
         }];
 
-        const app = TestBed.createComponent(AppComponent).componentInstance;
-        app.markText(editor, markings);
+        markText(editor, markings);
 
         const expectedHMTL = '<span class="loanword">asd</span> <span class="stylistic">kli</span>';
         const expectedEditor = document.createElement('div');
@@ -241,8 +228,7 @@ describe('Marker', () => {
             suggestions: [{display: '', action: ''}]
         }];
 
-        const app = TestBed.createComponent(AppComponent).componentInstance;
-        app.markText(editor, markings);
+        markText(editor, markings);
 
         const expectedHMTL = '<span class="stylistic">asd <span class="typo">kli</span> ghj</span>';
         const expectedEditor = document.createElement('div');
@@ -252,6 +238,69 @@ describe('Marker', () => {
         expect(editor).toEqual(expectedEditor);
     });
 
+    it(`mark the typo within the stylistic - average length`, () => {
+        const html = 'asd pra kli pra ghj';
+        const editor = document.createElement('div');
+        editor.id = EDITOR_ID;
+        editor.innerHTML = html;
+
+        const markings: TextMarking[] = [{
+            from: 0,
+            to: 19,
+            type: "stylistic",
+            subtype: "",
+            description: "",
+            suggestions: [{display: '', action: ''}]
+        }, {
+            from: 8,
+            to: 11,
+            type: "typo",
+            subtype: "",
+            description: "",
+            suggestions: [{display: '', action: ''}]
+        }];
+
+        markText(editor, markings);
+
+        const expectedHMTL = '<span class="stylistic">asd pra <span class="typo">kli</span> pra ghj</span>';
+        const expectedEditor = document.createElement('div');
+        expectedEditor.id = EDITOR_ID;
+        expectedEditor.innerHTML = expectedHMTL;
+
+        expect(editor).toEqual(expectedEditor);
+    });
+
+    it(`mark the typo within the very long stylistic marking`, () => {
+        const html = 'Pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra asd pra pra pra pra pra pra pra pra pra.';
+        const editor = document.createElement('div');
+        editor.id = EDITOR_ID;
+        editor.innerHTML = html;
+
+        const markings: TextMarking[] = [{
+            from: 0,
+            to: 296,
+            type: "stylistic",
+            subtype: "",
+            description: "",
+            suggestions: [{display: '', action: ''}]
+        }, {
+            from: 256,
+            to: 259,
+            type: "typo",
+            subtype: "",
+            description: "",
+            suggestions: [{display: '', action: ''}]
+        }];
+
+        markText(editor, markings);
+
+        const expectedHMTL = '<span class="stylistic">Pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra <span class="typo">asd</span> pra pra pra pra pra pra pra pra pra.</span>';
+        const expectedEditor = document.createElement('div');
+        expectedEditor.id = EDITOR_ID;
+        expectedEditor.innerHTML = expectedHMTL;
+
+        expect(editor).toEqual(expectedEditor);
+    });
 
     it(`mark the typo within the stylistic padded with words on the sides`, () => {
         const html = 'kaq asd kli ghj pra';
@@ -275,19 +324,47 @@ describe('Marker', () => {
             suggestions: [{display: '', action: ''}]
         }];
 
-        const app = TestBed.createComponent(AppComponent).componentInstance;
-        app.markText(editor, markings);
+        markText(editor, markings);
 
         const expectedHMTL = 'kaq <span class="stylistic">asd <span class="typo">kli</span> ghj</span> pra';
         const expectedEditor = document.createElement('div');
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
-        console.log(editor.innerHTML);
-        console.log(expectedEditor.innerHTML);
 
         expect(editor).toEqual(expectedEditor);
     });
 
+    it(`mark with a new line`, () => { // TODO will be addressed again soon for the paragraphs feat.
+        const html = 'kaq asd kli\n ghj pra';
+        const editor = document.createElement('div');
+        editor.id = EDITOR_ID;
+        editor.innerHTML = html;
+
+        const markings: TextMarking[] = [{
+            from: 4,
+            to: 16,
+            type: "stylistic",
+            subtype: "",
+            description: "",
+            suggestions: [{display: '', action: ''}]
+        }, {
+            from: 8,
+            to: 11,
+            type: "typo",
+            subtype: "",
+            description: "",
+            suggestions: [{display: '', action: ''}]
+        }];
+
+        markText(editor, markings);
+
+        const expectedHMTL = 'kaq <span class="stylistic">asd <span class="typo">kli</span>\n ghj</span> pra';
+        const expectedEditor = document.createElement('div');
+        expectedEditor.id = EDITOR_ID;
+        expectedEditor.innerHTML = expectedHMTL;
+
+        expect(editor).toEqual(expectedEditor);
+    });
 
     it(`should have as title 'penda'`, () => {
         const fixture = TestBed.createComponent(AppComponent);

@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {ProcessedText} from "./ProcessedText";
 import {TextMarking} from "./Models/TextMarking";
 import {environment} from "../environments/environment";
+import {markText, sortTextMarkings} from "./text-marking";
 
 @Component({
     selector: 'app-root',
@@ -15,6 +16,9 @@ export class AppComponent {
     title: string = 'penda';
     EDITOR_KEY: string = 'editor';
     POPOVER_KEY: string = 'popover';
+    SPAN_TO_GENERATE_A_POPOVER_CLASS = 'spanToGenerateAPopover';
+    HIGHLIGHTED_CLASS = 'highlighted';
+
     writeTextToggleButtonID: string = 'writeTextToggleButton'
     uploadDocumentToggleButtonID: string = 'uploadDocumentToggleButton'
     baseURL!: string;
@@ -87,26 +91,20 @@ export class AppComponent {
         const onTextPaste: boolean = $event.inputType === ''; // TODO use an alternative to (input) to begin with
         if (this.stoppedTypingAWord() || onTextPaste) {
             const editor = document.getElementById(this.EDITOR_KEY)!;
+
             this.http.post(this.generateMarkingsURL + "?limit=5", editor.innerText).subscribe(next => {
                 this.processedText = next as ProcessedText;
 
-                const writtenText = editor.innerText;
                 if (this.processedText?.textMarkings.length != 0) {
-                    let textWithHighlights: string = '';
-                    let previousFromIndex: number = 0;
-                    this.processedText?.textMarkings.forEach(tM => {
-                        const markingType = tM.type;
-                        textWithHighlights += writtenText.slice(previousFromIndex, tM.from) +
-                            '<span class="spanToGenerateAPopover highlighted ' + markingType + '">' + writtenText.slice(tM.from, tM.to) + '</span>';
-                        previousFromIndex = tM.to;
-                    });
-                    textWithHighlights += writtenText.slice(previousFromIndex, writtenText.length);
+                    this.processedText.textMarkings = sortTextMarkings(this.processedText?.textMarkings);
+                    const depletableTextMarkings: TextMarking[] = Array.from(this.processedText?.textMarkings);
                     this.savedSelection = this.saveSelection(editor);
-                    editor.innerHTML = textWithHighlights;
+                    editor.innerHTML = editor.innerText; // TODO remove me after paragraphs are introduced
+                    markText(editor, depletableTextMarkings, [this.SPAN_TO_GENERATE_A_POPOVER_CLASS, this.HIGHLIGHTED_CLASS]);
                     if (this.savedSelection) {
                         this.restoreSelection(editor, this.savedSelection);
                     }
-                    this.listenForPopovers()
+                    this.listenForPopovers();
                 }
             });
         }
@@ -118,88 +116,6 @@ export class AppComponent {
         const text = ($event.originalEvent || $event).clipboardData.getData('text/plain');
 
         document.execCommand("insertHTML", false, text);
-    }
-
-    /// requires the markings to be ordered ASC by "from" and DESC by "to"
-    // TODO, global traversalIndex, shift markings
-    markText(node: HTMLElement, textMarkings: TextMarking[]) { //, traversalIndex: number = 0) {
-        console.log('markText', node.innerHTML, textMarkings);
-        const SPAN_TAG = 'span';
-
-        const childNodes = node.childNodes;
-        while (0 < textMarkings.length) {
-            console.log('iterating markings', node.innerHTML);
-            let traversalIndex: number = 0;
-            // let fromTraversalIndex: number = 0;
-            // let toTraversalIndex: number = 0;
-            const textMarking: TextMarking = textMarkings.shift() as TextMarking;
-            for (let j = 0; j < childNodes.length; j++) {
-                console.log('iterating child nodes', node.innerHTML, node.childNodes, textMarking, textMarkings);
-                const childNode: HTMLElement = childNodes[j] as HTMLElement;
-
-                if (childNode.nodeType === 1) { // element node
-                    console.log('type: 1');
-                    const deeperTextMarking: TextMarking = {
-                        ...textMarking,
-                        from: textMarking.from - traversalIndex,
-                        to: textMarking.to - traversalIndex,
-                    };
-                    console.log('type: 1, traversalIndex:', traversalIndex, 'deeperTextMarking', deeperTextMarking);
-                    const currentTextContent: string = childNode.textContent!;
-
-                    console.log('before recursive', textMarkings);
-                    this.markText(childNode, [deeperTextMarking]);
-                    console.log('after recursive', textMarkings);
-
-                    traversalIndex += currentTextContent.length;
-                    // leetcode code qe shkruaja, imitating recursive code
-                } else if (childNode.nodeType === 3) { // text node
-                    console.log('type: 3');
-                    const currentTextContent = childNode.textContent!;
-                    const trueFrom = textMarking.from;
-                    const trueTo = textMarking.to;
-                    const relativeFrom = textMarking.from - traversalIndex;
-                    const relativeTo = textMarking.to - traversalIndex;
-
-                    const trueLeft = traversalIndex;
-                    const trueRight = traversalIndex + currentTextContent.length;
-                    const relativeLeft = 0;
-                    const relativeRight = currentTextContent.length;
-
-                    if (trueRight < trueFrom) {
-                        traversalIndex += currentTextContent.length;
-                        continue;
-                    }
-
-                    let newNodes = [];
-
-                    if (trueLeft < trueFrom) {
-                        const newTextContent = currentTextContent.slice(relativeLeft, relativeFrom);
-                        console.log('type: 3, inside text node, left', currentTextContent, newTextContent, traversalIndex, trueFrom);
-                        newNodes.push(document.createTextNode(newTextContent));
-                    }
-
-                    if (relativeLeft <= relativeFrom && relativeRight >= relativeTo) {
-                        const newNode = document.createElement(SPAN_TAG);
-                        newNode.classList.add(textMarking.type);
-                        newNode.textContent = currentTextContent.slice(relativeFrom, relativeTo);
-                        newNodes.push(newNode)
-                    }
-
-                    if (trueRight > trueTo) {
-                        const newTextContent = currentTextContent.slice(relativeTo, relativeRight);
-                        console.log('type: 3, inside text node, right', currentTextContent, newTextContent, traversalIndex, trueTo);
-                        newNodes.push(document.createTextNode(newTextContent));
-                    }
-
-                    childNode.replaceWith(...newNodes);
-
-                    break;
-                } else {
-                    throw Error("Unexpected node type!")
-                }
-            }
-        }
     }
 
     updateCharacterCount() {
