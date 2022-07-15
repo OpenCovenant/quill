@@ -347,4 +347,12 @@ export class AppComponent {
         this.updateWordCount();
         this.updateCharacterCount();
     }
+
+    expandSuggestions() {
+
+    }
+
+    collapseSuggestions() {
+
+    }
 }
