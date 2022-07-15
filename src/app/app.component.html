@@ -1,6 +1,6 @@
 <div style="display: flex; min-height: 100vh; flex-direction: column;">
     <div>
-        <nav class="navbar navbar-light" style="background-color: #F1F1F1;">
+        <nav class="navbar navbar-light">
             <div style="margin-left: 2rem; font-size: 1.4rem;">
                 <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasStart"
                         aria-controls="offcanvasStart" class="btn" style="border: none; " id="offcanvasStartButton">
@@ -42,9 +42,8 @@
                 </div>
                 <div class="card-body" *ngIf="displayWriteTextOrUploadDocumentFlag">
                     <div style="display: flex;">
-                        <div id="editor" contenteditable="true" (input)="onTextChange($event)"
-                             (paste)="onTextPaste($event)" [innerHTML]="innerHTMLOfEditor" spellcheck="false"
-                             autocapitalize="off" role="textbox"
+                        <div id="editor" contenteditable="true" (input)="onTextChange()" (paste)="onTextPaste($event)"
+                             [innerHTML]="innerHTMLOfEditor" spellcheck="false" autocapitalize="off" role="textbox"
                              data-placeholder="Shkruaj këtu ose ngarko një dokument." aria-multiline="true"
                              style="min-width: 96%; min-height: 30rem; font-size: 17px; padding-right: 2%; outline: 0 solid transparent;">
                         </div>
@@ -63,13 +62,14 @@
                 <div class="card-body" *ngIf="!displayWriteTextOrUploadDocumentFlag">
                     <div class="text-center">
                         <br>
-                        <h5 class="card-title">Mbështesim dokumenta <b>Word</b>, <b>PDF</b>.</h5>
-                        <p class="card-text">Së shpejti dhe <b>Libre</b>.</p>
+                        <h5 class="card-title">Mbështesim dokumenta <b>PDF</b>.</h5>
+                        <p class="card-text">Së shpejti dhe <b>Word</b>, <b>Libre</b>.</p>
                         <br>
                         <label for="documentUploadingHiddenInput" class="btn btn-primary">SHTYP&nbsp;KËTU&nbsp;<i
                             class="bi bi-file-text"></i></label>
                         <input id="documentUploadingHiddenInput" type="file" (change)="uploadDocument($event)"
-                               placeholder="SHTYP KËTU" accept=".pdf,.doc,.docx" style="display:none;"> <!--TODO-->
+                               placeholder="SHTYP KËTU" accept=".pdf,.docx" style="display:none;">
+                                <!--TODO-->
                         <!-- ,.doc,.docx,.odt-->
                     </div>
                     <br>
@@ -81,8 +81,7 @@
                 <div class="card border-secondary">
                     <div class="card-header" style="display: flex; justify-content: space-between;">
                         <div>
-                            <span class="highlighted typo"
-                                  style="display: inline-block; padding-left: 6px; padding-right: 6px; color: black;">gabime shkrimi</span>
+                            <button class="highlighted typo" style="cursor: default;">gabime shkrimi</button>
                         </div>
                     </div>
                     <ul class="list-group list-group-flush">
@@ -93,8 +92,7 @@
                 <div class="card border-secondary mt-4">
                     <div class="card-header" style="display: flex; justify-content: space-between;">
                         <div>
-                            <span class="highlighted loanword"
-                                  style="display: inline-block; padding-left: 6px; padding-right: 6px; color: black;">sugjerime huazimesh</span>
+                            <button class="highlighted loanword" style="cursor: default;">sugjerime huazimesh</button>
                         </div>
                     </div>
                     <ul class="list-group list-group-flush">
@@ -105,8 +103,7 @@
                 <div class="card border-secondary mt-4">
                     <div class="card-header" style="display: flex; justify-content: space-between;">
                         <div>
-                            <span class="highlighted stylistic"
-                                  style="display: inline-block; padding-left: 6px; padding-right: 6px; color: black;">shenjime stilistike</span>
+                            <button class="highlighted stylistic" style="cursor: default;">shenjime stilistike</button>
                         </div>
                     </div>
                     <ul class="list-group list-group-flush">
@@ -120,9 +117,8 @@
                  class="card border-secondary {{i > 0 ? 'mt-2':''}}">
                 <div class="card-header" style="display: flex; justify-content: space-between;">
                     <div>
-                        <span
-                            class="{{textMarking.type}}"
-                            style="display: inline-block; padding: 3px 6px; border-radius: 4px; color: black;">{{processedText?.text?.slice(textMarking.from, textMarking.to)}}</span>
+                        <button class="highlighted {{textMarking.type}}"
+                                style="cursor: default;">{{processedText?.text?.slice(textMarking.from, textMarking.to)}}</button>
                     </div>
                     <div>
                         <button (click)="deleteTextMarking(i)" class="btn btn-outline-danger btn-sm">HIQ&nbsp;<i
@@ -136,7 +132,7 @@
                             <div id="suggestions" style="display: flex; justify-content: center; gap: 1rem;">
                                 <button *ngFor="let suggestion of textMarking.suggestions; index as j"
                                         (click)="chooseSuggestion(i, j)" class="highlighted suggestion"
-                                        style="color: black;">
+                                        style="cursor: pointer;">
                                     <b>{{suggestion.display}}</b>
                                 </button>
                             </div>
@@ -155,7 +151,7 @@
     <br>
     <br>
 
-    <div class="page-footer text-center text-white" style="background-color: #F5F5F5;">
+    <div class="page-footer text-center text-white">
         <footer>
             <div class="container">
                 <section><a href="https://github.com/OpenCovenant/quill" role="button"
