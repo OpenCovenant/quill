@@ -120,27 +120,41 @@ export class AppComponent {
         document.execCommand("insertHTML", false, text);
     }
 
-    markText(node: HTMLElement, textMarkings: TextMarking[]) {
+    /// requires the markings to be ordered ASC by "from" and DESC by "to"
+    // TODO, global traversalIndex, shift markings
+    markText(node: HTMLElement, textMarkings: TextMarking[]) { //, traversalIndex: number = 0) {
+        console.log('markText', node.innerHTML, textMarkings);
         const SPAN_TAG = 'span';
 
         const childNodes = node.childNodes;
-        for (let i = 0; i < textMarkings.length; i++) {
+        while (0 < textMarkings.length) {
             console.log('iterating markings', node.innerHTML);
-            let traversalIndex = 0;
-            const textMarking: TextMarking = textMarkings[i];
-            for (let j = 0; j < childNodes.length && traversalIndex < node.innerText.length; j++) {
-                console.log('iterating child nodes', node.innerHTML);
+            let traversalIndex: number = 0;
+            // let fromTraversalIndex: number = 0;
+            // let toTraversalIndex: number = 0;
+            const textMarking: TextMarking = textMarkings.shift() as TextMarking;
+            for (let j = 0; j < childNodes.length; j++) {
+                console.log('iterating child nodes', node.innerHTML, node.childNodes, textMarking, textMarkings);
                 const childNode: HTMLElement = childNodes[j] as HTMLElement;
 
                 if (childNode.nodeType === 1) { // element node
-                    console.log('inside element node')
-                    const currentTextContent = childNode.textContent!;
+                    console.log('type: 1');
+                    const deeperTextMarking: TextMarking = {
+                        ...textMarking,
+                        from: textMarking.from - traversalIndex,
+                        to: textMarking.to - traversalIndex,
+                    };
+                    console.log('type: 1, traversalIndex:', traversalIndex, 'deeperTextMarking', deeperTextMarking);
+                    const currentTextContent: string = childNode.textContent!;
 
-                    this.markText(childNode, textMarkings.slice(i));
+                    console.log('before recursive', textMarkings);
+                    this.markText(childNode, [deeperTextMarking]);
+                    console.log('after recursive', textMarkings);
 
                     traversalIndex += currentTextContent.length;
                     // leetcode code qe shkruaja, imitating recursive code
                 } else if (childNode.nodeType === 3) { // text node
+                    console.log('type: 3');
                     const currentTextContent = childNode.textContent!;
                     const trueFrom = textMarking.from;
                     const trueTo = textMarking.to;
@@ -152,11 +166,16 @@ export class AppComponent {
                     const relativeLeft = 0;
                     const relativeRight = currentTextContent.length;
 
+                    if (trueRight < trueFrom) {
+                        traversalIndex += currentTextContent.length;
+                        continue;
+                    }
+
                     let newNodes = [];
 
                     if (trueLeft < trueFrom) {
                         const newTextContent = currentTextContent.slice(relativeLeft, relativeFrom);
-                        console.log('inside text node, left', currentTextContent, newTextContent, traversalIndex, trueFrom)
+                        console.log('type: 3, inside text node, left', currentTextContent, newTextContent, traversalIndex, trueFrom);
                         newNodes.push(document.createTextNode(newTextContent));
                     }
 
@@ -168,18 +187,16 @@ export class AppComponent {
                     }
 
                     if (trueRight > trueTo) {
-                        console.log('here')
-                        const newTextContent = currentTextContent.slice(trueTo, trueRight);
+                        const newTextContent = currentTextContent.slice(relativeTo, relativeRight);
+                        console.log('type: 3, inside text node, right', currentTextContent, newTextContent, traversalIndex, trueTo);
                         newNodes.push(document.createTextNode(newTextContent));
                     }
 
                     childNode.replaceWith(...newNodes);
 
-                    // child replace
-
-                    // child append
-
-                    traversalIndex += currentTextContent.length;
+                    break;
+                } else {
+                    throw Error("Unexpected node type!")
                 }
             }
         }
