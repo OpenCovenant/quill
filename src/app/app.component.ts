@@ -173,8 +173,8 @@ export class AppComponent {
         const writtenText = editor.innerText;
         const textMarking: TextMarking = this.processedText!.textMarkings[textMarkingIndex];
 
-        const leftWrittenText = writtenText?.slice(0, textMarking.from);
-        const rightWrittenText = writtenText?.slice(textMarking.to, writtenText.length);
+        const leftWrittenText = writtenText.slice(0, textMarking.from);
+        const rightWrittenText = writtenText.slice(textMarking.to, writtenText.length);
 
         const modifiedWrittenText = leftWrittenText + textMarking.suggestions[suggestionIndex].action + rightWrittenText;
 
@@ -182,17 +182,11 @@ export class AppComponent {
             this.processedText = next as ProcessedText;
 
             if (this.processedText?.textMarkings.length != 0) {
-                let textWithHighlights: string = '';
-                let previousFromIndex: number = 0;
-                this.processedText?.textMarkings.forEach(tM => {
-                    const markingType = tM.type;
-                    textWithHighlights += modifiedWrittenText.slice(previousFromIndex, tM.from) +
-                        '<span class="spanToGenerateAPopover highlighted ' + markingType + '">' + modifiedWrittenText.slice(tM.from, tM.to) + '</span>';
-                    previousFromIndex = tM.to;
-                });
-                textWithHighlights += modifiedWrittenText.slice(previousFromIndex, modifiedWrittenText.length);
+                this.processedText.textMarkings = sortTextMarkings(this.processedText?.textMarkings);
+                const depletableTextMarkings: TextMarking[] = Array.from(this.processedText?.textMarkings);
                 this.savedSelection = this.saveSelection(editor);
-                editor.innerHTML = textWithHighlights;
+                editor.innerHTML = modifiedWrittenText;
+                markText(editor, depletableTextMarkings, [this.SPAN_TO_GENERATE_A_POPOVER_CLASS, this.HIGHLIGHTED_CLASS]);
                 if (this.savedSelection) {
                     this.restoreSelection(editor, this.savedSelection);
                 }
