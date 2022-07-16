@@ -336,5 +336,7 @@ export class AppComponent {
     clearEditor() {
         document.getElementById(this.EDITOR_KEY)!.innerHTML = "";
         this.processedText = undefined;
+        this.updateWordCount();
+        this.updateCharacterCount();
     }
 }
