@@ -1,10 +1,10 @@
 import {Component, ElementRef, ViewEncapsulation} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 
-import {ProcessedText} from "./ProcessedText";
-import {TextMarking} from "./Models/TextMarking";
+import {ProcessedText} from "./models/ProcessedText";
+import {TextMarking} from "./models/TextMarking";
 import {environment} from "../environments/environment";
-import {markText, sortTextMarkings} from "./text-marking";
+import {markText, sortTextMarkings} from "./text-marking/text-marking";
 
 @Component({
     selector: 'app-root',

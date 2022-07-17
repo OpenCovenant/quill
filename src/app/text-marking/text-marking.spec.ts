@@ -1,7 +1,7 @@
 import {TestBed} from '@angular/core/testing';
-import {AppComponent} from './app.component';
+import {AppComponent} from '../app.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {TextMarking} from "./Models/TextMarking";
+import {TextMarking} from "../models/TextMarking";
 import {markText} from "./text-marking";
 
 describe('Marker', () => {
@@ -295,6 +295,38 @@ describe('Marker', () => {
         markText(editor, markings);
 
         const expectedHMTL = '<span class="stylistic">Pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra <span class="typo">asd</span> pra pra pra pra pra pra pra pra pra.</span>';
+        const expectedEditor = document.createElement('div');
+        expectedEditor.id = EDITOR_ID;
+        expectedEditor.innerHTML = expectedHMTL;
+
+        expect(editor).toEqual(expectedEditor);
+    });
+
+    it(`mark the typo within the very long stylistic marking - v v long`, () => {
+        const html = 'Pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra asd pra pra pra pra pra pra pra pra pra. Edhe a a a a a a a a a a a a a a a kaq';
+        const editor = document.createElement('div');
+        editor.id = EDITOR_ID;
+        editor.innerHTML = html;
+
+        const markings: TextMarking[] = [{
+            from: 0,
+            to: 335,
+            type: "stylistic",
+            subtype: "",
+            description: "",
+            suggestions: [{display: '', action: ''}]
+        }, {
+            from: 256,
+            to: 259,
+            type: "typo",
+            subtype: "",
+            description: "",
+            suggestions: [{display: '', action: ''}]
+        }];
+
+        markText(editor, markings);
+
+        const expectedHMTL = '<span class="stylistic">Pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra <span class="typo">asd</span> pra pra pra pra pra pra pra pra pra. Edhe a a a a a a a a a a a a a a a kaq</span>';
         const expectedEditor = document.createElement('div');
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;

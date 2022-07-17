@@ -1,4 +1,4 @@
-import {TextMarking} from "./Models/TextMarking";
+import {TextMarking} from "../models/TextMarking";
 
 const SPAN_TAG = 'span';
 
@@ -35,7 +35,7 @@ export function markText(node: HTMLElement, textMarkings: TextMarking[], additio
                 const relativeLeft = 0;
                 const relativeRight = currentTextContent.length;
 
-                if (trueRight < trueFrom) { // no marking will be made to this child node
+                if (trueRight < trueFrom || trueLeft > trueTo) { // no marking will be made to this child node
                     traversalIndex += currentTextContent.length;
                     continue;
                 }
