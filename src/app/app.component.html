@@ -133,20 +133,37 @@
                     <li class="list-group-item">
                         <b>{{textMarking.subtype}}</b> - <span>{{textMarking.description}}</span>
                         <span *ngIf="textMarking.suggestions.length > 0">
-                            <div id="suggestions"
-                                 style="display: flex; flex-wrap: wrap; align-content: stretch; justify-content: center; gap: 1rem;">
-                                <button *ngFor="let suggestion of textMarking.suggestions; index as j"
-                                        (click)="chooseSuggestion(i, j)" class="highlighted suggestion"
-                                        style="color: black;">
-                                    <b>{{suggestion.display}}</b>
-                                </button>
-                                <div>
-                                    <h3 (click)="expandSuggestions()" class="bi bi-arrow-left-square"
-                                        style="position: relative; top: 55%; transform: translateY(-50%); cursor: pointer;"></h3>
+                            <div id="suggestions">
+                                <div id="collapsedSuggestions"
+                                     style="display: flex; justify-content: center; gap: 1rem;"
+                                     *ngIf="shouldCollapseSuggestions">
+                                    <button *ngFor="let suggestion of textMarking.suggestions.slice(0, 4); index as j"
+                                            (click)="chooseSuggestion(i, j)" class="highlighted suggestion"
+                                            style="color: black;">
+                                        <b>{{suggestion.display}}</b>
+                                    </button>
+                                    |
+                                    <div class="form-check">
+                                        <h3 (click)="expandSuggestions(i)" class="bi bi-arrow-right-square"
+                                            style="position: relative; top: 55%; transform: translateY(-50%); cursor: pointer;">
+                                        </h3>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 (click)="collapseSuggestions()" class="bi bi-arrow-right-square"
-                                        style="position: relative; top: 55%; transform: translateY(-50%); cursor: pointer;"></h3>
+
+                                <div id="expandedSuggestions"
+                                     style="display: flex; flex-wrap: wrap; align-content: stretch; justify-content: center; gap: 1rem;"
+                                     *ngIf="!shouldCollapseSuggestions">
+                                    <button *ngFor="let suggestion of textMarking.suggestions; index as j"
+                                            (click)="chooseSuggestion(i, j)" class="highlighted suggestion"
+                                            style="color: black;">
+                                        <b>{{suggestion.display}}</b>
+                                    </button>
+                                    |
+                                    <div>
+                                    <h3 (click)="collapseSuggestions(i)" class="bi bi-arrow-left-square"
+                                        style="position: relative; top: 55%; transform: translateY(-50%); cursor: pointer;">
+                                    </h3>
+                                    </div>
                                 </div>
                             </div>
                         </span>

@@ -27,6 +27,7 @@ export class AppComponent {
     wordCount: number = 0;
     savedSelection: any;
     innerHTMLOfEditor: any;
+    shouldCollapseSuggestions: boolean[] = [];
 
     constructor(private http: HttpClient, private elementRef: ElementRef) {
         this.initializeURLs();
@@ -87,7 +88,7 @@ export class AppComponent {
         const onTextPaste: boolean = $event.inputType === ''; // TODO use an alternative to (input) to begin with
         if (this.stoppedTypingAWord() || onTextPaste) {
             const editor = document.getElementById(this.EDITOR_KEY)!;
-            this.http.post(this.generateMarkingsURL + "?limit=5", editor.innerText).subscribe(next => {
+            this.http.post(this.generateMarkingsURL, editor.innerText).subscribe(next => {
                 this.processedText = next as ProcessedText;
 
                 const writtenText = editor.innerText;
@@ -348,11 +349,16 @@ export class AppComponent {
         this.updateCharacterCount();
     }
 
-    expandSuggestions() {
-
+    expandSuggestions(i: number) {
+        this.shouldCollapseSuggestions[i] = false;
     }
 
-    collapseSuggestions() {
+    collapseSuggestions(i: number) {
+        this.shouldCollapseSuggestions[i] = true;
+    }
 
+    asdshouldExpandSuggestions() {
+        const radioButton = document.getElementById("radioToCollapse") as HTMLInputElement;
+        return radioButton === null || radioButton.checked;
     }
 }
