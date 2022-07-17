@@ -398,9 +398,42 @@ describe('Marker', () => {
         expect(editor).toEqual(expectedEditor);
     });
 
-    it(`should have as title 'penda'`, () => {
-        const fixture = TestBed.createComponent(AppComponent);
-        const app = fixture.componentInstance;
-        expect(app.title).toEqual('penda');
+    it(`marking within marking within marking`, () => {
+        const html = 'asd pra kli vij ghj';
+        const editor = document.createElement('div');
+        editor.id = EDITOR_ID;
+        editor.innerHTML = html;
+
+        const markings: TextMarking[] = [{
+            from: 0,
+            to: 19,
+            type: "stylistic",
+            subtype: "",
+            description: "",
+            suggestions: [{display: '', action: ''}]
+        }, {
+            from: 4,
+            to: 15,
+            type: "typo",
+            subtype: "",
+            description: "",
+            suggestions: [{display: '', action: ''}]
+        }, {
+            from: 8,
+            to: 11,
+            type: "loanword",
+            subtype: "",
+            description: "",
+            suggestions: [{display: '', action: ''}]
+        }];
+
+        markText(editor, markings);
+
+        const expectedHMTL = '<span class="stylistic">asd <span class="typo">pra <span class="loanword">kli</span> vij</span> ghj</span>';
+        const expectedEditor = document.createElement('div');
+        expectedEditor.id = EDITOR_ID;
+        expectedEditor.innerHTML = expectedHMTL;
+
+        expect(editor).toEqual(expectedEditor);
     });
 });
