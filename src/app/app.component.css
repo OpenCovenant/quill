@@ -21,6 +21,11 @@
     color: #C9C9C9;
 }
 
+#editor:empty:not(:focus):before {
+    content: attr(data-placeholder);
+    color: #C9C9C9;
+}
+
 .loanword {
     background-color: #FFD182;
 }
