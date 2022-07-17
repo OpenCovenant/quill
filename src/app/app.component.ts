@@ -157,7 +157,7 @@ export class AppComponent {
         if (fileList.length === 1) {
             const file: File = fileList[0];
             const formData: FormData = new FormData();
-            formData.append('uploadFile' + "?limit=5", file, file.name);
+            formData.append('uploadFile', file, file.name);
             this.http.post(this.uploadDocumentURL + "?limit=5", formData).subscribe(next => {
                 this.processedText = next as ProcessedText;
             });
