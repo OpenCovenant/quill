@@ -346,11 +346,11 @@ export class AppComponent {
         this.shouldCollapseSuggestions = new Array<boolean>(0);
     }
 
-    expandSuggestions(i: number) {
+    expandSuggestion(i: number) {
         this.shouldCollapseSuggestions[i] = false;
     }
 
-    collapseSuggestions(i: number) {
+    collapseSuggestion(i: number) {
         this.shouldCollapseSuggestions[i] = true;
     }
 }
