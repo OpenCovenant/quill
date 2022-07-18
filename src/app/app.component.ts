@@ -31,6 +31,7 @@ export class AppComponent {
     wordCount: number = 0;
     savedSelection: any;
     innerHTMLOfEditor: any;
+    shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
 
     constructor(private http: HttpClient, private elementRef: ElementRef) {
         this.initializeURLs();
@@ -92,7 +93,7 @@ export class AppComponent {
         if (this.stoppedTypingAWord() || onTextPaste) {
             const editor = document.getElementById(this.EDITOR_KEY)!;
 
-            this.http.post(this.generateMarkingsURL + "?limit=5", editor.innerText).subscribe(next => {
+            this.http.post(this.generateMarkingsURL, editor.innerText).subscribe(next => {
                 this.processedText = next as ProcessedText;
 
                 if (this.processedText?.textMarkings.length != 0) {
@@ -105,6 +106,7 @@ export class AppComponent {
                         this.restoreSelection(editor, this.savedSelection);
                     }
                     this.listenForPopovers();
+                    this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
                 }
             });
         }
@@ -156,8 +158,9 @@ export class AppComponent {
             const file: File = fileList[0];
             const formData: FormData = new FormData();
             formData.append('uploadFile', file, file.name);
-            this.http.post(this.uploadDocumentURL + "?limit=5", formData).subscribe(next => {
+            this.http.post(this.uploadDocumentURL, formData).subscribe(next => {
                 this.processedText = next as ProcessedText;
+                this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
             });
         } else {
             alert("Ngarko vetëm një dokument!")
@@ -201,6 +204,7 @@ export class AppComponent {
 
             this.updateCharacterCount();
             this.updateWordCount();
+            this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
         });
     }
 
@@ -216,6 +220,7 @@ export class AppComponent {
 
         this.processedText!.textMarkings = this.processedText!.textMarkings
             .filter(tM => tM != this.processedText!.textMarkings[index]);
+        this.shouldCollapseSuggestions = new Array<boolean>(this.processedText!.textMarkings.length).fill(true);
     }
 
     saveSelection(elementNode: any) {
@@ -338,5 +343,14 @@ export class AppComponent {
         this.processedText = undefined;
         this.updateWordCount();
         this.updateCharacterCount();
+        this.shouldCollapseSuggestions = new Array<boolean>(0);
+    }
+
+    expandSuggestion(i: number) {
+        this.shouldCollapseSuggestions[i] = false;
+    }
+
+    collapseSuggestion(i: number) {
+        this.shouldCollapseSuggestions[i] = true;
     }
 }
