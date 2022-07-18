@@ -1,4 +1,4 @@
-import {TextMarking} from "./Models/TextMarking";
+import {TextMarking} from "./TextMarking";
 
 export interface ProcessedText {
     text: string;
