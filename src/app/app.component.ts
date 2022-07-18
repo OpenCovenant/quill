@@ -31,7 +31,7 @@ export class AppComponent {
     wordCount: number = 0;
     savedSelection: any;
     innerHTMLOfEditor: any;
-    shouldCollapseSuggestions: boolean[] = [];
+    shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
 
     constructor(private http: HttpClient, private elementRef: ElementRef) {
         this.initializeURLs();
@@ -106,6 +106,7 @@ export class AppComponent {
                         this.restoreSelection(editor, this.savedSelection);
                     }
                     this.listenForPopovers();
+                    this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
                 }
             });
         }
@@ -159,6 +160,7 @@ export class AppComponent {
             formData.append('uploadFile', file, file.name);
             this.http.post(this.uploadDocumentURL, formData).subscribe(next => {
                 this.processedText = next as ProcessedText;
+                this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
             });
         } else {
             alert("Ngarko vetëm një dokument!")
@@ -202,6 +204,7 @@ export class AppComponent {
 
             this.updateCharacterCount();
             this.updateWordCount();
+            this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
         });
     }
 
@@ -217,6 +220,7 @@ export class AppComponent {
 
         this.processedText!.textMarkings = this.processedText!.textMarkings
             .filter(tM => tM != this.processedText!.textMarkings[index]);
+        this.shouldCollapseSuggestions = new Array<boolean>(this.processedText!.textMarkings.length).fill(true);
     }
 
     saveSelection(elementNode: any) {
@@ -339,6 +343,7 @@ export class AppComponent {
         this.processedText = undefined;
         this.updateWordCount();
         this.updateCharacterCount();
+        this.shouldCollapseSuggestions = new Array<boolean>(0);
     }
 
     expandSuggestions(i: number) {
@@ -347,10 +352,5 @@ export class AppComponent {
 
     collapseSuggestions(i: number) {
         this.shouldCollapseSuggestions[i] = true;
-    }
-
-    asdshouldExpandSuggestions() {
-        const radioButton = document.getElementById("radioToCollapse") as HTMLInputElement;
-        return radioButton === null || radioButton.checked;
     }
 }
