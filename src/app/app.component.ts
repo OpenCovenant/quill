@@ -356,4 +356,26 @@ export class AppComponent {
             throw Error("The oscillating button should have one of these classes given that you could see it to click it!");
         }
     }
+
+    copyToClipboard() {
+        const editor = document.getElementById(this.EDITOR_KEY)!;
+        let range, select;
+        if (document.createRange) {
+            range = document.createRange();
+            range.selectNodeContents(editor)
+            select = window.getSelection()!;
+            select.removeAllRanges();
+            select.addRange(range);
+            document.execCommand('copy');
+            select.removeAllRanges();
+        } else {
+            range = (document.body as any).createTextRange();
+            range.moveToElementText(editor);
+            range.select();
+            document.execCommand('copy');
+        }
+    }
+
+    showTextsHistory() { // TODO use a modal here
+    }
 }

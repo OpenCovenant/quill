@@ -49,15 +49,18 @@
                              style="min-width: 96%; min-height: 30rem; font-size: 17px; padding-right: 2%; outline: 0 solid transparent;">
                         </div>
                         <div style="min-width: 4%;" *ngIf="editorHasText()">
-                            <span id="clearEditorSpan" (click)="clearEditor()"
+                            <span id="clearEditorSpan" (click)="clearEditor()" title="fshi shkrimin"
                                   style="font-size: 36px; border-radius: 40%; cursor: pointer"><i class="bi bi-x"></i>
                             </span>
                         </div>
                     </div>
                     <hr>
-                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem;">
-                        <span>{{characterCount}}&nbsp;{{characterCount === 1 ? 'karakter' : 'karaktere'}}&comma;&nbsp;{{wordCount}}&nbsp;fjalë</span>
-                        <span>{{processedText === undefined ? 0 : processedText!.textMarkings.length}}&nbsp;{{processedText !== undefined && processedText!.textMarkings.length === 1 ? 'shenjim' : 'shenjime'}}</span>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem; height: 19px;">
+                        <span>{{characterCount}}&nbsp;{{characterCount === 1 ? 'karakter' : 'karaktere'}}&comma;&nbsp;{{wordCount}}&nbsp;fjalë&comma;&nbsp;{{processedText === undefined ? 0 : processedText!.textMarkings.length}}&nbsp;{{processedText !== undefined && processedText!.textMarkings.length === 1 ? 'shenjim' : 'shenjime'}}</span>
+                        <span><h5 (click)="copyToClipboard()" class="bi bi-clipboard" title="kopjo shkrimin"
+                                  style="display: inline; cursor:pointer;"></h5>&nbsp;&nbsp;&nbsp;&nbsp;<h5
+                            (click)="showTextsHistory()" title="trego historikun e shkrimeve"
+                            class="bi bi-clock-history" style="display: inline; cursor:pointer;"></h5></span>
                     </div>
                 </div>
                 <div class="card-body" *ngIf="!displayWriteTextOrUploadDocumentFlag">
