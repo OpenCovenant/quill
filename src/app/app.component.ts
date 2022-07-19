@@ -1,4 +1,4 @@
-import {Component, ElementRef, ViewEncapsulation} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, ViewEncapsulation} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 
 import {ProcessedText} from "./models/ProcessedText";
@@ -12,7 +12,7 @@ import {markText, sortTextMarkings} from "./text-marking/text-marking";
     styleUrls: ['./app.component.css'],
     encapsulation: ViewEncapsulation.None
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
     title: string = 'penda';
     EDITOR_KEY: string = 'editor';
     POPOVER_KEY: string = 'popover';
@@ -39,6 +39,13 @@ export class AppComponent {
         this.http.get(this.pingURL).subscribe(() => {
             console.log('pinging server...');
         });
+    }
+
+    ngAfterViewInit(): void {
+        const minWidthMatchMedia: MediaQueryList = window.matchMedia("(min-width: 800px)");
+        this._focusOnMediaMatch(minWidthMatchMedia);
+        // TODO some browsers still seem to use this deprecated method, keep it around for some more time
+        minWidthMatchMedia.addListener(this._focusOnMediaMatch);
     }
 
     initializeURLs() {
@@ -353,7 +360,7 @@ export class AppComponent {
                 this.shouldCollapseSuggestions[textMarkingIndex] = true;
             }
         } else {
-            throw Error("The oscillating button should have one of these classes given that you could see it to click it!");
+            throw new Error("The oscillating button should have one of these classes given that you could see it to click it!");
         }
     }
 
@@ -377,5 +384,11 @@ export class AppComponent {
     }
 
     showTextsHistory() { // TODO use a modal here
+    }
+
+    _focusOnMediaMatch(mediaMatch: any) {
+        if (mediaMatch.matches) {
+            document.getElementById(this.EDITOR_KEY)!.focus();
+        }
     }
 }
