@@ -16,12 +16,7 @@
     /*color: blue;*/
 }
 
-#editor:empty:focus:before {
-    content: attr(data-placeholder);
-    color: #C9C9C9;
-}
-
-#editor:empty:not(:focus):before {
+#editor:empty:not(:focus):before, #editor:empty:focus:before {
     content: attr(data-placeholder);
     color: #C9C9C9;
 }
