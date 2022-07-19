@@ -54,13 +54,11 @@ export class AppComponent {
         const uploadDocumentToggleButton = document.getElementById(this.uploadDocumentToggleButtonID);
 
         if (!writeTextToggleButton?.classList.contains('active')) {
-            uploadDocumentToggleButton?.classList.remove('active');
-            uploadDocumentToggleButton?.classList.remove('btn-secondary');
+            uploadDocumentToggleButton?.classList.remove('active', 'btn-secondary');
             uploadDocumentToggleButton?.classList.add('btnUnselected')
 
             writeTextToggleButton?.classList.remove('btnUnselected');
-            writeTextToggleButton?.classList.add('active');
-            writeTextToggleButton?.classList.add('btn-secondary');
+            writeTextToggleButton?.classList.add('active', 'btn-secondary');
 
             this.displayWriteTextOrUploadDocumentFlag = true;
         }
@@ -74,13 +72,11 @@ export class AppComponent {
         if (!uploadDocumentToggleButton?.classList.contains('active')) {
             this.innerHTMLOfEditor = document.getElementById(this.EDITOR_KEY)!.innerHTML;
 
-            writeTextToggleButton?.classList.remove('active');
-            writeTextToggleButton?.classList.remove('btn-secondary');
+            writeTextToggleButton?.classList.remove('active', 'btn-secondary');
             writeTextToggleButton?.classList.add('btnUnselected')
 
             uploadDocumentToggleButton?.classList.remove('btnUnselected');
-            uploadDocumentToggleButton?.classList.add('active');
-            uploadDocumentToggleButton?.classList.add('btn-secondary');
+            uploadDocumentToggleButton?.classList.add('active', 'btn-secondary');
 
             this.displayWriteTextOrUploadDocumentFlag = false;
         }
@@ -346,11 +342,18 @@ export class AppComponent {
         this.shouldCollapseSuggestions = new Array<boolean>(0);
     }
 
-    expandSuggestion(i: number) {
-        this.shouldCollapseSuggestions[i] = false;
-    }
-
-    collapseSuggestion(i: number) {
-        this.shouldCollapseSuggestions[i] = true;
+    oscillateSuggestion(textMarkingIndex: number, $event: any) {
+        const oscillatingButtonClasses = $event.target.classList;
+        if (oscillatingButtonClasses.contains('bi-arrow-right-square')) {
+            if (this.shouldCollapseSuggestions[textMarkingIndex]) {
+                this.shouldCollapseSuggestions[textMarkingIndex] = false;
+            }
+        } else if (oscillatingButtonClasses.contains('bi-arrow-left-square')) {
+            if (!this.shouldCollapseSuggestions[textMarkingIndex]) {
+                this.shouldCollapseSuggestions[textMarkingIndex] = true;
+            }
+        } else {
+            throw Error("The oscillating button should have one of these classes given that you could see it to click it!");
+        }
     }
 }
