@@ -1,9 +1,10 @@
 import {Component, ElementRef, ViewEncapsulation} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 
-import {ProcessedText} from "./ProcessedText";
-import {TextMarking} from "./Models/TextMarking";
+import {ProcessedText} from "./models/ProcessedText";
+import {TextMarking} from "./models/TextMarking";
 import {environment} from "../environments/environment";
+import {markText, sortTextMarkings} from "./text-marking/text-marking";
 
 @Component({
     selector: 'app-root',
@@ -15,6 +16,9 @@ export class AppComponent {
     title: string = 'penda';
     EDITOR_KEY: string = 'editor';
     POPOVER_KEY: string = 'popover';
+    SPAN_TO_GENERATE_A_POPOVER_CLASS = 'spanToGenerateAPopover';
+    HIGHLIGHTED_CLASS = 'highlighted';
+
     writeTextToggleButtonID: string = 'writeTextToggleButton'
     uploadDocumentToggleButtonID: string = 'uploadDocumentToggleButton'
     baseURL!: string;
@@ -27,6 +31,7 @@ export class AppComponent {
     wordCount: number = 0;
     savedSelection: any;
     innerHTMLOfEditor: any;
+    shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
 
     constructor(private http: HttpClient, private elementRef: ElementRef) {
         this.initializeURLs();
@@ -49,13 +54,11 @@ export class AppComponent {
         const uploadDocumentToggleButton = document.getElementById(this.uploadDocumentToggleButtonID);
 
         if (!writeTextToggleButton?.classList.contains('active')) {
-            uploadDocumentToggleButton?.classList.remove('active');
-            uploadDocumentToggleButton?.classList.remove('btn-secondary');
+            uploadDocumentToggleButton?.classList.remove('active', 'btn-secondary');
             uploadDocumentToggleButton?.classList.add('btnUnselected')
 
             writeTextToggleButton?.classList.remove('btnUnselected');
-            writeTextToggleButton?.classList.add('active');
-            writeTextToggleButton?.classList.add('btn-secondary');
+            writeTextToggleButton?.classList.add('active', 'btn-secondary');
 
             this.displayWriteTextOrUploadDocumentFlag = true;
         }
@@ -69,13 +72,11 @@ export class AppComponent {
         if (!uploadDocumentToggleButton?.classList.contains('active')) {
             this.innerHTMLOfEditor = document.getElementById(this.EDITOR_KEY)!.innerHTML;
 
-            writeTextToggleButton?.classList.remove('active');
-            writeTextToggleButton?.classList.remove('btn-secondary');
+            writeTextToggleButton?.classList.remove('active', 'btn-secondary');
             writeTextToggleButton?.classList.add('btnUnselected')
 
             uploadDocumentToggleButton?.classList.remove('btnUnselected');
-            uploadDocumentToggleButton?.classList.add('active');
-            uploadDocumentToggleButton?.classList.add('btn-secondary');
+            uploadDocumentToggleButton?.classList.add('active', 'btn-secondary');
 
             this.displayWriteTextOrUploadDocumentFlag = false;
         }
@@ -87,26 +88,21 @@ export class AppComponent {
         const onTextPaste: boolean = $event.inputType === ''; // TODO use an alternative to (input) to begin with
         if (this.stoppedTypingAWord() || onTextPaste) {
             const editor = document.getElementById(this.EDITOR_KEY)!;
-            this.http.post(this.generateMarkingsURL + "?limit=5", editor.innerText).subscribe(next => {
+
+            this.http.post(this.generateMarkingsURL, editor.innerText).subscribe(next => {
                 this.processedText = next as ProcessedText;
 
-                const writtenText = editor.innerText;
                 if (this.processedText?.textMarkings.length != 0) {
-                    let textWithHighlights: string = '';
-                    let previousFromIndex: number = 0;
-                    this.processedText?.textMarkings.forEach(tM => {
-                        const markingType = tM.type;
-                        textWithHighlights += writtenText.slice(previousFromIndex, tM.from) +
-                            '<span class="spanToGenerateAPopover highlighted ' + markingType + '">' + writtenText.slice(tM.from, tM.to) + '</span>';
-                        previousFromIndex = tM.to;
-                    });
-                    textWithHighlights += writtenText.slice(previousFromIndex, writtenText.length);
+                    this.processedText.textMarkings = sortTextMarkings(this.processedText?.textMarkings);
+                    const depletableTextMarkings: TextMarking[] = Array.from(this.processedText?.textMarkings);
                     this.savedSelection = this.saveSelection(editor);
-                    editor.innerHTML = textWithHighlights;
+                    editor.innerHTML = editor.innerText; // TODO remove me after paragraphs are introduced
+                    markText(editor, depletableTextMarkings, [this.SPAN_TO_GENERATE_A_POPOVER_CLASS, this.HIGHLIGHTED_CLASS]);
                     if (this.savedSelection) {
                         this.restoreSelection(editor, this.savedSelection);
                     }
-                    this.listenForPopovers()
+                    this.listenForPopovers();
+                    this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
                 }
             });
         }
@@ -158,8 +154,9 @@ export class AppComponent {
             const file: File = fileList[0];
             const formData: FormData = new FormData();
             formData.append('uploadFile', file, file.name);
-            this.http.post(this.uploadDocumentURL + "?limit=5", formData).subscribe(next => {
+            this.http.post(this.uploadDocumentURL, formData).subscribe(next => {
                 this.processedText = next as ProcessedText;
+                this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
             });
         } else {
             alert("Ngarko vetëm një dokument!")
@@ -175,8 +172,8 @@ export class AppComponent {
         const writtenText = editor.innerText;
         const textMarking: TextMarking = this.processedText!.textMarkings[textMarkingIndex];
 
-        const leftWrittenText = writtenText?.slice(0, textMarking.from);
-        const rightWrittenText = writtenText?.slice(textMarking.to, writtenText.length);
+        const leftWrittenText = writtenText.slice(0, textMarking.from);
+        const rightWrittenText = writtenText.slice(textMarking.to, writtenText.length);
 
         const modifiedWrittenText = leftWrittenText + textMarking.suggestions[suggestionIndex].action + rightWrittenText;
 
@@ -184,17 +181,11 @@ export class AppComponent {
             this.processedText = next as ProcessedText;
 
             if (this.processedText?.textMarkings.length != 0) {
-                let textWithHighlights: string = '';
-                let previousFromIndex: number = 0;
-                this.processedText?.textMarkings.forEach(tM => {
-                    const markingType = tM.type;
-                    textWithHighlights += modifiedWrittenText.slice(previousFromIndex, tM.from) +
-                        '<span class="spanToGenerateAPopover highlighted ' + markingType + '">' + modifiedWrittenText.slice(tM.from, tM.to) + '</span>';
-                    previousFromIndex = tM.to;
-                });
-                textWithHighlights += modifiedWrittenText.slice(previousFromIndex, modifiedWrittenText.length);
+                this.processedText.textMarkings = sortTextMarkings(this.processedText?.textMarkings);
+                const depletableTextMarkings: TextMarking[] = Array.from(this.processedText?.textMarkings);
                 this.savedSelection = this.saveSelection(editor);
-                editor.innerHTML = textWithHighlights;
+                editor.innerHTML = modifiedWrittenText;
+                markText(editor, depletableTextMarkings, [this.SPAN_TO_GENERATE_A_POPOVER_CLASS, this.HIGHLIGHTED_CLASS]);
                 if (this.savedSelection) {
                     this.restoreSelection(editor, this.savedSelection);
                 }
@@ -209,6 +200,7 @@ export class AppComponent {
 
             this.updateCharacterCount();
             this.updateWordCount();
+            this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
         });
     }
 
@@ -224,6 +216,7 @@ export class AppComponent {
 
         this.processedText!.textMarkings = this.processedText!.textMarkings
             .filter(tM => tM != this.processedText!.textMarkings[index]);
+        this.shouldCollapseSuggestions = new Array<boolean>(this.processedText!.textMarkings.length).fill(true);
     }
 
     saveSelection(elementNode: any) {
@@ -346,5 +339,43 @@ export class AppComponent {
         this.processedText = undefined;
         this.updateWordCount();
         this.updateCharacterCount();
+        this.shouldCollapseSuggestions = new Array<boolean>(0);
+    }
+
+    oscillateSuggestion(textMarkingIndex: number, $event: any) {
+        const oscillatingButtonClasses = $event.target.classList;
+        if (oscillatingButtonClasses.contains('bi-arrow-right-square')) {
+            if (this.shouldCollapseSuggestions[textMarkingIndex]) {
+                this.shouldCollapseSuggestions[textMarkingIndex] = false;
+            }
+        } else if (oscillatingButtonClasses.contains('bi-arrow-left-square')) {
+            if (!this.shouldCollapseSuggestions[textMarkingIndex]) {
+                this.shouldCollapseSuggestions[textMarkingIndex] = true;
+            }
+        } else {
+            throw Error("The oscillating button should have one of these classes given that you could see it to click it!");
+        }
+    }
+
+    copyToClipboard() {
+        const editor = document.getElementById(this.EDITOR_KEY)!;
+        let range, select;
+        if (document.createRange) {
+            range = document.createRange();
+            range.selectNodeContents(editor)
+            select = window.getSelection()!;
+            select.removeAllRanges();
+            select.addRange(range);
+            document.execCommand('copy');
+            select.removeAllRanges();
+        } else {
+            range = (document.body as any).createTextRange();
+            range.moveToElementText(editor);
+            range.select();
+            document.execCommand('copy');
+        }
+    }
+
+    showTextsHistory() { // TODO use a modal here
     }
 }
