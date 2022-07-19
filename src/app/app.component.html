@@ -22,7 +22,7 @@
             <div class="list-group list-group-flush">
                 <a href="https://github.com/OpenCovenant" role="button"
                    class="list-group-item list-group-item-action mb-3">Rreth Nesh</a>
-                <a href="https://github.com/OpenCovenant/quill" role="button"
+                <a href="https://github.com/OpenCovenant/ink" role="button"
                    class="list-group-item list-group-item-action mb-3">Rreth penda</a>
             </div>
         </div>
@@ -42,7 +42,7 @@
                 </div>
                 <div class="card-body" *ngIf="displayWriteTextOrUploadDocumentFlag">
                     <div style="display: flex;">
-                        <div id="editor" autofocus contenteditable="true" (input)="onTextChange($event)"
+                        <div id="editor" contenteditable="true" (input)="onTextChange($event)"
                              (paste)="onTextPaste($event)" [innerHTML]="innerHTMLOfEditor" spellcheck="false"
                              autocapitalize="off" role="textbox"
                              data-placeholder="Shkruaj këtu ose ngarko një dokument." aria-multiline="true"
@@ -172,7 +172,7 @@
     <div class="page-footer text-center text-white" style="background-color: #E9E9E9;">
         <footer>
             <div class="container">
-                <section><a href="https://github.com/OpenCovenant/quill" role="button"
+                <section><a href="https://github.com/OpenCovenant/ink" role="button"
                             class="btn btn-link btn-floating text-dark m-1"
                             style="text-decoration: none; font-size: 15px;"><span>GitHub&nbsp;</span><i
                     class="bi bi-github"></i></a></section>
