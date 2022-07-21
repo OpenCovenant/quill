@@ -21,9 +21,9 @@
         <div class="offcanvas-body">
             <div class="list-group list-group-flush">
                 <a href="https://github.com/OpenCovenant" role="button"
-                   class="list-group-item list-group-item-action mb-3" target="_blank" rel="noopener noreferrer">Rreth Nesh</a>
+                   class="list-group-item list-group-item-action mb-3" target="_blank" rel="noopener noreferrer">Rreth&nbsp;Nesh</a>
                 <a href="https://github.com/OpenCovenant/ink" role="button"
-                   class="list-group-item list-group-item-action mb-3" target="_blank" rel="noopener noreferrer">Rreth penda</a>
+                   class="list-group-item list-group-item-action mb-3" target="_blank" rel="noopener noreferrer">Rreth&nbsp;penda</a>
             </div>
         </div>
     </div>
@@ -55,13 +55,13 @@
                         </div>
                     </div>
                     <hr>
-                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem; height: 19px;">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem;">
                         <span>{{characterCount}}&nbsp;{{characterCount === 1 ? 'karakter' : 'karaktere'}}&comma;&nbsp;{{wordCount}}&nbsp;fjalë&comma;&nbsp;{{processedText === undefined ? 0 : processedText!.textMarkings.length}}&nbsp;{{processedText !== undefined && processedText!.textMarkings.length === 1 ? 'shenjim' : 'shenjime'}}</span>
-                        <span><h5 (click)="copyToClipboard()" class="bi bi-clipboard" title="kopjo shkrimin"
-                                  style="display: inline; cursor:pointer;"></h5>&nbsp;&nbsp;&nbsp;&nbsp;<h5
+                        <span><button (click)="copyToClipboard()" class="bi bi-clipboard" title="kopjo shkrimin"
+                                      style="background: none; color: black; border: none; padding: 0; font-size: 1.25rem;"></button>&nbsp;&nbsp;&nbsp;&nbsp;<button
                             type="button" data-bs-toggle="modal" data-bs-target="#writtenTextsHistoryModal"
-                            title="trego historikun e shkrimeve"
-                            class="bi bi-clock-history" style="display: inline; cursor:pointer;"></h5></span>
+                            title="trego historikun e shkrimeve" class="bi bi-clock-history"
+                            style="background: none; color: black; border: none; padding: 0; font-size: 1.25rem;"></button></span>
                     </div>
                 </div>
                 <div class="card-body" *ngIf="!displayWriteTextOrUploadDocumentFlag">
