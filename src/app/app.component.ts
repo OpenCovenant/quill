@@ -5,6 +5,7 @@ import {ProcessedText} from "./models/ProcessedText";
 import {TextMarking} from "./models/TextMarking";
 import {environment} from "../environments/environment";
 import {markText, sortTextMarkings} from "./text-marking/text-marking";
+import {LocalStorageService} from "./local-storage/local-storage.service";
 
 @Component({
     selector: 'app-root',
@@ -33,7 +34,7 @@ export class AppComponent implements AfterViewInit {
     innerHTMLOfEditor: any;
     shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
 
-    constructor(private http: HttpClient, private elementRef: ElementRef) {
+    constructor(public localStorageService: LocalStorageService, private http: HttpClient, private elementRef: ElementRef) {
         this.initializeURLs();
         // should any other call be made here? probably not... actually even this should be removed soon
         this.http.get(this.pingURL).subscribe(() => {
@@ -121,6 +122,8 @@ export class AppComponent implements AfterViewInit {
         const text = ($event.originalEvent || $event).clipboardData.getData('text/plain');
 
         document.execCommand("insertHTML", false, text);
+
+        this.localStorageService.addNewWrittenText(text);
     }
 
     updateCharacterCount() {
@@ -383,7 +386,8 @@ export class AppComponent implements AfterViewInit {
         }
     }
 
-    showTextsHistory() { // TODO use a modal here
+    toggleStoringOfWrittenTexts() {
+        // this.canStoreWrittenTexts = ...
     }
 
     _focusOnMediaMatch(mediaMatch: any) {
