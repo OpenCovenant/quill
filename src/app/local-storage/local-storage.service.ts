@@ -15,7 +15,7 @@ export class LocalStorageService {
     // hardly extendable, consider refining in the future
     constructor() {
         const alreadyCanStoreWrittenTexts = localStorage.getItem(this.LOCAL_STORAGE_WRITTEN_TEXT_KEY);
-        if (!!alreadyCanStoreWrittenTexts) {
+        if (!alreadyCanStoreWrittenTexts) {
             if (this.canStoreWrittenTexts) {
                 localStorage.setItem(this.LOCAL_STORAGE_WRITTEN_TEXT_KEY, 'true');
             }
