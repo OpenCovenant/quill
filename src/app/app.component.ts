@@ -1,8 +1,8 @@
 import {AfterViewInit, Component, ElementRef, ViewEncapsulation} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 
-import {ProcessedText} from "./models/ProcessedText";
-import {TextMarking} from "./models/TextMarking";
+import {ProcessedText} from "./models/processed-text";
+import {TextMarking} from "./models/text-marking";
 import {environment} from "../environments/environment";
 import {markText, sortTextMarkings} from "./text-marking/text-marking";
 import {LocalStorageService} from "./local-storage/local-storage.service";
