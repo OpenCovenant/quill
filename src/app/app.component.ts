@@ -47,6 +47,7 @@ export class AppComponent implements AfterViewInit {
         this._focusOnMediaMatch(minWidthMatchMedia);
         // TODO some browsers still seem to use this deprecated method, keep it around for some more time
         minWidthMatchMedia.addListener(this._focusOnMediaMatch);
+        (document.getElementById("flexSwitchCheckChecked") as any).checked = this.localStorageService.canStoreWrittenTexts;
     }
 
     initializeURLs() {
@@ -95,24 +96,7 @@ export class AppComponent implements AfterViewInit {
         this.updateWordCount();
         const onTextPaste: boolean = $event.inputType === ''; // TODO use an alternative to (input) to begin with
         if (this.stoppedTypingAWord() || onTextPaste) {
-            const editor = document.getElementById(this.EDITOR_KEY)!;
-
-            this.http.post(this.generateMarkingsURL, editor.innerText).subscribe(next => {
-                this.processedText = next as ProcessedText;
-
-                if (this.processedText?.textMarkings.length != 0) {
-                    this.processedText.textMarkings = sortTextMarkings(this.processedText?.textMarkings);
-                    const depletableTextMarkings: TextMarking[] = Array.from(this.processedText?.textMarkings);
-                    this.savedSelection = this.saveSelection(editor);
-                    editor.innerHTML = editor.innerText; // TODO remove me after paragraphs are introduced
-                    markText(editor, depletableTextMarkings, [this.SPAN_TO_GENERATE_A_POPOVER_CLASS, this.HIGHLIGHTED_CLASS]);
-                    if (this.savedSelection) {
-                        this.restoreSelection(editor, this.savedSelection);
-                    }
-                    this.listenForPopovers();
-                    this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
-                }
-            });
+            this._markEditor();
         }
     }
 
@@ -191,8 +175,8 @@ export class AppComponent implements AfterViewInit {
             this.processedText = next as ProcessedText;
 
             if (this.processedText?.textMarkings.length != 0) {
-                this.processedText.textMarkings = sortTextMarkings(this.processedText?.textMarkings);
-                const depletableTextMarkings: TextMarking[] = Array.from(this.processedText?.textMarkings);
+                this.processedText.textMarkings = sortTextMarkings(this.processedText.textMarkings);
+                const depletableTextMarkings: TextMarking[] = Array.from(this.processedText.textMarkings);
                 this.savedSelection = this.saveSelection(editor);
                 editor.innerHTML = modifiedWrittenText;
                 markText(editor, depletableTextMarkings, [this.SPAN_TO_GENERATE_A_POPOVER_CLASS, this.HIGHLIGHTED_CLASS]);
@@ -387,12 +371,40 @@ export class AppComponent implements AfterViewInit {
     }
 
     toggleStoringOfWrittenTexts() {
-        // this.canStoreWrittenTexts = ...
+        this.localStorageService.toggleWritingPermission((document.getElementById("flexSwitchCheckChecked") as any).checked)
     }
 
     _focusOnMediaMatch(mediaMatch: any) {
         if (mediaMatch.matches) {
             document.getElementById(this.EDITOR_KEY)!.focus();
         }
+    }
+
+    placeWrittenText(writtenText: string): void {
+        document.getElementById(this.EDITOR_KEY)!.innerText = writtenText;
+        document.getElementById("closeWrittenTextsModalButton")!.click();
+        this._markEditor();
+        this.updateWordCount();
+        this.updateCharacterCount();
+    }
+
+    private _markEditor() {
+        const editor = document.getElementById(this.EDITOR_KEY)!;
+
+        this.http.post(this.generateMarkingsURL, editor.innerText).subscribe(next => {
+            this.processedText = next as ProcessedText;
+            if (this.processedText?.textMarkings.length != 0) {
+                this.processedText.textMarkings = sortTextMarkings(this.processedText.textMarkings);
+                const depletableTextMarkings: TextMarking[] = Array.from(this.processedText.textMarkings);
+                this.savedSelection = this.saveSelection(editor);
+                editor.innerHTML = editor.innerText; // TODO remove me after paragraphs are introduced
+                markText(editor, depletableTextMarkings, [this.SPAN_TO_GENERATE_A_POPOVER_CLASS, this.HIGHLIGHTED_CLASS]);
+                if (this.savedSelection) {
+                    this.restoreSelection(editor, this.savedSelection);
+                }
+                this.listenForPopovers();
+                this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
+            }
+        });
     }
 }
