@@ -4,8 +4,10 @@ import {Injectable} from '@angular/core';
     providedIn: 'root'
 })
 export class LocalStorageService {
-    canStoreWrittenTexts: boolean = true;
     LOCAL_STORAGE_WRITTEN_TEXT_KEY: string = 'penda-can-store-written-texts';
+    WRITTEN_TEXTS_KEYS: string[] = ['penda-written-text-0', 'penda-written-text-1', 'penda-written-text-2',
+        'penda-written-text-3', 'penda-written-text-4']; // TODO consider .repeat()
+    canStoreWrittenTexts: boolean = true;
 
     // save last n "writings" te local storage
     // a writing is defined as whenever you paste something, or click outside the editor
@@ -34,46 +36,19 @@ export class LocalStorageService {
     }
 
     fetchWrittenTextsHistory(): Array<string> {
-        // localStorage.setItem('penda-written-text-0', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nibh venenatis cras sed felis.');
-        // localStorage.setItem('penda-written-text-1', 'Ut tortor pretium viverra suspendisse potenti nullam ac tortor vitae. Egestas congue quisque egestas diam in. Enim nulla aliquet porttitor lacus luctus.');
-        // localStorage.setItem('penda-written-text-2', 'Ut sem viverra aliquet eget sit amet. At lectus urna duis convallis convallis tellus id interdum. Neque ornare aenean euismod elementum nisi quis eleifend.');
-        // localStorage.setItem('penda-written-text-3', 'Sit amet consectetur adipiscing elit ut aliquam purus. Nunc lobortis mattis aliquam faucibus purus in massa. Sed lectus vestibulum mattis ullamcorper velit sed ullamcorper morbi.');
-        // localStorage.setItem('penda-written-text-4', 'Aliquam etiam erat velit scelerisque in. Nibh venenatis cras sed felis eget velit aliquet sagittis. At augue eget arcu dictum. Erat nam at lectus urna duis convallis convallis tellus id. Congue eu consequat ac felis donec.');
-
+        const writtenTextsHistory: Array<string> = [];
         if (!this.canStoreWrittenTexts) {
             this._clearWrittenTexts();
-        }
-
-        const writtenTextsHistory: Array<string> = [];
-        const writtenText0 = localStorage.getItem('penda-written-text-0');
-        if (!writtenText0) {
             return writtenTextsHistory;
         }
-        writtenTextsHistory.push(writtenText0);
 
-        const writtenText1 = localStorage.getItem('penda-written-text-1');
-        if (!writtenText1) {
-            return writtenTextsHistory;
+        for (let i = 0; i < this.WRITTEN_TEXTS_KEYS.length; i++) {
+            const writtenTextIndex = localStorage.getItem(this.WRITTEN_TEXTS_KEYS[i]);
+            if (!writtenTextIndex) {
+                return writtenTextsHistory;
+            }
+            writtenTextsHistory.push(writtenTextIndex);
         }
-        writtenTextsHistory.push(writtenText1);
-
-        const writtenText2 = localStorage.getItem('penda-written-text-2');
-        if (!writtenText2) {
-            return writtenTextsHistory;
-        }
-        writtenTextsHistory.push(writtenText2);
-
-        const writtenText3 = localStorage.getItem('penda-written-text-3');
-        if (!writtenText3) {
-            return writtenTextsHistory;
-        }
-        writtenTextsHistory.push(writtenText3);
-
-        const writtenText4 = localStorage.getItem('penda-written-text-4');
-        if (!writtenText4) {
-            return writtenTextsHistory;
-        }
-        writtenTextsHistory.push(writtenText4);
 
         return writtenTextsHistory;
     }
@@ -87,34 +62,34 @@ export class LocalStorageService {
 
         const writtenText1 = localStorage.getItem('penda-written-text-1');
         if (!writtenText1) {
-            localStorage.setItem('penda-written-text-1', writtenText0!);
+            localStorage.setItem('penda-written-text-1', writtenText0);
             localStorage.setItem('penda-written-text-0', newWrittenText);
             return;
         }
 
         const writtenText2 = localStorage.getItem('penda-written-text-2');
         if (!writtenText2) {
-            localStorage.setItem('penda-written-text-2', writtenText1!);
-            localStorage.setItem('penda-written-text-1', writtenText0!);
+            localStorage.setItem('penda-written-text-2', writtenText1);
+            localStorage.setItem('penda-written-text-1', writtenText0);
             localStorage.setItem('penda-written-text-0', newWrittenText);
             return;
         }
 
         const writtenText3 = localStorage.getItem('penda-written-text-3');
         if (!writtenText3) {
-            localStorage.setItem('penda-written-text-3', writtenText2!);
-            localStorage.setItem('penda-written-text-2', writtenText1!);
-            localStorage.setItem('penda-written-text-1', writtenText0!);
+            localStorage.setItem('penda-written-text-3', writtenText2);
+            localStorage.setItem('penda-written-text-2', writtenText1);
+            localStorage.setItem('penda-written-text-1', writtenText0);
             localStorage.setItem('penda-written-text-0', newWrittenText);
             return;
         }
 
         const writtenText4 = localStorage.getItem('penda-written-text-4');
         if (!writtenText4) {
-            localStorage.setItem('penda-written-text-4', writtenText3!);
-            localStorage.setItem('penda-written-text-4', writtenText2!);
-            localStorage.setItem('penda-written-text-2', writtenText1!);
-            localStorage.setItem('penda-written-text-1', writtenText0!);
+            localStorage.setItem('penda-written-text-4', writtenText3);
+            localStorage.setItem('penda-written-text-4', writtenText2);
+            localStorage.setItem('penda-written-text-2', writtenText1);
+            localStorage.setItem('penda-written-text-1', writtenText0);
             localStorage.setItem('penda-written-text-0', newWrittenText);
             return;
         }
@@ -127,10 +102,8 @@ export class LocalStorageService {
     }
 
     _clearWrittenTexts() {
-        localStorage.removeItem('penda-written-text-0');
-        localStorage.removeItem('penda-written-text-1');
-        localStorage.removeItem('penda-written-text-2');
-        localStorage.removeItem('penda-written-text-3');
-        localStorage.removeItem('penda-written-text-4');
+        for (let index = 0; index < this.WRITTEN_TEXTS_KEYS.length; index++) {
+            localStorage.removeItem(this.WRITTEN_TEXTS_KEYS[index]);
+        }
     }
 }
