@@ -25,50 +25,55 @@ export class LocalStorageService {
         }
     }
 
+    toggleWritingPermission(checked: boolean): void {
+        if (!checked) {
+            this._clearWrittenTexts();
+        }
+        this.canStoreWrittenTexts = checked;
+        localStorage.setItem(this.LOCAL_STORAGE_WRITTEN_TEXT_KEY, checked.toString());
+    }
+
     fetchWrittenTextsHistory(): Array<string> {
         // localStorage.setItem('penda-written-text-0', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nibh venenatis cras sed felis.');
         // localStorage.setItem('penda-written-text-1', 'Ut tortor pretium viverra suspendisse potenti nullam ac tortor vitae. Egestas congue quisque egestas diam in. Enim nulla aliquet porttitor lacus luctus.');
         // localStorage.setItem('penda-written-text-2', 'Ut sem viverra aliquet eget sit amet. At lectus urna duis convallis convallis tellus id interdum. Neque ornare aenean euismod elementum nisi quis eleifend.');
         // localStorage.setItem('penda-written-text-3', 'Sit amet consectetur adipiscing elit ut aliquam purus. Nunc lobortis mattis aliquam faucibus purus in massa. Sed lectus vestibulum mattis ullamcorper velit sed ullamcorper morbi.');
         // localStorage.setItem('penda-written-text-4', 'Aliquam etiam erat velit scelerisque in. Nibh venenatis cras sed felis eget velit aliquet sagittis. At augue eget arcu dictum. Erat nam at lectus urna duis convallis convallis tellus id. Congue eu consequat ac felis donec.');
+
         if (!this.canStoreWrittenTexts) {
-            localStorage.removeItem('penda-written-text-0');
-            localStorage.removeItem('penda-written-text-1');
-            localStorage.removeItem('penda-written-text-2');
-            localStorage.removeItem('penda-written-text-3');
-            localStorage.removeItem('penda-written-text-4');
+            this._clearWrittenTexts();
         }
 
         const writtenTextsHistory: Array<string> = [];
         const writtenText0 = localStorage.getItem('penda-written-text-0');
-        if (writtenText0 === undefined) {
+        if (!writtenText0) {
             return writtenTextsHistory;
         }
-        writtenTextsHistory.push(writtenText0!);
+        writtenTextsHistory.push(writtenText0);
 
         const writtenText1 = localStorage.getItem('penda-written-text-1');
-        if (writtenText1 === undefined) {
+        if (!writtenText1) {
             return writtenTextsHistory;
         }
-        writtenTextsHistory.push(writtenText1!);
+        writtenTextsHistory.push(writtenText1);
 
         const writtenText2 = localStorage.getItem('penda-written-text-2');
-        if (writtenText2 === undefined) {
+        if (!writtenText2) {
             return writtenTextsHistory;
         }
-        writtenTextsHistory.push(writtenText2!);
+        writtenTextsHistory.push(writtenText2);
 
         const writtenText3 = localStorage.getItem('penda-written-text-3');
-        if (writtenText3 === undefined) {
+        if (!writtenText3) {
             return writtenTextsHistory;
         }
-        writtenTextsHistory.push(writtenText3!);
+        writtenTextsHistory.push(writtenText3);
 
         const writtenText4 = localStorage.getItem('penda-written-text-4');
-        if (writtenText4 === undefined) {
+        if (!writtenText4) {
             return writtenTextsHistory;
         }
-        writtenTextsHistory.push(writtenText4!);
+        writtenTextsHistory.push(writtenText4);
 
         return writtenTextsHistory;
     }
@@ -119,5 +124,13 @@ export class LocalStorageService {
         localStorage.setItem('penda-written-text-2', writtenText1);
         localStorage.setItem('penda-written-text-1', writtenText0);
         localStorage.setItem('penda-written-text-0', newWrittenText);
+    }
+
+    _clearWrittenTexts() {
+        localStorage.removeItem('penda-written-text-0');
+        localStorage.removeItem('penda-written-text-1');
+        localStorage.removeItem('penda-written-text-2');
+        localStorage.removeItem('penda-written-text-3');
+        localStorage.removeItem('penda-written-text-4');
     }
 }

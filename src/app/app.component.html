@@ -180,19 +180,23 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+                        <input (click)="toggleStoringOfWrittenTexts()" class="form-check-input" type="checkbox"
+                               id="flexSwitchCheckChecked">
                         <!-- TODO if user changes call a method that changes it in the service and invalidates-->
                         <label class="form-check-label" for="flexSwitchCheckChecked">Përdor Historikun e
                             Shkrimeve</label>
                     </div>
                     <br>
                     <div *ngFor="let writtenText of localStorageService.fetchWrittenTextsHistory();" class="list-group">
-                        <button type="button" class="list-group-item list-group-item-action">{{writtenText}}</button>
+                        <button (click)="placeWrittenText(writtenText)" type="button"
+                                class="list-group-item list-group-item-action">{{writtenText}}</button>
                         <br>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mbyll</button>
+                    <button id="closeWrittenTextsModalButton" type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">Mbyll
+                    </button>
                 </div>
             </div>
         </div>
