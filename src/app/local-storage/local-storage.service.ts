@@ -56,6 +56,27 @@ export class LocalStorageService {
     }
 
     addNewWrittenText(newWrittenText: string) {
+        const writtenTexts: string[] = [newWrittenText];
+
+        for (let i = 0; i < this.WRITTEN_TEXTS_LENGTH; i++) {
+            const writtenText = localStorage.getItem(this.WRITTEN_TEXTS_KEYS[i]);
+            if (!writtenText) {
+                for (let j = 0; j <= i; j++) {
+                    if (j === 0) {
+                        localStorage.setItem(this.WRITTEN_TEXTS_KEYS[j], newWrittenText);
+                    } else {
+                        localStorage.setItem(this.WRITTEN_TEXTS_KEYS[j], writtenTexts[j]);
+                    }
+                }
+                return;
+            }
+            writtenTexts.push(writtenText);
+        }
+
+        for (let i = this.WRITTEN_TEXTS_LENGTH - 1; i <= 0; i++) {
+            localStorage.setItem(this.WRITTEN_TEXTS_KEYS[i], writtenTexts[i]);
+        }
+
         const writtenText0 = localStorage.getItem(this.WRITTEN_TEXTS_KEYS[0]);
         if (!writtenText0) {
             localStorage.setItem(this.WRITTEN_TEXTS_KEYS[0], newWrittenText);
