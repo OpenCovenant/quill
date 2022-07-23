@@ -20,6 +20,7 @@ export class AppComponent implements AfterViewInit {
     SPAN_TO_GENERATE_A_POPOVER_CLASS = 'spanToGenerateAPopover';
     HIGHLIGHTED_CLASS = 'highlighted';
     TWO_SECONDS: number = 2000;
+    EMPTY_STRING: string = "";
 
     writeTextToggleButtonID: string = 'writeTextToggleButton'
     uploadDocumentToggleButtonID: string = 'uploadDocumentToggleButton'
@@ -70,6 +71,10 @@ export class AppComponent implements AfterViewInit {
             writeTextToggleButton?.classList.remove('btnUnselected');
             writeTextToggleButton?.classList.add('active', 'btn-secondary');
 
+            if (this.innerHTMLOfEditor === this.EMPTY_STRING) { // in the scenario that a file has been uploaded
+                this.processedText = undefined;
+            }
+
             this.displayWriteTextOrUploadDocumentFlag = true;
         }
     }
@@ -93,8 +98,7 @@ export class AppComponent implements AfterViewInit {
     }
 
     onTextChange($event: any) {
-        this.updateCharacterCount();
-        this.updateWordCount();
+        this._updateCharacterAndWordCount();
         const onTextPaste: boolean = $event.inputType === ''; // TODO use an alternative to (input) to begin with
         if (this.stoppedTypingAWord() || onTextPaste) {
             this._markEditor();
@@ -152,6 +156,7 @@ export class AppComponent implements AfterViewInit {
             this.http.post(this.uploadDocumentURL, formData).subscribe(next => {
                 this.processedText = next as ProcessedText;
                 this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
+                this.innerHTMLOfEditor = this.EMPTY_STRING; // TODO careful with the <br> here
             });
         } else {
             alert("Ngarko vetëm një dokument!")
@@ -193,8 +198,7 @@ export class AppComponent implements AfterViewInit {
                 }
             }
 
-            this.updateCharacterCount();
-            this.updateWordCount();
+            this._updateCharacterAndWordCount();
             this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
         });
     }
@@ -332,8 +336,7 @@ export class AppComponent implements AfterViewInit {
     clearEditor() {
         document.getElementById(this.EDITOR_KEY)!.innerHTML = "";
         this.processedText = undefined;
-        this.updateWordCount();
-        this.updateCharacterCount();
+        this._updateCharacterAndWordCount();
         this.shouldCollapseSuggestions = new Array<boolean>(0);
     }
 
@@ -394,8 +397,7 @@ export class AppComponent implements AfterViewInit {
         document.getElementById(this.EDITOR_KEY)!.innerText = writtenText;
         document.getElementById("closeWrittenTextsModalButton")!.click();
         this._markEditor();
-        this.updateWordCount();
-        this.updateCharacterCount();
+        this._updateCharacterAndWordCount();
     }
 
     private _markEditor() {
@@ -416,5 +418,10 @@ export class AppComponent implements AfterViewInit {
                 this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
             }
         });
+    }
+
+    private _updateCharacterAndWordCount() {
+        this.updateCharacterCount();
+        this.updateWordCount();
     }
 }
