@@ -1,4 +1,4 @@
-import {TextMarking} from "../models/TextMarking";
+import {TextMarking} from "../models/text-marking";
 
 const SPAN_TAG = 'span';
 

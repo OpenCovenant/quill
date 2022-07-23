@@ -1,7 +1,7 @@
 import {TestBed} from '@angular/core/testing';
 import {AppComponent} from '../app.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {TextMarking} from "../models/TextMarking";
+import {TextMarking} from "../models/text-marking";
 import {markText} from "./text-marking";
 
 describe('Marker', () => {
