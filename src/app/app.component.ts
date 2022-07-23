@@ -19,6 +19,7 @@ export class AppComponent implements AfterViewInit {
     POPOVER_KEY: string = 'popover';
     SPAN_TO_GENERATE_A_POPOVER_CLASS = 'spanToGenerateAPopover';
     HIGHLIGHTED_CLASS = 'highlighted';
+    TWO_SECONDS: number = 2000;
 
     writeTextToggleButtonID: string = 'writeTextToggleButton'
     uploadDocumentToggleButtonID: string = 'uploadDocumentToggleButton'
@@ -352,6 +353,10 @@ export class AppComponent implements AfterViewInit {
     }
 
     copyToClipboard() {
+        const copyToClipboardButton = document.getElementById("copyToClipboardButton")!;
+        copyToClipboardButton.classList.replace("bi-clipboard", "bi-clipboard2-check");
+        copyToClipboardButton.style.color = "green";
+
         const editor = document.getElementById(this.EDITOR_KEY)!;
         let range, select;
         if (document.createRange) {
@@ -368,6 +373,11 @@ export class AppComponent implements AfterViewInit {
             range.select();
             document.execCommand('copy');
         }
+
+        setTimeout(function () {
+            copyToClipboardButton.classList.replace("bi-clipboard2-check", "bi-clipboard");
+            copyToClipboardButton.style.color = "black";
+        }, this.TWO_SECONDS);
     }
 
     toggleStoringOfWrittenTexts() {
