@@ -18,7 +18,6 @@ export class AppComponent implements AfterViewInit {
     EDITOR_KEY: string = 'editor';
     POPOVER_KEY: string = 'popover';
     SPAN_TO_GENERATE_A_POPOVER_CLASS = 'spanToGenerateAPopover';
-    HIGHLIGHTED_CLASS = 'highlighted';
     TWO_SECONDS: number = 2000;
     EMPTY_STRING: string = "";
 
@@ -185,7 +184,7 @@ export class AppComponent implements AfterViewInit {
                 const depletableTextMarkings: TextMarking[] = Array.from(this.processedText.textMarkings);
                 this.savedSelection = this.saveSelection(editor);
                 editor.innerHTML = modifiedWrittenText;
-                markText(editor, depletableTextMarkings, [this.SPAN_TO_GENERATE_A_POPOVER_CLASS, this.HIGHLIGHTED_CLASS]);
+                markText(editor, depletableTextMarkings, [this.SPAN_TO_GENERATE_A_POPOVER_CLASS]);
                 if (this.savedSelection) {
                     this.restoreSelection(editor, this.savedSelection);
                 }
@@ -410,7 +409,7 @@ export class AppComponent implements AfterViewInit {
                 const depletableTextMarkings: TextMarking[] = Array.from(this.processedText.textMarkings);
                 this.savedSelection = this.saveSelection(editor);
                 editor.innerHTML = editor.innerText; // TODO remove me after paragraphs are introduced
-                markText(editor, depletableTextMarkings, [this.SPAN_TO_GENERATE_A_POPOVER_CLASS, this.HIGHLIGHTED_CLASS]);
+                markText(editor, depletableTextMarkings, [this.SPAN_TO_GENERATE_A_POPOVER_CLASS]);
                 if (this.savedSelection) {
                     this.restoreSelection(editor, this.savedSelection);
                 }
