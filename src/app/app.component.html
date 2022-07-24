@@ -86,7 +86,7 @@
                 <div class="card border-secondary">
                     <div class="card-header" style="display: flex; justify-content: space-between;">
                         <div>
-                            <span class="highlighted typo"
+                            <span class="typo"
                                   style="display: inline-block; padding-left: 6px; padding-right: 6px; color: black;">gabime shkrimi</span>
                         </div>
                     </div>
@@ -98,7 +98,7 @@
                 <div class="card border-secondary mt-4">
                     <div class="card-header" style="display: flex; justify-content: space-between;">
                         <div>
-                            <span class="highlighted loanword"
+                            <span class="loanword"
                                   style="display: inline-block; padding-left: 6px; padding-right: 6px; color: black;">sugjerime huazimesh</span>
                         </div>
                     </div>
@@ -110,7 +110,7 @@
                 <div class="card border-secondary mt-4">
                     <div class="card-header" style="display: flex; justify-content: space-between;">
                         <div>
-                            <span class="highlighted stylistic"
+                            <span class="stylistic"
                                   style="display: inline-block; padding-left: 6px; padding-right: 6px; color: black;">shenjime stilistike</span>
                         </div>
                     </div>
@@ -142,7 +142,7 @@
                                       justify-content: center; gap: 1rem;">
                                     <button
                                         *ngFor="let suggestion of textMarking.suggestions.slice(0, shouldCollapseSuggestions[i] ? 4 : textMarking.suggestions.length); index as j"
-                                        (click)="chooseSuggestion(i, j)" class="highlighted suggestion"
+                                        (click)="chooseSuggestion(i, j)" class="suggestion"
                                         style="color: black;">
                                         <b>{{suggestion.display}}</b>
                                     </button>
