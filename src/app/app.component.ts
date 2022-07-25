@@ -162,9 +162,14 @@ export class AppComponent implements AfterViewInit {
         }
     }
 
-    chooseSuggestion(textMarkingIndex: number, suggestionIndex: number) {
+    chooseSuggestion(textMarkingIndex: number, suggestionIndex: number): void {
         if (document.getElementById(this.POPOVER_KEY) != null) {
             document.getElementById(this.POPOVER_KEY)!.remove();
+        }
+
+        // don't choose suggestions on an uploaded file
+        if (!this.displayWriteTextOrUploadDocumentFlag) {
+            return;
         }
 
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
@@ -203,7 +208,7 @@ export class AppComponent implements AfterViewInit {
     }
 
     // TODO there might be a bug here that creates double spaces in the text, test more
-    deleteTextMarking(index: number) {
+    deleteTextMarking(index: number): void {
         const editor = document.getElementById(this.EDITOR_KEY);
         const htmlElement: HTMLBodyElement = new DOMParser().parseFromString(editor!.innerHTML, "text/html")
             .firstChild!.lastChild! as HTMLBodyElement;
@@ -261,7 +266,7 @@ export class AppComponent implements AfterViewInit {
         selection.addRange(range);
     }
 
-    listenForPopovers() {
+    listenForPopovers(): void {
         const textMarkings = this.elementRef.nativeElement.querySelectorAll(".spanToGenerateAPopover");
         if (textMarkings) {
             textMarkings.forEach((node: any, index: number) =>
@@ -269,7 +274,7 @@ export class AppComponent implements AfterViewInit {
         }
     }
 
-    showPopover(textMarkingIndex: number) {
+    showPopover(textMarkingIndex: number): void {
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
         const htmlElement: HTMLBodyElement = new DOMParser().parseFromString(editor.innerHTML, "text/html")
             .firstChild!.lastChild! as HTMLBodyElement;
@@ -332,7 +337,7 @@ export class AppComponent implements AfterViewInit {
         return document.getElementById(this.EDITOR_KEY)!.innerText !== "";
     }
 
-    clearEditor() {
+    clearEditor(): void {
         document.getElementById(this.EDITOR_KEY)!.innerHTML = "";
         this.processedText = undefined;
         this._updateCharacterAndWordCount();
@@ -399,7 +404,7 @@ export class AppComponent implements AfterViewInit {
         this._updateCharacterAndWordCount();
     }
 
-    private _markEditor() {
+    private _markEditor(): void {
         const editor = document.getElementById(this.EDITOR_KEY)!;
 
         this.http.post(this.generateMarkingsURL, editor.innerText).subscribe(next => {
@@ -419,7 +424,7 @@ export class AppComponent implements AfterViewInit {
         });
     }
 
-    private _updateCharacterAndWordCount() {
+    private _updateCharacterAndWordCount(): void {
         this.updateCharacterCount();
         this.updateWordCount();
     }
