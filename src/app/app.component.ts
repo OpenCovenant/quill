@@ -209,13 +209,15 @@ export class AppComponent implements AfterViewInit {
 
     // TODO there might be a bug here that creates double spaces in the text, test more
     deleteTextMarking(index: number): void {
-        const editor = document.getElementById(this.EDITOR_KEY);
-        const htmlElement: HTMLBodyElement = new DOMParser().parseFromString(editor!.innerHTML, "text/html")
-            .firstChild!.lastChild! as HTMLBodyElement;
+        if (this.displayWriteTextOrUploadDocumentFlag) {
+            const editor = document.getElementById(this.EDITOR_KEY);
+            const htmlElement: HTMLBodyElement = new DOMParser().parseFromString(editor!.innerHTML, "text/html")
+                .firstChild!.lastChild! as HTMLBodyElement;
 
-        htmlElement.replaceChild(document.createTextNode(htmlElement.children[index].textContent!), htmlElement.children[index]);
+            htmlElement.replaceChild(document.createTextNode(htmlElement.children[index].textContent!), htmlElement.children[index]);
 
-        editor!.innerHTML = htmlElement.innerHTML;
+            editor!.innerHTML = htmlElement.innerHTML;
+        }
 
         this.processedText!.textMarkings = this.processedText!.textMarkings
             .filter(tM => tM != this.processedText!.textMarkings[index]);
