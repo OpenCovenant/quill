@@ -1,9 +1,11 @@
-import {Component, ElementRef, ViewEncapsulation} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, ViewEncapsulation} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 
-import {ProcessedText} from "./ProcessedText";
-import {TextMarking} from "./Models/TextMarking";
+import {ProcessedText} from "./models/processed-text";
+import {TextMarking} from "./models/text-marking";
 import {environment} from "../environments/environment";
+import {markText, sortTextMarkings} from "./text-marking/text-marking";
+import {LocalStorageService} from "./local-storage/local-storage.service";
 
 @Component({
     selector: 'app-root',
@@ -11,12 +13,14 @@ import {environment} from "../environments/environment";
     styleUrls: ['./app.component.css'],
     encapsulation: ViewEncapsulation.None
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
     title: string = 'penda';
-
     EDITOR_KEY: string = 'editor';
     POPOVER_KEY: string = 'popover';
     LINE_BROKEN_PARAGRAPH: string = '<p><br></p>';
+    SPAN_TO_GENERATE_A_POPOVER_CLASS = 'spanToGenerateAPopover';
+    TWO_SECONDS: number = 2000;
+    EMPTY_STRING: string = "";
 
     writeTextToggleButtonID: string = 'writeTextToggleButton'
     uploadDocumentToggleButtonID: string = 'uploadDocumentToggleButton'
@@ -30,13 +34,22 @@ export class AppComponent {
     wordCount: number = 0;
     savedSelection: any;
     innerHTMLOfEditor: any = this.LINE_BROKEN_PARAGRAPH;
+    shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
 
-    constructor(private http: HttpClient, private elementRef: ElementRef) {
+    constructor(public localStorageService: LocalStorageService, private http: HttpClient, private elementRef: ElementRef) {
         this.initializeURLs();
         // should any other call be made here? probably not... actually even this should be removed soon
         this.http.get(this.pingURL).subscribe(() => {
             console.log('pinging server...');
         });
+    }
+
+    ngAfterViewInit(): void {
+        const minWidthMatchMedia: MediaQueryList = window.matchMedia("(min-width: 800px)");
+        this._focusOnMediaMatch(minWidthMatchMedia);
+        // TODO some browsers still seem to use this deprecated method, keep it around for some more time
+        minWidthMatchMedia.addListener(this._focusOnMediaMatch);
+        (document.getElementById("flexSwitchCheckChecked") as any).checked = this.localStorageService.canStoreWrittenTexts;
     }
 
     initializeURLs() {
@@ -52,13 +65,15 @@ export class AppComponent {
         const uploadDocumentToggleButton = document.getElementById(this.uploadDocumentToggleButtonID);
 
         if (!writeTextToggleButton?.classList.contains('active')) {
-            uploadDocumentToggleButton?.classList.remove('active');
-            uploadDocumentToggleButton?.classList.remove('btn-secondary');
+            uploadDocumentToggleButton?.classList.remove('active', 'btn-secondary');
             uploadDocumentToggleButton?.classList.add('btnUnselected')
 
             writeTextToggleButton?.classList.remove('btnUnselected');
-            writeTextToggleButton?.classList.add('active');
-            writeTextToggleButton?.classList.add('btn-secondary');
+            writeTextToggleButton?.classList.add('active', 'btn-secondary');
+
+            if (this.innerHTMLOfEditor === this.EMPTY_STRING) { // in the scenario that a file has been uploaded
+                this.processedText = undefined;
+            }
 
             this.displayWriteTextOrUploadDocumentFlag = true;
         }
@@ -72,45 +87,21 @@ export class AppComponent {
         if (!uploadDocumentToggleButton?.classList.contains('active')) {
             this.innerHTMLOfEditor = document.getElementById(this.EDITOR_KEY)!.innerHTML;
 
-            writeTextToggleButton?.classList.remove('active');
-            writeTextToggleButton?.classList.remove('btn-secondary');
+            writeTextToggleButton?.classList.remove('active', 'btn-secondary');
             writeTextToggleButton?.classList.add('btnUnselected')
 
             uploadDocumentToggleButton?.classList.remove('btnUnselected');
-            uploadDocumentToggleButton?.classList.add('active');
-            uploadDocumentToggleButton?.classList.add('btn-secondary');
+            uploadDocumentToggleButton?.classList.add('active', 'btn-secondary');
 
             this.displayWriteTextOrUploadDocumentFlag = false;
         }
     }
 
-    onTextChange() {
-        this.updateCharacterCount();
-        this.updateWordCount();
-        if (this.stoppedTypingAWord()) {
-            const editor = document.getElementById(this.EDITOR_KEY)!;
-            this.http.post(this.generateMarkingsURL + "?limit=5", editor.innerHTML).subscribe(next => {
-                this.processedText = next as ProcessedText;
-
-                const writtenText = editor.innerText; // TODO will have to be done per paragraph (or so), iterate!
-                if (this.processedText?.textMarkings.length != 0) {
-                    let textWithHighlights: string = '';
-                    let previousFromIndex: number = 0;
-                    this.processedText?.textMarkings.forEach(tM => {
-                        const markingType = tM.type;
-                        textWithHighlights += writtenText.slice(previousFromIndex, tM.from) +
-                            '<span class="spanToGenerateAPopover highlighted ' + markingType + '">' + writtenText.slice(tM.from, tM.to) + '</span>';
-                        previousFromIndex = tM.to;
-                    });
-                    textWithHighlights += writtenText.slice(previousFromIndex, writtenText.length);
-                    this.savedSelection = this.saveSelection(editor);
-                    editor.innerHTML = textWithHighlights;
-                    if (this.savedSelection) {
-                        this.restoreSelection(editor, this.savedSelection);
-                    }
-                    this.listenForPopovers()
-                }
-            });
+    onTextChange($event: any) {
+        this._updateCharacterAndWordCount();
+        const onTextPaste: boolean = $event.inputType === ''; // TODO use an alternative to (input) to begin with
+        if (this.stoppedTypingAWord() || onTextPaste) {
+            this._markEditor();
         }
     }
 
@@ -121,6 +112,8 @@ export class AppComponent {
         const text = ($event.originalEvent || $event).clipboardData.getData('text/plain');
 
         document.execCommand("insertText", false, text);
+
+        this.localStorageService.addNewWrittenText(text);
     }
 
     updateCharacterCount() {
@@ -163,6 +156,8 @@ export class AppComponent {
             formData.append('uploadFile', file, file.name);
             this.http.post(this.uploadDocumentURL, formData).subscribe(next => {
                 this.processedText = next as ProcessedText;
+                this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
+                this.innerHTMLOfEditor = this.EMPTY_STRING; // TODO careful with the <br> here
             });
         } else {
             alert("Ngarko vetëm një dokument!")
@@ -178,8 +173,8 @@ export class AppComponent {
         const writtenText = editor.innerText;
         const textMarking: TextMarking = this.processedText!.textMarkings[textMarkingIndex];
 
-        const leftWrittenText = writtenText?.slice(0, textMarking.from);
-        const rightWrittenText = writtenText?.slice(textMarking.to, writtenText.length);
+        const leftWrittenText = writtenText.slice(0, textMarking.from);
+        const rightWrittenText = writtenText.slice(textMarking.to, writtenText.length);
 
         const modifiedWrittenText = leftWrittenText + textMarking.suggestions[suggestionIndex].action + rightWrittenText;
 
@@ -187,17 +182,11 @@ export class AppComponent {
             this.processedText = next as ProcessedText;
 
             if (this.processedText?.textMarkings.length != 0) {
-                let textWithHighlights: string = '';
-                let previousFromIndex: number = 0;
-                this.processedText?.textMarkings.forEach(tM => {
-                    const markingType = tM.type;
-                    textWithHighlights += modifiedWrittenText.slice(previousFromIndex, tM.from) +
-                        '<span class="spanToGenerateAPopover highlighted ' + markingType + '">' + modifiedWrittenText.slice(tM.from, tM.to) + '</span>';
-                    previousFromIndex = tM.to;
-                });
-                textWithHighlights += modifiedWrittenText.slice(previousFromIndex, modifiedWrittenText.length);
+                this.processedText.textMarkings = sortTextMarkings(this.processedText.textMarkings);
+                const depletableTextMarkings: TextMarking[] = Array.from(this.processedText.textMarkings);
                 this.savedSelection = this.saveSelection(editor);
-                editor.innerHTML = textWithHighlights;
+                editor.innerHTML = modifiedWrittenText;
+                markText(editor, depletableTextMarkings, [this.SPAN_TO_GENERATE_A_POPOVER_CLASS]);
                 if (this.savedSelection) {
                     this.restoreSelection(editor, this.savedSelection);
                 }
@@ -210,8 +199,8 @@ export class AppComponent {
                 }
             }
 
-            this.updateCharacterCount();
-            this.updateWordCount();
+            this._updateCharacterAndWordCount();
+            this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
         });
     }
 
@@ -227,6 +216,7 @@ export class AppComponent {
 
         this.processedText!.textMarkings = this.processedText!.textMarkings
             .filter(tM => tM != this.processedText!.textMarkings[index]);
+        this.shouldCollapseSuggestions = new Array<boolean>(this.processedText!.textMarkings.length).fill(true);
     }
 
     saveSelection(elementNode: any) {
@@ -347,5 +337,92 @@ export class AppComponent {
     clearEditor() {
         document.getElementById(this.EDITOR_KEY)!.innerHTML = this.LINE_BROKEN_PARAGRAPH;
         this.processedText = undefined;
+        this._updateCharacterAndWordCount();
+        this.shouldCollapseSuggestions = new Array<boolean>(0);
+    }
+
+    oscillateSuggestion(textMarkingIndex: number, $event: any) {
+        const oscillatingButtonClasses = $event.target.classList;
+        if (oscillatingButtonClasses.contains('bi-arrow-right-square')) {
+            if (this.shouldCollapseSuggestions[textMarkingIndex]) {
+                this.shouldCollapseSuggestions[textMarkingIndex] = false;
+            }
+        } else if (oscillatingButtonClasses.contains('bi-arrow-left-square')) {
+            if (!this.shouldCollapseSuggestions[textMarkingIndex]) {
+                this.shouldCollapseSuggestions[textMarkingIndex] = true;
+            }
+        } else {
+            throw new Error("The oscillating button should have one of these classes given that you could see it to click it!");
+        }
+    }
+
+    copyToClipboard() {
+        const copyToClipboardButton = document.getElementById("copyToClipboardButton")!;
+        copyToClipboardButton.classList.replace("bi-clipboard", "bi-clipboard2-check");
+        copyToClipboardButton.style.color = "green";
+
+        const editor = document.getElementById(this.EDITOR_KEY)!;
+        let range, select;
+        if (document.createRange) {
+            range = document.createRange();
+            range.selectNodeContents(editor)
+            select = window.getSelection()!;
+            select.removeAllRanges();
+            select.addRange(range);
+            document.execCommand('copy');
+            select.removeAllRanges();
+        } else {
+            range = (document.body as any).createTextRange();
+            range.moveToElementText(editor);
+            range.select();
+            document.execCommand('copy');
+        }
+
+        setTimeout(function () {
+            copyToClipboardButton.classList.replace("bi-clipboard2-check", "bi-clipboard");
+            copyToClipboardButton.style.color = "black";
+        }, this.TWO_SECONDS);
+    }
+
+    toggleStoringOfWrittenTexts() {
+        this.localStorageService.toggleWritingPermission((document.getElementById("flexSwitchCheckChecked") as any).checked)
+    }
+
+    _focusOnMediaMatch(mediaMatch: any) {
+        if (mediaMatch.matches) {
+            document.getElementById(this.EDITOR_KEY)!.focus();
+        }
+    }
+
+    placeWrittenText(writtenText: string): void {
+        document.getElementById(this.EDITOR_KEY)!.innerText = writtenText;
+        document.getElementById("closeWrittenTextsModalButton")!.click();
+        this._markEditor();
+        this._updateCharacterAndWordCount();
+    }
+
+    private _markEditor() {
+        const editor = document.getElementById(this.EDITOR_KEY)!;
+
+        this.http.post(this.generateMarkingsURL, editor.innerText).subscribe(next => {
+            this.processedText = next as ProcessedText;
+            if (this.processedText?.textMarkings.length != 0) {
+                this.processedText.textMarkings = sortTextMarkings(this.processedText.textMarkings);
+                const depletableTextMarkings: TextMarking[] = Array.from(this.processedText.textMarkings);
+                this.savedSelection = this.saveSelection(editor);
+                editor.innerHTML = editor.innerText; // TODO remove me after paragraphs are introduced
+                markText(editor, depletableTextMarkings, [this.SPAN_TO_GENERATE_A_POPOVER_CLASS]);
+                if (this.savedSelection) {
+                    this.restoreSelection(editor, this.savedSelection);
+                }
+                this.listenForPopovers();
+                this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
+            }
+        });
+    }
+
+    private _updateCharacterAndWordCount() {
+        this.updateCharacterCount();
+        this.updateWordCount();
     }
 }

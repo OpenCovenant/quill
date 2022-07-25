@@ -1,40 +1,40 @@
-.highlighted {
+.typo {
     /*text-decoration: underline;*/
     /*text-decoration-color: red;*/
-
+    background-color: #FFC8C8;
     border-radius: 4px;
-    background-color: #FF0000;
     border: none;
-
-    /*padding: 4px;*/
-
     padding-top: 3px;
-    /*padding-left: 2.5px;*/
     padding-bottom: 3px;
-    /*padding-right: 2.5px;*/
-
-    /*color: blue;*/
-}
-
-#editor:empty:not(:focus):before {
-    content: attr(data-placeholder);
-    color: #C9C9C9;
 }
 
 .loanword {
     background-color: #FFD182;
-}
-
-.typo {
-    background-color: #FFC8C8;
+    border-radius: 4px;
+    border: none;
+    padding-top: 3px;
+    padding-bottom: 3px;
 }
 
 .stylistic {
     background-color: #A1B6DC;
+    border-radius: 4px;
+    border: none;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+#editor:empty:not(:focus):before, #editor:empty:focus:before {
+    content: attr(data-placeholder);
+    color: #C9C9C9;
 }
 
 .suggestion {
     background-color: #EAEAEA;
+    border-radius: 4px;
+    border: none;
+    padding-top: 3px;
+    padding-bottom: 3px;
 }
 
 /*some cute color*/
