@@ -37,13 +37,7 @@
     padding-bottom: 3px;
 }
 
-/*some cute color*/
-/*background-color: #98B4D4;*/
-
-/*TODO
-   .suggestion:hover {*/
-/*    color: #EAEAEA;*/
-/*}*/
+/*TODO change color on .suggestion:hover ?*/
 
 .btnUnselected {
     color: white;
@@ -93,9 +87,8 @@
     font-size: 70%;
 }
 
-/* Responsive layout - makes a one column layout instead of a two-column layout */
 @media (max-width: 800px) {
-    #topzzz {
+    #topLevelContainer {
         flex-direction: column;
         gap: 2rem !important;
     }
@@ -113,11 +106,11 @@
         top: 18%;
     }
 
-    #inputo {
+    #inputContainer {
         margin-right: 3rem;
     }
 
-    #outputo {
+    #outputContainer {
         margin-left: 3rem;
     }
 
@@ -128,11 +121,11 @@
 
 /*TODO I don't like these two a lot, write better responsive code, I assume ideally this should be added in flex-stuff*/
 @media (min-width: 800px) {
-    #inputo {
+    #inputContainer {
         width: 35%;
     }
 
-    #outputo {
+    #outputContainer {
         width: 35%;
     }
 }
