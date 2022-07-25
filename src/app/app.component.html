@@ -28,8 +28,8 @@
         </div>
     </div>
 
-    <div id="topzzz" style="display: flex; justify-content: space-between; gap: 1rem; flex: 1;">
-        <div id="inputo" class="inputText mt-5" style="flex: 0 0 60%; margin-left: 3rem;">
+    <div id="topLevelContainer" style="display: flex; justify-content: space-between; gap: 1rem; flex: 1;">
+        <div id="inputContainer" class="inputText mt-5" style="flex: 0 0 60%; margin-left: 3rem;">
             <div class="card border-secondary">
                 <div class="card-header" style="display: flex; justify-content: space-evenly;">
                     <button id="{{writeTextToggleButtonID}}" (click)="toggleWriteTextButton()" type="button"
@@ -81,7 +81,7 @@
                 </div>
             </div>
         </div>
-        <div id="outputo" class="outputTexts mt-5" style="flex: 0 0 30%; margin-right: 3rem;">
+        <div id="outputContainer" class="outputTexts mt-5" style="flex: 0 0 30%; margin-right: 3rem;">
             <div *ngIf="processedText === undefined || processedText!.textMarkings.length === 0">
                 <div class="card border-secondary">
                     <div class="card-header" style="display: flex; justify-content: space-between;">
