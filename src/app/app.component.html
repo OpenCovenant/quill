@@ -191,8 +191,9 @@
                     </div>
                     <br>
                     <div *ngFor="let writtenText of localStorageService.fetchWrittenTextsHistory();" class="list-group">
-                        <button (click)="placeWrittenText(writtenText)" type="button"
-                                class="list-group-item list-group-item-action">{{writtenText}}</button>
+                        <p id="writtenText" (click)="placeWrittenText(writtenText)" type="button"
+                           style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; border: 1px solid lightgray; border-radius: 5px; padding: 5px;"
+                        >{{writtenText}}</p>
                         <br>
                     </div>
                 </div>

@@ -87,6 +87,10 @@
     font-size: 70%;
 }
 
+#writtenText:hover {
+    background-color: #F1F1F1;
+}
+
 @media (max-width: 800px) {
     #highLevelContainer {
         flex-direction: column;
