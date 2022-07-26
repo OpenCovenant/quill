@@ -395,7 +395,7 @@ export class AppComponent implements AfterViewInit {
 
     _focusOnMediaMatch(mediaMatch: any) {
         if (mediaMatch.matches) {
-            document.getElementById(this.EDITOR_KEY)!.focus();
+            document.getElementById(this.EDITOR_KEY)?.focus();
         }
     }
 

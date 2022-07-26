@@ -28,7 +28,7 @@
         </div>
     </div>
 
-    <div id="topLevelContainer" style="display: flex; justify-content: space-between; gap: 1rem; flex: 1;">
+    <div id="highLevelContainer" style="display: flex; justify-content: space-between; gap: 1rem; flex: 1;">
         <div id="inputContainer" class="inputText mt-5" style="flex: 0 0 60%; margin-left: 3rem;">
             <div class="card border-secondary">
                 <div class="card-header" style="display: flex; justify-content: space-evenly;">
@@ -124,10 +124,12 @@
             <div *ngFor="let textMarking of processedText?.textMarkings; index as i"
                  class="card border-secondary {{i > 0 ? 'mt-2':''}}">
                 <div class="card-header" style="display: flex; justify-content: space-between;">
-                    <div>
+                    <div
+                        style="display: grid; grid-template-columns: auto 1fr; grid-template-rows: inherit; max-width: 80%;">
                         <span
                             class="{{textMarking.type}}"
-                            style="display: inline-block; padding: 3px 6px; border-radius: 4px; color: black;">{{processedText?.text?.slice(textMarking.from, textMarking.to)}}</span>
+                            style="display: inline-block; padding: 3px 6px; border-radius: 4px; color: black; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"
+                        >{{processedText?.text?.slice(textMarking.from, textMarking.to)}}</span>
                     </div>
                     <div>
                         <button (click)="deleteTextMarking(i)" class="btn btn-outline-danger btn-sm">HIQ&nbsp;<i
