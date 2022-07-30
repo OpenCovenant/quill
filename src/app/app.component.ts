@@ -6,6 +6,7 @@ import {TextMarking} from "./models/text-marking";
 import {environment} from "../environments/environment";
 import {markText, sortTextMarkings} from "./text-marking/text-marking";
 import {LocalStorageService} from "./local-storage/local-storage.service";
+import {interval, Subject, switchMap, take} from "rxjs";
 
 @Component({
     selector: 'app-root',
@@ -15,12 +16,13 @@ import {LocalStorageService} from "./local-storage/local-storage.service";
 })
 export class AppComponent implements AfterViewInit {
     title: string = 'penda';
+    private SECONDS: number = 1000;
+    private EMPTY_STRING: string = "";
     EDITOR_KEY: string = 'editor';
     POPOVER_KEY: string = 'popover';
     SPAN_TO_GENERATE_A_POPOVER_CLASS = 'spanToGenerateAPopover';
-    TWO_SECONDS: number = 2000;
-    EMPTY_STRING: string = "";
 
+    private _hasStoppedTyping: boolean = true; // stopped typing after some seconds
     writeTextToggleButtonID: string = 'writeTextToggleButton'
     uploadDocumentToggleButtonID: string = 'uploadDocumentToggleButton'
     baseURL!: string;
@@ -34,6 +36,7 @@ export class AppComponent implements AfterViewInit {
     savedSelection: any;
     innerHTMLOfEditor: any;
     shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
+    makeWrittenTextRequest$ = new Subject<void>();
 
     constructor(public localStorageService: LocalStorageService, private http: HttpClient, private elementRef: ElementRef) {
         this.initializeURLs();
@@ -102,6 +105,7 @@ export class AppComponent implements AfterViewInit {
         if (this.stoppedTypingAWord() || onTextPaste) {
             this._markEditor();
         }
+        this._handleWrittenTextRequest();
     }
 
     onTextPaste($event: any) {
@@ -386,7 +390,7 @@ export class AppComponent implements AfterViewInit {
         setTimeout(function () {
             copyToClipboardButton.classList.replace("bi-clipboard2-check", "bi-clipboard");
             copyToClipboardButton.style.color = "black";
-        }, this.TWO_SECONDS);
+        }, 2 * this.SECONDS);
     }
 
     toggleStoringOfWrittenTexts() {
@@ -430,4 +434,25 @@ export class AppComponent implements AfterViewInit {
         this.updateCharacterCount();
         this.updateWordCount();
     }
+
+    private _handleWrittenTextRequest() {
+        if (this._hasStoppedTyping) {
+            this._subscribeToWrittenTextRequest();
+        }
+
+        this.makeWrittenTextRequest$.next();
+        this._hasStoppedTyping = false;
+    }
+
+    private _subscribeToWrittenTextRequest() {
+        this.makeWrittenTextRequest$.pipe(
+            switchMap(() => {
+                return interval(15 * this.SECONDS);
+            }), take(1)
+        ).subscribe(() => {
+            this.localStorageService.addNewWrittenText(document.getElementById(this.EDITOR_KEY)!.innerText);
+            this._hasStoppedTyping = true;
+        });
+    }
+
 }
