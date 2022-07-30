@@ -1,12 +1,12 @@
 import {AfterViewInit, Component, ElementRef, ViewEncapsulation} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {interval, Subject, switchMap, take} from "rxjs";
 
 import {ProcessedText} from "./models/processed-text";
 import {TextMarking} from "./models/text-marking";
 import {environment} from "../environments/environment";
 import {markText, sortTextMarkings} from "./text-marking/text-marking";
 import {LocalStorageService} from "./local-storage/local-storage.service";
-import {interval, Subject, switchMap, take} from "rxjs";
 
 @Component({
     selector: 'app-root',
@@ -185,7 +185,7 @@ export class AppComponent implements AfterViewInit {
 
         const modifiedWrittenText = leftWrittenText + textMarking.suggestions[suggestionIndex].action + rightWrittenText;
 
-        this.http.post(this.generateMarkingsURL + "?limit=5", modifiedWrittenText).subscribe(next => {
+        this.http.post(this.generateMarkingsURL, modifiedWrittenText).subscribe(next => {
             this.processedText = next as ProcessedText;
 
             if (this.processedText?.textMarkings.length != 0) {
