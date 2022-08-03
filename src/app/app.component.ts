@@ -19,8 +19,6 @@ export class AppComponent implements AfterViewInit {
     private SECONDS: number = 1000;
     private EMPTY_STRING: string = "";
     EDITOR_KEY: string = 'editor';
-    POPOVER_KEY: string = 'popover';
-    SPAN_TO_GENERATE_A_POPOVER_CLASS = 'spanToGenerateAPopover';
 
     private _hasStoppedTyping: boolean = true; // stopped typing after some seconds
     writeTextToggleButtonID: string = 'writeTextToggleButton'
@@ -167,10 +165,6 @@ export class AppComponent implements AfterViewInit {
     }
 
     chooseSuggestion(textMarkingIndex: number, suggestionIndex: number): void {
-        if (document.getElementById(this.POPOVER_KEY) != null) {
-            document.getElementById(this.POPOVER_KEY)!.remove();
-        }
-
         // don't choose suggestions on an uploaded file
         if (!this.displayWriteTextOrUploadDocumentFlag) {
             return;
@@ -193,19 +187,15 @@ export class AppComponent implements AfterViewInit {
                 const depletableTextMarkings: TextMarking[] = Array.from(this.processedText.textMarkings);
                 this.savedSelection = this.saveSelection(editor);
                 editor.innerHTML = modifiedWrittenText;
-                markText(editor, depletableTextMarkings, [this.SPAN_TO_GENERATE_A_POPOVER_CLASS]);
-                if (this.savedSelection) {
-                    this.restoreSelection(editor, this.savedSelection);
-                }
-                this.listenForPopovers();
+                markText(editor, depletableTextMarkings);
             } else {
                 this.savedSelection = this.saveSelection(editor);
                 editor.innerHTML = modifiedWrittenText;
-                if (this.savedSelection) {
-                    this.restoreSelection(editor, this.savedSelection);
-                }
             }
 
+            if (this.savedSelection) {
+                this.restoreSelection(editor, this.savedSelection);
+            }
             this._updateCharacterAndWordCount();
             this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
         });
@@ -270,73 +260,6 @@ export class AppComponent implements AfterViewInit {
         const selection = window.getSelection()!;
         selection.removeAllRanges();
         selection.addRange(range);
-    }
-
-    listenForPopovers(): void {
-        const textMarkings = this.elementRef.nativeElement.querySelectorAll(".spanToGenerateAPopover");
-        if (textMarkings) {
-            textMarkings.forEach((node: any, index: number) =>
-                node.addEventListener('click', this.showPopover.bind(this, index)));
-        }
-    }
-
-    showPopover(textMarkingIndex: number): void {
-        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
-        const htmlElement: HTMLBodyElement = new DOMParser().parseFromString(editor.innerHTML, "text/html")
-            .firstChild!.lastChild! as HTMLBodyElement;
-
-        const targetTextMarking = htmlElement.children[textMarkingIndex];
-
-        const popover = document.createElement("div");
-        popover.id = this.POPOVER_KEY;
-        popover.classList.add("customPopover");
-
-        const textMarkingRect = document.getElementsByClassName('spanToGenerateAPopover')[textMarkingIndex]
-            .getBoundingClientRect();
-        popover.style.left = textMarkingRect.left - 90 + 'px';
-        if (window.matchMedia('(max-width: 800px)').matches) {
-            popover.style.top = textMarkingRect.top - 100 + 'px';
-        } else {
-            popover.style.top = textMarkingRect.top - 102 + 'px';
-        }
-
-        const maxSuggestions = 3;
-        const suggestions = this.processedText?.textMarkings[textMarkingIndex].suggestions!;
-        popover.innerHTML = suggestions.map(sugg => '<span class="popoverSuggestion">' + sugg.display + '</span>')
-            .slice(0, maxSuggestions).join("&nbsp<span class='tinyVerticalLine'>|</span>&nbsp");
-        // .join("&nbsp<span class='vr tinyVerticalLine'></span>&nbsp");
-        // TODO try button
-
-        // TODO append or prepend?
-        targetTextMarking.appendChild(popover);
-        // targetTextMarking.insertBefore(document.createElement("div", ));
-
-        editor.innerHTML = htmlElement.innerHTML;
-        this.listenForMarkingSuggestionsSelection(textMarkingIndex);
-        this.addListenerForRemovingPopovers()
-    }
-
-    addListenerForRemovingPopovers() {
-        const that = this;
-        document.onclick = function (e) {
-            const htmlElement = e.target as HTMLElement;
-            if (htmlElement.id !== that.POPOVER_KEY && !htmlElement.classList.contains('spanToGenerateAPopover')) {
-                const popoverToRemove = document.getElementById(that.POPOVER_KEY);
-                if (popoverToRemove != null) {
-                    popoverToRemove.remove();
-                    that.listenForPopovers();
-                    document.onclick = null;
-                }
-            }
-        };
-    }
-
-    listenForMarkingSuggestionsSelection(textMarkingIndex: number) {
-        const popoverSuggestions = this.elementRef.nativeElement.querySelectorAll(".popoverSuggestion")
-        if (popoverSuggestions) {
-            popoverSuggestions.forEach((node: any, suggestionIndex: number) =>
-                node.addEventListener('click', this.chooseSuggestion.bind(this, textMarkingIndex, suggestionIndex)));
-        }
     }
 
     editorHasText(): boolean {
@@ -420,11 +343,10 @@ export class AppComponent implements AfterViewInit {
                 const depletableTextMarkings: TextMarking[] = Array.from(this.processedText.textMarkings);
                 this.savedSelection = this.saveSelection(editor);
                 editor.innerHTML = editor.innerText; // TODO remove me after paragraphs are introduced
-                markText(editor, depletableTextMarkings, [this.SPAN_TO_GENERATE_A_POPOVER_CLASS]);
+                markText(editor, depletableTextMarkings);
                 if (this.savedSelection) {
                     this.restoreSelection(editor, this.savedSelection);
                 }
-                this.listenForPopovers();
                 this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
             }
         });

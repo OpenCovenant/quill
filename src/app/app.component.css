@@ -52,35 +52,6 @@
     background-color: #F3F3F3;
 }
 
-.customPopover {
-    border-radius: 4px;
-
-    padding-top: -1px;
-    padding-left: 3px;
-    padding-bottom: 2px;
-    padding-right: 3px;
-
-    /*max-width: 200px;*/
-    z-index: 99;
-    position: absolute;
-    background-color: #F3F3F3;
-    top: 12%;
-    left: 30%;
-}
-
-.popoverSuggestion {
-    border-radius: 4px;
-    cursor: pointer;
-    background-color: #DADADA;
-
-    padding-top: 1px;
-    padding-left: 3px;
-    padding-bottom: 2px;
-    padding-right: 3px;
-
-    font-size: 87%;
-}
-
 .tinyVerticalLine {
     color: #C0C0C0;
     font-weight: lighter;
@@ -104,10 +75,6 @@
 
     #suggestions {
         gap: 0.4rem !important;
-    }
-
-    .customPopover {
-        top: 18%;
     }
 
     #inputContainer {
