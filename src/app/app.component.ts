@@ -20,6 +20,9 @@ export class AppComponent implements AfterViewInit {
     private EMPTY_STRING: string = "";
     EDITOR_KEY: string = 'editor';
 
+    // characters that seem visually similar to the accepted ones
+    UNUSUAL_CHARACTERS = ["ă", "â", "à", "á", "ą", "ê", "ē", "ę", "ó", "û", "ù", "ž"]
+
     private _hasStoppedTyping: boolean = true; // stopped typing after some seconds
     writeTextToggleButtonID: string = 'writeTextToggleButton'
     uploadDocumentToggleButtonID: string = 'uploadDocumentToggleButton'
