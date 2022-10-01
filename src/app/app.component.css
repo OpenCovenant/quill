@@ -37,13 +37,7 @@
     padding-bottom: 3px;
 }
 
-/*some cute color*/
-/*background-color: #98B4D4;*/
-
-/*TODO
-   .suggestion:hover {*/
-/*    color: #EAEAEA;*/
-/*}*/
+/*TODO change color on .suggestion:hover ?*/
 
 .btnUnselected {
     color: white;
@@ -58,44 +52,18 @@
     background-color: #F3F3F3;
 }
 
-.customPopover {
-    border-radius: 4px;
-
-    padding-top: -1px;
-    padding-left: 3px;
-    padding-bottom: 2px;
-    padding-right: 3px;
-
-    /*max-width: 200px;*/
-    z-index: 99;
-    position: absolute;
-    background-color: #F3F3F3;
-    top: 12%;
-    left: 30%;
-}
-
-.popoverSuggestion {
-    border-radius: 4px;
-    cursor: pointer;
-    background-color: #DADADA;
-
-    padding-top: 1px;
-    padding-left: 3px;
-    padding-bottom: 2px;
-    padding-right: 3px;
-
-    font-size: 87%;
-}
-
 .tinyVerticalLine {
     color: #C0C0C0;
     font-weight: lighter;
     font-size: 70%;
 }
 
-/* Responsive layout - makes a one column layout instead of a two-column layout */
+#writtenText:hover {
+    background-color: #F1F1F1;
+}
+
 @media (max-width: 800px) {
-    #topzzz {
+    #highLevelContainer {
         flex-direction: column;
         gap: 2rem !important;
     }
@@ -109,15 +77,11 @@
         gap: 0.4rem !important;
     }
 
-    .customPopover {
-        top: 18%;
-    }
-
-    #inputo {
+    #inputContainer {
         margin-right: 3rem;
     }
 
-    #outputo {
+    #outputContainer {
         margin-left: 3rem;
     }
 
@@ -128,11 +92,11 @@
 
 /*TODO I don't like these two a lot, write better responsive code, I assume ideally this should be added in flex-stuff*/
 @media (min-width: 800px) {
-    #inputo {
+    #inputContainer {
         width: 35%;
     }
 
-    #outputo {
+    #outputContainer {
         width: 35%;
     }
 }

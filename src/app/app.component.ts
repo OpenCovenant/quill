@@ -1,5 +1,6 @@
 import {AfterViewInit, Component, ElementRef, ViewEncapsulation} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {interval, Subject, switchMap, take} from "rxjs";
 
 import {ProcessedText} from "./models/processed-text";
 import {TextMarking} from "./models/text-marking";
@@ -15,13 +16,15 @@ import {LocalStorageService} from "./local-storage/local-storage.service";
 })
 export class AppComponent implements AfterViewInit {
     title: string = 'penda';
+    private SECONDS: number = 1000;
+    private EMPTY_STRING: string = "";
     EDITOR_KEY: string = 'editor';
     POPOVER_KEY: string = 'popover';
     LINE_BROKEN_PARAGRAPH: string = '<p><br></p>';
     SPAN_TO_GENERATE_A_POPOVER_CLASS = 'spanToGenerateAPopover';
     TWO_SECONDS: number = 2000;
-    EMPTY_STRING: string = "";
 
+    private _hasStoppedTyping: boolean = true; // stopped typing after some seconds
     writeTextToggleButtonID: string = 'writeTextToggleButton'
     uploadDocumentToggleButtonID: string = 'uploadDocumentToggleButton'
     baseURL!: string;
@@ -35,6 +38,7 @@ export class AppComponent implements AfterViewInit {
     savedSelection: any;
     innerHTMLOfEditor: any = this.LINE_BROKEN_PARAGRAPH;
     shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
+    makeWrittenTextRequest$ = new Subject<void>();
 
     constructor(public localStorageService: LocalStorageService, private http: HttpClient, private elementRef: ElementRef) {
         this.initializeURLs();
@@ -103,6 +107,7 @@ export class AppComponent implements AfterViewInit {
         if (this.stoppedTypingAWord() || onTextPaste) {
             this._markEditor();
         }
+        this._handleWrittenTextRequest();
     }
 
     // TODO data-placeholder broke
@@ -164,9 +169,10 @@ export class AppComponent implements AfterViewInit {
         }
     }
 
-    chooseSuggestion(textMarkingIndex: number, suggestionIndex: number) {
-        if (document.getElementById(this.POPOVER_KEY) != null) {
-            document.getElementById(this.POPOVER_KEY)!.remove();
+    chooseSuggestion(textMarkingIndex: number, suggestionIndex: number): void {
+        // don't choose suggestions on an uploaded file
+        if (!this.displayWriteTextOrUploadDocumentFlag) {
+            return;
         }
 
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
@@ -178,7 +184,7 @@ export class AppComponent implements AfterViewInit {
 
         const modifiedWrittenText = leftWrittenText + textMarking.suggestions[suggestionIndex].action + rightWrittenText;
 
-        this.http.post(this.generateMarkingsURL + "?limit=5", modifiedWrittenText).subscribe(next => {
+        this.http.post(this.generateMarkingsURL, modifiedWrittenText).subscribe(next => {
             this.processedText = next as ProcessedText;
 
             if (this.processedText?.textMarkings.length != 0) {
@@ -186,33 +192,31 @@ export class AppComponent implements AfterViewInit {
                 const depletableTextMarkings: TextMarking[] = Array.from(this.processedText.textMarkings);
                 this.savedSelection = this.saveSelection(editor);
                 editor.innerHTML = modifiedWrittenText;
-                markText(editor, depletableTextMarkings, [this.SPAN_TO_GENERATE_A_POPOVER_CLASS]);
-                if (this.savedSelection) {
-                    this.restoreSelection(editor, this.savedSelection);
-                }
-                this.listenForPopovers();
+                markText(editor, depletableTextMarkings);
             } else {
                 this.savedSelection = this.saveSelection(editor);
                 editor.innerHTML = modifiedWrittenText;
-                if (this.savedSelection) {
-                    this.restoreSelection(editor, this.savedSelection);
-                }
             }
 
+            if (this.savedSelection) {
+                this.restoreSelection(editor, this.savedSelection);
+            }
             this._updateCharacterAndWordCount();
             this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
         });
     }
 
     // TODO there might be a bug here that creates double spaces in the text, test more
-    deleteTextMarking(index: number) {
-        const editor = document.getElementById(this.EDITOR_KEY);
-        const htmlElement: HTMLBodyElement = new DOMParser().parseFromString(editor!.innerHTML, "text/html")
-            .firstChild!.lastChild! as HTMLBodyElement;
+    deleteTextMarking(index: number): void {
+        if (this.displayWriteTextOrUploadDocumentFlag) {
+            const editor = document.getElementById(this.EDITOR_KEY);
+            const htmlElement: HTMLBodyElement = new DOMParser().parseFromString(editor!.innerHTML, "text/html")
+                .firstChild!.lastChild! as HTMLBodyElement;
 
-        htmlElement.replaceChild(document.createTextNode(htmlElement.children[index].textContent!), htmlElement.children[index]);
+            htmlElement.replaceChild(document.createTextNode(htmlElement.children[index].textContent!), htmlElement.children[index]);
 
-        editor!.innerHTML = htmlElement.innerHTML;
+            editor!.innerHTML = htmlElement.innerHTML;
+        }
 
         this.processedText!.textMarkings = this.processedText!.textMarkings
             .filter(tM => tM != this.processedText!.textMarkings[index]);
@@ -263,78 +267,11 @@ export class AppComponent implements AfterViewInit {
         selection.addRange(range);
     }
 
-    listenForPopovers() {
-        const textMarkings = this.elementRef.nativeElement.querySelectorAll(".spanToGenerateAPopover");
-        if (textMarkings) {
-            textMarkings.forEach((node: any, index: number) =>
-                node.addEventListener('click', this.showPopover.bind(this, index)));
-        }
-    }
-
-    showPopover(textMarkingIndex: number) {
-        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
-        const htmlElement: HTMLBodyElement = new DOMParser().parseFromString(editor.innerHTML, "text/html")
-            .firstChild!.lastChild! as HTMLBodyElement;
-
-        const targetTextMarking = htmlElement.children[textMarkingIndex];
-
-        const popover = document.createElement("div");
-        popover.id = this.POPOVER_KEY;
-        popover.classList.add("customPopover");
-
-        const textMarkingRect = document.getElementsByClassName('spanToGenerateAPopover')[textMarkingIndex]
-            .getBoundingClientRect();
-        popover.style.left = textMarkingRect.left - 90 + 'px';
-        if (window.matchMedia('(max-width: 800px)').matches) {
-            popover.style.top = textMarkingRect.top - 100 + 'px';
-        } else {
-            popover.style.top = textMarkingRect.top - 102 + 'px';
-        }
-
-        const maxSuggestions = 3;
-        const suggestions = this.processedText?.textMarkings[textMarkingIndex].suggestions!;
-        popover.innerHTML = suggestions.map(sugg => '<span class="popoverSuggestion">' + sugg.display + '</span>')
-            .slice(0, maxSuggestions).join("&nbsp<span class='tinyVerticalLine'>|</span>&nbsp");
-        // .join("&nbsp<span class='vr tinyVerticalLine'></span>&nbsp");
-        // TODO try button
-
-        // TODO append or prepend?
-        targetTextMarking.appendChild(popover);
-        // targetTextMarking.insertBefore(document.createElement("div", ));
-
-        editor.innerHTML = htmlElement.innerHTML;
-        this.listenForMarkingSuggestionsSelection(textMarkingIndex);
-        this.addListenerForRemovingPopovers()
-    }
-
-    addListenerForRemovingPopovers() {
-        const that = this;
-        document.onclick = function (e) {
-            const htmlElement = e.target as HTMLElement;
-            if (htmlElement.id !== that.POPOVER_KEY && !htmlElement.classList.contains('spanToGenerateAPopover')) {
-                const popoverToRemove = document.getElementById(that.POPOVER_KEY);
-                if (popoverToRemove != null) {
-                    popoverToRemove.remove();
-                    that.listenForPopovers();
-                    document.onclick = null;
-                }
-            }
-        };
-    }
-
-    listenForMarkingSuggestionsSelection(textMarkingIndex: number) {
-        const popoverSuggestions = this.elementRef.nativeElement.querySelectorAll(".popoverSuggestion")
-        if (popoverSuggestions) {
-            popoverSuggestions.forEach((node: any, suggestionIndex: number) =>
-                node.addEventListener('click', this.chooseSuggestion.bind(this, textMarkingIndex, suggestionIndex)));
-        }
-    }
-
     editorHasText(): boolean {
         return document.getElementById(this.EDITOR_KEY)!.innerHTML !== this.LINE_BROKEN_PARAGRAPH;
     }
 
-    clearEditor() {
+    clearEditor(): void {
         document.getElementById(this.EDITOR_KEY)!.innerHTML = this.LINE_BROKEN_PARAGRAPH;
         this.processedText = undefined;
         this._updateCharacterAndWordCount();
@@ -381,7 +318,7 @@ export class AppComponent implements AfterViewInit {
         setTimeout(function () {
             copyToClipboardButton.classList.replace("bi-clipboard2-check", "bi-clipboard");
             copyToClipboardButton.style.color = "black";
-        }, this.TWO_SECONDS);
+        }, 2 * this.SECONDS);
     }
 
     toggleStoringOfWrittenTexts() {
@@ -390,7 +327,7 @@ export class AppComponent implements AfterViewInit {
 
     _focusOnMediaMatch(mediaMatch: any) {
         if (mediaMatch.matches) {
-            document.getElementById(this.EDITOR_KEY)!.focus();
+            document.getElementById(this.EDITOR_KEY)?.focus();
         }
     }
 
@@ -401,7 +338,7 @@ export class AppComponent implements AfterViewInit {
         this._updateCharacterAndWordCount();
     }
 
-    private _markEditor() {
+    private _markEditor(): void {
         const editor = document.getElementById(this.EDITOR_KEY)!;
 
         this.http.post(this.generateMarkingsURL, editor.innerText).subscribe(next => {
@@ -411,18 +348,38 @@ export class AppComponent implements AfterViewInit {
                 const depletableTextMarkings: TextMarking[] = Array.from(this.processedText.textMarkings);
                 this.savedSelection = this.saveSelection(editor);
                 editor.innerHTML = editor.innerText; // TODO remove me after paragraphs are introduced
-                markText(editor, depletableTextMarkings, [this.SPAN_TO_GENERATE_A_POPOVER_CLASS]);
+                markText(editor, depletableTextMarkings);
                 if (this.savedSelection) {
                     this.restoreSelection(editor, this.savedSelection);
                 }
-                this.listenForPopovers();
                 this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
             }
         });
     }
 
-    private _updateCharacterAndWordCount() {
+    private _updateCharacterAndWordCount(): void {
         this.updateCharacterCount();
         this.updateWordCount();
     }
+
+    private _handleWrittenTextRequest() {
+        if (this._hasStoppedTyping) {
+            this._subscribeToWrittenTextRequest();
+        }
+
+        this.makeWrittenTextRequest$.next();
+        this._hasStoppedTyping = false;
+    }
+
+    private _subscribeToWrittenTextRequest() {
+        this.makeWrittenTextRequest$.pipe(
+            switchMap(() => {
+                return interval(15 * this.SECONDS);
+            }), take(1)
+        ).subscribe(() => {
+            this.localStorageService.addNewWrittenText(document.getElementById(this.EDITOR_KEY)!.innerText);
+            this._hasStoppedTyping = true;
+        });
+    }
+
 }

@@ -24,12 +24,13 @@
                    class="list-group-item list-group-item-action mb-3" target="_blank" rel="noopener noreferrer">Rreth&nbsp;Nesh</a>
                 <a href="https://github.com/OpenCovenant/ink" role="button"
                    class="list-group-item list-group-item-action mb-3" target="_blank" rel="noopener noreferrer">Rreth&nbsp;penda</a>
+                <br>
             </div>
         </div>
     </div>
 
-    <div id="topzzz" style="display: flex; justify-content: space-between; gap: 1rem; flex: 1;">
-        <div id="inputo" class="inputText mt-5" style="flex: 0 0 60%; margin-left: 3rem;">
+    <div id="highLevelContainer" style="display: flex; justify-content: space-between; gap: 1rem; flex: 1;">
+        <div id="inputContainer" class="inputText mt-5" style="flex: 0 0 60%; margin-left: 3rem;">
             <div class="card border-secondary">
                 <div class="card-header" style="display: flex; justify-content: space-evenly;">
                     <button id="{{writeTextToggleButtonID}}" (click)="toggleWriteTextButton()" type="button"
@@ -56,7 +57,8 @@
                     </div>
                     <hr>
                     <div style="display: flex; justify-content: space-between; font-size: 0.8rem;">
-                        <span>{{characterCount}}&nbsp;{{characterCount === 1 ? 'karakter' : 'karaktere'}}&comma;&nbsp;{{wordCount}}&nbsp;fjalë&comma;&nbsp;{{processedText === undefined ? 0 : processedText!.textMarkings.length}}&nbsp;{{processedText !== undefined && processedText!.textMarkings.length === 1 ? 'shenjim' : 'shenjime'}}</span>
+                        <span
+                            style="display: flex; justify-content: center; align-content: center; flex-direction: column;">{{characterCount}}&nbsp;{{characterCount === 1 ? 'karakter' : 'karaktere'}}&comma;&nbsp;{{wordCount}}&nbsp;fjalë&comma;&nbsp;{{processedText === undefined ? 0 : processedText!.textMarkings.length}}&nbsp;{{processedText !== undefined && processedText!.textMarkings.length === 1 ? 'shenjim' : 'shenjime'}}</span>
                         <span><button id="copyToClipboardButton" (click)="copyToClipboard()" class="bi bi-clipboard"
                                       title="kopjo shkrimin"
                                       style="background: none; color: black; border: none; padding: 0; font-size: 1.25rem;"></button>&nbsp;&nbsp;&nbsp;&nbsp;<button
@@ -68,20 +70,18 @@
                 <div class="card-body" *ngIf="!displayWriteTextOrUploadDocumentFlag">
                     <div class="text-center">
                         <br>
-                        <h5 class="card-title">Mbështesim dokumenta <b>Word</b>, <b>PDF</b>.</h5>
-                        <p class="card-text">Së shpejti dhe <b>Libre</b>.</p>
+                        <h5 class="card-title">Mbështesim dokumenta <b>Word</b>, <b>PDF</b>, <b>Libre</b>.</h5>
                         <br>
                         <label for="documentUploadingHiddenInput" class="btn btn-primary">SHTYP&nbsp;KËTU&nbsp;<i
                             class="bi bi-file-text"></i></label>
                         <input id="documentUploadingHiddenInput" type="file" (change)="uploadDocument($event)"
-                               placeholder="SHTYP KËTU" accept=".pdf,.doc,.docx" style="display:none;"> <!--TODO-->
-                        <!-- ,.doc,.docx,.odt-->
+                               placeholder="SHTYP KËTU" accept=".pdf,.doc,.docx,.odt" style="display:none;">
                     </div>
                     <br>
                 </div>
             </div>
         </div>
-        <div id="outputo" class="outputTexts mt-5" style="flex: 0 0 30%; margin-right: 3rem;">
+        <div id="outputContainer" class="outputTexts mt-5" style="flex: 0 0 30%; margin-right: 3rem;">
             <div *ngIf="processedText === undefined || processedText!.textMarkings.length === 0">
                 <div class="card border-secondary">
                     <div class="card-header" style="display: flex; justify-content: space-between;">
@@ -91,7 +91,7 @@
                         </div>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><b>pa gabime</b> - <span>këtu do shikosh shenjime për fjalë të shkruara gabim, apo edhe shenja pikësimi</span>
+                        <li class="list-group-item"><b>shkrim pa gabime</b> - <span>shenjime për fjalë të shkruara gabim, gabime fonetikore, shenja pikësimi</span>
                         </li>
                     </ul>
                 </div>
@@ -103,7 +103,7 @@
                         </div>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><b>vetëm shqip për tani</b> - <span>mund të hasësh shenjime për huazime jo të standardizuara</span>
+                        <li class="list-group-item"><b>pa huazime për tani</b> - <span>shenjime për huazime me origjinë italiane, angleze, sllave, gjermane, otomane, greke</span>
                         </li>
                     </ul>
                 </div>
@@ -115,7 +115,8 @@
                         </div>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><b>asnjë shenjim deri më kaq</b> - <span>mbase prit për shembull për fjali tepër të gjata</span>
+                        <li class="list-group-item"><b>stilistikë e duhur</b> -
+                            <span>shenjime për fjali tepër të gjata</span>
                         </li>
                     </ul>
                 </div>
@@ -124,10 +125,12 @@
             <div *ngFor="let textMarking of processedText?.textMarkings; index as i"
                  class="card border-secondary {{i > 0 ? 'mt-2':''}}">
                 <div class="card-header" style="display: flex; justify-content: space-between;">
-                    <div>
+                    <div
+                        style="display: grid; grid-template-columns: auto 1fr; grid-template-rows: inherit; max-width: 80%;">
                         <span
                             class="{{textMarking.type}}"
-                            style="display: inline-block; padding: 3px 6px; border-radius: 4px; color: black;">{{processedText?.text?.slice(textMarking.from, textMarking.to)}}</span>
+                            style="display: inline-block; padding: 3px 6px; border-radius: 4px; color: black; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"
+                        >{{processedText?.text?.slice(textMarking.from, textMarking.to)}}</span>
                     </div>
                     <div>
                         <button (click)="deleteTextMarking(i)" class="btn btn-outline-danger btn-sm">HIQ&nbsp;<i
@@ -189,8 +192,9 @@
                     </div>
                     <br>
                     <div *ngFor="let writtenText of localStorageService.fetchWrittenTextsHistory();" class="list-group">
-                        <button (click)="placeWrittenText(writtenText)" type="button"
-                                class="list-group-item list-group-item-action">{{writtenText}}</button>
+                        <p id="writtenText" (click)="placeWrittenText(writtenText)" type="button"
+                           style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; border: 1px solid lightgray; border-radius: 5px; padding: 5px;"
+                        >{{writtenText}}</p>
                         <br>
                     </div>
                 </div>
@@ -205,6 +209,9 @@
 
     <div class="page-footer text-center text-white" style="background-color: #E9E9E9;">
         <footer>
+            <div style="color: #444444; padding-top: 10px; font-size: 15px;">Për gabime të pendës dërgoni një email duke
+                shpjeguar gabimin tek opencovenant@outlook.com
+            </div>
             <div class="container">
                 <section><a href="https://github.com/OpenCovenant/ink" role="button"
                             class="btn btn-link btn-floating text-dark m-1" target="_blank" rel="noopener noreferrer"
