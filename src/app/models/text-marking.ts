@@ -1,6 +1,7 @@
 import {Suggestion} from "./suggestion";
 
 export interface TextMarking {
+    id?: string;
     from: number;
     to: number;
     type: string;
