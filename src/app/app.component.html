@@ -43,7 +43,7 @@
                 </div>
                 <div class="card-body" *ngIf="displayWriteTextOrUploadDocumentFlag">
                     <div style="display: flex;">
-                        <div id="editor" contenteditable="true" (input)="onTextChange($event)"
+                        <div id="editor" contenteditable="true" (keyup)="onTextChange($event)"
                              (paste)="onTextPaste($event)" [innerHTML]="innerHTMLOfEditor" spellcheck="false"
                              autocapitalize="off" role="textbox"
                              data-placeholder="Shkruaj këtu ose ngarko një dokument." aria-multiline="true"
@@ -127,10 +127,9 @@
                 <div class="card-header" style="display: flex; justify-content: space-between;">
                     <div
                         style="display: grid; grid-template-columns: auto 1fr; grid-template-rows: inherit; max-width: 80%;">
-                        <span
-                            class="{{textMarking.type}}"
-                            style="display: inline-block; padding: 3px 6px; border-radius: 4px; color: black; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"
-                        >{{processedText?.text?.slice(textMarking.from, textMarking.to)}}</span>
+                        <span class="{{textMarking.type}}"
+                              style="display: inline-block; padding: 3px 6px; border-radius: 4px; color: black; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"
+                        >{{getTextOfTextMarking(i)}}</span>
                     </div>
                     <div>
                         <button (click)="deleteTextMarking(i)" class="btn btn-outline-danger btn-sm">HIQ&nbsp;<i

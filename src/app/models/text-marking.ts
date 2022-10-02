@@ -7,4 +7,5 @@ export interface TextMarking {
     subtype: string;
     description: string;
     suggestions: Array<Suggestion>;
+    paragraph: number; // TODO I don't like this...
 }

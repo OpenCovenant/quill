@@ -21,7 +21,6 @@ export class AppComponent implements AfterViewInit {
     EDITOR_KEY: string = 'editor';
     POPOVER_KEY: string = 'popover';
     LINE_BROKEN_PARAGRAPH: string = '<p><br></p>';
-    SPAN_TO_GENERATE_A_POPOVER_CLASS = 'spanToGenerateAPopover';
     TWO_SECONDS: number = 2000;
 
     private _hasStoppedTyping: boolean = true; // stopped typing after some seconds
@@ -58,7 +57,7 @@ export class AppComponent implements AfterViewInit {
 
     initializeURLs() {
         this.baseURL = environment.baseURL;
-        this.generateMarkingsURL = this.baseURL + '/api/generateMarkings';
+        this.generateMarkingsURL = this.baseURL + '/api/generateMarkingsForParagraphs';
         this.uploadDocumentURL = this.baseURL + '/api/uploadDocument';
         this.pingURL = this.baseURL + '/api/ping';
     }
@@ -75,7 +74,7 @@ export class AppComponent implements AfterViewInit {
             writeTextToggleButton?.classList.remove('btnUnselected');
             writeTextToggleButton?.classList.add('active', 'btn-secondary');
 
-            if (this.innerHTMLOfEditor === this.EMPTY_STRING) { // in the scenario that a file has been uploaded
+            if (this.innerHTMLOfEditor === this.LINE_BROKEN_PARAGRAPH) { // in the scenario that a file has been uploaded
                 this.processedText = undefined;
             }
 
@@ -103,9 +102,11 @@ export class AppComponent implements AfterViewInit {
 
     onTextChange($event: any) {
         this._updateCharacterAndWordCount();
+        // alert('here')
         const onTextPaste: boolean = $event.inputType === ''; // TODO use an alternative to (input) to begin with
+        // TODO ketu mund te besh ca gjera te tjera
         if (this.stoppedTypingAWord() || onTextPaste) {
-            this._markEditor();
+            this._markEditor($event);
         }
         this._handleWrittenTextRequest();
     }
@@ -162,7 +163,7 @@ export class AppComponent implements AfterViewInit {
             this.http.post(this.uploadDocumentURL, formData).subscribe(next => {
                 this.processedText = next as ProcessedText;
                 this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
-                this.innerHTMLOfEditor = this.EMPTY_STRING; // TODO careful with the <br> here
+                this.innerHTMLOfEditor = this.LINE_BROKEN_PARAGRAPH; // TODO careful with the <br> here
             });
         } else {
             alert("Ngarko vetëm një dokument!")
@@ -338,19 +339,38 @@ export class AppComponent implements AfterViewInit {
         this._updateCharacterAndWordCount();
     }
 
-    private _markEditor(): void {
+    private _markEditor($event: any = undefined): void {
+        console.log('times')
         const editor = document.getElementById(this.EDITOR_KEY)!;
 
-        this.http.post(this.generateMarkingsURL, editor.innerText).subscribe(next => {
+        this.http.post(this.generateMarkingsURL, editor.innerHTML).subscribe(next => {
             this.processedText = next as ProcessedText;
             if (this.processedText?.textMarkings.length != 0) {
                 this.processedText.textMarkings = sortTextMarkings(this.processedText.textMarkings);
-                const depletableTextMarkings: TextMarking[] = Array.from(this.processedText.textMarkings);
+                const depletableTextMarkings = Array.from(this.processedText.textMarkings);
                 this.savedSelection = this.saveSelection(editor);
-                editor.innerHTML = editor.innerText; // TODO remove me after paragraphs are introduced
-                markText(editor, depletableTextMarkings);
+                // editor.innerHTML = editor.innerText; // TODO remove me after paragraphs are introduced
+                // markText(editor, depletableTextMarkings);
+
+                // const htmlElement: HTMLBodyElement = new DOMParser().parseFromString(editor.innerHTML, "text/html")
+                //     .firstChild!.lastChild! as HTMLBodyElement;
+
+                editor.childNodes.forEach((childNode: ChildNode, index: number) => {
+                    const p = document.createElement('p');
+                    p.innerHTML = childNode.textContent!;
+                    if (childNode.textContent === this.EMPTY_STRING) {
+                        p.innerHTML = "<br>"
+                    }
+                    editor.replaceChild(p, childNode);
+                    markText(p, depletableTextMarkings.filter((tm: TextMarking) => tm.paragraph === index));
+                });
                 if (this.savedSelection) {
-                    this.restoreSelection(editor, this.savedSelection);
+                    // console.log($event!.data === null)
+                    if ($event!.data === null) {
+                        // alert('enter')
+                    } else {
+                        this.restoreSelection(editor, this.savedSelection);
+                    }
                 }
                 this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
             }
@@ -382,4 +402,11 @@ export class AppComponent implements AfterViewInit {
         });
     }
 
+    getTextOfTextMarking(i: number) {
+        const editor = document.getElementById(this.EDITOR_KEY)!;
+
+        const textMarking: TextMarking = this.processedText!.textMarkings[i];
+
+        return editor.childNodes[textMarking.paragraph].textContent!.slice(textMarking.from, textMarking.to);
+    }
 }
