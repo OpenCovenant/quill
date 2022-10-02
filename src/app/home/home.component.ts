@@ -11,7 +11,7 @@ import {markText, sortTextMarkings} from "../text-marking/text-marking";
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
-    styleUrls: ['../app.component.css'],
+    styleUrls: ['./home.component.css'],
     encapsulation: ViewEncapsulation.None
 })
 export class HomeComponent implements AfterViewInit {
@@ -20,7 +20,6 @@ export class HomeComponent implements AfterViewInit {
     EDITOR_KEY: string = 'editor';
     POPOVER_KEY: string = 'popover';
     LINE_BROKEN_PARAGRAPH: string = '<p><br></p>';
-    SPAN_TO_GENERATE_A_POPOVER_CLASS = 'spanToGenerateAPopover';
     TWO_SECONDS: number = 2000;
 
     private _hasStoppedTyping: boolean = true; // stopped typing after some seconds

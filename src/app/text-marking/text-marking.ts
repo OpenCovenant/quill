@@ -2,12 +2,6 @@ import {TextMarking} from "../models/text-marking";
 
 const SPAN_TAG = 'span';
 
-export function markParagraph(textMarkings: TextMarking[], additionalClasses: string[] = []): HTMLParagraphElement {
-    const node = document.createElement('p');
-    markText(node, textMarkings, additionalClasses);
-    return node;
-}
-
 /// requires the markings to be ordered ASC by "from" and DESC by "to"
 export function markText(node: HTMLElement, textMarkings: TextMarking[], additionalClasses: string[] = []): void {
     const childNodes = node.childNodes;
