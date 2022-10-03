@@ -101,15 +101,9 @@ export class AppComponent implements AfterViewInit {
         }
     }
 
-    onTextChange($event: any) {
+    onTextChange($event: KeyboardEvent) {
         this._updateCharacterAndWordCount();
-        // // TODO address this again
-        // const onTextPaste: boolean = $event.inputType === ''; // TODO use an alternative to (input) to begin with
-        // TODO ketu mund te besh ca gjera te tjera
-
-        // TODO do not trigger on some key ups, e.g. arrows
-        const ARROW_KEY_CODES = [37, 38, 39, 40];
-        if (this.stoppedTypingAWord() && !ARROW_KEY_CODES.includes($event.keyCode)) {  //  || onTextPaste)
+        if (this.shouldMarkEditor($event)) {
             this._markEditor($event);
         }
         this._handleWrittenTextRequest();
@@ -146,18 +140,15 @@ export class AppComponent implements AfterViewInit {
         }
     }
 
-    stoppedTypingAWord() {
-        // TODO this list should probably be moved somewhere, and adapted accordingly
-        const WORD_TERMINATING_CHARACTER_CODES = [10 /*\n*/, 33 /*!*/, 34 /*"*/, 38 /*&*/, 40 /*(*/, 41 /*)*/, 44 /*,*/,
-            46 /*.*/, 47 /*/*/, 58 /*:*/, 59 /*;*/, 63 /*?*/, 92 /*\*/, 160 /* */, 171 /*«*/, 187/*»*/, 8220 /*“*/,
-            8221 /*”*/, 8230 /*…*/];
-        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
-        const lastCharacterCode = editor.innerText.charCodeAt(editor.innerText.length - 1);
-        const stoppedTyping: boolean = WORD_TERMINATING_CHARACTER_CODES.includes(lastCharacterCode);
 
-        const deleted: boolean = false; // $event.key === 'Backspace' || $event.key === 'Delete';
-
-        return stoppedTyping || deleted;
+    // TODO there's also the paste to be considered
+    shouldMarkEditor($event: KeyboardEvent) {
+        /**
+         * Considers the lastly (timewise) typed character.
+         */
+        const TRIGGERS = ['.', '!', '?', ',', '…', 'Enter', 'Backspace', 'Delete', ' ', ':', ';', '"', '“', '”', '&',
+            '(', ')', '/', '\'', '«', '»']; // should this constant be moved somewhere?
+        return TRIGGERS.includes($event.key);
     }
 
     uploadDocument($event: any) {
@@ -383,8 +374,8 @@ export class AppComponent implements AfterViewInit {
                 });
 
                 if (this.savedSelection) {
-                    const ALLOWED_KEY_CODES = [9, 13];
-                    if (!ALLOWED_KEY_CODES.includes($event.keyCode)) {
+                    const ALLOWED_KEY_CODES = ['Enter', 'Tab'];  // TODO can't trigger Tab for now
+                    if (!ALLOWED_KEY_CODES.includes($event.key)) {
                         this.restoreSelection(editor, this.savedSelection);
                     }
                 }
