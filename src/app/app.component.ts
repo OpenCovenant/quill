@@ -103,7 +103,6 @@ export class AppComponent implements AfterViewInit {
 
     onTextChange($event: any) {
         this._updateCharacterAndWordCount();
-        console.log($event.inputType)
         // // TODO address this again
         // const onTextPaste: boolean = $event.inputType === ''; // TODO use an alternative to (input) to begin with
         // TODO ketu mund te besh ca gjera te tjera
@@ -111,7 +110,6 @@ export class AppComponent implements AfterViewInit {
         // TODO do not trigger on some key ups, e.g. arrows
         const ARROW_KEY_CODES = [37, 38, 39, 40];
         if (this.stoppedTypingAWord() && !ARROW_KEY_CODES.includes($event.keyCode)) {  //  || onTextPaste)
-            console.log('marking...')
             this._markEditor($event);
         }
         this._handleWrittenTextRequest();
@@ -202,7 +200,6 @@ export class AppComponent implements AfterViewInit {
 
         this.http.post(this.generateMarkingsURL, editor.innerHTML).subscribe(next => {
             this.processedText = next as ProcessedText;
-            console.log(this.processedText.textMarkings);
 
             if (this.processedText?.textMarkings.length != 0) {
                 this.processedText.textMarkings = sortParagraphedTextMarkings(this.processedText.textMarkings);
