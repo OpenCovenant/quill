@@ -5,7 +5,7 @@ import {interval, Subject, switchMap, take} from "rxjs";
 import {ProcessedText} from "./models/processed-text";
 import {TextMarking} from "./models/text-marking";
 import {environment} from "../environments/environment";
-import {markText, sortTextMarkings} from "./text-marking/text-marking";
+import {markText, sortParagraphedTextMarkings} from "./text-marking/text-marking";
 import {LocalStorageService} from "./local-storage/local-storage.service";
 
 @Component({
@@ -20,6 +20,7 @@ export class AppComponent implements AfterViewInit {
     private EMPTY_STRING: string = "";
     EDITOR_KEY: string = 'editor';
     POPOVER_KEY: string = 'popover';
+    LINE_BREAK = '<br>';
     LINE_BROKEN_PARAGRAPH: string = '<p><br></p>';
     TWO_SECONDS: number = 2000;
 
@@ -102,10 +103,15 @@ export class AppComponent implements AfterViewInit {
 
     onTextChange($event: any) {
         this._updateCharacterAndWordCount();
-        // alert('here')
-        const onTextPaste: boolean = $event.inputType === ''; // TODO use an alternative to (input) to begin with
+        console.log($event.inputType)
+        // // TODO address this again
+        // const onTextPaste: boolean = $event.inputType === ''; // TODO use an alternative to (input) to begin with
         // TODO ketu mund te besh ca gjera te tjera
-        if (this.stoppedTypingAWord() || onTextPaste) {
+
+        // TODO do not trigger on some key ups, e.g. arrows
+        const ARROW_KEY_CODES = [37, 38, 39, 40];
+        if (this.stoppedTypingAWord() && !ARROW_KEY_CODES.includes($event.keyCode)) {  //  || onTextPaste)
+            console.log('marking...')
             this._markEditor($event);
         }
         this._handleWrittenTextRequest();
@@ -120,6 +126,8 @@ export class AppComponent implements AfterViewInit {
         document.execCommand("insertText", false, text);
 
         this.localStorageService.addNewWrittenText(text);
+
+        this._markEditor();
     }
 
     updateCharacterCount() {
@@ -177,26 +185,44 @@ export class AppComponent implements AfterViewInit {
         }
 
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
-        const writtenText = editor.innerText;
-        const textMarking: TextMarking = this.processedText!.textMarkings[textMarkingIndex];
 
+        const textMarking: TextMarking = this.processedText!.textMarkings[textMarkingIndex];
+        const childNode: ChildNode = editor.childNodes[textMarking.paragraph!];
+        const p = document.createElement('p');
+
+        const writtenText = childNode.textContent!;
         const leftWrittenText = writtenText.slice(0, textMarking.from);
         const rightWrittenText = writtenText.slice(textMarking.to, writtenText.length);
 
-        const modifiedWrittenText = leftWrittenText + textMarking.suggestions[suggestionIndex].action + rightWrittenText;
+        p.innerHTML = leftWrittenText + textMarking.suggestions[suggestionIndex].action + rightWrittenText;
+        if (childNode.textContent === this.EMPTY_STRING) {
+            p.innerHTML = this.LINE_BREAK
+        }
+        editor.replaceChild(p, childNode); // TODO keep in mind that this nullifies other markings in this p as well
 
-        this.http.post(this.generateMarkingsURL, modifiedWrittenText).subscribe(next => {
+        this.http.post(this.generateMarkingsURL, editor.innerHTML).subscribe(next => {
             this.processedText = next as ProcessedText;
+            console.log(this.processedText.textMarkings);
 
             if (this.processedText?.textMarkings.length != 0) {
-                this.processedText.textMarkings = sortTextMarkings(this.processedText.textMarkings);
+                this.processedText.textMarkings = sortParagraphedTextMarkings(this.processedText.textMarkings);
                 const depletableTextMarkings: TextMarking[] = Array.from(this.processedText.textMarkings);
                 this.savedSelection = this.saveSelection(editor);
-                editor.innerHTML = modifiedWrittenText;
-                markText(editor, depletableTextMarkings);
+
+                editor.childNodes.forEach((childNode: ChildNode, index: number) => {
+                    const p = document.createElement('p');
+                    p.innerHTML = childNode.textContent!;
+                    if (childNode.textContent === this.EMPTY_STRING) {
+                        p.innerHTML = this.LINE_BREAK
+                    }
+                    editor.replaceChild(p, childNode);
+                    markText(p, depletableTextMarkings.filter((tm: TextMarking) => tm.paragraph === index));
+                });
+
+                // TODO editor or childNode here? I guess we have to do the whole thing always...
+                // markText(editor, depletableTextMarkings.filter((tm: TextMarking) => tm.paragraph === textMarking.paragraph!));
             } else {
                 this.savedSelection = this.saveSelection(editor);
-                editor.innerHTML = modifiedWrittenText;
             }
 
             if (this.savedSelection) {
@@ -340,35 +366,28 @@ export class AppComponent implements AfterViewInit {
     }
 
     private _markEditor($event: any = undefined): void {
-        console.log('times')
-        const editor = document.getElementById(this.EDITOR_KEY)!;
+        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
 
         this.http.post(this.generateMarkingsURL, editor.innerHTML).subscribe(next => {
             this.processedText = next as ProcessedText;
             if (this.processedText?.textMarkings.length != 0) {
-                this.processedText.textMarkings = sortTextMarkings(this.processedText.textMarkings);
+                this.processedText.textMarkings = sortParagraphedTextMarkings(this.processedText.textMarkings);
                 const depletableTextMarkings = Array.from(this.processedText.textMarkings);
                 this.savedSelection = this.saveSelection(editor);
-                // editor.innerHTML = editor.innerText; // TODO remove me after paragraphs are introduced
-                // markText(editor, depletableTextMarkings);
-
-                // const htmlElement: HTMLBodyElement = new DOMParser().parseFromString(editor.innerHTML, "text/html")
-                //     .firstChild!.lastChild! as HTMLBodyElement;
 
                 editor.childNodes.forEach((childNode: ChildNode, index: number) => {
                     const p = document.createElement('p');
                     p.innerHTML = childNode.textContent!;
                     if (childNode.textContent === this.EMPTY_STRING) {
-                        p.innerHTML = "<br>"
+                        p.innerHTML = this.LINE_BREAK
                     }
                     editor.replaceChild(p, childNode);
                     markText(p, depletableTextMarkings.filter((tm: TextMarking) => tm.paragraph === index));
                 });
+
                 if (this.savedSelection) {
-                    // console.log($event!.data === null)
-                    if ($event!.data === null) {
-                        // alert('enter')
-                    } else {
+                    const ALLOWED_KEY_CODES = [9, 13];
+                    if (!ALLOWED_KEY_CODES.includes($event.keyCode)) {
                         this.restoreSelection(editor, this.savedSelection);
                     }
                 }
@@ -407,6 +426,6 @@ export class AppComponent implements AfterViewInit {
 
         const textMarking: TextMarking = this.processedText!.textMarkings[i];
 
-        return editor.childNodes[textMarking.paragraph].textContent!.slice(textMarking.from, textMarking.to);
+        return editor.childNodes[textMarking.paragraph!].textContent!.slice(textMarking.from, textMarking.to);
     }
 }
