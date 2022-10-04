@@ -21,8 +21,7 @@ export class AppComponent implements AfterViewInit {
     EDITOR_KEY: string = 'editor';
     POPOVER_KEY: string = 'popover';
     LINE_BREAK = '<br>';
-    LINE_BROKEN_PARAGRAPH: string = '<p><br></p>';
-    TWO_SECONDS: number = 2000;
+    LINE_BROKEN_PARAGRAPH: string = '<p>' + this.LINE_BREAK + '</p>';
 
     private _hasStoppedTyping: boolean = true; // stopped typing after some seconds
     writeTextToggleButtonID: string = 'writeTextToggleButton'
@@ -40,7 +39,7 @@ export class AppComponent implements AfterViewInit {
     shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
     makeWrittenTextRequest$ = new Subject<void>();
 
-    constructor(public localStorageService: LocalStorageService, private http: HttpClient, private elementRef: ElementRef) {
+    constructor(public localStorageService: LocalStorageService, private http: HttpClient) {
         this.initializeURLs();
         // should any other call be made here? probably not... actually even this should be removed soon
         this.http.get(this.pingURL).subscribe(() => {
@@ -144,10 +143,10 @@ export class AppComponent implements AfterViewInit {
     // TODO there's also the paste to be considered
     shouldMarkEditor($event: KeyboardEvent) {
         /**
-         * Considers the lastly (timewise) typed character.
+         * Considers the lastly (time-wise) typed character.
          */
         const TRIGGERS = ['.', '!', '?', ',', '…', 'Enter', 'Backspace', 'Delete', ' ', ':', ';', '"', '“', '”', '&',
-            '(', ')', '/', '\'', '«', '»']; // should this constant be moved somewhere?
+            '(', ')', '/', '\'', '«', '»'];
         return TRIGGERS.includes($event.key);
     }
 
@@ -375,7 +374,8 @@ export class AppComponent implements AfterViewInit {
 
                 if (this.savedSelection) {
                     const ALLOWED_KEY_CODES = ['Enter', 'Tab'];  // TODO can't trigger Tab for now
-                    if (!ALLOWED_KEY_CODES.includes($event.key)) {
+                    // it appears that $event is undefined for the paste operation (Ctrl + Z)
+                    if ($event !== undefined && !ALLOWED_KEY_CODES.includes($event.key)) {
                         this.restoreSelection(editor, this.savedSelection);
                     }
                 }
