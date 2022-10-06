@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, ElementRef, ViewEncapsulation} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {interval, Subject, switchMap, take} from "rxjs";
+import {BehaviorSubject, finalize, interval, Subject, switchMap, take} from "rxjs";
 
 import {ProcessedText} from "./models/processed-text";
 import {TextMarking} from "./models/text-marking";
@@ -38,6 +38,7 @@ export class AppComponent implements AfterViewInit {
     innerHTMLOfEditor: any = this.LINE_BROKEN_PARAGRAPH;
     shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
     makeWrittenTextRequest$ = new Subject<void>();
+    loading$ = new BehaviorSubject<boolean>(false);
 
     constructor(public localStorageService: LocalStorageService, private http: HttpClient) {
         this.initializeURLs();
@@ -355,33 +356,36 @@ export class AppComponent implements AfterViewInit {
     private _markEditor($event: any = undefined): void {
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
 
-        this.http.post(this.generateMarkingsURL, editor.innerHTML).subscribe(next => {
-            this.processedText = next as ProcessedText;
-            if (this.processedText?.textMarkings.length != 0) {
-                this.processedText.textMarkings = sortParagraphedTextMarkings(this.processedText.textMarkings);
-                const depletableTextMarkings = Array.from(this.processedText.textMarkings);
-                this.savedSelection = this.saveSelection(editor);
+        this.loading$.next(true);
+        this.http.post(this.generateMarkingsURL, editor.innerHTML)
+            .pipe(finalize(() => this.loading$.next(false)))
+            .subscribe(next => {
+                this.processedText = next as ProcessedText;
+                if (this.processedText?.textMarkings.length != 0) {
+                    this.processedText.textMarkings = sortParagraphedTextMarkings(this.processedText.textMarkings);
+                    const depletableTextMarkings = Array.from(this.processedText.textMarkings);
+                    this.savedSelection = this.saveSelection(editor);
 
-                editor.childNodes.forEach((childNode: ChildNode, index: number) => {
-                    const p = document.createElement('p');
-                    p.innerHTML = childNode.textContent!;
-                    if (childNode.textContent === this.EMPTY_STRING) {
-                        p.innerHTML = this.LINE_BREAK
-                    }
-                    editor.replaceChild(p, childNode);
-                    markText(p, depletableTextMarkings.filter((tm: TextMarking) => tm.paragraph === index));
-                });
+                    editor.childNodes.forEach((childNode: ChildNode, index: number) => {
+                        const p = document.createElement('p');
+                        p.innerHTML = childNode.textContent!;
+                        if (childNode.textContent === this.EMPTY_STRING) {
+                            p.innerHTML = this.LINE_BREAK
+                        }
+                        editor.replaceChild(p, childNode);
+                        markText(p, depletableTextMarkings.filter((tm: TextMarking) => tm.paragraph === index));
+                    });
 
-                if (this.savedSelection) {
-                    const ALLOWED_KEY_CODES = ['Enter', 'Tab'];  // TODO can't trigger Tab for now
-                    // it appears that $event is undefined for the paste operation (Ctrl + Z)
-                    if ($event !== undefined && !ALLOWED_KEY_CODES.includes($event.key)) {
-                        this.restoreSelection(editor, this.savedSelection);
+                    if (this.savedSelection) {
+                        const ALLOWED_KEY_CODES = ['Enter', 'Tab'];  // TODO can't trigger Tab for now
+                        // it appears that $event is undefined for the paste operation (Ctrl + Z)
+                        if ($event !== undefined && !ALLOWED_KEY_CODES.includes($event.key)) {
+                            this.restoreSelection(editor, this.savedSelection);
+                        }
                     }
+                    this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
                 }
-                this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
-            }
-        });
+            });
     }
 
     private _updateCharacterAndWordCount(): void {
