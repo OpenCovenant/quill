@@ -120,6 +120,7 @@ export class AppComponent implements AfterViewInit {
         this.localStorageService.addNewWrittenText(text);
 
         this._markEditor();
+        this._updateCharacterAndWordCount();
     }
 
     updateCharacterCount() {
