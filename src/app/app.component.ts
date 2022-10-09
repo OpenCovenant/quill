@@ -124,6 +124,11 @@ export class AppComponent implements AfterViewInit {
     }
 
     updateCharacterCount() {
+        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
+        // for the scenario of the default text being <p><br></p> and this method being triggered by shift, ctrl, ...
+        if (editor.innerText.length === 1 && editor.innerText.charCodeAt(0) === 10) {
+            return;
+        }
         this.characterCount = document.getElementById(this.EDITOR_KEY)!.innerText.length;
     }
 
