@@ -4,7 +4,7 @@ const SPAN_TAG = 'span';
 
 
 /// requires the markings to be ordered ASC by "from" and DESC by "to"
-export function markText(node: HTMLElement, textMarkings: TextMarking[], additionalClasses: string[] = []) {
+export function markText(node: HTMLElement, textMarkings: TextMarking[], additionalClasses: string[] = [], replaceSpacesWithNBSP = true) {
     const childNodes = node.childNodes;
     while (0 < textMarkings.length) {
         let traversalIndex: number = 0;
@@ -50,7 +50,13 @@ export function markText(node: HTMLElement, textMarkings: TextMarking[], additio
                 if (relativeLeft <= relativeFrom && relativeRight >= relativeTo) {
                     const newNode = document.createElement(SPAN_TAG);
                     newNode.classList.add(...additionalClasses, textMarking.type);
-                    newNode.textContent = currentTextContent.slice(relativeFrom, relativeTo);
+                    let newTextContent = currentTextContent.slice(relativeFrom, relativeTo);
+                    if (replaceSpacesWithNBSP && newTextContent.trim().length === 0) {
+                        // TODO improve the following two lines, use the g flag?
+                        const occurrences = newTextContent.length;
+                        newTextContent = newTextContent.replace(" ".repeat(occurrences), "&nbsp;".repeat(occurrences))
+                    }
+                    newNode.innerHTML = newTextContent;
                     newNodes.push(newNode)
                 }
 
