@@ -6,9 +6,9 @@ import {FormsModule} from "@angular/forms";
 import {AppComponent} from './app.component';
 import {MarkingDetailsComponent} from './marking-details/marking-details.component';
 import {AppRoutingModule} from "./app-routing.module";
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
-import { HomeComponent } from './home/home.component';
+import {HeaderComponent} from './header/header.component';
+import {FooterComponent} from './footer/footer.component';
+import {HomeComponent} from './home/home.component';
 
 @NgModule({
     declarations: [
