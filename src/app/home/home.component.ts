@@ -366,30 +366,28 @@ export class HomeComponent implements AfterViewInit {
             .pipe(finalize(() => this.loading$.next(false)))
             .subscribe(next => {
                 this.processedText = next as ProcessedText;
-                if (this.processedText?.textMarkings.length != 0) {
-                    this.processedText.textMarkings = sortParagraphedTextMarkings(this.processedText.textMarkings);
-                    const depletableTextMarkings = Array.from(this.processedText.textMarkings);
-                    this.savedSelection = this.saveSelection(editor);
+                this.processedText.textMarkings = sortParagraphedTextMarkings(this.processedText.textMarkings);
+                const depletableTextMarkings = Array.from(this.processedText.textMarkings);
+                this.savedSelection = this.saveSelection(editor);
 
-                    editor.childNodes.forEach((childNode: ChildNode, index: number) => {
-                        const p = document.createElement('p');
-                        p.innerHTML = childNode.textContent!;
-                        if (childNode.textContent === this.EMPTY_STRING) {
-                            p.innerHTML = this.LINE_BREAK
-                        }
-                        editor.replaceChild(p, childNode);
-                        markText(p, depletableTextMarkings.filter((tm: TextMarking) => tm.paragraph === index));
-                    });
-
-                    if (this.savedSelection) {
-                        const ALLOWED_KEY_CODES = ['Enter', 'Tab'];  // TODO can't trigger Tab for now
-                        // it appears that $event is undefined for the paste operation (Ctrl + Z)
-                        if ($event !== undefined && !ALLOWED_KEY_CODES.includes($event.key)) {
-                            this.restoreSelection(editor, this.savedSelection);
-                        }
+                editor.childNodes.forEach((childNode: ChildNode, index: number) => {
+                    const p = document.createElement('p');
+                    p.innerHTML = childNode.textContent!;
+                    if (childNode.textContent === this.EMPTY_STRING) {
+                        p.innerHTML = this.LINE_BREAK
                     }
-                    this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
+                    editor.replaceChild(p, childNode);
+                    markText(p, depletableTextMarkings.filter((tm: TextMarking) => tm.paragraph === index));
+                });
+
+                if (this.savedSelection) {
+                    const ALLOWED_KEY_CODES = ['Enter', 'Tab'];  // TODO can't trigger Tab for now
+                    // it appears that $event is undefined for the paste operation (Ctrl + Z)
+                    if ($event !== undefined && !ALLOWED_KEY_CODES.includes($event.key)) {
+                        this.restoreSelection(editor, this.savedSelection);
+                    }
                 }
+                this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
             });
     }
 
