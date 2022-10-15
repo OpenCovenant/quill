@@ -4,7 +4,7 @@ const SPAN_TAG = 'span';
 
 
 /// requires the markings to be ordered ASC by "from" and DESC by "to"
-export function markText(node: HTMLElement, textMarkings: TextMarking[], additionalClasses: string[] = [], replaceSpacesWithNBSP = true) {
+export function markText(node: HTMLElement, textMarkings: TextMarking[], additionalClasses: string[] = [], replaceSpacesWithNBSP = true): void {
     const childNodes = node.childNodes;
     while (0 < textMarkings.length) {
         let traversalIndex: number = 0;
@@ -76,7 +76,7 @@ export function markText(node: HTMLElement, textMarkings: TextMarking[], additio
 }
 
 
-/// ASC by "from" and DESC by "to"
+/// ASC by "paragraph", "from" and DESC by "to"
 export function sortParagraphedTextMarkings(textMarkings: Array<TextMarking>): Array<TextMarking> {
     return textMarkings.sort((tM: TextMarking, otherTM: TextMarking) => {
         if (tM.paragraph! > otherTM.paragraph!) {
@@ -96,7 +96,6 @@ export function sortParagraphedTextMarkings(textMarkings: Array<TextMarking>): A
         }
     });
 }
-
 
 /// ASC by "from" and DESC by "to"
 export function sortTextMarkings(textMarkings: Array<TextMarking>): Array<TextMarking> {
