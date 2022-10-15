@@ -109,7 +109,11 @@
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <b>{{textMarking.subtype}}</b> - <span>{{textMarking.description}}</span>
+                    <div style="display: flex;">
+                        <div><b>{{textMarking.subtype}}</b> - <span>{{textMarking.description}}</span></div>
+                        <div><i class="bi bi-info-circle" routerLink="{{textMarking.id}}"
+                                style="font-size: 20px; color: #484848; cursor: pointer;"></i></div>
+                    </div>
                     <span *ngIf="textMarking.suggestions.length > 0">
                                 <div id="suggestions" style="display: flex;  flex-wrap: wrap; align-content: stretch;
                                       justify-content: center; gap: 1rem;">
