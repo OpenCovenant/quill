@@ -69,6 +69,27 @@ export function markText(node: HTMLElement, textMarkings: TextMarking[], additio
 }
 
 
+/// ASC by "paragraph", "from" and DESC by "to"
+export function sortParagraphedTextMarkings(textMarkings: Array<TextMarking>): Array<TextMarking> {
+    return textMarkings.sort((tM: TextMarking, otherTM: TextMarking) => {
+        if (tM.paragraph! > otherTM.paragraph!) {
+            return 1;
+        } else {
+            if (tM.from > otherTM.from) {
+                return 1;
+            } else if (tM.from < otherTM.from) {
+                return -1;
+            } else {
+                if (tM.to < otherTM.to) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+        }
+    });
+}
+
 /// ASC by "from" and DESC by "to"
 export function sortTextMarkings(textMarkings: Array<TextMarking>): Array<TextMarking> {
     return textMarkings.sort((tM: TextMarking, otherTM: TextMarking) => {

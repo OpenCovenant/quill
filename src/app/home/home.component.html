@@ -12,7 +12,7 @@
             </div>
             <div class="card-body" *ngIf="displayWriteTextOrUploadDocumentFlag">
                 <div style="display: flex;">
-                    <div id="editor" contenteditable="true" (input)="onTextChange($event)"
+                    <div id="editor" contenteditable="true" (keyup)="onTextChange($event)"
                          (paste)="onTextPaste($event)" [innerHTML]="innerHTMLOfEditor" spellcheck="false"
                          autocapitalize="off" role="textbox"
                          data-placeholder="Shkruaj këtu ose ngarko një dokument." aria-multiline="true"
@@ -51,7 +51,9 @@
         </div>
     </div>
     <div id="outputContainer" class="outputTexts mt-5" style="flex: 0 0 30%; margin-right: 3rem;">
-        <div *ngIf="processedText === undefined || processedText!.textMarkings.length === 0">
+        <div
+            *ngIf="(processedText === undefined || processedText!.textMarkings.length === 0) && !(loading$ | async)">
+            <!-- TODO put into a method -->
             <div class="card border-secondary">
                 <div class="card-header" style="display: flex; justify-content: space-between;">
                     <div>
@@ -96,10 +98,9 @@
             <div class="card-header" style="display: flex; justify-content: space-between;">
                 <div
                     style="display: grid; grid-template-columns: auto 1fr; grid-template-rows: inherit; max-width: 80%;">
-                        <span
-                            class="{{textMarking.type}}"
-                            style="display: inline-block; padding: 3px 6px; border-radius: 4px; color: black; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"
-                        >{{processedText?.text?.slice(textMarking.from, textMarking.to)}}</span>
+                        <span class="{{textMarking.type}}"
+                              style="display: inline-block; padding: 3px 6px; border-radius: 4px; color: black; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"
+                        >{{getTextOfTextMarking(i)}}</span>
                 </div>
                 <div>
                     <button (click)="deleteTextMarking(i)" class="btn btn-outline-danger btn-sm">HIQ&nbsp;<i
@@ -108,11 +109,7 @@
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <div style="display: flex;">
-                        <div><b>{{textMarking.subtype}}</b> - <span>{{textMarking.description}}</span></div>
-                        <div><i class="bi bi-info-circle" routerLink="{{textMarking.id}}"
-                                style="font-size: 20px; color: #484848; cursor: pointer;"></i></div>
-                    </div>
+                    <b>{{textMarking.subtype}}</b> - <span>{{textMarking.description}}</span>
                     <span *ngIf="textMarking.suggestions.length > 0">
                                 <div id="suggestions" style="display: flex;  flex-wrap: wrap; align-content: stretch;
                                       justify-content: center; gap: 1rem;">
@@ -137,11 +134,22 @@
             </ul>
         </div>
 
-        <!--                <div class="d-flex justify-content-center">-->
-        <!--                    <div id="loadingSpinner" class="spinner-border" role="status">-->
-        <!--                        <span class="visually-hidden">Loading...</span>-->
-        <!--                    </div>-->
-        <!--                </div>-->
+
+        <div
+            class="card border-secondary d-flex justify-content-center {{(processedText?.textMarkings === null || processedText?.textMarkings?.length === 0) ? '':'mt-2'}}"
+            *ngIf="loading$ | async">
+            <div class="card-header" style="display: flex; justify-content: space-between;">
+                <div>
+                        <span
+                            style="display: inline-block; padding-left: 6px; padding-right: 6px; color: black; border-radius: 4px; border: none;">duke lexuar shkrimin...</span>
+                </div>
+            </div>
+            <ul class="list-group list-group-flush" style="min-height: 50px;">
+                <div class="spinner-border" role="status" style="margin-left: 45%; margin-top: 10px;">
+                    <span class="visually-hidden">duke lexuar shkrimin...</span>
+                </div>
+            </ul>
+        </div>
     </div>
 </div>
 <br>

@@ -1,12 +1,12 @@
-import {AfterViewInit, Component, ElementRef, ViewEncapsulation} from '@angular/core';
+import {AfterViewInit, Component, ViewEncapsulation} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {interval, Subject, switchMap, take} from "rxjs";
+import {BehaviorSubject, interval, Subject, finalize, switchMap, take} from "rxjs";
 
 import {ProcessedText} from "../models/processed-text";
 import {LocalStorageService} from "../local-storage/local-storage.service";
 import {environment} from "../../environments/environment";
 import {TextMarking} from "../models/text-marking";
-import {markText, sortTextMarkings} from "../text-marking/text-marking";
+import {markText, sortParagraphedTextMarkings} from "../text-marking/text-marking";
 
 @Component({
     selector: 'app-home',
@@ -19,8 +19,8 @@ export class HomeComponent implements AfterViewInit {
     private EMPTY_STRING: string = "";
     EDITOR_KEY: string = 'editor';
     POPOVER_KEY: string = 'popover';
-    LINE_BROKEN_PARAGRAPH: string = '<p><br></p>';
-    TWO_SECONDS: number = 2000;
+    LINE_BREAK = '<br>';
+    LINE_BROKEN_PARAGRAPH: string = '<p>' + this.LINE_BREAK + '</p>';
 
     private _hasStoppedTyping: boolean = true; // stopped typing after some seconds
     writeTextToggleButtonID: string = 'writeTextToggleButton'
@@ -37,8 +37,9 @@ export class HomeComponent implements AfterViewInit {
     innerHTMLOfEditor: any = this.LINE_BROKEN_PARAGRAPH;
     shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
     makeWrittenTextRequest$ = new Subject<void>();
+    loading$ = new BehaviorSubject<boolean>(false);
 
-    constructor(public localStorageService: LocalStorageService, private http: HttpClient, private elementRef: ElementRef) {
+    constructor(public localStorageService: LocalStorageService, private http: HttpClient) {
         this.initializeURLs();
         // should any other call be made here? probably not... actually even this should be removed soon
         this.http.get(this.pingURL).subscribe(() => {
@@ -56,7 +57,7 @@ export class HomeComponent implements AfterViewInit {
 
     initializeURLs() {
         this.baseURL = environment.baseURL;
-        this.generateMarkingsURL = this.baseURL + '/api/generateMarkings';
+        this.generateMarkingsURL = this.baseURL + '/api/generateMarkingsForParagraphs';
         this.uploadDocumentURL = this.baseURL + '/api/uploadDocument';
         this.pingURL = this.baseURL + '/api/ping';
     }
@@ -73,7 +74,7 @@ export class HomeComponent implements AfterViewInit {
             writeTextToggleButton?.classList.remove('btnUnselected');
             writeTextToggleButton?.classList.add('active', 'btn-secondary');
 
-            if (this.innerHTMLOfEditor === this.EMPTY_STRING) { // in the scenario that a file has been uploaded
+            if (this.innerHTMLOfEditor === this.LINE_BROKEN_PARAGRAPH) { // in the scenario that a file has been uploaded
                 this.processedText = undefined;
             }
 
@@ -99,11 +100,10 @@ export class HomeComponent implements AfterViewInit {
         }
     }
 
-    onTextChange($event: any) {
+    onTextChange($event: KeyboardEvent) {
         this._updateCharacterAndWordCount();
-        const onTextPaste: boolean = $event.inputType === ''; // TODO use an alternative to (input) to begin with
-        if (this.stoppedTypingAWord() || onTextPaste) {
-            this._markEditor();
+        if (this.shouldMarkEditor($event)) {
+            this._markEditor($event);
         }
         this._handleWrittenTextRequest();
     }
@@ -117,9 +117,17 @@ export class HomeComponent implements AfterViewInit {
         document.execCommand("insertText", false, text);
 
         this.localStorageService.addNewWrittenText(text);
+
+        this._markEditor();
+        this._updateCharacterAndWordCount();
     }
 
     updateCharacterCount() {
+        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
+        // for the scenario of the default text being <p><br></p> and this method being triggered by shift, ctrl, ...
+        if (editor.innerText.length === 1 && editor.innerText.charCodeAt(0) === 10) {
+            return;
+        }
         this.characterCount = document.getElementById(this.EDITOR_KEY)!.innerText.length;
     }
 
@@ -137,18 +145,15 @@ export class HomeComponent implements AfterViewInit {
         }
     }
 
-    stoppedTypingAWord() {
-        // TODO this list should probably be moved somewhere, and adapted accordingly
-        const WORD_TERMINATING_CHARACTER_CODES = [10 /*\n*/, 33 /*!*/, 34 /*"*/, 38 /*&*/, 40 /*(*/, 41 /*)*/, 44 /*,*/,
-            46 /*.*/, 47 /*/*/, 58 /*:*/, 59 /*;*/, 63 /*?*/, 92 /*\*/, 160 /* */, 171 /*«*/, 187/*»*/, 8220 /*“*/,
-            8221 /*”*/, 8230 /*…*/];
-        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
-        const lastCharacterCode = editor.innerText.charCodeAt(editor.innerText.length - 1);
-        const stoppedTyping: boolean = WORD_TERMINATING_CHARACTER_CODES.includes(lastCharacterCode);
 
-        const deleted: boolean = false; // $event.key === 'Backspace' || $event.key === 'Delete';
-
-        return stoppedTyping || deleted;
+    // TODO there's also the paste to be considered
+    shouldMarkEditor($event: KeyboardEvent) {
+        /**
+         * Considers the lastly (time-wise) typed character.
+         */
+        const TRIGGERS = ['.', '!', '?', ',', '…', 'Enter', 'Backspace', 'Delete', ' ', ':', ';', '"', '“', '”', '&',
+            '(', ')', '/', '\'', '«', '»'];
+        return TRIGGERS.includes($event.key);
     }
 
     uploadDocument($event: any) {
@@ -160,7 +165,7 @@ export class HomeComponent implements AfterViewInit {
             this.http.post(this.uploadDocumentURL, formData).subscribe(next => {
                 this.processedText = next as ProcessedText;
                 this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
-                this.innerHTMLOfEditor = this.EMPTY_STRING; // TODO careful with the <br> here
+                this.innerHTMLOfEditor = this.LINE_BROKEN_PARAGRAPH; // TODO careful with the <br> here
             });
         } else {
             alert("Ngarko vetëm një dokument!")
@@ -174,26 +179,43 @@ export class HomeComponent implements AfterViewInit {
         }
 
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
-        const writtenText = editor.innerText;
-        const textMarking: TextMarking = this.processedText!.textMarkings[textMarkingIndex];
 
+        const textMarking: TextMarking = this.processedText!.textMarkings[textMarkingIndex];
+        const childNode: ChildNode = editor.childNodes[textMarking.paragraph!];
+        const p = document.createElement('p');
+
+        const writtenText = childNode.textContent!;
         const leftWrittenText = writtenText.slice(0, textMarking.from);
         const rightWrittenText = writtenText.slice(textMarking.to, writtenText.length);
 
-        const modifiedWrittenText = leftWrittenText + textMarking.suggestions[suggestionIndex].action + rightWrittenText;
+        p.innerHTML = leftWrittenText + textMarking.suggestions[suggestionIndex].action + rightWrittenText;
+        if (childNode.textContent === this.EMPTY_STRING) {
+            p.innerHTML = this.LINE_BREAK
+        }
+        editor.replaceChild(p, childNode); // TODO keep in mind that this nullifies other markings in this p as well
 
-        this.http.post(this.generateMarkingsURL, modifiedWrittenText).subscribe(next => {
+        this.http.post(this.generateMarkingsURL, editor.innerHTML).subscribe(next => {
             this.processedText = next as ProcessedText;
 
             if (this.processedText?.textMarkings.length != 0) {
-                this.processedText.textMarkings = sortTextMarkings(this.processedText.textMarkings);
+                this.processedText.textMarkings = sortParagraphedTextMarkings(this.processedText.textMarkings);
                 const depletableTextMarkings: TextMarking[] = Array.from(this.processedText.textMarkings);
                 this.savedSelection = this.saveSelection(editor);
-                editor.innerHTML = modifiedWrittenText;
-                markText(editor, depletableTextMarkings);
+
+                editor.childNodes.forEach((childNode: ChildNode, index: number) => {
+                    const p = document.createElement('p');
+                    p.innerHTML = childNode.textContent!;
+                    if (childNode.textContent === this.EMPTY_STRING) {
+                        p.innerHTML = this.LINE_BREAK
+                    }
+                    editor.replaceChild(p, childNode);
+                    markText(p, depletableTextMarkings.filter((tm: TextMarking) => tm.paragraph === index));
+                });
+
+                // TODO editor or childNode here? I guess we have to do the whole thing always...
+                // markText(editor, depletableTextMarkings.filter((tm: TextMarking) => tm.paragraph === textMarking.paragraph!));
             } else {
                 this.savedSelection = this.saveSelection(editor);
-                editor.innerHTML = modifiedWrittenText;
             }
 
             if (this.savedSelection) {
@@ -336,23 +358,39 @@ export class HomeComponent implements AfterViewInit {
         this._updateCharacterAndWordCount();
     }
 
-    private _markEditor(): void {
-        const editor = document.getElementById(this.EDITOR_KEY)!;
+    private _markEditor($event: any = undefined): void {
+        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
 
-        this.http.post(this.generateMarkingsURL, editor.innerText).subscribe(next => {
-            this.processedText = next as ProcessedText;
-            if (this.processedText?.textMarkings.length != 0) {
-                this.processedText.textMarkings = sortTextMarkings(this.processedText.textMarkings);
-                const depletableTextMarkings: TextMarking[] = Array.from(this.processedText.textMarkings);
-                this.savedSelection = this.saveSelection(editor);
-                editor.innerHTML = editor.innerText; // TODO remove me after paragraphs are introduced
-                markText(editor, depletableTextMarkings);
-                if (this.savedSelection) {
-                    this.restoreSelection(editor, this.savedSelection);
+        this.loading$.next(true);
+        this.http.post(this.generateMarkingsURL, editor.innerHTML)
+            .pipe(finalize(() => this.loading$.next(false)))
+            .subscribe(next => {
+                this.processedText = next as ProcessedText;
+                if (this.processedText?.textMarkings.length != 0) {
+                    this.processedText.textMarkings = sortParagraphedTextMarkings(this.processedText.textMarkings);
+                    const depletableTextMarkings = Array.from(this.processedText.textMarkings);
+                    this.savedSelection = this.saveSelection(editor);
+
+                    editor.childNodes.forEach((childNode: ChildNode, index: number) => {
+                        const p = document.createElement('p');
+                        p.innerHTML = childNode.textContent!;
+                        if (childNode.textContent === this.EMPTY_STRING) {
+                            p.innerHTML = this.LINE_BREAK
+                        }
+                        editor.replaceChild(p, childNode);
+                        markText(p, depletableTextMarkings.filter((tm: TextMarking) => tm.paragraph === index));
+                    });
+
+                    if (this.savedSelection) {
+                        const ALLOWED_KEY_CODES = ['Enter', 'Tab'];  // TODO can't trigger Tab for now
+                        // it appears that $event is undefined for the paste operation (Ctrl + Z)
+                        if ($event !== undefined && !ALLOWED_KEY_CODES.includes($event.key)) {
+                            this.restoreSelection(editor, this.savedSelection);
+                        }
+                    }
+                    this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
                 }
-                this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
-            }
-        });
+            });
     }
 
     private _updateCharacterAndWordCount(): void {
@@ -378,5 +416,13 @@ export class HomeComponent implements AfterViewInit {
             this.localStorageService.addNewWrittenText(document.getElementById(this.EDITOR_KEY)!.innerText);
             this._hasStoppedTyping = true;
         });
+    }
+
+    getTextOfTextMarking(i: number) {
+        const editor = document.getElementById(this.EDITOR_KEY)!;
+
+        const textMarking: TextMarking = this.processedText!.textMarkings[i];
+
+        return editor.childNodes[textMarking.paragraph!].textContent!.slice(textMarking.from, textMarking.to);
     }
 }
