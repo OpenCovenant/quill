@@ -122,7 +122,7 @@
                                         *ngFor="let suggestion of textMarking.suggestions.slice(0, shouldCollapseSuggestions[i] ? 4 : textMarking.suggestions.length); index as j"
                                         (click)="chooseSuggestion(i, j)" class="suggestion"
                                         style="color: black;">
-                                        <b>{{suggestion.display}}</b>
+                                        <b id="suggestion">{{processSuggestionDisplay(suggestion.display)}}</b>
                                     </button>
                                     <div *ngIf="textMarking.suggestions.length > 4"
                                          style="display: flex; justify-content: center; align-items: center; color: #737373;">|</div>

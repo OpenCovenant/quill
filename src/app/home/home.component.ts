@@ -423,4 +423,13 @@ export class HomeComponent implements AfterViewInit {
 
         return editor.childNodes[textMarking.paragraph!].textContent!.slice(textMarking.from, textMarking.to);
     }
+
+    processSuggestionDisplay(display: string) {
+        if (display.trim().length === 0) {
+            // TODO improve the following two lines, use the g flag?
+            const occurrences = display.length;
+            display = display.replace(" ".repeat(occurrences), "&nbsp;".repeat(occurrences))
+        }
+        document.getElementById("suggestion")!.innerHTML = display;
+    }
 }
