@@ -23,6 +23,8 @@ export class HomeComponent implements AfterViewInit {
     LINE_BROKEN_PARAGRAPH: string = '<p>' + this.LINE_BREAK + '</p>';
 
     private _hasStoppedTyping: boolean = true; // stopped typing after some seconds
+    private _hasStoppedTypingTokyoDrift: boolean = true; // stopped typing after some seconds
+    private _cancelIt: boolean = false;
     writeTextToggleButtonID: string = 'writeTextToggleButton'
     uploadDocumentToggleButtonID: string = 'uploadDocumentToggleButton'
     baseURL!: string;
@@ -37,6 +39,7 @@ export class HomeComponent implements AfterViewInit {
     innerHTMLOfEditor: any = this.LINE_BROKEN_PARAGRAPH;
     shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
     makeWrittenTextRequest$ = new Subject<void>();
+    makeWrittenTextRequestTokyoDrift$ = new Subject<void>();
     loading$ = new BehaviorSubject<boolean>(false);
 
     constructor(public localStorageService: LocalStorageService, private http: HttpClient) {
@@ -100,12 +103,66 @@ export class HomeComponent implements AfterViewInit {
         }
     }
 
-    onTextChange($event: KeyboardEvent) {
+    onKeyboardEvent($event: KeyboardEvent) {
+        console.log('keyboard event')
+        // if (this._hasStoppedTypingTokyoDrift) {
+        //     this._hasStoppedTypingTokyoDrift = false;
+        // }
+        if (this.shouldNotUpdateEditor($event)) {
+            return;
+        }
+        console.log('under shouldNotUpdateEditor')
         this._updateCharacterAndWordCount();
         if (this.shouldMarkEditor($event)) {
+            console.log('under shouldMarkEditor')
             this._markEditor($event);
+            // TODO ???
+            // if (this._hasStoppedTypingTokyoDrift) {
+            //     this._hasStoppedTypingTokyoDrift = true;
+            // }
+            this._cancelIt = true;
+        } else {
+            console.log('unde else to eventually');
+            // this._hasStoppedTypingTokyoDrift = true;
+            this._cancelIt = false;
+            this._markEditorEventually($event);
         }
         this._handleWrittenTextRequest();
+    }
+
+    private _markEditorEventually($event: any) {
+        // console.log(`inside _markEditorEventually, _hasStoppedTypingTokyoDrift: ${this._hasStoppedTypingTokyoDrift}`)
+        if (this._hasStoppedTypingTokyoDrift) {
+            this._subscribeToWrittenTextRequestTokyoDrift($event);
+        }
+
+        this.makeWrittenTextRequestTokyoDrift$.next();
+        this._hasStoppedTypingTokyoDrift = false;
+    }
+
+    private _subscribeToWrittenTextRequestTokyoDrift($event: any) {
+        this.makeWrittenTextRequestTokyoDrift$.pipe(
+            switchMap(() => {
+                return interval(2 * this.SECONDS);
+            }), take(1)
+        ).subscribe(() => {
+            console.log('in subscribe');
+            if (!this._cancelIt) {
+                // this.localStorageService.addNewWrittenText(document.getElementById(this.EDITOR_KEY)!.innerText);
+                this._markEditor($event);
+                this._hasStoppedTypingTokyoDrift = true;
+                console.log('eventually done');
+            }
+        });
+    }
+
+    shouldNotUpdateEditor($event: any) {
+        /**
+         * Considers the lastly (time-wise) typed character.
+         */
+        // console.log($event.key)
+        const NON_TRIGGERS = ['Control', 'CapsLock', 'Shift', 'Alt', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'ArrowDown'];
+        return NON_TRIGGERS.includes($event.key);
     }
 
     // TODO data-placeholder broke

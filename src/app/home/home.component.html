@@ -12,7 +12,7 @@
             </div>
             <div class="card-body" *ngIf="displayWriteTextOrUploadDocumentFlag">
                 <div style="display: flex;">
-                    <div id="editor" contenteditable="true" (keyup)="onTextChange($event)"
+                    <div id="editor" contenteditable="true" (keyup)="onKeyboardEvent($event)"
                          (paste)="onTextPaste($event)" [innerHTML]="innerHTMLOfEditor" spellcheck="false"
                          autocapitalize="off" role="textbox"
                          data-placeholder="Shkruaj këtu ose ngarko një dokument." aria-multiline="true"
