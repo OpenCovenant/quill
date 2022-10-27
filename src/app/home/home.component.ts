@@ -2,9 +2,10 @@ import {AfterViewInit, Component, ViewEncapsulation} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject, interval, Subject, finalize, switchMap, take} from "rxjs";
 
-import {ProcessedText} from "../models/processed-text";
-import {LocalStorageService} from "../local-storage/local-storage.service";
 import {environment} from "../../environments/environment";
+import {LocalStorageService} from "../local-storage/local-storage.service";
+import {CursorPosition} from "../models/cursor-positioning";
+import {ProcessedText} from "../models/processed-text";
 import {TextMarking} from "../models/text-marking";
 import {markText, sortParagraphedTextMarkings} from "../text-marking/text-marking";
 
@@ -118,7 +119,7 @@ export class HomeComponent implements AfterViewInit {
 
         this.localStorageService.addNewWrittenText(text);
 
-        this._markEditor();
+        this._markEditor($event, CursorPosition.END);
         this._updateCharacterAndWordCount();
     }
 
@@ -200,7 +201,6 @@ export class HomeComponent implements AfterViewInit {
             if (this.processedText?.textMarkings.length != 0) {
                 this.processedText.textMarkings = sortParagraphedTextMarkings(this.processedText.textMarkings);
                 const depletableTextMarkings: TextMarking[] = Array.from(this.processedText.textMarkings);
-                this.savedSelection = this.saveSelection(editor);
 
                 editor.childNodes.forEach((childNode: ChildNode, index: number) => {
                     const p = document.createElement('p');
@@ -214,13 +214,9 @@ export class HomeComponent implements AfterViewInit {
 
                 // TODO editor or childNode here? I guess we have to do the whole thing always...
                 // markText(editor, depletableTextMarkings.filter((tm: TextMarking) => tm.paragraph === textMarking.paragraph!));
-            } else {
-                this.savedSelection = this.saveSelection(editor);
             }
+            this.setCursorToEnd(editor);
 
-            if (this.savedSelection) {
-                this.restoreSelection(editor, this.savedSelection);
-            }
             this._updateCharacterAndWordCount();
             this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
         });
@@ -358,7 +354,7 @@ export class HomeComponent implements AfterViewInit {
         this._updateCharacterAndWordCount();
     }
 
-    private _markEditor($event: any = undefined): void {
+    private _markEditor($event: any = undefined, cursorPosition: CursorPosition = CursorPosition.LAST_SAVE): void {
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
 
         this.loading$.next(true);
@@ -368,7 +364,9 @@ export class HomeComponent implements AfterViewInit {
                 this.processedText = next as ProcessedText;
                 this.processedText.textMarkings = sortParagraphedTextMarkings(this.processedText.textMarkings);
                 const depletableTextMarkings = Array.from(this.processedText.textMarkings);
-                this.savedSelection = this.saveSelection(editor);
+                if (cursorPosition === CursorPosition.LAST_SAVE) {
+                    this.savedSelection = this.saveSelection(editor);
+                }
 
                 editor.childNodes.forEach((childNode: ChildNode, index: number) => {
                     const p = document.createElement('p');
@@ -380,15 +378,34 @@ export class HomeComponent implements AfterViewInit {
                     markText(p, depletableTextMarkings.filter((tm: TextMarking) => tm.paragraph === index));
                 });
 
-                if (this.savedSelection) {
-                    const ALLOWED_KEY_CODES = ['Enter', 'Tab'];  // TODO can't trigger Tab for now
-                    // it appears that $event is undefined for the paste operation (Ctrl + Z)
-                    if ($event !== undefined && !ALLOWED_KEY_CODES.includes($event.key)) {
-                        this.restoreSelection(editor, this.savedSelection);
-                    }
-                }
+                this.positionCursor(editor, $event, cursorPosition);
                 this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
             });
+    }
+
+    private positionCursor(element: HTMLElement, $event: any, cursorPosition: CursorPosition) {
+        if (cursorPosition === CursorPosition.LAST_SAVE) {
+            if (this.savedSelection) {
+                const ALLOWED_KEY_CODES = ['Enter', 'Tab'];  // TODO can't trigger Tab for now
+                if (!ALLOWED_KEY_CODES.includes($event.key)) {
+                    this.restoreSelection(element, this.savedSelection);
+                }
+            }
+        } else if (cursorPosition === CursorPosition.END) {
+            this.setCursorToEnd(element);
+        }
+    }
+
+    private setCursorToEnd(target: HTMLElement) {
+        const range = document.createRange();
+        const selection = window.getSelection();
+        range.selectNodeContents(target);
+        range.collapse(false);
+        selection?.removeAllRanges();
+        selection?.addRange(range);
+        target.focus();
+        range.detach();
+        target.scrollTop = target.scrollHeight;
     }
 
     private _updateCharacterAndWordCount(): void {
