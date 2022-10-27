@@ -11,7 +11,7 @@ import {environment} from "../../environments/environment";
 export class HeaderComponent {
     baseURL!: string;
     getMarkingDetailsCount!: string;
-    markingDetailsCount!: number;
+    markingDetailsCount: number = 0;
 
     constructor(private http: HttpClient) {
         this.initializeURLs();
