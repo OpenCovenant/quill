@@ -16,29 +16,29 @@ import {markText, sortParagraphedTextMarkings} from "../text-marking/text-markin
     encapsulation: ViewEncapsulation.None
 })
 export class HomeComponent implements AfterViewInit {
-    private SECONDS: number = 1000;
-    private EMPTY_STRING: string = "";
+    SECONDS: number = 1000;
+    EMPTY_STRING: string = "";
     EDITOR_KEY: string = 'editor';
-    POPOVER_KEY: string = 'popover';
     LINE_BREAK = '<br>';
     LINE_BROKEN_PARAGRAPH: string = '<p>' + this.LINE_BREAK + '</p>';
 
-    private _hasStoppedTyping: boolean = true; // stopped typing after some seconds
     writeTextToggleButtonID: string = 'writeTextToggleButton'
     uploadDocumentToggleButtonID: string = 'uploadDocumentToggleButton'
-    baseURL!: string;
-    generateMarkingsURL!: string;
-    uploadDocumentURL!: string;
-    pingURL!: string;
     processedText: ProcessedText | undefined;
     displayWriteTextOrUploadDocumentFlag: any = true;
     characterCount: number = 0;
     wordCount: number = 0;
-    savedSelection: any;
     innerHTMLOfEditor: any = this.LINE_BROKEN_PARAGRAPH;
     shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
-    makeWrittenTextRequest$ = new Subject<void>();
     loading$ = new BehaviorSubject<boolean>(false);
+
+    private hasStoppedTyping: boolean = true; // stopped typing after some seconds
+    private baseURL!: string;
+    private generateMarkingsURL!: string;
+    private uploadDocumentURL!: string;
+    private pingURL!: string;
+    private savedSelection: any;
+    private makeWrittenTextRequest$ = new Subject<void>();
 
     constructor(public localStorageService: LocalStorageService, private http: HttpClient) {
         this.initializeURLs();
@@ -50,9 +50,9 @@ export class HomeComponent implements AfterViewInit {
 
     ngAfterViewInit(): void {
         const minWidthMatchMedia: MediaQueryList = window.matchMedia("(min-width: 800px)");
-        this._focusOnMediaMatch(minWidthMatchMedia);
+        this.focusOnMediaMatch(minWidthMatchMedia);
         // TODO some browsers still seem to use this deprecated method, keep it around for some more time
-        minWidthMatchMedia.addListener(this._focusOnMediaMatch);
+        minWidthMatchMedia.addListener(this.focusOnMediaMatch);
         (document.getElementById("flexSwitchCheckChecked") as any).checked = this.localStorageService.canStoreWrittenTexts;
     }
 
@@ -102,11 +102,11 @@ export class HomeComponent implements AfterViewInit {
     }
 
     onTextChange($event: KeyboardEvent) {
-        this._updateCharacterAndWordCount();
+        this.updateCharacterAndWordCount();
         if (this.shouldMarkEditor($event)) {
-            this._markEditor($event);
+            this.markEditor($event);
         }
-        this._handleWrittenTextRequest();
+        this.handleWrittenTextRequest();
     }
 
     // TODO data-placeholder broke
@@ -119,8 +119,8 @@ export class HomeComponent implements AfterViewInit {
 
         this.localStorageService.addNewWrittenText(text);
 
-        this._markEditor($event, CursorPosition.END);
-        this._updateCharacterAndWordCount();
+        this.markEditor($event, CursorPosition.END);
+        this.updateCharacterAndWordCount();
     }
 
     updateCharacterCount() {
@@ -217,7 +217,7 @@ export class HomeComponent implements AfterViewInit {
             }
             this.setCursorToEnd(editor);
 
-            this._updateCharacterAndWordCount();
+            this.updateCharacterAndWordCount();
             this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
         });
     }
@@ -290,7 +290,7 @@ export class HomeComponent implements AfterViewInit {
     clearEditor(): void {
         document.getElementById(this.EDITOR_KEY)!.innerHTML = this.LINE_BROKEN_PARAGRAPH;
         this.processedText = undefined;
-        this._updateCharacterAndWordCount();
+        this.updateCharacterAndWordCount();
         this.shouldCollapseSuggestions = new Array<boolean>(0);
     }
 
@@ -341,7 +341,7 @@ export class HomeComponent implements AfterViewInit {
         this.localStorageService.toggleWritingPermission((document.getElementById("flexSwitchCheckChecked") as any).checked)
     }
 
-    _focusOnMediaMatch(mediaMatch: any) {
+    focusOnMediaMatch(mediaMatch: any) {
         if (mediaMatch.matches) {
             document.getElementById(this.EDITOR_KEY)?.focus();
         }
@@ -350,11 +350,20 @@ export class HomeComponent implements AfterViewInit {
     placeWrittenText(writtenText: string): void {
         document.getElementById(this.EDITOR_KEY)!.innerText = writtenText;
         document.getElementById("closeWrittenTextsModalButton")!.click();
-        this._markEditor();
-        this._updateCharacterAndWordCount();
+        this.markEditor();
+        this.updateCharacterAndWordCount();
     }
 
-    private _markEditor($event: any = undefined, cursorPosition: CursorPosition = CursorPosition.LAST_SAVE): void {
+
+    getTextOfTextMarking(i: number) {
+        const editor = document.getElementById(this.EDITOR_KEY)!;
+
+        const textMarking: TextMarking = this.processedText!.textMarkings[i];
+
+        return editor.childNodes[textMarking.paragraph!].textContent!.slice(textMarking.from, textMarking.to);
+    }
+
+    private markEditor($event: any = undefined, cursorPosition: CursorPosition = CursorPosition.LAST_SAVE): void {
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
 
         this.loading$.next(true);
@@ -408,36 +417,28 @@ export class HomeComponent implements AfterViewInit {
         target.scrollTop = target.scrollHeight;
     }
 
-    private _updateCharacterAndWordCount(): void {
+    private updateCharacterAndWordCount(): void {
         this.updateCharacterCount();
         this.updateWordCount();
     }
 
-    private _handleWrittenTextRequest() {
-        if (this._hasStoppedTyping) {
-            this._subscribeToWrittenTextRequest();
+    private handleWrittenTextRequest() {
+        if (this.hasStoppedTyping) {
+            this.subscribeToWrittenTextRequest();
         }
 
         this.makeWrittenTextRequest$.next();
-        this._hasStoppedTyping = false;
+        this.hasStoppedTyping = false;
     }
 
-    private _subscribeToWrittenTextRequest() {
+    private subscribeToWrittenTextRequest() {
         this.makeWrittenTextRequest$.pipe(
             switchMap(() => {
                 return interval(15 * this.SECONDS);
             }), take(1)
         ).subscribe(() => {
             this.localStorageService.addNewWrittenText(document.getElementById(this.EDITOR_KEY)!.innerText);
-            this._hasStoppedTyping = true;
+            this.hasStoppedTyping = true;
         });
-    }
-
-    getTextOfTextMarking(i: number) {
-        const editor = document.getElementById(this.EDITOR_KEY)!;
-
-        const textMarking: TextMarking = this.processedText!.textMarkings[i];
-
-        return editor.childNodes[textMarking.paragraph!].textContent!.slice(textMarking.from, textMarking.to);
     }
 }
