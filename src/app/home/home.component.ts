@@ -1,11 +1,12 @@
 import {AfterViewInit, Component, ViewEncapsulation} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {BehaviorSubject, interval, Subject, finalize, switchMap, take} from "rxjs";
+import {BehaviorSubject, Subject, interval, finalize, switchMap, take} from "rxjs";
 
-import {ProcessedText} from "../models/processed-text";
+import {CursorPosition} from "../models/cursor-positioning";
 import {LocalStorageService} from "../local-storage/local-storage.service";
-import {environment} from "../../environments/environment";
+import {ProcessedText} from "../models/processed-text";
 import {TextMarking} from "../models/text-marking";
+import {environment} from "../../environments/environment";
 import {markText, sortParagraphedTextMarkings} from "../text-marking/text-marking";
 
 @Component({
@@ -15,32 +16,32 @@ import {markText, sortParagraphedTextMarkings} from "../text-marking/text-markin
     encapsulation: ViewEncapsulation.None
 })
 export class HomeComponent implements AfterViewInit {
-    private SECONDS: number = 1000;
-    private EMPTY_STRING: string = "";
+    SECONDS: number = 1000;
+    EMPTY_STRING: string = "";
     EDITOR_KEY: string = 'editor';
-    POPOVER_KEY: string = 'popover';
     LINE_BREAK = '<br>';
     LINE_BROKEN_PARAGRAPH: string = '<p>' + this.LINE_BREAK + '</p>';
 
-    private _hasStoppedTyping: boolean = true; // stopped typing after some seconds
-    private _hasStoppedTypingTokyoDrift: boolean = true; // stopped typing after some seconds
-    private _cancelIt: boolean = false;
     writeTextToggleButtonID: string = 'writeTextToggleButton'
     uploadDocumentToggleButtonID: string = 'uploadDocumentToggleButton'
-    baseURL!: string;
-    generateMarkingsURL!: string;
-    uploadDocumentURL!: string;
-    pingURL!: string;
     processedText: ProcessedText | undefined;
     displayWriteTextOrUploadDocumentFlag: any = true;
     characterCount: number = 0;
     wordCount: number = 0;
-    savedSelection: any;
     innerHTMLOfEditor: any = this.LINE_BROKEN_PARAGRAPH;
     shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
-    makeWrittenTextRequest$ = new Subject<void>();
-    makeWrittenTextRequestTokyoDrift$ = new Subject<void>();
     loading$ = new BehaviorSubject<boolean>(false);
+
+    private baseURL!: string;
+    private generateMarkingsURL!: string;
+    private uploadDocumentURL!: string;
+    private pingURL!: string;
+    private hasStoppedTypingForStoringWrittenTexts: boolean = true; // stopped typing after some seconds
+    private hasStoppedTypingForEventualMarking: boolean = true; // stopped typing after some seconds
+    private makeRequestForStoringWrittenTexts$ = new Subject<void>();
+    private makeWrittenTextRequestTokyoDrift$ = new Subject<void>();
+    private cancelEventualMarking: boolean = false;
+    private savedSelection: any;
 
     constructor(public localStorageService: LocalStorageService, private http: HttpClient) {
         this.initializeURLs();
@@ -52,9 +53,9 @@ export class HomeComponent implements AfterViewInit {
 
     ngAfterViewInit(): void {
         const minWidthMatchMedia: MediaQueryList = window.matchMedia("(min-width: 800px)");
-        this._focusOnMediaMatch(minWidthMatchMedia);
+        this.focusOnMediaMatch(minWidthMatchMedia);
         // TODO some browsers still seem to use this deprecated method, keep it around for some more time
-        minWidthMatchMedia.addListener(this._focusOnMediaMatch);
+        minWidthMatchMedia.addListener(this.focusOnMediaMatch);
         (document.getElementById("flexSwitchCheckChecked") as any).checked = this.localStorageService.canStoreWrittenTexts;
     }
 
@@ -104,65 +105,18 @@ export class HomeComponent implements AfterViewInit {
     }
 
     onKeyboardEvent($event: KeyboardEvent) {
-        console.log('keyboard event')
-        // if (this._hasStoppedTypingTokyoDrift) {
-        //     this._hasStoppedTypingTokyoDrift = false;
-        // }
         if (this.shouldNotUpdateEditor($event)) {
             return;
         }
-        console.log('under shouldNotUpdateEditor')
-        this._updateCharacterAndWordCount();
+        this.updateCharacterAndWordCount();
         if (this.shouldMarkEditor($event)) {
-            console.log('under shouldMarkEditor')
-            this._markEditor($event);
-            // TODO ???
-            // if (this._hasStoppedTypingTokyoDrift) {
-            //     this._hasStoppedTypingTokyoDrift = true;
-            // }
-            this._cancelIt = true;
+            this.markEditor($event);
+            this.cancelEventualMarking = true;
         } else {
-            console.log('unde else to eventually');
-            // this._hasStoppedTypingTokyoDrift = true;
-            this._cancelIt = false;
-            this._markEditorEventually($event);
+            this.cancelEventualMarking = false;
+            this.markEditorEventually($event);
         }
-        this._handleWrittenTextRequest();
-    }
-
-    private _markEditorEventually($event: any) {
-        // console.log(`inside _markEditorEventually, _hasStoppedTypingTokyoDrift: ${this._hasStoppedTypingTokyoDrift}`)
-        if (this._hasStoppedTypingTokyoDrift) {
-            this._subscribeToWrittenTextRequestTokyoDrift($event);
-        }
-
-        this.makeWrittenTextRequestTokyoDrift$.next();
-        this._hasStoppedTypingTokyoDrift = false;
-    }
-
-    private _subscribeToWrittenTextRequestTokyoDrift($event: any) {
-        this.makeWrittenTextRequestTokyoDrift$.pipe(
-            switchMap(() => {
-                return interval(2 * this.SECONDS);
-            }), take(1)
-        ).subscribe(() => {
-            console.log('in subscribe');
-            if (!this._cancelIt) {
-                // this.localStorageService.addNewWrittenText(document.getElementById(this.EDITOR_KEY)!.innerText);
-                this._markEditor($event);
-                this._hasStoppedTypingTokyoDrift = true;
-                console.log('eventually done');
-            }
-        });
-    }
-
-    shouldNotUpdateEditor($event: any) {
-        /**
-         * Considers the lastly (time-wise) typed character.
-         */
-        // console.log($event.key)
-        const NON_TRIGGERS = ['Control', 'CapsLock', 'Shift', 'Alt', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'ArrowDown'];
-        return NON_TRIGGERS.includes($event.key);
+        this.handleRequestForStoringWrittenTexts();
     }
 
     // TODO data-placeholder broke
@@ -173,10 +127,10 @@ export class HomeComponent implements AfterViewInit {
 
         document.execCommand("insertText", false, text);
 
-        this.localStorageService.addNewWrittenText(text);
+        this.localStorageService.storeWrittenText(text);
 
-        this._markEditor();
-        this._updateCharacterAndWordCount();
+        this.markEditor($event, CursorPosition.END);
+        this.updateCharacterAndWordCount();
     }
 
     updateCharacterCount() {
@@ -200,17 +154,6 @@ export class HomeComponent implements AfterViewInit {
                 this.wordCount = 0;
             }
         }
-    }
-
-
-    // TODO there's also the paste to be considered
-    shouldMarkEditor($event: KeyboardEvent) {
-        /**
-         * Considers the lastly (time-wise) typed character.
-         */
-        const TRIGGERS = ['.', '!', '?', ',', '…', 'Enter', 'Backspace', 'Delete', ' ', ':', ';', '"', '“', '”', '&',
-            '(', ')', '/', '\'', '«', '»'];
-        return TRIGGERS.includes($event.key);
     }
 
     uploadDocument($event: any) {
@@ -257,7 +200,6 @@ export class HomeComponent implements AfterViewInit {
             if (this.processedText?.textMarkings.length != 0) {
                 this.processedText.textMarkings = sortParagraphedTextMarkings(this.processedText.textMarkings);
                 const depletableTextMarkings: TextMarking[] = Array.from(this.processedText.textMarkings);
-                this.savedSelection = this.saveSelection(editor);
 
                 editor.childNodes.forEach((childNode: ChildNode, index: number) => {
                     const p = document.createElement('p');
@@ -271,14 +213,10 @@ export class HomeComponent implements AfterViewInit {
 
                 // TODO editor or childNode here? I guess we have to do the whole thing always...
                 // markText(editor, depletableTextMarkings.filter((tm: TextMarking) => tm.paragraph === textMarking.paragraph!));
-            } else {
-                this.savedSelection = this.saveSelection(editor);
             }
+            this.setCursorToEnd(editor);
 
-            if (this.savedSelection) {
-                this.restoreSelection(editor, this.savedSelection);
-            }
-            this._updateCharacterAndWordCount();
+            this.updateCharacterAndWordCount();
             this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
         });
     }
@@ -351,7 +289,7 @@ export class HomeComponent implements AfterViewInit {
     clearEditor(): void {
         document.getElementById(this.EDITOR_KEY)!.innerHTML = this.LINE_BROKEN_PARAGRAPH;
         this.processedText = undefined;
-        this._updateCharacterAndWordCount();
+        this.updateCharacterAndWordCount();
         this.shouldCollapseSuggestions = new Array<boolean>(0);
     }
 
@@ -402,7 +340,7 @@ export class HomeComponent implements AfterViewInit {
         this.localStorageService.toggleWritingPermission((document.getElementById("flexSwitchCheckChecked") as any).checked)
     }
 
-    _focusOnMediaMatch(mediaMatch: any) {
+    focusOnMediaMatch(mediaMatch: any) {
         if (mediaMatch.matches) {
             document.getElementById(this.EDITOR_KEY)?.focus();
         }
@@ -411,11 +349,20 @@ export class HomeComponent implements AfterViewInit {
     placeWrittenText(writtenText: string): void {
         document.getElementById(this.EDITOR_KEY)!.innerText = writtenText;
         document.getElementById("closeWrittenTextsModalButton")!.click();
-        this._markEditor();
-        this._updateCharacterAndWordCount();
+        this.markEditor();
+        this.updateCharacterAndWordCount();
     }
 
-    private _markEditor($event: any = undefined): void {
+
+    getTextOfTextMarking(i: number) {
+        const editor = document.getElementById(this.EDITOR_KEY)!;
+
+        const textMarking: TextMarking = this.processedText!.textMarkings[i];
+
+        return editor.childNodes[textMarking.paragraph!].textContent!.slice(textMarking.from, textMarking.to);
+    }
+
+    private markEditor($event: any = undefined, cursorPosition: CursorPosition = CursorPosition.LAST_SAVE): void {
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
 
         this.loading$.next(true);
@@ -425,7 +372,9 @@ export class HomeComponent implements AfterViewInit {
                 this.processedText = next as ProcessedText;
                 this.processedText.textMarkings = sortParagraphedTextMarkings(this.processedText.textMarkings);
                 const depletableTextMarkings = Array.from(this.processedText.textMarkings);
-                this.savedSelection = this.saveSelection(editor);
+                if (cursorPosition === CursorPosition.LAST_SAVE) {
+                    this.savedSelection = this.saveSelection(editor);
+                }
 
                 editor.childNodes.forEach((childNode: ChildNode, index: number) => {
                     const p = document.createElement('p');
@@ -437,47 +386,94 @@ export class HomeComponent implements AfterViewInit {
                     markText(p, depletableTextMarkings.filter((tm: TextMarking) => tm.paragraph === index));
                 });
 
-                if (this.savedSelection) {
-                    const ALLOWED_KEY_CODES = ['Enter', 'Tab'];  // TODO can't trigger Tab for now
-                    // it appears that $event is undefined for the paste operation (Ctrl + Z)
-                    if ($event !== undefined && !ALLOWED_KEY_CODES.includes($event.key)) {
-                        this.restoreSelection(editor, this.savedSelection);
-                    }
-                }
+                this.positionCursor(editor, $event, cursorPosition);
                 this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
             });
     }
 
-    private _updateCharacterAndWordCount(): void {
+    private markEditorEventually($event: any) {
+        if (this.hasStoppedTypingForEventualMarking) {
+            this.makeWrittenTextRequestTokyoDrift$.pipe(
+                switchMap(() => {
+                    return interval(2 * this.SECONDS);
+                }), take(1)
+            ).subscribe(() => {
+                if (!this.cancelEventualMarking) {
+                    this.markEditor($event);
+                    this.hasStoppedTypingForEventualMarking = true;
+                } else {
+                    this.cancelEventualMarking = false;
+                    this.hasStoppedTypingForEventualMarking = true;
+                }
+            });
+        }
+
+        this.makeWrittenTextRequestTokyoDrift$.next();
+        this.hasStoppedTypingForEventualMarking = false;
+    }
+
+
+    // TODO there's also the paste to be considered
+    private shouldMarkEditor($event: KeyboardEvent) {
+        /**
+         * Considers the lastly (time-wise) typed character.
+         */
+        const TRIGGERS = ['.', '!', '?', ',', '…', 'Enter', 'Backspace', 'Delete', ' ', ':', ';', '"', '“', '”', '&',
+            '(', ')', '/', '\'', '«', '»'];
+        return TRIGGERS.includes($event.key);
+    }
+
+    private shouldNotUpdateEditor($event: any) {
+        /**
+         * Considers the lastly (time-wise) typed character.
+         */
+        const NON_TRIGGERS = ['Control', 'CapsLock', 'Shift', 'Alt', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'ArrowDown'];
+        return NON_TRIGGERS.includes($event.key);
+    }
+
+    private positionCursor(element: HTMLElement, $event: any, cursorPosition: CursorPosition) {
+        if (cursorPosition === CursorPosition.LAST_SAVE) {
+            if (this.savedSelection) {
+                const ALLOWED_KEY_CODES = ['Enter', 'Tab'];  // TODO can't trigger Tab for now
+                if (!ALLOWED_KEY_CODES.includes($event.key)) {
+                    this.restoreSelection(element, this.savedSelection);
+                }
+            }
+        } else if (cursorPosition === CursorPosition.END) {
+            this.setCursorToEnd(element);
+        }
+    }
+
+    private setCursorToEnd(target: HTMLElement) {
+        const range = document.createRange();
+        const selection = window.getSelection();
+        range.selectNodeContents(target);
+        range.collapse(false);
+        selection?.removeAllRanges();
+        selection?.addRange(range);
+        target.focus();
+        range.detach();
+        target.scrollTop = target.scrollHeight;
+    }
+
+    private updateCharacterAndWordCount(): void {
         this.updateCharacterCount();
         this.updateWordCount();
     }
 
-    private _handleWrittenTextRequest() {
-        if (this._hasStoppedTyping) {
-            this._subscribeToWrittenTextRequest();
+    private handleRequestForStoringWrittenTexts() {
+        if (this.hasStoppedTypingForStoringWrittenTexts) {
+            this.makeRequestForStoringWrittenTexts$.pipe(
+                switchMap(() => {
+                    return interval(15 * this.SECONDS);
+                }), take(1)
+            ).subscribe(() => {
+                this.localStorageService.storeWrittenText(document.getElementById(this.EDITOR_KEY)!.innerText);
+                this.hasStoppedTypingForStoringWrittenTexts = true;
+            });
         }
 
-        this.makeWrittenTextRequest$.next();
-        this._hasStoppedTyping = false;
-    }
-
-    private _subscribeToWrittenTextRequest() {
-        this.makeWrittenTextRequest$.pipe(
-            switchMap(() => {
-                return interval(15 * this.SECONDS);
-            }), take(1)
-        ).subscribe(() => {
-            this.localStorageService.addNewWrittenText(document.getElementById(this.EDITOR_KEY)!.innerText);
-            this._hasStoppedTyping = true;
-        });
-    }
-
-    getTextOfTextMarking(i: number) {
-        const editor = document.getElementById(this.EDITOR_KEY)!;
-
-        const textMarking: TextMarking = this.processedText!.textMarkings[i];
-
-        return editor.childNodes[textMarking.paragraph!].textContent!.slice(textMarking.from, textMarking.to);
+        this.makeRequestForStoringWrittenTexts$.next();
+        this.hasStoppedTypingForStoringWrittenTexts = false;
     }
 }
