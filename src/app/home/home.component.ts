@@ -1,12 +1,12 @@
 import {AfterViewInit, Component, ViewEncapsulation} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {BehaviorSubject, interval, Subject, finalize, switchMap, take} from "rxjs";
+import {BehaviorSubject, Subject, interval, finalize, switchMap, take} from "rxjs";
 
-import {environment} from "../../environments/environment";
-import {LocalStorageService} from "../local-storage/local-storage.service";
 import {CursorPosition} from "../models/cursor-positioning";
+import {LocalStorageService} from "../local-storage/local-storage.service";
 import {ProcessedText} from "../models/processed-text";
 import {TextMarking} from "../models/text-marking";
+import {environment} from "../../environments/environment";
 import {markText, sortParagraphedTextMarkings} from "../text-marking/text-marking";
 
 @Component({
@@ -32,13 +32,16 @@ export class HomeComponent implements AfterViewInit {
     shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
     loading$ = new BehaviorSubject<boolean>(false);
 
-    private hasStoppedTyping: boolean = true; // stopped typing after some seconds
     private baseURL!: string;
     private generateMarkingsURL!: string;
     private uploadDocumentURL!: string;
     private pingURL!: string;
+    private hasStoppedTypingForStoringWrittenTexts: boolean = true; // stopped typing after some seconds
+    private hasStoppedTypingForEventualMarking: boolean = true; // stopped typing after some seconds
+    private makeRequestForStoringWrittenTexts$ = new Subject<void>();
+    private makeRequestForEventualMarking$ = new Subject<void>();
+    private cancelEventualMarking: boolean = false;
     private savedSelection: any;
-    private makeWrittenTextRequest$ = new Subject<void>();
 
     constructor(public localStorageService: LocalStorageService, private http: HttpClient) {
         this.initializeURLs();
@@ -101,12 +104,19 @@ export class HomeComponent implements AfterViewInit {
         }
     }
 
-    onTextChange($event: KeyboardEvent) {
+    onKeyboardEvent($event: KeyboardEvent) {
+        if (this.shouldNotUpdateEditor($event)) {
+            return;
+        }
         this.updateCharacterAndWordCount();
         if (this.shouldMarkEditor($event)) {
             this.markEditor($event);
+            this.cancelEventualMarking = true;
+        } else {
+            this.cancelEventualMarking = false;
+            this.markEditorEventually($event);
         }
-        this.handleWrittenTextRequest();
+        this.handleRequestForStoringWrittenTexts();
     }
 
     // TODO data-placeholder broke
@@ -117,7 +127,7 @@ export class HomeComponent implements AfterViewInit {
 
         document.execCommand("insertText", false, text);
 
-        this.localStorageService.addNewWrittenText(text);
+        this.localStorageService.storeWrittenText(text);
 
         this.markEditor($event, CursorPosition.END);
         this.updateCharacterAndWordCount();
@@ -144,17 +154,6 @@ export class HomeComponent implements AfterViewInit {
                 this.wordCount = 0;
             }
         }
-    }
-
-
-    // TODO there's also the paste to be considered
-    shouldMarkEditor($event: KeyboardEvent) {
-        /**
-         * Considers the lastly (time-wise) typed character.
-         */
-        const TRIGGERS = ['.', '!', '?', ',', '…', 'Enter', 'Backspace', 'Delete', ' ', ':', ';', '"', '“', '”', '&',
-            '(', ')', '/', '\'', '«', '»'];
-        return TRIGGERS.includes($event.key);
     }
 
     uploadDocument($event: any) {
@@ -392,6 +391,46 @@ export class HomeComponent implements AfterViewInit {
             });
     }
 
+    private markEditorEventually($event: any) {
+        if (this.hasStoppedTypingForEventualMarking) {
+            this.makeRequestForEventualMarking$.pipe(
+                switchMap(() => {
+                    return interval(2 * this.SECONDS);
+                }), take(1)
+            ).subscribe(() => {
+                if (!this.cancelEventualMarking) {
+                    this.markEditor($event);
+                    this.hasStoppedTypingForEventualMarking = true;
+                } else {
+                    this.cancelEventualMarking = false;
+                    this.hasStoppedTypingForEventualMarking = true;
+                }
+            });
+        }
+
+        this.makeRequestForEventualMarking$.next();
+        this.hasStoppedTypingForEventualMarking = false;
+    }
+
+
+    // TODO there's also the paste to be considered
+    private shouldMarkEditor($event: KeyboardEvent) {
+        /**
+         * Considers the lastly (time-wise) typed character.
+         */
+        const TRIGGERS = ['.', '!', '?', ',', '…', 'Enter', 'Backspace', 'Delete', ' ', ':', ';', '"', '“', '”', '&',
+            '(', ')', '/', '\'', '«', '»'];
+        return TRIGGERS.includes($event.key);
+    }
+
+    private shouldNotUpdateEditor($event: any) {
+        /**
+         * Considers the lastly (time-wise) typed character.
+         */
+        const NON_TRIGGERS = ['Control', 'CapsLock', 'Shift', 'Alt', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'ArrowDown'];
+        return NON_TRIGGERS.includes($event.key);
+    }
+
     private positionCursor(element: HTMLElement, $event: any, cursorPosition: CursorPosition) {
         if (cursorPosition === CursorPosition.LAST_SAVE) {
             if (this.savedSelection) {
@@ -422,23 +461,19 @@ export class HomeComponent implements AfterViewInit {
         this.updateWordCount();
     }
 
-    private handleWrittenTextRequest() {
-        if (this.hasStoppedTyping) {
-            this.subscribeToWrittenTextRequest();
+    private handleRequestForStoringWrittenTexts() {
+        if (this.hasStoppedTypingForStoringWrittenTexts) {
+            this.makeRequestForStoringWrittenTexts$.pipe(
+                switchMap(() => {
+                    return interval(15 * this.SECONDS);
+                }), take(1)
+            ).subscribe(() => {
+                this.localStorageService.storeWrittenText(document.getElementById(this.EDITOR_KEY)!.innerText);
+                this.hasStoppedTypingForStoringWrittenTexts = true;
+            });
         }
 
-        this.makeWrittenTextRequest$.next();
-        this.hasStoppedTyping = false;
-    }
-
-    private subscribeToWrittenTextRequest() {
-        this.makeWrittenTextRequest$.pipe(
-            switchMap(() => {
-                return interval(15 * this.SECONDS);
-            }), take(1)
-        ).subscribe(() => {
-            this.localStorageService.addNewWrittenText(document.getElementById(this.EDITOR_KEY)!.innerText);
-            this.hasStoppedTyping = true;
-        });
+        this.makeRequestForStoringWrittenTexts$.next();
+        this.hasStoppedTypingForStoringWrittenTexts = false;
     }
 }

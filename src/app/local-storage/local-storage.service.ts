@@ -55,17 +55,17 @@ export class LocalStorageService {
         return writtenTextsHistory;
     }
 
-    addNewWrittenText(newWrittenText: string) {
+    storeWrittenText(writtenText: string) {
         const writtenText0 = localStorage.getItem(this.WRITTEN_TEXTS_KEYS[0]);
         if (!writtenText0) {
-            localStorage.setItem(this.WRITTEN_TEXTS_KEYS[0], newWrittenText);
+            localStorage.setItem(this.WRITTEN_TEXTS_KEYS[0], writtenText);
             return;
         }
 
         const writtenText1 = localStorage.getItem(this.WRITTEN_TEXTS_KEYS[1]);
         if (!writtenText1) {
             localStorage.setItem(this.WRITTEN_TEXTS_KEYS[1], writtenText0);
-            localStorage.setItem(this.WRITTEN_TEXTS_KEYS[0], newWrittenText);
+            localStorage.setItem(this.WRITTEN_TEXTS_KEYS[0], writtenText);
             return;
         }
 
@@ -73,7 +73,7 @@ export class LocalStorageService {
         if (!writtenText2) {
             localStorage.setItem(this.WRITTEN_TEXTS_KEYS[2], writtenText1);
             localStorage.setItem(this.WRITTEN_TEXTS_KEYS[1], writtenText0);
-            localStorage.setItem(this.WRITTEN_TEXTS_KEYS[0], newWrittenText);
+            localStorage.setItem(this.WRITTEN_TEXTS_KEYS[0], writtenText);
             return;
         }
 
@@ -82,7 +82,7 @@ export class LocalStorageService {
             localStorage.setItem(this.WRITTEN_TEXTS_KEYS[3], writtenText2);
             localStorage.setItem(this.WRITTEN_TEXTS_KEYS[2], writtenText1);
             localStorage.setItem(this.WRITTEN_TEXTS_KEYS[1], writtenText0);
-            localStorage.setItem(this.WRITTEN_TEXTS_KEYS[0], newWrittenText);
+            localStorage.setItem(this.WRITTEN_TEXTS_KEYS[0], writtenText);
             return;
         }
 
@@ -92,7 +92,7 @@ export class LocalStorageService {
             localStorage.setItem(this.WRITTEN_TEXTS_KEYS[3], writtenText2);
             localStorage.setItem(this.WRITTEN_TEXTS_KEYS[2], writtenText1);
             localStorage.setItem(this.WRITTEN_TEXTS_KEYS[1], writtenText0);
-            localStorage.setItem(this.WRITTEN_TEXTS_KEYS[0], newWrittenText);
+            localStorage.setItem(this.WRITTEN_TEXTS_KEYS[0], writtenText);
             return;
         }
 
@@ -100,7 +100,7 @@ export class LocalStorageService {
         localStorage.setItem(this.WRITTEN_TEXTS_KEYS[3], writtenText2);
         localStorage.setItem(this.WRITTEN_TEXTS_KEYS[2], writtenText1);
         localStorage.setItem(this.WRITTEN_TEXTS_KEYS[1], writtenText0);
-        localStorage.setItem(this.WRITTEN_TEXTS_KEYS[0], newWrittenText);
+        localStorage.setItem(this.WRITTEN_TEXTS_KEYS[0], writtenText);
     }
 
     _clearWrittenTexts() {
