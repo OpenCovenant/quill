@@ -39,7 +39,7 @@ export class HomeComponent implements AfterViewInit {
     private hasStoppedTypingForStoringWrittenTexts: boolean = true; // stopped typing after some seconds
     private hasStoppedTypingForEventualMarking: boolean = true; // stopped typing after some seconds
     private makeRequestForStoringWrittenTexts$ = new Subject<void>();
-    private makeWrittenTextRequestTokyoDrift$ = new Subject<void>();
+    private makeRequestForEventualMarking$ = new Subject<void>();
     private cancelEventualMarking: boolean = false;
     private savedSelection: any;
 
@@ -393,7 +393,7 @@ export class HomeComponent implements AfterViewInit {
 
     private markEditorEventually($event: any) {
         if (this.hasStoppedTypingForEventualMarking) {
-            this.makeWrittenTextRequestTokyoDrift$.pipe(
+            this.makeRequestForEventualMarking$.pipe(
                 switchMap(() => {
                     return interval(2 * this.SECONDS);
                 }), take(1)
@@ -408,7 +408,7 @@ export class HomeComponent implements AfterViewInit {
             });
         }
 
-        this.makeWrittenTextRequestTokyoDrift$.next();
+        this.makeRequestForEventualMarking$.next();
         this.hasStoppedTypingForEventualMarking = false;
     }
 
