@@ -13,21 +13,37 @@
 <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasStart" aria-labelledby="offcanvasStartLabel">
     <div class="offcanvas-header">
         <h5 id="offcanvasStartLabel">penda</h5>
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        <button id="offcanvasCloseButton" type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
     </div>
     <hr>
     <br>
     <div class="offcanvas-body">
         <div class="list-group list-group-flush">
-            <a role="button"
-               class="list-group-item list-group-item-action mb-3">Llojet&nbsp;e&nbsp;Shenjimeve&nbsp;<span
-                class="badge bg-primary rounded-pill">{{markingDetailsCount}}</span>
-            </a>
-            <a href="https://github.com/OpenCovenant" role="button"
-               class="list-group-item list-group-item-action mb-3" target="_blank" rel="noopener noreferrer">Rreth&nbsp;Nesh</a>
-            <a href="https://github.com/OpenCovenant/ink" role="button"
-               class="list-group-item list-group-item-action mb-3" target="_blank" rel="noopener noreferrer">Rreth&nbsp;penda</a>
-            <br>
+            <div class="dropdown">
+                <div style="box-shadow: 0 0 1px 1px #E3E3E3AE;">
+                    <a role="button" class="dropdown-toggle list-group-item list-group-item-action mb-3"
+                       data-bs-toggle="dropdown" aria-expanded="false">Llojet&nbsp;e&nbsp;Shenjimeve&nbsp;<span
+                        class="badge bg-primary rounded-pill">{{markingTypesCount}}</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li *ngFor="let markingTypeKey of markingTypeKeys">
+                            <a class="{{markingTypes[markingTypeKey]['enabled'] === false ? 'disabled':''}} dropdown-item"
+                               routerLink="{{markingTypeKey}}"
+                               (click)="closeOffcanvas()">{{markingTypes[markingTypeKey]['description']}}</a>
+                        </li>
+                    </ul>
+                </div>
+                <div style="box-shadow: 0 0 1px 1px #E3E3E3AE;">
+                    <a href="https://github.com/OpenCovenant" role="button"
+                       class="list-group-item list-group-item-action mb-3" target="_blank" rel="noopener noreferrer">Rreth&nbsp;Nesh</a>
+                </div>
+                <div style="box-shadow: 0 0 1px 1px #E3E3E3AE;">
+                    <a href="https://github.com/OpenCovenant/ink" role="button"
+                       class="list-group-item list-group-item-action mb-3" target="_blank" rel="noopener noreferrer">Rreth&nbsp;Penda</a>
+                </div>
+                <br>
+            </div>
         </div>
     </div>
 </div>

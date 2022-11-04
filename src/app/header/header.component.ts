@@ -10,18 +10,30 @@ import {environment} from "../../environments/environment";
 })
 export class HeaderComponent {
     baseURL!: string;
-    getMarkingDetailsCount!: string;
-    markingDetailsCount: number = 0;
+    getMarkingTypes!: string;
+    getMarkingTypesCount!: string;
+    markingTypesCount: number = 0;
+    markingTypes: any = {};
+    markingTypeKeys: any = [];
 
     constructor(private http: HttpClient) {
         this.initializeURLs();
-        this.http.get(this.getMarkingDetailsCount).subscribe((data: any) => {
-            this.markingDetailsCount = data['count'];
+        this.http.get(this.getMarkingTypesCount).subscribe((data: any) => {
+            this.markingTypesCount = data['count'];
+        });
+        this.http.get(this.getMarkingTypes).subscribe((data: any) => {
+            this.markingTypes = data['marking_types'];
+            this.markingTypeKeys = Object.keys(this.markingTypes);
         });
     }
 
     initializeURLs() {
         this.baseURL = environment.baseURL;
-        this.getMarkingDetailsCount = this.baseURL + '/api/getMarkingDetailsCount';
+        this.getMarkingTypes = this.baseURL + '/api/getMarkingTypes';
+        this.getMarkingTypesCount = this.baseURL + '/api/getMarkingTypesCount';
+    }
+
+    closeOffcanvas() {
+        document.getElementById("offcanvasCloseButton")!.click();
     }
 }
