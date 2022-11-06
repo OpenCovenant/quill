@@ -11,7 +11,13 @@ Run `npm install` to install the packages that this project requires.
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change
+- _Backend_
+  
+  To enable testing of the frontend features, the backend needs to be run in development mode first. Follow instructions on the README file at the [Ink repository](https://github.com/OpenCovenant/ink). 
+
+- _Frontend_
+ 
+  Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change
 any of the source files.
 
 ## Code scaffolding
