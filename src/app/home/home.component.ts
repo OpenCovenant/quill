@@ -28,7 +28,7 @@ export class HomeComponent implements AfterViewInit {
     displayWriteTextOrUploadDocumentFlag: any = true;
     characterCount: number = 0;
     wordCount: number = 0;
-    innerHTMLOfEditor: any = this.LINE_BROKEN_PARAGRAPH;
+    innerHTMLOfEditor: string = '';
     shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
     loading$ = new BehaviorSubject<boolean>(false);
 
@@ -287,7 +287,7 @@ export class HomeComponent implements AfterViewInit {
     }
 
     clearEditor(): void {
-        document.getElementById(this.EDITOR_KEY)!.innerHTML = this.LINE_BROKEN_PARAGRAPH;
+        document.getElementById(this.EDITOR_KEY)!.innerHTML = '';
         this.processedText = undefined;
         this.updateCharacterAndWordCount();
         this.shouldCollapseSuggestions = new Array<boolean>(0);
@@ -387,6 +387,15 @@ export class HomeComponent implements AfterViewInit {
                 });
 
                 this.positionCursor(editor, $event, cursorPosition);
+                
+                // reset innerHTML of editor when only "<p><br></p>" pattern present, to allow placeholder to show
+                if (editor.childNodes.length === 1 &&
+                    editor.childNodes[0].nodeName === 'P' &&
+                    editor.childNodes[0].childNodes.length === 1 &&
+                    editor.childNodes[0].firstChild?.nodeName === "BR"){
+                    editor.innerHTML = '';
+                }
+                
                 this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
             });
     }
