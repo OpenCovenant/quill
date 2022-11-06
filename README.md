@@ -11,6 +11,12 @@ Run `npm install` to install the packages that this project requires.
 
 ## Development server
 
+- Run Backend
+
+To start testing your application on the local development environment, follow the [README instructions](https://github.com/OpenCovenant/ink) on the ink repository. Once the python server is started you can start the angular server.
+
+- Run Frontend 
+
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change
 any of the source files.
 
