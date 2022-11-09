@@ -24,9 +24,12 @@
     padding-bottom: 3px;
 }
 
-#editor:empty:not(:focus):before, #editor:empty:focus:before {
-    content: attr(data-placeholder);
-    color: #C9C9C9;
+#editor-placeholder {
+    position: absolute;
+    color: #6D758D;
+    /* background-color: none; */
+    pointer-events: none;
+    user-select: none;
 }
 
 .suggestion {
