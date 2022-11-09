@@ -22,7 +22,7 @@ export class HomeComponent implements AfterViewInit {
     PLACEHOLDER_ELEMENT_ID: string = 'editor-placeholder';
     LINE_BREAK = '<br>';
     LINE_BROKEN_PARAGRAPH: string = '<p>' + this.LINE_BREAK + '</p>';
-    EDITOR_PLACEHOLDER_TEXT = 'Shkruaj këtu ose ngarko një dokument.';
+    EDITOR_PLACEHOLDER_TEXT: string = 'Shkruaj këtu ose ngarko një dokument.';
     writeTextToggleButtonID: string = 'writeTextToggleButton'
     uploadDocumentToggleButtonID: string = 'uploadDocumentToggleButton'
     processedText: ProcessedText | undefined;
@@ -124,10 +124,8 @@ export class HomeComponent implements AfterViewInit {
             this.cancelEventualMarking = false;
             this.markEditorEventually($event);
         }
-       
         this.handleRequestForStoringWrittenTexts();
     }
-
 
     /**
      * Checks if the editor has text or not and shows the placeholder element when the editor is empty
