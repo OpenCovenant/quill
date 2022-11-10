@@ -31,7 +31,7 @@ export class LocalStorageService {
 
     toggleWritingPermission(checked: boolean): void {
         if (!checked) {
-            this._clearWrittenTexts();
+            this.clearWrittenTexts();
         }
         this.canStoreWrittenTexts = checked;
         localStorage.setItem(this.LOCAL_STORAGE_WRITTEN_TEXT_KEY, checked.toString());
@@ -40,7 +40,7 @@ export class LocalStorageService {
     fetchWrittenTextsHistory(): Array<string> {
         const writtenTextsHistory: Array<string> = [];
         if (!this.canStoreWrittenTexts) {
-            this._clearWrittenTexts();
+            this.clearWrittenTexts();
             return writtenTextsHistory;
         }
 
@@ -55,7 +55,11 @@ export class LocalStorageService {
         return writtenTextsHistory;
     }
 
-    storeWrittenText(writtenText: string) {
+    /**
+     * Stores the given text in the Local Storage.
+     * @param writtenText
+     */
+    storeWrittenText(writtenText: string): void {
         const writtenText0 = localStorage.getItem(this.WRITTEN_TEXTS_KEYS[0]);
         if (!writtenText0) {
             localStorage.setItem(this.WRITTEN_TEXTS_KEYS[0], writtenText);
@@ -103,7 +107,7 @@ export class LocalStorageService {
         localStorage.setItem(this.WRITTEN_TEXTS_KEYS[0], writtenText);
     }
 
-    _clearWrittenTexts() {
+    private clearWrittenTexts() {
         for (let index = 0; index < this.WRITTEN_TEXTS_KEYS.length; index++) {
             localStorage.removeItem(this.WRITTEN_TEXTS_KEYS[index]);
         }
