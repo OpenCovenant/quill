@@ -130,7 +130,7 @@ export class HomeComponent implements AfterViewInit {
     /**
      * Checks if the editor has text or not and shows the placeholder element when the editor is empty
      */
-    updatePlaceholder(){
+    updatePlaceholder(): void {
         if (!this.editorHasText() || this.editorElement.innerHTML === ''){
             this.placeHolderElement!.style.display = 'block';
         } else {
