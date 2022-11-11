@@ -19,19 +19,22 @@ export class HomeComponent implements AfterViewInit {
     SECONDS: number = 1000;
     EMPTY_STRING: string = "";
     EDITOR_KEY: string = 'editor';
+    PLACEHOLDER_ELEMENT_ID: string = 'editor-placeholder';
     LINE_BREAK = '<br>';
     LINE_BROKEN_PARAGRAPH: string = '<p>' + this.LINE_BREAK + '</p>';
-
+    EDITOR_PLACEHOLDER_TEXT: string = 'Shkruaj këtu ose ngarko një dokument.';
     writeTextToggleButtonID: string = 'writeTextToggleButton'
     uploadDocumentToggleButtonID: string = 'uploadDocumentToggleButton'
     processedText: ProcessedText | undefined;
     displayWriteTextOrUploadDocumentFlag: any = true;
     characterCount: number = 0;
     wordCount: number = 0;
-    innerHTMLOfEditor: any = this.LINE_BROKEN_PARAGRAPH;
+    innerHTMLOfEditor: string = this.LINE_BROKEN_PARAGRAPH;
     shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
     loading$ = new BehaviorSubject<boolean>(false);
 
+    private placeHolderElement!: HTMLElement ;
+    private editorElement!: HTMLElement;
     private baseURL!: string;
     private generateMarkingsURL!: string;
     private uploadDocumentURL!: string;
@@ -52,6 +55,9 @@ export class HomeComponent implements AfterViewInit {
     }
 
     ngAfterViewInit(): void {
+        // save reference and reuse variable instead of reinitializing multiple times
+        this.editorElement = document.getElementById(this.EDITOR_KEY)!;
+        this.placeHolderElement = document.getElementById(this.PLACEHOLDER_ELEMENT_ID)!;
         const minWidthMatchMedia: MediaQueryList = window.matchMedia("(min-width: 800px)");
         this.focusOnMediaMatch(minWidthMatchMedia);
         // TODO some browsers still seem to use this deprecated method, keep it around for some more time
@@ -108,6 +114,8 @@ export class HomeComponent implements AfterViewInit {
         if (this.shouldNotUpdateEditor($event.key)) {
             return;
         }
+        this.updatePlaceholder();
+        
         this.updateCharacterAndWordCount();
         if (this.shouldMarkEditor($event.key)) {
             this.markEditor($event.key);
@@ -117,6 +125,17 @@ export class HomeComponent implements AfterViewInit {
             this.markEditorEventually($event);
         }
         this.handleRequestForStoringWrittenTexts();
+    }
+
+    /**
+     * Checks if the editor has text or not and shows the placeholder element when the editor is empty
+     */
+    updatePlaceholder(): void {
+        if (!this.editorHasText() || this.editorElement.innerHTML === ''){
+            this.placeHolderElement!.style.display = 'block';
+        } else {
+            this.placeHolderElement!.style.display = 'none';
+        }
     }
 
     // TODO data-placeholder broke
@@ -292,6 +311,7 @@ export class HomeComponent implements AfterViewInit {
 
     clearEditor(): void {
         document.getElementById(this.EDITOR_KEY)!.innerHTML = this.LINE_BROKEN_PARAGRAPH;
+        this.updatePlaceholder();
         this.processedText = undefined;
         this.updateCharacterAndWordCount();
         this.shouldCollapseSuggestions = new Array<boolean>(0);
