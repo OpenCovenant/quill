@@ -106,7 +106,7 @@ export class HomeComponent implements AfterViewInit {
 
     /**
      * Function that is called on a KeyboardEvent in the editor.
-     * @param $event {KeyboardEvent}
+     * @param {KeyboardEvent} $event
      */
     onKeyboardEvent($event: KeyboardEvent): void {
         if (this.shouldNotUpdateEditor($event)) {
@@ -125,7 +125,7 @@ export class HomeComponent implements AfterViewInit {
 
     /**
      * Function that is called when text is pasted in the editor.
-     * @param $event
+     * @param {*} $event the event emitted
      */
     // TODO data-placeholder broke
     onTextPaste($event: any): void {
@@ -171,7 +171,8 @@ export class HomeComponent implements AfterViewInit {
     }
 
     /**
-     * Upload a document to be marked.
+     * Uploads the selected document to be marked
+     * @param {*} $event the event emitted when the file is selected
      */
     uploadDocument($event: any) {
         const fileList: FileList = $event.target.files;
@@ -191,8 +192,8 @@ export class HomeComponent implements AfterViewInit {
 
     /**
      * Apply the chosen suggestion in the editor.
-     * @param textMarkingIndex {number} the index of the chosen TextMarking
-     * @param suggestionIndex {number} the index of the chosen Suggestion of the above TextMarking
+     * @param {number} textMarkingIndex the index of the chosen TextMarking
+     * @param {number} suggestionIndex the index of the chosen Suggestion of the above TextMarking
      */
     chooseSuggestion(textMarkingIndex: number, suggestionIndex: number): void {
         // don't choose suggestions on an uploaded file
@@ -246,7 +247,7 @@ export class HomeComponent implements AfterViewInit {
     // TODO there might be a bug here that creates double spaces in the text, test more
     /**
      * Delete the TextMarking based on the textMarkingIndex.
-     * @param textMarkingIndex {number}
+     * @param {number} textMarkingIndex
      */
     deleteTextMarking(textMarkingIndex: number): void {
         if (this.displayWriteTextOrUploadDocumentFlag) {
@@ -325,7 +326,7 @@ export class HomeComponent implements AfterViewInit {
     }
 
     /**
-     * Clear the written text in the editor.
+     * Clears the written text in the editor.
      */
     clearEditor(): void {
         document.getElementById(this.EDITOR_KEY)!.innerHTML = this.LINE_BROKEN_PARAGRAPH;
@@ -336,8 +337,8 @@ export class HomeComponent implements AfterViewInit {
 
     /**
      * Expand or contract the suggestions of a given TextMarking based on an index.
-     * @param textMarkingIndex
-     * @param $event
+     * @param {number} textMarkingIndex
+     * @param {*} $event
      */
     oscillateSuggestion(textMarkingIndex: number, $event: any): void {
         const oscillatingButtonClasses = $event.target.classList;
@@ -394,7 +395,7 @@ export class HomeComponent implements AfterViewInit {
 
     /**
      * Places the chosen stored text in the editor.
-     * @param writtenText {string}
+     * @param {string} writtenText
      */
     placeWrittenText(writtenText: string): void {
         document.getElementById(this.EDITOR_KEY)!.innerText = writtenText;
@@ -415,7 +416,7 @@ export class HomeComponent implements AfterViewInit {
     /**
      * Make the call to mark the editor into paragraphs.
      * @param $event
-     * @param cursorPosition {CursorPosition}
+     * @param {CursorPosition} cursorPosition
      * @private
      */
     private markEditor($event: any = undefined, cursorPosition: CursorPosition = CursorPosition.LAST_SAVE): void {
@@ -480,9 +481,10 @@ export class HomeComponent implements AfterViewInit {
      * keystroke can annoy the user and will also mean a significantly larger amount of requests made.
      * @param $event
      * @private
+     * @returns {boolean} true if the editor should be marked, false otherwise
      */
     // TODO there's also the paste to be considered
-    private shouldMarkEditor($event: KeyboardEvent) {
+    private shouldMarkEditor($event: KeyboardEvent): boolean {
         const TRIGGERS = ['.', '!', '?', ',', '…', 'Enter', 'Backspace', 'Delete', ' ', ':', ';', '"', '“', '”', '&',
             '(', ')', '/', '\'', '«', '»'];
         return TRIGGERS.includes($event.key);
