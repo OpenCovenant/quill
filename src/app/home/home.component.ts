@@ -105,12 +105,12 @@ export class HomeComponent implements AfterViewInit {
     }
 
     onKeyboardEvent($event: KeyboardEvent) {
-        if (this.shouldNotUpdateEditor($event)) {
+        if (this.shouldNotUpdateEditor($event.key)) {
             return;
         }
         this.updateCharacterAndWordCount();
-        if (this.shouldMarkEditor($event)) {
-            this.markEditor($event);
+        if (this.shouldMarkEditor($event.key)) {
+            this.markEditor($event.key);
             this.cancelEventualMarking = true;
         } else {
             this.cancelEventualMarking = false;
@@ -120,16 +120,20 @@ export class HomeComponent implements AfterViewInit {
     }
 
     // TODO data-placeholder broke
-    onTextPaste($event: any) {
+    onTextPaste($event: ClipboardEvent) {
         $event.preventDefault()
-
-        const text = ($event.originalEvent || $event).clipboardData.getData('text/plain');
+        if (!$event.clipboardData) { 
+            return;
+        }
+        const text: string = $event.clipboardData.getData('text/plain');
 
         document.execCommand("insertText", false, text);
 
         this.localStorageService.storeWrittenText(text);
 
-        this.markEditor($event, CursorPosition.END);
+        // DELETE: after strongly typing you can see the issue identified
+        // positioning cursor based on event.key makes no sense here as for this onPaste event there is no key related to it
+        this.markEditor('', CursorPosition.END);
         this.updateCharacterAndWordCount();
     }
 
@@ -156,9 +160,9 @@ export class HomeComponent implements AfterViewInit {
         }
     }
 
-    uploadDocument($event: any) {
-        const fileList: FileList = $event.target.files;
-        if (fileList.length === 1) {
+    uploadDocument($event: Event) {
+        const fileList: FileList | null = ($event.target as HTMLInputElement).files;
+        if (fileList && fileList.length === 1) {
             const file: File = fileList[0];
             const formData: FormData = new FormData();
             formData.append('uploadFile', file, file.name);
@@ -238,7 +242,7 @@ export class HomeComponent implements AfterViewInit {
         this.shouldCollapseSuggestions = new Array<boolean>(this.processedText!.textMarkings.length).fill(true);
     }
 
-    saveSelection(elementNode: any) {
+    saveSelection(elementNode: Node) {
         const range = window.getSelection()!.getRangeAt(0);
         const preSelectionRange = range.cloneRange();
         preSelectionRange.selectNodeContents(elementNode);
@@ -293,8 +297,8 @@ export class HomeComponent implements AfterViewInit {
         this.shouldCollapseSuggestions = new Array<boolean>(0);
     }
 
-    oscillateSuggestion(textMarkingIndex: number, $event: any) {
-        const oscillatingButtonClasses = $event.target.classList;
+    oscillateSuggestion(textMarkingIndex: number, $event: Event) {
+        const oscillatingButtonClasses: DOMTokenList = ($event.target as HTMLHeadingElement).classList;
         if (oscillatingButtonClasses.contains('bi-arrow-right-square')) {
             if (this.shouldCollapseSuggestions[textMarkingIndex]) {
                 this.shouldCollapseSuggestions[textMarkingIndex] = false;
@@ -354,15 +358,21 @@ export class HomeComponent implements AfterViewInit {
     }
 
 
-    getTextOfTextMarking(i: number) {
-        const editor = document.getElementById(this.EDITOR_KEY)!;
+    getTextOfTextMarking(i: number): string {
+        const editor: HTMLElement | null = document.getElementById(this.EDITOR_KEY)!;
+        if (!editor) { return ''; }
 
-        const textMarking: TextMarking = this.processedText!.textMarkings[i];
+        const textMarking: TextMarking | null = this.processedText ? this.processedText.textMarkings[i]: null;
+        if (!textMarking ) { return ''; }
+        if (!textMarking.paragraph) { return ''; }        
 
-        return editor.childNodes[textMarking.paragraph!].textContent!.slice(textMarking.from, textMarking.to);
+        const editorTextContent: string | null = editor.childNodes[textMarking.paragraph].textContent;
+        if (!editorTextContent) { return '' }
+        
+        return editorTextContent.slice(textMarking.from, textMarking.to);
     }
 
-    private markEditor($event: any = undefined, cursorPosition: CursorPosition = CursorPosition.LAST_SAVE): void {
+    private markEditor(eventKey: string = '', cursorPosition: CursorPosition = CursorPosition.LAST_SAVE): void {
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
 
         this.loading$.next(true);
@@ -371,13 +381,13 @@ export class HomeComponent implements AfterViewInit {
             .subscribe(next => {
                 this.processedText = next as ProcessedText;
                 this.processedText.textMarkings = sortParagraphedTextMarkings(this.processedText.textMarkings);
-                const depletableTextMarkings = Array.from(this.processedText.textMarkings);
+                const depletableTextMarkings: TextMarking[] = Array.from(this.processedText.textMarkings);
                 if (cursorPosition === CursorPosition.LAST_SAVE) {
                     this.savedSelection = this.saveSelection(editor);
                 }
 
                 editor.childNodes.forEach((childNode: ChildNode, index: number) => {
-                    const p = document.createElement('p');
+                    const p: HTMLParagraphElement = document.createElement('p');
                     p.innerHTML = childNode.textContent!;
                     if (childNode.textContent === this.EMPTY_STRING) {
                         p.innerHTML = this.LINE_BREAK
@@ -386,12 +396,12 @@ export class HomeComponent implements AfterViewInit {
                     markText(p, depletableTextMarkings.filter((tm: TextMarking) => tm.paragraph === index));
                 });
 
-                this.positionCursor(editor, $event, cursorPosition);
+                this.positionCursor(editor, eventKey, cursorPosition);
                 this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
             });
     }
 
-    private markEditorEventually($event: any) {
+    private markEditorEventually($event: KeyboardEvent) {
         if (this.hasStoppedTypingForEventualMarking) {
             this.makeRequestForEventualMarking$.pipe(
                 switchMap(() => {
@@ -399,7 +409,7 @@ export class HomeComponent implements AfterViewInit {
                 }), take(1)
             ).subscribe(() => {
                 if (!this.cancelEventualMarking) {
-                    this.markEditor($event);
+                    this.markEditor($event.key);
                     this.hasStoppedTypingForEventualMarking = true;
                 } else {
                     this.cancelEventualMarking = false;
@@ -414,28 +424,28 @@ export class HomeComponent implements AfterViewInit {
 
 
     // TODO there's also the paste to be considered
-    private shouldMarkEditor($event: KeyboardEvent) {
+    private shouldMarkEditor(eventKey: string) {
         /**
          * Considers the lastly (time-wise) typed character.
          */
         const TRIGGERS = ['.', '!', '?', ',', '…', 'Enter', 'Backspace', 'Delete', ' ', ':', ';', '"', '“', '”', '&',
             '(', ')', '/', '\'', '«', '»'];
-        return TRIGGERS.includes($event.key);
+        return TRIGGERS.includes(eventKey);
     }
 
-    private shouldNotUpdateEditor($event: any) {
+    private shouldNotUpdateEditor(eventKey: string) {
         /**
          * Considers the lastly (time-wise) typed character.
          */
         const NON_TRIGGERS = ['Control', 'CapsLock', 'Shift', 'Alt', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'ArrowDown'];
-        return NON_TRIGGERS.includes($event.key);
+        return NON_TRIGGERS.includes(eventKey);
     }
 
-    private positionCursor(element: HTMLElement, $event: any, cursorPosition: CursorPosition) {
+    private positionCursor(element: HTMLElement, eventKey: string, cursorPosition: CursorPosition) {
         if (cursorPosition === CursorPosition.LAST_SAVE) {
             if (this.savedSelection) {
-                const ALLOWED_KEY_CODES = ['Enter', 'Tab'];  // TODO can't trigger Tab for now
-                if (!ALLOWED_KEY_CODES.includes($event.key)) {
+                const ALLOWED_KEY_CODES: string[] = ['Enter', 'Tab'];  // TODO can't trigger Tab for now
+                if (!ALLOWED_KEY_CODES.includes(eventKey)) {
                     this.restoreSelection(element, this.savedSelection);
                 }
             }
@@ -445,7 +455,7 @@ export class HomeComponent implements AfterViewInit {
     }
 
     private setCursorToEnd(target: HTMLElement) {
-        const range = document.createRange();
+        const range: Range = document.createRange();
         const selection = window.getSelection();
         range.selectNodeContents(target);
         range.collapse(false);
