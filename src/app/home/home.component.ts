@@ -474,7 +474,7 @@ export class HomeComponent implements AfterViewInit {
      * @param $event
      * @private
      */
-    private markEditorEventually($event: any) {
+    private markEditorEventually($event: any): void {
         if (this.hasStoppedTypingForEventualMarking) {
             this.makeRequestForEventualMarking$.pipe(
                 switchMap(() => {
@@ -483,11 +483,10 @@ export class HomeComponent implements AfterViewInit {
             ).subscribe(() => {
                 if (!this.cancelEventualMarking) {
                     this.markEditor($event);
-                    this.hasStoppedTypingForEventualMarking = true;
                 } else {
                     this.cancelEventualMarking = false;
-                    this.hasStoppedTypingForEventualMarking = true;
                 }
+                this.hasStoppedTypingForEventualMarking = true;
             });
         }
 
