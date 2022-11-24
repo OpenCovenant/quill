@@ -152,7 +152,7 @@ export class HomeComponent implements AfterViewInit {
 
         // DELETE: after strongly typing you can see the issue identified
         // positioning cursor based on event.key makes no sense here as for this onPaste event there is no key related to it
-        this.markEditor('', CursorPosition.END);
+        this.markEditor(this.EMPTY_STRING, CursorPosition.END);
         this.updateCharacterAndWordCount();
     }
 
@@ -379,20 +379,20 @@ export class HomeComponent implements AfterViewInit {
 
 
     getTextOfTextMarking(i: number): string {
-        const editor: HTMLElement | null = document.getElementById(this.EDITOR_KEY)!;
-        if (!editor) { return ''; }
+        const editor: HTMLElement | null = document.getElementById(this.EDITOR_KEY);
+        if (!editor) { return this.EMPTY_STRING; }
 
         const textMarking: TextMarking | null = this.processedText ? this.processedText.textMarkings[i]: null;
-        if (!textMarking ) { return ''; }
-        if (!textMarking.paragraph) { return ''; }        
+        if (!textMarking ) { return this.EMPTY_STRING; }
+        if (!textMarking.paragraph) { return this.EMPTY_STRING; }        
 
         const editorTextContent: string | null = editor.childNodes[textMarking.paragraph].textContent;
-        if (!editorTextContent) { return '' }
+        if (!editorTextContent) { return this.EMPTY_STRING; }
         
         return editorTextContent.slice(textMarking.from, textMarking.to);
     }
 
-    private markEditor(eventKey: string = '', cursorPosition: CursorPosition = CursorPosition.LAST_SAVE): void {
+    private markEditor(eventKey: string = this.EMPTY_STRING, cursorPosition: CursorPosition = CursorPosition.LAST_SAVE): void {
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
 
         this.loading$.next(true);
