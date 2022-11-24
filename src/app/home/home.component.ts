@@ -33,7 +33,7 @@ export class HomeComponent implements AfterViewInit {
     shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
     loading$ = new BehaviorSubject<boolean>(false);
 
-    private placeHolderElement!: HTMLElement ;
+    private placeHolderElement!: HTMLElement;
     private editorElement!: HTMLElement;
     private baseURL!: string;
     private generateMarkingsURL!: string;
@@ -115,7 +115,7 @@ export class HomeComponent implements AfterViewInit {
             return;
         }
         this.updatePlaceholder();
-        
+
         this.updateCharacterAndWordCount();
         if (this.shouldMarkEditor($event.key)) {
             this.markEditor($event.key);
@@ -131,7 +131,7 @@ export class HomeComponent implements AfterViewInit {
      * Checks if the editor has text or not and shows the placeholder element when the editor is empty
      */
     updatePlaceholder(): void {
-        if (!this.editorHasText() || this.editorElement.innerHTML === ''){
+        if (!this.editorHasText() || this.editorElement.innerHTML === '') {
             this.placeHolderElement!.style.display = 'block';
         } else {
             this.placeHolderElement!.style.display = 'none';
