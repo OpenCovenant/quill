@@ -148,7 +148,6 @@ export class HomeComponent implements AfterViewInit {
      * Function that is called when text is pasted in the editor.
      * @param {*} $event the event emitted
      */
-    // TODO data-placeholder broke
     onTextPaste($event: any): void {
         $event.preventDefault()
 
