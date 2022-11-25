@@ -60,51 +60,28 @@ export class LocalStorageService {
      * @param writtenText
      */
     storeWrittenText(writtenText: string): void {
-        const writtenText0 = localStorage.getItem(this.WRITTEN_TEXTS_KEYS[0]);
-        if (!writtenText0) {
-            localStorage.setItem(this.WRITTEN_TEXTS_KEYS[0], writtenText);
-            return;
+        let arr: string[] = [];
+        for (let i = 0; i < this.WRITTEN_TEXTS_LENGTH; i++) {
+            arr.push(localStorage.getItem(this.WRITTEN_TEXTS_KEYS[i])!);
+            if (!arr[arr.length - 1]) {
+                for (let j = i; j >= 0; j--) {
+                    if (j === 0) {
+                        localStorage.setItem(this.WRITTEN_TEXTS_KEYS[j], writtenText)
+                    } else {
+                        localStorage.setItem(this.WRITTEN_TEXTS_KEYS[j], arr[j - 1])
+                    }
+                }
+                return;
+            }
         }
 
-        const writtenText1 = localStorage.getItem(this.WRITTEN_TEXTS_KEYS[1]);
-        if (!writtenText1) {
-            localStorage.setItem(this.WRITTEN_TEXTS_KEYS[1], writtenText0);
-            localStorage.setItem(this.WRITTEN_TEXTS_KEYS[0], writtenText);
-            return;
+        for (let i = this.WRITTEN_TEXTS_LENGTH - 1; i >= 0; i++) {
+            if (i === 0) {
+                localStorage.setItem(this.WRITTEN_TEXTS_KEYS[i], writtenText)
+            } else {
+                localStorage.setItem(this.WRITTEN_TEXTS_KEYS[i], arr[i - 1])
+            }
         }
-
-        const writtenText2 = localStorage.getItem(this.WRITTEN_TEXTS_KEYS[2]);
-        if (!writtenText2) {
-            localStorage.setItem(this.WRITTEN_TEXTS_KEYS[2], writtenText1);
-            localStorage.setItem(this.WRITTEN_TEXTS_KEYS[1], writtenText0);
-            localStorage.setItem(this.WRITTEN_TEXTS_KEYS[0], writtenText);
-            return;
-        }
-
-        const writtenText3 = localStorage.getItem(this.WRITTEN_TEXTS_KEYS[3]);
-        if (!writtenText3) {
-            localStorage.setItem(this.WRITTEN_TEXTS_KEYS[3], writtenText2);
-            localStorage.setItem(this.WRITTEN_TEXTS_KEYS[2], writtenText1);
-            localStorage.setItem(this.WRITTEN_TEXTS_KEYS[1], writtenText0);
-            localStorage.setItem(this.WRITTEN_TEXTS_KEYS[0], writtenText);
-            return;
-        }
-
-        const writtenText4 = localStorage.getItem(this.WRITTEN_TEXTS_KEYS[4]);
-        if (!writtenText4) {
-            localStorage.setItem(this.WRITTEN_TEXTS_KEYS[4], writtenText3);
-            localStorage.setItem(this.WRITTEN_TEXTS_KEYS[3], writtenText2);
-            localStorage.setItem(this.WRITTEN_TEXTS_KEYS[2], writtenText1);
-            localStorage.setItem(this.WRITTEN_TEXTS_KEYS[1], writtenText0);
-            localStorage.setItem(this.WRITTEN_TEXTS_KEYS[0], writtenText);
-            return;
-        }
-
-        localStorage.setItem(this.WRITTEN_TEXTS_KEYS[4], writtenText3);
-        localStorage.setItem(this.WRITTEN_TEXTS_KEYS[3], writtenText2);
-        localStorage.setItem(this.WRITTEN_TEXTS_KEYS[2], writtenText1);
-        localStorage.setItem(this.WRITTEN_TEXTS_KEYS[1], writtenText0);
-        localStorage.setItem(this.WRITTEN_TEXTS_KEYS[0], writtenText);
     }
 
     private clearWrittenTexts() {
