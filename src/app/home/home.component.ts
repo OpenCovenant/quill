@@ -134,17 +134,6 @@ export class HomeComponent implements AfterViewInit {
     }
 
     /**
-     * Checks if the editor has text or not and shows the placeholder element when the editor is empty
-     */
-    updatePlaceholder(): void {
-        if (!this.editorHasText() || this.editorElement.innerHTML === this.EMPTY_STRING) {
-            this.placeHolderElement.style.display = 'block';
-        } else {
-            this.placeHolderElement.style.display = 'none';
-        }
-    }
-
-    /**
      * Function that is called when text is pasted in the editor.
      * @param {ClipboardEvent} $event the event emitted
      */
@@ -196,9 +185,9 @@ export class HomeComponent implements AfterViewInit {
 
     /**
      * Uploads the selected document to be marked
-     * @param {*} $event the event emitted when the file is selected
+     * @param {Event} $event the event emitted when the file is selected
      */
-    uploadDocument($event: Event) {
+    uploadDocument($event: Event): void {
         const fileList: FileList | null = ($event.target as HTMLInputElement).files;
         if (fileList && fileList.length === 1) {
             const file: File = fileList[0];
@@ -270,77 +259,18 @@ export class HomeComponent implements AfterViewInit {
 
     // TODO there might be a bug here that creates double spaces in the text, test more
     /**
-     * Delete the TextMarking based on the **textMarkingIndex**.
+     * Delete the **TextMarking** based on the **textMarkingIndex**.
      * @param {number} textMarkingIndex the index of the text marking from the list of the sorted text markings
      */
     deleteTextMarking(textMarkingIndex: number): void {
         if (this.displayWriteTextOrUploadDocumentFlag) {
             const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
-            const htmlElement: HTMLBodyElement = new DOMParser().parseFromString(editor.innerHTML, "text/html")
-                .firstChild!.lastChild! as HTMLBodyElement;
-
-            htmlElement.replaceChild(document.createTextNode(htmlElement.children[textMarkingIndex].textContent!), htmlElement.children[textMarkingIndex]);
-
-            editor.innerHTML = htmlElement.innerHTML;
+            editor.replaceChild(document.createTextNode(editor.children[textMarkingIndex].textContent!), editor.children[textMarkingIndex]);
         }
 
         this.processedText!.textMarkings = this.processedText!.textMarkings
             .filter(tM => tM !== this.processedText!.textMarkings[textMarkingIndex]);
         this.shouldCollapseSuggestions = new Array<boolean>(this.processedText!.textMarkings.length).fill(true);
-    }
-
-    /**
-     * Store the start and end position based on the **Range** of the current **Selection** at the given
-     * **elementNode**.
-     * @param {Node} elementNode the working node in which we want to generate the start and end position
-     */
-    private saveSelection(elementNode: Node): BasicAbstractRange {
-        const range: Range = window.getSelection()!.getRangeAt(0);
-        const preSelectionRange: Range = range.cloneRange();
-        preSelectionRange.selectNodeContents(elementNode);
-        preSelectionRange.setEnd(range.startContainer, range.startOffset);
-        const start: number = preSelectionRange.toString().length;
-
-        return {
-            start: start,
-            end: start + range.toString().length
-        }
-    };
-
-    /**
-     * Restore the currently stored start and end position to a given **savedSelection** in **elementNode**.
-     * @param {Node} elementNode the working node in which we want to restore the start and end position
-     * @param {BasicAbstractRange} savedSelection the start and end numbers saved at an earlier point in time
-     */
-    private restoreSelection(elementNode: Node, savedSelection: BasicAbstractRange): void {
-        let charIndex: number = 0, range: Range = document.createRange();
-        range.setStart(elementNode, 0);
-        range.collapse(true);
-        let nodeStack = [elementNode], node: Node | undefined, foundStart: boolean = false, stop: boolean = false;
-
-        while (!stop && (node = nodeStack.pop())) {
-            if (node.nodeType === Node.TEXT_NODE) {
-                const nextCharIndex: number = charIndex + node.textContent!.length;
-                if (!foundStart && savedSelection.start >= charIndex && savedSelection.start <= nextCharIndex) {
-                    range.setStart(node, savedSelection.start - charIndex);
-                    foundStart = true;
-                }
-                if (foundStart && savedSelection.end >= charIndex && savedSelection.end <= nextCharIndex) {
-                    range.setEnd(node, savedSelection.end - charIndex);
-                    stop = true;
-                }
-                charIndex = nextCharIndex;
-            } else {
-                let i: number = node.childNodes.length;
-                while (i--) {
-                    nodeStack.push(node.childNodes[i]);
-                }
-            }
-        }
-
-        const selection: Selection = window.getSelection()!;
-        selection.removeAllRanges();
-        selection.addRange(range);
     }
 
     /**
@@ -381,7 +311,7 @@ export class HomeComponent implements AfterViewInit {
         }
     }
 
-    copyToClipboard() {
+    copyToClipboard(): void {
         const copyToClipboardButton: HTMLElement = document.getElementById("copyToClipboardButton")!;
         copyToClipboardButton.classList.replace("bi-clipboard", "bi-clipboard2-check");
         copyToClipboardButton.style.color = "green";
@@ -409,11 +339,11 @@ export class HomeComponent implements AfterViewInit {
         }, 2 * this.SECONDS);
     }
 
-    toggleStoringOfWrittenTexts() {
+    toggleStoringOfWrittenTexts(): void {
         this.localStorageService.toggleWritingPermission((document.getElementById("flexSwitchCheckChecked") as any).checked)
     }
 
-    focusOnMediaMatch(mediaMatch: any) {
+    focusOnMediaMatch(mediaMatch: any): void {
         if (mediaMatch.matches) {
             document.getElementById(this.EDITOR_KEY)?.focus();
         }
@@ -433,14 +363,22 @@ export class HomeComponent implements AfterViewInit {
 
     getTextOfTextMarking(textMarkingIndex: number): string {
         const editor: HTMLElement | null = document.getElementById(this.EDITOR_KEY);
-        if (!editor) { return this.EMPTY_STRING; }
+        if (!editor) {
+            return this.EMPTY_STRING;
+        }
 
-        const textMarking: TextMarking | null = this.processedText ? this.processedText.textMarkings[textMarkingIndex]: null;
-        if (!textMarking ) { return this.EMPTY_STRING; }
-        if (!textMarking.paragraph) { return this.EMPTY_STRING; }
+        const textMarking: TextMarking | null = this.processedText ? this.processedText.textMarkings[textMarkingIndex] : null;
+        if (!textMarking) {
+            return this.EMPTY_STRING;
+        }
+        if (!textMarking.paragraph) {
+            return this.EMPTY_STRING;
+        }
 
         const editorTextContent: string | null = editor.childNodes[textMarking.paragraph].textContent;
-        if (!editorTextContent) { return this.EMPTY_STRING; }
+        if (!editorTextContent) {
+            return this.EMPTY_STRING;
+        }
 
         return editorTextContent.slice(textMarking.from, textMarking.to);
     }
@@ -571,9 +509,74 @@ export class HomeComponent implements AfterViewInit {
         elementNode.scrollTop = elementNode.scrollHeight;
     }
 
+    /**
+     * Store the start and end position based on the **Range** of the current **Selection** at the given
+     * **elementNode**.
+     * @param {Node} elementNode the working node in which we want to generate the start and end position
+     */
+    private saveSelection(elementNode: Node): BasicAbstractRange {
+        const range: Range = window.getSelection()!.getRangeAt(0);
+        const preSelectionRange: Range = range.cloneRange();
+        preSelectionRange.selectNodeContents(elementNode);
+        preSelectionRange.setEnd(range.startContainer, range.startOffset);
+        const start: number = preSelectionRange.toString().length;
+
+        return {
+            start: start,
+            end: start + range.toString().length
+        }
+    };
+
+    /**
+     * Restore the currently stored start and end position to a given **savedSelection** in **elementNode**.
+     * @param {Node} elementNode the working node in which we want to restore the start and end position
+     * @param {BasicAbstractRange} savedSelection the start and end numbers saved at an earlier point in time
+     */
+    private restoreSelection(elementNode: Node, savedSelection: BasicAbstractRange): void {
+        let charIndex: number = 0, range: Range = document.createRange();
+        range.setStart(elementNode, 0);
+        range.collapse(true);
+        let nodeStack = [elementNode], node: Node | undefined, foundStart: boolean = false, stop: boolean = false;
+
+        while (!stop && (node = nodeStack.pop())) {
+            if (node.nodeType === Node.TEXT_NODE) {
+                const nextCharIndex: number = charIndex + node.textContent!.length;
+                if (!foundStart && savedSelection.start >= charIndex && savedSelection.start <= nextCharIndex) {
+                    range.setStart(node, savedSelection.start - charIndex);
+                    foundStart = true;
+                }
+                if (foundStart && savedSelection.end >= charIndex && savedSelection.end <= nextCharIndex) {
+                    range.setEnd(node, savedSelection.end - charIndex);
+                    stop = true;
+                }
+                charIndex = nextCharIndex;
+            } else {
+                let i: number = node.childNodes.length;
+                while (i--) {
+                    nodeStack.push(node.childNodes[i]);
+                }
+            }
+        }
+
+        const selection: Selection = window.getSelection()!;
+        selection.removeAllRanges();
+        selection.addRange(range);
+    }
+
     private updateCharacterAndWordCount(): void {
         this.updateCharacterCount();
         this.updateWordCount();
+    }
+
+    /**
+     * Checks if the editor has text or not and shows the placeholder element when the editor is empty
+     */
+    updatePlaceholder(): void {
+        if (!this.editorHasText() || this.editorElement.innerHTML === this.EMPTY_STRING) {
+            this.placeHolderElement.style.display = 'block';
+        } else {
+            this.placeHolderElement.style.display = 'none';
+        }
     }
 
     private handleRequestForStoringWrittenTexts(): void {
