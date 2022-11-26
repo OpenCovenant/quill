@@ -117,14 +117,14 @@ export class HomeComponent implements AfterViewInit {
      * @param {KeyboardEvent} $event
      */
     onKeyboardEvent($event: KeyboardEvent): void {
-        if (this.shouldNotMarkEditor($event)) {
+        if (this.shouldNotMarkEditor($event.key)) {
             return;
         }
         this.updatePlaceholder();
 
         this.updateCharacterAndWordCount();
-        if (this.shouldMarkEditor($event)) {
-            this.markEditor($event);
+        if (this.shouldMarkEditor($event.key)) {
+            this.markEditor($event.key);
             this.cancelEventualMarking = true;
         } else {
             this.cancelEventualMarking = false;
@@ -146,18 +146,22 @@ export class HomeComponent implements AfterViewInit {
 
     /**
      * Function that is called when text is pasted in the editor.
-     * @param {*} $event the event emitted
+     * @param {ClipboardEvent} $event the event emitted
      */
-    onTextPaste($event: any): void {
+    onTextPaste($event: ClipboardEvent): void {
         $event.preventDefault()
-
-        const text = ($event.originalEvent || $event).clipboardData.getData('text/plain');
+        if (!$event.clipboardData) {
+            return;
+        }
+        const text: string = $event.clipboardData.getData('text/plain');
 
         document.execCommand("insertText", false, text);
 
         this.localStorageService.storeWrittenText(text);
 
-        this.markEditor($event, CursorPosition.END);
+        // DELETE: after strongly typing you can see the issue identified
+        // positioning cursor based on event.key makes no sense here as for this onPaste event there is no key related to it
+        this.markEditor(this.EMPTY_STRING, CursorPosition.END);
         this.updateCharacterAndWordCount();
     }
 
@@ -194,9 +198,9 @@ export class HomeComponent implements AfterViewInit {
      * Uploads the selected document to be marked
      * @param {*} $event the event emitted when the file is selected
      */
-    uploadDocument($event: any) {
-        const fileList: FileList = $event.target.files;
-        if (fileList.length === 1) {
+    uploadDocument($event: Event) {
+        const fileList: FileList | null = ($event.target as HTMLInputElement).files;
+        if (fileList && fileList.length === 1) {
             const file: File = fileList[0];
             const formData: FormData = new FormData();
             formData.append('uploadFile', file, file.name);
@@ -360,10 +364,10 @@ export class HomeComponent implements AfterViewInit {
     /**
      * Expand or contract the suggestions of a given TextMarking based on an index.
      * @param {number} textMarkingIndex the index of the text marking from the list of the sorted text markings
-     * @param {*} $event the click event that is triggered when clicking on the expand/contract icon
+     * @param {Event} $event the click event that is triggered when clicking on the expand/contract icon
      */
-    oscillateSuggestion(textMarkingIndex: number, $event: any): void {
-        const oscillatingButtonClasses = $event.target.classList;
+    oscillateSuggestion(textMarkingIndex: number, $event: Event): void {
+        const oscillatingButtonClasses: DOMTokenList = ($event.target as HTMLHeadingElement).classList;
         if (oscillatingButtonClasses.contains('bi-arrow-right-square')) {
             if (this.shouldCollapseSuggestions[textMarkingIndex]) {
                 this.shouldCollapseSuggestions[textMarkingIndex] = false;
@@ -426,21 +430,28 @@ export class HomeComponent implements AfterViewInit {
         this.updateCharacterAndWordCount();
     }
 
+
     getTextOfTextMarking(textMarkingIndex: number): string {
-        const editor = document.getElementById(this.EDITOR_KEY)!;
+        const editor: HTMLElement | null = document.getElementById(this.EDITOR_KEY);
+        if (!editor) { return this.EMPTY_STRING; }
 
-        const textMarking: TextMarking = this.processedText!.textMarkings[textMarkingIndex];
+        const textMarking: TextMarking | null = this.processedText ? this.processedText.textMarkings[textMarkingIndex]: null;
+        if (!textMarking ) { return this.EMPTY_STRING; }
+        if (!textMarking.paragraph) { return this.EMPTY_STRING; }
 
-        return editor.childNodes[textMarking.paragraph!].textContent!.slice(textMarking.from, textMarking.to);
+        const editorTextContent: string | null = editor.childNodes[textMarking.paragraph].textContent;
+        if (!editorTextContent) { return this.EMPTY_STRING; }
+
+        return editorTextContent.slice(textMarking.from, textMarking.to);
     }
 
     /**
      * Make the call to mark the editor into paragraphs.
-     * @param {*} $event
+     * @param {string} eventKey
      * @param {CursorPosition} cursorPosition
      * @private
      */
-    private markEditor($event: any = undefined, cursorPosition: CursorPosition = CursorPosition.LAST_SAVE): void {
+    private markEditor(eventKey: string = this.EMPTY_STRING, cursorPosition: CursorPosition = CursorPosition.LAST_SAVE): void {
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
 
         this.loading$.next(true);
@@ -449,13 +460,13 @@ export class HomeComponent implements AfterViewInit {
             .subscribe(next => {
                 this.processedText = next as ProcessedText;
                 this.processedText.textMarkings = sortParagraphedTextMarkings(this.processedText.textMarkings);
-                const consumableTextMarkings = Array.from(this.processedText.textMarkings);
+                const consumableTextMarkings: TextMarking[] = Array.from(this.processedText.textMarkings);
                 if (cursorPosition === CursorPosition.LAST_SAVE) {
                     this.savedSelection = this.saveSelection(editor);
                 }
 
                 editor.childNodes.forEach((childNode: ChildNode, index: number) => {
-                    const p = document.createElement('p');
+                    const p: HTMLParagraphElement = document.createElement('p');
                     p.innerHTML = childNode.textContent!;
                     if (childNode.textContent === this.EMPTY_STRING) {
                         p.innerHTML = this.LINE_BREAK
@@ -464,7 +475,7 @@ export class HomeComponent implements AfterViewInit {
                     markText(p, consumableTextMarkings.filter((tm: TextMarking) => tm.paragraph === index));
                 });
 
-                this.positionCursor(editor, $event, cursorPosition);
+                this.positionCursor(editor, eventKey, cursorPosition);
                 this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
             });
     }
@@ -483,7 +494,7 @@ export class HomeComponent implements AfterViewInit {
                 }), take(1)
             ).subscribe(() => {
                 if (!this.cancelEventualMarking) {
-                    this.markEditor($event);
+                    this.markEditor($event.key);
                 } else {
                     this.cancelEventualMarking = false;
                 }
@@ -500,41 +511,41 @@ export class HomeComponent implements AfterViewInit {
      * example breaking the current line is considered as a signal to attempt to mark the currently written text.
      * Attempting to mark the editor after every keystroke can annoy the user and will also mean a significantly larger
      * amount of requests made.
-     * @param {KeyboardEvent} $event fetched from the **onKeyboardEvent** method
+     * @param {string} eventKey fetched from the **onKeyboardEvent** method
      * @private
      * @returns {boolean} true if the editor should be marked, false otherwise
      */
     // TODO there's also the paste to be considered
-    private shouldMarkEditor($event: KeyboardEvent): boolean {
+    private shouldMarkEditor(eventKey: string): boolean {
         const TRIGGERS = ['.', '!', '?', ',', '…', 'Enter', 'Backspace', 'Delete', ' ', ':', ';', '"', '“', '”', '&',
             '(', ')', '/', '\'', '«', '»'];
-        return TRIGGERS.includes($event.key);
+        return TRIGGERS.includes(eventKey);
     }
 
     /**
      * Checks if the given emitted event key is included in a list of key non-triggers in order to not mark the editor.
      * For example pressing one of the arrow keys in the keyboard should not alter the editor's markings.
-     * @param {KeyboardEvent} $event fetched from the **onKeyboardEvent** method
+     * @param {string} eventKey fetched from the **onKeyboardEvent** method
      * @private
      * @returns {boolean} true if the editor should be not marked, false otherwise
      */
-    private shouldNotMarkEditor($event: KeyboardEvent): boolean {
+    private shouldNotMarkEditor(eventKey: string): boolean {
         const NON_TRIGGERS = ['Control', 'CapsLock', 'Shift', 'Alt', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'ArrowDown'];
-        return NON_TRIGGERS.includes($event.key);
+        return NON_TRIGGERS.includes(eventKey);
     }
 
     /**
      * Position the cursor in the given element based on the provided position.
      * @param {HTMLElement} element
-     * @param {*} $event
+     * @param {string} eventKey
      * @param {CursorPosition} cursorPosition
      * @private
      */
-    private positionCursor(element: HTMLElement, $event: any, cursorPosition: CursorPosition): void {
+    private positionCursor(element: HTMLElement, eventKey: string, cursorPosition: CursorPosition): void {
         if (cursorPosition === CursorPosition.LAST_SAVE) {
             if (this.savedSelection) {
-                const ALLOWED_KEY_CODES = ['Enter', 'Tab'];  // TODO can't trigger Tab for now
-                if (!ALLOWED_KEY_CODES.includes($event.key)) {
+                const ALLOWED_KEY_CODES: string[] = ['Enter', 'Tab'];  // TODO can't trigger Tab for now
+                if (!ALLOWED_KEY_CODES.includes(eventKey)) {
                     this.restoreSelection(element, this.savedSelection);
                 }
             }
