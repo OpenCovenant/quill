@@ -368,10 +368,7 @@ export class HomeComponent implements AfterViewInit {
         }
 
         const textMarking: TextMarking | null = this.processedText ? this.processedText.textMarkings[textMarkingIndex] : null;
-        if (!textMarking) {
-            return this.EMPTY_STRING;
-        }
-        if (!textMarking.paragraph) {
+        if (!textMarking || !textMarking.paragraph) {
             return this.EMPTY_STRING;
         }
 
