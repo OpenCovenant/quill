@@ -2,6 +2,7 @@ import {AfterViewInit, Component, ViewEncapsulation} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject, Subject, interval, finalize, switchMap, take} from "rxjs";
 
+import {BasicAbstractRange} from "../models/basic-abstract-range";
 import {CursorPosition} from "../models/cursor-positioning";
 import {LocalStorageService} from "../local-storage/local-storage.service";
 import {ProcessedText} from "../models/processed-text";
@@ -17,6 +18,7 @@ import {markText, sortParagraphedTextMarkings} from "../text-marking/text-markin
 })
 export class HomeComponent implements AfterViewInit {
     SECONDS: number = 1000;
+    EVENTUAL_MARKING_TIME: number = 2 * this.SECONDS;
     EMPTY_STRING: string = "";
     EDITOR_KEY: string = 'editor';
     PLACEHOLDER_ELEMENT_ID: string = 'editor-placeholder';
@@ -44,7 +46,7 @@ export class HomeComponent implements AfterViewInit {
     private makeRequestForStoringWrittenTexts$ = new Subject<void>();
     private makeRequestForEventualMarking$ = new Subject<void>();
     private cancelEventualMarking: boolean = false;
-    private savedSelection: any;
+    private savedSelection: BasicAbstractRange | undefined;
 
     constructor(public localStorageService: LocalStorageService, private http: HttpClient) {
         this.initializeURLs();
@@ -65,7 +67,7 @@ export class HomeComponent implements AfterViewInit {
         (document.getElementById("flexSwitchCheckChecked") as any).checked = this.localStorageService.canStoreWrittenTexts;
     }
 
-    initializeURLs() {
+    initializeURLs(): void {
         this.baseURL = environment.baseURL;
         this.generateMarkingsURL = this.baseURL + '/api/generateMarkingsForParagraphs';
         this.uploadDocumentURL = this.baseURL + '/api/uploadDocument';
@@ -73,7 +75,7 @@ export class HomeComponent implements AfterViewInit {
     }
 
     // TODO this, along with the toggleUploadDocumentButton function surely can be improved
-    toggleWriteTextButton() {
+    toggleWriteTextButton(): void {
         const writeTextToggleButton = document.getElementById(this.writeTextToggleButtonID);
         const uploadDocumentToggleButton = document.getElementById(this.uploadDocumentToggleButtonID);
 
@@ -93,7 +95,7 @@ export class HomeComponent implements AfterViewInit {
     }
 
     // TODO this, along with the toggleWriteTextButton function surely can be improved
-    toggleUploadDocumentButton() {
+    toggleUploadDocumentButton(): void {
         const writeTextToggleButton = document.getElementById(this.writeTextToggleButtonID);
         const uploadDocumentToggleButton = document.getElementById(this.uploadDocumentToggleButtonID);
 
@@ -110,8 +112,12 @@ export class HomeComponent implements AfterViewInit {
         }
     }
 
-    onKeyboardEvent($event: KeyboardEvent) {
-        if (this.shouldNotUpdateEditor($event.key)) {
+    /**
+     * Function that is called on a **KeyboardEvent** in the editor.
+     * @param {KeyboardEvent} $event
+     */
+    onKeyboardEvent($event: KeyboardEvent): void {
+        if (this.shouldNotMarkEditor($event.key)) {
             return;
         }
         this.updatePlaceholder();
@@ -131,17 +137,20 @@ export class HomeComponent implements AfterViewInit {
      * Checks if the editor has text or not and shows the placeholder element when the editor is empty
      */
     updatePlaceholder(): void {
-        if (!this.editorHasText() || this.editorElement.innerHTML === '') {
-            this.placeHolderElement!.style.display = 'block';
+        if (!this.editorHasText() || this.editorElement.innerHTML === this.EMPTY_STRING) {
+            this.placeHolderElement.style.display = 'block';
         } else {
-            this.placeHolderElement!.style.display = 'none';
+            this.placeHolderElement.style.display = 'none';
         }
     }
 
-    // TODO data-placeholder broke
-    onTextPaste($event: ClipboardEvent) {
+    /**
+     * Function that is called when text is pasted in the editor.
+     * @param {ClipboardEvent} $event the event emitted
+     */
+    onTextPaste($event: ClipboardEvent): void {
         $event.preventDefault()
-        if (!$event.clipboardData) { 
+        if (!$event.clipboardData) {
             return;
         }
         const text: string = $event.clipboardData.getData('text/plain');
@@ -156,7 +165,10 @@ export class HomeComponent implements AfterViewInit {
         this.updateCharacterAndWordCount();
     }
 
-    updateCharacterCount() {
+    /**
+     * Updates the character count field to the number of characters shown in the editor
+     */
+    updateCharacterCount(): void {
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
         // for the scenario of the default text being <p><br></p> and this method being triggered by shift, ctrl, ...
         if (editor.innerText.length === 1 && editor.innerText.charCodeAt(0) === 10) {
@@ -165,7 +177,10 @@ export class HomeComponent implements AfterViewInit {
         this.characterCount = document.getElementById(this.EDITOR_KEY)!.innerText.length;
     }
 
-    updateWordCount() {
+    /**
+     * Updates the word count field to the number of characters shown in the editor
+     */
+    updateWordCount(): void {
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
         if (editor.innerText === '') {
             this.wordCount = 0;
@@ -179,6 +194,10 @@ export class HomeComponent implements AfterViewInit {
         }
     }
 
+    /**
+     * Uploads the selected document to be marked
+     * @param {*} $event the event emitted when the file is selected
+     */
     uploadDocument($event: Event) {
         const fileList: FileList | null = ($event.target as HTMLInputElement).files;
         if (fileList && fileList.length === 1) {
@@ -195,6 +214,11 @@ export class HomeComponent implements AfterViewInit {
         }
     }
 
+    /**
+     * Apply the chosen suggestion in the editor.
+     * @param {number} textMarkingIndex the index of the chosen TextMarking
+     * @param {number} suggestionIndex the index of the chosen Suggestion of the above TextMarking
+     */
     chooseSuggestion(textMarkingIndex: number, suggestionIndex: number): void {
         // don't choose suggestions on an uploaded file
         if (!this.displayWriteTextOrUploadDocumentFlag) {
@@ -222,7 +246,7 @@ export class HomeComponent implements AfterViewInit {
 
             if (this.processedText?.textMarkings.length != 0) {
                 this.processedText.textMarkings = sortParagraphedTextMarkings(this.processedText.textMarkings);
-                const depletableTextMarkings: TextMarking[] = Array.from(this.processedText.textMarkings);
+                const consumableTextMarkings: TextMarking[] = Array.from(this.processedText.textMarkings);
 
                 editor.childNodes.forEach((childNode: ChildNode, index: number) => {
                     const p = document.createElement('p');
@@ -231,13 +255,13 @@ export class HomeComponent implements AfterViewInit {
                         p.innerHTML = this.LINE_BREAK
                     }
                     editor.replaceChild(p, childNode);
-                    markText(p, depletableTextMarkings.filter((tm: TextMarking) => tm.paragraph === index));
+                    markText(p, consumableTextMarkings.filter((tm: TextMarking) => tm.paragraph === index));
                 });
 
                 // TODO editor or childNode here? I guess we have to do the whole thing always...
-                // markText(editor, depletableTextMarkings.filter((tm: TextMarking) => tm.paragraph === textMarking.paragraph!));
+                // markText(editor, consumableTextMarkings.filter((tm: TextMarking) => tm.paragraph === textMarking.paragraph!));
             }
-            this.setCursorToEnd(editor);
+            this.positionCursorToEnd(editor);
 
             this.updateCharacterAndWordCount();
             this.shouldCollapseSuggestions = new Array<boolean>(this.processedText.textMarkings.length).fill(true);
@@ -245,28 +269,37 @@ export class HomeComponent implements AfterViewInit {
     }
 
     // TODO there might be a bug here that creates double spaces in the text, test more
-    deleteTextMarking(index: number): void {
+    /**
+     * Delete the TextMarking based on the **textMarkingIndex**.
+     * @param {number} textMarkingIndex the index of the text marking from the list of the sorted text markings
+     */
+    deleteTextMarking(textMarkingIndex: number): void {
         if (this.displayWriteTextOrUploadDocumentFlag) {
-            const editor = document.getElementById(this.EDITOR_KEY);
-            const htmlElement: HTMLBodyElement = new DOMParser().parseFromString(editor!.innerHTML, "text/html")
+            const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
+            const htmlElement: HTMLBodyElement = new DOMParser().parseFromString(editor.innerHTML, "text/html")
                 .firstChild!.lastChild! as HTMLBodyElement;
 
-            htmlElement.replaceChild(document.createTextNode(htmlElement.children[index].textContent!), htmlElement.children[index]);
+            htmlElement.replaceChild(document.createTextNode(htmlElement.children[textMarkingIndex].textContent!), htmlElement.children[textMarkingIndex]);
 
-            editor!.innerHTML = htmlElement.innerHTML;
+            editor.innerHTML = htmlElement.innerHTML;
         }
 
         this.processedText!.textMarkings = this.processedText!.textMarkings
-            .filter(tM => tM != this.processedText!.textMarkings[index]);
+            .filter(tM => tM !== this.processedText!.textMarkings[textMarkingIndex]);
         this.shouldCollapseSuggestions = new Array<boolean>(this.processedText!.textMarkings.length).fill(true);
     }
 
-    saveSelection(elementNode: Node) {
-        const range = window.getSelection()!.getRangeAt(0);
-        const preSelectionRange = range.cloneRange();
+    /**
+     * Store the start and end position based on the **Range** of the current **Selection** at the given
+     * **elementNode**.
+     * @param {Node} elementNode the working node in which we want to generate the start and end position
+     */
+    private saveSelection(elementNode: Node): BasicAbstractRange {
+        const range: Range = window.getSelection()!.getRangeAt(0);
+        const preSelectionRange: Range = range.cloneRange();
         preSelectionRange.selectNodeContents(elementNode);
         preSelectionRange.setEnd(range.startContainer, range.startOffset);
-        const start = preSelectionRange.toString().length;
+        const start: number = preSelectionRange.toString().length;
 
         return {
             start: start,
@@ -274,15 +307,20 @@ export class HomeComponent implements AfterViewInit {
         }
     };
 
-    restoreSelection(elementNode: any, savedSelection: any) {
-        let charIndex = 0, range = document.createRange();
+    /**
+     * Restore the currently stored start and end position to a given **savedSelection** in **elementNode**.
+     * @param {Node} elementNode the working node in which we want to restore the start and end position
+     * @param {BasicAbstractRange} savedSelection the start and end numbers saved at an earlier point in time
+     */
+    private restoreSelection(elementNode: Node, savedSelection: BasicAbstractRange): void {
+        let charIndex: number = 0, range: Range = document.createRange();
         range.setStart(elementNode, 0);
         range.collapse(true);
-        let nodeStack = [elementNode], node, foundStart = false, stop = false;
+        let nodeStack = [elementNode], node: Node | undefined, foundStart: boolean = false, stop: boolean = false;
 
         while (!stop && (node = nodeStack.pop())) {
-            if (node.nodeType == 3) {
-                const nextCharIndex = charIndex + node.length;
+            if (node.nodeType === Node.TEXT_NODE) {
+                const nextCharIndex: number = charIndex + node.textContent!.length;
                 if (!foundStart && savedSelection.start >= charIndex && savedSelection.start <= nextCharIndex) {
                     range.setStart(node, savedSelection.start - charIndex);
                     foundStart = true;
@@ -293,22 +331,28 @@ export class HomeComponent implements AfterViewInit {
                 }
                 charIndex = nextCharIndex;
             } else {
-                let i = node.childNodes.length;
+                let i: number = node.childNodes.length;
                 while (i--) {
                     nodeStack.push(node.childNodes[i]);
                 }
             }
         }
 
-        const selection = window.getSelection()!;
+        const selection: Selection = window.getSelection()!;
         selection.removeAllRanges();
         selection.addRange(range);
     }
 
+    /**
+     * Returns whether there is text in the editor or not
+     */
     editorHasText(): boolean {
         return document.getElementById(this.EDITOR_KEY)!.innerHTML !== this.LINE_BROKEN_PARAGRAPH;
     }
 
+    /**
+     * Clears the written text in the editor
+     */
     clearEditor(): void {
         document.getElementById(this.EDITOR_KEY)!.innerHTML = this.LINE_BROKEN_PARAGRAPH;
         this.updatePlaceholder();
@@ -317,7 +361,12 @@ export class HomeComponent implements AfterViewInit {
         this.shouldCollapseSuggestions = new Array<boolean>(0);
     }
 
-    oscillateSuggestion(textMarkingIndex: number, $event: Event) {
+    /**
+     * Expand or contract the suggestions of a given TextMarking based on an index.
+     * @param {number} textMarkingIndex the index of the text marking from the list of the sorted text markings
+     * @param {Event} $event the click event that is triggered when clicking on the expand/contract icon
+     */
+    oscillateSuggestion(textMarkingIndex: number, $event: Event): void {
         const oscillatingButtonClasses: DOMTokenList = ($event.target as HTMLHeadingElement).classList;
         if (oscillatingButtonClasses.contains('bi-arrow-right-square')) {
             if (this.shouldCollapseSuggestions[textMarkingIndex]) {
@@ -333,12 +382,12 @@ export class HomeComponent implements AfterViewInit {
     }
 
     copyToClipboard() {
-        const copyToClipboardButton = document.getElementById("copyToClipboardButton")!;
+        const copyToClipboardButton: HTMLElement = document.getElementById("copyToClipboardButton")!;
         copyToClipboardButton.classList.replace("bi-clipboard", "bi-clipboard2-check");
         copyToClipboardButton.style.color = "green";
 
-        const editor = document.getElementById(this.EDITOR_KEY)!;
-        let range, select;
+        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
+        let range, select: Selection;
         if (document.createRange) {
             range = document.createRange();
             range.selectNodeContents(editor)
@@ -354,7 +403,7 @@ export class HomeComponent implements AfterViewInit {
             document.execCommand('copy');
         }
 
-        setTimeout(function () {
+        setTimeout(() => {
             copyToClipboardButton.classList.replace("bi-clipboard2-check", "bi-clipboard");
             copyToClipboardButton.style.color = "black";
         }, 2 * this.SECONDS);
@@ -370,6 +419,10 @@ export class HomeComponent implements AfterViewInit {
         }
     }
 
+    /**
+     * Replaces the text of the editor with the given **writtenText** and generates its markings
+     * @param {string} writtenText
+     */
     placeWrittenText(writtenText: string): void {
         document.getElementById(this.EDITOR_KEY)!.innerText = writtenText;
         document.getElementById("closeWrittenTextsModalButton")!.click();
@@ -378,20 +431,26 @@ export class HomeComponent implements AfterViewInit {
     }
 
 
-    getTextOfTextMarking(i: number): string {
+    getTextOfTextMarking(textMarkingIndex: number): string {
         const editor: HTMLElement | null = document.getElementById(this.EDITOR_KEY);
         if (!editor) { return this.EMPTY_STRING; }
 
-        const textMarking: TextMarking | null = this.processedText ? this.processedText.textMarkings[i]: null;
+        const textMarking: TextMarking | null = this.processedText ? this.processedText.textMarkings[textMarkingIndex]: null;
         if (!textMarking ) { return this.EMPTY_STRING; }
-        if (!textMarking.paragraph) { return this.EMPTY_STRING; }        
+        if (!textMarking.paragraph) { return this.EMPTY_STRING; }
 
         const editorTextContent: string | null = editor.childNodes[textMarking.paragraph].textContent;
         if (!editorTextContent) { return this.EMPTY_STRING; }
-        
+
         return editorTextContent.slice(textMarking.from, textMarking.to);
     }
 
+    /**
+     * Make the call to mark the editor into paragraphs.
+     * @param {string} eventKey
+     * @param {CursorPosition} cursorPosition
+     * @private
+     */
     private markEditor(eventKey: string = this.EMPTY_STRING, cursorPosition: CursorPosition = CursorPosition.LAST_SAVE): void {
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
 
@@ -401,7 +460,7 @@ export class HomeComponent implements AfterViewInit {
             .subscribe(next => {
                 this.processedText = next as ProcessedText;
                 this.processedText.textMarkings = sortParagraphedTextMarkings(this.processedText.textMarkings);
-                const depletableTextMarkings: TextMarking[] = Array.from(this.processedText.textMarkings);
+                const consumableTextMarkings: TextMarking[] = Array.from(this.processedText.textMarkings);
                 if (cursorPosition === CursorPosition.LAST_SAVE) {
                     this.savedSelection = this.saveSelection(editor);
                 }
@@ -413,7 +472,7 @@ export class HomeComponent implements AfterViewInit {
                         p.innerHTML = this.LINE_BREAK
                     }
                     editor.replaceChild(p, childNode);
-                    markText(p, depletableTextMarkings.filter((tm: TextMarking) => tm.paragraph === index));
+                    markText(p, consumableTextMarkings.filter((tm: TextMarking) => tm.paragraph === index));
                 });
 
                 this.positionCursor(editor, eventKey, cursorPosition);
@@ -421,20 +480,25 @@ export class HomeComponent implements AfterViewInit {
             });
     }
 
-    private markEditorEventually($event: KeyboardEvent) {
+    /**
+     * Mark the editor after **EVENTUAL_MARKING_TIME** seconds. This is triggered in some scenarios including for
+     * when the user is typing a word and has paused but has not started writing a new word.
+     * @param {KeyboardEvent} $event fetched from the **onKeyboardEvent** method
+     * @private
+     */
+    private markEditorEventually($event: KeyboardEvent): void {
         if (this.hasStoppedTypingForEventualMarking) {
             this.makeRequestForEventualMarking$.pipe(
                 switchMap(() => {
-                    return interval(2 * this.SECONDS);
+                    return interval(this.EVENTUAL_MARKING_TIME);
                 }), take(1)
             ).subscribe(() => {
                 if (!this.cancelEventualMarking) {
                     this.markEditor($event.key);
-                    this.hasStoppedTypingForEventualMarking = true;
                 } else {
                     this.cancelEventualMarking = false;
-                    this.hasStoppedTypingForEventualMarking = true;
                 }
+                this.hasStoppedTypingForEventualMarking = true;
             });
         }
 
@@ -442,26 +506,42 @@ export class HomeComponent implements AfterViewInit {
         this.hasStoppedTypingForEventualMarking = false;
     }
 
-
+    /**
+     * Checks if the given emitted event key is included in a list of key triggers in order to mark the editor. For
+     * example breaking the current line is considered as a signal to attempt to mark the currently written text.
+     * Attempting to mark the editor after every keystroke can annoy the user and will also mean a significantly larger
+     * amount of requests made.
+     * @param {string} eventKey fetched from the **onKeyboardEvent** method
+     * @private
+     * @returns {boolean} true if the editor should be marked, false otherwise
+     */
     // TODO there's also the paste to be considered
-    private shouldMarkEditor(eventKey: string) {
-        /**
-         * Considers the lastly (time-wise) typed character.
-         */
+    private shouldMarkEditor(eventKey: string): boolean {
         const TRIGGERS = ['.', '!', '?', ',', '…', 'Enter', 'Backspace', 'Delete', ' ', ':', ';', '"', '“', '”', '&',
             '(', ')', '/', '\'', '«', '»'];
         return TRIGGERS.includes(eventKey);
     }
 
-    private shouldNotUpdateEditor(eventKey: string) {
-        /**
-         * Considers the lastly (time-wise) typed character.
-         */
+    /**
+     * Checks if the given emitted event key is included in a list of key non-triggers in order to not mark the editor.
+     * For example pressing one of the arrow keys in the keyboard should not alter the editor's markings.
+     * @param {string} eventKey fetched from the **onKeyboardEvent** method
+     * @private
+     * @returns {boolean} true if the editor should be not marked, false otherwise
+     */
+    private shouldNotMarkEditor(eventKey: string): boolean {
         const NON_TRIGGERS = ['Control', 'CapsLock', 'Shift', 'Alt', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'ArrowDown'];
         return NON_TRIGGERS.includes(eventKey);
     }
 
-    private positionCursor(element: HTMLElement, eventKey: string, cursorPosition: CursorPosition) {
+    /**
+     * Position the cursor in the given element based on the provided position.
+     * @param {HTMLElement} element
+     * @param {string} eventKey
+     * @param {CursorPosition} cursorPosition
+     * @private
+     */
+    private positionCursor(element: HTMLElement, eventKey: string, cursorPosition: CursorPosition): void {
         if (cursorPosition === CursorPosition.LAST_SAVE) {
             if (this.savedSelection) {
                 const ALLOWED_KEY_CODES: string[] = ['Enter', 'Tab'];  // TODO can't trigger Tab for now
@@ -470,20 +550,25 @@ export class HomeComponent implements AfterViewInit {
                 }
             }
         } else if (cursorPosition === CursorPosition.END) {
-            this.setCursorToEnd(element);
+            this.positionCursorToEnd(element);
         }
     }
 
-    private setCursorToEnd(target: HTMLElement) {
+    /**
+     * Places the cursor to the end of the given **elementNode**.
+     * @param {HTMLElement} elementNode
+     * @private
+     */
+    private positionCursorToEnd(elementNode: HTMLElement): void {
         const range: Range = document.createRange();
-        const selection = window.getSelection();
-        range.selectNodeContents(target);
+        const selection: Selection | null = window.getSelection();
+        range.selectNodeContents(elementNode);
         range.collapse(false);
         selection?.removeAllRanges();
         selection?.addRange(range);
-        target.focus();
+        elementNode.focus();
         range.detach();
-        target.scrollTop = target.scrollHeight;
+        elementNode.scrollTop = elementNode.scrollHeight;
     }
 
     private updateCharacterAndWordCount(): void {
@@ -491,7 +576,7 @@ export class HomeComponent implements AfterViewInit {
         this.updateWordCount();
     }
 
-    private handleRequestForStoringWrittenTexts() {
+    private handleRequestForStoringWrittenTexts(): void {
         if (this.hasStoppedTypingForStoringWrittenTexts) {
             this.makeRequestForStoringWrittenTexts$.pipe(
                 switchMap(() => {
