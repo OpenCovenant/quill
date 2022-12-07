@@ -110,5 +110,8 @@
       }
     }
   },
-  "defaultProject": "quill"
+  "defaultProject": "quill",
+  "cli": {
+    "analytics": false
+  }
 }
