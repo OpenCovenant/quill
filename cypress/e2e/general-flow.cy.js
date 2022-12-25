@@ -22,14 +22,14 @@ describe('a general flow of quill', () => {
     it('will click on button and will check for loanword in output conainer', () =>{
         
         cy.get('button[id="uploadDocumentToggleButton"]').click();
-        cy.get('.btn-primary').contains('SHTYP KËTU ').click().selectFile('/home/anderson/Downloads/test.docx');
+        cy.get('.btn-primary').contains('SHTYP KËTU ').click().selectFile('fileURLHere');
         cy.get("span.loanword").contains('ters').should("exist");
     });
 
     it('will click on button and will check for loanword in output conainer', () =>{
         
         cy.get('button[id="uploadDocumentToggleButton"]').click();
-        cy.get('.btn-primary').contains('SHTYP KËTU ').click().selectFile('/home/anderson/Downloads/test.docx');
+        cy.get('.btn-primary').contains('SHTYP KËTU ').click().selectFile('fileURLHere');
         cy.get("span.typo").contains('asds').should("exist");
     });
 
