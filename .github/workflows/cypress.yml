@@ -7,9 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v1
         with:
-            node-version: 18.12.0
+            node-version: 18
 
       - name: Checkout
         uses: actions/checkout@v3
