@@ -360,28 +360,35 @@ export class HomeComponent implements AfterViewInit {
         this.updateCharacterAndWordCount();
     }
 
-
     getTextOfTextMarking(textMarkingIndex: number): string {
-        const editor: HTMLElement | null = document.getElementById(this.EDITOR_KEY);
-        if (!editor) {
-            return this.EMPTY_STRING;
-        }
-
         const textMarking: TextMarking | null = this.processedText ? this.processedText.textMarkings[textMarkingIndex] : null;
         if (!textMarking) {
             return this.EMPTY_STRING;
         }
 
-        if (textMarking.paragraph === undefined || textMarking.paragraph === null) {
-            return this.EMPTY_STRING;
-        }
+        if (!this.displayWriteTextOrUploadDocumentFlag) {
+            if (!this.processedText) {
+                return this.EMPTY_STRING;
+            }
 
-        const editorTextContent: string | null = editor.childNodes[textMarking.paragraph].textContent;
-        if (!editorTextContent) {
-            return this.EMPTY_STRING;
-        }
+            return this.processedText.text.slice(textMarking.from, textMarking.to);
+        } else {
+            const editor: HTMLElement | null = document.getElementById(this.EDITOR_KEY);
+            if (!editor) {
+                return this.EMPTY_STRING;
+            }
 
-        return editorTextContent.slice(textMarking.from, textMarking.to);
+            if (textMarking.paragraph === undefined || textMarking.paragraph === null) {
+                return this.EMPTY_STRING;
+            }
+
+            const editorTextContent: string | null = editor.childNodes[textMarking.paragraph].textContent;
+            if (!editorTextContent) {
+                return this.EMPTY_STRING;
+            }
+
+            return editorTextContent.slice(textMarking.from, textMarking.to);
+        }
     }
 
     /**
