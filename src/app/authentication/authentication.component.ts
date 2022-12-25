@@ -19,13 +19,13 @@ export class AuthenticationComponent implements OnInit {
         this.auth2.attachClickHandler(this.loginElement.nativeElement, {},
             (googleAuthUser: any) => {
                 let profile = googleAuthUser.getBasicProfile();
-                console.log('Token || ' + googleAuthUser.getAuthResponse().id_token);
+                console.log('Token: ' + googleAuthUser.getAuthResponse().id_token);
                 console.log('ID: ' + profile.getId());
                 console.log('Name: ' + profile.getName());
                 console.log('Image URL: ' + profile.getImageUrl());
                 console.log('Email: ' + profile.getEmail());
 
-                /* TODO Write Your Code Here */
+                /* TODO add code here */
             }, (error: any) => {
                 // do nothing for now
             });
