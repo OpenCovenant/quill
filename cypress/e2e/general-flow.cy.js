@@ -9,13 +9,15 @@ describe('a general flow of quill', () => {
 
     it('will mark typos in the editor', () => {
         cy.get("#editor").should("exist");
-        cy.get("#editor").contains("p");
+        cy.get("#editor").should("have.descendants");
+        cy.get("#editor>p").should("exist");
         cy.get("#editor>p>.typo").should("not.exist");
         cy.get("#editor").type("asd ");
         cy.get("#editor>p>.typo").should("exist");
     });
 
     it('will mark loanwords in the editor', () => {
+        cy.wait();
         cy.get("#editor > p > .loanword").should("not.exist");
         cy.get("#editor").type("lider ");
         cy.get("#editor > p > .loanword").should("exist");
