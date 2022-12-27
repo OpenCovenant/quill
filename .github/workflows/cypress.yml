@@ -15,4 +15,4 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           build: npm run build
-          start: npm start:production
+          start: npm run start:production
