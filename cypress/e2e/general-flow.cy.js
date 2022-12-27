@@ -11,8 +11,9 @@ describe('a general flow of quill', () => {
         cy.get("#editor").should("exist");
         cy.get("#editor").children().should("exist");
         cy.get("#editor>p").should("exist");
-        cy.get("#editor>p>.typo").should("not.exist");
+        cy.get("#editor>p>span").should("not.have.attr", "class", "typo");
         cy.get("#editor").type("asd ");
+        cy.wait(5000);
         cy.get("#editor>p>.typo").should("exist");
     });
 
@@ -20,6 +21,7 @@ describe('a general flow of quill', () => {
         cy.wait(5000);
         cy.get("#editor > p > .loanword").should("not.exist");
         cy.get("#editor").type("lider ");
+        cy.wait(5000);
         cy.get("#editor > p > .loanword").should("exist");
     });
 });
