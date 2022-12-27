@@ -14,8 +14,8 @@ describe('a general flow of quill', () => {
         cy.get("#editor>p").first().should("not.have.attr", "class", "typo");
         cy.get("#editor").type("asd ");
         cy.wait(5000);
-        // cy.get("#editor>p>.typo").should("exist");
-        cy.get("#editor>p").first().should("have.attr", "class", "typo");
+        cy.get("#editor>p>.typo").should("exist");
+        // cy.get("#editor>p").first().should("have.attr", "class", "typo");
     });
 
     it('will mark loanwords in the editor', () => {
