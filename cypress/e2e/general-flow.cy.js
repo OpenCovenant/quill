@@ -18,19 +18,19 @@ describe('a general flow of quill', () => {
         cy.get("#editor").type("lider ");
         cy.get("#editor > p > .loanword").should("exist");
     });
-    
-    it('will click on button and will check for loanword in output conainer', () =>{
+
+    it('will click on upload button and will check for loanword in output conainer', () =>{
         
         cy.get('button[id="uploadDocumentToggleButton"]').click();
         cy.get('.btn-primary').contains('SHTYP KËTU ').click().selectFile('cypress/fixtures/test.docx');
-        cy.get("span.loanword").contains('ters').should("exist");
+        cy.get("span.loanword").contains('lider').should("exist");
     });
 
-    it('will click on button and will check for loanword in output conainer', () =>{
+    it('will click on upload button and will check for typo in output conainer', () =>{
         
         cy.get('button[id="uploadDocumentToggleButton"]').click();
         cy.get('.btn-primary').contains('SHTYP KËTU ').click().selectFile('cypress/fixtures/test.docx');
-        cy.get("span.typo").contains('asds').should("exist");
+        cy.get("span.typo").contains('asd').should("exist");
     });
 
     it('will click on editor and check if changes are made on textfield for loanwords', () => {
@@ -79,7 +79,7 @@ describe('a general flow of quill', () => {
         cy.get("#editor").clear();
     });
 
-    it('will click on fshij button and check if it deletes the text on editor', () => {
+    it('will click on "fshij" button and check if it deletes the text on editor', () => {
         
         cy.get("#editor > p > .typo").should("not.exist");
         cy.get("#editor").type("fshji ");
@@ -110,7 +110,9 @@ describe('a general flow of quill', () => {
         cy.get('h3.bi-arrow-right-square').click();
         cy.get('button.suggestion').contains("shaji").click();
         cy.get("#editor").contains("shaji").should("exist");
-        cy.get('h3.bi-arrow-left-square').click();
+        //Added wait here to give time the browser to generate the class .bi.bi-arrow-left-square
+        cy.wait(1);
+        cy.get('h3.bi.bi-arrow-left-square').click();
         cy.get("#editor").clear();
     });
 
@@ -134,5 +136,5 @@ describe('a general flow of quill', () => {
         cy.get('input#flexSwitchCheckChecked').click();
         cy.get('div.modal-body').contains('p#writtenText').should("not.exist");
     });
-
+    
 }); 
