@@ -8,8 +8,6 @@ import {AppRoutingModule} from "./app-routing.module";
 import {HeaderComponent} from './header/header.component';
 import {FooterComponent} from './footer/footer.component';
 import {HomeComponent} from './home/home.component';
-import {AuthenticationComponent} from './authentication/authentication.component';
-import {SocialAuthServiceConfig, SocialAuthService, FacebookLoginProvider,GoogleLoginProvider,SocialLoginModule} from '@abacritt/angularx-social-login';
 
 @NgModule({
     declarations: [
@@ -17,40 +15,15 @@ import {SocialAuthServiceConfig, SocialAuthService, FacebookLoginProvider,Google
         MarkingDetailsComponent,
         HeaderComponent,
         FooterComponent,
-        HomeComponent,
-        AuthenticationComponent,
+        HomeComponent
     ],
     imports: [
         BrowserModule,
         HttpClientModule,
         FormsModule,
-        AppRoutingModule,
-        SocialLoginModule
+        AppRoutingModule
     ],
-    providers: [
-        {
-            provide: 'SocialAuthServiceConfig',
-            useValue: {
-                autoLogin:false,
-                providers: [
-                    {
-                        id: GoogleLoginProvider.PROVIDER_ID,
-                        provider: new GoogleLoginProvider(
-                          'yourId'
-                        )
-                      },
-                    {
-                    id: FacebookLoginProvider.PROVIDER_ID,
-                    provider: new FacebookLoginProvider('yourId'),
-                    }
-                ],
-                onError:(err) => {
-                    console.log(err);
-                },
-            } as SocialAuthServiceConfig,
-        },
-        SocialAuthService,
-    ],
+    providers: [],
       bootstrap: [AppComponent],
     })
     export class AppModule {
