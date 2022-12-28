@@ -89,33 +89,6 @@ describe('a general flow of quill', () => {
 
     });
 
-    it('will click on the expand arrow and click on all suggestions and close it again', () => {
-
-        cy.get("#editor > p > .typo").should("not.exist");
-        cy.get("#editor").type("fshji ");
-        cy.get('h3.bi-arrow-right-square').click();
-        cy.get('button.suggestion').contains("afshi").click();
-        cy.get("#editor").contains("afshi").should("exist");
-        cy.get("#editor").clear();
-
-        cy.get("#editor > p > .typo").should("not.exist");
-        cy.get("#editor").type("fshji ");
-        cy.get('h3.bi-arrow-right-square').click();
-        cy.get('button.suggestion').contains("fshiu").click();
-        cy.get("#editor").contains("fshiu").should("exist");
-        cy.get("#editor").clear();
-
-        cy.get("#editor > p > .typo").should("not.exist");
-        cy.get("#editor").type("fshji ");
-        cy.get('h3.bi-arrow-right-square').click();
-        cy.get('button.suggestion').contains("shaji").click();
-        cy.get("#editor").contains("shaji").should("exist");
-        //Added wait here to give time the browser to generate the class .bi.bi-arrow-left-square
-        cy.wait(1);
-        cy.get('h3.bi.bi-arrow-left-square').click();
-        cy.get("#editor").clear();
-    });
-
     it('will click on the "x" button and check if the text is clear', () => {
 
         cy.get("#editor > p > .typo").should("not.exist");
