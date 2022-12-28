@@ -1,6 +1,6 @@
 describe('a general flow of quill', () => {
     beforeEach(() => {
-        cy.visit('http://localhost:4200');
+        cy.visit('http://localhost:4200/'); 
     })
 
     it('contains the editor in which we want to write', () => {
@@ -18,18 +18,18 @@ describe('a general flow of quill', () => {
         cy.get("#editor").type("lider ");
         cy.get("#editor > p > .loanword").should("exist");
     });
-
+    
     it('will click on button and will check for loanword in output conainer', () =>{
-
+        
         cy.get('button[id="uploadDocumentToggleButton"]').click();
-        cy.get('.btn-primary').contains('SHTYP KËTU ').click().selectFile('fileURLHere');
+        cy.get('.btn-primary').contains('SHTYP KËTU ').click().selectFile('cypress/fixtures/test.docx');
         cy.get("span.loanword").contains('ters').should("exist");
     });
 
     it('will click on button and will check for loanword in output conainer', () =>{
-
+        
         cy.get('button[id="uploadDocumentToggleButton"]').click();
-        cy.get('.btn-primary').contains('SHTYP KËTU ').click().selectFile('fileURLHere');
+        cy.get('.btn-primary').contains('SHTYP KËTU ').click().selectFile('cypress/fixtures/test.docx');
         cy.get("span.typo").contains('asds').should("exist");
     });
 
@@ -80,12 +80,12 @@ describe('a general flow of quill', () => {
     });
 
     it('will click on fshij button and check if it deletes the text on editor', () => {
-
+        
         cy.get("#editor > p > .typo").should("not.exist");
         cy.get("#editor").type("fshji ");
         cy.get('button.btn-outline-danger').contains("HIQ").click();
         cy.get("button.suggestion").should("not.exist");
-
+        
 
     });
 
@@ -122,4 +122,17 @@ describe('a general flow of quill', () => {
         cy.get("#editor").contains("test per butonin x").should("not.exist");
 
     });
-});
+
+    it('will test the history section and togle the history button on/off', () => {
+
+        cy.get("#editor > p > .typo").should("not.exist");
+        cy.get("#editor").type("test");
+        cy.wait(16000);
+        cy.get('button.bi-clock-history').click();
+        cy.get('p#writtenText').contains("test").should("exist");
+        cy.get('button#closeWrittenTextsModalButton').click();
+        cy.get('input#flexSwitchCheckChecked').click();
+        cy.get('div.modal-body').contains('p#writtenText').should("not.exist");
+    });
+
+}); 
