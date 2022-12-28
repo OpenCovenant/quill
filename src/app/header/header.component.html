@@ -1,48 +1,81 @@
 <div>
-    <nav class="navbar navbar-light" style="background-color: #E9E9E9;">
-        <div style="margin-left: 2rem; font-size: 1.4rem;">
-            <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasStart"
-                    aria-controls="offcanvasStart" class="btn" style="border: none; " id="offcanvasStartButton">
-                <span class="navbar-toggler-icon" style="width: 1.4rem;"></span>
+    <nav class="navbar navbar-light" style="background-color: #e9e9e9">
+        <div style="margin-left: 2rem; font-size: 1.4rem">
+            <button
+                type="button"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasStart"
+                aria-controls="offcanvasStart"
+                class="btn"
+                style="border: none"
+                id="offcanvasStartButton"
+            >
+                <span class="navbar-toggler-icon" style="width: 1.4rem"></span>
             </button>
-            <span style="color: black; font-size: 20px;cursor:pointer;" routerLink="/">&nbsp;penda</span>
+            <span
+                style="color: black; font-size: 20px; cursor: pointer"
+                routerLink="/"
+                >&nbsp;penda</span
+            >
         </div>
     </nav>
 </div>
 
-<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasStart" aria-labelledby="offcanvasStartLabel">
+<div
+    class="offcanvas offcanvas-start"
+    tabindex="-1"
+    id="offcanvasStart"
+    aria-labelledby="offcanvasStartLabel"
+>
     <div class="offcanvas-header">
         <h5 id="offcanvasStartLabel">penda</h5>
-        <button id="offcanvasCloseButton" type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                aria-label="Close"></button>
+        <button
+            id="offcanvasCloseButton"
+            type="button"
+            class="btn-close text-reset"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+        ></button>
     </div>
-    <hr>
-    <br>
+    <hr />
+    <br />
     <div class="offcanvas-body">
         <div class="list-group list-group-flush">
             <div class="dropdown">
-<!--                <div style="box-shadow: 0 0 1px 1px #E3E3E3AE;">-->
-<!--                    <a role="button" class="dropdown-toggle list-group-item list-group-item-action mb-3"-->
-<!--                       data-bs-toggle="dropdown" aria-expanded="false">Llojet&nbsp;e&nbsp;Shenjimeve&nbsp;<span-->
-<!--                        class="badge bg-primary rounded-pill">{{markingTypesCount}}</span>-->
-<!--                    </a>-->
-<!--                    <ul class="dropdown-menu">-->
-<!--                        <li *ngFor="let markingTypeKey of markingTypeKeys">-->
-<!--                            <a class="{{markingTypes[markingTypeKey]['enabled'] === false ? 'disabled':''}} dropdown-item"-->
-<!--                               routerLink="{{markingTypeKey}}"-->
-<!--                               (click)="closeOffcanvas()">{{markingTypes[markingTypeKey]['description']}}</a>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-<!--                </div>-->
-                <div style="box-shadow: 0 0 1px 1px #E3E3E3AE;">
-                    <a href="https://github.com/OpenCovenant" role="button"
-                       class="list-group-item list-group-item-action mb-3" target="_blank" rel="noopener noreferrer">Rreth&nbsp;Nesh</a>
+                <!--                <div style="box-shadow: 0 0 1px 1px #E3E3E3AE;">-->
+                <!--                    <a role="button" class="dropdown-toggle list-group-item list-group-item-action mb-3"-->
+                <!--                       data-bs-toggle="dropdown" aria-expanded="false">Llojet&nbsp;e&nbsp;Shenjimeve&nbsp;<span-->
+                <!--                        class="badge bg-primary rounded-pill">{{markingTypesCount}}</span>-->
+                <!--                    </a>-->
+                <!--                    <ul class="dropdown-menu">-->
+                <!--                        <li *ngFor="let markingTypeKey of markingTypeKeys">-->
+                <!--                            <a class="{{markingTypes[markingTypeKey]['enabled'] === false ? 'disabled':''}} dropdown-item"-->
+                <!--                               routerLink="{{markingTypeKey}}"-->
+                <!--                               (click)="closeOffcanvas()">{{markingTypes[markingTypeKey]['description']}}</a>-->
+                <!--                        </li>-->
+                <!--                    </ul>-->
+                <!--                </div>-->
+                <div style="box-shadow: 0 0 1px 1px #e3e3e3ae">
+                    <a
+                        href="https://github.com/OpenCovenant"
+                        role="button"
+                        class="list-group-item list-group-item-action mb-3"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >Rreth&nbsp;Nesh</a
+                    >
                 </div>
-                <div style="box-shadow: 0 0 1px 1px #E3E3E3AE;">
-                    <a href="https://github.com/OpenCovenant/ink" role="button"
-                       class="list-group-item list-group-item-action mb-3" target="_blank" rel="noopener noreferrer">Rreth&nbsp;Penda</a>
+                <div style="box-shadow: 0 0 1px 1px #e3e3e3ae">
+                    <a
+                        href="https://github.com/OpenCovenant/ink"
+                        role="button"
+                        class="list-group-item list-group-item-action mb-3"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >Rreth&nbsp;Penda</a
+                    >
                 </div>
-                <br>
+                <br />
             </div>
         </div>
     </div>

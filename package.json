@@ -8,8 +8,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test --browsers ChromeHeadless --watch false --code-coverage true",
-    "prettier": "prettier --list-different \"src/**/*{.ts,.js,.json,.scss,.html}\"",
-    "prettier:fix": "prettier  --list-different \"src/**/*{.ts,.js,.json,.scss,.html}\" --write"
+    "prettier": "prettier --list-different \"{cypress/e2e,src}/**/*{.ts,.js,.json,.scss,.html}\"",
+    "prettier:fix": "prettier  --list-different \"{cypress/e2e,src}/**/*{.ts,.js,.json,.scss,.html}\" --write"
   },
   "private": true,
   "dependencies": {
