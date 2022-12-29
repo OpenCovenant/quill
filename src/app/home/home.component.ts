@@ -708,8 +708,8 @@ export class HomeComponent implements AfterViewInit {
         elementNode: Node,
         savedSelection: BasicAbstractRange
     ): void {
-        let charIndex: number = 0,
-            range: Range = document.createRange();
+        let charIndex: number = 0;
+        const range: Range = document.createRange();
         range.setStart(elementNode, 0);
         range.collapse(true);
         let nodeStack = [elementNode],
