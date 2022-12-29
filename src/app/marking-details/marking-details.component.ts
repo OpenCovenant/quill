@@ -1,8 +1,8 @@
-import {Component} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {ActivatedRoute} from "@angular/router";
+import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 
-import {environment} from "../../environments/environment";
+import { environment } from '../../environments/environment';
 
 @Component({
     selector: 'app-marking-details',
@@ -15,13 +15,17 @@ export class MarkingDetailsComponent {
 
     constructor(private route: ActivatedRoute, private http: HttpClient) {
         this.initializeURLs();
-        this.route.paramMap.subscribe(paramMap => {
+        this.route.paramMap.subscribe((paramMap) => {
             const id = paramMap.get('id');
 
-            this.http.get(this.getMarkingDetailsURL + '/' + id)
-                .subscribe((html: any) =>
-                    document.getElementById("markingDetails")!.innerHTML = html['marking_details_html']);
-        })
+            this.http
+                .get(this.getMarkingDetailsURL + '/' + id)
+                .subscribe(
+                    (html: any) =>
+                        (document.getElementById('markingDetails')!.innerHTML =
+                            html['marking_details_html'])
+                );
+        });
     }
 
     initializeURLs() {

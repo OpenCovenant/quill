@@ -1,19 +1,16 @@
-import {TestBed} from '@angular/core/testing';
-import {AppComponent} from '../app.component';
-import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {TextMarking} from "../models/text-marking";
-import {markText} from "./text-marking";
+import { TestBed } from '@angular/core/testing';
+import { AppComponent } from '../app.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TextMarking } from '../models/text-marking';
+import { markText } from './text-marking';
 
 describe('Marker', () => {
-    const EDITOR_ID = "editor";
+    const EDITOR_ID = 'editor';
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [
-                AppComponent
-            ], imports: [
-                HttpClientTestingModule
-            ]
+            declarations: [AppComponent],
+            imports: [HttpClientTestingModule]
         }).compileComponents();
     });
 
@@ -23,14 +20,16 @@ describe('Marker', () => {
         editor.id = EDITOR_ID;
         editor.innerHTML = html;
 
-        const markings: TextMarking[] = [{
-            from: 0,
-            to: 3,
-            type: "typo",
-            subtype: "",
-            description: "",
-            suggestions: [{display: '', action: ''}]
-        }];
+        const markings: TextMarking[] = [
+            {
+                from: 0,
+                to: 3,
+                type: 'typo',
+                subtype: '',
+                description: '',
+                suggestions: [{ display: '', action: '' }]
+            }
+        ];
 
         markText(editor, markings);
 
@@ -48,14 +47,16 @@ describe('Marker', () => {
         editor.id = EDITOR_ID;
         editor.innerHTML = html;
 
-        const markings: TextMarking[] = [{
-            from: 4,
-            to: 7,
-            type: "typo",
-            subtype: "",
-            description: "",
-            suggestions: [{display: '', action: ''}]
-        }];
+        const markings: TextMarking[] = [
+            {
+                from: 4,
+                to: 7,
+                type: 'typo',
+                subtype: '',
+                description: '',
+                suggestions: [{ display: '', action: '' }]
+            }
+        ];
 
         markText(editor, markings);
 
@@ -73,14 +74,16 @@ describe('Marker', () => {
         editor.id = EDITOR_ID;
         editor.innerHTML = html;
 
-        const markings: TextMarking[] = [{
-            from: 0,
-            to: 3,
-            type: "typo",
-            subtype: "",
-            description: "",
-            suggestions: [{display: '', action: ''}]
-        }];
+        const markings: TextMarking[] = [
+            {
+                from: 0,
+                to: 3,
+                type: 'typo',
+                subtype: '',
+                description: '',
+                suggestions: [{ display: '', action: '' }]
+            }
+        ];
 
         markText(editor, markings);
 
@@ -98,14 +101,16 @@ describe('Marker', () => {
         editor.id = EDITOR_ID;
         editor.innerHTML = html;
 
-        const markings: TextMarking[] = [{
-            from: 0,
-            to: 3,
-            type: "stylistic",
-            subtype: "",
-            description: "",
-            suggestions: [{display: '', action: ''}]
-        }];
+        const markings: TextMarking[] = [
+            {
+                from: 0,
+                to: 3,
+                type: 'stylistic',
+                subtype: '',
+                description: '',
+                suggestions: [{ display: '', action: '' }]
+            }
+        ];
 
         markText(editor, markings);
 
@@ -123,14 +128,16 @@ describe('Marker', () => {
         editor.id = EDITOR_ID;
         editor.innerHTML = html;
 
-        const markings: TextMarking[] = [{
-            from: 0,
-            to: 3,
-            type: "loanword",
-            subtype: "",
-            description: "",
-            suggestions: [{display: '', action: ''}]
-        }];
+        const markings: TextMarking[] = [
+            {
+                from: 0,
+                to: 3,
+                type: 'loanword',
+                subtype: '',
+                description: '',
+                suggestions: [{ display: '', action: '' }]
+            }
+        ];
 
         markText(editor, markings);
 
@@ -148,25 +155,29 @@ describe('Marker', () => {
         editor.id = EDITOR_ID;
         editor.innerHTML = html;
 
-        const markings: TextMarking[] = [{
-            from: 0,
-            to: 3,
-            type: "typo",
-            subtype: "",
-            description: "",
-            suggestions: [{display: '', action: ''}]
-        }, {
-            from: 4,
-            to: 7,
-            type: "typo",
-            subtype: "",
-            description: "",
-            suggestions: [{display: '', action: ''}]
-        }];
+        const markings: TextMarking[] = [
+            {
+                from: 0,
+                to: 3,
+                type: 'typo',
+                subtype: '',
+                description: '',
+                suggestions: [{ display: '', action: '' }]
+            },
+            {
+                from: 4,
+                to: 7,
+                type: 'typo',
+                subtype: '',
+                description: '',
+                suggestions: [{ display: '', action: '' }]
+            }
+        ];
 
         markText(editor, markings);
 
-        const expectedHMTL = '<span class="typo">asd</span> <span class="typo">kli</span>';
+        const expectedHMTL =
+            '<span class="typo">asd</span> <span class="typo">kli</span>';
         const expectedEditor = document.createElement('div');
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
@@ -180,25 +191,29 @@ describe('Marker', () => {
         editor.id = EDITOR_ID;
         editor.innerHTML = html;
 
-        const markings: TextMarking[] = [{
-            from: 0,
-            to: 3,
-            type: "loanword",
-            subtype: "",
-            description: "",
-            suggestions: [{display: '', action: ''}]
-        }, {
-            from: 4,
-            to: 7,
-            type: "stylistic",
-            subtype: "",
-            description: "",
-            suggestions: [{display: '', action: ''}]
-        }];
+        const markings: TextMarking[] = [
+            {
+                from: 0,
+                to: 3,
+                type: 'loanword',
+                subtype: '',
+                description: '',
+                suggestions: [{ display: '', action: '' }]
+            },
+            {
+                from: 4,
+                to: 7,
+                type: 'stylistic',
+                subtype: '',
+                description: '',
+                suggestions: [{ display: '', action: '' }]
+            }
+        ];
 
         markText(editor, markings);
 
-        const expectedHMTL = '<span class="loanword">asd</span> <span class="stylistic">kli</span>';
+        const expectedHMTL =
+            '<span class="loanword">asd</span> <span class="stylistic">kli</span>';
         const expectedEditor = document.createElement('div');
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
@@ -212,25 +227,29 @@ describe('Marker', () => {
         editor.id = EDITOR_ID;
         editor.innerHTML = html;
 
-        const markings: TextMarking[] = [{
-            from: 0,
-            to: 11,
-            type: "stylistic",
-            subtype: "",
-            description: "",
-            suggestions: [{display: '', action: ''}]
-        }, {
-            from: 4,
-            to: 7,
-            type: "typo",
-            subtype: "",
-            description: "",
-            suggestions: [{display: '', action: ''}]
-        }];
+        const markings: TextMarking[] = [
+            {
+                from: 0,
+                to: 11,
+                type: 'stylistic',
+                subtype: '',
+                description: '',
+                suggestions: [{ display: '', action: '' }]
+            },
+            {
+                from: 4,
+                to: 7,
+                type: 'typo',
+                subtype: '',
+                description: '',
+                suggestions: [{ display: '', action: '' }]
+            }
+        ];
 
         markText(editor, markings);
 
-        const expectedHMTL = '<span class="stylistic">asd <span class="typo">kli</span> ghj</span>';
+        const expectedHMTL =
+            '<span class="stylistic">asd <span class="typo">kli</span> ghj</span>';
         const expectedEditor = document.createElement('div');
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
@@ -244,25 +263,29 @@ describe('Marker', () => {
         editor.id = EDITOR_ID;
         editor.innerHTML = html;
 
-        const markings: TextMarking[] = [{
-            from: 0,
-            to: 19,
-            type: "stylistic",
-            subtype: "",
-            description: "",
-            suggestions: [{display: '', action: ''}]
-        }, {
-            from: 8,
-            to: 11,
-            type: "typo",
-            subtype: "",
-            description: "",
-            suggestions: [{display: '', action: ''}]
-        }];
+        const markings: TextMarking[] = [
+            {
+                from: 0,
+                to: 19,
+                type: 'stylistic',
+                subtype: '',
+                description: '',
+                suggestions: [{ display: '', action: '' }]
+            },
+            {
+                from: 8,
+                to: 11,
+                type: 'typo',
+                subtype: '',
+                description: '',
+                suggestions: [{ display: '', action: '' }]
+            }
+        ];
 
         markText(editor, markings);
 
-        const expectedHMTL = '<span class="stylistic">asd pra <span class="typo">kli</span> pra ghj</span>';
+        const expectedHMTL =
+            '<span class="stylistic">asd pra <span class="typo">kli</span> pra ghj</span>';
         const expectedEditor = document.createElement('div');
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
@@ -271,30 +294,35 @@ describe('Marker', () => {
     });
 
     it(`mark the typo within the very long stylistic marking`, () => {
-        const html = 'Pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra asd pra pra pra pra pra pra pra pra pra.';
+        const html =
+            'Pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra asd pra pra pra pra pra pra pra pra pra.';
         const editor = document.createElement('div');
         editor.id = EDITOR_ID;
         editor.innerHTML = html;
 
-        const markings: TextMarking[] = [{
-            from: 0,
-            to: 296,
-            type: "stylistic",
-            subtype: "",
-            description: "",
-            suggestions: [{display: '', action: ''}]
-        }, {
-            from: 256,
-            to: 259,
-            type: "typo",
-            subtype: "",
-            description: "",
-            suggestions: [{display: '', action: ''}]
-        }];
+        const markings: TextMarking[] = [
+            {
+                from: 0,
+                to: 296,
+                type: 'stylistic',
+                subtype: '',
+                description: '',
+                suggestions: [{ display: '', action: '' }]
+            },
+            {
+                from: 256,
+                to: 259,
+                type: 'typo',
+                subtype: '',
+                description: '',
+                suggestions: [{ display: '', action: '' }]
+            }
+        ];
 
         markText(editor, markings);
 
-        const expectedHMTL = '<span class="stylistic">Pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra <span class="typo">asd</span> pra pra pra pra pra pra pra pra pra.</span>';
+        const expectedHMTL =
+            '<span class="stylistic">Pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra <span class="typo">asd</span> pra pra pra pra pra pra pra pra pra.</span>';
         const expectedEditor = document.createElement('div');
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
@@ -303,30 +331,35 @@ describe('Marker', () => {
     });
 
     it(`mark the typo within the very long stylistic marking - v v long`, () => {
-        const html = 'Pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra asd pra pra pra pra pra pra pra pra pra. Edhe a a a a a a a a a a a a a a a kaq';
+        const html =
+            'Pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra asd pra pra pra pra pra pra pra pra pra. Edhe a a a a a a a a a a a a a a a kaq';
         const editor = document.createElement('div');
         editor.id = EDITOR_ID;
         editor.innerHTML = html;
 
-        const markings: TextMarking[] = [{
-            from: 0,
-            to: 335,
-            type: "stylistic",
-            subtype: "",
-            description: "",
-            suggestions: [{display: '', action: ''}]
-        }, {
-            from: 256,
-            to: 259,
-            type: "typo",
-            subtype: "",
-            description: "",
-            suggestions: [{display: '', action: ''}]
-        }];
+        const markings: TextMarking[] = [
+            {
+                from: 0,
+                to: 335,
+                type: 'stylistic',
+                subtype: '',
+                description: '',
+                suggestions: [{ display: '', action: '' }]
+            },
+            {
+                from: 256,
+                to: 259,
+                type: 'typo',
+                subtype: '',
+                description: '',
+                suggestions: [{ display: '', action: '' }]
+            }
+        ];
 
         markText(editor, markings);
 
-        const expectedHMTL = '<span class="stylistic">Pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra <span class="typo">asd</span> pra pra pra pra pra pra pra pra pra. Edhe a a a a a a a a a a a a a a a kaq</span>';
+        const expectedHMTL =
+            '<span class="stylistic">Pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra <span class="typo">asd</span> pra pra pra pra pra pra pra pra pra. Edhe a a a a a a a a a a a a a a a kaq</span>';
         const expectedEditor = document.createElement('div');
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
@@ -340,25 +373,29 @@ describe('Marker', () => {
         editor.id = EDITOR_ID;
         editor.innerHTML = html;
 
-        const markings: TextMarking[] = [{
-            from: 4,
-            to: 15,
-            type: "stylistic",
-            subtype: "",
-            description: "",
-            suggestions: [{display: '', action: ''}]
-        }, {
-            from: 8,
-            to: 11,
-            type: "typo",
-            subtype: "",
-            description: "",
-            suggestions: [{display: '', action: ''}]
-        }];
+        const markings: TextMarking[] = [
+            {
+                from: 4,
+                to: 15,
+                type: 'stylistic',
+                subtype: '',
+                description: '',
+                suggestions: [{ display: '', action: '' }]
+            },
+            {
+                from: 8,
+                to: 11,
+                type: 'typo',
+                subtype: '',
+                description: '',
+                suggestions: [{ display: '', action: '' }]
+            }
+        ];
 
         markText(editor, markings);
 
-        const expectedHMTL = 'kaq <span class="stylistic">asd <span class="typo">kli</span> ghj</span> pra';
+        const expectedHMTL =
+            'kaq <span class="stylistic">asd <span class="typo">kli</span> ghj</span> pra';
         const expectedEditor = document.createElement('div');
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
@@ -366,31 +403,36 @@ describe('Marker', () => {
         expect(editor).toEqual(expectedEditor);
     });
 
-    it(`mark with a new line`, () => { // TODO will be addressed again soon for the paragraphs feat.
+    it(`mark with a new line`, () => {
+        // TODO will be addressed again soon for the paragraphs feat.
         const html = 'kaq asd kli\n ghj pra';
         const editor = document.createElement('div');
         editor.id = EDITOR_ID;
         editor.innerHTML = html;
 
-        const markings: TextMarking[] = [{
-            from: 4,
-            to: 16,
-            type: "stylistic",
-            subtype: "",
-            description: "",
-            suggestions: [{display: '', action: ''}]
-        }, {
-            from: 8,
-            to: 11,
-            type: "typo",
-            subtype: "",
-            description: "",
-            suggestions: [{display: '', action: ''}]
-        }];
+        const markings: TextMarking[] = [
+            {
+                from: 4,
+                to: 16,
+                type: 'stylistic',
+                subtype: '',
+                description: '',
+                suggestions: [{ display: '', action: '' }]
+            },
+            {
+                from: 8,
+                to: 11,
+                type: 'typo',
+                subtype: '',
+                description: '',
+                suggestions: [{ display: '', action: '' }]
+            }
+        ];
 
         markText(editor, markings);
 
-        const expectedHMTL = 'kaq <span class="stylistic">asd <span class="typo">kli</span>\n ghj</span> pra';
+        const expectedHMTL =
+            'kaq <span class="stylistic">asd <span class="typo">kli</span>\n ghj</span> pra';
         const expectedEditor = document.createElement('div');
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
@@ -404,32 +446,37 @@ describe('Marker', () => {
         editor.id = EDITOR_ID;
         editor.innerHTML = html;
 
-        const markings: TextMarking[] = [{
-            from: 0,
-            to: 19,
-            type: "stylistic",
-            subtype: "",
-            description: "",
-            suggestions: [{display: '', action: ''}]
-        }, {
-            from: 4,
-            to: 15,
-            type: "typo",
-            subtype: "",
-            description: "",
-            suggestions: [{display: '', action: ''}]
-        }, {
-            from: 8,
-            to: 11,
-            type: "loanword",
-            subtype: "",
-            description: "",
-            suggestions: [{display: '', action: ''}]
-        }];
+        const markings: TextMarking[] = [
+            {
+                from: 0,
+                to: 19,
+                type: 'stylistic',
+                subtype: '',
+                description: '',
+                suggestions: [{ display: '', action: '' }]
+            },
+            {
+                from: 4,
+                to: 15,
+                type: 'typo',
+                subtype: '',
+                description: '',
+                suggestions: [{ display: '', action: '' }]
+            },
+            {
+                from: 8,
+                to: 11,
+                type: 'loanword',
+                subtype: '',
+                description: '',
+                suggestions: [{ display: '', action: '' }]
+            }
+        ];
 
         markText(editor, markings);
 
-        const expectedHMTL = '<span class="stylistic">asd <span class="typo">pra <span class="loanword">kli</span> vij</span> ghj</span>';
+        const expectedHMTL =
+            '<span class="stylistic">asd <span class="typo">pra <span class="loanword">kli</span> vij</span> ghj</span>';
         const expectedEditor = document.createElement('div');
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;

@@ -1,10 +1,14 @@
-import {TextMarking} from "../models/text-marking";
+import { TextMarking } from '../models/text-marking';
 
 const SPAN_TAG = 'span';
 
-
 /// requires the markings to be ordered ASC by "from" and DESC by "to"
-export function markText(node: HTMLElement, textMarkings: TextMarking[], additionalClasses: string[] = [], replaceSpacesWithNBSP = true): void {
+export function markText(
+    node: HTMLElement,
+    textMarkings: TextMarking[],
+    additionalClasses: string[] = [],
+    replaceSpacesWithNBSP = true
+): void {
     const childNodes = node.childNodes;
     while (0 < textMarkings.length) {
         let traversalIndex: number = 0;
@@ -12,18 +16,20 @@ export function markText(node: HTMLElement, textMarkings: TextMarking[], additio
         for (let j = 0; j < childNodes.length; j++) {
             const childNode: HTMLElement = childNodes[j] as HTMLElement;
 
-            if (childNode.nodeType === 1) { // element node
+            if (childNode.nodeType === 1) {
+                // element node
                 const currentTextContent: string = childNode.textContent!;
                 const deeperTextMarking: TextMarking = {
                     ...textMarking,
                     from: textMarking.from - traversalIndex,
-                    to: textMarking.to - traversalIndex,
+                    to: textMarking.to - traversalIndex
                 };
 
                 markText(childNode, [deeperTextMarking], additionalClasses);
 
                 traversalIndex += currentTextContent.length;
-            } else if (childNode.nodeType === 3) { // text node
+            } else if (childNode.nodeType === 3) {
+                // text node
                 const currentTextContent = childNode.textContent!;
                 const trueFrom = textMarking.from;
                 const trueTo = textMarking.to;
@@ -35,7 +41,8 @@ export function markText(node: HTMLElement, textMarkings: TextMarking[], additio
                 const relativeLeft = 0;
                 const relativeRight = currentTextContent.length;
 
-                if (trueRight < trueFrom || trueLeft > trueTo) { // no marking will be made to this child node
+                if (trueRight < trueFrom || trueLeft > trueTo) {
+                    // no marking will be made to this child node
                     traversalIndex += currentTextContent.length;
                     continue;
                 }
@@ -43,25 +50,46 @@ export function markText(node: HTMLElement, textMarkings: TextMarking[], additio
                 let newNodes = [];
 
                 if (trueLeft < trueFrom) {
-                    const newTextContent = currentTextContent.slice(relativeLeft, relativeFrom);
+                    const newTextContent = currentTextContent.slice(
+                        relativeLeft,
+                        relativeFrom
+                    );
                     newNodes.push(document.createTextNode(newTextContent));
                 }
 
-                if (relativeLeft <= relativeFrom && relativeRight >= relativeTo) {
+                if (
+                    relativeLeft <= relativeFrom &&
+                    relativeRight >= relativeTo
+                ) {
                     const newNode = document.createElement(SPAN_TAG);
-                    newNode.classList.add(...additionalClasses, textMarking.type);
-                    let newTextContent = currentTextContent.slice(relativeFrom, relativeTo);
-                    if (replaceSpacesWithNBSP && newTextContent.trim().length === 0) {
+                    newNode.classList.add(
+                        ...additionalClasses,
+                        textMarking.type
+                    );
+                    let newTextContent = currentTextContent.slice(
+                        relativeFrom,
+                        relativeTo
+                    );
+                    if (
+                        replaceSpacesWithNBSP &&
+                        newTextContent.trim().length === 0
+                    ) {
                         // TODO improve the following two lines, use the g flag?
                         const occurrences = newTextContent.length;
-                        newTextContent = newTextContent.replace(" ".repeat(occurrences), "&nbsp;".repeat(occurrences))
+                        newTextContent = newTextContent.replace(
+                            ' '.repeat(occurrences),
+                            '&nbsp;'.repeat(occurrences)
+                        );
                     }
                     newNode.innerHTML = newTextContent;
-                    newNodes.push(newNode)
+                    newNodes.push(newNode);
                 }
 
                 if (trueRight > trueTo) {
-                    const newTextContent = currentTextContent.slice(relativeTo, relativeRight);
+                    const newTextContent = currentTextContent.slice(
+                        relativeTo,
+                        relativeRight
+                    );
                     newNodes.push(document.createTextNode(newTextContent));
                 }
 
@@ -69,15 +97,16 @@ export function markText(node: HTMLElement, textMarkings: TextMarking[], additio
 
                 break;
             } else {
-                throw Error("Unexpected node type!")
+                throw Error('Unexpected node type!');
             }
         }
     }
 }
 
-
 /// ASC by "paragraph", "from" and DESC by "to"
-export function sortParagraphedTextMarkings(textMarkings: Array<TextMarking>): Array<TextMarking> {
+export function sortParagraphedTextMarkings(
+    textMarkings: Array<TextMarking>
+): Array<TextMarking> {
     return textMarkings.sort((tM: TextMarking, otherTM: TextMarking) => {
         if (tM.paragraph! > otherTM.paragraph!) {
             return 1;
@@ -98,7 +127,9 @@ export function sortParagraphedTextMarkings(textMarkings: Array<TextMarking>): A
 }
 
 /// ASC by "from" and DESC by "to"
-export function sortTextMarkings(textMarkings: Array<TextMarking>): Array<TextMarking> {
+export function sortTextMarkings(
+    textMarkings: Array<TextMarking>
+): Array<TextMarking> {
     return textMarkings.sort((tM: TextMarking, otherTM: TextMarking) => {
         if (tM.from > otherTM.from) {
             return 1;

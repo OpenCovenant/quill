@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
-import {environment} from "../../environments/environment";
+import { environment } from '../../environments/environment';
 
 @Component({
     selector: 'app-header',
@@ -34,6 +34,6 @@ export class HeaderComponent {
     }
 
     closeOffcanvas() {
-        document.getElementById("offcanvasCloseButton")!.click();
+        document.getElementById('offcanvasCloseButton')!.click();
     }
 }
