@@ -1,76 +1,89 @@
-.h3-container{
+/* Shared */
+.loginBtn {
+    box-sizing: border-box;
     position: relative;
+    width: 16em;
+    margin: 0.2em;
+    padding: 0 15px 0 46px;
+    border: none;
+    text-align: left;
+    line-height: 34px;
+    white-space: nowrap;
+    border-radius: 0.2em;
+    font-size: 16px;
+    color: #fff;
+}
+.loginBtn:before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 34px;
+    height: 100%;
+}
+.loginBtn:focus {
+    outline: none;
+}
+.loginBtn:active {
+    box-shadow: inset 0 0 0 32px rgba(0, 0, 0, 0.1);
 }
 
-.h3-identifikohu{
+/* Facebook */
+.loginBtn--facebook {
+    background-color: #1877f2;
+    background-image: linear-gradient(#1877f2, #1877f2);
+    /*font-family: "Helvetica neue", Helvetica Neue, Helvetica, Arial, sans-serif;*/
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    border-radius: 13px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: darkblue;
+}
+.loginBtn--facebook:before {
+    border-right: #1877f2 1px solid;
+    background: url("https://static.xx.fbcdn.net/rsrc.php/v3/y3/r/U7MAWJlE6hZ.png")
+        7px 5px no-repeat;
+}
+
+/* Google */
+.loginBtn--google {
+    /*font-family: "Roboto", Roboto, arial, sans-serif;*/
+    background: #ffffff;
+    border-radius: 13px;
+    color: black;
+    border-style: solid;
+    border-width: 1px;
+    border-color: darkgray;
+    text-indent: 10px;
+}
+.loginBtn--google:before {
+    border-right: #ffffff 1px solid;
+    background: url("https://img.icons8.com/fluency/28/null/google-logo.png")
+        6px 3px no-repeat;
+}
+
+.button-div {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, 100px);
+    transform: translate(-85%, -9em);
+}
+
+.h3-container {
+    position: relative;
+}
+
+.h3-identifikohu {
     position: absolute;
-    font-family: 'Inter';
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 1.3em);
+    position: absolute;
+    font-family: "Inter";
     font-style: normal;
     font-weight: 400;
-    font-size: 35px;
+    font-size: 50px;
     line-height: 18px;
-}
-
-.google-button-class1{
-    position: relative;
-}
-
-.google-button-class2{
-    box-sizing: border-box;
-
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, 200px);
-    
-    width: 300px;
-    height: 36px;
-    background: #FFFFFF;
-    border: 1px solid #000000;
-    border-radius: 40px;
-    font-family: 'Inter';
-    font-style: normal;
-    font-size: 24px;
-    line-height: 13px;
-    font-weight: bold;
-}
-
-.button-divider{
-    position: absolute;
-    width: 9.5px;
-    height: 0px;
-    left: 49%;
-    top: 300px;
-    border: 1px solid #000000;
-    transform: rotate(90deg);
-}
-
-
-
-.facebook-button-class1{
-    position: relative;
-}
-
-.facebook-button-class2{
-    box-sizing: border-box;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, 260px);   
-    width: 300px;
-    height: 36px;
-    background: #4267B2;
-    border: 1px solid #000000;
-    border-radius: 40px;
-    font-family: 'Inter';
-    font-style: normal;
-    font-size: 22px;
-    line-height: 13px;
-    font-weight: bold;
-    color: #FFFFFF;
-    
 }
