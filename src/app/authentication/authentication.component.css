@@ -87,3 +87,14 @@
     font-size: 50px;
     line-height: 18px;
 }
+
+
+.button-divider{
+    position: absolute;
+    width: 25px;
+    height: 0px;
+    left: 14.5em;
+    top: 7.7em;
+    border: 1px solid #000000;
+    transform: rotate(90deg);
+}
