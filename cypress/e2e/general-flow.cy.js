@@ -133,6 +133,24 @@ describe('a general flow of quill', () => {
         cy.get('button#closeWrittenTextsModalButton').click();
         cy.get('input#flexSwitchCheckChecked').click();
         cy.get('div.modal-body').contains('p#writtenText').should("not.exist");
-    });
+    }); 
 
+    it('will test if clicking on the upload-document tab and then back on the writing-tab, the text should be kept.', () => {
+
+        cy.get("#editor > p > .typo").should("not.exist");
+        cy.get("#editor").type("test");
+        cy.get('button[id="uploadDocumentToggleButton"]').click();
+        cy.get('button[id="writeTextToggleButton"]').click();
+        cy.get("#editor").contains("test").should("exist");
+
+    }); 
+
+    it('will test if  Opening and closing the offcanvas works as expected.', () => {
+
+        cy.get('.navbar-toggler-icon').click();
+        cy.get('.list-group-item-action').contains("Rreth Nesh").should("exist");
+        cy.get('.list-group-item-action').contains("Rreth Penda").should("exist");
+        cy.get('#offcanvasCloseButton').click();
+
+    });
 }); 
