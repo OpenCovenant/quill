@@ -1,6 +1,6 @@
 {
-    "key": "<p>asd&nbsp;</p>",
-    "value": {
+    "request": "<p>asd&nbsp;</p>",
+    "response": {
         "text": "<p>asd&nbsp;</p>",
         "textMarkings": [{
             "from": 0,
