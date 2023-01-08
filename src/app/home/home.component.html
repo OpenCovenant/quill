@@ -1,192 +1,500 @@
-<div id="highLevelContainer" style="display: flex; justify-content: space-between; gap: 1rem; flex: 1;">
-    <div id="inputContainer" class="inputText mt-5" style="flex: 0 0 60%; margin-left: 3rem;">
+<div
+    id="highLevelContainer"
+    style="display: flex; justify-content: space-between; gap: 1rem; flex: 1"
+>
+    <div
+        id="inputContainer"
+        class="inputText mt-5"
+        style="flex: 0 0 60%; margin-left: 3rem"
+    >
         <div class="card border-secondary">
-            <div class="card-header" style="display: flex; justify-content: space-evenly;">
-                <button id="{{writeTextToggleButtonID}}" (click)="toggleWriteTextButton()" type="button"
-                        aria-pressed="true" class="btn btn-sm btn-secondary active">SHKRIM
+            <div
+                class="card-header"
+                style="display: flex; justify-content: space-evenly"
+            >
+                <button
+                    id="{{ writeTextToggleButtonID }}"
+                    (click)="toggleWriteTextButton()"
+                    type="button"
+                    aria-pressed="true"
+                    class="btn btn-sm btn-secondary active"
+                >
+                    SHKRIM
                 </button>
-                <div style="display: flex; justify-content: center; align-items: center; color: #737373;">|</div>
-                <button id="{{uploadDocumentToggleButtonID}}" (click)="toggleUploadDocumentButton()" type="button"
-                        class="btn btn-sm btnUnselected">DOKUMENT
+                <div
+                    style="
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        color: #737373;
+                    "
+                >
+                    |
+                </div>
+                <button
+                    id="{{ uploadDocumentToggleButtonID }}"
+                    (click)="toggleUploadDocumentButton()"
+                    type="button"
+                    class="btn btn-sm btnUnselected"
+                >
+                    DOKUMENT
                 </button>
             </div>
             <div class="card-body" *ngIf="displayWriteTextOrUploadDocumentFlag">
-                <div style="display: flex;">
-                    <div id="editor" contenteditable="true" (keyup)="onKeyboardEvent($event)"
-                         (paste)="onTextPaste($event)" [innerHTML]="innerHTMLOfEditor" spellcheck="false"
-                         autocapitalize="off" role="textbox" aria-multiline="true"
-                         style="min-width: 96%; min-height: 30rem; font-size: 17px; padding-right: 2%; outline: 0 solid transparent;">
+                <div style="display: flex">
+                    <div
+                        id="editor"
+                        contenteditable="true"
+                        (keyup)="onKeyboardEvent($event)"
+                        (paste)="onTextPaste($event)"
+                        [innerHTML]="innerHTMLOfEditor"
+                        spellcheck="false"
+                        autocapitalize="off"
+                        role="textbox"
+                        aria-multiline="true"
+                        style="
+                            min-width: 96%;
+                            min-height: 30rem;
+                            font-size: 17px;
+                            padding-right: 2%;
+                            outline: 0 solid transparent;
+                        "
+                    ></div>
+                    <div id="editor-placeholder">
+                        {{ EDITOR_PLACEHOLDER_TEXT }}
                     </div>
-                    <div id="editor-placeholder">{{EDITOR_PLACEHOLDER_TEXT}}</div>
-                    <div style="min-width: 4%;" *ngIf="editorHasText()">
-                            <span id="clearEditorSpan" (click)="clearEditor()" title="fshi shkrimin"
-                                  style="font-size: 36px; border-radius: 40%; cursor: pointer"><i class="bi bi-x"></i>
-                            </span>
+                    <div style="min-width: 4%" *ngIf="editorHasText()">
+                        <span
+                            id="clearEditorSpan"
+                            (click)="clearEditor()"
+                            title="fshi shkrimin"
+                            style="
+                                font-size: 36px;
+                                border-radius: 40%;
+                                cursor: pointer;
+                            "
+                            ><i class="bi bi-x"></i>
+                        </span>
                     </div>
                 </div>
-                <hr>
-                <div style="display: flex; justify-content: space-between; font-size: 0.8rem;">
-                        <span
-                            style="display: flex; justify-content: center; align-content: center; flex-direction: column;">{{characterCount}}&nbsp;{{characterCount === 1 ? 'karakter' : 'karaktere'}}&comma;&nbsp;{{wordCount}}&nbsp;fjalë&comma;&nbsp;{{processedText === undefined ? 0 : processedText!.textMarkings.length}}&nbsp;{{processedText !== undefined && processedText!.textMarkings.length === 1 ? 'shenjim' : 'shenjime'}}</span>
-                    <span><button id="copyToClipboardButton" (click)="copyToClipboard()" class="bi bi-clipboard"
-                                  title="kopjo shkrimin"
-                                  style="background: none; color: black; border: none; padding: 0; font-size: 1.25rem;"></button>&nbsp;&nbsp;&nbsp;&nbsp;<button
-                        type="button" data-bs-toggle="modal" data-bs-target="#writtenTextsHistoryModal"
-                        title="trego historikun e shkrimeve" class="bi bi-clock-history"
-                        style="background: none; color: black; border: none; padding: 0; font-size: 1.25rem;"></button></span>
+                <hr />
+                <div
+                    style="
+                        display: flex;
+                        justify-content: space-between;
+                        font-size: 0.8rem;
+                    "
+                >
+                    <span
+                        style="
+                            display: flex;
+                            justify-content: center;
+                            align-content: center;
+                            flex-direction: column;
+                        "
+                        >{{ characterCount }}&nbsp;{{
+                            characterCount === 1 ? "karakter" : "karaktere"
+                        }}&comma;&nbsp;{{ wordCount }}&nbsp;fjalë&comma;&nbsp;{{
+                            processedText === undefined
+                                ? 0
+                                : processedText!.textMarkings.length
+                        }}&nbsp;{{
+                            processedText !== undefined &&
+                            processedText!.textMarkings.length === 1
+                                ? "shenjim"
+                                : "shenjime"
+                        }}</span
+                    >
+                    <span
+                        ><button
+                            id="copyToClipboardButton"
+                            (click)="copyToClipboard()"
+                            class="bi bi-clipboard"
+                            title="kopjo shkrimin"
+                            style="
+                                background: none;
+                                color: black;
+                                border: none;
+                                padding: 0;
+                                font-size: 1.25rem;
+                            "
+                        ></button
+                        >&nbsp;&nbsp;&nbsp;&nbsp;<button
+                            type="button"
+                            data-bs-toggle="modal"
+                            data-bs-target="#writtenTextsHistoryModal"
+                            title="trego historikun e shkrimeve"
+                            class="bi bi-clock-history"
+                            style="
+                                background: none;
+                                color: black;
+                                border: none;
+                                padding: 0;
+                                font-size: 1.25rem;
+                            "
+                        ></button
+                    ></span>
                 </div>
             </div>
-            <div class="card-body" *ngIf="!displayWriteTextOrUploadDocumentFlag">
+            <div
+                class="card-body"
+                *ngIf="!displayWriteTextOrUploadDocumentFlag"
+            >
                 <div class="text-center">
-                    <br>
-                    <h5 class="card-title">Mbështesim dokumenta <b>Word</b>, <b>PDF</b>, <b>Libre</b>.</h5>
-                    <br>
-                    <label for="documentUploadingHiddenInput" class="btn btn-primary">SHTYP&nbsp;KËTU&nbsp;<i
-                        class="bi bi-file-text"></i></label>
-                    <input id="documentUploadingHiddenInput" type="file" (change)="uploadDocument($event)"
-                           placeholder="SHTYP KËTU" accept=".pdf,.doc,.docx,.odt" style="display:none;">
+                    <br />
+                    <h5 class="card-title">
+                        Mbështesim dokumenta <b>Word</b>, <b>PDF</b>,
+                        <b>Libre</b>.
+                    </h5>
+                    <br />
+                    <label
+                        for="documentUploadingHiddenInput"
+                        class="btn btn-primary"
+                        >SHTYP&nbsp;KËTU&nbsp;<i class="bi bi-file-text"></i
+                    ></label>
+                    <input
+                        id="documentUploadingHiddenInput"
+                        type="file"
+                        (change)="uploadDocument($event)"
+                        placeholder="SHTYP KËTU"
+                        accept=".pdf,.doc,.docx,.odt"
+                        style="display: none"
+                    />
                 </div>
-                <br>
+                <br />
             </div>
         </div>
     </div>
-    <div id="outputContainer" class="outputTexts mt-5" style="flex: 0 0 30%; margin-right: 3rem;">
+    <div
+        id="outputContainer"
+        class="outputTexts mt-5"
+        style="flex: 0 0 30%; margin-right: 3rem"
+    >
         <div
-            *ngIf="(processedText === undefined || processedText!.textMarkings.length === 0) && !(loading$ | async)">
+            *ngIf="
+                (processedText === undefined ||
+                    processedText!.textMarkings.length === 0) &&
+                !(loading$ | async)
+            "
+        >
             <!-- TODO put into a method -->
             <div class="card border-secondary">
-                <div class="card-header" style="display: flex; justify-content: space-between;">
+                <div
+                    class="card-header"
+                    style="display: flex; justify-content: space-between"
+                >
                     <div>
-                            <span class="typo"
-                                  style="display: inline-block; padding-left: 6px; padding-right: 6px; color: black;">gabime shkrimi</span>
+                        <span
+                            class="typo"
+                            style="
+                                display: inline-block;
+                                padding-left: 6px;
+                                padding-right: 6px;
+                                color: black;
+                            "
+                            >gabime shkrimi</span
+                        >
                     </div>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><b>shkrim pa gabime</b> - <span>shenjime për fjalë të shkruara gabim, gabime fonetikore, shenja pikësimi</span>
+                    <li class="list-group-item">
+                        <b>shkrim pa gabime</b> -
+                        <span
+                            >shenjime për fjalë të shkruara gabim, gabime
+                            fonetikore, shenja pikësimi</span
+                        >
                     </li>
                 </ul>
             </div>
             <div class="card border-secondary mt-4">
-                <div class="card-header" style="display: flex; justify-content: space-between;">
+                <div
+                    class="card-header"
+                    style="display: flex; justify-content: space-between"
+                >
                     <div>
-                            <span class="loanword"
-                                  style="display: inline-block; padding-left: 6px; padding-right: 6px; color: black;">sugjerime huazimesh</span>
+                        <span
+                            class="loanword"
+                            style="
+                                display: inline-block;
+                                padding-left: 6px;
+                                padding-right: 6px;
+                                color: black;
+                            "
+                            >sugjerime huazimesh</span
+                        >
                     </div>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><b>pa huazime për tani</b> - <span>shenjime për huazime me origjinë italiane, angleze, sllave, gjermane, otomane, greke</span>
+                    <li class="list-group-item">
+                        <b>pa huazime për tani</b> -
+                        <span
+                            >shenjime për huazime me origjinë italiane, angleze,
+                            sllave, gjermane, otomane, greke</span
+                        >
                     </li>
                 </ul>
             </div>
             <div class="card border-secondary mt-4">
-                <div class="card-header" style="display: flex; justify-content: space-between;">
+                <div
+                    class="card-header"
+                    style="display: flex; justify-content: space-between"
+                >
                     <div>
-                            <span class="stylistic"
-                                  style="display: inline-block; padding-left: 6px; padding-right: 6px; color: black;">shenjime stilistike</span>
+                        <span
+                            class="stylistic"
+                            style="
+                                display: inline-block;
+                                padding-left: 6px;
+                                padding-right: 6px;
+                                color: black;
+                            "
+                            >shenjime stilistike</span
+                        >
                     </div>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><b>stilistikë e duhur</b> -
+                    <li class="list-group-item">
+                        <b>stilistikë e duhur</b> -
                         <span>shenjime për fjali tepër të gjata</span>
                     </li>
                 </ul>
             </div>
         </div>
 
-        <div *ngFor="let textMarking of processedText?.textMarkings; index as i"
-             class="card border-secondary {{i > 0 ? 'mt-2':''}}">
-            <div class="card-header" style="display: flex; justify-content: space-between;">
+        <div
+            *ngFor="let textMarking of processedText?.textMarkings; index as i"
+            class="card border-secondary {{ i > 0 ? 'mt-2' : '' }}"
+        >
+            <div
+                class="card-header"
+                style="display: flex; justify-content: space-between"
+            >
                 <div
-                    style="display: grid; grid-template-columns: auto 1fr; grid-template-rows: inherit; max-width: 80%;">
-                        <span class="{{textMarking.type}}"
-                              style="display: inline-block; padding: 3px 6px; border-radius: 4px; color: black; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"
-                        >{{getTextOfTextMarking(i)}}</span>
+                    style="
+                        display: grid;
+                        grid-template-columns: auto 1fr;
+                        grid-template-rows: inherit;
+                        max-width: 80%;
+                    "
+                >
+                    <span
+                        class="{{ textMarking.type }}"
+                        style="
+                            display: inline-block;
+                            padding: 3px 6px;
+                            border-radius: 4px;
+                            color: black;
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
+                            overflow: hidden;
+                        "
+                        >{{ getTextOfTextMarking(i) }}</span
+                    >
                 </div>
                 <div>
-                    <button (click)="deleteTextMarking(i)" class="btn btn-outline-danger btn-sm">HIQ&nbsp;<i
-                        class="bi bi-trash"></i></button>
+                    <button
+                        (click)="deleteTextMarking(i)"
+                        class="btn btn-outline-danger btn-sm"
+                    >
+                        HIQ&nbsp;<i class="bi bi-trash"></i>
+                    </button>
                 </div>
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <div style="display: flex;">
-                        <div><b>{{textMarking.subtype}}</b> - <span>{{textMarking.description}}</span></div>
-                        <div *ngIf="textMarking.id"><i class="bi bi-info-circle" routerLink="{{textMarking.id}}"
-                                                       style="font-size: 20px; color: #484848; cursor: pointer;"></i>
+                    <div style="display: flex">
+                        <div>
+                            <b>{{ textMarking.subtype }}</b> -
+                            <span>{{ textMarking.description }}</span>
+                        </div>
+                        <div *ngIf="textMarking.id">
+                            <i
+                                class="bi bi-info-circle"
+                                routerLink="{{ textMarking.id }}"
+                                style="
+                                    font-size: 20px;
+                                    color: #484848;
+                                    cursor: pointer;
+                                "
+                            ></i>
                         </div>
                     </div>
                     <span *ngIf="textMarking.suggestions.length > 0">
-                                <div id="suggestions" style="display: flex;  flex-wrap: wrap; align-content: stretch;
-                                      justify-content: center; gap: 1rem;">
-                                    <button
-                                        *ngFor="let suggestion of textMarking.suggestions.slice(0, shouldCollapseSuggestions[i] ? 4 : textMarking.suggestions.length); index as j"
-                                        (click)="chooseSuggestion(i, j)" class="suggestion"
-                                        style="color: black;">
-                                        <b>{{suggestion.display}}</b>
-                                    </button>
-                                    <div *ngIf="textMarking.suggestions.length > 4"
-                                         style="display: flex; justify-content: center; align-items: center; color: #737373;">|</div>
-                                    <div *ngIf="textMarking.suggestions.length > 4">
-                                        <h3 (click)="oscillateSuggestion(i, $event)"
-                                            class="bi {{shouldCollapseSuggestions[i] ? 'bi-arrow-right-square':'bi-arrow-left-square'}}"
-                                            style="display: inline-block; align-items: flex-start; margin: 0;
-                                            line-height: inherit; cursor: pointer;">
-                                        </h3>
-                                    </div>
-                                </div>
-                        </span>
+                        <div
+                            id="suggestions"
+                            style="
+                                display: flex;
+                                flex-wrap: wrap;
+                                align-content: stretch;
+                                justify-content: center;
+                                gap: 1rem;
+                            "
+                        >
+                            <button
+                                *ngFor="
+                                    let suggestion of textMarking.suggestions.slice(
+                                        0,
+                                        shouldCollapseSuggestions[i]
+                                            ? 4
+                                            : textMarking.suggestions.length
+                                    );
+                                    index as j
+                                "
+                                (click)="chooseSuggestion(i, j)"
+                                class="suggestion"
+                                style="color: black"
+                            >
+                                <b>{{ suggestion.display }}</b>
+                            </button>
+                            <div
+                                *ngIf="textMarking.suggestions.length > 4"
+                                style="
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    color: #737373;
+                                "
+                            >
+                                |
+                            </div>
+                            <div *ngIf="textMarking.suggestions.length > 4">
+                                <h3
+                                    (click)="oscillateSuggestion(i, $event)"
+                                    class="bi {{
+                                        shouldCollapseSuggestions[i]
+                                            ? 'bi-arrow-right-square'
+                                            : 'bi-arrow-left-square'
+                                    }}"
+                                    style="
+                                        display: inline-block;
+                                        align-items: flex-start;
+                                        margin: 0;
+                                        line-height: inherit;
+                                        cursor: pointer;
+                                    "
+                                ></h3>
+                            </div>
+                        </div>
+                    </span>
                 </li>
             </ul>
         </div>
 
-
         <div
-            class="card border-secondary d-flex justify-content-center {{(processedText?.textMarkings === null || processedText?.textMarkings?.length === 0) ? '':'mt-2'}}"
-            *ngIf="loading$ | async">
-            <div class="card-header" style="display: flex; justify-content: space-between;">
+            class="card border-secondary d-flex justify-content-center {{
+                processedText?.textMarkings === null ||
+                processedText?.textMarkings?.length === 0
+                    ? ''
+                    : 'mt-2'
+            }}"
+            *ngIf="loading$ | async"
+        >
+            <div
+                class="card-header"
+                style="display: flex; justify-content: space-between"
+            >
                 <div>
-                        <span
-                            style="display: inline-block; padding-left: 6px; padding-right: 6px; color: black; border-radius: 4px; border: none;">duke lexuar shkrimin...</span>
+                    <span
+                        style="
+                            display: inline-block;
+                            padding-left: 6px;
+                            padding-right: 6px;
+                            color: black;
+                            border-radius: 4px;
+                            border: none;
+                        "
+                        >duke lexuar shkrimin...</span
+                    >
                 </div>
             </div>
-            <ul class="list-group list-group-flush" style="min-height: 50px;">
-                <div class="spinner-border" role="status" style="margin-left: 45%; margin-top: 10px;">
+            <ul class="list-group list-group-flush" style="min-height: 50px">
+                <div
+                    class="spinner-border"
+                    role="status"
+                    style="margin-left: 45%; margin-top: 10px"
+                >
                     <span class="visually-hidden">duke lexuar shkrimin...</span>
                 </div>
             </ul>
         </div>
     </div>
 </div>
-<br>
-<br>
+<br />
+<br />
 
-<div class="modal fade" id="writtenTextsHistoryModal" tabindex="-1" aria-labelledby="writtenTextsHistoryModalLabel"
-     aria-hidden="true">
+<div
+    class="modal fade"
+    id="writtenTextsHistoryModal"
+    tabindex="-1"
+    aria-labelledby="writtenTextsHistoryModalLabel"
+    aria-hidden="true"
+>
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="writtenTextsHistoryModalLabel">Historiku i Shkrimeve</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Mbyll"></button>
+                <h5 class="modal-title" id="writtenTextsHistoryModalLabel">
+                    Historiku i Shkrimeve
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Mbyll"
+                ></button>
             </div>
             <div class="modal-body">
                 <div class="form-check form-switch">
-                    <input (click)="toggleStoringOfWrittenTexts()" class="form-check-input" type="checkbox"
-                           id="flexSwitchCheckChecked">
+                    <input
+                        (click)="toggleStoringOfWrittenTexts()"
+                        class="form-check-input"
+                        type="checkbox"
+                        id="flexSwitchCheckChecked"
+                    />
                     <!-- TODO if user changes call a method that changes it in the service and invalidates-->
-                    <label class="form-check-label" for="flexSwitchCheckChecked">Përdor Historikun e
-                        Shkrimeve</label>
+                    <label class="form-check-label" for="flexSwitchCheckChecked"
+                        >Përdor Historikun e Shkrimeve</label
+                    >
+                    <div>
+                        <i style="color: gray; font-size: 13px"
+                            >çaktivizimi i historikut të shkrimeve do të fshijë
+                            shkrimet ekzistuese</i
+                        >
+                    </div>
                 </div>
-                <br>
-                <div *ngFor="let writtenText of localStorageService.fetchWrittenTextsHistory();" class="list-group">
-                    <p id="writtenText" (click)="placeWrittenText(writtenText)" type="button"
-                       style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; border: 1px solid lightgray; border-radius: 5px; padding: 5px;"
-                    >{{writtenText}}</p>
-                    <br>
+                <br />
+                <div
+                    *ngFor="
+                        let writtenText of localStorageService.fetchWrittenTextsHistory()
+                    "
+                    class="list-group"
+                >
+                    <p
+                        id="writtenText"
+                        (click)="placeWrittenText(writtenText)"
+                        type="button"
+                        style="
+                            display: -webkit-box;
+                            -webkit-line-clamp: 3;
+                            -webkit-box-orient: vertical;
+                            overflow: hidden;
+                            border: 1px solid lightgray;
+                            border-radius: 5px;
+                            padding: 5px;
+                        "
+                    >
+                        {{ writtenText }}
+                    </p>
+                    <br />
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="closeWrittenTextsModalButton" type="button" class="btn btn-secondary"
-                        data-bs-dismiss="modal">Mbyll
+                <button
+                    id="closeWrittenTextsModalButton"
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Mbyll
                 </button>
             </div>
         </div>

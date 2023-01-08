@@ -1,6 +1,6 @@
 describe('a general flow of quill', () => {
     beforeEach(() => {
-        cy.visit('http://localhost:4200/'); 
+        cy.visit('http://localhost:4200/');
     })
 
     it('contains the editor in which we want to write', () => {
@@ -25,6 +25,6 @@ describe('a general flow of quill', () => {
         cy.get('.navbar-toggler-icon').click();
         cy.get('.offcanvas.offcanvas-start.show').should("exist");
         cy.get('#offcanvasCloseButton').click();
-        
-    }); 
-}); 
+
+    });
+});

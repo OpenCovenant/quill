@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable({
     providedIn: 'root'
@@ -6,8 +6,9 @@ import {Injectable} from '@angular/core';
 export class LocalStorageService {
     LOCAL_STORAGE_WRITTEN_TEXT_KEY: string = 'penda-can-store-written-texts';
     WRITTEN_TEXTS_LENGTH = 5;
-    WRITTEN_TEXTS_PREFIX = "penda-written-text-";
-    WRITTEN_TEXTS_KEYS: string[] = Array(this.WRITTEN_TEXTS_LENGTH).fill(this.WRITTEN_TEXTS_PREFIX)
+    WRITTEN_TEXTS_PREFIX = 'penda-written-text-';
+    WRITTEN_TEXTS_KEYS: string[] = Array(this.WRITTEN_TEXTS_LENGTH)
+        .fill(this.WRITTEN_TEXTS_PREFIX)
         .map((s: string, i: number) => s + i.toString());
     canStoreWrittenTexts: boolean = true;
 
@@ -18,10 +19,15 @@ export class LocalStorageService {
     // the code in this service is simple (we might get performance issues if we stringify and parse an array/map), and
     // hardly extendable, consider refining in the future
     constructor() {
-        const alreadyCanStoreWrittenTexts = localStorage.getItem(this.LOCAL_STORAGE_WRITTEN_TEXT_KEY);
+        const alreadyCanStoreWrittenTexts = localStorage.getItem(
+            this.LOCAL_STORAGE_WRITTEN_TEXT_KEY
+        );
         if (!alreadyCanStoreWrittenTexts) {
             if (this.canStoreWrittenTexts) {
-                localStorage.setItem(this.LOCAL_STORAGE_WRITTEN_TEXT_KEY, 'true');
+                localStorage.setItem(
+                    this.LOCAL_STORAGE_WRITTEN_TEXT_KEY,
+                    'true'
+                );
             }
         }
         if (alreadyCanStoreWrittenTexts === 'false') {
@@ -34,7 +40,10 @@ export class LocalStorageService {
             this.clearWrittenTexts();
         }
         this.canStoreWrittenTexts = checked;
-        localStorage.setItem(this.LOCAL_STORAGE_WRITTEN_TEXT_KEY, checked.toString());
+        localStorage.setItem(
+            this.LOCAL_STORAGE_WRITTEN_TEXT_KEY,
+            checked.toString()
+        );
     }
 
     fetchWrittenTextsHistory(): Array<string> {
@@ -45,7 +54,9 @@ export class LocalStorageService {
         }
 
         for (let i = 0; i < this.WRITTEN_TEXTS_KEYS.length; i++) {
-            const writtenTextIndex = localStorage.getItem(this.WRITTEN_TEXTS_KEYS[i]);
+            const writtenTextIndex = localStorage.getItem(
+                this.WRITTEN_TEXTS_KEYS[i]
+            );
             if (!writtenTextIndex) {
                 return writtenTextsHistory;
             }
@@ -66,9 +77,15 @@ export class LocalStorageService {
             if (!arr[arr.length - 1]) {
                 for (let j = i; j >= 0; j--) {
                     if (j === 0) {
-                        localStorage.setItem(this.WRITTEN_TEXTS_KEYS[j], writtenText)
+                        localStorage.setItem(
+                            this.WRITTEN_TEXTS_KEYS[j],
+                            writtenText
+                        );
                     } else {
-                        localStorage.setItem(this.WRITTEN_TEXTS_KEYS[j], arr[j - 1])
+                        localStorage.setItem(
+                            this.WRITTEN_TEXTS_KEYS[j],
+                            arr[j - 1]
+                        );
                     }
                 }
                 return;
@@ -77,9 +94,9 @@ export class LocalStorageService {
 
         for (let i = this.WRITTEN_TEXTS_LENGTH - 1; i >= 0; i++) {
             if (i === 0) {
-                localStorage.setItem(this.WRITTEN_TEXTS_KEYS[i], writtenText)
+                localStorage.setItem(this.WRITTEN_TEXTS_KEYS[i], writtenText);
             } else {
-                localStorage.setItem(this.WRITTEN_TEXTS_KEYS[i], arr[i - 1])
+                localStorage.setItem(this.WRITTEN_TEXTS_KEYS[i], arr[i - 1]);
             }
         }
     }
