@@ -25,6 +25,7 @@ app.post('/api/generateMarkings', (req, res, next) => {
 app.post('/api/generateMarkingsForParagraphs', (req, res, next) => {
     const payload = req.body;
 
+    // TODO write a script to fetch the responses for a list of requests from an actual server
     if (payload === '<p>asd&nbsp;</p>') {
         console.log('the payload matches the string');
         const response = {
