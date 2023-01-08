@@ -24,20 +24,32 @@ app.post('/api/generateMarkings', (req, res, next) => {
 });
 
 app.post('/api/generateMarkingsForParagraphs', (req, res, next) => {
-    const payload = req.body;
-    fs.readFileSync('mock-server/data/data.json')
+    const markingsForParagraphs = readParsedFile('mock-server/data/data.json');
+    console.log(markingsForParagraphs)
+    const filteredMarkingsForParagraphs = markingsForParagraphs.filter(mFP => mFP.request === req.body);
+    console.log(filteredMarkingsForParagraphs)
+    if (filteredMarkingsForParagraphs.length === 0) {
+        res.json('no data in the mock server for this payload');
+        return
+    }
+    if (filteredMarkingsForParagraphs.length > 1) {
+        res.json('more than one data with this payload in the mock server was found, returning one of them');
+        return
+    }
+    // console.log(filteredMarkingsForParagraphs)
     // TODO write a script to fetch the responses for a list of requests from an actual server
-    if (payload === ) {
-        console.log('the payload matches the string');
-        const response = fs.readFileSync('mock-server/data/data.json');
-        res.json(response);
+    if (req.body === filteredMarkingsForParagraphs[0]['request']) {
+    //     console.log('the payload matches the string');
+    //     const response = fs.readFileSync('mock-server/data/data.json');
+        res.json(filteredMarkingsForParagraphs[0]['response']);
+        return;
     }
     // console.log(req)
     // console.log(req)
-    console.log(req.body)
+    // console.log(req.body)
     // console.log(req.params)
     // console.log(JSON.stringify(req.body))
-    res.json(["a", "b", "c", "d", "e"]);
+    // res.json(["a", "b", "c", "d", "e"]);
 });
 
 app.post('/api/getMarkingDetails/:marking_details_id', (req, res, next) => {
@@ -57,8 +69,13 @@ app.get('/api/uploadDocument', (req, res, next) => {
     res.json(["a", "b", "c", "d", "e"]);
 });
 
+
+function readParsedFile(path) {
+    return JSON.parse(fs.readFileSync(path, 'utf-8'));
+}
+
 function fetchRealValuesFromServer() {
     fs.writeFileSync('mock-server/data/data.json', JSON.stringify(['1', 2, null, '4'], null, 2), 'utf-8');
 }
 
-fetchRealValuesFromServer();
+// fetchRealValuesFromServer();
