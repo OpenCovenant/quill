@@ -4,7 +4,7 @@ const app = express();
 
 app.use(cors());
 // app.use(express.urlencoded());
-app.use(express.json());
+app.use(express.text());
 
 app.listen(3000, () => {
     console.log("The mock-server is currently running on port 3000 ...");
@@ -25,8 +25,10 @@ app.post('/api/generateMarkings', (req, res, next) => {
 app.post('/api/generateMarkingsForParagraphs', (req, res, next) => {
     // if
     // console.log(req)
+    // console.log(req)
     console.log(req.body)
-    console.log(req.params)
+    // console.log(req.params)
+    // console.log(JSON.stringify(req.body))
     res.json(["a", "b", "c", "d", "e"]);
 });
 
