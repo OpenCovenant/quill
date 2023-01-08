@@ -16,7 +16,6 @@ app.get("/url", (req, res, next) => {
 });
 
 app.get('/api/ping', (req, res, next) => {
-    res.json(["a", "b", "c", "d", "e"]);
 });
 
 app.post('/api/generateMarkings', (req, res, next) => {
