@@ -23,7 +23,45 @@ app.post('/api/generateMarkings', (req, res, next) => {
 });
 
 app.post('/api/generateMarkingsForParagraphs', (req, res, next) => {
-    // if
+    const payload = req.body;
+
+    if (payload === '<p>asd&nbsp;</p>') {
+        console.log('the payload matches the string');
+        const response = {
+            'text': '<p>asd&nbsp;</p>',
+            'textMarkings': [{
+                'from': 0,
+                'to': 3,
+                'type': 'typo',
+                'subtype': 'gabim gramatikor, drejtshkrim',
+                'description': 'kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje',
+                'suggestions': [{ 'display': 'sad', 'action': 'sad' }, {
+                    'display': 'bas',
+                    'action': 'bas',
+                }, { 'display': 'mas', 'action': 'mas' }, { 'display': 'has', 'action': 'has' }, {
+                    'display': 'and',
+                    'action': 'and',
+                }, { 'display': 'aks', 'action': 'aks' }, { 'display': 'asi', 'action': 'asi' }, {
+                    'display': 'as',
+                    'action': 'as',
+                }, { 'display': 'qas', 'action': 'qas' }, { 'display': 'tas', 'action': 'tas' }, {
+                    'display': 'kas',
+                    'action': 'kas',
+                }, { 'display': 'aso', 'action': 'aso' }, { 'display': 'ras', 'action': 'ras' }, {
+                    'display': 'aed',
+                    'action': 'aed',
+                }, { 'display': 'ase', 'action': 'ase' }, { 'display': 'uas', 'action': 'uas' }, {
+                    'display': 'pas',
+                    'action': 'pas',
+                }, { 'display': 'ad', 'action': 'ad' }, { 'display': 'kad', 'action': 'kad' }, {
+                    'display': 'ars',
+                    'action': 'ars',
+                }],
+                'paragraph': 0,
+            }],
+        }
+        res.json(response);
+    }
     // console.log(req)
     // console.log(req)
     console.log(req.body)
