@@ -27,16 +27,19 @@ app.post('/api/generateMarkingsForParagraphs', (req, res, next) => {
     console.log(markingsForParagraphs)
     const filteredMarkingsForParagraphs = markingsForParagraphs.filter(mFP => mFP.request === req.body);
     console.log(filteredMarkingsForParagraphs)
+
     if (filteredMarkingsForParagraphs.length === 0) {
         console.log('no data in the mock server for this payload');
         res.sendStatus(404).end();
         return
     }
+
     if (filteredMarkingsForParagraphs.length > 1) {
         console.log('more than one data with this payload in the mock server was found, returning one of them');
         res.json(filteredMarkingsForParagraphs[0]['response']);
         return
     }
+
     // console.log(filteredMarkingsForParagraphs)
     // TODO write a script to fetch the responses for a list of requests from an actual server
     if (req.body === filteredMarkingsForParagraphs[0]['request']) {
