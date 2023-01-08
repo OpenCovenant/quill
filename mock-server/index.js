@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require('cors');
+const fs = require('fs')
 const app = express();
 
 app.use(cors());
@@ -26,7 +27,7 @@ app.post('/api/generateMarkingsForParagraphs', (req, res, next) => {
     const payload = req.body;
 
     // TODO write a script to fetch the responses for a list of requests from an actual server
-    if (payload === '<p>asd&nbsp;</p>') {
+    if (payload === ) {
         console.log('the payload matches the string');
         const response = {
             'text': '<p>asd&nbsp;</p>',
@@ -87,3 +88,9 @@ app.get('/api/getMarkingTypesCount', (req, res, next) => {
 app.get('/api/uploadDocument', (req, res, next) => {
     res.json(["a", "b", "c", "d", "e"]);
 });
+
+function fetchRealValuesFromServer() {
+    fs.writeFileSync('mock-server/data/data.json', JSON.stringify(['1', 2, null, '4'], null, 2), 'utf-8');
+}
+
+fetchRealValuesFromServer();
