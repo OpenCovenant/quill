@@ -28,11 +28,13 @@ app.post('/api/generateMarkingsForParagraphs', (req, res, next) => {
     const filteredMarkingsForParagraphs = markingsForParagraphs.filter(mFP => mFP.request === req.body);
     console.log(filteredMarkingsForParagraphs)
     if (filteredMarkingsForParagraphs.length === 0) {
-        res.json('no data in the mock server for this payload');
+        console.log('no data in the mock server for this payload');
+        res.sendStatus(404).end();
         return
     }
     if (filteredMarkingsForParagraphs.length > 1) {
-        res.json('more than one data with this payload in the mock server was found, returning one of them');
+        console.log('more than one data with this payload in the mock server was found, returning one of them');
+        res.json(filteredMarkingsForParagraphs[0]['response']);
         return
     }
     // console.log(filteredMarkingsForParagraphs)
