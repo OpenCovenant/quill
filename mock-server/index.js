@@ -19,7 +19,36 @@ app.get('/api/ping', (req, res, next) => {
 });
 
 app.post('/api/generateMarkings', (req, res, next) => {
-    res.json(["a", "b", "c", "d", "e"]);
+    const markings = readParsedDataFromFile('generateMarkings.json');
+    console.log(markings)
+    const filteredMarkings = markings.filter(mFP => mFP.request === req.body);
+    console.log(filteredMarkings)
+
+    if (filteredMarkings.length === 0) {
+        console.log('no data in the mock server for this payload');
+        res.sendStatus(404).end();
+        return
+    }
+
+    if (filteredMarkings.length > 1) {
+        console.log('more than one data with this payload in the mock server was found, returning one of them');
+        res.json(filteredMarkings[0]['response']);
+        return
+    }
+
+    // console.log(filteredMarkingsForParagraphs)
+    // TODO write a script to fetch the responses for a list of requests from an actual server
+    if (req.body === filteredMarkings[0]['request']) {
+        //     console.log('the payload matches the string');
+        //     const response = fs.readFileSync('mock-server/data/data.json');
+        res.json(filteredMarkings[0]['response']);
+    }
+    // console.log(req)
+    // console.log(req)
+    // console.log(req.body)
+    // console.log(req.params)
+    // console.log(JSON.stringify(req.body))
+    // res.json(["a", "b", "c", "d", "e"]);
 });
 
 app.post('/api/generateMarkingsForParagraphs', (req, res, next) => {
