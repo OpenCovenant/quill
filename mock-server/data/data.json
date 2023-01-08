@@ -1,4 +1,4 @@
-{
+[{
     "request": "<p>asd&nbsp;</p>",
     "response": {
         "text": "<p>asd&nbsp;</p>",
@@ -33,5 +33,5 @@
             "paragraph": 0
         }]
     }
-
 }
+]
