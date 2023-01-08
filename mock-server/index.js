@@ -24,7 +24,7 @@ app.post('/api/generateMarkings', (req, res, next) => {
 });
 
 app.post('/api/generateMarkingsForParagraphs', (req, res, next) => {
-    const markingsForParagraphs = readParsedFile('mock-server/data/data.json');
+    const markingsForParagraphs = readParsedDataFromFile('generateMarkingsForParagraphs.json');
     console.log(markingsForParagraphs)
     const filteredMarkingsForParagraphs = markingsForParagraphs.filter(mFP => mFP.request === req.body);
     console.log(filteredMarkingsForParagraphs)
@@ -69,8 +69,8 @@ app.get('/api/uploadDocument', (req, res, next) => {
 });
 
 
-function readParsedFile(path) {
-    return JSON.parse(fs.readFileSync(path, 'utf-8'));
+function readParsedDataFromFile(filePath) {
+    return JSON.parse(fs.readFileSync('mock-server/data/' + filePath, 'utf-8'));
 }
 
 function fetchRealValuesFromServer() {
