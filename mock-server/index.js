@@ -42,7 +42,6 @@ app.post('/api/generateMarkingsForParagraphs', (req, res, next) => {
     //     console.log('the payload matches the string');
     //     const response = fs.readFileSync('mock-server/data/data.json');
         res.json(filteredMarkingsForParagraphs[0]['response']);
-        return;
     }
     // console.log(req)
     // console.log(req)
