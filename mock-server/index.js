@@ -7,7 +7,7 @@ app.use(cors());
 // app.use(express.urlencoded());
 app.use(express.text());
 
-app.listen(3000, () => {
+app.listen(3001, () => {
     console.log("The mock-server is currently running on port 3000 ...");
 });
 
@@ -105,6 +105,7 @@ app.get("/api/getMarkingTypesCount", (req, res, next) => {
 });
 
 app.get("/api/uploadDocument", (req, res, next) => {
+    // TODO perhaps just check if the uploaded file is identical to the ones declared in Cypress?
     res.json(["a", "b", "c", "d", "e"]);
 });
 

@@ -9,16 +9,32 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Run `npm install` to install the packages that this project requires.
 
-## Development server
+## Running `quill`
+
+### For Development And Testing With A Mock Server
+
+Run `npm run`.
+Run `npm run start:mock-server`. More information on the mock server can be found in its [README](mock-server/README.md).
+
+### For Development And Testing With An Actual Local `ink` Server
+
+Run `npm run start`.
+Follow instructions on the README file at the [Ink repository](https://github.com/OpenCovenant/ink) on how to locally
+run `ink`.
+
+### For Development And Testing With The Deployment Server
+
+Run `npm run start:production`.
 
 - _Backend_
-  
-  To enable testing of the frontend features, the backend needs to be run in development mode first. Follow instructions on the README file at the [Ink repository](https://github.com/OpenCovenant/ink). 
+
+  To enable testing of the frontend features, the backend needs to be run in development mode first. Follow instructions
+  on the README file at the [Ink repository](https://github.com/OpenCovenant/ink).
 
 - _Frontend_
- 
+
   Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change
-any of the source files.
+  any of the source files.
 
 ## Code scaffolding
 

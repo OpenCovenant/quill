@@ -96,5 +96,76 @@
                 }
             ]
         }
+    },
+    {
+        "request": "<p>lider&nbsp;</p>",
+        "response": {
+            "text": "<p>lider&nbsp;</p>",
+            "textMarkings": [
+                {
+                    "from": 0,
+                    "to": 5,
+                    "type": "loanword",
+                    "subtype": "huazim anglisht",
+                    "description": "z\u00ebvend\u00ebsime n\u00eb shqip p\u00ebr lider jan\u00eb",
+                    "suggestions": [
+                        {
+                            "display": "prij\u00ebs",
+                            "action": "prij\u00ebs"
+                        },
+                        {
+                            "display": "drejtues",
+                            "action": "drejtues"
+                        },
+                        {
+                            "display": "udh\u00ebheq\u00ebs",
+                            "action": "udh\u00ebheq\u00ebs"
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
+    },
+    {
+        "request": "<p>gabmim&nbsp;</p>",
+        "response": {
+            "text": "<p>gabmim&nbsp;</p>",
+            "textMarkings": [
+                {
+                    "from": 0,
+                    "to": 6,
+                    "type": "typo",
+                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "gabime",
+                            "action": "gabime"
+                        },
+                        {
+                            "display": "gabimi",
+                            "action": "gabimi"
+                        },
+                        {
+                            "display": "gabim",
+                            "action": "gabim"
+                        },
+                        {
+                            "display": "gazmim",
+                            "action": "gazmim"
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
+    },
+    {
+        "request": "<p>saktë&nbsp;</p>",
+        "response": {
+            "text": "<p>sakt\u00eb&nbsp;</p>",
+            "textMarkings": []
+        }
     }
 ]
