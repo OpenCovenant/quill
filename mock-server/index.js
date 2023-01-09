@@ -80,13 +80,17 @@ app.post("/api/getMarkingDetails/:marking_details_id", (req, res, next) => {
 });
 
 app.get("/api/getMarkingTypes", (req, res, next) => {
-    // TODO
-    res.sendStatus(404).end();
+    const markingTypes = readParsedDataFromFile(
+        "getMarkingTypes.json"
+    );
+    res.json(markingTypes);
 });
 
 app.get("/api/getMarkingTypesCount", (req, res, next) => {
-    // TODO
-    res.sendStatus(404).end();
+    const markingTypesCount = readParsedDataFromFile(
+        "getMarkingTypesCount.json"
+    );
+    res.json(markingTypesCount);
 });
 
 app.post("/api/uploadDocument", uploadImg, (req, res, next) => {
