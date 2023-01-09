@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "install:mock-server": "cd mock-server; npm install",
     "start": "ng serve",
     "start:mock": "ng serve --configuration mock",
     "start:mock-server": "node mock-server/index.js",
