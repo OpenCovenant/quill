@@ -11,30 +11,23 @@ Run `npm install` to install the packages that this project requires.
 
 ## Running `quill`
 
+Choose in which manner you'd like to interact with quill through the following instructions. The app will automatically
+reload if you change any of the source files.
+
 ### For Development And Testing With A Mock Server
 
-Run `npm run`.
-Run `npm run start:mock-server`. More information on the mock server can be found in its [README](mock-server/README.md).
+Run `npm run start:mock` to start a dev server at `http://localhost:4200/` and then run `npm run start:mock-server` for
+a mock server in NodeJS. More information on the latter can be found in its [README](mock-server/README.md).
 
 ### For Development And Testing With An Actual Local `ink` Server
 
-Run `npm run start`.
-Follow instructions on the README file at the [Ink repository](https://github.com/OpenCovenant/ink) on how to locally
-run `ink`.
+Run `npm run start` to start a dev server at `http://localhost:4200/` and then follow the instructions on the README
+file at the [Ink repository](https://github.com/OpenCovenant/ink) on how to locally run `ink`.
 
 ### For Development And Testing With The Deployment Server
 
-Run `npm run start:production`.
-
-- _Backend_
-
-  To enable testing of the frontend features, the backend needs to be run in development mode first. Follow instructions
-  on the README file at the [Ink repository](https://github.com/OpenCovenant/ink).
-
-- _Frontend_
-
-  Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change
-  any of the source files.
+Run `npm run start:production` to start a dev server at `http://localhost:4200/` which will also be auotmatically
+connected to the remote production server. Use this only if needed.
 
 ## Code scaffolding
 
