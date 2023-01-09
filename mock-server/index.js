@@ -4,29 +4,17 @@ const fs = require("fs");
 const multer = require("multer");
 const app = express();
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './uploads');
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname);
-    }
-});
-
 const uploadImg = multer({ dest: "uploads/" }).single('uploadFile');
 
 
 
 app.use(cors());
-// app.use(express.urlencoded());
+
 app.use(express.text());
 
-app.listen(3000, () => {
-    console.log("The mock-server is currently running on port 3000 ...");
-});
-
-app.get("/url", (req, res, next) => {
-    res.json(["a", "b", "c", "d", "e"]);
+const PORT = 3000;
+app.listen(PORT, () => {
+    console.log(`The mock-server is currently running on port ${PORT} ...`);
 });
 
 app.get("/api/ping", (req, res, next) => {});
@@ -111,26 +99,22 @@ app.post("/api/getMarkingDetails/:marking_details_id", (req, res, next) => {
 });
 
 app.get("/api/getMarkingTypes", (req, res, next) => {
-    res.json(["a", "b", "c", "d", "e"]);
+    // TODO
 });
 
 app.get("/api/getMarkingTypesCount", (req, res, next) => {
-    res.json(["a", "b", "c", "d", "e"]);
+    // TODO
 });
 
 app.post("/api/uploadDocument", uploadImg, (req, res, next) => {
     // TODO perhaps just check if the uploaded file is identical to the ones declared in Cypress?
-    // console.log(req)
     console.log(req.file)
-    console.log(req.files)
-    console.log(req.body)
-    console.log(req.formData)
-    console.log(req.uploadFile)
+    // TODO process the uploaded file here and accordingly set the response to the call
     res.json(["a", "b", "c", "d", "e"]);
 });
 
 function readParsedDataFromFile(filePath) {
-    return JSON.parse(fs.readFileSync("mock-server/data/" + filePath, "utf-8"));
+    return JSON.parse(fs.readFileSync(`mock-server/data/${filePath}`, "utf-8"));
 }
 
 function fetchRealValuesFromServer() {
