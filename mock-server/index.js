@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
 const multer = require("multer");
+const textract = require('textract');
+const path = require('path');
 
 const app = express();
 
@@ -96,12 +98,17 @@ app.get("/api/getMarkingTypesCount", (req, res, next) => {
 app.post("/api/uploadDocument", uploadImg, (req, res, next) => {
     // TODO perhaps just check if the uploaded file is identical to the ones declared in Cypress?
     console.log(req.file)
+    // textract.("/home/andi/playground/quill/mock-server/uploads/8d846ca09094610ec3bc7f455c66472b",{ preserveLineBreaks: true }, function( error, text ) {
+    //     console.log(text)
+    //     console.log(error)
+    // })
     // TODO process the uploaded file here and accordingly set the response to the call
     res.json(["a", "b", "c", "d", "e"]);
 });
 
 function readParsedDataFromFile(filePath) {
-    return JSON.parse(fs.readFileSync(`mock-server/data/${filePath}`, "utf-8"));
+    const quillDirectoryPath = path.dirname(__dirname);
+    return JSON.parse(fs.readFileSync(`${quillDirectoryPath}/mock-server/data/${filePath}`, "utf-8"));
 }
 
 function fetchRealValuesFromServer() {
