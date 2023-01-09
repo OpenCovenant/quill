@@ -13,8 +13,8 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "mammoth": "^1.5.1",
     "multer": "^1.4.5-lts.1",
-    "textract": "^2.5.0",
     "word-extractor": "^1.0.4"
   },
   "devDependencies": {

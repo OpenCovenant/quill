@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
 const multer = require("multer");
-const textract = require('textract');
+// const textract = require('textract');
 const path = require('path');
 
 const app = express();
@@ -98,6 +98,11 @@ app.get("/api/getMarkingTypesCount", (req, res, next) => {
 app.post("/api/uploadDocument", uploadImg, (req, res, next) => {
     // TODO perhaps just check if the uploaded file is identical to the ones declared in Cypress?
     console.log(req.file)
+    const WordExtractor = require("word-extractor");
+    const extractor = new WordExtractor();
+    const extracted = extractor.extract("/home/andi/playground/quill/mock-server/uploads/8d846ca09094610ec3bc7f455c66472b");
+
+    extracted.then(function(doc) { console.log(doc.getBody()); });
     // textract.("/home/andi/playground/quill/mock-server/uploads/8d846ca09094610ec3bc7f455c66472b",{ preserveLineBreaks: true }, function( error, text ) {
     //     console.log(text)
     //     console.log(error)
