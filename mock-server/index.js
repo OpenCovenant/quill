@@ -1,13 +1,27 @@
 const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
+const multer = require("multer");
 const app = express();
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './uploads');
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    }
+});
+
+const uploadImg = multer({ dest: "uploads/" }).single('uploadFile');
+
+
 
 app.use(cors());
 // app.use(express.urlencoded());
 app.use(express.text());
 
-app.listen(3001, () => {
+app.listen(3000, () => {
     console.log("The mock-server is currently running on port 3000 ...");
 });
 
@@ -104,8 +118,14 @@ app.get("/api/getMarkingTypesCount", (req, res, next) => {
     res.json(["a", "b", "c", "d", "e"]);
 });
 
-app.get("/api/uploadDocument", (req, res, next) => {
+app.post("/api/uploadDocument", uploadImg, (req, res, next) => {
     // TODO perhaps just check if the uploaded file is identical to the ones declared in Cypress?
+    // console.log(req)
+    console.log(req.file)
+    console.log(req.files)
+    console.log(req.body)
+    console.log(req.formData)
+    console.log(req.uploadFile)
     res.json(["a", "b", "c", "d", "e"]);
 });
 
