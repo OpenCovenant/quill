@@ -2,10 +2,10 @@ const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
 const multer = require("multer");
+
 const app = express();
 
 const uploadImg = multer({ dest: "uploads/" }).single('uploadFile');
-
 
 
 app.use(cors());
@@ -21,9 +21,8 @@ app.get("/api/ping", (req, res, next) => {});
 
 app.post("/api/generateMarkings", (req, res, next) => {
     const markings = readParsedDataFromFile("generateMarkings.json");
-    console.log(markings);
+
     const filteredMarkings = markings.filter((mFP) => mFP.request === req.body);
-    console.log(filteredMarkings);
 
     if (filteredMarkings.length === 0) {
         console.log("no data in the mock server for this payload");
@@ -39,30 +38,20 @@ app.post("/api/generateMarkings", (req, res, next) => {
         return;
     }
 
-    // console.log(filteredMarkingsForParagraphs)
     // TODO write a script to fetch the responses for a list of requests from an actual server
     if (req.body === filteredMarkings[0]["request"]) {
-        //     console.log('the payload matches the string');
-        //     const response = fs.readFileSync('mock-server/data/data.json');
         res.json(filteredMarkings[0]["response"]);
     }
-    // console.log(req)
-    // console.log(req)
-    // console.log(req.body)
-    // console.log(req.params)
-    // console.log(JSON.stringify(req.body))
-    // res.json(["a", "b", "c", "d", "e"]);
 });
 
 app.post("/api/generateMarkingsForParagraphs", (req, res, next) => {
     const markingsForParagraphs = readParsedDataFromFile(
         "generateMarkingsForParagraphs.json"
     );
-    console.log(markingsForParagraphs);
+
     const filteredMarkingsForParagraphs = markingsForParagraphs.filter(
         (mFP) => mFP.request === req.body
     );
-    console.log(filteredMarkingsForParagraphs);
 
     if (filteredMarkingsForParagraphs.length === 0) {
         console.log("no data in the mock server for this payload");
@@ -78,32 +67,26 @@ app.post("/api/generateMarkingsForParagraphs", (req, res, next) => {
         return;
     }
 
-    // console.log(filteredMarkingsForParagraphs)
     // TODO write a script to fetch the responses for a list of requests from an actual server
     if (req.body === filteredMarkingsForParagraphs[0]["request"]) {
-        //     console.log('the payload matches the string');
-        //     const response = fs.readFileSync('mock-server/data/data.json');
         res.json(filteredMarkingsForParagraphs[0]["response"]);
     }
-    // console.log(req)
-    // console.log(req)
-    // console.log(req.body)
-    // console.log(req.params)
-    // console.log(JSON.stringify(req.body))
-    // res.json(["a", "b", "c", "d", "e"]);
 });
 
 app.post("/api/getMarkingDetails/:marking_details_id", (req, res, next) => {
     const markingDetailsID = req.body;
-    res.json(["a", "b", "c", "d", "e"]);
+    // TODO
+    res.sendStatus(404).end();
 });
 
 app.get("/api/getMarkingTypes", (req, res, next) => {
     // TODO
+    res.sendStatus(404).end();
 });
 
 app.get("/api/getMarkingTypesCount", (req, res, next) => {
     // TODO
+    res.sendStatus(404).end();
 });
 
 app.post("/api/uploadDocument", uploadImg, (req, res, next) => {
