@@ -4,6 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:mock": "ng serve --configuration mock",
+    "start:mock-server": "node mock-server/index.js",
     "start:production": "ng serve --configuration production",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",

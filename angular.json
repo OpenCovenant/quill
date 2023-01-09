@@ -57,6 +57,15 @@
               ],
               "outputHashing": "all"
             },
+            "mock": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.mock.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
             "development": {
               "buildOptimizer": false,
               "optimization": false,
@@ -71,6 +80,9 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
+            "mock": {
+              "browserTarget": "quill:build:mock"
+            },
             "production": {
               "browserTarget": "quill:build:production"
             },
