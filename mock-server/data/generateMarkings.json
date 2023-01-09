@@ -60,5 +60,12 @@
                 }
             ]
         }
+    },
+    {
+        "request": "saktë",
+        "response": {
+            "text": "sakt\u00eb",
+            "textMarkings": []
+        }
     }
 ]
