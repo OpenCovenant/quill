@@ -4,7 +4,7 @@
 
 export const environment = {
     production: false,
-    baseURL: 'https://fierce-taiga-45450.herokuapp.com'
+    baseURL: 'http://localhost:8000'
 };
 
 /*
