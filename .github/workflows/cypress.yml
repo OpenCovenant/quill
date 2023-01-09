@@ -15,5 +15,5 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
 #          build: npm run build
-          build: npm install:mock-server && npm run start:mock-server
+          build: npm run install:mock-server && npm run start:mock-server
           start: npm run start:mock
