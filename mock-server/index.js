@@ -95,26 +95,10 @@ app.get("/api/getMarkingTypesCount", (req, res, next) => {
 });
 
 app.post("/api/uploadDocument", uploadImg, (req, res, next) => {
-    // TODO perhaps just check if the uploaded file is identical to the ones declared in Cypress?
-    console.log(req.file)
-    // const WordExtractor = require("word-extractor");
-    // const extractor = new WordExtractor();
-    // const extracted = extractor.extract("/home/andi/playground/quill/mock-server/uploads/8d846ca09094610ec3bc7f455c66472b");
-    //
-    // extracted.then(function(doc) { console.log(doc.getBody()); });
-    // textract.("/home/andi/playground/quill/mock-server/uploads/8d846ca09094610ec3bc7f455c66472b",{ preserveLineBreaks: true }, function( error, text ) {
-    //     console.log(text)
-    //     console.log(error)
-    // })
-    // TODO process the uploaded file here and accordingly set the response to the call
     const parsedUploadDocumentDataFile = readParsedDataFromFile(
         "uploadDocument.json"
     );
 
-    console.log(parsedUploadDocumentDataFile);
-    console.log(req.file.path);
-
-    const quillDirectoryPath = path.dirname(__dirname);
     const foundDocumentData = parsedUploadDocumentDataFile
         .filter(o => equalsByBuffer(o["filePath"], `mock-server/${req.file.path}`));
         // .map(filePath => readParsedFileFromAbsolutePath(quillDirectoryPath + filePath)["response"]);
@@ -128,13 +112,9 @@ app.post("/api/uploadDocument", uploadImg, (req, res, next) => {
         console.log('note to developers that there is a duplicated file');
     }
 
-    // const firstFoundFileResponse = readParsedFileFromAbsolutePath(`${quillDirectoryPath}/${pathsOfFoundFiles[0]}`)["response"];
-
     const firstFoundFileResponse = foundDocumentData[0]["response"];
 
     res.json(firstFoundFileResponse);
-
-    // res.json(["a", "b", "c", "d", "e"]);
 });
 
 function readParsedDataFromFile(filePath) { // TODO rename to readParsedFileFromRelativePath ?
@@ -160,11 +140,3 @@ function equalsByBuffer(filePath1, filePath2) {
 }
 
 // fetchRealValuesFromServer();
-
-const quillDirectoryPath = path.dirname(__dirname);
-const firstBuffer = fs.readFileSync(`${quillDirectoryPath}/cypress/fixtures/test.docx`);
-const secondBuffer = fs.readFileSync(`${quillDirectoryPath}/mock-server/uploads/8d846ca09094610ec3bc7f455c66472b`);
-const thirdBuffer = fs.readFileSync(`${quillDirectoryPath}/mock-server/uploads/dfb93aeb9b8621f8360f0d376b8659c6`);
-console.log(firstBuffer)
-console.log(thirdBuffer)
-console.log(secondBuffer.equals(thirdBuffer))
