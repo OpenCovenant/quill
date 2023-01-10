@@ -97,22 +97,41 @@ app.get("/api/getMarkingTypesCount", (req, res, next) => {
 app.post("/api/uploadDocument", uploadImg, (req, res, next) => {
     // TODO perhaps just check if the uploaded file is identical to the ones declared in Cypress?
     console.log(req.file)
-    const WordExtractor = require("word-extractor");
-    const extractor = new WordExtractor();
-    const extracted = extractor.extract("/home/andi/playground/quill/mock-server/uploads/8d846ca09094610ec3bc7f455c66472b");
-
-    extracted.then(function(doc) { console.log(doc.getBody()); });
+    // const WordExtractor = require("word-extractor");
+    // const extractor = new WordExtractor();
+    // const extracted = extractor.extract("/home/andi/playground/quill/mock-server/uploads/8d846ca09094610ec3bc7f455c66472b");
+    //
+    // extracted.then(function(doc) { console.log(doc.getBody()); });
     // textract.("/home/andi/playground/quill/mock-server/uploads/8d846ca09094610ec3bc7f455c66472b",{ preserveLineBreaks: true }, function( error, text ) {
     //     console.log(text)
     //     console.log(error)
     // })
     // TODO process the uploaded file here and accordingly set the response to the call
+    const pathsOfAvailableFiles = readParsedDataFromFile(
+        "uploadDocument.json"
+    );
+
+    const quillDirectoryPath = path.dirname(__dirname);
+    const foundFiles = pathsOfAvailableFiles
+        .filter(filePath => equalsByBuffer(filePath, req.file.path))
+        .map(filePath => readParsedFileFromAbsolutePath(quillDirectoryPath + filePath)["response"]);
+
+    if (foundFiles.length > 1) {
+        console.log('note to developers that there is a duplicated file');
+    }
+
+    res.json(foundFiles[0]);
+
     res.json(["a", "b", "c", "d", "e"]);
 });
 
-function readParsedDataFromFile(filePath) {
+function readParsedDataFromFile(filePath) { // TODO rename to readParsedFileFromRelativePath ?
     const quillDirectoryPath = path.dirname(__dirname);
     return JSON.parse(fs.readFileSync(`${quillDirectoryPath}/mock-server/data/${filePath}`, "utf-8"));
+}
+
+function readParsedFileFromAbsolutePath(filePath) {
+    return JSON.parse(fs.readFileSync(filePath, "utf-8"));
 }
 
 function fetchRealValuesFromServer() {
@@ -123,4 +142,16 @@ function fetchRealValuesFromServer() {
     );
 }
 
+function equalsByBuffer(filePath1, filePath2) {
+    return fs.readFileSync(`${quillDirectoryPath}/mock-server/uploads/${filePath1}`)
+        .equals(fs.readFileSync(`${quillDirectoryPath}/mock-server/uploads/${filePath2}`))
+}
+
 // fetchRealValuesFromServer();
+
+const quillDirectoryPath = path.dirname(__dirname);
+const firstBuffer = fs.readFileSync(`${quillDirectoryPath}/mock-server/uploads/8d846ca09094610ec3bc7f455c66472b`);
+const secondBuffer = fs.readFileSync(`${quillDirectoryPath}/mock-server/uploads/8d846ca09094610ec3bc7f455c66472b`);
+const thirdBuffer = fs.readFileSync(`${quillDirectoryPath}/mock-server/uploads/dfb93aeb9b8621f8360f0d376b8659c6`);
+console.log(firstBuffer)
+console.log(thirdBuffer)
