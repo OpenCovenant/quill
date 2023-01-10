@@ -112,15 +112,17 @@ app.post("/api/uploadDocument", uploadImg, (req, res, next) => {
     );
 
     const quillDirectoryPath = path.dirname(__dirname);
-    const foundFiles = pathsOfAvailableFiles
-        .filter(filePath => equalsByBuffer(filePath, req.file.path))
-        .map(filePath => readParsedFileFromAbsolutePath(quillDirectoryPath + filePath)["response"]);
+    const pathsOfFoundFiles = pathsOfAvailableFiles
+        .filter(filePath => equalsByBuffer(filePath, req.file.path));
+        // .map(filePath => readParsedFileFromAbsolutePath(quillDirectoryPath + filePath)["response"]);
 
-    if (foundFiles.length > 1) {
+    if (pathsOfFoundFiles.length > 1) {
         console.log('note to developers that there is a duplicated file');
     }
 
-    res.json(foundFiles[0]);
+    const firstFoundFileResponse = readParsedFileFromAbsolutePath(quillDirectoryPath + pathsOfFoundFiles[0])["response"];
+
+    res.json(firstFoundFileResponse);
 
     res.json(["a", "b", "c", "d", "e"]);
 });
@@ -150,8 +152,9 @@ function equalsByBuffer(filePath1, filePath2) {
 // fetchRealValuesFromServer();
 
 const quillDirectoryPath = path.dirname(__dirname);
-const firstBuffer = fs.readFileSync(`${quillDirectoryPath}/mock-server/uploads/8d846ca09094610ec3bc7f455c66472b`);
+const firstBuffer = fs.readFileSync(`${quillDirectoryPath}/cypress/fixtures/test.docx`);
 const secondBuffer = fs.readFileSync(`${quillDirectoryPath}/mock-server/uploads/8d846ca09094610ec3bc7f455c66472b`);
 const thirdBuffer = fs.readFileSync(`${quillDirectoryPath}/mock-server/uploads/dfb93aeb9b8621f8360f0d376b8659c6`);
 console.log(firstBuffer)
 console.log(thirdBuffer)
+console.log(secondBuffer.equals(thirdBuffer))
