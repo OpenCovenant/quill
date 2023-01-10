@@ -6,7 +6,7 @@ const path = require('path');
 
 const app = express();
 
-const uploadImg = multer({ dest: "uploads/" }).single('uploadFile');
+const uploadFile = multer({ dest: "uploads/" }).single('uploadFile');
 
 
 app.use(cors());
@@ -94,14 +94,13 @@ app.get("/api/getMarkingTypesCount", (req, res, next) => {
     res.json(markingTypesCount);
 });
 
-app.post("/api/uploadDocument", uploadImg, (req, res, next) => {
+app.post("/api/uploadDocument", uploadFile, (req, res, next) => {
     const parsedUploadDocumentDataFile = readParsedDataFromFile(
         "uploadDocument.json"
     );
 
     const foundDocumentData = parsedUploadDocumentDataFile
         .filter(o => equalsByBuffer(o["filePath"], `mock-server/${req.file.path}`));
-        // .map(filePath => readParsedFileFromAbsolutePath(quillDirectoryPath + filePath)["response"]);
 
     if (foundDocumentData.length === 0) {
         res.sendStatus(404).end();
@@ -122,6 +121,12 @@ function readParsedDataFromFile(filePath) { // TODO rename to readParsedFileFrom
     return JSON.parse(fs.readFileSync(`${quillDirectoryPath}/mock-server/data/${filePath}`, "utf-8"));
 }
 
+function equalsByBuffer(filePath1, filePath2) {
+    const quillDirectoryPath = path.dirname(__dirname);
+    return fs.readFileSync(`${quillDirectoryPath}/${filePath1}`)
+        .equals(fs.readFileSync(`${quillDirectoryPath}/${filePath2}`))
+}
+
 // function readParsedFileFromAbsolutePath(filePath) {
 //     return JSON.parse(fs.readFileSync(filePath, "utf-8"));
 // }
@@ -133,11 +138,5 @@ function readParsedDataFromFile(filePath) { // TODO rename to readParsedFileFrom
 //         "utf-8"
 //     );
 // }
-
-function equalsByBuffer(filePath1, filePath2) {
-    const quillDirectoryPath = path.dirname(__dirname);
-    return fs.readFileSync(`${quillDirectoryPath}/${filePath1}`)
-        .equals(fs.readFileSync(`${quillDirectoryPath}/${filePath2}`))
-}
 
 // fetchRealValuesFromServer();
