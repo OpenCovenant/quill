@@ -55,7 +55,7 @@ app.post("/api/generateMarkingsForParagraphs", (req, res, next) => {
     );
 
     if (filteredMarkingsForParagraphs.length === 0) {
-        console.log("no data in the mock server for this payload");
+        console.log(`no data in the mock server for ${req.body}`);
         res.sendStatus(404).end();
         return;
     }
