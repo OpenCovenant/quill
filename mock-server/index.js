@@ -122,19 +122,20 @@ function readParsedDataFromFile(filePath) { // TODO rename to readParsedFileFrom
     return JSON.parse(fs.readFileSync(`${quillDirectoryPath}/mock-server/data/${filePath}`, "utf-8"));
 }
 
-function readParsedFileFromAbsolutePath(filePath) {
-    return JSON.parse(fs.readFileSync(filePath, "utf-8"));
-}
-
-function fetchRealValuesFromServer() {
-    fs.writeFileSync(
-        "mock-server/data/data.json",
-        JSON.stringify(["1", 2, null, "4"], null, 2),
-        "utf-8"
-    );
-}
+// function readParsedFileFromAbsolutePath(filePath) {
+//     return JSON.parse(fs.readFileSync(filePath, "utf-8"));
+// }
+//
+// function fetchRealValuesFromServer() {
+//     fs.writeFileSync(
+//         "mock-server/data/data.json",
+//         JSON.stringify(["1", 2, null, "4"], null, 2),
+//         "utf-8"
+//     );
+// }
 
 function equalsByBuffer(filePath1, filePath2) {
+    const quillDirectoryPath = path.dirname(__dirname);
     return fs.readFileSync(`${quillDirectoryPath}/${filePath1}`)
         .equals(fs.readFileSync(`${quillDirectoryPath}/${filePath2}`))
 }
