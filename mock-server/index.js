@@ -107,14 +107,23 @@ app.post("/api/uploadDocument", uploadImg, (req, res, next) => {
     //     console.log(error)
     // })
     // TODO process the uploaded file here and accordingly set the response to the call
-    const pathsOfAvailableFiles = readParsedDataFromFile(
+    const parsedUploadDocumentDataFile = readParsedDataFromFile(
         "uploadDocument.json"
     );
 
+    console.log(parsedUploadDocumentDataFile);
+    console.log(req.file.path);
+
     const quillDirectoryPath = path.dirname(__dirname);
-    const pathsOfFoundFiles = pathsOfAvailableFiles
-        .filter(filePath => equalsByBuffer(filePath, req.file.path));
+    const pathsOfFoundFiles = parsedUploadDocumentDataFile
+        .map(o => o["filePath"])
+        .filter(filePath => equalsByBuffer(filePath, `mock-server/${req.file.path}`));
         // .map(filePath => readParsedFileFromAbsolutePath(quillDirectoryPath + filePath)["response"]);
+
+    if (pathsOfFoundFiles.length === 0) {
+        res.sendStatus(404).end();
+        return;
+    }
 
     if (pathsOfFoundFiles.length > 1) {
         console.log('note to developers that there is a duplicated file');
@@ -145,8 +154,8 @@ function fetchRealValuesFromServer() {
 }
 
 function equalsByBuffer(filePath1, filePath2) {
-    return fs.readFileSync(`${quillDirectoryPath}/mock-server/uploads/${filePath1}`)
-        .equals(fs.readFileSync(`${quillDirectoryPath}/mock-server/uploads/${filePath2}`))
+    return fs.readFileSync(`${quillDirectoryPath}/${filePath1}`)
+        .equals(fs.readFileSync(`${quillDirectoryPath}/${filePath2}`))
 }
 
 // fetchRealValuesFromServer();

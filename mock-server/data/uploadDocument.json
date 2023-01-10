@@ -1,6 +1,6 @@
 [
     {
-        "filePath": "cypress/fixtures/someFile.odt",
+        "filePath": "cypress/fixtures/test.docx",
         "response": {
             "text": "lider asd",
             "textMarkings": [
