@@ -7,7 +7,7 @@
     "start": "ng serve",
     "start:mock": "ng serve --configuration mock",
     "start:mock-server": "node mock-server/index.js",
-    "start:mock-with-server": "concurrently --kill-others \"cd mock-server && npm install && node mock-server/index.js\" \"ng serve --configuration mock\"",
+    "start:mock-with-server": "concurrently --kill-others \"cd mock-server && npm install && node index.js\" \"ng serve --configuration mock\"",
     "start:production": "ng serve --configuration production",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
