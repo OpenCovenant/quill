@@ -14,7 +14,7 @@ Run `npm install` to install the packages that this project requires.
 Choose in which manner you'd like to interact with quill through the following instructions. The app will automatically
 reload if you change any of the source files.
 
-### For Development And Testing With A Mock Server
+### For Development And Cypress Testing With A Mock Server
 
 Run `npm run start:mock` to start a dev server at `http://localhost:4200/` and then run `npm run start:mock-server` for
 a mock server in NodeJS. More information on the latter can be found in its [README](mock-server/README.md).
