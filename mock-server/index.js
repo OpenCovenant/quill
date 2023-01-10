@@ -115,25 +115,26 @@ app.post("/api/uploadDocument", uploadImg, (req, res, next) => {
     console.log(req.file.path);
 
     const quillDirectoryPath = path.dirname(__dirname);
-    const pathsOfFoundFiles = parsedUploadDocumentDataFile
-        .map(o => o["filePath"])
-        .filter(filePath => equalsByBuffer(filePath, `mock-server/${req.file.path}`));
+    const foundDocumentData = parsedUploadDocumentDataFile
+        .filter(o => equalsByBuffer(o["filePath"], `mock-server/${req.file.path}`));
         // .map(filePath => readParsedFileFromAbsolutePath(quillDirectoryPath + filePath)["response"]);
 
-    if (pathsOfFoundFiles.length === 0) {
+    if (foundDocumentData.length === 0) {
         res.sendStatus(404).end();
         return;
     }
 
-    if (pathsOfFoundFiles.length > 1) {
+    if (foundDocumentData.length > 1) {
         console.log('note to developers that there is a duplicated file');
     }
 
-    const firstFoundFileResponse = readParsedFileFromAbsolutePath(quillDirectoryPath + pathsOfFoundFiles[0])["response"];
+    // const firstFoundFileResponse = readParsedFileFromAbsolutePath(`${quillDirectoryPath}/${pathsOfFoundFiles[0]}`)["response"];
+
+    const firstFoundFileResponse = foundDocumentData[0]["response"];
 
     res.json(firstFoundFileResponse);
 
-    res.json(["a", "b", "c", "d", "e"]);
+    // res.json(["a", "b", "c", "d", "e"]);
 });
 
 function readParsedDataFromFile(filePath) { // TODO rename to readParsedFileFromRelativePath ?
