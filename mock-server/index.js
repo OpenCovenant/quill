@@ -74,10 +74,29 @@ app.post("/api/generateMarkingsForParagraphs", (req, res, next) => {
     }
 });
 
-app.post("/api/getMarkingDetails/:marking_details_id", (req, res, next) => {
-    const markingDetailsID = req.body;
-    // TODO
-    res.sendStatus(404).end();
+app.post("/api/getMarkingDetails/:markingDetailsID", (req, res, next) => {
+    const markingDetails = readParsedDataFromFile("getMarkingDetails.json");
+
+    const filteredMarkingDetails = markingDetails.filter((mD) => mD.request === req.params.markingDetailsID);
+
+    if (filteredMarkingDetails.length === 0) {
+        console.log("no data in the mock server for this payload");
+        res.sendStatus(404).end();
+        return;
+    }
+
+    if (filteredMarkingDetails.length > 1) {
+        console.log(
+            "more than one data with this payload in the mock server was found, returning one of them"
+        );
+        res.json(filteredMarkingDetails[0]["page"]);
+        return;
+    }
+
+    // TODO write a script to fetch the responses for a list of requests from an actual server
+    if (req.params.markingDetailsID === filteredMarkingDetails[0]["markingDetailsID"]) {
+        res.json(filteredMarkings[0]["page"]);
+    }
 });
 
 app.get("/api/getMarkingTypes", (req, res, next) => {
