@@ -9,13 +9,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-      - run: npm run install:mock-server
-      - run: npm run start:mock-server
 
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v5
         with:
-#          build: npm run build
+          build: npm run build
           start: npm run start:mock
