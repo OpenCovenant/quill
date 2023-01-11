@@ -10,5 +10,9 @@ export class AuthenticationService {
         return this.loggedIn;
     }
 
+    authenticateUser() {
+        this.loggedIn = true;
+    }
+
     constructor() {}
 }

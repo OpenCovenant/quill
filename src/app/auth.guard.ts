@@ -13,8 +13,6 @@ import { AuthenticationService } from './authentication.service';
     providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-    authenticationService: any;
-
     constructor(
         private authService: AuthenticationService,
         private router: Router
@@ -30,13 +28,12 @@ export class AuthGuard implements CanActivate {
         | UrlTree {
         console.log('can activatecalled');
 
-        let isLoggedIn = this.authenticationService.isAuthenticated();
+        let isLoggedIn = this.authService.isAuthenticated();
         if (isLoggedIn) {
-            this.router.navigate(['/dashboard']);
+            return true;
         } else {
             this.router.navigate(['/authentication']);
+            return false;
         }
-
-        return true;
     }
 }

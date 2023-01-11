@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
     selector: 'app-authentication',
@@ -10,7 +11,10 @@ export class AuthenticationComponent implements OnInit {
     title: string = 'Penda';
     auth2: any;
 
-    constructor(private router: Router){}
+    constructor(
+        private router: Router,
+        private authService: AuthenticationService
+    ) {}
     @ViewChild('loginRef', { static: true }) loginElement!: ElementRef;
 
     ngOnInit() {
@@ -32,9 +36,9 @@ export class AuthenticationComponent implements OnInit {
                 console.log('Image URL: ' + profile.getImageUrl());
                 console.log('Email: ' + profile.getEmail());
                 /* TODO add code here */
-                
+                this.authService.authenticateUser();
+
                 this.router.navigate(['dashboard']);
-            
             },
             (error: any) => {
                 // do nothing for now
@@ -46,9 +50,7 @@ export class AuthenticationComponent implements OnInit {
         (<any>window)['googleSDKLoaded'] = () => {
             (<any>window)['gapi'].load('auth2', () => {
                 this.auth2 = (<any>window)['gapi'].auth2.init({
-                    
-                    client_id:
-                        'yourID',
+                    client_id: 'yourID',
                     cookiepolicy: 'single_host_origin',
                     scope: 'profile email',
                     plugin_name: 'chat'
@@ -71,7 +73,6 @@ export class AuthenticationComponent implements OnInit {
         })(document, 'script', 'google-jssdk');
     }
 
-
     //facebook
     fbLibrary() {
         (window as any).fbAsyncInit = function () {
@@ -79,8 +80,7 @@ export class AuthenticationComponent implements OnInit {
                 appId: 'yourID',
                 cookie: true,
                 xfbml: true,
-                version    : 'v3.1'
-
+                version: 'v3.1'
             });
             (<any>window)['FB'].AppEvents.logPageView();
         };
@@ -97,12 +97,12 @@ export class AuthenticationComponent implements OnInit {
             fjs?.parentNode?.insertBefore(js, fjs);
         })(document, 'script', 'facebook-jssdk');
     }
-    
-
 
     login() {
         (<any>window)['FB'].login(
             (response: { authResponse: any }) => {
+                this.authService.authenticateUser();
+
                 console.log('login response', response);
                 if (response.authResponse) {
                     this.router.navigate(['dashboard']);
@@ -122,6 +122,5 @@ export class AuthenticationComponent implements OnInit {
             },
             { scope: 'email' }
         );
-        
     }
 }
