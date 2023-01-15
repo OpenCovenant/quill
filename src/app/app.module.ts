@@ -24,7 +24,7 @@ import { AuthenticationService } from './authentication.service';
         DashboardComponent
     ],
     imports: [BrowserModule, HttpClientModule, FormsModule, AppRoutingModule],
-    providers: [AuthGuard,AuthenticationService],
+    providers: [AuthGuard, AuthenticationService],
     bootstrap: [AppComponent]
 })
 export class AppModule {}

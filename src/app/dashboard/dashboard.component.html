@@ -1,89 +1,150 @@
 <div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-    Profile</button>
+    <button
+        class="btn btn-secondary dropdown-toggle"
+        type="button"
+        id="dropdownMenu2"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+    >
+        Profile
+    </button>
     <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-      <a class="dropdown-item" type="button"  target="_blank" rel="noopener noreferrer" href="https://penda.info/">Penda.info</a>
-      <li><button class="dropdown-item" type="button" (click)="signOut()"> Sign Out</button></li>
+        <a
+            class="dropdown-item"
+            type="button"
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://penda.info/"
+            >Penda.info</a
+        >
+        <li>
+            <button class="dropdown-item" type="button" (click)="signOut()">
+                Sign Out
+            </button>
+        </li>
     </ul>
-  </div>
-
+</div>
 
 <section>
     <div class="container py-5">
-      <div class="row">
-        <div class="col-md-12 col-lg-4 mb-4 mb-lg-0">
-          <div class="card text-black">
-            <img src="assets/p.png"
-              class="card-img-top" alt="iPhone" />
-            <div class="card-body">
-              <div class="text-center mt-1">
-                <h4 class="card-title">Penda 1 Muaj</h4>
-                <h6 class="text-primary mb-1 pb-3">300Lek/Muaj</h6>
-              </div>
-  
-              <div class="d-flex flex-row">
-                <button type="button" position="absolute" class="btn btn-danger flex-fill ms-1" data-bs-toggle="modal" data-bs-target="#exampleModal">Buy now</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4 mb-4 mb-md-0">
-          <div class="card text-black">
-            
-            <img src="assets/p.png"
-              class="card-img-top" alt="iPhone" />
-                <div class="mask">
-                  <div class="d-flex justify-content-start align-items-end h-100">
-                    <h5><span class="badge bg-success ms-2">Me e shitura!</span></h5>
-                  </div>
+        <div class="row">
+            <div class="col-md-12 col-lg-4 mb-4 mb-lg-0">
+                <div class="card text-black">
+                    <img src="assets/p.png" class="card-img-top" alt="iPhone" />
+                    <div class="card-body">
+                        <div class="text-center mt-1">
+                            <h4 class="card-title">Penda 1 Muaj</h4>
+                            <h6 class="text-primary mb-1 pb-3">300Lek/Muaj</h6>
+                        </div>
+
+                        <div class="d-flex flex-row">
+                            <button
+                                type="button"
+                                position="absolute"
+                                class="btn btn-danger flex-fill ms-1"
+                                data-bs-toggle="modal"
+                                data-bs-target="#exampleModal"
+                            >
+                                Buy now
+                            </button>
+                        </div>
+                    </div>
                 </div>
-
-            <div class="card-body">
-              <div class="text-center mt-1">
-                <h4 class="card-title">Penda 6 Muaj</h4>
-                <h6 class="text-primary mb-1 pb-3">1000Lek/ 6 Muaj</h6>
-              </div>
-  
-              <div class="d-flex flex-row">
-                <button type="button" position="absolute" class="btn btn-danger flex-fill ms-1" data-bs-toggle="modal" data-bs-target="#exampleModal">Buy now</button>
-              </div>
             </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4 mb-4 mb-md-0">
-          <div class="card text-black">
-            <img src="assets/p.png"
-              class="card-img-top" alt="iPhone" />
-            <div class="card-body">
-              <div class="text-center mt-1">
-                <h4 class="card-title">Penda 1 vit</h4>
-                <h6 class="text-primary mb-1 pb-3">2000Lek/Vit</h6>
-              </div>
+            <div class="col-md-6 col-lg-4 mb-4 mb-md-0">
+                <div class="card text-black">
+                    <img src="assets/p.png" class="card-img-top" alt="iPhone" />
+                    <div class="mask">
+                        <div
+                            class="d-flex justify-content-start align-items-end h-100"
+                        >
+                            <h5>
+                                <span class="badge bg-success ms-2"
+                                    >Me e shitura!</span
+                                >
+                            </h5>
+                        </div>
+                    </div>
 
-  
-              <div class="d-flex flex-row">
-                <button type="button" position="absolute" class="btn btn-danger flex-fill ms-1" data-bs-toggle="modal" data-bs-target="#exampleModal">Buy now</button>
-              </div>
+                    <div class="card-body">
+                        <div class="text-center mt-1">
+                            <h4 class="card-title">Penda 6 Muaj</h4>
+                            <h6 class="text-primary mb-1 pb-3">
+                                1000Lek/ 6 Muaj
+                            </h6>
+                        </div>
+
+                        <div class="d-flex flex-row">
+                            <button
+                                type="button"
+                                position="absolute"
+                                class="btn btn-danger flex-fill ms-1"
+                                data-bs-toggle="modal"
+                                data-bs-target="#exampleModal"
+                            >
+                                Buy now
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
+            <div class="col-md-6 col-lg-4 mb-4 mb-md-0">
+                <div class="card text-black">
+                    <img src="assets/p.png" class="card-img-top" alt="iPhone" />
+                    <div class="card-body">
+                        <div class="text-center mt-1">
+                            <h4 class="card-title">Penda 1 vit</h4>
+                            <h6 class="text-primary mb-1 pb-3">2000Lek/Vit</h6>
+                        </div>
+
+                        <div class="d-flex flex-row">
+                            <button
+                                type="button"
+                                position="absolute"
+                                class="btn btn-danger flex-fill ms-1"
+                                data-bs-toggle="modal"
+                                data-bs-target="#exampleModal"
+                            >
+                                Buy now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </section>
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+</section>
+<div
+    class="modal fade"
+    id="exampleModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+>
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">...</div>
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Close
+                </button>
+                <button type="button" class="btn btn-primary">
+                    Save changes
+                </button>
+            </div>
         </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
     </div>
-  </div>
+</div>

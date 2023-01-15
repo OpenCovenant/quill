@@ -13,6 +13,4 @@ export class AuthenticationService {
     authenticateUser() {
         this.loggedIn = true;
     }
-
-    constructor() {}
 }

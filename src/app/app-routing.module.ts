@@ -6,10 +6,13 @@ import { AuthenticationComponent } from './authentication/authentication.compone
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthGuard } from './auth.guard';
 
-
 const routes: Routes = [
-    { path: 'authentication', component: AuthenticationComponent},
-    {path: 'dashboard', component: DashboardComponent,canActivate:[AuthGuard]},
+    { path: 'authentication', component: AuthenticationComponent },
+    {
+        path: 'dashboard',
+        component: DashboardComponent,
+        canActivate: [AuthGuard]
+    },
     { path: ':id', component: MarkingDetailsComponent },
     { path: '', component: HomeComponent }
 ];
@@ -17,6 +20,6 @@ const routes: Routes = [
 @NgModule({
     imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule],
-    providers: [],
+    providers: []
 })
 export class AppRoutingModule {}
