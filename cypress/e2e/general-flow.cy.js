@@ -9,7 +9,7 @@ describe("a general flow of quill", () => {
 
     it("will mark typos in the editor", () => {
         cy.get("#editor > p > .typo").should("not.exist");
-        cy.get("#editor").type("asd ");
+        cy.get("#editor").type("gabmim ");
         cy.get("#editor > p > .typo").should("exist");
     });
 
@@ -85,7 +85,7 @@ describe("a general flow of quill", () => {
 
     it('will click on "fshij" button and check if it deletes the text on editor', () => {
         cy.get("#editor > p > .typo").should("not.exist");
-        cy.get("#editor").type("fshji ");
+        cy.get("#editor").type("gabmim ");
         cy.get("button.btn-outline-danger").contains("HIQ").click();
         cy.get("button.suggestion").should("not.exist");
     });
