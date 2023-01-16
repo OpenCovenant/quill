@@ -21,7 +21,7 @@ a mock server in NodeJS. More information on the latter can be found in its [REA
 
 ### For Development And Testing With An Actual Local `ink` Server
 
-Run `npm run start` to start a dev server at `http://localhost:4200/` and then follow the instructions on the README
+Run `npm run start` to start **quill** on a dev server at `http://localhost:4200/` and then follow the instructions on the README
 file at the [Ink repository](https://github.com/OpenCovenant/ink) on how to locally run `ink`.
 
 ### For Development And Testing With The Deployment Server
