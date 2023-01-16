@@ -9,16 +9,25 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Run `npm install` to install the packages that this project requires.
 
-## Development server
+## Running `quill`
 
-- _Backend_
-  
-  To enable testing of the frontend features, the backend needs to be run in development mode first. Follow instructions on the README file at the [Ink repository](https://github.com/OpenCovenant/ink). 
+Choose in which manner you'd like to interact with quill through the following instructions. The app will automatically
+reload if you change any of the source files.
 
-- _Frontend_
- 
-  Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change
-any of the source files.
+### For Development And Cypress Testing With A Mock Server
+
+Run `npm run start:mock` to start **quill** on a dev server at `http://localhost:4200/` and then run `npm run start:mock-server` to start 
+a mock server of **ink** in a NodeJS environment. More information on the latter can be found in its [README](mock-server/README.md).
+
+### For Development And Testing With An Actual Local `ink` Server
+
+Run `npm run start` to start **quill** on a dev server at `http://localhost:4200/` and then follow the instructions on the README
+file at the [Ink repository](https://github.com/OpenCovenant/ink) on how to locally run `ink`.
+
+### For Development And Testing With The Deployment Server
+
+Run `npm run start:production` to start a dev server at `http://localhost:4200/` which will also be automatically
+connected to the remote production server. Use this only if needed.
 
 ## Code scaffolding
 
