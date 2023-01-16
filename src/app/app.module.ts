@@ -9,9 +9,7 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
-import { AuthGuard } from './auth.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { AuthenticationService } from './authentication.service';
 
 @NgModule({
     declarations: [
@@ -24,7 +22,7 @@ import { AuthenticationService } from './authentication.service';
         DashboardComponent
     ],
     imports: [BrowserModule, HttpClientModule, FormsModule, AppRoutingModule],
-    providers: [AuthGuard, AuthenticationService],
+    providers: [],
     bootstrap: [AppComponent]
 })
 export class AppModule {}

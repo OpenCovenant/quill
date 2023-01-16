@@ -8,7 +8,6 @@ import { AuthenticationService } from '../authentication.service';
     styleUrls: ['./authentication.component.css']
 })
 export class AuthenticationComponent implements OnInit {
-    title: string = 'Penda';
     auth2: any;
 
     constructor(
