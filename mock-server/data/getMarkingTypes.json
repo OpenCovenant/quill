@@ -1,0 +1,44 @@
+{
+    "marking_types": {
+        "gabim-shkrimi": {
+            "description": "Gabim Shkrimi",
+            "enabled": false
+        },
+        "huazim": {
+            "description": "Huazim",
+            "enabled": false
+        },
+        "te-dhe-tek": {
+            "description": "Te Dhe Tek",
+            "enabled": true
+        },
+        "fjali-teper-e-gjate": {
+            "description": "Fjali Tep\u00ebr E Gjat\u00eb",
+            "enabled": false
+        },
+        "fjale-e-riperseritur": {
+            "description": "Fjal\u00eb E Rip\u00ebrs\u00ebritur",
+            "enabled": true
+        },
+        "hapesire-e-riperseritur": {
+            "description": "Hap\u00ebsir\u00eb E Rip\u00ebrs\u00ebritur",
+            "enabled": true
+        },
+        "ose-edhe": {
+            "description": "Ose Edhe",
+            "enabled": true
+        },
+        "pa-hapesire-pas-presjes": {
+            "description": "Pa Hap\u00ebsir\u00eb Pas Presjes",
+            "enabled": true
+        },
+        "hapesira-mes-datash": {
+            "description": "Hap\u00ebsira Mes Datash",
+            "enabled": true
+        },
+        "pa-presje-para-etj": {
+            "description": "Pa Presje Para \"etj\"",
+            "enabled": true
+        }
+    }
+}

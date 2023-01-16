@@ -1,0 +1,416 @@
+[
+    {
+        "request": "<p><br></p>",
+        "response": {
+            "text": "<p><br></p>",
+            "textMarkings": []
+        }
+    },
+    {
+        "request": "<p>&nbsp;</p>",
+        "response": {
+            "text": "<p>&nbsp;</p>",
+            "textMarkings": []
+        }
+    },
+    {
+        "request": "<p>lider&nbsp;</p>",
+        "response": {
+            "text": "<p>lider&nbsp;</p>",
+            "textMarkings": [
+                {
+                    "from": 0,
+                    "to": 5,
+                    "type": "loanword",
+                    "subtype": "huazim anglisht",
+                    "description": "z\u00ebvend\u00ebsime n\u00eb shqip p\u00ebr lider jan\u00eb",
+                    "suggestions": [
+                        {
+                            "display": "prij\u00ebs",
+                            "action": "prij\u00ebs"
+                        },
+                        {
+                            "display": "drejtues",
+                            "action": "drejtues"
+                        },
+                        {
+                            "display": "udh\u00ebheq\u00ebs",
+                            "action": "udh\u00ebheq\u00ebs"
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
+    },
+    {
+        "request": "<p>gabmim&nbsp;</p>",
+        "response": {
+            "text": "<p>gabmim&nbsp;</p>",
+            "textMarkings": [
+                {
+                    "from": 0,
+                    "to": 6,
+                    "type": "typo",
+                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "gabime",
+                            "action": "gabime"
+                        },
+                        {
+                            "display": "gabimi",
+                            "action": "gabimi"
+                        },
+                        {
+                            "display": "gabim",
+                            "action": "gabim"
+                        },
+                        {
+                            "display": "gazmim",
+                            "action": "gazmim"
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
+    },
+    {
+        "request": "<p>saktë&nbsp;</p>",
+        "response": {
+            "text": "<p>sakt\u00eb&nbsp;</p>",
+            "textMarkings": []
+        }
+    },
+    {
+        "request": "<p>rreshti i parë</p><p>i dyti</p><p>dhe i treti</p>",
+        "response": {
+            "text": "<p>rreshti i par\u00eb</p><p>i dyti</p><p>dhe i treti</p>",
+            "textMarkings": []
+        }
+    },
+    {
+        "request": "<p>rreshti i <span class=\"typo\">parh</span></p><p>ky <span class=\"typo\">eshte</span> i dyti</p><p>dhe i fudnit</p>",
+        "response": {
+            "text": "<p>rreshti i <span class=\"typo\">parh</span></p><p>ky <span class=\"typo\">eshte</span> i dyti</p><p>dhe i fudnit</p>",
+            "textMarkings": [
+                {
+                    "from": 10,
+                    "to": 14,
+                    "type": "typo",
+                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "part",
+                            "action": "part"
+                        },
+                        {
+                            "display": "psar",
+                            "action": "psar"
+                        },
+                        {
+                            "display": "paha",
+                            "action": "paha"
+                        },
+                        {
+                            "display": "pari",
+                            "action": "pari"
+                        },
+                        {
+                            "display": "pash",
+                            "action": "pash"
+                        },
+                        {
+                            "display": "paor",
+                            "action": "paor"
+                        },
+                        {
+                            "display": "pahi",
+                            "action": "pahi"
+                        },
+                        {
+                            "display": "pr\u00ebh",
+                            "action": "pr\u00ebh"
+                        },
+                        {
+                            "display": "pare",
+                            "action": "pare"
+                        },
+                        {
+                            "display": "preh",
+                            "action": "preh"
+                        },
+                        {
+                            "display": "paru",
+                            "action": "paru"
+                        },
+                        {
+                            "display": "pardh",
+                            "action": "pardh"
+                        },
+                        {
+                            "display": "plah",
+                            "action": "plah"
+                        },
+                        {
+                            "display": "par",
+                            "action": "par"
+                        },
+                        {
+                            "display": "para",
+                            "action": "para"
+                        },
+                        {
+                            "display": "park",
+                            "action": "park"
+                        },
+                        {
+                            "display": "par\u00eb",
+                            "action": "par\u00eb"
+                        },
+                        {
+                            "display": "pazh",
+                            "action": "pazh"
+                        },
+                        {
+                            "display": "path",
+                            "action": "path"
+                        },
+                        {
+                            "display": "pah",
+                            "action": "pah"
+                        }
+                    ],
+                    "paragraph": 0
+                },
+                {
+                    "from": 3,
+                    "to": 8,
+                    "type": "typo",
+                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "eshke",
+                            "action": "eshke"
+                        },
+                        {
+                            "display": "feste",
+                            "action": "feste"
+                        },
+                        {
+                            "display": "veshte",
+                            "action": "veshte"
+                        },
+                        {
+                            "display": "oshte",
+                            "action": "oshte"
+                        },
+                        {
+                            "display": "leshe",
+                            "action": "leshe"
+                        },
+                        {
+                            "display": "lehte",
+                            "action": "lehte"
+                        },
+                        {
+                            "display": "esht\u00eb",
+                            "action": "esht\u00eb"
+                        },
+                        {
+                            "display": "epshe",
+                            "action": "epshe"
+                        },
+                        {
+                            "display": "\u00ebsht\u00eb",
+                            "action": "\u00ebsht\u00eb"
+                        },
+                        {
+                            "display": "shute",
+                            "action": "shute"
+                        },
+                        {
+                            "display": "deshe",
+                            "action": "deshe"
+                        },
+                        {
+                            "display": "ethte",
+                            "action": "ethte"
+                        },
+                        {
+                            "display": "vesht",
+                            "action": "vesht"
+                        },
+                        {
+                            "display": "shote",
+                            "action": "shote"
+                        },
+                        {
+                            "display": "shtet",
+                            "action": "shtet"
+                        },
+                        {
+                            "display": "yshte",
+                            "action": "yshte"
+                        },
+                        {
+                            "display": "reshe",
+                            "action": "reshe"
+                        },
+                        {
+                            "display": "estet",
+                            "action": "estet"
+                        },
+                        {
+                            "display": "qeshte",
+                            "action": "qeshte"
+                        },
+                        {
+                            "display": "heshte",
+                            "action": "heshte"
+                        },
+                        {
+                            "display": "ishte",
+                            "action": "ishte"
+                        },
+                        {
+                            "display": "shtie",
+                            "action": "shtie"
+                        },
+                        {
+                            "display": "beshte",
+                            "action": "beshte"
+                        },
+                        {
+                            "display": "shite",
+                            "action": "shite"
+                        },
+                        {
+                            "display": "hesht",
+                            "action": "hesht"
+                        },
+                        {
+                            "display": "resht",
+                            "action": "resht"
+                        },
+                        {
+                            "display": "dehte",
+                            "action": "dehte"
+                        },
+                        {
+                            "display": "qeste",
+                            "action": "qeste"
+                        },
+                        {
+                            "display": "shete",
+                            "action": "shete"
+                        },
+                        {
+                            "display": "teste",
+                            "action": "teste"
+                        },
+                        {
+                            "display": "seshe",
+                            "action": "seshe"
+                        },
+                        {
+                            "display": "vehte",
+                            "action": "vehte"
+                        },
+                        {
+                            "display": "reshte",
+                            "action": "reshte"
+                        },
+                        {
+                            "display": "shter",
+                            "action": "shter"
+                        },
+                        {
+                            "display": "peshe",
+                            "action": "peshe"
+                        },
+                        {
+                            "display": "shtek",
+                            "action": "shtek"
+                        },
+                        {
+                            "display": "desht",
+                            "action": "desht"
+                        },
+                        {
+                            "display": "veste",
+                            "action": "veste"
+                        },
+                        {
+                            "display": "meste",
+                            "action": "meste"
+                        },
+                        {
+                            "display": "behte",
+                            "action": "behte"
+                        },
+                        {
+                            "display": "eshtek",
+                            "action": "eshtek"
+                        },
+                        {
+                            "display": "veshe",
+                            "action": "veshe"
+                        },
+                        {
+                            "display": "ehte",
+                            "action": "ehte"
+                        },
+                        {
+                            "display": "shteg",
+                            "action": "shteg"
+                        },
+                        {
+                            "display": "qeshe",
+                            "action": "qeshe"
+                        }
+                    ],
+                    "paragraph": 1
+                },
+                {
+                    "from": 6,
+                    "to": 12,
+                    "type": "typo",
+                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "furnit",
+                            "action": "furnit"
+                        },
+                        {
+                            "display": "futnit",
+                            "action": "futnit"
+                        },
+                        {
+                            "display": "fugnit",
+                            "action": "fugnit"
+                        },
+                        {
+                            "display": "fusnit",
+                            "action": "fusnit"
+                        },
+                        {
+                            "display": "funtit",
+                            "action": "funtit"
+                        },
+                        {
+                            "display": "fundit",
+                            "action": "fundit"
+                        }
+                    ],
+                    "paragraph": 2
+                }
+            ]
+        }
+    }
+]
