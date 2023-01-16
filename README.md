@@ -17,7 +17,7 @@ reload if you change any of the source files.
 ### For Development And Cypress Testing With A Mock Server
 
 Run `npm run start:mock` to start **quill** on a dev server at `http://localhost:4200/` and then run `npm run start:mock-server` to start 
-a mock server in NodeJS. More information on the latter can be found in its [README](mock-server/README.md).
+a mock server of **ink** in a NodeJS environment. More information on the latter can be found in its [README](mock-server/README.md).
 
 ### For Development And Testing With An Actual Local `ink` Server
 
