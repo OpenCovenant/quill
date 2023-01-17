@@ -77,8 +77,6 @@ app.post("/api/generateMarkingsForParagraphs", (req, res, next) => {
 app.get("/api/getMarkingDetails/:markingDetailsID", (req, res, next) => {
     const markingDetails = readParsedDataFromFile("getMarkingDetails.json");
 
-    console.log(req.params.markingDetailsID);
-    console.log(req.params.markingDetailsID);
     const filteredMarkingDetails = markingDetails.filter((mD) => mD.markingDetailsID === req.params.markingDetailsID);
 
     if (filteredMarkingDetails.length === 0) {
