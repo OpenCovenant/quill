@@ -8,7 +8,7 @@ the [ink](https://github.com/OpenCovenant/ink) repository.
 Run `npm install` to install the packages that this project requires. Additionally, you can also install the packages
 for the mock-server via `npm run install:mock-server`.
 
-## Running `quill`
+## Run
 
 Choose in which manner you'd like to interact with quill through the following instructions. The app will automatically
 reload if you change any of the source files.
@@ -31,9 +31,11 @@ file at the [Ink repository](https://github.com/OpenCovenant/ink) on how to loca
 Run `npm run start:production` to start a dev server at `http://localhost:4200/` which will also be automatically
 connected to the remote production server. Use this only if needed.
 
-### Build
+## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+
+## Test
 
 ### Running unit tests
 
