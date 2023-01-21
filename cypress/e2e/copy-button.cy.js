@@ -8,13 +8,9 @@ describe("going to test the copy button and paste it on editor", () => {
 
         cy.get("#copyToClipboardButton ").click();
 
-        cy.assertValueCopiedToClipboard("test per butonin copy");
-    });
-
-    Cypress.Commands.add("assertValueCopiedToClipboard", (value) => {
         cy.window().then((win) => {
             win.navigator.clipboard.readText().then((text) => {
-                expect(text).to.eq(value);
+                expect(text).to.eq("test per butonin copy");
             });
         });
     });
