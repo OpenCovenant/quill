@@ -78,8 +78,11 @@ export class HomeComponent implements AfterViewInit {
         const minWidthMatchMedia: MediaQueryList =
             window.matchMedia('(min-width: 800px)');
         this.focusOnMediaMatch(minWidthMatchMedia);
-        // TODO some browsers still seem to use this deprecated method, keep it around for some more time
-        minWidthMatchMedia.addListener(this.focusOnMediaMatch);
+        if (minWidthMatchMedia.addEventListener) {
+            minWidthMatchMedia.addEventListener("change", this.focusOnMediaMatch);
+        } else { // TODO some browsers still seem to use this deprecated method, keep it around for some more time
+            minWidthMatchMedia.addListener(this.focusOnMediaMatch);
+        }
         (document.getElementById('flexSwitchCheckChecked') as any).checked =
             this.localStorageService.canStoreWrittenTexts;
     }
@@ -410,20 +413,27 @@ export class HomeComponent implements AfterViewInit {
         copyToClipboardButton.style.color = 'green';
 
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
-        let range, select: Selection;
-        if (document.createRange) {
-            range = document.createRange();
-            range.selectNodeContents(editor);
-            select = window.getSelection()!;
-            select.removeAllRanges();
-            select.addRange(range);
-            document.execCommand('copy');
-            select.removeAllRanges();
-        } else {
-            range = (document.body as any).createTextRange();
-            range.moveToElementText(editor);
-            range.select();
-            document.execCommand('copy');
+        if (navigator.clipboard) {
+            if (!editor.textContent) {
+                return;
+            }
+            navigator.clipboard.writeText(editor.textContent).then();
+        } else { // TODO some browsers still seem to use this deprecated method, keep it around for some more time
+            let range, select: Selection;
+            if (document.createRange) {
+                range = document.createRange();
+                range.selectNodeContents(editor);
+                select = window.getSelection()!;
+                select.removeAllRanges();
+                select.addRange(range);
+                document.execCommand('copy');
+                select.removeAllRanges();
+            } else {
+                range = (document.body as any).createTextRange();
+                range.moveToElementText(editor);
+                range.select();
+                document.execCommand('copy');
+            }
         }
 
         setTimeout(() => {
@@ -441,7 +451,7 @@ export class HomeComponent implements AfterViewInit {
         );
     }
 
-    focusOnMediaMatch(mediaMatch: any): void {
+    focusOnMediaMatch(mediaMatch: any): void { // TODO rename, add docs
         if (mediaMatch.matches) {
             document.getElementById(this.EDITOR_KEY)?.focus();
         }
