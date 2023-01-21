@@ -1,0 +1,71 @@
+[
+    {
+        "request": "gabmim",
+        "response": {
+            "text": "gabmim\u00a0",
+            "textMarkings": [
+                {
+                    "from": 0,
+                    "to": 6,
+                    "type": "typo",
+                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "gabimi",
+                            "action": "gabimi"
+                        },
+                        {
+                            "display": "gazmim",
+                            "action": "gazmim"
+                        },
+                        {
+                            "display": "gabime",
+                            "action": "gabime"
+                        },
+                        {
+                            "display": "gabim",
+                            "action": "gabim"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "request": "lider",
+        "response": {
+            "text": "lider\u00a0",
+            "textMarkings": [
+                {
+                    "from": 0,
+                    "to": 5,
+                    "type": "loanword",
+                    "subtype": "huazim anglisht",
+                    "description": "z\u00ebvend\u00ebsime n\u00eb shqip p\u00ebr lider jan\u00eb",
+                    "suggestions": [
+                        {
+                            "display": "prij\u00ebs",
+                            "action": "prij\u00ebs"
+                        },
+                        {
+                            "display": "drejtues",
+                            "action": "drejtues"
+                        },
+                        {
+                            "display": "udh\u00ebheq\u00ebs",
+                            "action": "udh\u00ebheq\u00ebs"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "request": "saktë",
+        "response": {
+            "text": "sakt\u00eb",
+            "textMarkings": []
+        }
+    }
+]

@@ -3,7 +3,11 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "install:mock-server": "cd mock-server; npm install",
     "start": "ng serve",
+    "start:mock": "ng serve --configuration mock",
+    "start:mock-server": "node mock-server/index.js",
+    "start:mock-with-server": "concurrently --kill-others \"cd mock-server && npm install && node index.js\" \"ng serve --configuration mock\"",
     "start:production": "ng serve --configuration production",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
@@ -25,6 +29,7 @@
     "@popperjs/core": "^2.11.6",
     "bootstrap": "^5.1.3",
     "bootstrap-icons": "^1.7.2",
+    "concurrently": "^7.6.0",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
