@@ -9,7 +9,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
-import { AuthenticationComponent } from './authentication/authentication.component';
 
 @NgModule({
     declarations: [
@@ -17,8 +16,7 @@ import { AuthenticationComponent } from './authentication/authentication.compone
         MarkingDetailsComponent,
         HeaderComponent,
         FooterComponent,
-        HomeComponent,
-        AuthenticationComponent
+        HomeComponent
     ],
     imports: [BrowserModule, HttpClientModule, FormsModule, AppRoutingModule],
     providers: [],
