@@ -92,7 +92,7 @@ export class LocalStorageService {
             }
         }
 
-        for (let i = this.WRITTEN_TEXTS_LENGTH - 1; i >= 0; i++) {
+        for (let i = this.WRITTEN_TEXTS_LENGTH - 1; i >= 0; i--) {
             if (i === 0) {
                 localStorage.setItem(this.WRITTEN_TEXTS_KEYS[i], writtenText);
             } else {
