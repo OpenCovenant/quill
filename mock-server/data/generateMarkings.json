@@ -67,5 +67,34 @@
             "text": "sakt\u00eb",
             "textMarkings": []
         }
+    },
+    {
+        "request": "saktë",
+        "response": {
+            "text": "sakt\u00eb",
+            "textMarkings": []
+        }
+    },
+    {
+        "response": "Shkoi tek zyra.",
+        "request": {
+            "text": "Shkoi tek zyra.",
+            "textMarkings": [
+                {
+                    "id": "te-dhe-tek",
+                    "from": 6,
+                    "to": 9,
+                    "type": "typo",
+                    "subtype": "gabim gramatikor, p\u00ebrdorimi i parafjal\u00ebve \"te\" dhe \"tek\"",
+                    "description": "parafjala \"te\" p\u00ebrdoret kur fjala vijuese fillon me bashk\u00ebtingellore, nd\u00ebrsa parafjala \"tek\" p\u00ebrdoret kur fjala vijuese fillon me zanore ",
+                    "suggestions": [
+                        {
+                            "display": "te zyra",
+                            "action": "te"
+                        }
+                    ]
+                }
+            ]
+        }
     }
 ]
