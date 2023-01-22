@@ -165,7 +165,7 @@ export class HomeComponent implements AfterViewInit {
             this.cancelEventualMarking = false;
             this.markEditorEventually($event);
         }
-        this.handleRequestForStoringWrittenTexts();
+        // this.handleRequestForStoringWrittenTexts();
     }
 
     /**
@@ -173,20 +173,20 @@ export class HomeComponent implements AfterViewInit {
      * @param {ClipboardEvent} $event the event emitted
      */
     onTextPaste($event: ClipboardEvent): void {
-        $event.preventDefault();
+        // $event.preventDefault();
         if (!$event.clipboardData) {
             return;
         }
         const text: string = $event.clipboardData.getData('text/plain');
 
-        document.execCommand('insertText', false, text);
+        // document.execCommand('insertText', false, text);
 
-        this.localStorageService.storeWrittenText(text);
+        // this.localStorageService.storeWrittenText(text);
 
         // DELETE: after strongly typing you can see the issue identified
         // positioning cursor based on event.key makes no sense here as for this onPaste event there is no key related to it
-        this.markEditor(this.EMPTY_STRING, CursorPosition.END);
-        this.updateCharacterAndWordCount();
+        // this.markEditor(this.EMPTY_STRING, CursorPosition.END);
+        // this.updateCharacterAndWordCount();
     }
 
     /**
