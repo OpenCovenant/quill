@@ -743,7 +743,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     /**
      * Functions that are called on a **KeyboardEvent** in the editor.
      */
-    subscribeForWritingInTheEditor(): void {
+    private subscribeForWritingInTheEditor(): void {
         const intermediaryObservable = this.fromKeyupEvent$.pipe(
             filter(($event: any) => !this.shouldNotMarkEditor($event.key)),
             tap(() => {
@@ -768,7 +768,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             .subscribe();
     }
 
-    subscribeForStoringWrittenText() {
+    private subscribeForStoringWrittenText() {
         this.eventualTextStoringSubscription$ = this.fromKeyupEvent$
             .pipe(
                 debounceTime(15 * this.SECONDS),
