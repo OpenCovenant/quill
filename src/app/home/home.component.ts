@@ -105,14 +105,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     /**
-     * Function that is called on a **KeyboardEvent** in the editor.
-     * @param {KeyboardEvent} $event
-     */
-    /**
-     * Mark the editor after **EVENTUAL_MARKING_TIME** seconds. This is triggered in some scenarios including for
-     * when the user is typing a word and has paused but has not started writing a new word.
-     * @param {KeyboardEvent} $event fetched from the **onKeyboardEvent** method
-     * @private
+     * Functions that are called on a **KeyboardEvent** in the editor.
      */
     subscribeForWritingInTheEditor(): void {
         const intermediaryObservable = this.fromKeyupEvent$.pipe(
