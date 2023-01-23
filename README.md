@@ -3,46 +3,47 @@
 Front-end for the **penda** project. Additional details can be found in
 the [ink](https://github.com/OpenCovenant/ink) repository.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.3.
-
 ## Install
 
-Run `npm install` to install the packages that this project requires.
+Run `npm install` to install the packages that this project requires. Additionally, you can also install the packages
+for the mock-server via `npm run install:mock-server`.
 
-## Running `quill`
+## Run
 
 Choose in which manner you'd like to interact with quill through the following instructions. The app will automatically
 reload if you change any of the source files.
 
 ### For Development And Cypress Testing With A Mock Server
 
-Run `npm run start:mock` to start **quill** on a dev server at `http://localhost:4200/` and then run `npm run start:mock-server` to start 
-a mock server of **ink** in a NodeJS environment. More information on the latter can be found in its [README](mock-server/README.md).
+Run `npm run start:mock` to start **quill** on a dev server at `http://localhost:4200/` and then
+run `npm run start:mock-server` to start a mock server of **ink** in a NodeJS environment. More information on the
+latter can be found in its [README](mock-server/README.md).
 
 ### For Development And Testing With An Actual Local `ink` Server
 
-Run `npm run start` to start **quill** on a dev server at `http://localhost:4200/` and then follow the instructions on the README
-file at the [Ink repository](https://github.com/OpenCovenant/ink) on how to locally run `ink`.
+Run `npm run start` to start **quill** on a dev server at `http://localhost:4200/` and then follow the instructions on
+the README file at the [Ink repository](https://github.com/OpenCovenant/ink) on how to locally run `ink`.
 
 ### For Development And Testing With The Deployment Server
 
 Run `npm run start:production` to start a dev server at `http://localhost:4200/` which will also be automatically
 connected to the remote production server. Use this only if needed.
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also
-use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Running unit tests
+## Test
+
+### Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
+### Running Cypress tests
+
+Run `npx cypress open` or `npx cypress run` to execute [Cypress](https://github.com/cypress-io/cypress) tests.
+
+### Running end-to-end tests
 
 Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a
 package that implements end-to-end testing capabilities.
