@@ -684,8 +684,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         range.collapse(true);
         const nodeStack = [elementNode];
         let node: Node | undefined,
-        foundStart: boolean = false,
-        stop: boolean = false;
+            foundStart: boolean = false,
+            stop: boolean = false;
 
         while (!stop && (node = nodeStack.pop())) {
             if (node.nodeType === Node.TEXT_NODE) {
