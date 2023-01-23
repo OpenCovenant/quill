@@ -712,10 +712,10 @@ export class HomeComponent implements AfterViewInit {
         const range: Range = document.createRange();
         range.setStart(elementNode, 0);
         range.collapse(true);
-        let nodeStack = [elementNode],
-            node: Node | undefined,
-            foundStart: boolean = false,
-            stop: boolean = false;
+        const nodeStack = [elementNode];
+        let node: Node | undefined,
+        foundStart: boolean = false,
+        stop: boolean = false;
 
         while (!stop && (node = nodeStack.pop())) {
             if (node.nodeType === Node.TEXT_NODE) {

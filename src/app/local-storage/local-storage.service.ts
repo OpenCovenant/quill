@@ -71,7 +71,7 @@ export class LocalStorageService {
      * @param writtenText
      */
     storeWrittenText(writtenText: string): void {
-        let arr: string[] = [];
+        const arr: string[] = [];
         for (let i = 0; i < this.WRITTEN_TEXTS_LENGTH; i++) {
             arr.push(localStorage.getItem(this.WRITTEN_TEXTS_KEYS[i])!);
             if (!arr[arr.length - 1]) {
