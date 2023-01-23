@@ -104,47 +104,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.eventualTextStoringSubscription$.unsubscribe();
     }
 
-    /**
-     * Functions that are called on a **KeyboardEvent** in the editor.
-     */
-    subscribeForWritingInTheEditor(): void {
-        const intermediaryObservable = this.fromKeyupEvent$.pipe(
-            filter(($event: any) => !this.shouldNotMarkEditor($event.key)),
-            tap(() => {
-                this.updatePlaceholder();
-                this.updateCharacterAndWordCount();
-            })
-        );
-
-        this.markingSubscription$ = intermediaryObservable
-            .pipe(
-                filter(($event: any) => this.shouldMarkEditor($event.key)),
-                tap(($event: any) => this.markEditor($event.key))
-            )
-            .subscribe();
-
-        this.eventualMarkingSubscription$ = intermediaryObservable
-            .pipe(
-                debounceTime(this.EVENTUAL_MARKING_TIME),
-                filter(($event: any) => !this.shouldMarkEditor($event.key)),
-                tap(($event: any) => this.markEditor($event.key))
-            )
-            .subscribe();
-    }
-
-    subscribeForStoringWrittenText() {
-        this.eventualTextStoringSubscription$ = this.fromKeyupEvent$
-            .pipe(
-                debounceTime(15 * this.SECONDS),
-                tap(() =>
-                    this.localStorageService.storeWrittenText(
-                        document.getElementById(this.EDITOR_KEY)!.innerText
-                    )
-                )
-            )
-            .subscribe();
-    }
-
     initializeURLs(): void {
         this.baseURL = environment.baseURL;
         this.generateMarkingsURL =
@@ -779,5 +738,46 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         } else {
             this.placeHolderElement.style.display = 'none';
         }
+    }
+
+    /**
+     * Functions that are called on a **KeyboardEvent** in the editor.
+     */
+    subscribeForWritingInTheEditor(): void {
+        const intermediaryObservable = this.fromKeyupEvent$.pipe(
+            filter(($event: any) => !this.shouldNotMarkEditor($event.key)),
+            tap(() => {
+                this.updatePlaceholder();
+                this.updateCharacterAndWordCount();
+            })
+        );
+
+        this.markingSubscription$ = intermediaryObservable
+            .pipe(
+                filter(($event: any) => this.shouldMarkEditor($event.key)),
+                tap(($event: any) => this.markEditor($event.key))
+            )
+            .subscribe();
+
+        this.eventualMarkingSubscription$ = intermediaryObservable
+            .pipe(
+                debounceTime(this.EVENTUAL_MARKING_TIME),
+                filter(($event: any) => !this.shouldMarkEditor($event.key)),
+                tap(($event: any) => this.markEditor($event.key))
+            )
+            .subscribe();
+    }
+
+    subscribeForStoringWrittenText() {
+        this.eventualTextStoringSubscription$ = this.fromKeyupEvent$
+            .pipe(
+                debounceTime(15 * this.SECONDS),
+                tap(() =>
+                    this.localStorageService.storeWrittenText(
+                        document.getElementById(this.EDITOR_KEY)!.innerText
+                    )
+                )
+            )
+            .subscribe();
     }
 }
