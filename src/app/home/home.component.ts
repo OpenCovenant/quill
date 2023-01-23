@@ -3,10 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import {
     BehaviorSubject,
     Subject,
-    interval,
     finalize,
-    switchMap,
-    take, fromEvent, filter, tap, debounceTime, Observable, of, Subscription,
+    fromEvent, filter, tap, debounceTime
 } from 'rxjs'
 
 import { BasicAbstractRange } from '../models/basic-abstract-range';
@@ -51,14 +49,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private generateMarkingsURL!: string;
     private uploadDocumentURL!: string;
     private pingURL!: string;
-    private hasStoppedTypingForStoringWrittenTexts: boolean = true; // stopped typing after some seconds
-    private hasStoppedTypingForEventualMarking: boolean = true; // stopped typing after some seconds
-    private makeRequestForStoringWrittenTexts$ = new Subject<void>();
-    private makeRequestForEventualMarking$ = new Subject<void>();
-    private cancelEventualMarking: boolean = false;
     private savedSelection: BasicAbstractRange | undefined;
     private markingSubscription$: any;
     private eventualMarkingSubscription$: any;
+    private eventualTextStoringSubscription$: any;
 
     constructor(
         public localStorageService: LocalStorageService,
@@ -92,6 +86,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     ngOnDestroy(): void {
         this.markingSubscription$.unsubscribe();
         this.eventualMarkingSubscription$.unsubscribe();
+
+        this.eventualTextStoringSubscription$.unsubscribe();
     }
 
     /**
@@ -121,7 +117,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             .subscribe();
 
         this.eventualMarkingSubscription$ = intermediaryObservable.pipe(
-            debounceTime(3 * this.SECONDS),
+            debounceTime(this.EVENTUAL_MARKING_TIME),
             filter(($event: any) => !this.shouldMarkEditor($event.key)),
             tap(($event: any)  => this.markEditor($event.key))
         )
@@ -129,7 +125,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     subscribeForStoringWrittenText() {
-        fromEvent(document.getElementById(this.EDITOR_KEY)!, 'keyup')
+        this.eventualTextStoringSubscription$ = fromEvent(document.getElementById(this.EDITOR_KEY)!, 'keyup')
             .pipe(debounceTime(15 * this.SECONDS), tap(()=>
                 this.localStorageService.storeWrittenText(
                     document.getElementById(this.EDITOR_KEY)!.innerText
