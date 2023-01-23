@@ -61,6 +61,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private markingSubscription$: any;
     private eventualMarkingSubscription$: any;
     private eventualTextStoringSubscription$: any;
+    private fromKeyupEvent$: any;
 
     constructor(
         public localStorageService: LocalStorageService,
@@ -87,6 +88,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         (document.getElementById('flexSwitchCheckChecked') as any).checked =
             this.localStorageService.canStoreWrittenTexts;
 
+        this.fromKeyupEvent$ = fromEvent(
+            document.getElementById(this.EDITOR_KEY)!,
+            'keyup'
+        );
+
         this.subscribeForWritingInTheEditor();
         this.subscribeForStoringWrittenText();
     }
@@ -109,10 +115,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * @private
      */
     subscribeForWritingInTheEditor(): void {
-        const intermediaryObservable = fromEvent(
-            document.getElementById(this.EDITOR_KEY)!,
-            'keyup'
-        ).pipe(
+        const intermediaryObservable = this.fromKeyupEvent$.pipe(
             filter(($event: any) => !this.shouldNotMarkEditor($event.key)),
             tap(() => {
                 this.updatePlaceholder();
@@ -137,10 +140,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     subscribeForStoringWrittenText() {
-        this.eventualTextStoringSubscription$ = fromEvent(
-            document.getElementById(this.EDITOR_KEY)!,
-            'keyup'
-        )
+        this.eventualTextStoringSubscription$ = this.fromKeyupEvent$
             .pipe(
                 debounceTime(15 * this.SECONDS),
                 tap(() =>
