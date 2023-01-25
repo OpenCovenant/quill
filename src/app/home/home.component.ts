@@ -641,9 +641,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     /**
-     * Store the start and end position based on the **Range** of the current **Selection** at the given
+     * Store the row and column position based on the **Range** of the current **cursor position** at the given
      * **elementNode**.
-     * @param {Node} elementNode the working node in which we want to generate the start and end position
+     * @param {Node} elementNode the working node in which we want to generate the cursor position
      */
     private saveCursorPosition(elementNode: Node): BasicAbstractRange {
         const range: Range = window.getSelection()!.getRangeAt(0);
@@ -657,19 +657,19 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     /**
-     * Restore the currently stored start and end position to a given **savedSelection** in **elementNode**.
+     * Restore the currently stored start and end position to a given **savedCursorPosition** in **elementNode**.
      * @param {Node} elementNode the working node in which we want to restore the start and end position
-     * @param {BasicAbstractRange} savedSelection the start and end numbers saved at an earlier point in time
+     * @param {BasicAbstractRange} savedCursorPosition the start and end numbers saved at an earlier point in time
      */
     private restoreCursorPosition(
         elementNode: Node,
-        savedSelection: BasicAbstractRange
+        savedCursorPosition: BasicAbstractRange
     ): void {
         let charIndex: number = 0;
         const range: Range = document.createRange();
         range.setStart(elementNode, 0);
         range.collapse(true);
-        const nodeStack = [elementNode.childNodes[savedSelection.row]];
+        const nodeStack = [elementNode.childNodes[savedCursorPosition.row]];
         let node: Node | undefined,
             foundStart: boolean = false,
             stop: boolean = false;
@@ -692,18 +692,18 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     charIndex + node.textContent!.length;
                 if (
                     !foundStart &&
-                    savedSelection.col >= charIndex &&
-                    savedSelection.col <= nextCharIndex
+                    savedCursorPosition.col >= charIndex &&
+                    savedCursorPosition.col <= nextCharIndex
                 ) {
-                    range.setStart(node, savedSelection.col - charIndex);
+                    range.setStart(node, savedCursorPosition.col - charIndex);
                     foundStart = true;
                 }
                 if (
                     foundStart &&
-                    savedSelection.col >= charIndex &&
-                    savedSelection.col <= nextCharIndex
+                    savedCursorPosition.col >= charIndex &&
+                    savedCursorPosition.col <= nextCharIndex
                 ) {
-                    range.setEnd(node, savedSelection.col - charIndex);
+                    range.setEnd(node, savedCursorPosition.col - charIndex);
                     stop = true;
                 }
                 charIndex = nextCharIndex;
