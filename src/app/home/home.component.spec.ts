@@ -24,3 +24,10 @@ describe('HomeComponent', () => {
         expect(component).toBeTruthy();
     });
 });
+
+
+// standalones: remove "document" and "'"
+// styling, use classes instead of inlined styling?
+// extensioni: content-script.js:4123 Uncaught Error: Cannot find module './constants'
+
+// Jekyll post for Release Updates, or patch notes, planned features and fixes etc?

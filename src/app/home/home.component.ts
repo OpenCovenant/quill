@@ -28,7 +28,7 @@ import {
 })
 export class HomeComponent implements AfterViewInit {
     SECONDS: number = 1000;
-    EVENTUAL_MARKING_TIME: number = 2 * this.SECONDS;
+    EVENTUAL_MARKING_TIME: number = 1.5 * this.SECONDS;
     EMPTY_STRING: string = '';
     EDITOR_KEY: string = 'editor';
     PLACEHOLDER_ELEMENT_ID: string = 'editor-placeholder';
@@ -57,6 +57,9 @@ export class HomeComponent implements AfterViewInit {
     private makeRequestForEventualMarking$ = new Subject<void>();
     private cancelEventualMarking: boolean = false;
     private savedSelection: BasicAbstractRange | undefined;
+    private someRange: any
+    private sC: any
+    private eC: any
 
     constructor(
         public localStorageService: LocalStorageService,
@@ -158,13 +161,13 @@ export class HomeComponent implements AfterViewInit {
         this.updatePlaceholder();
 
         this.updateCharacterAndWordCount();
-        if (this.shouldMarkEditor($event.key)) {
-            this.markEditor($event.key);
-            this.cancelEventualMarking = true;
-        } else {
+        // if (this.shouldMarkEditor($event.key)) {
+        //     this.markEditor($event.key);
+        //     this.cancelEventualMarking = true;
+        // } else {
             this.cancelEventualMarking = false;
             this.markEditorEventually($event);
-        }
+        // }
         this.handleRequestForStoringWrittenTexts();
     }
 
@@ -525,6 +528,7 @@ export class HomeComponent implements AfterViewInit {
                     this.processedText.textMarkings
                 );
                 if (cursorPosition === CursorPosition.LAST_SAVE) {
+                    console.log('editor.childNodes', editor.childNodes.length)
                     this.savedSelection = this.saveSelection(editor);
                 }
 
@@ -655,9 +659,9 @@ export class HomeComponent implements AfterViewInit {
         if (cursorPosition === CursorPosition.LAST_SAVE) {
             if (this.savedSelection) {
                 const ALLOWED_KEY_CODES: string[] = ['Enter', 'Tab']; // TODO can't trigger Tab for now
-                if (!ALLOWED_KEY_CODES.includes(eventKey)) {
+                // if (!ALLOWED_KEY_CODES.includes(eventKey)) {
                     this.restoreSelection(element, this.savedSelection);
-                }
+                // }
             }
         } else if (cursorPosition === CursorPosition.END) {
             this.positionCursorToEnd(element);
@@ -689,13 +693,31 @@ export class HomeComponent implements AfterViewInit {
     private saveSelection(elementNode: Node): BasicAbstractRange {
         const range: Range = window.getSelection()!.getRangeAt(0);
         const preSelectionRange: Range = range.cloneRange();
-        preSelectionRange.selectNodeContents(elementNode);
+        console.log(range.startContainer)
+        preSelectionRange.selectNodeContents(range.startContainer);
         preSelectionRange.setEnd(range.startContainer, range.startOffset);
         const start: number = preSelectionRange.toString().length;
 
+        // console.log(range.startContainer)
+        // console.log(range.startOffset)
+        // console.log(range.endContainer)
+        // console.log(range.endOffset)
+        // console.log(elementNode)
+
+        // this.someRange = range.cloneRange();
+        // this.sC = range.cloneRange().startContainer;
+        // this.eC = range.cloneRange().endContainer;
+        // console.log('clone:', this.someRange)
+        console.log(elementNode.childNodes.length)
+        console.log(range.endOffset)
+        console.log(range.startOffset)
+        console.log(start)
+        console.log(start + range.startContainer.textContent!.length)
+        console.log(range.startContainer.textContent!.length)
+        // console.log(elementNode.childNodes.length)
         return {
-            start: start,
-            end: start + range.toString().length
+            row: elementNode.childNodes.length - 1,
+            col: range.startContainer.parentNode!.textContent!.length
         };
     }
 
@@ -708,37 +730,59 @@ export class HomeComponent implements AfterViewInit {
         elementNode: Node,
         savedSelection: BasicAbstractRange
     ): void {
+        console.log('elementNode', elementNode)
         let charIndex: number = 0;
         const range: Range = document.createRange();
         range.setStart(elementNode, 0);
         range.collapse(true);
-        const nodeStack = [elementNode];
+        const nodeStack = [elementNode.childNodes[savedSelection.row]];
         let node: Node | undefined,
         foundStart: boolean = false,
         stop: boolean = false;
 
+        // TODO shift instead of pop?
         while (!stop && (node = nodeStack.pop())) {
+            // console.log('right after `while`', node, this.sC.startContainer === node)
+            console.log('right after `while`', node)
+            if (node.nodeName === 'BR') {
+                range.setStart(node, 0);
+                range.setEnd(node, 0);
+
+                const selection: Selection = window.getSelection()!;
+                selection.removeAllRanges();
+                // console.log(range)
+                selection.addRange(range);
+
+                return;
+            }
             if (node.nodeType === Node.TEXT_NODE) {
+                console.log('right after `TEXT_NODE`', node, savedSelection.col, charIndex, charIndex + node.textContent!.length, foundStart)
                 const nextCharIndex: number =
                     charIndex + node.textContent!.length;
                 if (
                     !foundStart &&
-                    savedSelection.start >= charIndex &&
-                    savedSelection.start <= nextCharIndex
+                    savedSelection.col >= charIndex &&
+                    savedSelection.col <= nextCharIndex
                 ) {
-                    range.setStart(node, savedSelection.start - charIndex);
+                    console.log('736', elementNode.childNodes[elementNode.childNodes.length-1])
+                    //  + 1 ?
+                    range.setStart(node, savedSelection.col - charIndex);
                     foundStart = true;
                 }
                 if (
                     foundStart &&
-                    savedSelection.end >= charIndex &&
-                    savedSelection.end <= nextCharIndex
+                    savedSelection.col >= charIndex &&
+                    savedSelection.col <= nextCharIndex
                 ) {
-                    range.setEnd(node, savedSelection.end - charIndex);
+                    console.log('770', elementNode.childNodes[elementNode.childNodes.length-1])
+                    //  + 1 ?
+                    range.setEnd(node, savedSelection.col - charIndex);
                     stop = true;
                 }
+                console.log('776', nextCharIndex)
                 charIndex = nextCharIndex;
             } else {
+                console.log('right after `else`')
                 let i: number = node.childNodes.length;
                 while (i--) {
                     nodeStack.push(node.childNodes[i]);
@@ -746,8 +790,13 @@ export class HomeComponent implements AfterViewInit {
             }
         }
 
+        console.log(range.startContainer)
+        console.log(range.endContainer)
+        // range.setStart(elementNode.childNodes[1]!.childNodes[0]!, 1)
+        // range.setEnd(elementNode.childNodes[1]!.childNodes[0]!, 1)
         const selection: Selection = window.getSelection()!;
         selection.removeAllRanges();
+        console.log(range)
         selection.addRange(range);
     }
 

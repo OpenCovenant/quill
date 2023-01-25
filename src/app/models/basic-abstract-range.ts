@@ -1,4 +1,4 @@
 export interface BasicAbstractRange {
-    start: number;
-    end: number;
+    row: number;
+    col: number;
 }
