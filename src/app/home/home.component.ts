@@ -1,13 +1,13 @@
-import { AfterViewInit, Component, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, ViewEncapsulation } from '@angular/core'
 import { HttpClient } from '@angular/common/http';
 import {
     BehaviorSubject,
-    Subject,
-    interval,
     finalize,
-    switchMap,
-    take, fromEvent, debounceTime, filter, tap,
-} from 'rxjs'
+    fromEvent,
+    debounceTime,
+    filter,
+    tap
+} from 'rxjs';
 
 import { BasicAbstractRange } from '../models/basic-abstract-range';
 import { CursorPosition } from '../models/cursor-positioning';
@@ -26,7 +26,7 @@ import {
     styleUrls: ['./home.component.css'],
     encapsulation: ViewEncapsulation.None
 })
-export class HomeComponent implements AfterViewInit {
+export class HomeComponent implements AfterViewInit, OnDestroy {
     SECONDS: number = 1000;
     EVENTUAL_MARKING_TIME: number = 1.5 * this.SECONDS;
     EMPTY_STRING: string = '';
@@ -52,7 +52,6 @@ export class HomeComponent implements AfterViewInit {
     private uploadDocumentURL!: string;
     private pingURL!: string;
     private savedSelection: BasicAbstractRange | undefined;
-    private markingSubscription$: any;
     private eventualMarkingSubscription$: any;
     private eventualTextStoringSubscription$: any;
     private fromKeyupEvent$: any;
@@ -92,7 +91,6 @@ export class HomeComponent implements AfterViewInit {
     }
 
     ngOnDestroy(): void {
-        this.markingSubscription$.unsubscribe();
         this.eventualMarkingSubscription$.unsubscribe();
 
         this.eventualTextStoringSubscription$.unsubscribe();
@@ -620,7 +618,7 @@ export class HomeComponent implements AfterViewInit {
             if (this.savedSelection) {
                 const ALLOWED_KEY_CODES: string[] = ['Enter', 'Tab']; // TODO can't trigger Tab for now
                 // if (!ALLOWED_KEY_CODES.includes(eventKey)) {
-                    this.restoreSelection(element, this.savedSelection);
+                this.restoreSelection(element, this.savedSelection);
                 // }
             }
         } else if (cursorPosition === CursorPosition.END) {
@@ -674,12 +672,13 @@ export class HomeComponent implements AfterViewInit {
         range.collapse(true);
         const nodeStack = [elementNode.childNodes[savedSelection.row]];
         let node: Node | undefined,
-        foundStart: boolean = false,
-        stop: boolean = false;
+            foundStart: boolean = false,
+            stop: boolean = false;
 
         // TODO shift instead of pop?
         while (!stop && (node = nodeStack.pop())) {
-            if (node.nodeName === 'BR') { // TODO extract this before this while loop?
+            if (node.nodeName === 'BR') {
+                // TODO extract this before this while loop?
                 range.setStart(node, 0);
                 range.setEnd(node, 0);
 
@@ -744,23 +743,13 @@ export class HomeComponent implements AfterViewInit {
      * Functions that are called on a **KeyboardEvent** in the editor.
      */
     private subscribeForWritingInTheEditor(): void {
-        const intermediaryObservable = this.fromKeyupEvent$.pipe(
-            filter(($event: any) => !this.shouldNotMarkEditor($event.key)),
-            tap(() => {
-                this.updatePlaceholder();
-                this.updateCharacterAndWordCount();
-            })
-        );
-
-        this.markingSubscription$ = intermediaryObservable
+        this.eventualMarkingSubscription$ = this.fromKeyupEvent$
             .pipe(
-                filter(($event: any) => this.shouldMarkEditor($event.key)),
-                tap(($event: any) => this.markEditor($event.key))
-            )
-            .subscribe();
-
-        this.eventualMarkingSubscription$ = intermediaryObservable
-            .pipe(
+                filter(($event: any) => !this.shouldNotMarkEditor($event.key)),
+                tap(() => {
+                    this.updatePlaceholder();
+                    this.updateCharacterAndWordCount();
+                }),
                 debounceTime(this.EVENTUAL_MARKING_TIME),
                 filter(($event: any) => !this.shouldMarkEditor($event.key)),
                 tap(($event: any) => this.markEditor($event.key))
@@ -775,10 +764,9 @@ export class HomeComponent implements AfterViewInit {
                 tap(() =>
                     this.localStorageService.storeWrittenText(
                         document.getElementById(this.EDITOR_KEY)!.innerText
-
-)
-)
-)
-.subscribe();
-}
+                    )
+                )
+            )
+            .subscribe();
+    }
 }
