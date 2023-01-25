@@ -655,7 +655,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         let row = 0;
         elementNode.childNodes.forEach((n: Node, key: number) => {
-            if (n.isSameNode(range.startContainer.parentNode) || (n.nodeName === 'P' && n.firstChild!.nodeName === 'BR' && n.isSameNode(range.startContainer))) {
+            if (
+                n.isSameNode(range.startContainer.parentNode) ||
+                (n.nodeName === 'P' &&
+                    n.firstChild!.nodeName === 'BR' &&
+                    n.isSameNode(range.startContainer))
+            ) {
                 row = key;
             }
         });
