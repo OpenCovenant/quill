@@ -616,7 +616,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     ): void {
         if (cursorPosition === CursorPosition.LAST_SAVE) {
             if (this.savedCursorPosition) {
-                this.restoreCursorPosition(element, this.savedCursorPosition);
+                this.restoreCursorPosition(element);
             }
         } else if (cursorPosition === CursorPosition.END) {
             this.positionCursorToEnd(element);
@@ -662,14 +662,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * @param {BasicAbstractRange} savedCursorPosition the start and end numbers saved at an earlier point in time
      */
     private restoreCursorPosition(
-        elementNode: Node,
-        savedCursorPosition: BasicAbstractRange
+        elementNode: Node
     ): void {
         let charIndex: number = 0;
         const range: Range = document.createRange();
         range.setStart(elementNode, 0);
         range.collapse(true);
-        const nodeStack = [elementNode.childNodes[savedCursorPosition.row]];
+        const nodeStack = [elementNode.childNodes[this.savedCursorPosition!.row]];
         let node: Node | undefined,
             foundStart: boolean = false,
             stop: boolean = false;
@@ -692,18 +691,18 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     charIndex + node.textContent!.length;
                 if (
                     !foundStart &&
-                    savedCursorPosition.col >= charIndex &&
-                    savedCursorPosition.col <= nextCharIndex
+                    this.savedCursorPosition!.col >= charIndex &&
+                    this.savedCursorPosition!.col <= nextCharIndex
                 ) {
-                    range.setStart(node, savedCursorPosition.col - charIndex);
+                    range.setStart(node, this.savedCursorPosition!.col - charIndex);
                     foundStart = true;
                 }
                 if (
                     foundStart &&
-                    savedCursorPosition.col >= charIndex &&
-                    savedCursorPosition.col <= nextCharIndex
+                    this.savedCursorPosition!.col >= charIndex &&
+                    this.savedCursorPosition!.col <= nextCharIndex
                 ) {
-                    range.setEnd(node, savedCursorPosition.col - charIndex);
+                    range.setEnd(node, this.savedCursorPosition!.col - charIndex);
                     stop = true;
                 }
                 charIndex = nextCharIndex;
