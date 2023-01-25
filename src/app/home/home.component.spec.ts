@@ -31,3 +31,8 @@ describe('HomeComponent', () => {
 // extensioni: content-script.js:4123 Uncaught Error: Cannot find module './constants'
 
 // Jekyll post for Release Updates, or patch notes, planned features and fixes etc?
+
+
+// const ALLOWED_KEY_CODES: string[] = ['Enter', 'Tab']; // TODO can't trigger Tab for now
+// // if (!ALLOWED_KEY_CODES.includes(eventKey)) {
+// }

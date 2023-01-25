@@ -616,10 +616,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     ): void {
         if (cursorPosition === CursorPosition.LAST_SAVE) {
             if (this.savedSelection) {
-                const ALLOWED_KEY_CODES: string[] = ['Enter', 'Tab']; // TODO can't trigger Tab for now
-                // if (!ALLOWED_KEY_CODES.includes(eventKey)) {
                 this.restoreSelection(element, this.savedSelection);
-                // }
             }
         } else if (cursorPosition === CursorPosition.END) {
             this.positionCursorToEnd(element);
