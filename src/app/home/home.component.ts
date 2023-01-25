@@ -51,7 +51,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private generateMarkingsURL!: string;
     private uploadDocumentURL!: string;
     private pingURL!: string;
-    private savedSelection: BasicAbstractRange | undefined;
+    private savedCursorPosition: BasicAbstractRange | undefined;
     private eventualMarkingSubscription$: any;
     private eventualTextStoringSubscription$: any;
     private fromKeyupEvent$: any;
@@ -516,7 +516,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     this.processedText.textMarkings
                 );
                 if (cursorPosition === CursorPosition.LAST_SAVE) {
-                    this.savedSelection = this.saveSelection(editor);
+                    this.savedCursorPosition = this.saveCursorPosition(editor);
                 }
 
                 editor.childNodes.forEach(
@@ -615,8 +615,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         cursorPosition: CursorPosition
     ): void {
         if (cursorPosition === CursorPosition.LAST_SAVE) {
-            if (this.savedSelection) {
-                this.restoreSelection(element, this.savedSelection);
+            if (this.savedCursorPosition) {
+                this.restoreCursorPosition(element, this.savedCursorPosition);
             }
         } else if (cursorPosition === CursorPosition.END) {
             this.positionCursorToEnd(element);
@@ -645,7 +645,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * **elementNode**.
      * @param {Node} elementNode the working node in which we want to generate the start and end position
      */
-    private saveSelection(elementNode: Node): BasicAbstractRange {
+    private saveCursorPosition(elementNode: Node): BasicAbstractRange {
         const range: Range = window.getSelection()!.getRangeAt(0);
 
         // if the cursor is moved while the markings are still being processed, the cursor will be repositioned to the
@@ -661,7 +661,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * @param {Node} elementNode the working node in which we want to restore the start and end position
      * @param {BasicAbstractRange} savedSelection the start and end numbers saved at an earlier point in time
      */
-    private restoreSelection(
+    private restoreCursorPosition(
         elementNode: Node,
         savedSelection: BasicAbstractRange
     ): void {
