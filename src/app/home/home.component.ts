@@ -667,8 +667,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         const col = range.startContainer.parentNode!.textContent!.length;
 
-        // if the cursor is moved while the markings are still being processed, the cursor will be repositioned to the
-        // last row, save the cursor position when changed by the arrow keys and such
+        // if the cursor is moved while the markings are still being processed, it will be reset back to its last
+        // position, consider saving the cursor position when changed by the arrow keys and such, if that position is
+        // of interest
         return {
             row: row,
             col: col
