@@ -751,7 +751,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     this.updateCharacterAndWordCount();
                 }),
                 debounceTime(this.EVENTUAL_MARKING_TIME),
-                filter(($event: any) => !this.shouldMarkEditor($event.key)),
                 tap(($event: any) => this.markEditor($event.key))
             )
             .subscribe();
