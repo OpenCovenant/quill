@@ -653,11 +653,20 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private saveCursorPosition(elementNode: Node): CursorPosition {
         const range: Range = window.getSelection()!.getRangeAt(0);
 
+        let row = 0;
+        elementNode.childNodes.forEach((n: Node, key: number) => {
+            if (n.isSameNode(range.startContainer.parentNode) || (n.nodeName === 'P' && n.firstChild!.nodeName === 'BR' && n.isSameNode(range.startContainer))) {
+                row = key;
+            }
+        });
+
+        const col = range.startContainer.parentNode!.textContent!.length;
+
         // if the cursor is moved while the markings are still being processed, the cursor will be repositioned to the
         // last row, save the cursor position when changed by the arrow keys and such
         return {
-            row: elementNode.childNodes.length - 1,
-            col: range.startContainer.parentNode!.textContent!.length
+            row: row,
+            col: col
         };
     }
 
