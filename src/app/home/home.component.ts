@@ -646,7 +646,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     /**
-     * Store the row and column position based on the **Range** of the current **cursor position** at the given
+     * Store the row and column position based on the **Range** of the current cursor position at the given
      * **elementNode**.
      * @param {Node} elementNode the working node in which we want to generate the cursor position
      */
