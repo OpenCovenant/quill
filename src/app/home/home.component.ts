@@ -648,6 +648,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private saveSelection(elementNode: Node): BasicAbstractRange {
         const range: Range = window.getSelection()!.getRangeAt(0);
 
+        // if the cursor is moved while the markings are still being processed, the cursor will be repositioned to the
+        // last row, save the cursor position when changed by the arrow keys and such
         return {
             row: elementNode.childNodes.length - 1,
             col: range.startContainer.parentNode!.textContent!.length
