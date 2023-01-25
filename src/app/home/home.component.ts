@@ -14,8 +14,8 @@ import {
     tap
 } from 'rxjs';
 
-import { BasicAbstractRange } from '../models/basic-abstract-range';
-import { CursorPosition } from '../models/cursor-positioning';
+import { CursorPosition } from '../models/cursor-position';
+import { CursorPlacement } from '../models/cursor-placement';
 import { LocalStorageService } from '../local-storage/local-storage.service';
 import { ProcessedText } from '../models/processed-text';
 import { TextMarking } from '../models/text-marking';
@@ -56,7 +56,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private generateMarkingsURL!: string;
     private uploadDocumentURL!: string;
     private pingURL!: string;
-    private savedCursorPosition: BasicAbstractRange | undefined;
+    private savedCursorPosition: CursorPosition | undefined;
     private eventualMarkingSubscription$: any;
     private eventualTextStoringSubscription$: any;
     private fromKeyupEvent$: any;
@@ -181,7 +181,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         // DELETE: after strongly typing you can see the issue identified
         // positioning cursor based on event.key makes no sense here as for this onPaste event there is no key related to it
-        this.markEditor(this.EMPTY_STRING, CursorPosition.END);
+        this.markEditor(this.EMPTY_STRING, CursorPlacement.END);
         this.updateCharacterAndWordCount();
     }
 
@@ -504,7 +504,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      */
     private markEditor(
         eventKey: string = this.EMPTY_STRING,
-        cursorPosition: CursorPosition = CursorPosition.LAST_SAVE
+        cursorPlacement: CursorPlacement = CursorPlacement.LAST_SAVE
     ): void {
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
 
@@ -520,7 +520,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 const consumableTextMarkings: TextMarking[] = Array.from(
                     this.processedText.textMarkings
                 );
-                if (cursorPosition === CursorPosition.LAST_SAVE) {
+                if (cursorPlacement === CursorPlacement.LAST_SAVE) {
                     this.savedCursorPosition = this.saveCursorPosition(editor);
                 }
 
@@ -542,7 +542,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     }
                 );
 
-                this.positionCursor(editor, eventKey, cursorPosition);
+                this.positionCursor(editor, eventKey, cursorPlacement);
                 this.shouldCollapseSuggestions = new Array<boolean>(
                     this.processedText.textMarkings.length
                 ).fill(true);
@@ -608,22 +608,22 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     /**
-     * Position the cursor in the given element based on the provided position.
+     * Place the cursor in the given element based on the provided placement.
      * @param {HTMLElement} element
      * @param {string} eventKey
-     * @param {CursorPosition} cursorPosition
+     * @param {CursorPlacement} cursorPlacement
      * @private
      */
     private positionCursor(
         element: HTMLElement,
         eventKey: string,
-        cursorPosition: CursorPosition
+        cursorPlacement: CursorPlacement
     ): void {
-        if (cursorPosition === CursorPosition.LAST_SAVE) {
+        if (cursorPlacement === CursorPlacement.LAST_SAVE) {
             if (this.savedCursorPosition) {
                 this.restoreCursorPosition(element);
             }
-        } else if (cursorPosition === CursorPosition.END) {
+        } else if (cursorPlacement === CursorPlacement.END) {
             this.positionCursorToEnd(element);
         }
     }
@@ -650,7 +650,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * **elementNode**.
      * @param {Node} elementNode the working node in which we want to generate the cursor position
      */
-    private saveCursorPosition(elementNode: Node): BasicAbstractRange {
+    private saveCursorPosition(elementNode: Node): CursorPosition {
         const range: Range = window.getSelection()!.getRangeAt(0);
 
         // if the cursor is moved while the markings are still being processed, the cursor will be repositioned to the
