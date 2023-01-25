@@ -6,8 +6,8 @@ import {
     interval,
     finalize,
     switchMap,
-    take
-} from 'rxjs';
+    take, fromEvent, debounceTime, filter, tap,
+} from 'rxjs'
 
 import { BasicAbstractRange } from '../models/basic-abstract-range';
 import { CursorPosition } from '../models/cursor-positioning';
@@ -51,15 +51,11 @@ export class HomeComponent implements AfterViewInit {
     private generateMarkingsURL!: string;
     private uploadDocumentURL!: string;
     private pingURL!: string;
-    private hasStoppedTypingForStoringWrittenTexts: boolean = true; // stopped typing after some seconds
-    private hasStoppedTypingForEventualMarking: boolean = true; // stopped typing after some seconds
-    private makeRequestForStoringWrittenTexts$ = new Subject<void>();
-    private makeRequestForEventualMarking$ = new Subject<void>();
-    private cancelEventualMarking: boolean = false;
     private savedSelection: BasicAbstractRange | undefined;
-    private someRange: any
-    private sC: any
-    private eC: any
+    private markingSubscription$: any;
+    private eventualMarkingSubscription$: any;
+    private eventualTextStoringSubscription$: any;
+    private fromKeyupEvent$: any;
 
     constructor(
         public localStorageService: LocalStorageService,
@@ -85,6 +81,21 @@ export class HomeComponent implements AfterViewInit {
         minWidthMatchMedia.addListener(this.focusOnMediaMatch);
         (document.getElementById('flexSwitchCheckChecked') as any).checked =
             this.localStorageService.canStoreWrittenTexts;
+
+        this.fromKeyupEvent$ = fromEvent(
+            document.getElementById(this.EDITOR_KEY)!,
+            'keyup'
+        );
+
+        this.subscribeForWritingInTheEditor();
+        this.subscribeForStoringWrittenText();
+    }
+
+    ngOnDestroy(): void {
+        this.markingSubscription$.unsubscribe();
+        this.eventualMarkingSubscription$.unsubscribe();
+
+        this.eventualTextStoringSubscription$.unsubscribe();
     }
 
     initializeURLs(): void {
@@ -148,27 +159,6 @@ export class HomeComponent implements AfterViewInit {
 
             this.displayWriteTextOrUploadDocumentFlag = false;
         }
-    }
-
-    /**
-     * Function that is called on a **KeyboardEvent** in the editor.
-     * @param {KeyboardEvent} $event
-     */
-    onKeyboardEvent($event: KeyboardEvent): void {
-        if (this.shouldNotMarkEditor($event.key)) {
-            return;
-        }
-        this.updatePlaceholder();
-
-        this.updateCharacterAndWordCount();
-        // if (this.shouldMarkEditor($event.key)) {
-        //     this.markEditor($event.key);
-        //     this.cancelEventualMarking = true;
-        // } else {
-            this.cancelEventualMarking = false;
-            this.markEditorEventually($event);
-        // }
-        this.handleRequestForStoringWrittenTexts();
     }
 
     /**
@@ -557,35 +547,6 @@ export class HomeComponent implements AfterViewInit {
     }
 
     /**
-     * Mark the editor after **EVENTUAL_MARKING_TIME** seconds. This is triggered in some scenarios including for
-     * when the user is typing a word and has paused but has not started writing a new word.
-     * @param {KeyboardEvent} $event fetched from the **onKeyboardEvent** method
-     * @private
-     */
-    private markEditorEventually($event: KeyboardEvent): void {
-        if (this.hasStoppedTypingForEventualMarking) {
-            this.makeRequestForEventualMarking$
-                .pipe(
-                    switchMap(() => {
-                        return interval(this.EVENTUAL_MARKING_TIME);
-                    }),
-                    take(1)
-                )
-                .subscribe(() => {
-                    if (!this.cancelEventualMarking) {
-                        this.markEditor($event.key);
-                    } else {
-                        this.cancelEventualMarking = false;
-                    }
-                    this.hasStoppedTypingForEventualMarking = true;
-                });
-        }
-
-        this.makeRequestForEventualMarking$.next();
-        this.hasStoppedTypingForEventualMarking = false;
-    }
-
-    /**
      * Checks if the given emitted event key is included in a list of key triggers in order to mark the editor. For
      * example breaking the current line is considered as a signal to attempt to mark the currently written text.
      * Attempting to mark the editor after every keystroke can annoy the user and will also mean a significantly larger
@@ -718,7 +679,7 @@ export class HomeComponent implements AfterViewInit {
 
         // TODO shift instead of pop?
         while (!stop && (node = nodeStack.pop())) {
-            if (node.nodeName === 'BR') {
+            if (node.nodeName === 'BR') { // TODO extract this before this while loop?
                 range.setStart(node, 0);
                 range.setEnd(node, 0);
 
@@ -779,25 +740,45 @@ export class HomeComponent implements AfterViewInit {
             this.placeHolderElement.style.display = 'none';
         }
     }
+    /**
+     * Functions that are called on a **KeyboardEvent** in the editor.
+     */
+    private subscribeForWritingInTheEditor(): void {
+        const intermediaryObservable = this.fromKeyupEvent$.pipe(
+            filter(($event: any) => !this.shouldNotMarkEditor($event.key)),
+            tap(() => {
+                this.updatePlaceholder();
+                this.updateCharacterAndWordCount();
+            })
+        );
 
-    private handleRequestForStoringWrittenTexts(): void {
-        if (this.hasStoppedTypingForStoringWrittenTexts) {
-            this.makeRequestForStoringWrittenTexts$
-                .pipe(
-                    switchMap(() => {
-                        return interval(15 * this.SECONDS);
-                    }),
-                    take(1)
-                )
-                .subscribe(() => {
+        this.markingSubscription$ = intermediaryObservable
+            .pipe(
+                filter(($event: any) => this.shouldMarkEditor($event.key)),
+                tap(($event: any) => this.markEditor($event.key))
+            )
+            .subscribe();
+
+        this.eventualMarkingSubscription$ = intermediaryObservable
+            .pipe(
+                debounceTime(this.EVENTUAL_MARKING_TIME),
+                filter(($event: any) => !this.shouldMarkEditor($event.key)),
+                tap(($event: any) => this.markEditor($event.key))
+            )
+            .subscribe();
+    }
+
+    private subscribeForStoringWrittenText() {
+        this.eventualTextStoringSubscription$ = this.fromKeyupEvent$
+            .pipe(
+                debounceTime(15 * this.SECONDS),
+                tap(() =>
                     this.localStorageService.storeWrittenText(
                         document.getElementById(this.EDITOR_KEY)!.innerText
-                    );
-                    this.hasStoppedTypingForStoringWrittenTexts = true;
-                });
-        }
 
-        this.makeRequestForStoringWrittenTexts$.next();
-        this.hasStoppedTypingForStoringWrittenTexts = false;
-    }
+)
+)
+)
+.subscribe();
+}
 }
