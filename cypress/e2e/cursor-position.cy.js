@@ -1,4 +1,4 @@
-describe("test for position of the cursor in the edito", () => {
+describe("the position of the cursor in the editor after writing in it", () => {
     beforeEach(() => {
         cy.visit("http://localhost:4200/");
     });
