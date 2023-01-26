@@ -3,6 +3,7 @@ describe("test for position of the cursor in the edito", () => {
         cy.visit("http://localhost:4200/");
     });
 
+    // after every `cy.type`, it is assumed that the text is processed, hence the `cy.wait`
     // how can this code be improved?
     it("will properly move the position of the cursor based on the text written in the editor", () => {
         cy.window().then(someWindow => {
