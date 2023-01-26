@@ -58,6 +58,19 @@ describe("test for position of the cursor in the edito", () => {
                 assert(range.endOffset === 0);
             })
         });
+
+        cy.get("#editor").type("saktë saktë");
+        cy.window().then(someWindow => {
+            cy.document().then(someDocument => {
+                const range = someWindow.getSelection().getRangeAt(0);
+
+                assert(range.collapsed);
+                assert(range.startOffset === 0);
+                assert(range.startContainer.isEqualNode(someDocument.getElementById("editor").childNodes[3]));
+                assert(range.endContainer.isEqualNode(someDocument.getElementById("editor").childNodes[3]));
+                assert(range.endOffset === 0);
+            })
+        });
     });
 
     // it("will click on hiq button and check if it2 deletes the text on editor", () => {
