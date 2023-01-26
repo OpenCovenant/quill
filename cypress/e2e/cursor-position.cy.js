@@ -52,7 +52,6 @@ describe("the position of the cursor in the editor after writing in it", () => {
             cy.document().then(someDocument => {
                 const range = someWindow.getSelection().getRangeAt(0);
 
-                console.log(range.startContainer)
                 assert(range.collapsed);
                 assert(range.startOffset === 0);
                 assert(range.startContainer.isEqualNode(someDocument.getElementById("editor").childNodes[3].firstChild));
