@@ -6,7 +6,7 @@ describe("the position of the cursor in the editor after writing in it", () => {
     // after every `cy.type`, it is assumed that the text is processed, hence the `cy.wait`
     // how can this code be improved?
     it("will properly move the position of the cursor based on the text written in the editor", () => {
-        const THREE_SECONDS: number = 3000;
+        const THREE_SECONDS = 3000;
         cy.window().then(someWindow => {
             cy.document().then(someDocument => {
                 const range = someWindow.getSelection().getRangeAt(0);
