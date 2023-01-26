@@ -41,8 +41,8 @@ describe("the position of the cursor in the editor after writing in it", () => {
 
                 assert(range.collapsed);
                 assert(range.startOffset === 0);
-                assert(range.startContainer.isEqualNode(someDocument.getElementById("editor").childNodes[1].firstChild));
-                assert(range.endContainer.isEqualNode(someDocument.getElementById("editor").childNodes[1].firstChild));
+                assert(range.startContainer.isEqualNode(someDocument.getElementById("editor").childNodes[1]));
+                assert(range.endContainer.isEqualNode(someDocument.getElementById("editor").childNodes[1]));
                 assert(range.endOffset === 0);
             })
         });
