@@ -8,14 +8,11 @@ describe("test for position of the cursor in the edito", () => {
         cy.window().then(someWindow => {
             cy.document().then(someDocument => {
                 const range = someWindow.getSelection().getRangeAt(0);
-                // console.log(range.startContainer);
-                // console.log();
+
                 assert(range.collapsed);
                 assert(range.startOffset === 0);
-                // assert(someDocument.getElementById("editor").firstChild.isEqualNode(range.startContainer))
                 assert(range.startContainer.isEqualNode(someDocument.getElementById("editor").firstChild));
                 assert(range.endContainer.isEqualNode(someDocument.getElementById("editor").firstChild));
-                // cy.get("#editor").children().eq(0).should('equal', range.startContainer);
                 assert(range.endOffset === 0);
             })
         })
