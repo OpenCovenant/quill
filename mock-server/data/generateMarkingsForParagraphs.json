@@ -437,7 +437,7 @@
         }
     },
     {
-        "request": "<p>saktë gabmim </p>",
+        "request": "<p>saktë gabmim&nbsp;</p>",
         "response": {
             "text": "<p>sakt\u00eb gabmim&nbsp;</p>",
             "textMarkings": [

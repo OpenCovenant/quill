@@ -26,10 +26,10 @@ describe("the position of the cursor in the editor after writing in it", () => {
                 const range = someWindow.getSelection().getRangeAt(0);
 
                 assert(range.collapsed);
-                assert(range.startOffset === 6);
+                assert(range.startOffset === 1);
                 assert(range.startContainer.isEqualNode(someDocument.getElementById("editor").firstChild.childNodes[1].firstChild));
                 assert(range.endContainer.isEqualNode(someDocument.getElementById("editor").firstChild.childNodes[1].firstChild));
-                assert(range.endOffset === 6);
+                assert(range.endOffset === 1);
             })
         })
 
