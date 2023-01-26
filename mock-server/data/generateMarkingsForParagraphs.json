@@ -469,5 +469,12 @@
                 }
             ]
         }
+    },
+    {
+        "request": "<p>saktë saktë</p>",
+        "response": {
+            "text": "<p>sakt\u00eb sakt\u00eb</p>",
+            "textMarkings": []
+        }
     }
 ]
