@@ -3,7 +3,8 @@ describe("test for position of the cursor in the edito", () => {
         cy.visit("http://localhost:4200/");
     });
 
-    it("will click on hiq button and check if it1 deletes the text on editor", () => {
+    // how can this code be improved?
+    it("will properly move the position of the cursor based on the text written in the editor", () => {
         cy.window().then(someWindow => {
             cy.document().then(someDocument => {
                 const range = someWindow.getSelection().getRangeAt(0);
