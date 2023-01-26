@@ -21,6 +21,7 @@ describe("test for position of the cursor in the edito", () => {
         })
 
         cy.get("#editor").type("gabmim");
+        cy.wait(3000);
         cy.window().then(someWindow => {
             cy.document().then(someDocument => {
                 const range = someWindow.getSelection().getRangeAt(0);
@@ -34,6 +35,7 @@ describe("test for position of the cursor in the edito", () => {
         })
 
         cy.get("#editor").type("\n");
+        cy.wait(3000);
         cy.window().then(someWindow => {
             cy.document().then(someDocument => {
                 const range = someWindow.getSelection().getRangeAt(0);
@@ -47,6 +49,7 @@ describe("test for position of the cursor in the edito", () => {
         });
 
         cy.get("#editor").type("\n\n");
+        cy.wait(3000);
         cy.window().then(someWindow => {
             cy.document().then(someDocument => {
                 const range = someWindow.getSelection().getRangeAt(0);
@@ -60,6 +63,7 @@ describe("test for position of the cursor in the edito", () => {
         });
 
         cy.get("#editor").type("saktë saktë");
+        cy.wait(3000);
         cy.window().then(someWindow => {
             cy.document().then(someDocument => {
                 const range = someWindow.getSelection().getRangeAt(0);
