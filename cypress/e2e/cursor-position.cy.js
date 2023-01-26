@@ -65,10 +65,10 @@ describe("test for position of the cursor in the edito", () => {
                 const range = someWindow.getSelection().getRangeAt(0);
 
                 assert(range.collapsed);
-                assert(range.startOffset === 0);
-                assert(range.startContainer.isEqualNode(someDocument.getElementById("editor").childNodes[3]));
-                assert(range.endContainer.isEqualNode(someDocument.getElementById("editor").childNodes[3]));
-                assert(range.endOffset === 0);
+                assert(range.startOffset === 11);
+                assert(range.startContainer.isEqualNode(someDocument.getElementById("editor").childNodes[3].firstChild));
+                assert(range.endContainer.isEqualNode(someDocument.getElementById("editor").childNodes[3].firstChild));
+                assert(range.endOffset === 11);
             })
         });
     });
