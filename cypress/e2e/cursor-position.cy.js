@@ -19,7 +19,7 @@ describe("the position of the cursor in the editor after writing in it", () => {
             })
         })
 
-        cy.get("#editor").type("saktë gabmim");
+        cy.get("#editor").type("saktë gabmim ");
         cy.wait(THREE_SECONDS);
         cy.window().then(someWindow => {
             cy.document().then(someDocument => {

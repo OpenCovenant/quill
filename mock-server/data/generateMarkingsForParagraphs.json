@@ -437,9 +437,9 @@
         }
     },
     {
-        "request": "<p>saktë gabmim</p>",
+        "request": "<p>saktë gabmim </p>",
         "response": {
-            "text": "<p>sakt\u00eb gabmim</p>",
+            "text": "<p>sakt\u00eb gabmim&nbsp;</p>",
             "textMarkings": [
                 {
                     "from": 6,
@@ -449,12 +449,12 @@
                     "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
                     "suggestions": [
                         {
-                            "display": "gabime",
-                            "action": "gabime"
-                        },
-                        {
                             "display": "gabimi",
                             "action": "gabimi"
+                        },
+                        {
+                            "display": "gabime",
+                            "action": "gabime"
                         },
                         {
                             "display": "gazmim",
