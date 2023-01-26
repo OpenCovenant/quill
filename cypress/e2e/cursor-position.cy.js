@@ -18,55 +18,42 @@ describe("test for position of the cursor in the edito", () => {
                 assert(range.endOffset === 0);
             })
         })
+
         cy.get("#editor").type("gabmim");
         cy.window().then(someWindow => {
             cy.document().then(someDocument => {
-                // alert('')
                 const range = someWindow.getSelection().getRangeAt(0);
-                console.log(range);
-                console.log(someDocument.getElementById("editor").firstChild.firstChild);
-                console.log(range.startContainer.isEqualNode(someDocument.getElementById("editor").firstChild.firstChild));
-                // console.log();
+
                 assert(range.collapsed);
                 assert(range.startOffset === 6);
-                // assert(someDocument.getElementById("editor").firstChild.isEqualNode(range.startContainer))
                 assert(range.startContainer.isEqualNode(someDocument.getElementById("editor").firstChild.firstChild));
                 assert(range.endContainer.isEqualNode(someDocument.getElementById("editor").firstChild.firstChild));
-                // // cy.get("#editor").children().eq(0).should('equal', range.startContainer);
                 assert(range.endOffset === 6);
             })
         })
+
         cy.get("#editor").type("\n");
         cy.window().then(someWindow => {
             cy.document().then(someDocument => {
-                // alert('')
                 const range = someWindow.getSelection().getRangeAt(0);
-                console.log(range);
-                console.log(range.startContainer.isEqualNode(someDocument.getElementById("editor").childNodes[1]));
-                // console.log();
+
                 assert(range.collapsed);
                 assert(range.startOffset === 0);
-                // assert(someDocument.getElementById("editor").firstChild.isEqualNode(range.startContainer))
                 assert(range.startContainer.isEqualNode(someDocument.getElementById("editor").childNodes[1]));
                 assert(range.endContainer.isEqualNode(someDocument.getElementById("editor").childNodes[1]));
-                // // cy.get("#editor").children().eq(0).should('equal', range.startContainer);
                 assert(range.endOffset === 0);
             })
         });
+
         cy.get("#editor").type("\n\n");
         cy.window().then(someWindow => {
             cy.document().then(someDocument => {
-                // alert('')
                 const range = someWindow.getSelection().getRangeAt(0);
-                console.log(range);
-                console.log(range.startContainer.isEqualNode(someDocument.getElementById("editor").childNodes[3]));
-                // console.log();
+
                 assert(range.collapsed);
                 assert(range.startOffset === 0);
-                // assert(someDocument.getElementById("editor").firstChild.isEqualNode(range.startContainer))
                 assert(range.startContainer.isEqualNode(someDocument.getElementById("editor").childNodes[3]));
                 assert(range.endContainer.isEqualNode(someDocument.getElementById("editor").childNodes[3]));
-                // // cy.get("#editor").children().eq(0).should('equal', range.startContainer);
                 assert(range.endOffset === 0);
             })
         });
