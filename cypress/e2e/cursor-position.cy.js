@@ -4,39 +4,42 @@ describe("test for position of the cursor in the edito", () => {
     });
 
     it("will click on hiq button and check if it1 deletes the text on editor", () => {
-        // cy.window().then(someWindow => {
-        //     cy.document().then(someDocument => {
-        //         const range = someWindow.getSelection().getRangeAt(0);
-        //         console.log(range.startContainer);
-        //         console.log();
-        //         assert(range.startOffset === 0);
-        //         // assert(someDocument.getElementById("editor").firstChild.isEqualNode(range.startContainer))
-        //         assert(range.startContainer.isEqualNode(someDocument.getElementById("editor").firstChild));
-        //         assert(range.endContainer.isEqualNode(someDocument.getElementById("editor").firstChild));
-        //         // cy.get("#editor").children().eq(0).should('equal', range.startContainer);
-        //         assert(range.endOffset === 0);
-        //     })
-        // })
-        cy.get("#editor").type("gabmim\n");
         cy.window().then(someWindow => {
             cy.document().then(someDocument => {
                 const range = someWindow.getSelection().getRangeAt(0);
-                console.log(range);
                 console.log(range.startContainer);
+                console.log();
+                assert(range.collapsed);
+                assert(range.startOffset === 0);
+                // assert(someDocument.getElementById("editor").firstChild.isEqualNode(range.startContainer))
+                assert(range.startContainer.isEqualNode(someDocument.getElementById("editor").firstChild));
+                assert(range.endContainer.isEqualNode(someDocument.getElementById("editor").firstChild));
+                // cy.get("#editor").children().eq(0).should('equal', range.startContainer);
+                assert(range.endOffset === 0);
+            })
+        })
+        cy.get("#editor").type("gabmim\n");
+        cy.window().then(someWindow => {
+            cy.document().then(someDocument => {
+                // alert('')
+                const range = someWindow.getSelection().getRangeAt(0);
+                console.log(range);
+                console.log(range.startContainer.isEqualNode(someDocument.getElementById("editor").childNodes[1]));
                 // console.log();
-                // assert(range.startOffset === 0);
-                // // assert(someDocument.getElementById("editor").firstChild.isEqualNode(range.startContainer))
-                // assert(range.startContainer.isEqualNode(someDocument.getElementById("editor").firstChild));
-                // assert(range.endContainer.isEqualNode(someDocument.getElementById("editor").firstChild));
+                assert(range.collapsed);
+                assert(range.startOffset === 0);
+                // assert(someDocument.getElementById("editor").firstChild.isEqualNode(range.startContainer))
+                assert(range.startContainer.isEqualNode(someDocument.getElementById("editor").childNodes[1]));
+                assert(range.endContainer.isEqualNode(someDocument.getElementById("editor").childNodes[1]));
                 // // cy.get("#editor").children().eq(0).should('equal', range.startContainer);
-                // assert(range.endOffset === 0);
+                assert(range.endOffset === 0);
             })
         })
     });
 
-    it("will click on hiq button and check if it2 deletes the text on editor", () => {
-        // cy.window().then(w => console.log(w.getSelection().getRangeAt(0)))
-        // cy.get("#editor").type("gabmim\n");
-        // cy.window().then(w => console.log(w.getSelection().getRangeAt(0)))
-    });
+    // it("will click on hiq button and check if it2 deletes the text on editor", () => {
+    //     // cy.window().then(w => console.log(w.getSelection().getRangeAt(0)))
+    //     // cy.get("#editor").type("gabmim\n");
+    //     // cy.window().then(w => console.log(w.getSelection().getRangeAt(0)))
+    // });
 });
