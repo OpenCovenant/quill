@@ -18,16 +18,17 @@ describe("the position of the cursor in the editor after writing in it", () => {
             })
         })
 
-        cy.get("#editor").type("gabmim");
+        cy.get("#editor").type("saktë gabmim");
         cy.wait(3000);
         cy.window().then(someWindow => {
             cy.document().then(someDocument => {
                 const range = someWindow.getSelection().getRangeAt(0);
 
+                console.log(range.startContainer)
                 assert(range.collapsed);
                 assert(range.startOffset === 6);
-                assert(range.startContainer.isEqualNode(someDocument.getElementById("editor").firstChild.firstChild));
-                assert(range.endContainer.isEqualNode(someDocument.getElementById("editor").firstChild.firstChild));
+                assert(range.startContainer.isEqualNode(someDocument.getElementById("editor").firstChild.childNodes[1].firstChild));
+                assert(range.endContainer.isEqualNode(someDocument.getElementById("editor").firstChild.childNodes[1].firstChild));
                 assert(range.endOffset === 6);
             })
         })
