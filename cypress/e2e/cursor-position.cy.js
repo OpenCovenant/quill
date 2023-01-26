@@ -74,10 +74,4 @@ describe("test for position of the cursor in the edito", () => {
             })
         });
     });
-
-    // it("will click on hiq button and check if it2 deletes the text on editor", () => {
-    //     // cy.window().then(w => console.log(w.getSelection().getRangeAt(0)))
-    //     // cy.get("#editor").type("gabmim\n");
-    //     // cy.window().then(w => console.log(w.getSelection().getRangeAt(0)))
-    // });
 });
