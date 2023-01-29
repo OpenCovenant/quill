@@ -335,11 +335,14 @@ export class HomeComponent implements AfterViewInit {
             const editor: HTMLElement = document.getElementById(
                 this.EDITOR_KEY
             )!;
-            editor.replaceChild(
+            console.log("338:", textMarkingIndex)
+            console.log("339:", editor.children.length)
+            console.log("340:", editor.children[textMarkingIndex])
+            document.querySelectorAll('.typo')![textMarkingIndex].parentNode!.replaceChild(
                 document.createTextNode(
-                    editor.children[textMarkingIndex].textContent!
+                    document.querySelectorAll('.typo')![textMarkingIndex]!.textContent!
                 ),
-                editor.children[textMarkingIndex]
+                document.querySelectorAll('.typo')![textMarkingIndex]//editor.children[textMarkingIndex]
             );
         }
 
