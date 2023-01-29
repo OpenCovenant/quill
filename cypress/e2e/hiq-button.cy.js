@@ -11,7 +11,7 @@ describe("test for button hiq", () => {
     });
 
     it("will click on `HIQ` buttons and check if it deletes the markings in the editor", () => {
-        const text = "gabmim gabmim "
+        const text = "gabmim gabmim ";
         cy.get("#editor > p > .typo").should("not.exist");
         cy.get("#editor").type(text);
         cy.get("button.btn-outline-danger").first().contains("HIQ").click();
