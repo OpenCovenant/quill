@@ -333,7 +333,7 @@ export class HomeComponent implements AfterViewInit {
     deleteTextMarking(textMarkingIndex: number): void {
         if (this.displayWriteTextOrUploadDocumentFlag) {
             // based on the assumption that all spans within the paragraphs of the editor are markings
-            const currentTextMarking = document.querySelectorAll('#editor > p > span')![textMarkingIndex];
+            const currentTextMarking = document.querySelectorAll('#editor > p > span')[textMarkingIndex];
             currentTextMarking.parentNode!.replaceChild(
                 document.createTextNode(
                     currentTextMarking.textContent!
