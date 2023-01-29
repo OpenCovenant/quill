@@ -332,17 +332,13 @@ export class HomeComponent implements AfterViewInit {
      */
     deleteTextMarking(textMarkingIndex: number): void {
         if (this.displayWriteTextOrUploadDocumentFlag) {
-            const editor: HTMLElement = document.getElementById(
-                this.EDITOR_KEY
-            )!;
-            console.log("338:", textMarkingIndex)
-            console.log("339:", editor.children.length)
-            console.log("340:", editor.children[textMarkingIndex])
-            document.querySelectorAll('.typo')![textMarkingIndex].parentNode!.replaceChild(
+            // based on the assumption that all spans within the paragraphs of the editor are markings
+            const currentTextMarking = document.querySelectorAll('#editor > p > span')![textMarkingIndex];
+            currentTextMarking.parentNode!.replaceChild(
                 document.createTextNode(
-                    document.querySelectorAll('.typo')![textMarkingIndex]!.textContent!
+                    currentTextMarking.textContent!
                 ),
-                document.querySelectorAll('.typo')![textMarkingIndex]//editor.children[textMarkingIndex]
+                currentTextMarking
             );
         }
 
