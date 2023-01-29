@@ -1,6 +1,6 @@
 describe("test for button hiq", () => {
     beforeEach(() => {
-        cy.visit("http://localhost:41523/");
+        cy.visit("http://localhost:4200/");
     });
 
     it("will click on hiq button and check if it deletes the text on editor", () => {
@@ -17,6 +17,7 @@ describe("test for button hiq", () => {
         cy.get("button.btn-outline-danger").first().contains("HIQ").click();
         cy.get("button.btn-outline-danger").first().contains("HIQ").click();
         cy.get("button.suggestion").should("not.exist");
-        cy.get("#editor").should('contain.text', text.replace(/ /g, '\u00a0')); // TODO I guess
+        // I guess because the whitespaces are transformed into NBSPs
+        cy.get("#editor").should('contain.text', text.replace(/ /g, '\u00a0'));
     });
 });
