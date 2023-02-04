@@ -555,5 +555,26 @@
                 }
             ]
         }
+    },
+    {
+        "request": "<p>prijës&nbsp;</p>",
+        "response": {
+            "text": "<p>prij\u00ebs&nbsp;</p>",
+            "textMarkings": []
+        }
+    },
+    {
+        "request": "<p>drejtues&nbsp;</p>",
+        "response": {
+            "text": "<p>drejtues&nbsp;</p>",
+            "textMarkings": []
+        }
+    },
+    {
+        "request": "<p>udhëheqës&nbsp;</p>",
+        "response": {
+            "text": "<p>udh\u00ebheq\u00ebs&nbsp;</p>",
+            "textMarkings": []
+        }
     }
 ]
