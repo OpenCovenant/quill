@@ -35,7 +35,7 @@ export class HomeComponent implements AfterViewInit {
     LINE_BREAK = '<br>';
     LINE_BROKEN_PARAGRAPH: string = '<p>' + this.LINE_BREAK + '</p>';
     EDITOR_PLACEHOLDER_TEXT: string = 'Shkruaj këtu ose ngarko një dokument.';
-    writeTextToggleButtonID: string = 'writeTextToggleButton';
+    writeTextToggleButtonID: string = 'writeTextToggleButton'; // TODO does this and the following need to be variables?
     uploadDocumentToggleButtonID: string = 'uploadDocumentToggleButton';
     processedText: ProcessedText | undefined;
     displayWriteTextOrUploadDocumentFlag: any = true;

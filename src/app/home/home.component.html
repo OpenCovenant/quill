@@ -18,6 +18,7 @@
                     type="button"
                     aria-pressed="true"
                     class="btn btn-sm btn-secondary active"
+                    data-test='write-text-toggle'
                 >
                     SHKRIM
                 </button>
@@ -36,6 +37,7 @@
                     (click)="toggleUploadDocumentButton()"
                     type="button"
                     class="btn btn-sm btnUnselected"
+                    data-test='upload-document-toggle'
                 >
                     DOKUMENT
                 </button>
@@ -59,6 +61,7 @@
                             padding-right: 2%;
                             outline: 0 solid transparent;
                         "
+                        data-test="editor"
                     ></div>
                     <div id="editor-placeholder">
                         {{ EDITOR_PLACEHOLDER_TEXT }}
@@ -118,6 +121,7 @@
                                 padding: 0;
                                 font-size: 1.25rem;
                             "
+                            data-test='copy-to-clipboard'
                         ></button
                         >&nbsp;&nbsp;&nbsp;&nbsp;<button
                             type="button"

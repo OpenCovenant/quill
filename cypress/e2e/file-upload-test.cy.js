@@ -4,7 +4,7 @@ describe("tests for upload document button", () => {
     });
 
     it("will click on button and will check for loanword in output conainer on WORD file", () => {
-        cy.get('button[id="uploadDocumentToggleButton"]').click();
+        cy.get("[data-test='upload-document-toggle']").click();
         cy.get(".btn-primary")
             .contains("SHTYP KËTU ")
             .click()
@@ -13,7 +13,7 @@ describe("tests for upload document button", () => {
     });
 
     it("will click on button and will check for loanword in output conainer on WORD file", () => {
-        cy.get('button[id="uploadDocumentToggleButton"]').click();
+        cy.get("[data-test='upload-document-toggle']").click();
         cy.get(".btn-primary")
             .contains("SHTYP KËTU ")
             .click()
@@ -22,7 +22,7 @@ describe("tests for upload document button", () => {
     });
 
     it("will click on button and will check for loanword in output conainer on PDF file", () => {
-        cy.get('button[id="uploadDocumentToggleButton"]').click();
+        cy.get("[data-test='upload-document-toggle']").click();
         cy.get(".btn-primary")
             .contains("SHTYP KËTU ")
             .click()
@@ -31,7 +31,7 @@ describe("tests for upload document button", () => {
     });
 
     it("will click on button and will check for loanword in output conainer on PDF file", () => {
-        cy.get('button[id="uploadDocumentToggleButton"]').click();
+        cy.get("[data-test='upload-document-toggle']").click();
         cy.get(".btn-primary")
             .contains("SHTYP KËTU ")
             .click()
@@ -40,7 +40,7 @@ describe("tests for upload document button", () => {
     });
 
     it("will click on button and will check for loanword in output conainer on LIBRA file", () => {
-        cy.get('button[id="uploadDocumentToggleButton"]').click();
+        cy.get("[data-test='upload-document-toggle']").click();
         cy.get(".btn-primary")
             .contains("SHTYP KËTU ")
             .click()
@@ -49,7 +49,7 @@ describe("tests for upload document button", () => {
     });
 
     it("will click on button and will check for loanword in output conainer on LIBRA file", () => {
-        cy.get('button[id="uploadDocumentToggleButton"]').click();
+        cy.get("[data-test='upload-document-toggle']").click();
         cy.get(".btn-primary")
             .contains("SHTYP KËTU ")
             .click()
