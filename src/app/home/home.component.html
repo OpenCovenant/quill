@@ -63,7 +63,7 @@
                         "
                         data-test="editor"
                     ></div>
-                    <div id="editor-placeholder">
+                    <div id="editor-placeholder" data-test='placeholder'>
                         {{ EDITOR_PLACEHOLDER_TEXT }}
                     </div>
                     <div style="min-width: 4%" *ngIf="editorHasText()">
@@ -292,6 +292,7 @@
                             text-overflow: ellipsis;
                             overflow: hidden;
                         "
+                        data-test='card-header-marking'
                         >{{ getTextOfTextMarking(i) }}</span
                     >
                 </div>
