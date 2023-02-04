@@ -1,6 +1,6 @@
 describe("click on editor and check if changes are made on textfield for loanwords", () => {
     beforeEach(() => {
-        cy.visit("http://localhost:4200/");
+        cy.visit("/");
     });
 
     it("will click on editor and check if changes are made on textfield for loanwords", () => {

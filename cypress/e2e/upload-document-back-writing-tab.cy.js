@@ -1,6 +1,6 @@
 describe("when clicking upload-document tab and then back on the writing-tab, the text should be kept.", () => {
     beforeEach(() => {
-        cy.visit("http://localhost:4200/");
+        cy.visit("/");
     });
     it("will test if clicking on the upload-document tab and then back on the writing-tab, the text should be kept.", () => {
         cy.get("[data-test='editor'] > p > .typo").should("not.exist");

@@ -1,6 +1,6 @@
 describe("a general flow of quill", () => {
     beforeEach(() => {
-        cy.visit("http://localhost:4200/");
+        cy.visit("/");
     });
 
     it("contains the editor in which we want to write", () => {
