@@ -38,7 +38,7 @@ export class HomeComponent implements AfterViewInit {
     writeTextToggleButtonID: string = 'writeTextToggleButton'; // TODO does this and the following need to be variables?
     uploadDocumentToggleButtonID: string = 'uploadDocumentToggleButton';
     processedText: ProcessedText | undefined;
-    displayWriteTextOrUploadDocumentFlag: any = true;
+    displayWriteTextOrUploadDocumentFlag: boolean = true;
     characterCount: number = 0;
     wordCount: number = 0;
     innerHTMLOfEditor: string = this.LINE_BROKEN_PARAGRAPH;
@@ -80,7 +80,7 @@ export class HomeComponent implements AfterViewInit {
         this.focusOnMediaMatch(minWidthMatchMedia);
         // TODO some browsers still seem to use this deprecated method, keep it around for some more time
         minWidthMatchMedia.addListener(this.focusOnMediaMatch);
-        (document.getElementById('flexSwitchCheckChecked') as any).checked =
+        (document.getElementById('flexSwitchCheckChecked') as HTMLInputElement).checked =
             this.localStorageService.canStoreWrittenTexts;
     }
 

@@ -14,7 +14,7 @@ export class HeaderComponent {
     getMarkingTypesCount!: string;
     markingTypesCount: number = 0;
     markingTypes: any = {};
-    markingTypeKeys: any = [];
+    markingTypeKeys: Array<string> = [];
 
     constructor(private http: HttpClient) {
         this.initializeURLs();
