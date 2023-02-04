@@ -12,5 +12,10 @@ describe("a general flow of quill", () => {
         // cy.get("[data-test='upload-document-toggle']").should("exist").click();
         // cy.get("[data-test='write-text-toggle']").should("exist").click();
         // cy.get("[data-test='placeholder']").should('exist').should('not.be.visible');
+
+        cy.get("[data-test='card-header-marking']").should('exist').should('have.text', "gabmim");
+        // TODO comment out once bug is fixed
+        // cy.get("[data-test='upload-document-toggle']").should("exist").click();
+        // cy.get("[data-test='card-header-marking']").should('exist').should('have.text', "gabmim");
     });
 });
