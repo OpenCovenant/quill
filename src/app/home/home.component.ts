@@ -44,7 +44,7 @@ export class HomeComponent implements AfterViewInit {
     innerHTMLOfEditor: string = this.LINE_BROKEN_PARAGRAPH;
     shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
     loading$ = new BehaviorSubject<boolean>(false);
-
+    //
     private placeHolderElement!: HTMLElement;
     private editorElement!: HTMLElement;
     private baseURL!: string;
