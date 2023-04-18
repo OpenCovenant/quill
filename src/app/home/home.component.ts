@@ -44,9 +44,9 @@ export class HomeComponent implements AfterViewInit {
     innerHTMLOfEditor: string = this.LINE_BROKEN_PARAGRAPH;
     shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
     loading$ = new BehaviorSubject<boolean>(false);
-    //
+    editorElement!: HTMLElement;
+
     private placeHolderElement!: HTMLElement;
-    private editorElement!: HTMLElement;
     private baseURL!: string;
     private generateMarkingsURL!: string;
     private uploadDocumentURL!: string;
@@ -155,7 +155,6 @@ export class HomeComponent implements AfterViewInit {
         if (this.shouldNotMarkEditor($event.key)) {
             return;
         }
-        this.updatePlaceholder();
 
         this.updateCharacterAndWordCount();
         if (this.shouldMarkEditor($event.key)) {
@@ -368,7 +367,6 @@ export class HomeComponent implements AfterViewInit {
     clearEditor(): void {
         document.getElementById(this.EDITOR_KEY)!.innerHTML =
             this.LINE_BROKEN_PARAGRAPH;
-        this.updatePlaceholder();
         this.processedText = undefined;
         this.updateCharacterAndWordCount();
         this.shouldCollapseSuggestions = new Array<boolean>(0);
@@ -470,7 +468,19 @@ export class HomeComponent implements AfterViewInit {
                 return this.EMPTY_STRING;
             }
 
-            return this.processedText.text.slice(
+            if (
+                textMarking.paragraph === undefined ||
+                textMarking.paragraph === null
+            ) {
+                return this.processedText.text.slice(
+                    textMarking.from,
+                    textMarking.to
+                );
+            }
+
+            const simulatedEditor: HTMLDivElement = document.createElement('div');
+            simulatedEditor.innerHTML = this.processedText.text;
+            return simulatedEditor.childNodes[textMarking.paragraph].textContent!.slice(
                 textMarking.from,
                 textMarking.to
             );
@@ -753,20 +763,6 @@ export class HomeComponent implements AfterViewInit {
     private updateCharacterAndWordCount(): void {
         this.updateCharacterCount();
         this.updateWordCount();
-    }
-
-    /**
-     * Checks if the editor has text or not and shows the placeholder element when the editor is empty
-     */
-    updatePlaceholder(): void {
-        if (
-            !this.editorHasText() ||
-            this.editorElement.innerHTML === this.EMPTY_STRING
-        ) {
-            this.placeHolderElement.style.display = 'block';
-        } else {
-            this.placeHolderElement.style.display = 'none';
-        }
     }
 
     private handleRequestForStoringWrittenTexts(): void {
