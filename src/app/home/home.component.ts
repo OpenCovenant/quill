@@ -476,12 +476,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 );
             }
 
-            const simulatedEditor: HTMLDivElement = document.createElement('div');
+            const simulatedEditor: HTMLDivElement =
+                document.createElement('div');
             simulatedEditor.innerHTML = this.processedText.text;
-            return simulatedEditor.childNodes[textMarking.paragraph].textContent!.slice(
-                textMarking.from,
-                textMarking.to
-            );
+            return simulatedEditor.childNodes[
+                textMarking.paragraph
+            ].textContent!.slice(textMarking.from, textMarking.to);
         } else {
             const editor: HTMLElement | null = document.getElementById(
                 this.EDITOR_KEY

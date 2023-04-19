@@ -60,7 +60,13 @@
                         "
                         data-test="editor"
                     ></div>
-                    <div id="editor-placeholder" *ngIf='!editorHasText() || editorElement.innerHTML === EMPTY_STRING'>
+                    <div
+                        id="editor-placeholder"
+                        *ngIf="
+                            !editorHasText() ||
+                            editorElement.innerHTML === EMPTY_STRING
+                        "
+                    >
                         {{ EDITOR_PLACEHOLDER_TEXT }}
                     </div>
                     <div style="min-width: 4%" *ngIf="editorHasText()">
