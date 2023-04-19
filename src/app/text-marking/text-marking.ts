@@ -47,7 +47,7 @@ export function markText(
                     continue;
                 }
 
-                let newNodes = [];
+                const newNodes = [];
 
                 if (trueLeft < trueFrom) {
                     const newTextContent = currentTextContent.slice(

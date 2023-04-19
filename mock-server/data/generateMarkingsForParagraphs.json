@@ -412,5 +412,189 @@
                 }
             ]
         }
+    },
+    {
+        "request": "<p>Shkoi tek zyra.</p>",
+        "response": {
+            "text": "<p>Shkoi tek zyra.</p>",
+            "textMarkings": [
+                {
+                    "id": "te-dhe-tek",
+                    "from": 6,
+                    "to": 9,
+                    "type": "typo",
+                    "subtype": "gabim gramatikor, p\u00ebrdorimi i parafjal\u00ebve \"te\" dhe \"tek\"",
+                    "description": "parafjala \"te\" p\u00ebrdoret kur fjala vijuese fillon me bashk\u00ebtingellore, nd\u00ebrsa parafjala \"tek\" p\u00ebrdoret kur fjala vijuese fillon me zanore ",
+                    "suggestions": [
+                        {
+                            "display": "te zyra",
+                            "action": "te"
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
+    },
+    {
+        "request": "<p>gabmim gabmim</p>",
+        "response": {
+            "text": "<p>gabmim gabmim</p>",
+            "textMarkings": [
+                {
+                    "from": 0,
+                    "to": 6,
+                    "type": "typo",
+                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "gabimi",
+                            "action": "gabimi"
+                        },
+                        {
+                            "display": "gabime",
+                            "action": "gabime"
+                        },
+                        {
+                            "display": "gazmim",
+                            "action": "gazmim"
+                        },
+                        {
+                            "display": "gabim",
+                            "action": "gabim"
+                        }
+                    ],
+                    "paragraph": 0
+                },
+                {
+                    "from": 7,
+                    "to": 13,
+                    "type": "typo",
+                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "gabime",
+                            "action": "gabime"
+                        },
+                        {
+                            "display": "gazmim",
+                            "action": "gazmim"
+                        },
+                        {
+                            "display": "gabimi",
+                            "action": "gabimi"
+                        },
+                        {
+                            "display": "gabim",
+                            "action": "gabim"
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
+    },
+    {
+        "request": "<p><span class=\"typo\">gabmim</span>&nbsp;gabmim&nbsp;</p>",
+        "response": {
+            "text": "<p><span class=\"typo\">gabmim</span>&nbsp;gabmim&nbsp;</p>",
+            "textMarkings": [
+                {
+                    "from": 0,
+                    "to": 6,
+                    "type": "typo",
+                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "gazmim",
+                            "action": "gazmim"
+                        },
+                        {
+                            "display": "gabim",
+                            "action": "gabim"
+                        },
+                        {
+                            "display": "gabimi",
+                            "action": "gabimi"
+                        },
+                        {
+                            "display": "gabime",
+                            "action": "gabime"
+                        }
+                    ],
+                    "paragraph": 0
+                },
+                {
+                    "from": 7,
+                    "to": 13,
+                    "type": "typo",
+                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "gabime",
+                            "action": "gabime"
+                        },
+                        {
+                            "display": "gazmim",
+                            "action": "gazmim"
+                        },
+                        {
+                            "display": "gabimi",
+                            "action": "gabimi"
+                        },
+                        {
+                            "display": "gabim",
+                            "action": "gabim"
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
+    },
+    {
+        "request": "<p>saktë gabmim&nbsp;</p>",
+        "response": {
+            "text": "<p>sakt\u00eb gabmim&nbsp;</p>",
+            "textMarkings": [
+                {
+                    "from": 6,
+                    "to": 12,
+                    "type": "typo",
+                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "gabimi",
+                            "action": "gabimi"
+                        },
+                        {
+                            "display": "gabime",
+                            "action": "gabime"
+                        },
+                        {
+                            "display": "gazmim",
+                            "action": "gazmim"
+                        },
+                        {
+                            "display": "gabim",
+                            "action": "gabim"
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
+    },
+    {
+        "request": "<p>saktë saktë</p>",
+        "response": {
+            "text": "<p>sakt\u00eb sakt\u00eb</p>",
+            "textMarkings": []
+        }
     }
 ]
