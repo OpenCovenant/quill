@@ -45,7 +45,6 @@
                     <div
                         id="editor"
                         contenteditable="true"
-                        (keyup)="onKeyboardEvent($event)"
                         (paste)="onTextPaste($event)"
                         [innerHTML]="innerHTMLOfEditor"
                         spellcheck="false"
@@ -59,6 +58,7 @@
                             padding-right: 2%;
                             outline: 0 solid transparent;
                         "
+                        data-test="editor"
                     ></div>
                     <div id="editor-placeholder">
                         {{ EDITOR_PLACEHOLDER_TEXT }}
@@ -118,6 +118,7 @@
                                 padding: 0;
                                 font-size: 1.25rem;
                             "
+                            data-test="copy-to-clipboard-button"
                         ></button
                         >&nbsp;&nbsp;&nbsp;&nbsp;<button
                             type="button"
@@ -132,6 +133,7 @@
                                 padding: 0;
                                 font-size: 1.25rem;
                             "
+                            data-test="written-texts-history-button"
                         ></button
                     ></span>
                 </div>
@@ -295,6 +297,7 @@
                     <button
                         (click)="deleteTextMarking(i)"
                         class="btn btn-outline-danger btn-sm"
+                        data-test="dismiss-marking-button"
                     >
                         HIQ&nbsp;<i class="bi bi-trash"></i>
                     </button>
