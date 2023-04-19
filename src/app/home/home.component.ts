@@ -1,16 +1,21 @@
-import { AfterViewInit, Component, ViewEncapsulation } from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    OnDestroy,
+    ViewEncapsulation
+} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {
     BehaviorSubject,
-    Subject,
-    interval,
     finalize,
-    switchMap,
-    take
+    fromEvent,
+    debounceTime,
+    filter,
+    tap
 } from 'rxjs';
 
-import { BasicAbstractRange } from '../models/basic-abstract-range';
-import { CursorPosition } from '../models/cursor-positioning';
+import { CursorPosition } from '../models/cursor-position';
+import { CursorPlacement } from '../models/cursor-placement';
 import { LocalStorageService } from '../local-storage/local-storage.service';
 import { ProcessedText } from '../models/processed-text';
 import { TextMarking } from '../models/text-marking';
@@ -26,9 +31,9 @@ import {
     styleUrls: ['./home.component.css'],
     encapsulation: ViewEncapsulation.None
 })
-export class HomeComponent implements AfterViewInit {
+export class HomeComponent implements AfterViewInit, OnDestroy {
     SECONDS: number = 1000;
-    EVENTUAL_MARKING_TIME: number = 2 * this.SECONDS;
+    EVENTUAL_MARKING_TIME: number = 1.5 * this.SECONDS;
     EMPTY_STRING: string = '';
     EDITOR_KEY: string = 'editor';
     PLACEHOLDER_ELEMENT_ID: string = 'editor-placeholder';
@@ -51,12 +56,10 @@ export class HomeComponent implements AfterViewInit {
     private generateMarkingsURL!: string;
     private uploadDocumentURL!: string;
     private pingURL!: string;
-    private hasStoppedTypingForStoringWrittenTexts: boolean = true; // stopped typing after some seconds
-    private hasStoppedTypingForEventualMarking: boolean = true; // stopped typing after some seconds
-    private makeRequestForStoringWrittenTexts$ = new Subject<void>();
-    private makeRequestForEventualMarking$ = new Subject<void>();
-    private cancelEventualMarking: boolean = false;
-    private savedSelection: BasicAbstractRange | undefined;
+    private savedCursorPosition: CursorPosition | undefined;
+    private eventualMarkingSubscription$: any;
+    private eventualTextStoringSubscription$: any;
+    private fromKeyupEvent$: any;
 
     constructor(
         public localStorageService: LocalStorageService,
@@ -82,6 +85,20 @@ export class HomeComponent implements AfterViewInit {
         minWidthMatchMedia.addListener(this.focusOnMediaMatch);
         (document.getElementById('flexSwitchCheckChecked') as any).checked =
             this.localStorageService.canStoreWrittenTexts;
+
+        this.fromKeyupEvent$ = fromEvent(
+            document.getElementById(this.EDITOR_KEY)!,
+            'keyup'
+        );
+
+        this.subscribeForWritingInTheEditor();
+        this.subscribeForStoringWrittenText();
+    }
+
+    ngOnDestroy(): void {
+        this.eventualMarkingSubscription$.unsubscribe();
+
+        this.eventualTextStoringSubscription$.unsubscribe();
     }
 
     initializeURLs(): void {
@@ -148,26 +165,6 @@ export class HomeComponent implements AfterViewInit {
     }
 
     /**
-     * Function that is called on a **KeyboardEvent** in the editor.
-     * @param {KeyboardEvent} $event
-     */
-    onKeyboardEvent($event: KeyboardEvent): void {
-        if (this.shouldNotMarkEditor($event.key)) {
-            return;
-        }
-
-        this.updateCharacterAndWordCount();
-        if (this.shouldMarkEditor($event.key)) {
-            this.markEditor($event.key);
-            this.cancelEventualMarking = true;
-        } else {
-            this.cancelEventualMarking = false;
-            this.markEditorEventually($event);
-        }
-        this.handleRequestForStoringWrittenTexts();
-    }
-
-    /**
      * Function that is called when text is pasted in the editor.
      * @param {ClipboardEvent} $event the event emitted
      */
@@ -184,7 +181,7 @@ export class HomeComponent implements AfterViewInit {
 
         // DELETE: after strongly typing you can see the issue identified
         // positioning cursor based on event.key makes no sense here as for this onPaste event there is no key related to it
-        this.markEditor(this.EMPTY_STRING, CursorPosition.END);
+        this.markEditor(this.EMPTY_STRING, CursorPlacement.END);
         this.updateCharacterAndWordCount();
     }
 
@@ -332,11 +329,12 @@ export class HomeComponent implements AfterViewInit {
     deleteTextMarking(textMarkingIndex: number): void {
         if (this.displayWriteTextOrUploadDocumentFlag) {
             // based on the assumption that all spans within the paragraphs of the editor are markings
-            const currentTextMarking = document.querySelectorAll('#editor > p > span')[textMarkingIndex];
+            const currentTextMarking =
+                document.querySelectorAll('#editor > p > span')[
+                    textMarkingIndex
+                ];
             currentTextMarking.parentNode!.replaceChild(
-                document.createTextNode(
-                    currentTextMarking.textContent!
-                ),
+                document.createTextNode(currentTextMarking.textContent!),
                 currentTextMarking
             );
         }
@@ -517,7 +515,7 @@ export class HomeComponent implements AfterViewInit {
      */
     private markEditor(
         eventKey: string = this.EMPTY_STRING,
-        cursorPosition: CursorPosition = CursorPosition.LAST_SAVE
+        cursorPlacement: CursorPlacement = CursorPlacement.LAST_SAVE
     ): void {
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
 
@@ -533,8 +531,8 @@ export class HomeComponent implements AfterViewInit {
                 const consumableTextMarkings: TextMarking[] = Array.from(
                     this.processedText.textMarkings
                 );
-                if (cursorPosition === CursorPosition.LAST_SAVE) {
-                    this.savedSelection = this.saveSelection(editor);
+                if (cursorPlacement === CursorPlacement.LAST_SAVE) {
+                    this.savedCursorPosition = this.saveCursorPosition(editor);
                 }
 
                 editor.childNodes.forEach(
@@ -555,40 +553,11 @@ export class HomeComponent implements AfterViewInit {
                     }
                 );
 
-                this.positionCursor(editor, eventKey, cursorPosition);
+                this.positionCursor(editor, eventKey, cursorPlacement);
                 this.shouldCollapseSuggestions = new Array<boolean>(
                     this.processedText.textMarkings.length
                 ).fill(true);
             });
-    }
-
-    /**
-     * Mark the editor after **EVENTUAL_MARKING_TIME** seconds. This is triggered in some scenarios including for
-     * when the user is typing a word and has paused but has not started writing a new word.
-     * @param {KeyboardEvent} $event fetched from the **onKeyboardEvent** method
-     * @private
-     */
-    private markEditorEventually($event: KeyboardEvent): void {
-        if (this.hasStoppedTypingForEventualMarking) {
-            this.makeRequestForEventualMarking$
-                .pipe(
-                    switchMap(() => {
-                        return interval(this.EVENTUAL_MARKING_TIME);
-                    }),
-                    take(1)
-                )
-                .subscribe(() => {
-                    if (!this.cancelEventualMarking) {
-                        this.markEditor($event.key);
-                    } else {
-                        this.cancelEventualMarking = false;
-                    }
-                    this.hasStoppedTypingForEventualMarking = true;
-                });
-        }
-
-        this.makeRequestForEventualMarking$.next();
-        this.hasStoppedTypingForEventualMarking = false;
     }
 
     /**
@@ -650,25 +619,22 @@ export class HomeComponent implements AfterViewInit {
     }
 
     /**
-     * Position the cursor in the given element based on the provided position.
+     * Place the cursor in the given element based on the provided placement.
      * @param {HTMLElement} element
      * @param {string} eventKey
-     * @param {CursorPosition} cursorPosition
+     * @param {CursorPlacement} cursorPlacement
      * @private
      */
     private positionCursor(
         element: HTMLElement,
         eventKey: string,
-        cursorPosition: CursorPosition
+        cursorPlacement: CursorPlacement
     ): void {
-        if (cursorPosition === CursorPosition.LAST_SAVE) {
-            if (this.savedSelection) {
-                const ALLOWED_KEY_CODES: string[] = ['Enter', 'Tab']; // TODO can't trigger Tab for now
-                if (!ALLOWED_KEY_CODES.includes(eventKey)) {
-                    this.restoreSelection(element, this.savedSelection);
-                }
+        if (cursorPlacement === CursorPlacement.LAST_SAVE) {
+            if (this.savedCursorPosition) {
+                this.restoreCursorPosition(element);
             }
-        } else if (cursorPosition === CursorPosition.END) {
+        } else if (cursorPlacement === CursorPlacement.END) {
             this.positionCursorToEnd(element);
         }
     }
@@ -691,59 +657,88 @@ export class HomeComponent implements AfterViewInit {
     }
 
     /**
-     * Store the start and end position based on the **Range** of the current **Selection** at the given
+     * Store the row and column position based on the **Range** of the current cursor position at the given
      * **elementNode**.
-     * @param {Node} elementNode the working node in which we want to generate the start and end position
+     * @param {Node} elementNode the working node in which we want to generate the cursor position
      */
-    private saveSelection(elementNode: Node): BasicAbstractRange {
+    private saveCursorPosition(elementNode: Node): CursorPosition {
         const range: Range = window.getSelection()!.getRangeAt(0);
-        const preSelectionRange: Range = range.cloneRange();
-        preSelectionRange.selectNodeContents(elementNode);
-        preSelectionRange.setEnd(range.startContainer, range.startOffset);
-        const start: number = preSelectionRange.toString().length;
 
+        let row = 0;
+        elementNode.childNodes.forEach((n: Node, key: number) => {
+            if (
+                n.isSameNode(range.startContainer.parentNode) ||
+                (n.nodeName === 'P' &&
+                    n.firstChild!.nodeName === 'BR' &&
+                    n.isSameNode(range.startContainer))
+            ) {
+                row = key;
+            }
+        });
+
+        const col = range.startContainer.parentNode!.textContent!.length;
+
+        // if the cursor is moved while the markings are still being processed, it will be reset back to its last
+        // position, consider saving the cursor position when changed by the arrow keys and such, if that position is
+        // of interest
         return {
-            start: start,
-            end: start + range.toString().length
+            row: row,
+            col: col
         };
     }
 
     /**
-     * Restore the currently stored start and end position to a given **savedSelection** in **elementNode**.
+     * Restore the currently stored start and end position to a given **savedCursorPosition** in **elementNode**.
      * @param {Node} elementNode the working node in which we want to restore the start and end position
-     * @param {BasicAbstractRange} savedSelection the start and end numbers saved at an earlier point in time
      */
-    private restoreSelection(
-        elementNode: Node,
-        savedSelection: BasicAbstractRange
-    ): void {
+    private restoreCursorPosition(elementNode: Node): void {
         let charIndex: number = 0;
         const range: Range = document.createRange();
         range.setStart(elementNode, 0);
         range.collapse(true);
-        const nodeStack = [elementNode];
+        const nodeStack = [
+            elementNode.childNodes[this.savedCursorPosition!.row]
+        ];
         let node: Node | undefined,
-        foundStart: boolean = false,
-        stop: boolean = false;
+            foundStart: boolean = false,
+            stop: boolean = false;
 
+        // TODO shift instead of pop?
         while (!stop && (node = nodeStack.pop())) {
+            if (node.nodeName === 'BR') {
+                // TODO extract this before this while loop?
+                range.setStart(node, 0);
+                range.setEnd(node, 0);
+
+                const selection: Selection = window.getSelection()!;
+                selection.removeAllRanges();
+                selection.addRange(range);
+
+                return;
+            }
             if (node.nodeType === Node.TEXT_NODE) {
                 const nextCharIndex: number =
                     charIndex + node.textContent!.length;
                 if (
                     !foundStart &&
-                    savedSelection.start >= charIndex &&
-                    savedSelection.start <= nextCharIndex
+                    this.savedCursorPosition!.col >= charIndex &&
+                    this.savedCursorPosition!.col <= nextCharIndex
                 ) {
-                    range.setStart(node, savedSelection.start - charIndex);
+                    range.setStart(
+                        node,
+                        this.savedCursorPosition!.col - charIndex
+                    );
                     foundStart = true;
                 }
                 if (
                     foundStart &&
-                    savedSelection.end >= charIndex &&
-                    savedSelection.end <= nextCharIndex
+                    this.savedCursorPosition!.col >= charIndex &&
+                    this.savedCursorPosition!.col <= nextCharIndex
                 ) {
-                    range.setEnd(node, savedSelection.end - charIndex);
+                    range.setEnd(
+                        node,
+                        this.savedCursorPosition!.col - charIndex
+                    );
                     stop = true;
                 }
                 charIndex = nextCharIndex;
@@ -765,24 +760,32 @@ export class HomeComponent implements AfterViewInit {
         this.updateWordCount();
     }
 
-    private handleRequestForStoringWrittenTexts(): void {
-        if (this.hasStoppedTypingForStoringWrittenTexts) {
-            this.makeRequestForStoringWrittenTexts$
-                .pipe(
-                    switchMap(() => {
-                        return interval(15 * this.SECONDS);
-                    }),
-                    take(1)
-                )
-                .subscribe(() => {
+    /**
+     * Functions that are called on a **KeyboardEvent** in the editor.
+     */
+    private subscribeForWritingInTheEditor(): void {
+        this.eventualMarkingSubscription$ = this.fromKeyupEvent$
+            .pipe(
+                filter(($event: any) => !this.shouldNotMarkEditor($event.key)),
+                tap(() => {
+                    this.updateCharacterAndWordCount();
+                }),
+                debounceTime(this.EVENTUAL_MARKING_TIME),
+                tap(($event: any) => this.markEditor($event.key))
+            )
+            .subscribe();
+    }
+
+    private subscribeForStoringWrittenText(): void {
+        this.eventualTextStoringSubscription$ = this.fromKeyupEvent$
+            .pipe(
+                debounceTime(15 * this.SECONDS),
+                tap(() =>
                     this.localStorageService.storeWrittenText(
                         document.getElementById(this.EDITOR_KEY)!.innerText
-                    );
-                    this.hasStoppedTypingForStoringWrittenTexts = true;
-                });
-        }
-
-        this.makeRequestForStoringWrittenTexts$.next();
-        this.hasStoppedTypingForStoringWrittenTexts = false;
+                    )
+                )
+            )
+            .subscribe();
     }
 }

@@ -5,9 +5,9 @@ describe("test for history button", () => {
 
     it("will test the history section and togle the history button on/off", () => {
         cy.get("#editor > p > .typo").should("not.exist");
-        cy.get("#editor").type("saktë");
+        cy.get('[data-test="editor"]').type("saktë");
         cy.wait(16000);
-        cy.get("button.bi-clock-history").click();
+        cy.get('[data-test="written-texts-history-button"]').click();
         cy.get("p#writtenText").contains("saktë").should("exist");
         cy.get("button#closeWrittenTextsModalButton").click();
         cy.get("input#flexSwitchCheckChecked").click();
