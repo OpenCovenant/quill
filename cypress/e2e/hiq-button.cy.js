@@ -14,9 +14,15 @@ describe("test for button hiq", () => {
         const text = "gabmim gabmim";
         cy.get("#editor > p > .typo").should("not.exist");
         cy.get('[data-test="editor"]').type(text);
-        cy.get('[data-test="dismiss-marking-button"]').first().contains("HIQ").click();
-        cy.get('[data-test="dismiss-marking-button"]').first().contains("HIQ").click();
+        cy.get('[data-test="dismiss-marking-button"]')
+            .first()
+            .contains("HIQ")
+            .click();
+        cy.get('[data-test="dismiss-marking-button"]')
+            .first()
+            .contains("HIQ")
+            .click();
         cy.get("button.suggestion").should("not.exist");
-        cy.get('[data-test="editor"]').should('have.text', text);
+        cy.get('[data-test="editor"]').should("have.text", text);
     });
 });
