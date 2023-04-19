@@ -181,7 +181,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         // DELETE: after strongly typing you can see the issue identified
         // positioning cursor based on event.key makes no sense here as for this onPaste event there is no key related to it
-        this.markEditor(this.EMPTY_STRING, CursorPlacement.END);
+        this.markEditor(CursorPlacement.END);
         this.updateCharacterAndWordCount();
     }
 
@@ -509,12 +509,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     /**
      * Make the call to mark the editor into paragraphs.
-     * @param {string} eventKey
-     * @param {CursorPosition} cursorPosition
+     * @param {CursorPlacement} cursorPlacement
      * @private
      */
     private markEditor(
-        eventKey: string = this.EMPTY_STRING,
         cursorPlacement: CursorPlacement = CursorPlacement.LAST_SAVE
     ): void {
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
@@ -553,7 +551,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     }
                 );
 
-                this.positionCursor(editor, eventKey, cursorPlacement);
+                this.positionCursor(editor, cursorPlacement);
                 this.shouldCollapseSuggestions = new Array<boolean>(
                     this.processedText.textMarkings.length
                 ).fill(true);
@@ -621,13 +619,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     /**
      * Place the cursor in the given element based on the provided placement.
      * @param {HTMLElement} element
-     * @param {string} eventKey
      * @param {CursorPlacement} cursorPlacement
      * @private
      */
     private positionCursor(
         element: HTMLElement,
-        eventKey: string,
         cursorPlacement: CursorPlacement
     ): void {
         if (cursorPlacement === CursorPlacement.LAST_SAVE) {
@@ -771,7 +767,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     this.updateCharacterAndWordCount();
                 }),
                 debounceTime(this.EVENTUAL_MARKING_TIME),
-                tap(($event: any) => this.markEditor($event.key))
+                tap(($event: any) => this.markEditor())
             )
             .subscribe();
     }
