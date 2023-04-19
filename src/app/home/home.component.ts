@@ -207,7 +207,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      */
     updateWordCount(): void {
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
-        if (editor.innerText === '') {
+        if (editor.innerText === this.EMPTY_STRING) {
             this.wordCount = 0;
         } else {
             const wordMatches = editor.innerText.match(/\b(\w+)\b/g)!;
