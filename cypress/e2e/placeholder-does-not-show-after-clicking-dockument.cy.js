@@ -8,7 +8,7 @@ describe("its going to test if the place holder is there after clicking on dokum
         cy.get('[data-test="editor"]').type("asd ");
         cy.get('button[id="uploadDocumentToggleButton"]').click();
         cy.get('button[id="writeTextToggleButton"]').click();
-        cy.get('div>#editor-placeholder').should("not.exist");
+        cy.get('[data-test="editor-placeholder"]').should("not.exist");
         cy.get('[data-test="editor"]').clear();
         });
     });
