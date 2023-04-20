@@ -597,7 +597,13 @@
             "textMarkings": []
         }
     },
+
     {
+    "request": "<p>asd&nbsp;</p>",
+        "response": {
+            "text": "<p>asd&nbsp;</p>",
+            "textMarkings": [
+            {
         "from": 0,
         "to": 3,
         "type": "typo",
@@ -687,7 +693,9 @@
         ],
         "paragraph": 0
     }
-    
+]
+        }
+        }
     
 ]
 

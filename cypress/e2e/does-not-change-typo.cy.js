@@ -4,7 +4,6 @@ describe("its going to test if the typo is going to change its value once the do
     });
 
     it("will click on dokument and on shkruaj again", () => {
-            
         cy.get("#editor > p > .typo").should("not.exist");
         cy.get('[data-test="editor"]').type("asd ");
         cy.get('button[id="uploadDocumentToggleButton"]').click();
