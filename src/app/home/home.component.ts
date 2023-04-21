@@ -135,6 +135,16 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
             this.displayWriteTextOrUploadDocumentFlag = true;
         }
+
+        // TODO refactor!
+        setTimeout(() => {
+            this.fromKeyupEvent$ = fromEvent(
+                document.getElementById(this.EDITOR_KEY)!,
+                'keyup'
+            );
+            this.subscribeForWritingInTheEditor();
+            this.subscribeForStoringWrittenText();
+        }, 100);
     }
 
     // TODO this, along with the toggleWriteTextButton function surely can be improved
