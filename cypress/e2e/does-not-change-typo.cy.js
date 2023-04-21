@@ -12,6 +12,5 @@ describe("its going to test if the typo is going to change its value once the do
         cy.get('button[id="writeTextToggleButton"]').click();
         cy.get('[data-test="editor"]').contains("gabmim").should("exist");
         cy.get('[data-test="editor"]').clear();
-        });
     });
-
+});
