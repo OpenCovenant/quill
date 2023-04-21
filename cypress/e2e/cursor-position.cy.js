@@ -1,6 +1,6 @@
 describe("the position of the cursor in the editor after writing in it", () => {
     beforeEach(() => {
-        cy.visit("http://localhost:4200/");
+        cy.visit("/");
     });
 
     // after every `cy.type`, it is assumed that the text is processed, hence the `cy.wait`
