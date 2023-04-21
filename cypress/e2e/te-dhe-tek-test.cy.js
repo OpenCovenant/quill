@@ -1,6 +1,6 @@
 describe("Clicking on the information button of some markings that lead to pages with further details on the markings.", () => {
     beforeEach(() => {
-        cy.visit("http://localhost:4200/");
+        cy.visit("/");
     });
 
     it("will test if Clicking on the information button of some markings that lead to pages with further details on the markings. ", () => {

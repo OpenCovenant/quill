@@ -1,6 +1,6 @@
 describe("going to test the copy button and paste it on editor", () => {
     beforeEach(() => {
-        cy.visit("http://localhost:4200/");
+        cy.visit("/");
     });
 
     it("will click on copy button and paste on editor", () => {

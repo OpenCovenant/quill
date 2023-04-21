@@ -1,6 +1,6 @@
 describe("test for history button", () => {
     beforeEach(() => {
-        cy.visit("http://localhost:4200/");
+        cy.visit("/");
     });
 
     it("will test the history section and togle the history button on/off", () => {
