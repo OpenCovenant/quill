@@ -1,9 +1,9 @@
-describe("its going to test if the typo is going to change its value once the dokument is clicked", () => {
+describe("its going to test if the typo is going to change its value once the `DOKUMENT` is clicked", () => {
     beforeEach(() => {
-        cy.visit("http://localhost:4200/");
+        cy.visit("/");
     });
 
-    it("will click on dokument and on shkruaj again", () => {
+    it("will click on `DOKUMENT` and on `SHKRIM` again", () => {
         cy.get("#editor > p > .typo").should("not.exist");
         cy.get('[data-test="editor"]').type("gabmim ");
         cy.wait(2001);

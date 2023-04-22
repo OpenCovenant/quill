@@ -1,10 +1,10 @@
 describe('test the home button on "PENDA"', () => {
     beforeEach(() => {
-        cy.visit("http://localhost:4200/te-dhe-tek");
+        cy.visit("/te-dhe-tek");
     });
 
     it("will click on penda which redirects to home", () => {
-        cy.get(".penda-header-logo").click();
+        cy.get('[data-test="penda-home-button"]').click();
         cy.url().should("include", "");
     });
 });

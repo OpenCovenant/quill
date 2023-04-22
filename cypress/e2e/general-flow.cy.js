@@ -1,6 +1,6 @@
 describe("a general flow of quill", () => {
     beforeEach(() => {
-        cy.visit("http://localhost:4200/");
+        cy.visit("/");
     });
 
     it("contains the editor in which we want to write", () => {
@@ -22,6 +22,6 @@ describe("a general flow of quill", () => {
     it("will test if  Opening and closing the offcanvas works as expected.", () => {
         cy.get('[data-test="navbar-toggler-icon"]').click();
         cy.get(".offcanvas.offcanvas-start.show").should("exist");
-        cy.get("#offcanvasCloseButton").click();
+        cy.get('[data-test="close-offcanvas-button"]').click();
     });
 });
