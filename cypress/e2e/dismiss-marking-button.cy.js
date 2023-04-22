@@ -1,4 +1,4 @@
-describe("test for button hiq", () => {
+describe("test for `HIQ` button", () => {
     let labels;
 
     beforeEach(() => {
@@ -8,10 +8,12 @@ describe("test for button hiq", () => {
         });
     });
 
-    it("will click on hiq button and check if it deletes the text on editor", () => {
+    it("will click on `HIQ` button and check if it deletes the text on editor", () => {
         cy.get("#editor > p > .typo").should("not.exist");
         cy.get('[data-test="editor"]').type("gabmim ");
-        cy.get('[data-test="dismiss-marking-button"]').contains("HIQ").click();
+        cy.get('[data-test="dismiss-marking-button"]')
+            .contains(labels.dismissMarkingLabel)
+            .click();
         cy.get('[data-test="suggestion"]').should("not.exist");
     });
 
