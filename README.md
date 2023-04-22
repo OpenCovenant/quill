@@ -26,7 +26,7 @@ the README file at the [Ink repository](https://github.com/OpenCovenant/ink) on 
 
 ### For Development And Testing With The Deployment Server
 
-Run `npm run start:production` to start a dev server at `http://localhost:4200/` which will also be automatically
+Run `npm run start:prod` to start a dev server at `http://localhost:4200/` which will also be automatically
 connected to the remote production server. Use this only if needed.
 
 ## Build
