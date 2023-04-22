@@ -1,6 +1,6 @@
 describe("its going to test if the typo is going to change its value once the dokument is clicked", () => {
     beforeEach(() => {
-        cy.visit("http://localhost:4200/");
+        cy.visit("/");
     });
 
     it("will click on dokument and on shkruaj again", () => {

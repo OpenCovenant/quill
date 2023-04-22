@@ -1,6 +1,6 @@
 describe("its going to test if the place holder is there after clicking on dokument", () => {
     beforeEach(() => {
-        cy.visit("http://localhost:4200/");
+        cy.visit("/");
     });
 
     it("will click on dokument and on shkruaj again and check for the placeholder if its still there", () => {
