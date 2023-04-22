@@ -159,6 +159,7 @@
                     <label
                         for="documentUploadingHiddenInput"
                         class="btn btn-primary"
+                        data-test="upload-file-label"
                         >SHTYP&nbsp;KËTU&nbsp;<i class="bi bi-file-text"></i
                     ></label>
                     <input
@@ -326,6 +327,7 @@
                                     color: #484848;
                                     cursor: pointer;
                                 "
+                                data-test="marking-information-icon"
                             ></i>
                         </div>
                     </div>
@@ -353,6 +355,7 @@
                                 (click)="chooseSuggestion(i, j)"
                                 class="suggestion"
                                 style="color: black"
+                                data-test="suggestion"
                             >
                                 <b>{{ suggestion.display }}</b>
                             </button>
