@@ -1,6 +1,6 @@
 describe("test for button hiq", () => {
     beforeEach(() => {
-        cy.visit("http://localhost:4200/");
+        cy.visit("/");
     });
 
     it("will click on hiq button and check if it deletes the text on editor", () => {

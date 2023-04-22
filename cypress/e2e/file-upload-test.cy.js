@@ -1,6 +1,6 @@
 describe("tests for upload document button", () => {
     beforeEach(() => {
-        cy.visit("http://localhost:4200/");
+        cy.visit("/");
     });
 
     it("will click on button and will check for loanword in output conainer on WORD file", () => {

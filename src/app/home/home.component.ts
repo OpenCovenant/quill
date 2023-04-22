@@ -49,9 +49,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     innerHTMLOfEditor: string = this.LINE_BROKEN_PARAGRAPH;
     shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
     loading$ = new BehaviorSubject<boolean>(false);
+    editorElement!: HTMLElement;
 
     private placeHolderElement!: HTMLElement;
-    private editorElement!: HTMLElement;
     private baseURL!: string;
     private generateMarkingsURL!: string;
     private uploadDocumentURL!: string;
@@ -138,6 +138,16 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
             this.displayWriteTextOrUploadDocumentFlag = true;
         }
+
+        // TODO refactor!
+        setTimeout(() => {
+            this.fromKeyupEvent$ = fromEvent(
+                document.getElementById(this.EDITOR_KEY)!,
+                'keyup'
+            );
+            this.subscribeForWritingInTheEditor();
+            this.subscribeForStoringWrittenText();
+        }, 100);
     }
 
     // TODO this, along with the toggleWriteTextButton function surely can be improved
@@ -184,7 +194,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         // DELETE: after strongly typing you can see the issue identified
         // positioning cursor based on event.key makes no sense here as for this onPaste event there is no key related to it
-        this.markEditor(this.EMPTY_STRING, CursorPlacement.END);
+        this.markEditor(CursorPlacement.END);
         this.updateCharacterAndWordCount();
     }
 
@@ -210,7 +220,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      */
     updateWordCount(): void {
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
-        if (editor.innerText === '') {
+        if (editor.innerText === this.EMPTY_STRING) {
             this.wordCount = 0;
         } else {
             const wordMatches = editor.innerText.match(/\b(\w+)\b/g)!;
@@ -368,7 +378,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     clearEditor(): void {
         document.getElementById(this.EDITOR_KEY)!.innerHTML =
             this.LINE_BROKEN_PARAGRAPH;
-        this.updatePlaceholder();
         this.processedText = undefined;
         this.updateCharacterAndWordCount();
         this.shouldCollapseSuggestions = new Array<boolean>(0);
@@ -477,10 +486,22 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 return this.EMPTY_STRING;
             }
 
-            return this.processedText.text.slice(
-                textMarking.from,
-                textMarking.to
-            );
+            if (
+                textMarking.paragraph === undefined ||
+                textMarking.paragraph === null
+            ) {
+                return this.processedText.text.slice(
+                    textMarking.from,
+                    textMarking.to
+                );
+            }
+
+            const simulatedEditor: HTMLDivElement =
+                document.createElement('div');
+            simulatedEditor.innerHTML = this.processedText.text;
+            return simulatedEditor.childNodes[
+                textMarking.paragraph
+            ].textContent!.slice(textMarking.from, textMarking.to);
         } else {
             const editor: HTMLElement | null = document.getElementById(
                 this.EDITOR_KEY
@@ -508,12 +529,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     /**
      * Make the call to mark the editor into paragraphs.
-     * @param {string} eventKey
-     * @param {CursorPosition} cursorPosition
+     * @param {CursorPlacement} cursorPlacement
      * @private
      */
     private markEditor(
-        eventKey: string = this.EMPTY_STRING,
         cursorPlacement: CursorPlacement = CursorPlacement.LAST_SAVE
     ): void {
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
@@ -552,7 +571,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     }
                 );
 
-                this.positionCursor(editor, eventKey, cursorPlacement);
+                this.positionCursor(editor, cursorPlacement);
                 this.shouldCollapseSuggestions = new Array<boolean>(
                     this.processedText.textMarkings.length
                 ).fill(true);
@@ -620,13 +639,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     /**
      * Place the cursor in the given element based on the provided placement.
      * @param {HTMLElement} element
-     * @param {string} eventKey
      * @param {CursorPlacement} cursorPlacement
      * @private
      */
     private positionCursor(
         element: HTMLElement,
-        eventKey: string,
         cursorPlacement: CursorPlacement
     ): void {
         if (cursorPlacement === CursorPlacement.LAST_SAVE) {
@@ -760,19 +777,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     /**
-     * Checks if the editor has text or not and shows the placeholder element when the editor is empty
-     */
-    updatePlaceholder(): void {
-        if (
-            !this.editorHasText() ||
-            this.editorElement.innerHTML === this.EMPTY_STRING
-        ) {
-            this.placeHolderElement.style.display = 'block';
-        } else {
-            this.placeHolderElement.style.display = 'none';
-        }
-    }
-    /**
      * Functions that are called on a **KeyboardEvent** in the editor.
      */
     private subscribeForWritingInTheEditor(): void {
@@ -780,16 +784,15 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             .pipe(
                 filter(($event: any) => !this.shouldNotMarkEditor($event.key)),
                 tap(() => {
-                    this.updatePlaceholder();
                     this.updateCharacterAndWordCount();
                 }),
                 debounceTime(this.EVENTUAL_MARKING_TIME),
-                tap(($event: any) => this.markEditor($event.key))
+                tap(($event: any) => this.markEditor())
             )
             .subscribe();
     }
 
-    private subscribeForStoringWrittenText() {
+    private subscribeForStoringWrittenText(): void {
         this.eventualTextStoringSubscription$ = this.fromKeyupEvent$
             .pipe(
                 debounceTime(15 * this.SECONDS),
