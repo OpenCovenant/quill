@@ -203,11 +203,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      */
     updateCharacterCount(): void {
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
-        // for the scenario of the default text being <p><br></p> and this method being triggered by shift, ctrl, ...
-        if (
-            editor.innerText.length === 1 &&
-            editor.innerText.charCodeAt(0) === 10
-        ) {
+        if (editor.innerHTML === `<p><br></p>`) {
+            this.characterCount = 0;
             return;
         }
         this.characterCount = document.getElementById(
@@ -782,10 +779,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private subscribeForWritingInTheEditor(): void {
         this.eventualMarkingSubscription$ = this.fromKeyupEvent$
             .pipe(
-                filter(($event: any) => !this.shouldNotMarkEditor($event.key)),
                 tap(() => {
                     this.updateCharacterAndWordCount();
                 }),
+                filter(($event: any) => !this.shouldNotMarkEditor($event.key)),
                 debounceTime(this.EVENTUAL_MARKING_TIME),
                 tap(($event: any) => this.markEditor())
             )
