@@ -37,7 +37,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     EMPTY_STRING: string = '';
     EDITOR_KEY: string = 'editor';
     PLACEHOLDER_ELEMENT_ID: string = 'editor-placeholder';
-    LINE_BREAK = '<br>';
+    LINE_BREAK: string = '<br>';
     LINE_BROKEN_PARAGRAPH: string = '<p>' + this.LINE_BREAK + '</p>';
     EDITOR_PLACEHOLDER_TEXT: string = 'Shkruaj këtu ose ngarko një dokument.';
     writeTextToggleButtonID: string = 'writeTextToggleButton';
@@ -203,7 +203,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      */
     updateCharacterCount(): void {
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
-        if (editor.innerHTML === `<p><br></p>`) {
+        if (editor.innerHTML === this.LINE_BROKEN_PARAGRAPH) {
             this.characterCount = 0;
             return;
         }
