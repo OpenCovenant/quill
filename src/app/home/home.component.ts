@@ -212,11 +212,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         }
         this.characterCount = document.getElementById(
             this.EDITOR_KEY
-        )!.innerText.length;
+        )!.innerText.replace(/\n/g, this.EMPTY_STRING).length;
     }
 
     /**
-     * Updates the word count field to the number of characters shown in the editor
+     * Updates the word count field to the number of words shown in the editor
      */
     updateWordCount(): void {
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
