@@ -8,14 +8,14 @@ describe("its going to test if the characters change, words, typos change as we 
         cy.get('[data-test="editor"]').type("gabmim ");
         cy.wait(2000);
         // TODO consider using should have text instead of contains
-        cy.get('#characterCountSpan').contains("7 karaktere, 1 fjalë, 1 shenjim").should("exist");
+        cy.get('[data-test="character-count"]').contains("7 karaktere, 1 fjalë, 1 shenjim").should("exist");
         cy.get('[data-test="editor"]').type(" gabim");
-        cy.get('#characterCountSpan').contains("13 karaktere, 2 fjalë, 1 shenjim").should("exist");
+        cy.get('[data-test="character-count"]').contains("13 karaktere, 2 fjalë, 1 shenjim").should("exist");
         cy.get('[data-test="editor"]').clear();
-        cy.get('#characterCountSpan').contains("0 karaktere, 0 fjalë, 0 shenjime").should("exist");
+        cy.get('[data-test="character-count"]').contains("0 karaktere, 0 fjalë, 0 shenjime").should("exist");
         cy.get('[data-test="editor"]').type('{shift}');
-        cy.get('#characterCountSpan').contains("0 karaktere, 0 fjalë, 0 shenjime").should("exist");
+        cy.get('[data-test="character-count"]').contains("0 karaktere, 0 fjalë, 0 shenjime").should("exist");
         cy.get('[data-test="editor"]').type('{enter}');
-        cy.get('#characterCountSpan').contains("0 karaktere, 0 fjalë, 0 shenjime").should("exist");
+        cy.get('[data-test="character-count"]').contains("0 karaktere, 0 fjalë, 0 shenjime").should("exist");
     });
 });
