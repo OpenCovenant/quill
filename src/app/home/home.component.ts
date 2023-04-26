@@ -210,9 +210,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         ) {
             return;
         }
-        this.characterCount = document.getElementById(
-            this.EDITOR_KEY
-        )!.innerText.replace(/\n/g, this.EMPTY_STRING).length;
+        this.characterCount = document
+            .getElementById(this.EDITOR_KEY)!
+            .innerText.replace(/\n/g, this.EMPTY_STRING).length;
     }
 
     /**
