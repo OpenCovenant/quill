@@ -43,7 +43,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     writeTextToggleButtonID: string = 'writeTextToggleButton';
     uploadDocumentToggleButtonID: string = 'uploadDocumentToggleButton';
     processedText: ProcessedText | undefined;
-    displayWriteTextOrUploadDocumentFlag: any = true;
+    displayWriteTextOrUploadDocumentFlag: boolean = true;
     characterCount: number = 0;
     wordCount: number = 0;
     innerHTMLOfEditor: string = this.LINE_BROKEN_PARAGRAPH;
@@ -784,7 +784,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 }),
                 filter(($event: any) => !this.shouldNotMarkEditor($event.key)),
                 debounceTime(this.EVENTUAL_MARKING_TIME),
-                tap(($event: any) => this.markEditor())
+                tap(() => this.markEditor())
             )
             .subscribe();
     }
