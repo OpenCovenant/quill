@@ -37,7 +37,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     EMPTY_STRING: string = '';
     EDITOR_KEY: string = 'editor';
     PLACEHOLDER_ELEMENT_ID: string = 'editor-placeholder';
-    LINE_BREAK = '<br>';
+    LINE_BREAK: string = '<br>';
     LINE_BROKEN_PARAGRAPH: string = '<p>' + this.LINE_BREAK + '</p>';
     EDITOR_PLACEHOLDER_TEXT: string = 'Shkruaj këtu ose ngarko një dokument.';
     writeTextToggleButtonID: string = 'writeTextToggleButton';
@@ -203,11 +203,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      */
     updateCharacterCount(): void {
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
-        // for the scenario of the default text being <p><br></p> and this method being triggered by shift, ctrl, ...
-        if (
-            editor.innerText.length === 1 &&
-            editor.innerText.charCodeAt(0) === 10
-        ) {
+        if (editor.innerHTML === this.LINE_BROKEN_PARAGRAPH) {
+            this.characterCount = 0;
             return;
         }
         this.characterCount = document
@@ -782,10 +779,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private subscribeForWritingInTheEditor(): void {
         this.eventualMarkingSubscription$ = this.fromKeyupEvent$
             .pipe(
-                filter(($event: any) => !this.shouldNotMarkEditor($event.key)),
                 tap(() => {
                     this.updateCharacterAndWordCount();
                 }),
+                filter(($event: any) => !this.shouldNotMarkEditor($event.key)),
                 debounceTime(this.EVENTUAL_MARKING_TIME),
                 tap(($event: any) => this.markEditor())
             )
