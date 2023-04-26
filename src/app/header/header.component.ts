@@ -27,7 +27,7 @@ export class HeaderComponent {
         });
     }
 
-    initializeURLs() : void {
+    initializeURLs(): void {
         this.baseURL = environment.baseURL;
         this.getMarkingTypes = `${this.baseURL}/api/getMarkingTypes`;
         this.getMarkingTypesCount = `${this.baseURL}/api/getMarkingTypesCount`;
