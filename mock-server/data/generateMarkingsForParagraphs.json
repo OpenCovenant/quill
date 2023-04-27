@@ -553,6 +553,92 @@
         }
     },
     {
+        "request": "<p>gabmi lider gabmim</p>",
+        "response": {
+            "text": "<p>gabmi lider gabmim</p>",
+            "textMarkings": [
+                {
+                    "from": 0,
+                    "to": 5,
+                    "type": "typo",
+                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "gaboi",
+                            "action": "gaboi"
+                        },
+                        {
+                            "display": "gamit",
+                            "action": "gamit"
+                        },
+                        {
+                            "display": "gabim",
+                            "action": "gabim"
+                        },
+                        {
+                            "display": "gabimi",
+                            "action": "gabimi"
+                        },
+                        {
+                            "display": "garbi",
+                            "action": "garbi"
+                        }
+                    ],
+                    "paragraph": 0
+                },
+                {
+                    "from": 6,
+                    "to": 11,
+                    "type": "loanword",
+                    "subtype": "huazim anglisht",
+                    "description": "z\u00ebvend\u00ebsime n\u00eb shqip p\u00ebr lider jan\u00eb",
+                    "suggestions": [
+                        {
+                            "display": "prij\u00ebs",
+                            "action": "prij\u00ebs"
+                        },
+                        {
+                            "display": "drejtues",
+                            "action": "drejtues"
+                        },
+                        {
+                            "display": "udh\u00ebheq\u00ebs",
+                            "action": "udh\u00ebheq\u00ebs"
+                        }
+                    ],
+                    "paragraph": 0
+                },
+                {
+                    "from": 12,
+                    "to": 18,
+                    "type": "typo",
+                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "gazmim",
+                            "action": "gazmim"
+                        },
+                        {
+                            "display": "gabime",
+                            "action": "gabime"
+                        },
+                        {
+                            "display": "gabimi",
+                            "action": "gabimi"
+                        },
+                        {
+                            "display": "gabim",
+                            "action": "gabim"
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
+    },
+    {
         "request": "<p><span class=\"typo\">gabmim</span>&nbsp;gabmim&nbsp;</p>",
         "response": {
             "text": "<p><span class=\"typo\">gabmim</span>&nbsp;gabmim&nbsp;</p>",

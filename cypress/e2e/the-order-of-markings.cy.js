@@ -3,9 +3,10 @@ describe("will check the order of markings are in the right order as we typed th
         cy.visit("/");
     });
 
-    it("will check the marking order as written on text box", () => {
-        cy.get('[data-test="editor"]').type("lider gabmim");
-        cy.get("span.loanword").eq(0).should("have.text", "lider");
-        cy.get("span.typo").eq(0).should("have.text", "gabmim");
+    it("will check the order of the markings as written in the editor", () => {
+        cy.get('[data-test="editor"]').type("gabmi lider gabmim");
+        cy.get("#editor > p > span").eq(0).should("have.text", "gabmi");
+        cy.get("#editor > p > span").eq(1).should("have.text", "lider");
+        cy.get("#editor > p > span").eq(2).should("have.text", "gabmim");
     });
 });
