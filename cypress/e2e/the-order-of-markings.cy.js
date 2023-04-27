@@ -7,8 +7,8 @@ describe("will check the order of markings are in the right order as we typed th
         cy.get('[data-test="editor"]').type("lider ");
         cy.get("span.loanword").eq(0).should('contain', 'lider');
         cy.get('[data-test="editor"]').type("gabmim ");
-        cy.get("span.typo").eq(1).should('contain', 'gabmim');
+        cy.get("span.typo").eq(0).should('contain', 'gabmim');
         cy.get('[data-test="editor"]').type("Shkoi tek zyra.");
-        cy.get("span.typo").eq(3).should('contain', 'tek');
+        cy.get("span.typo").eq(1).should('contain', 'tek');
     });
 });
