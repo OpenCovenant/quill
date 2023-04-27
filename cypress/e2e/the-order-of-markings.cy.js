@@ -3,12 +3,10 @@ describe("will check the order of markings are in the right order as we typed th
         cy.visit("/");
     });
 
-    it("will check the marking order as written on text box", () => {
-        cy.get('[data-test="editor"]').type("lider ");
-        cy.get("span.loanword").eq(0).should('contain', 'lider');
-        cy.get('[data-test="editor"]').type("gabmim ");
-        cy.get("span.typo").eq(1).should('contain', 'gabmim');
-        cy.get('[data-test="editor"]').type("Shkoi tek zyra.");
-        cy.get("span.typo").eq(3).should('contain', 'tek');
+    it("will check the marking order as written in the editor", () => {
+        cy.get('[data-test="editor"]').type("lider gabmim Shkoi tek zyra.");
+        cy.get("span.loanword").eq(0).should("have.text", "lider");
+        cy.get("span.typo").eq(0).should("have.text", "gabmim");
+        cy.get("span.typo").eq(1).should("have.text", "tek");
     });
 });
