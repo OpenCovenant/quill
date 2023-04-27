@@ -5,8 +5,14 @@ describe("will check the order of markings are in the right order as we typed th
 
     it("will check the order of the markings as written in the editor", () => {
         cy.get('[data-test="editor"]').type("gabmi lider gabmim");
-        cy.get("#editor > p > span").eq(0).should("have.text", "gabmi");
-        cy.get("#editor > p > span").eq(1).should("have.text", "lider");
-        cy.get("#editor > p > span").eq(2).should("have.text", "gabmim");
+        cy.get('[data-test="editor"] > p > span')
+            .eq(0)
+            .should("have.text", "gabmi");
+        cy.get('[data-test="editor"] > p > span')
+            .eq(1)
+            .should("have.text", "lider");
+        cy.get('[data-test="editor"] > p > span')
+            .eq(2)
+            .should("have.text", "gabmim");
     });
 });
