@@ -14,7 +14,7 @@ export class HeaderComponent {
     getMarkingTypesCount!: string;
     markingTypesCount: number = 0;
     markingTypes: any = {};
-    markingTypeKeys: any = [];
+    markingTypeKeys: Array<string> = [];
 
     constructor(private http: HttpClient) {
         this.initializeURLs();
@@ -27,10 +27,10 @@ export class HeaderComponent {
         });
     }
 
-    initializeURLs() {
+    initializeURLs(): void {
         this.baseURL = environment.baseURL;
-        this.getMarkingTypes = this.baseURL + '/api/getMarkingTypes';
-        this.getMarkingTypesCount = this.baseURL + '/api/getMarkingTypesCount';
+        this.getMarkingTypes = `${this.baseURL}/api/getMarkingTypes`;
+        this.getMarkingTypesCount = `${this.baseURL}/api/getMarkingTypesCount`;
     }
 
     closeOffcanvas() {
