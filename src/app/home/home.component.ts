@@ -34,6 +34,7 @@ import {
 export class HomeComponent implements AfterViewInit, OnDestroy {
     SECONDS: number = 1000;
     EVENTUAL_MARKING_TIME: number = 1.5 * this.SECONDS;
+    EVENTUAL_WRITTEN_TEXT_STORAGE_TIME: number = 15 * this.SECONDS;
     EMPTY_STRING: string = '';
     EDITOR_KEY: string = 'editor';
     PLACEHOLDER_ELEMENT_ID: string = 'editor-placeholder';
@@ -615,12 +616,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     /**
      * Checks if the given emitted event key is included in a list of key non-triggers in order to not mark the editor.
      * For example pressing one of the arrow keys in the keyboard should not alter the editor's markings.
-     * @param {string} eventKey fetched from the **onKeyboardEvent** method
+     * @param {KeyboardEvent} $event from the keyup in the editor
      * @private
      * @returns {boolean} true if the editor should be not marked, false otherwise
      */
-    private shouldNotMarkEditor(eventKey: string): boolean {
-        const NON_TRIGGERS = [
+    private shouldNotMarkEditor($event: KeyboardEvent): boolean {
+        const eventKey: string = $event.key;
+        const NON_TRIGGERS: string[] = [
             'Control',
             'CapsLock',
             'Shift',
@@ -630,7 +632,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             'ArrowLeft',
             'ArrowDown'
         ];
-        return NON_TRIGGERS.includes(eventKey);
+        const pasteEvent: boolean =
+            $event.ctrlKey && (eventKey === 'v' || eventKey === 'V');
+        return NON_TRIGGERS.includes(eventKey) || pasteEvent;
     }
 
     /**
@@ -782,7 +786,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 tap(() => {
                     this.updateCharacterAndWordCount();
                 }),
-                filter(($event: any) => !this.shouldNotMarkEditor($event.key)),
+                filter(
+                    ($event: KeyboardEvent) => !this.shouldNotMarkEditor($event)
+                ),
                 debounceTime(this.EVENTUAL_MARKING_TIME),
                 tap(() => this.markEditor())
             )
@@ -792,7 +798,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private subscribeForStoringWrittenText(): void {
         this.eventualTextStoringSubscription$ = this.fromKeyupEvent$
             .pipe(
-                debounceTime(15 * this.SECONDS),
+                debounceTime(this.EVENTUAL_WRITTEN_TEXT_STORAGE_TIME),
                 tap(() =>
                     this.localStorageService.storeWrittenText(
                         document.getElementById(this.EDITOR_KEY)!.innerText
