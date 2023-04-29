@@ -632,9 +632,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             'ArrowLeft',
             'ArrowDown'
         ];
-        const pasteEvent: boolean =
-            $event.ctrlKey && (eventKey === 'v' || eventKey === 'V');
-        return NON_TRIGGERS.includes(eventKey) || pasteEvent;
+        const copyOrPasteEvents: boolean =
+            $event.ctrlKey &&
+            (eventKey === 'v' ||
+                eventKey === 'V' ||
+                eventKey === 'c' ||
+                eventKey === 'C');
+        return NON_TRIGGERS.includes(eventKey) || copyOrPasteEvents;
     }
 
     /**
