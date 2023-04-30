@@ -622,12 +622,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     /**
      * Checks if the given emitted event key is included in a list of key non-triggers in order to not mark the editor.
      * For example pressing one of the arrow keys in the keyboard should not alter the editor's markings.
-     * @param {KeyboardEvent} $event from the keyup in the editor
+     * @param {KeyboardEvent} keyboardEvent from the keyup in the editor
      * @private
      * @returns {boolean} true if the editor should be not marked, false otherwise
      */
-    private shouldNotMarkEditor($event: KeyboardEvent): boolean {
-        const eventKey: string = $event.key;
+    private shouldNotMarkEditor(keyboardEvent: KeyboardEvent): boolean {
+        const eventKey: string = keyboardEvent.key;
         const NON_TRIGGERS: string[] = [
             'Control',
             'CapsLock',
@@ -638,13 +638,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             'ArrowLeft',
             'ArrowDown'
         ];
-        const copyOrPasteEvents: boolean =
-            $event.ctrlKey &&
+        const copyOrPasteEvent: boolean =
+            keyboardEvent.ctrlKey &&
             (eventKey === 'v' ||
                 eventKey === 'V' ||
                 eventKey === 'c' ||
                 eventKey === 'C');
-        return NON_TRIGGERS.includes(eventKey) || copyOrPasteEvents;
+        return NON_TRIGGERS.includes(eventKey) || copyOrPasteEvent;
     }
 
     /**
@@ -797,7 +797,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     this.updateCharacterAndWordCount();
                 }),
                 filter(
-                    ($event: KeyboardEvent) => !this.shouldNotMarkEditor($event)
+                    (keyboardEvent: KeyboardEvent) =>
+                        !this.shouldNotMarkEditor(keyboardEvent)
                 ),
                 debounceTime(this.EVENTUAL_MARKING_TIME),
                 tap(() => this.markEditor())
