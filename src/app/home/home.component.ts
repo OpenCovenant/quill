@@ -83,7 +83,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             window.matchMedia('(min-width: 800px)');
         this.focusOnMediaMatch(minWidthMatchMedia);
         if (minWidthMatchMedia.addEventListener) {
-            minWidthMatchMedia.addEventListener("change", this.focusOnMediaMatch);
+            minWidthMatchMedia.addEventListener(
+                'change',
+                this.focusOnMediaMatch
+            );
         } else {
             // TODO some browsers still seem to use this deprecated method, keep it around for some more time
             minWidthMatchMedia.addListener(this.focusOnMediaMatch);
@@ -422,7 +425,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 return;
             }
             navigator.clipboard.writeText(editor.textContent).then();
-        } else { // TODO some browsers still seem to use this deprecated method, keep it around for some more time
+        } else {
+            // TODO some browsers still seem to use this deprecated method, keep it around for some more time
             let range, select: Selection;
             if (document.createRange) {
                 range = document.createRange();
@@ -455,7 +459,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         );
     }
 
-    focusOnMediaMatch(mediaMatch: any): void { // TODO rename, add docs
+    // TODO rename, add docs
+    focusOnMediaMatch(mediaMatch: any): void {
         if (mediaMatch.matches) {
             document.getElementById(this.EDITOR_KEY)?.focus();
         }
