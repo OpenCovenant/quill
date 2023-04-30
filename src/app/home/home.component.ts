@@ -84,7 +84,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.focusOnMediaMatch(minWidthMatchMedia);
         if (minWidthMatchMedia.addEventListener) {
             minWidthMatchMedia.addEventListener("change", this.focusOnMediaMatch);
-        } else { // TODO some browsers still seem to use this deprecated method, keep it around for some more time
+        } else {
+            // TODO some browsers still seem to use this deprecated method, keep it around for some more time
             minWidthMatchMedia.addListener(this.focusOnMediaMatch);
         }
         (document.getElementById('flexSwitchCheckChecked') as any).checked =
