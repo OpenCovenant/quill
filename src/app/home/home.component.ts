@@ -34,6 +34,7 @@ import {
 export class HomeComponent implements AfterViewInit, OnDestroy {
     SECONDS: number = 1000;
     EVENTUAL_MARKING_TIME: number = 1.5 * this.SECONDS;
+    EVENTUAL_WRITTEN_TEXT_STORAGE_TIME: number = 15 * this.SECONDS;
     EMPTY_STRING: string = '';
     EDITOR_KEY: string = 'editor';
     PLACEHOLDER_ELEMENT_ID: string = 'editor-placeholder';
@@ -82,8 +83,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             window.matchMedia('(min-width: 800px)');
         this.focusOnMediaMatch(minWidthMatchMedia);
         if (minWidthMatchMedia.addEventListener) {
-            minWidthMatchMedia.addEventListener("change", this.focusOnMediaMatch);
-        } else { // TODO some browsers still seem to use this deprecated method, keep it around for some more time
+            minWidthMatchMedia.addEventListener(
+                'change',
+                this.focusOnMediaMatch
+            );
+        } else {
+            // TODO some browsers still seem to use this deprecated method, keep it around for some more time
             minWidthMatchMedia.addListener(this.focusOnMediaMatch);
         }
         (document.getElementById('flexSwitchCheckChecked') as any).checked =
@@ -420,7 +425,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 return;
             }
             navigator.clipboard.writeText(editor.textContent).then();
-        } else { // TODO some browsers still seem to use this deprecated method, keep it around for some more time
+        } else {
+            // TODO some browsers still seem to use this deprecated method, keep it around for some more time
             let range, select: Selection;
             if (document.createRange) {
                 range = document.createRange();
@@ -453,7 +459,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         );
     }
 
-    focusOnMediaMatch(mediaMatch: any): void { // TODO rename, add docs
+    // TODO rename, add docs
+    focusOnMediaMatch(mediaMatch: any): void {
         if (mediaMatch.matches) {
             document.getElementById(this.EDITOR_KEY)?.focus();
         }
@@ -615,12 +622,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     /**
      * Checks if the given emitted event key is included in a list of key non-triggers in order to not mark the editor.
      * For example pressing one of the arrow keys in the keyboard should not alter the editor's markings.
-     * @param {string} eventKey fetched from the **onKeyboardEvent** method
+     * @param {KeyboardEvent} keyboardEvent from the keyup in the editor
      * @private
      * @returns {boolean} true if the editor should be not marked, false otherwise
      */
-    private shouldNotMarkEditor(eventKey: string): boolean {
-        const NON_TRIGGERS = [
+    private shouldNotMarkEditor(keyboardEvent: KeyboardEvent): boolean {
+        const eventKey: string = keyboardEvent.key;
+        const NON_TRIGGERS: string[] = [
             'Control',
             'CapsLock',
             'Shift',
@@ -630,7 +638,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             'ArrowLeft',
             'ArrowDown'
         ];
-        return NON_TRIGGERS.includes(eventKey);
+        const copyOrPasteEvent: boolean =
+            keyboardEvent.ctrlKey &&
+            (eventKey === 'v' ||
+                eventKey === 'V' ||
+                eventKey === 'c' ||
+                eventKey === 'C');
+        return NON_TRIGGERS.includes(eventKey) || copyOrPasteEvent;
     }
 
     /**
@@ -782,7 +796,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 tap(() => {
                     this.updateCharacterAndWordCount();
                 }),
-                filter(($event: any) => !this.shouldNotMarkEditor($event.key)),
+                filter(
+                    (keyboardEvent: KeyboardEvent) =>
+                        !this.shouldNotMarkEditor(keyboardEvent)
+                ),
                 debounceTime(this.EVENTUAL_MARKING_TIME),
                 tap(() => this.markEditor())
             )
@@ -792,7 +809,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private subscribeForStoringWrittenText(): void {
         this.eventualTextStoringSubscription$ = this.fromKeyupEvent$
             .pipe(
-                debounceTime(15 * this.SECONDS),
+                debounceTime(this.EVENTUAL_WRITTEN_TEXT_STORAGE_TIME),
                 tap(() =>
                     this.localStorageService.storeWrittenText(
                         document.getElementById(this.EDITOR_KEY)!.innerText
