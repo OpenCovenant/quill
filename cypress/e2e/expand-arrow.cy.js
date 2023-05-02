@@ -2,6 +2,7 @@ describe("click on expand/collapse arrow and then choose on a suggestion and che
     beforeEach(() => {
         cy.visit("/");
     });
+
     it("will click on the expand/collapse arrows and then choose on a suggestion", () => {
         cy.get('[data-test="editor"]').type("sakt eshte");
         cy.get('[data-test="suggestion"]').children().should("have.length", 8);
@@ -13,7 +14,7 @@ describe("click on expand/collapse arrow and then choose on a suggestion and che
         ).click();
         cy.get('[data-test="suggestion"]')
             .children()
-            .should("have.length.gt", 4);
+            .should("have.length.gt", 8);
         cy.get(
             '[data-test="oscillate-suggestions-button"].bi-arrow-left-square'
         ).first().click();
@@ -29,12 +30,12 @@ describe("click on expand/collapse arrow and then choose on a suggestion and che
         ).click();
         cy.get('[data-test="suggestion"]')
             .children()
-            .should("have.length.gt", 4);
+            .should("have.length.gt", 8);
         cy.get('[data-test="suggestion"]').contains("saktë").click();
+        cy.get(
+            '[data-test="oscillate-suggestions-button"].bi-arrow-right-square'
+        ).click();
         cy.get('[data-test="suggestion"]').contains("është").click();
         cy.get('[data-test="editor"]').should("have.text", "saktë është");
-
-        //testing word eshte
-        
     });
 });
