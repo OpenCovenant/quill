@@ -5,7 +5,7 @@ the [ink](https://github.com/OpenCovenant/ink) repository.
 
 ## Install
 
-Run `npm install` to install the packages that this project requires. Additionally, you can also install the packages
+Having `node` installed, run `npm install` to install the packages that this project requires. Additionally, you can also install the packages
 for the mock-server via `npm run install:mock-server`.
 
 ## Run
