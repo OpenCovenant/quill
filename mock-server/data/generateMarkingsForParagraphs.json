@@ -1642,9 +1642,9 @@
         }
     },
     {
-        "request": "<p>njeri-tjetri dhe  ckemi&nbsp;</p>",
+        "request": "<p>njeri-tjetri dhe&nbsp; ckemi&nbsp;</p>",
         "response": {
-            "text": "<p>njeri-tjetri dhe  ckemi&nbsp;</p>",
+            "text": "<p>njeri-tjetri dhe&nbsp; ckemi&nbsp;</p>",
             "textMarkings": [
                 {
                     "from": 0,
