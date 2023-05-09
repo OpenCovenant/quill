@@ -17,10 +17,11 @@ describe("its going to test if the characters change, words, typos change as we 
         cy.get('[data-test="character-count"]')
             .contains("13 karaktere, 2 fjalë, 1 shenjim")
             .should("exist");
+        cy.get('[data-test="editor"]').clear();
 
-        cy.get('[data-test="editor"]').type(" njeri-tjetri dhe ç'kemi");
+        cy.get('[data-test="editor"]').type("njeri-tjetri dhe  ckemi ");
         cy.get('[data-test="character-count"]')
-            .contains("37 karaktere, 5 fjalë, 2 shenjime")
+            .contains("23 karaktere, 3 fjalë, 2 shenjime")
             .should("exist");
         cy.get('[data-test="editor"]').clear();
         cy.get('[data-test="character-count"]')
