@@ -225,7 +225,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         if (editor.innerText === this.EMPTY_STRING) {
             this.wordCount = 0;
         } else {
-            const wordMatches = editor.innerText.match(/\b(\w+)\b/g)!;
+            const wordMatches = editor.innerText.match(/\b([\w'-]+)\b/g)!;
             if (wordMatches) {
                 this.wordCount = wordMatches.length;
             } else {

@@ -1640,6 +1640,66 @@
                 }
             ]
         }
+    },
+    {
+        "request": "<p>njeri-tjetri dhe&nbsp; ckemi&nbsp;</p>",
+        "response": {
+            "text": "<p>njeri-tjetri dhe&nbsp; ckemi&nbsp;</p>",
+            "textMarkings": [
+                {
+                    "from": 0,
+                    "to": 12,
+                    "type": "typo",
+                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "nj\u00ebri-tjetri",
+                            "action": "nj\u00ebri-tjetri"
+                        }
+                    ],
+                    "paragraph": 0
+                },
+                {
+                    "from": 18,
+                    "to": 23,
+                    "type": "typo",
+                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "cekemi",
+                            "action": "cekemi"
+                        },
+                        {
+                            "display": "kemin",
+                            "action": "kemin"
+                        },
+                        {
+                            "display": "kemi",
+                            "action": "kemi"
+                        },
+                        {
+                            "display": "\u00e7'kemi",
+                            "action": "\u00e7'kemi"
+                        },
+                        {
+                            "display": "kemit",
+                            "action": "kemit"
+                        },
+                        {
+                            "display": "cekem",
+                            "action": "cekem"
+                        },
+                        {
+                            "display": "cikem",
+                            "action": "cikem"
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
     }
 ]
 
