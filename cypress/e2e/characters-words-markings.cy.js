@@ -20,7 +20,7 @@ describe("its going to test if the characters change, words, typos change as we 
 
         cy.get('[data-test="editor"]').type(" njeri-tjetri dhe ç'kemi");
         cy.get('[data-test="character-count"]')
-            .contains("36 karaktere, 5 fjalë, 2 shenjime")
+            .contains("37 karaktere, 5 fjalë, 2 shenjime")
             .should("exist");
         cy.get('[data-test="editor"]').clear();
         cy.get('[data-test="character-count"]')
