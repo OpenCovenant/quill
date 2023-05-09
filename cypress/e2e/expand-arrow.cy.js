@@ -8,7 +8,9 @@ describe("click on expand/collapse arrow and then choose on a suggestion and che
         cy.get('[data-test="suggestion"]').children().should("have.length", 8);
         cy.get(
             '[data-test="oscillate-suggestions-button"].bi-arrow-right-square'
-        ).first().click();
+        )
+            .first()
+            .click();
         cy.get(
             '[data-test="oscillate-suggestions-button"].bi-arrow-right-square'
         ).click();
@@ -17,14 +19,18 @@ describe("click on expand/collapse arrow and then choose on a suggestion and che
             .should("have.length.gt", 8);
         cy.get(
             '[data-test="oscillate-suggestions-button"].bi-arrow-left-square'
-        ).first().click();
+        )
+            .first()
+            .click();
         cy.get(
             '[data-test="oscillate-suggestions-button"].bi-arrow-left-square'
         ).click();
         cy.get('[data-test="suggestion"]').children().should("have.length", 8);
         cy.get(
             '[data-test="oscillate-suggestions-button"].bi-arrow-right-square'
-        ).first().click();
+        )
+            .first()
+            .click();
         cy.get(
             '[data-test="oscillate-suggestions-button"].bi-arrow-right-square'
         ).click();
