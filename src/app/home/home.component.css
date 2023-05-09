@@ -7,6 +7,16 @@
     padding-top: 3px;
     padding-bottom: 3px;
 }
+.typo:hover{
+    filter: blur(0px);
+    background-color: yellow;
+}
+
+p:hover{
+    opacity: .5;
+    filter: blur(3px);
+
+}
 
 .loanword {
     background-color: #FFD182;
