@@ -199,6 +199,7 @@
                 >
                     <div>
                         <span
+                        [ngClass]="statusClass"
                             class="typo"
                             style="
                                 display: inline-block;
@@ -206,6 +207,7 @@
                                 padding-right: 6px;
                                 color: black;
                             "
+                            (click)="onColorChange($event)"
                             >gabime shkrimi</span
                         >
                     </div>

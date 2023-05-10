@@ -32,6 +32,7 @@ import {
     encapsulation: ViewEncapsulation.None
 })
 export class HomeComponent implements AfterViewInit, OnDestroy {
+    statusClass = 'not-active';
     SECONDS: number = 1000;
     EVENTUAL_MARKING_TIME: number = 1.5 * this.SECONDS;
     EVENTUAL_WRITTEN_TEXT_STORAGE_TIME: number = 15 * this.SECONDS;
@@ -818,4 +819,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             )
             .subscribe();
     }
+    onColorChange(event?: MouseEvent) {
+        this.statusClass = 'active';
+      }
 }

@@ -1,4 +1,4 @@
-.typo {
+.typo.not-active{
     /*text-decoration: underline;*/
     /*text-decoration-color: red;*/
     background-color: #FFC8C8;
@@ -7,17 +7,9 @@
     padding-top: 3px;
     padding-bottom: 3px;
 }
-.typo:hover{
-    filter: blur(0px);
-    background-color: yellow;
+.active{
+    background-color: aqua;    
 }
-
-p:hover{
-    opacity: .5;
-    filter: blur(3px);
-
-}
-
 .loanword {
     background-color: #FFD182;
     border-radius: 4px;
