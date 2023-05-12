@@ -836,6 +836,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             );
         }
     }
+    
 
     focusMarking(textMarkingIndex: number): void {
         // TODO remove + 1 once you remove the comment which is the first child in the children of outputContainer

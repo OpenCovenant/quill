@@ -192,7 +192,7 @@
             "
         >
             <!-- TODO put into a method -->
-            <div class="card border-secondary">
+            <div class="card border-secondary" [ngClass]="statusClass">
                 <div
                     class="card-header"
                     style="display: flex; justify-content: space-between"
@@ -229,6 +229,7 @@
                 >
                     <div>
                         <span
+                            [ngClass]="statusClass"
                             class="loanword"
                             style="
                                 display: inline-block;
@@ -241,7 +242,7 @@
                     </div>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
+                    <li class="list-group-item"[ngClass]="statusClass">
                         <b>pa huazime për tani</b> -
                         <span
                             >shenjime për huazime me origjinë italiane, angleze,
@@ -257,6 +258,7 @@
                 >
                     <div>
                         <span
+                            [ngClass]="statusClass"
                             class="stylistic"
                             style="
                                 display: inline-block;
@@ -268,8 +270,8 @@
                         >
                     </div>
                 </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
+                <ul class="list-group list-group-flush" >
+                    <li class="list-group-item"[ngClass]="statusClass">
                         <b>stilistikë e duhur</b> -
                         <span>shenjime për fjali tepër të gjata</span>
                     </li>
