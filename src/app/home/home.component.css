@@ -1,15 +1,24 @@
-.typo.not-active {
+.typo{
     /*text-decoration: underline;*/
     /*text-decoration-color: red;*/
-    background-color: #ffc8c8;
+    background-color: #FFC8C8;
     border-radius: 4px;
     border: none;
     padding-top: 3px;
     padding-bottom: 3px;
 }
-.typo.active {
+.typo.not-active{
+    /*text-decoration: underline;*/
+    /*text-decoration-color: red;*/
+    background-color: #FFC8C8;
+    border-radius: 4px;
+    border: none;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+.typo.active{
     font-weight: bold;
-    background-color: #ffc8c8;
+    background-color: #FFC8C8;
     border-radius: 4px;
     border: none;
     padding-top: 3px;
@@ -17,44 +26,46 @@
     margin-right: 20px;
 }
 
-.loanword.not-active {
-    background-color: #ffd182;
+.loanword.not-active{
+    background-color: #FFD182;
     border-radius: 4px;
     border: none;
     padding-top: 3px;
     padding-bottom: 3px;
 }
 
-.loanword.active {
+.loanword.active{
     filter: blur(1px);
-    background-color: #ffd182;
+    background-color: #FFD182;
     border-radius: 4px;
     border: none;
     padding-top: 3px;
     padding-bottom: 3px;
 }
 
-.stylistic.not-active {
-    background-color: #a1b6dc;
+.stylistic.not-active{
+    background-color: #A1B6DC;
     border-radius: 4px;
     border: none;
     padding-top: 3px;
     padding-bottom: 3px;
+
 }
 
-.stylistic.active {
+.stylistic.active{
     filter: blur(1px);
-    background-color: #a1b6dc;
+    background-color: #A1B6DC;
     border-radius: 4px;
     border: none;
     padding-top: 3px;
     padding-bottom: 3px;
+
 }
-.border-secondary.active {
+.border-secondary.active{
     border: 3px solid;
     margin: 0px 30px 0px -17px;
 }
-.list-group-item.active {
+.list-group-item.active{
     filter: blur(1px);
     background-color: white;
     border-color: none;
@@ -63,12 +74,12 @@
 
 #editor-placeholder {
     position: absolute;
-    color: #a6a6a6;
+    color: #A6A6A6;
     pointer-events: none;
     user-select: none;
 }
 .suggestion {
-    background-color: #eaeaea;
+    background-color: #EAEAEA;
     border-radius: 4px;
     border: none;
     padding-top: 3px;
@@ -79,19 +90,19 @@
 
 .btnUnselected {
     color: white;
-    background-color: #a9a9a9;
+    background-color: #A9A9A9;
 }
 
 #offcanvasStartButton:hover {
-    background-color: #e3e3e3;
+    background-color: #E3E3E3;
 }
 
 #clearEditorSpan:hover {
-    background-color: #f3f3f3;
+    background-color: #F3F3F3;
 }
 
 #writtenText:hover {
-    background-color: #f1f1f1;
+    background-color: #F1F1F1;
 }
 
 @media (max-width: 800px) {
