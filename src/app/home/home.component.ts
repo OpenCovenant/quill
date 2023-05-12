@@ -580,6 +580,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 this.shouldCollapseSuggestions = new Array<boolean>(
                     this.processedText.textMarkings.length
                 ).fill(true);
+                this.listenForMarkingFocus();
             });
     }
 
@@ -821,5 +822,26 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
     onColorChange(event?: MouseEvent) {
         this.statusClass = 'active';
-      }
+    }
+
+    listenForMarkingFocus(): void {
+        // TODO improve how the markings in the editor are picked
+        const textMarkings = document.querySelectorAll('#editor > p > .typo');
+        if (textMarkings) {
+            textMarkings.forEach((node: any, index: number) =>
+                node.addEventListener(
+                    'click',
+                    this.focusMarking.bind(this, index)
+                )
+            );
+        }
+    }
+
+    focusMarking(textMarkingIndex: number): void {
+        // TODO remove + 1 once you remove the comment which is the first child in the children of outputContainer
+        const rightHandSideTextMarking =
+            document.getElementById('outputContainer')?.childNodes[
+                textMarkingIndex + 1
+            ];
+    }
 }
