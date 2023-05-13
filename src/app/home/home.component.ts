@@ -847,11 +847,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 textMarkingIndex + 1
             ]!;
             rightHandSideTextMarking.style.margin = "0px 30px 0px -17px";
-            rightHandSideTextMarking.style.border = "3px solid";       
+            rightHandSideTextMarking.style.border = "3px solid"; 
+            rightHandSideTextMarking.style.fontWeight = "bold";      
 
 }
 listenForUnmarkingFocus(): void{
-    const notTextMarkings= document.querySelectorAll('#highLevelContainer');
+    const notTextMarkings= document.querySelectorAll('#unfocus');
     if(notTextMarkings){
         notTextMarkings.forEach((node: any, index: number) =>
             node.addEventListener(
@@ -866,10 +867,15 @@ unFocusMarking(notTextMarkingsIndex: number): void{
     const notRightHandSideTextMarking:any =
         document.getElementById('outputContainer')?.childNodes[
             notTextMarkingsIndex + 1
-        ];
+        ]!;
+        notRightHandSideTextMarking.style.backgroundColor = "FFC8C8";
+        notRightHandSideTextMarking.style.borderRadius = "4px";
+        notRightHandSideTextMarking.style.paddingTop = "3px";
+        notRightHandSideTextMarking.style.paddingBottom = "3px";
         notRightHandSideTextMarking.style.margin = "0px";
-        notRightHandSideTextMarking.style.border = "0px";
-        notRightHandSideTextMarking.style.fontsize = "100px"; 
-}
+        notRightHandSideTextMarking.style.border = "1px solid";
+        notRightHandSideTextMarking.style.fontWeight = "normal"; 
+        
+ }
 
 }

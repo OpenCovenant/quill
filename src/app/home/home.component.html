@@ -1,5 +1,5 @@
 <div
-    id="highLevelContainer"(click)="listenForUnmarkingFocus()"
+    id="highLevelContainer"
     style="display: flex; justify-content: space-between; gap: 1rem; flex: 1"
 >
     <div
@@ -9,6 +9,8 @@
     >
         <div class="card border-secondary">
             <div
+                id="unfocus"
+                (click)="listenForUnmarkingFocus()"
                 class="card-header"
                 style="display: flex; justify-content: space-evenly"
             >
