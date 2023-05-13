@@ -851,7 +851,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
 }
 listenForUnmarkingFocus(): void{
-    const notTextMarkings= document.querySelectorAll('#editor');
+    const notTextMarkings= document.querySelectorAll('#highLevelContainer');
     if(notTextMarkings){
         notTextMarkings.forEach((node: any, index: number) =>
             node.addEventListener(
@@ -866,7 +866,7 @@ unFocusMarking(notTextMarkingsIndex: number): void{
     const notRightHandSideTextMarking:any =
         document.getElementById('outputContainer')?.childNodes[
             notTextMarkingsIndex + 1
-        ]!;
+        ];
         notRightHandSideTextMarking.style.margin = "0px";
         notRightHandSideTextMarking.style.border = "0px";
         notRightHandSideTextMarking.style.fontsize = "100px"; 
