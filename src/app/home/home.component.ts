@@ -827,9 +827,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     listenForMarkingFocus(): void {
         // TODO improve how the markings in the editor are picked
-        const textMarkingsRightSide = document.querySelectorAll('div>span.typo')
+        const textMarkingsRightSide = document.querySelectorAll('.card-header > div>span.typo')
         const textMarkings = document.querySelectorAll('#editor > p > .typo');
-        if (textMarkings ) {
+        if (textMarkings) {
             textMarkings.forEach((node: any, index: number) =>
                 node.addEventListener(
                     'click',
@@ -842,11 +842,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             textMarkingsRightSide.forEach((node: any, index: number) =>
                 node.addEventListener(
                     'click',
-                    this.focusMarking.bind(this, index)
+                    this.focusMarking.bind(this, index),
+                    console.log("rightHandSideTextMarking clicked")
                     
                 )
             );
         }
+        console.log(textMarkingsRightSide);
     }
 
  
