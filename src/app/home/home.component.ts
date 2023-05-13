@@ -827,9 +827,19 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     listenForMarkingFocus(): void {
         // TODO improve how the markings in the editor are picked
+        const textMarkingsRightSide = document.querySelectorAll('div>span.typo')
         const textMarkings = document.querySelectorAll('#editor > p > .typo');
-        if (textMarkings) {
+        if (textMarkings ) {
             textMarkings.forEach((node: any, index: number) =>
+                node.addEventListener(
+                    'click',
+                    this.focusMarking.bind(this, index)
+                    
+                )
+            );
+        }
+        if (textMarkingsRightSide) {
+            textMarkingsRightSide.forEach((node: any, index: number) =>
                 node.addEventListener(
                     'click',
                     this.focusMarking.bind(this, index)
@@ -852,7 +862,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
 }
 listenForUnmarkingFocus(): void{
-    const notTextMarkings= document.querySelectorAll('#unfocus');
+    const notTextMarkings= document.querySelectorAll('#unFocus');
     if(notTextMarkings){
         notTextMarkings.forEach((node: any, index: number) =>
             node.addEventListener(
@@ -863,6 +873,7 @@ listenForUnmarkingFocus(): void{
         );
     }
 }
+
 unFocusMarking(notTextMarkingsIndex: number): void{
     const notRightHandSideTextMarking:any =
         document.getElementById('outputContainer')?.childNodes[
