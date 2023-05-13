@@ -24,6 +24,7 @@ import {
     markText,
     sortParagraphedTextMarkings
 } from '../text-marking/text-marking';
+import { NgStyle } from '@angular/common';
 
 @Component({
     selector: 'app-home',
@@ -832,17 +833,43 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 node.addEventListener(
                     'click',
                     this.focusMarking.bind(this, index)
+                    
                 )
             );
         }
     }
-    
 
+ 
     focusMarking(textMarkingIndex: number): void {
         // TODO remove + 1 once you remove the comment which is the first child in the children of outputContainer
-        const rightHandSideTextMarking =
+        const rightHandSideTextMarking:any =
             document.getElementById('outputContainer')?.childNodes[
                 textMarkingIndex + 1
-            ];
+            ]!;
+            rightHandSideTextMarking.style.margin = "0px 30px 0px -17px";
+            rightHandSideTextMarking.style.border = "3px solid";       
+
+}
+listenForUnmarkingFocus(): void{
+    const notTextMarkings= document.querySelectorAll('#editor');
+    if(notTextMarkings){
+        notTextMarkings.forEach((node: any, index: number) =>
+            node.addEventListener(
+                'click',
+                this.unFocusMarking.bind(this, index)
+                
+            )
+        );
     }
+}
+unFocusMarking(notTextMarkingsIndex: number): void{
+    const notRightHandSideTextMarking:any =
+        document.getElementById('outputContainer')?.childNodes[
+            notTextMarkingsIndex + 1
+        ]!;
+        notRightHandSideTextMarking.style.margin = "0px";
+        notRightHandSideTextMarking.style.border = "0px";
+        notRightHandSideTextMarking.style.fontsize = "100px"; 
+}
+
 }
