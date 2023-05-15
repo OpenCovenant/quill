@@ -581,8 +581,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 this.shouldCollapseSuggestions = new Array<boolean>(
                     this.processedText.textMarkings.length
                 ).fill(true);
-                this.listenForMarkingFocus();
-            });
+            }, () => {}, () => {setTimeout(() => this.listenForMarkingFocus(), 0)});
     }
 
     /**
@@ -829,6 +828,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         // TODO improve how the markings in the editor are picked
         const textMarkingsRightSide = document.querySelectorAll('.card-header > div>span.typo')
         const textMarkings = document.querySelectorAll('#editor > p > .typo');
+        console.log("rightHandSideTextMarking clicked", textMarkingsRightSide)
         if (textMarkings) {
             textMarkings.forEach((node: any, index: number) =>
                 node.addEventListener(
