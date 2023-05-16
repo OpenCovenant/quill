@@ -547,41 +547,49 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.http
             .post(this.generateMarkingsURL, editor.innerHTML)
             .pipe(finalize(() => this.loading$.next(false)))
-            .subscribe((next) => {
-                this.processedText = next as ProcessedText;
-                this.processedText.textMarkings = sortParagraphedTextMarkings(
-                    this.processedText.textMarkings
-                );
-                const consumableTextMarkings: TextMarking[] = Array.from(
-                    this.processedText.textMarkings
-                );
-                if (cursorPlacement === CursorPlacement.LAST_SAVE) {
-                    this.savedCursorPosition = this.saveCursorPosition(editor);
-                }
-
-                editor.childNodes.forEach(
-                    (childNode: ChildNode, index: number) => {
-                        const p: HTMLParagraphElement =
-                            document.createElement('p');
-                        p.innerHTML = childNode.textContent!;
-                        if (childNode.textContent === this.EMPTY_STRING) {
-                            p.innerHTML = this.LINE_BREAK;
-                        }
-                        editor.replaceChild(p, childNode);
-                        markText(
-                            p,
-                            consumableTextMarkings.filter(
-                                (tm: TextMarking) => tm.paragraph === index
-                            )
+            .subscribe(
+                (next) => {
+                    this.processedText = next as ProcessedText;
+                    this.processedText.textMarkings =
+                        sortParagraphedTextMarkings(
+                            this.processedText.textMarkings
                         );
+                    const consumableTextMarkings: TextMarking[] = Array.from(
+                        this.processedText.textMarkings
+                    );
+                    if (cursorPlacement === CursorPlacement.LAST_SAVE) {
+                        this.savedCursorPosition =
+                            this.saveCursorPosition(editor);
                     }
-                );
 
-                this.positionCursor(editor, cursorPlacement);
-                this.shouldCollapseSuggestions = new Array<boolean>(
-                    this.processedText.textMarkings.length
-                ).fill(true);
-            }, () => {}, () => {setTimeout(() => this.listenForMarkingFocus(), 0)});
+                    editor.childNodes.forEach(
+                        (childNode: ChildNode, index: number) => {
+                            const p: HTMLParagraphElement =
+                                document.createElement('p');
+                            p.innerHTML = childNode.textContent!;
+                            if (childNode.textContent === this.EMPTY_STRING) {
+                                p.innerHTML = this.LINE_BREAK;
+                            }
+                            editor.replaceChild(p, childNode);
+                            markText(
+                                p,
+                                consumableTextMarkings.filter(
+                                    (tm: TextMarking) => tm.paragraph === index
+                                )
+                            );
+                        }
+                    );
+
+                    this.positionCursor(editor, cursorPlacement);
+                    this.shouldCollapseSuggestions = new Array<boolean>(
+                        this.processedText.textMarkings.length
+                    ).fill(true);
+                },
+                () => {},
+                () => {
+                    setTimeout(() => this.listenForMarkingFocus(), 0);
+                }
+            );
     }
 
     /**
@@ -820,21 +828,18 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             )
             .subscribe();
     }
-    onColorChange(event?: MouseEvent) {
-        this.statusClass = 'active';
-    }
-
     listenForMarkingFocus(): void {
         // TODO improve how the markings in the editor are picked
-        const textMarkingsRightSide = document.querySelectorAll('.card-header > div>span.typo')
+        const textMarkingsRightSide = document.querySelectorAll(
+            '.card-header > div>span.typo'
+        );
         const textMarkings = document.querySelectorAll('#editor > p > .typo');
-        console.log("rightHandSideTextMarking clicked", textMarkingsRightSide)
+        console.log('rightHandSideTextMarking clicked', textMarkingsRightSide);
         if (textMarkings) {
             textMarkings.forEach((node: any, index: number) =>
                 node.addEventListener(
                     'click',
                     this.focusMarking.bind(this, index)
-                    
                 )
             );
         }
@@ -843,52 +848,46 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 node.addEventListener(
                     'click',
                     this.focusMarking.bind(this, index),
-                    console.log("rightHandSideTextMarking clicked")
-                    
+                    console.log('rightHandSideTextMarking clicked')
                 )
             );
         }
         console.log(textMarkingsRightSide);
     }
 
- 
     focusMarking(textMarkingIndex: number): void {
         // TODO remove + 1 once you remove the comment which is the first child in the children of outputContainer
-        const rightHandSideTextMarking:any =
+        const rightHandSideTextMarking: any =
             document.getElementById('outputContainer')?.childNodes[
                 textMarkingIndex + 1
             ]!;
-            rightHandSideTextMarking.style.margin = "0px 30px 0px -17px";
-            rightHandSideTextMarking.style.border = "3px solid"; 
-            rightHandSideTextMarking.style.fontWeight = "bold";      
-
-}
-listenForUnmarkingFocus(): void{
-    const notTextMarkings= document.querySelectorAll('#unFocus');
-    if(notTextMarkings){
-        notTextMarkings.forEach((node: any, index: number) =>
-            node.addEventListener(
-                'click',
-                this.unFocusMarking.bind(this, index)
-                
-            )
-        );
+        rightHandSideTextMarking.style.margin = '0px 30px 0px -17px';
+        rightHandSideTextMarking.style.border = '3px solid';
+        rightHandSideTextMarking.style.fontWeight = 'bold';
     }
-}
+    listenForUnmarkingFocus(): void {
+        const notTextMarkings = document.querySelectorAll('#unFocus');
+        if (notTextMarkings) {
+            notTextMarkings.forEach((node: any, index: number) =>
+                node.addEventListener(
+                    'click',
+                    this.unFocusMarking.bind(this, index)
+                )
+            );
+        }
+    }
 
-unFocusMarking(notTextMarkingsIndex: number): void{
-    const notRightHandSideTextMarking:any =
-        document.getElementById('outputContainer')?.childNodes[
-            notTextMarkingsIndex + 1
-        ]!;
-        notRightHandSideTextMarking.style.backgroundColor = "FFC8C8";
-        notRightHandSideTextMarking.style.borderRadius = "4px";
-        notRightHandSideTextMarking.style.paddingTop = "3px";
-        notRightHandSideTextMarking.style.paddingBottom = "3px";
-        notRightHandSideTextMarking.style.margin = "0px";
-        notRightHandSideTextMarking.style.border = "1px solid";
-        notRightHandSideTextMarking.style.fontWeight = "normal"; 
-        
- }
-
+    unFocusMarking(notTextMarkingsIndex: number): void {
+        const notRightHandSideTextMarking: any =
+            document.getElementById('outputContainer')?.childNodes[
+                notTextMarkingsIndex + 1
+            ]!;
+        notRightHandSideTextMarking.style.backgroundColor = 'FFC8C8';
+        notRightHandSideTextMarking.style.borderRadius = '4px';
+        notRightHandSideTextMarking.style.paddingTop = '3px';
+        notRightHandSideTextMarking.style.paddingBottom = '3px';
+        notRightHandSideTextMarking.style.margin = '0px';
+        notRightHandSideTextMarking.style.border = '1px solid';
+        notRightHandSideTextMarking.style.fontWeight = 'normal';
+    }
 }

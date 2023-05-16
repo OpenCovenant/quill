@@ -7,34 +7,7 @@
     padding-top: 3px;
     padding-bottom: 3px;
 }
-.typo.not-active{
-    /*text-decoration: underline;*/
-    /*text-decoration-color: red;*/
-    background-color: #FFC8C8;
-    border-radius: 4px;
-    border: none;
-    padding-top: 3px;
-    padding-bottom: 3px;
-}
-.typo.active{
-    font-weight: bold;
-    background-color: #FFC8C8;
-    border-radius: 4px;
-    border: none;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    margin-right: 20px;
-}
-
-.loanword.not-active{
-    background-color: #FFD182;
-    border-radius: 4px;
-    border: none;
-    padding-top: 3px;
-    padding-bottom: 3px;
-}
-
-.loanword.active{
+.loanword{
     filter: blur(1px);
     background-color: #FFD182;
     border-radius: 4px;
@@ -43,16 +16,7 @@
     padding-bottom: 3px;
 }
 
-.stylistic.not-active{
-    background-color: #A1B6DC;
-    border-radius: 4px;
-    border: none;
-    padding-top: 3px;
-    padding-bottom: 3px;
-
-}
-
-.stylistic.active{
+.stylistic{
     filter: blur(1px);
     background-color: #A1B6DC;
     border-radius: 4px;
@@ -61,17 +25,6 @@
     padding-bottom: 3px;
 
 }
-.border-secondary.active{
-    border: 3px solid;
-    margin: 0px 30px 0px -17px;
-}
-.list-group-item.active{
-    filter: blur(1px);
-    background-color: white;
-    border-color: none;
-    color: black;
-}
-
 #editor-placeholder {
     position: absolute;
     color: #A6A6A6;
