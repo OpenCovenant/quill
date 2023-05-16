@@ -828,25 +828,34 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             )
             .subscribe();
     }
+
+    //Markings on editor and on right side when generated are picked here
     listenForMarkingFocus(): void {
         // TODO improve how the markings in the editor are picked
+        //textMarkingsRightSide grabs the right side generated cards
         const textMarkingsRightSide = document.querySelectorAll(
             '.card-header > div>span.typo'
         );
+
+        // textMarkings grabs the editor typos
         const textMarkings = document.querySelectorAll('#editor > p > .typo');
         console.log('rightHandSideTextMarking clicked', textMarkingsRightSide);
+        // if textMarkings true we can click on each element on editor
         if (textMarkings) {
             textMarkings.forEach((node: any, index: number) =>
                 node.addEventListener(
                     'click',
+                    //this gives the style values that we have put on focusMarking
                     this.focusMarking.bind(this, index)
                 )
             );
         }
+        //here textMarkingsRightSide grabs the right side typo generated cards
         if (textMarkingsRightSide) {
             textMarkingsRightSide.forEach((node: any, index: number) =>
                 node.addEventListener(
                     'click',
+                    // here we add the styles that we added at focusMarking
                     this.focusMarking.bind(this, index),
                     console.log('rightHandSideTextMarking clicked')
                 )
@@ -855,6 +864,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         console.log(textMarkingsRightSide);
     }
 
+    //here we give focusMarking styles that will take action when clicked
     focusMarking(textMarkingIndex: number): void {
         // TODO remove + 1 once you remove the comment which is the first child in the children of outputContainer
         const rightHandSideTextMarking: any =
@@ -864,19 +874,38 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         rightHandSideTextMarking.style.margin = '0px 30px 0px -17px';
         rightHandSideTextMarking.style.border = '3px solid';
         rightHandSideTextMarking.style.fontWeight = 'bold';
+        rightHandSideTextMarking.classList.add('focusedMarking');
     }
+
+    checkUfocusedMarkingstoBlur(): void {
+        const textMarkings = document.querySelectorAll(
+            '.card-header > div>span.typo'
+        );
+        const focusedMarkings = document.querySelectorAll('.focusedMarking');
+        for (let i = 0; i < textMarkings.length; i++) {
+            if (textMarkings != focusedMarkings) {
+                textMarkings.forEach((node: any, index: number) =>
+                    node.addEventListener(
+                        this.unFocusedMarkingsBlured.bind(this, index)
+                    )
+                );
+            }
+        }
+    }
+    //listenForUnmarkingFocus removes the styles from the cards when clicked on id#unFocus
     listenForUnmarkingFocus(): void {
         const notTextMarkings = document.querySelectorAll('#unFocus');
         if (notTextMarkings) {
             notTextMarkings.forEach((node: any, index: number) =>
                 node.addEventListener(
                     'click',
+                    //here we give the styles that we have given on unFousMarking which is the default values of cards
                     this.unFocusMarking.bind(this, index)
                 )
             );
         }
     }
-
+    // unFocusMarking here we have the styles of default card that take action when clicked on id #unfocus
     unFocusMarking(notTextMarkingsIndex: number): void {
         const notRightHandSideTextMarking: any =
             document.getElementById('outputContainer')?.childNodes[
@@ -889,5 +918,21 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         notRightHandSideTextMarking.style.margin = '0px';
         notRightHandSideTextMarking.style.border = '1px solid';
         notRightHandSideTextMarking.style.fontWeight = 'normal';
+    }
+
+    //function when takes action gives blur on unclicked markings
+    unFocusedMarkingsBlured(notTextMarkingsIndex: number): void {
+        const notRightHandSideTextMarkingBlured: any =
+            document.getElementById('outputContainer')?.childNodes[
+                notTextMarkingsIndex + 1
+            ]!;
+        notRightHandSideTextMarkingBlured.style.backgroundColor = 'FFC8C8';
+        notRightHandSideTextMarkingBlured.style.borderRadius = '4px';
+        notRightHandSideTextMarkingBlured.style.paddingTop = '3px';
+        notRightHandSideTextMarkingBlured.style.paddingBottom = '3px';
+        notRightHandSideTextMarkingBlured.style.margin = '0px';
+        notRightHandSideTextMarkingBlured.style.border = '1px solid';
+        notRightHandSideTextMarkingBlured.style.fontWeight = 'normal';
+        notRightHandSideTextMarkingBlured.style.filter = 'blur(2px)';
     }
 }
