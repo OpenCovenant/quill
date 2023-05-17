@@ -874,24 +874,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         rightHandSideTextMarking.style.margin = '0px 30px 0px -17px';
         rightHandSideTextMarking.style.border = '3px solid';
         rightHandSideTextMarking.style.fontWeight = 'bold';
-        rightHandSideTextMarking.classList.add('focusedMarking');
     }
 
-    checkUfocusedMarkingstoBlur(): void {
-        const textMarkings = document.querySelectorAll(
-            '.card-header > div>span.typo'
-        );
-        const focusedMarkings = document.querySelectorAll('.focusedMarking');
-        for (let i = 0; i < textMarkings.length; i++) {
-            if (textMarkings != focusedMarkings) {
-                textMarkings.forEach((node: any, index: number) =>
-                    node.addEventListener(
-                        this.unFocusedMarkingsBlured.bind(this, index)
-                    )
-                );
-            }
-        }
-    }
     //listenForUnmarkingFocus removes the styles from the cards when clicked on id#unFocus
     listenForUnmarkingFocus(): void {
         const notTextMarkings = document.querySelectorAll('#unFocus');
