@@ -68,13 +68,17 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     ) {
         this.initializeURLs();
         // should any other call be made here? probably not... actually even this should be removed soon
-        this.http.get(this.pingURL).subscribe(() => {}, () => {
-            (document.getElementById('editor') as any )!.contentEditable = false;
-            document.getElementById('editor-placeholder')!.innerText = 'Fatkeqësisht kemi një problem me serverat. Ju kërkojmë ndjesë, ndërsa kërkojme për një zgjidhje.'
-        });
-            this.http.get(this.pingURL).subscribe(() => {
-            console.log('pinging server...');
-            });
+        this.http.get(this.pingURL).subscribe(
+            () => {
+                console.log('pinging server...');
+            },
+            () => {
+                (document.getElementById('editor') as any)!.contentEditable =
+                    false;
+                document.getElementById('editor-placeholder')!.innerText =
+                    'Fatkeqësisht kemi një problem me serverat. Ju kërkojmë ndjesë, ndërsa kërkojme për një zgjidhje.';
+            }
+        );
     }
 
     ngAfterViewInit(): void {
