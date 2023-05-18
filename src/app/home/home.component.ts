@@ -882,7 +882,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         const textMarkings = document.querySelectorAll(
             '.card-header > div > span.typo'
         );
-        const focusedMarkings = document.querySelectorAll('.focusedMarking');
+
         for (let i = 0; i < textMarkings.length; i++) {
             if (!textMarkings[i].classList.contains('focusedMarking')) {
                 console.log('the text marking with index', i, textMarkings[i]);
