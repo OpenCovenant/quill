@@ -874,6 +874,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         rightHandSideTextMarking.style.margin = '0px 30px 0px -17px';
         rightHandSideTextMarking.style.border = '3px solid';
         rightHandSideTextMarking.style.fontWeight = 'bold';
+        rightHandSideTextMarking.style.transition = 'all 0.1s';
     }
 
     //listenForUnmarkingFocus removes the styles from the cards when clicked on id#unFocus
