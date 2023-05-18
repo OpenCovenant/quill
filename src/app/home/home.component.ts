@@ -869,7 +869,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         // TODO remove + 1 once you remove the comment which is the first child in the children of outputContainer
         const rightHandSideTextMarking: any =
             document.getElementById('outputContainer')?.childNodes[
-                textMarkingIndex + 1
+                textMarkingIndex
             ]!;
         rightHandSideTextMarking.style.margin = '0px 30px 0px -17px';
         rightHandSideTextMarking.style.border = '3px solid';
@@ -880,19 +880,20 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     checkUfocusedMarkingstoBlur(): void {
         const textMarkings = document.querySelectorAll(
-            '.card-header > div>span.typo'
+            '.card-header > div > span.typo'
         );
         const focusedMarkings = document.querySelectorAll('.focusedMarking');
         for (let i = 0; i < textMarkings.length; i++) {
-            if (textMarkings != focusedMarkings) {
-                textMarkings.forEach((node: any, index: number) =>
-                    node.addEventListener(
-                        this.unFocusedMarkingsBlured.bind(this, index)
-                    )
+            if (!textMarkings[i].classList.contains('focusedMarking')) {
+                console.log('the text marking with index', i, textMarkings[i]);
+                textMarkings[i].addEventListener(
+                    'click',
+                    this.unFocusedMarkingsBlured.bind(this, i)
                 );
             }
         }
     }
+
     //listenForUnmarkingFocus removes the styles from the cards when clicked on id#unFocus
     listenForUnmarkingFocus(): void {
         const notTextMarkings = document.querySelectorAll('#unFocus');
@@ -910,7 +911,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     unFocusMarking(notTextMarkingsIndex: number): void {
         const notRightHandSideTextMarking: any =
             document.getElementById('outputContainer')?.childNodes[
-                notTextMarkingsIndex + 1
+                notTextMarkingsIndex
             ]!;
         notRightHandSideTextMarking.style.backgroundColor = 'FFC8C8';
         notRightHandSideTextMarking.style.borderRadius = '4px';
@@ -925,7 +926,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     unFocusedMarkingsBlured(notTextMarkingsIndex: number): void {
         const notRightHandSideTextMarkingBlured: any =
             document.getElementById('outputContainer')?.childNodes[
-                notTextMarkingsIndex + 1
+                notTextMarkingsIndex
             ]!;
         notRightHandSideTextMarkingBlured.style.backgroundColor = 'FFC8C8';
         notRightHandSideTextMarkingBlured.style.borderRadius = '4px';
