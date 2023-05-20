@@ -33,7 +33,6 @@ import { NgStyle } from '@angular/common';
     encapsulation: ViewEncapsulation.None
 })
 export class HomeComponent implements AfterViewInit, OnDestroy {
-    statusClass = 'not-active';
     SECONDS: number = 1000;
     EVENTUAL_MARKING_TIME: number = 1.5 * this.SECONDS;
     EVENTUAL_WRITTEN_TEXT_STORAGE_TIME: number = 15 * this.SECONDS;
@@ -839,6 +838,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         // textMarkings grabs the editor typos
         const textMarkings = document.querySelectorAll('#editor > p > .typo');
+
+        const focusedMarkingClass =
+            document.querySelectorAll('.focusedMarking');
         console.log('rightHandSideTextMarking clicked', textMarkingsRightSide);
         // if textMarkings true we can click on each element on editor
         if (textMarkings) {
@@ -869,12 +871,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         // TODO remove + 1 once you remove the comment which is the first child in the children of outputContainer
         const rightHandSideTextMarking: any =
             document.getElementById('outputContainer')?.childNodes[
-                textMarkingIndex
+                textMarkingIndex + 1
             ]!;
-        rightHandSideTextMarking.style.margin = '0px 30px 0px -17px';
-        rightHandSideTextMarking.style.border = '3px solid';
-        rightHandSideTextMarking.style.fontWeight = 'bold';
-        rightHandSideTextMarking.style.transition = 'all 0.1s';
+
+        rightHandSideTextMarking.classList.add('marking-focus');
         rightHandSideTextMarking.classList.add('focusedMarking');
     }
 
@@ -911,30 +911,18 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     unFocusMarking(notTextMarkingsIndex: number): void {
         const notRightHandSideTextMarking: any =
             document.getElementById('outputContainer')?.childNodes[
-                notTextMarkingsIndex
+                notTextMarkingsIndex + 1
             ]!;
-        notRightHandSideTextMarking.style.backgroundColor = 'FFC8C8';
-        notRightHandSideTextMarking.style.borderRadius = '4px';
-        notRightHandSideTextMarking.style.paddingTop = '3px';
-        notRightHandSideTextMarking.style.paddingBottom = '3px';
-        notRightHandSideTextMarking.style.margin = '0px';
-        notRightHandSideTextMarking.style.border = '1px solid';
-        notRightHandSideTextMarking.style.fontWeight = 'normal';
+        notRightHandSideTextMarking.classList.add('marking-unfocus');
     }
 
     //function when takes action gives blur on unclicked markings
     unFocusedMarkingsBlured(notTextMarkingsIndex: number): void {
         const notRightHandSideTextMarkingBlured: any =
             document.getElementById('outputContainer')?.childNodes[
-                notTextMarkingsIndex
+                notTextMarkingsIndex + 1
             ]!;
-        notRightHandSideTextMarkingBlured.style.backgroundColor = 'FFC8C8';
-        notRightHandSideTextMarkingBlured.style.borderRadius = '4px';
-        notRightHandSideTextMarkingBlured.style.paddingTop = '3px';
-        notRightHandSideTextMarkingBlured.style.paddingBottom = '3px';
-        notRightHandSideTextMarkingBlured.style.margin = '0px';
-        notRightHandSideTextMarkingBlured.style.border = '1px solid';
-        notRightHandSideTextMarkingBlured.style.fontWeight = 'normal';
-        notRightHandSideTextMarkingBlured.style.filter = 'blur(2px)';
+        notRightHandSideTextMarkingBlured.classList.add('marking-blur');
+        console.log('unfocused called');
     }
 }
