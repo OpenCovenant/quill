@@ -24,7 +24,6 @@ import {
     markText,
     sortParagraphedTextMarkings
 } from '../text-marking/text-marking';
-import { NgStyle } from '@angular/common';
 
 @Component({
     selector: 'app-home',
@@ -834,31 +833,62 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         // TODO improve how the markings in the editor are picked
         //textMarkingsRightSide grabs the right side generated cards
         const textMarkingsRightSide = document.querySelectorAll(
-            '.card-header > div>span.typo'
+            '.card-header > div > span.typo'
         );
 
         // textMarkings grabs the editor typos
         const textMarkings = document.querySelectorAll('#editor > p > .typo');
         // if textMarkings true we can click on each element on editor
-        if (textMarkings) {
-            textMarkings.forEach((node: any, index: number) =>
-                node.addEventListener(
-                    'click',
-                    //this gives the style values that we have put on focusMarking
-                    this.focusMarking.bind(this, index)
-                )
-            );
-        }
+
+        textMarkings.forEach((node: any, index: number) =>
+            node.addEventListener(
+                'click',
+                //this gives the style values that we have put on focusMarking
+                this.focusRightSideMarking.bind(this, index)
+            )
+        );
+
         //here textMarkingsRightSide grabs the right side typo generated cards
-        if (textMarkingsRightSide) {
-            textMarkingsRightSide.forEach((node: any, index: number) =>
-                node.addEventListener(
-                    'click',
-                    // here we add the styles that we added at focusMarking
-                    this.focusMarking.bind(this, index)
-                )
-            );
-        }
+
+        textMarkingsRightSide.forEach((node: any, index: number) =>
+            node.addEventListener(
+                'click',
+                // here we add the styles that we added at focusMarking
+                this.focusLeftSideMarking.bind(this, index)
+            )
+        );
+    }
+
+    //here we give focusMarking styles that will take action when clicked
+    focusRightSideMarking(textMarkingIndex: number): void {
+        // // TODO remove + 1 once you remove the comment which is the first child in the children of outputContainer
+        // const rightHandSideTextMarking: any =
+        //     document.getElementById('outputContainer')?.childNodes[
+        //     textMarkingIndex + 1
+        //         ]!;
+
+        document
+            .querySelectorAll('#outputContainer > .card')
+            .forEach((cN: any, i) => {
+                if (i === textMarkingIndex) {
+                    cN.classList.add('marking-focus');
+                    cN.classList.add('focusedMarking');
+                } else {
+                    cN.classList.add('marking-blur');
+                }
+            });
+    }
+
+    //here we give focusMarking styles that will take action when clicked
+    focusLeftSideMarking(textMarkingIndex: number): void {
+        // TODO remove + 1 once you remove the comment which is the first child in the children of outputContainer
+        const rightHandSideTextMarking: any =
+            document.getElementById('outputContainer')?.childNodes[
+                textMarkingIndex + 1
+            ]!;
+
+        rightHandSideTextMarking.classList.add('marking-focus');
+        rightHandSideTextMarking.classList.add('focusedMarking');
     }
 
     checkUnfocusedMarkingsToBlur(): void {
@@ -876,31 +906,28 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             }
         }
     }
-    //listenForUnmarkingFocus removes the styles from the cards when clicked on id#unFocus
-    listenForUnmarkingFocus(): void {
-        const notTextMarkings = document.querySelectorAll('#unFocus');
-        if (notTextMarkings) {
-            notTextMarkings.forEach((node: any, index: number) =>
-                node.addEventListener(
-                    'click',
-                    //here we give the styles that we have given on unFousMarking which is the default values of cards
-                    this.unFocusMarking.bind(this, index)
-                )
-            );
-        }
+
+    // blurFocusedMarking removes the styles from the cards when clicked on id#unFocus
+    blurFocusedRightSideMarking(): void {
+        console.log('here');
+        const textMarkingsRightSide = document.querySelectorAll(
+            '#outputContainer > .card'
+        );
+
+        textMarkingsRightSide.forEach((tMRS) => {
+            console.log(tMRS);
+            if (
+                tMRS.classList.contains('marking-focus') ||
+                tMRS.classList.contains('focusedMarking')
+            ) {
+                tMRS.classList.remove('marking-focus', 'focusedMarking');
+                tMRS.classList.add('marking-unfocus');
+            } else {
+                tMRS.classList.remove('marking-blur');
+            }
+        });
     }
 
-    //here we give focusMarking styles that will take action when clicked
-    focusMarking(textMarkingIndex: number): void {
-        // TODO remove + 1 once you remove the comment which is the first child in the children of outputContainer
-        const rightHandSideTextMarking: any =
-            document.getElementById('outputContainer')?.childNodes[
-                textMarkingIndex + 1
-            ]!;
-
-        rightHandSideTextMarking.classList.add('marking-focus');
-        rightHandSideTextMarking.classList.add('focusedMarking');
-    }
     // unFocusMarking here we have the styles of default card that take action when clicked on id #unfocus
     unFocusMarking(notTextMarkingsIndex: number): void {
         const notRightHandSideTextMarking: any =
