@@ -73,14 +73,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 console.log('pinging server...');
             },
             () => {
-                (document.getElementById('editor') as any)!.contentEditable =
-                    false;
-                    const btndown = document.querySelectorAll('.card-header button') as any;
-                    for(let btnsdown of btndown){
-                    btnsdown?.setAttribute('disabled', 'disabled');
-                }
-                document.getElementById('editor-placeholder')!.innerText =
-                    'Fatkeqësisht kemi një problem me serverat. Ju kërkojmë ndjesë, ndërsa kërkojme për një zgjidhje.';
+                this.disableEditor();
             }
         );
     }
@@ -829,5 +822,18 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 )
             )
             .subscribe();
+    }
+
+    disableEditor(): void {
+        (document.getElementById('editor') as any)!.contentEditable = false;
+
+        document.getElementById('editor-placeholder')!.innerText =
+            'Fatkeqësisht kemi një problem me serverat. Ju kërkojmë ndjesë, ndërsa kërkojme për një zgjidhje.';
+
+        const btndown = document
+            .querySelectorAll('.card-header button')
+            .forEach((btnsdown) => {
+                btnsdown?.setAttribute('disabled', '');
+            });
     }
 }
