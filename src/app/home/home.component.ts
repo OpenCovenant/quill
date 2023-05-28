@@ -73,10 +73,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 console.log('pinging server...');
             },
             () => {
-                (document.getElementById('editor') as any)!.contentEditable =
-                    false;
-                document.getElementById('editor-placeholder')!.innerText =
-                    'Fatkeqësisht kemi një problem me serverat. Ju kërkojmë ndjesë, ndërsa kërkojme për një zgjidhje.';
+                this.disableEditor();
             }
         );
     }
@@ -825,5 +822,20 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 )
             )
             .subscribe();
+    }
+
+    disableEditor(): void {
+        (document.getElementById(this.EDITOR_KEY) as any)!.contentEditable =
+            false;
+
+        document.getElementById(this.PLACEHOLDER_ELEMENT_ID)!.innerText =
+            'Fatkeqësisht kemi një problem me serverat. Ju kërkojmë ndjesë, ndërsa kërkojme për një zgjidhje.';
+
+        const retrievedButtons = document.querySelectorAll(
+            '.card-header button'
+        ) as NodeListOf<HTMLButtonElement>;
+        retrievedButtons.forEach((btnsdown) => {
+            btnsdown.disabled = true;
+        });
     }
 }
