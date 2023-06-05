@@ -1,0 +1,13 @@
+.dropdown{
+    position: absolute;
+right: 10px;
+top: 4em;
+}
+
+
+.btn btn-secondary dropdown-toggle{
+    padding: 10rem;
+    margin-bottom: 1rem;
+}
+
+
