@@ -24,7 +24,6 @@ import {
     markText,
     sortParagraphedTextMarkings
 } from '../text-marking/text-marking';
-import { NgStyle } from '@angular/common';
 
 @Component({
     selector: 'app-home',
@@ -546,50 +545,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.http
             .post(this.generateMarkingsURL, editor.innerHTML)
             .pipe(finalize(() => this.loading$.next(false)))
-            .subscribe(
-                (next) => {
-                    this.processedText = next as ProcessedText;
-                    this.processedText.textMarkings =
-                        sortParagraphedTextMarkings(
-                            this.processedText.textMarkings
-                        );
-                    const consumableTextMarkings: TextMarking[] = Array.from(
-                        this.processedText.textMarkings
-                    );
-                    if (cursorPlacement === CursorPlacement.LAST_SAVE) {
-                        this.savedCursorPosition =
-                            this.saveCursorPosition(editor);
-                    }
-
-                    editor.childNodes.forEach(
-                        (childNode: ChildNode, index: number) => {
-                            const p: HTMLParagraphElement =
-                                document.createElement('p');
-                            p.innerHTML = childNode.textContent!;
-                            if (childNode.textContent === this.EMPTY_STRING) {
-                                p.innerHTML = this.LINE_BREAK;
-                            }
-                            editor.replaceChild(p, childNode);
-                            markText(
-                                p,
-                                consumableTextMarkings.filter(
-                                    (tm: TextMarking) => tm.paragraph === index
-                                )
-                            );
-                        }
-                    );
-
-                    this.positionCursor(editor, cursorPlacement);
-                    this.shouldCollapseSuggestions = new Array<boolean>(
-                        this.processedText.textMarkings.length
-                    ).fill(true);
-                },
-                () => {},
-                () => {
-                    setTimeout(() => this.listenForMarkingFocus(), 0);
-                    setTimeout(() => this.checkUnfocusedMarkingsToBlur(), 0);
-                }
-            );
     }
 
     /**
@@ -827,96 +782,5 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 )
             )
             .subscribe();
-    }
-
-    //Markings on editor and on right side when generated are picked here
-    listenForMarkingFocus(): void {
-        // TODO improve how the markings in the editor are picked
-        //textMarkingsRightSide grabs the right side generated cards
-        const textMarkingsRightSide = document.querySelectorAll(
-            '.card-header > div>span.typo'
-        );
-
-        // textMarkings grabs the editor typos
-        const textMarkings = document.querySelectorAll('#editor > p > .typo');
-        // if textMarkings true we can click on each element on editor
-        if (textMarkings) {
-            textMarkings.forEach((node: any, index: number) =>
-                node.addEventListener(
-                    'click',
-                    //this gives the style values that we have put on focusMarking
-                    this.focusMarking.bind(this, index)
-                )
-            );
-        }
-        //here textMarkingsRightSide grabs the right side typo generated cards
-        if (textMarkingsRightSide) {
-            textMarkingsRightSide.forEach((node: any, index: number) =>
-                node.addEventListener(
-                    'click',
-                    // here we add the styles that we added at focusMarking
-                    this.focusMarking.bind(this, index)
-                )
-            );
-        }
-    }
-
-    checkUnfocusedMarkingsToBlur(): void {
-        const textMarkings = document.querySelectorAll(
-            '.card-header > div > span.typo'
-        );
-
-        for (let i = 0; i < textMarkings.length; i++) {
-            if (!textMarkings[i].classList.contains('focusedMarking')) {
-                console.log('the text marking with index', i, textMarkings[i]);
-                textMarkings[i].addEventListener(
-                    'click',
-                    this.unFocusedMarkingsBlured.bind(this, i)
-                );
-            }
-        }
-    }
-    //listenForUnmarkingFocus removes the styles from the cards when clicked on id#unFocus
-    listenForUnmarkingFocus(): void {
-        const notTextMarkings = document.querySelectorAll('#unFocus');
-        if (notTextMarkings) {
-            notTextMarkings.forEach((node: any, index: number) =>
-                node.addEventListener(
-                    'click',
-                    //here we give the styles that we have given on unFousMarking which is the default values of cards
-                    this.unFocusMarking.bind(this, index)
-                )
-            );
-        }
-    }
-
-    //here we give focusMarking styles that will take action when clicked
-    focusMarking(textMarkingIndex: number): void {
-        // TODO remove + 1 once you remove the comment which is the first child in the children of outputContainer
-        const rightHandSideTextMarking: any =
-            document.getElementById('outputContainer')?.childNodes[
-                textMarkingIndex + 1
-            ]!;
-
-        rightHandSideTextMarking.classList.add('marking-focus');
-        rightHandSideTextMarking.classList.add('focusedMarking');
-    }
-    // unFocusMarking here we have the styles of default card that take action when clicked on id #unfocus
-    unFocusMarking(notTextMarkingsIndex: number): void {
-        const notRightHandSideTextMarking: any =
-            document.getElementById('outputContainer')?.childNodes[
-                notTextMarkingsIndex + 1
-            ]!;
-        notRightHandSideTextMarking.classList.add('marking-unfocus');
-    }
-
-    //function when takes action gives blur on unclicked markings
-    unFocusedMarkingsBlured(notTextMarkingsIndex: number): void {
-        const notRightHandSideTextMarkingBlured: any =
-            document.getElementById('outputContainer')?.childNodes[
-                notTextMarkingsIndex + 1
-            ]!;
-        notRightHandSideTextMarkingBlured.classList.add('marking-blur');
-        console.log('unfocused called');
     }
 }

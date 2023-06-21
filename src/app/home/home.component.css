@@ -86,32 +86,6 @@
     }
 }
 
-.marking-focus{
-    margin: 0px 30px 0px -17px;
-    border: 3px solid;
-    font-weight: bold;
-    transition: all 0.1s;
-}
-
-.marking-unfocus{
-    border-radius: 4px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    margin: 0px;
-    border: 1px solid;
-    font-weight: normal;
-} 
-.marking-blur{
-    border-radius: 4px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    margin: 0px;
-    border: 1px solid;
-    font-weight: normal;
-    filter: blur(2px);
-}
-
-
 /*TODO I don't like these two a lot, write better responsive code, I assume ideally this should be added in flex-stuff*/
 @media (min-width: 800px) {
     #inputContainer {
