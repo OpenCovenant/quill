@@ -68,9 +68,14 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     ) {
         this.initializeURLs();
         // should any other call be made here? probably not... actually even this should be removed soon
-        this.http.get(this.pingURL).subscribe(() => {
-            console.log('pinging server...');
-        });
+        this.http.get(this.pingURL).subscribe(
+            () => {
+                console.log('pinging server...');
+            },
+            () => {
+                this.disableEditor();
+            }
+        );
     }
 
     ngAfterViewInit(): void {
@@ -545,6 +550,41 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.http
             .post(this.generateMarkingsURL, editor.innerHTML)
             .pipe(finalize(() => this.loading$.next(false)))
+            .subscribe((next) => {
+                this.processedText = next as ProcessedText;
+                this.processedText.textMarkings = sortParagraphedTextMarkings(
+                    this.processedText.textMarkings
+                );
+                const consumableTextMarkings: TextMarking[] = Array.from(
+                    this.processedText.textMarkings
+                );
+                if (cursorPlacement === CursorPlacement.LAST_SAVE) {
+                    this.savedCursorPosition = this.saveCursorPosition(editor);
+                }
+
+                editor.childNodes.forEach(
+                    (childNode: ChildNode, index: number) => {
+                        const p: HTMLParagraphElement =
+                            document.createElement('p');
+                        p.innerHTML = childNode.textContent!;
+                        if (childNode.textContent === this.EMPTY_STRING) {
+                            p.innerHTML = this.LINE_BREAK;
+                        }
+                        editor.replaceChild(p, childNode);
+                        markText(
+                            p,
+                            consumableTextMarkings.filter(
+                                (tm: TextMarking) => tm.paragraph === index
+                            )
+                        );
+                    }
+                );
+
+                this.positionCursor(editor, cursorPlacement);
+                this.shouldCollapseSuggestions = new Array<boolean>(
+                    this.processedText.textMarkings.length
+                ).fill(true);
+            });
     }
 
     /**
@@ -782,5 +822,20 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 )
             )
             .subscribe();
+    }
+
+    disableEditor(): void {
+        (document.getElementById(this.EDITOR_KEY) as any)!.contentEditable =
+            false;
+
+        document.getElementById(this.PLACEHOLDER_ELEMENT_ID)!.innerText =
+            'Fatkeqësisht kemi një problem me serverat. Ju kërkojmë ndjesë, ndërsa kërkojme për një zgjidhje.';
+
+        const retrievedButtons = document.querySelectorAll(
+            '.card-header button'
+        ) as NodeListOf<HTMLButtonElement>;
+        retrievedButtons.forEach((btnsdown) => {
+            btnsdown.disabled = true;
+        });
     }
 }
