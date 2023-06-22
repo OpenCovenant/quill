@@ -8,11 +8,11 @@
     flex: 0 0 60%; 
     margin-left: 3rem;
 }
-.card-header{
+.firstHeader{
     display: flex; 
     justify-content: space-evenly;
 }
-.btnseparator{
+.btnSeparator{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -32,6 +32,11 @@
     outline: 0 solid transparent;
 }
 
+.placeholderText{
+    min-width: 4%;
+}
+
+
 
 #clearEditorSpan{
     font-size: 36px;
@@ -39,25 +44,20 @@
     cursor: pointer;
 }
 
-#bottomContainer{
+.flex1{
     display: flex;
      justify-content: space-between;
      font-size: 0.8rem;
 }
 
-#bottomContainer:first-child{
+.flex2{
     display: flex;
     justify-content: center;
     align-content: center;
     flex-direction: column;
 }
 
-.typo{
-    display: inline-block;
-    padding-left: 6px;
-    padding-right: 6px;
-    color: black;
-}
+
 
 
 
@@ -81,16 +81,16 @@
     display: none;
 }
 
-#outputContainerMain{
+#outputContainer{
     flex: 0 0 30%; 
     margin-right: 3rem;
 }
 
-.boxes{
+.secondHeader{
     display: flex; 
     justify-content: space-between;
 }
-.writingErrors{
+.writingMisstakes{
     display: inline-block;
      padding-left: 6px;
     padding-right: 6px;
@@ -100,7 +100,7 @@
 
 
 
-.loanwordSuggestions{
+.wordsSuggestions{
     display: inline-block;
     padding-left: 6px;
     padding-right: 6px;
@@ -108,7 +108,7 @@
 }
 
 
-.stylisticBookmarks{
+.stylingBookmarks{
     display: inline-block;
     padding-left: 6px;
     padding-right: 6px;
@@ -119,14 +119,14 @@
 
 
 
-.endOfBoxes{
+.grid1{
     display: grid;
     grid-template-columns: auto 1fr;
     grid-template-rows: inherit;
     max-width: 80%;
 }
 
-.endOfBoxes span{
+#textMarking{
     display: inline-block;
     padding: 3px 6px;
     border-radius: 4px;
@@ -150,7 +150,7 @@
     gap: 1rem;
 }
 
-.suggestionColor{
+.suggestion{
     color: black;
 }
 
@@ -161,7 +161,9 @@
     color: #737373;
 }
 
-.suggestionText{
+
+
+.suggestionsHeader{
     display: inline-block;
     align-items: flex-start;
     margin: 0;
@@ -169,7 +171,7 @@
     cursor: pointer;
 }
 
-.waitingForText{
+.waitingText{
     display: inline-block;
     padding-left: 6px;
     padding-right: 6px;
@@ -186,7 +188,7 @@
      margin-top: 10px;
 }
 
-#deactivation{
+#historyDeactivation{
     color: gray;
      font-size: 13px;
 }
@@ -199,7 +201,7 @@
     border: 1px solid lightgray;
     border-radius: 5px;
     padding: 5px;
-}
+} 
 
 
 

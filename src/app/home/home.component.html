@@ -1,7 +1,17 @@
-<div id="highLevelContainer">
-    <div id="inputContainer" class="inputText mt-5">
+<div
+    id="highLevelContainer"
+    
+>
+    <div
+        id="inputContainer"
+        class="inputText mt-5"
+       
+    >
         <div class="card border-secondary">
-            <div class="card-header">
+            <div
+                class="card-header firstHeader"
+                
+            >
                 <button
                     id="{{ writeTextToggleButtonID }}"
                     (click)="toggleWriteTextButton()"
@@ -11,7 +21,11 @@
                 >
                     SHKRIM
                 </button>
-                <div class="btnseparator">|</div>
+                <div class="btnSeparator"
+                 
+                >
+                    |
+                </div>
                 <button
                     id="{{ uploadDocumentToggleButtonID }}"
                     (click)="toggleUploadDocumentButton()"
@@ -32,6 +46,7 @@
                         autocapitalize="off"
                         role="textbox"
                         aria-multiline="true"
+                     
                         data-test="editor"
                     ></div>
                     <div
@@ -44,11 +59,12 @@
                     >
                         {{ EDITOR_PLACEHOLDER_TEXT }}
                     </div>
-                    <div id="" style="min-width: 4%" *ngIf="editorHasText()">
+                    <div class="placeholderText" *ngIf="editorHasText()">
                         <span
                             id="clearEditorSpan"
                             (click)="clearEditor()"
                             title="fshi shkrimin"
+                          
                             ><i
                                 class="bi bi-x"
                                 data-test="clear-editor-icon"
@@ -57,8 +73,12 @@
                     </div>
                 </div>
                 <hr />
-                <div id="bottomContainer">
-                    <span data-test="characters-words-markings"
+                <div class="flex1"
+                  
+                >
+                    <span class="flex2"
+                     
+                        data-test="characters-words-markings"
                         >{{ characterCount }}&nbsp;{{
                             characterCount === 1 ? "karakter" : "karaktere"
                         }}&comma;&nbsp;{{ wordCount }}&nbsp;fjalë&comma;&nbsp;{{
@@ -78,6 +98,7 @@
                             (click)="copyToClipboard()"
                             class="bi bi-clipboard"
                             title="kopjo shkrimin"
+                          
                             data-test="copy-to-clipboard-button"
                         ></button
                         >&nbsp;&nbsp;&nbsp;&nbsp;<button
@@ -86,6 +107,7 @@
                             data-bs-target="#writtenTextsHistoryModal"
                             title="trego historikun e shkrimeve"
                             class="bi bi-clock-history"
+                        
                             data-test="written-texts-history-button"
                         ></button
                     ></span>
@@ -114,13 +136,18 @@
                         (change)="uploadDocument($event)"
                         placeholder="SHTYP KËTU"
                         accept=".pdf,.doc,.docx,.odt"
+                      
                     />
                 </div>
                 <br />
             </div>
         </div>
     </div>
-    <div id="outputContainer outputContainerMain" class="outputTexts mt-5">
+    <div
+        id="outputContainer"
+        class="outputTexts mt-5"
+       
+    >
         <div
             *ngIf="
                 (processedText === undefined ||
@@ -130,9 +157,16 @@
         >
             <!-- TODO put into a method -->
             <div class="card border-secondary">
-                <div class="card-header boxes">
+                <div
+                    class="card-header secondHeader"
+                    
+                >
                     <div>
-                        <span class="typo writingErrors">gabime shkrimi</span>
+                        <span
+                            class="typo writingMisstakes"
+                       
+                            >gabime shkrimi</span
+                        >
                     </div>
                 </div>
                 <ul class="list-group list-group-flush">
@@ -146,9 +180,14 @@
                 </ul>
             </div>
             <div class="card border-secondary mt-4">
-                <div class="card-header boxes">
+                <div
+                    class="card-header secondHeader"
+                 
+                >
                     <div>
-                        <span class="loanword loanwordSuggestions"
+                        <span
+                            class="loanword wordsSuggestions"
+                          
                             >sugjerime huazimesh</span
                         >
                     </div>
@@ -164,9 +203,14 @@
                 </ul>
             </div>
             <div class="card border-secondary mt-4">
-                <div class="card-header boxes">
+                <div
+                    class="card-header secondHeader"
+                    
+                >
                     <div>
-                        <span class="stylistic stylisticBookmarks"
+                        <span
+                            class="stylistic stylingBookmarks"
+                         
                             >shenjime stilistike</span
                         >
                     </div>
@@ -184,11 +228,18 @@
             *ngFor="let textMarking of processedText?.textMarkings; index as i"
             class="card border-secondary {{ i > 0 ? 'mt-2' : '' }}"
         >
-            <div class="card-header boxes">
-                <div class="endOfBoxes">
-                    <span class="{{ textMarking.type }}">{{
-                        getTextOfTextMarking(i)
-                    }}</span>
+            <div
+                class="card-header secondHeader"
+                
+            >
+                <div class="grid1"
+                
+                >
+                    <span id="textMarking"
+                        class="{{ textMarking.type }}"
+                 
+                        >{{ getTextOfTextMarking(i) }}</span
+                    >
                 </div>
                 <div>
                     <button
@@ -202,7 +253,7 @@
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <div class="flex" style="display: flex">
+                    <div class="flex">
                         <div>
                             <b>{{ textMarking.subtype }}</b> -
                             <span>{{ textMarking.description }}</span>
@@ -211,12 +262,16 @@
                             <i
                                 class="bi bi-info-circle"
                                 routerLink="{{ textMarking.id }}"
+                             
                                 data-test="marking-information-icon"
                             ></i>
                         </div>
                     </div>
                     <span *ngIf="textMarking.suggestions.length > 0">
-                        <div id="suggestions">
+                        <div
+                            id="suggestions"
+                           
+                        >
                             <button
                                 *ngFor="
                                     let suggestion of textMarking.suggestions.slice(
@@ -228,25 +283,27 @@
                                     index as j
                                 "
                                 (click)="chooseSuggestion(i, j)"
-                                class="suggestion suggestionColor"
+                                class="suggestion"
+                                
                                 data-test="suggestion"
                             >
                                 <b>{{ suggestion.display }}</b>
                             </button>
-                            <div
-                                class="suggestionDisplay"
+                            <div class="suggestionDisplay"
                                 *ngIf="textMarking.suggestions.length > 4"
+                              
                             >
                                 |
                             </div>
                             <div *ngIf="textMarking.suggestions.length > 4">
-                                <h3
+                                <h3 class="suggestionsHeader"
                                     (click)="oscillateSuggestion(i, $event)"
-                                    class="bi suggestionText{{
+                                    class="bi {{
                                         shouldCollapseSuggestions[i]
                                             ? 'bi-arrow-right-square'
                                             : 'bi-arrow-left-square'
                                     }}"
+                                  
                                     data-test="oscillate-suggestions-button"
                                 ></h3>
                             </div>
@@ -265,13 +322,23 @@
             }}"
             *ngIf="loading$ | async"
         >
-            <div class="card-header boxes">
+            <div
+                class="card-header secondHeader"
+               
+            >
                 <div>
-                    <span class="waitingForText">duke lexuar shkrimin...</span>
+                    <span class="waitingText"
+                    
+                        >duke lexuar shkrimin...</span
+                    >
                 </div>
             </div>
-            <ul class="list-group list-group-flush listStyling">
-                <div class="spinner-border" role="status">
+            <ul class="list-group list-group-flush listStyling" >
+                <div
+                    class="spinner-border"
+                    role="status"
+                   
+                >
                     <span class="visually-hidden">duke lexuar shkrimin...</span>
                 </div>
             </ul>
@@ -315,7 +382,7 @@
                         >Përdor Historikun e Shkrimeve</label
                     >
                     <div>
-                        <i id="deactivation"
+                        <i id="historyDeactivation"
                             >çaktivizimi i historikut të shkrimeve do të fshijë
                             shkrimet ekzistuese</i
                         >
@@ -332,6 +399,7 @@
                         id="writtenText"
                         (click)="placeWrittenText(writtenText)"
                         type="button"
+                       
                         data-test="written-text"
                     >
                         {{ writtenText }}
