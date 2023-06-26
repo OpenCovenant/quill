@@ -19,10 +19,9 @@
     color: #737373;
 }
 
-.flex{
+.flexProperty{
     display: flex;
 }
-
 
 #editor{
     min-width: 96%;
@@ -35,8 +34,6 @@
 .placeholderText{
     min-width: 4%;
 }
-
-
 
 #clearEditorSpan{
     font-size: 36px;
@@ -57,10 +54,6 @@
     flex-direction: column;
 }
 
-
-
-
-
 #copyToClipboardButton{
     background: none;
       color: black;
@@ -69,7 +62,7 @@
          font-size: 1.25rem;
 }
 
-.bi-clock-history{
+#clockHistory{
     background: none;
      color: black;
     border: none;
@@ -97,9 +90,6 @@
     color: black;
 }
 
-
-
-
 .wordsSuggestions{
     display: inline-block;
     padding-left: 6px;
@@ -107,17 +97,12 @@
     color: black;
 }
 
-
 .stylingBookmarks{
     display: inline-block;
     padding-left: 6px;
     padding-right: 6px;
     color: black;
-
-    
 }
-
-
 
 .grid1{
     display: grid;
@@ -136,7 +121,7 @@
     overflow: hidden;
 }
 
-.bi-info-circle{
+#informationCircle{
     font-size: 20px;
     color: #484848;
     cursor: pointer;
@@ -161,8 +146,6 @@
     color: #737373;
 }
 
-
-
 .suggestionsHeader{
     display: inline-block;
     align-items: flex-start;
@@ -183,7 +166,8 @@
 .listStyling{
     min-height: 50px;
 }
-.spinner-border{
+
+#spinnerBorder{
     margin-left: 45%;
      margin-top: 10px;
 }
@@ -202,21 +186,6 @@
     border-radius: 5px;
     padding: 5px;
 } 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .typo {
     /*text-decoration: underline;*/

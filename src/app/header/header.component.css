@@ -8,10 +8,10 @@
 .btn{
     border: none;
 }
-.navbar-toggler-icon{
+#togglerIcon{
     width: 1.4rem;
 }
-.penda-header-logo{
+#pendaHeaderLogo{
     color: black; 
     font-size: 20px; 
     cursor: pointer;
@@ -19,10 +19,6 @@
 .dropdown div{
     box-shadow: 0 0 1px 1px #e3e3e3ae;
 }
-
-
-
-
 
 #offcanvasStartButton:hover {
     background-color: #E3E3E3;

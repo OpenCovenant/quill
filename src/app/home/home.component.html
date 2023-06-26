@@ -36,7 +36,7 @@
                 </button>
             </div>
             <div class="card-body" *ngIf="displayWriteTextOrUploadDocumentFlag">
-                <div class="flex">
+                <div class="flexProperty">
                     <div
                         id="editor"
                         contenteditable="true"
@@ -100,8 +100,8 @@
                             title="kopjo shkrimin"
                           
                             data-test="copy-to-clipboard-button"
-                        ></button
-                        >&nbsp;&nbsp;&nbsp;&nbsp;<button
+                        ></button 
+                        >&nbsp;&nbsp;&nbsp;&nbsp;<button id="clockHistory"
                             type="button"
                             data-bs-toggle="modal"
                             data-bs-target="#writtenTextsHistoryModal"
@@ -253,13 +253,13 @@
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <div class="flex">
+                    <div class="flexProperty">
                         <div>
                             <b>{{ textMarking.subtype }}</b> -
                             <span>{{ textMarking.description }}</span>
                         </div>
                         <div *ngIf="textMarking.id">
-                            <i
+                            <i id="informationCircle"
                                 class="bi bi-info-circle"
                                 routerLink="{{ textMarking.id }}"
                              
@@ -334,7 +334,7 @@
                 </div>
             </div>
             <ul class="list-group list-group-flush listStyling" >
-                <div
+                <div id="spinnerBorder"
                     class="spinner-border"
                     role="status"
                    
