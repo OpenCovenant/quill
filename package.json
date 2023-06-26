@@ -12,8 +12,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test --browsers ChromeHeadless --watch false --code-coverage true",
-    "prettier": "prettier --list-different \"{cypress/e2e,src}/**/*{.ts,.js,.json,.scss,.html,.css}\"",
-    "prettier:fix": "prettier  --list-different \"{cypress/e2e,src}/**/*{.ts,.js,.json,.scss,.html,.css}\" --write",
+    "prettier": "prettier --list-different \"{cypress/e2e,src}/**/*{.ts,.js,.json,.css,.scss,.html}\"",
+    "prettier:fix": "prettier  --list-different \"{cypress/e2e,src}/**/*{.ts,.js,.json,.css,.scss,.html}\" --write",
     "lint": "eslint . --ext .ts"
   },
   "private": true,

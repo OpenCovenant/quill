@@ -4,14 +4,17 @@
     gap: 1rem;
     flex: 1;
 }
+
 #inputContainer {
     flex: 0 0 60%;
     margin-left: 3rem;
 }
+
 .firstHeader {
     display: flex;
     justify-content: space-evenly;
 }
+
 .btnSeparator {
     display: flex;
     justify-content: center;
