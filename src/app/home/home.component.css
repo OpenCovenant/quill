@@ -1,29 +1,29 @@
-#highLevelContainer{
-    display: flex; 
-    justify-content: space-between; 
-    gap: 1rem; 
+#highLevelContainer {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
     flex: 1;
 }
-#inputContainer{
-    flex: 0 0 60%; 
+#inputContainer {
+    flex: 0 0 60%;
     margin-left: 3rem;
 }
-.firstHeader{
-    display: flex; 
+.firstHeader {
+    display: flex;
     justify-content: space-evenly;
 }
-.btnSeparator{
+.btnSeparator {
     display: flex;
     justify-content: center;
     align-items: center;
     color: #737373;
 }
 
-.flexProperty{
+.flexProperty {
     display: flex;
 }
 
-#editor{
+#editor {
     min-width: 96%;
     min-height: 30rem;
     font-size: 17px;
@@ -31,87 +31,87 @@
     outline: 0 solid transparent;
 }
 
-.placeholderText{
+.placeholderText {
     min-width: 4%;
 }
 
-#clearEditorSpan{
+#clearEditorSpan {
     font-size: 36px;
     border-radius: 40%;
     cursor: pointer;
 }
 
-.flex1{
+.flex1 {
     display: flex;
-     justify-content: space-between;
-     font-size: 0.8rem;
+    justify-content: space-between;
+    font-size: 0.8rem;
 }
 
-.flex2{
+.flex2 {
     display: flex;
     justify-content: center;
     align-content: center;
     flex-direction: column;
 }
 
-#copyToClipboardButton{
+#copyToClipboardButton {
     background: none;
-      color: black;
-        border: none;
-         padding: 0;
-         font-size: 1.25rem;
-}
-
-#clockHistory{
-    background: none;
-     color: black;
+    color: black;
     border: none;
     padding: 0;
     font-size: 1.25rem;
 }
 
-#documentUploadingHiddenInput{
+#clockHistory {
+    background: none;
+    color: black;
+    border: none;
+    padding: 0;
+    font-size: 1.25rem;
+}
+
+#documentUploadingHiddenInput {
     display: none;
 }
 
-#outputContainer{
-    flex: 0 0 30%; 
+#outputContainer {
+    flex: 0 0 30%;
     margin-right: 3rem;
 }
 
-.secondHeader{
-    display: flex; 
+.secondHeader {
+    display: flex;
     justify-content: space-between;
 }
-.writingMisstakes{
-    display: inline-block;
-     padding-left: 6px;
-    padding-right: 6px;
-    color: black;
-}
-
-.wordsSuggestions{
+.writingMisstakes {
     display: inline-block;
     padding-left: 6px;
     padding-right: 6px;
     color: black;
 }
 
-.stylingBookmarks{
+.wordsSuggestions {
     display: inline-block;
     padding-left: 6px;
     padding-right: 6px;
     color: black;
 }
 
-.grid1{
+.stylingBookmarks {
+    display: inline-block;
+    padding-left: 6px;
+    padding-right: 6px;
+    color: black;
+}
+
+.grid1 {
     display: grid;
     grid-template-columns: auto 1fr;
     grid-template-rows: inherit;
     max-width: 80%;
 }
 
-#textMarking{
+#textMarking {
     display: inline-block;
     padding: 3px 6px;
     border-radius: 4px;
@@ -121,13 +121,13 @@
     overflow: hidden;
 }
 
-#informationCircle{
+#informationCircle {
     font-size: 20px;
     color: #484848;
     cursor: pointer;
 }
 
-#suggestions{
+#suggestions {
     display: flex;
     flex-wrap: wrap;
     align-content: stretch;
@@ -135,18 +135,18 @@
     gap: 1rem;
 }
 
-.suggestion{
+.suggestion {
     color: black;
 }
 
-.suggestionDisplay{
+.suggestionDisplay {
     display: flex;
     justify-content: center;
     align-items: center;
     color: #737373;
 }
 
-.suggestionsHeader{
+.suggestionsHeader {
     display: inline-block;
     align-items: flex-start;
     margin: 0;
@@ -154,7 +154,7 @@
     cursor: pointer;
 }
 
-.waitingText{
+.waitingText {
     display: inline-block;
     padding-left: 6px;
     padding-right: 6px;
@@ -163,21 +163,21 @@
     border: none;
 }
 
-.listStyling{
+.listStyling {
     min-height: 50px;
 }
 
-#spinnerBorder{
+#spinnerBorder {
     margin-left: 45%;
-     margin-top: 10px;
+    margin-top: 10px;
 }
 
-#historyDeactivation{
+#historyDeactivation {
     color: gray;
-     font-size: 13px;
+    font-size: 13px;
 }
 
-#writtenText{
+#writtenText {
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -185,12 +185,12 @@
     border: 1px solid lightgray;
     border-radius: 5px;
     padding: 5px;
-} 
+}
 
 .typo {
     /*text-decoration: underline;*/
     /*text-decoration-color: red;*/
-    background-color: #FFC8C8;
+    background-color: #ffc8c8;
     border-radius: 4px;
     border: none;
     padding-top: 3px;
@@ -198,7 +198,7 @@
 }
 
 .loanword {
-    background-color: #FFD182;
+    background-color: #ffd182;
     border-radius: 4px;
     border: none;
     padding-top: 3px;
@@ -206,7 +206,7 @@
 }
 
 .stylistic {
-    background-color: #A1B6DC;
+    background-color: #a1b6dc;
     border-radius: 4px;
     border: none;
     padding-top: 3px;
@@ -215,13 +215,13 @@
 
 #editor-placeholder {
     position: absolute;
-    color: #A6A6A6;
+    color: #a6a6a6;
     pointer-events: none;
     user-select: none;
 }
 
 .suggestion {
-    background-color: #EAEAEA;
+    background-color: #eaeaea;
     border-radius: 4px;
     border: none;
     padding-top: 3px;
@@ -232,19 +232,19 @@
 
 .btnUnselected {
     color: white;
-    background-color: #A9A9A9;
+    background-color: #a9a9a9;
 }
 
 #offcanvasStartButton:hover {
-    background-color: #E3E3E3;
+    background-color: #e3e3e3;
 }
 
 #clearEditorSpan:hover {
-    background-color: #F3F3F3;
+    background-color: #f3f3f3;
 }
 
 #writtenText:hover {
-    background-color: #F1F1F1;
+    background-color: #f1f1f1;
 }
 
 @media (max-width: 800px) {

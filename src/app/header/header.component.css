@@ -1,25 +1,25 @@
-.navbar{
+.navbar {
     background-color: #e9e9e9;
 }
-.navbar div{
+.navbar div {
     margin-left: 2rem;
     font-size: 1.4rem;
 }
-.btn{
+.btn {
     border: none;
 }
-#togglerIcon{
+#togglerIcon {
     width: 1.4rem;
 }
-#pendaHeaderLogo{
-    color: black; 
-    font-size: 20px; 
+#pendaHeaderLogo {
+    color: black;
+    font-size: 20px;
     cursor: pointer;
 }
-.dropdown div{
+.dropdown div {
     box-shadow: 0 0 1px 1px #e3e3e3ae;
 }
 
 #offcanvasStartButton:hover {
-    background-color: #E3E3E3;
+    background-color: #e3e3e3;
 }

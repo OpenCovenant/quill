@@ -1,7 +1,7 @@
-div:first-of-type{
+div:first-of-type {
     background-color: #e9e9e9;
 }
-footer div:first-child{
+footer div:first-child {
     color: #444444;
     padding-top: 10px;
     font-size: 15px;
