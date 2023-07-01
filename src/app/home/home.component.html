@@ -276,22 +276,24 @@
             </div>
         </div>
 
-        <div
-            *ngFor="let textMarking of processedText?.textMarkings; index as i"
-            class="card border-secondary {{ i > 0 ? 'mt-2' : '' }}"
-        >
-            <div
-                class="card-header"
-                style="display: flex; justify-content: space-between"
-            >
+        <div *ngIf='processedText?.textMarkings'>
+            <ng-template [ngIf]='!highlightingMarking' [ngIfElse]='highlightedMarking'>
                 <div
-                    style="
+                    *ngFor="let textMarking of processedText?.textMarkings; index as i"
+                    class="card border-secondary {{ i > 0 ? 'mt-2' : '' }}"
+                >
+                    <div
+                        class="card-header"
+                        style="display: flex; justify-content: space-between"
+                    >
+                        <div
+                            style="
                         display: grid;
                         grid-template-columns: auto 1fr;
                         grid-template-rows: inherit;
                         max-width: 80%;
                     "
-                >
+                        >
                     <span
                         class="{{ textMarking.type }}"
                         style="
@@ -303,40 +305,40 @@
                             text-overflow: ellipsis;
                             overflow: hidden;
                         "
-                        >{{ getTextOfTextMarking(i) }}</span
+                    >{{ getTextOfTextMarking(i) }}</span
                     >
-                </div>
-                <div>
-                    <button
-                        (click)="deleteTextMarking(i)"
-                        class="btn btn-outline-danger btn-sm"
-                        data-test="dismiss-marking-button"
-                    >
-                        HIQ&nbsp;<i class="bi bi-trash"></i>
-                    </button>
-                </div>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    <div style="display: flex">
-                        <div>
-                            <b>{{ textMarking.subtype }}</b> -
-                            <span>{{ textMarking.description }}</span>
                         </div>
-                        <div *ngIf="textMarking.id">
-                            <i
-                                class="bi bi-info-circle"
-                                routerLink="{{ textMarking.id }}"
-                                style="
+                        <div>
+                            <button
+                                (click)="deleteTextMarking(i)"
+                                class="btn btn-outline-danger btn-sm"
+                                data-test="dismiss-marking-button"
+                            >
+                                HIQ&nbsp;<i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div style="display: flex">
+                                <div>
+                                    <b>{{ textMarking.subtype }}</b> -
+                                    <span>{{ textMarking.description }}</span>
+                                </div>
+                                <div *ngIf="textMarking.id">
+                                    <i
+                                        class="bi bi-info-circle"
+                                        routerLink="{{ textMarking.id }}"
+                                        style="
                                     font-size: 20px;
                                     color: #484848;
                                     cursor: pointer;
                                 "
-                                data-test="marking-information-icon"
-                            ></i>
-                        </div>
-                    </div>
-                    <span *ngIf="textMarking.suggestions.length > 0">
+                                        data-test="marking-information-icon"
+                                    ></i>
+                                </div>
+                            </div>
+                            <span *ngIf="textMarking.suggestions.length > 0">
                         <div
                             id="suggestions"
                             style="
@@ -395,13 +397,19 @@
                             </div>
                         </div>
                     </span>
-                </li>
-            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </ng-template>
+
+            <ng-template #highlightedMarking>
+                <div><h1>replace me with a card detailing the highlighted marking</h1></div>
+            </ng-template>
         </div>
 
         <div
             class="card border-secondary d-flex justify-content-center {{
-                processedText?.textMarkings === null ||
+                processedText?.textMarkings === undefined ||
                 processedText?.textMarkings?.length === 0
                     ? ''
                     : 'mt-2'

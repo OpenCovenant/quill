@@ -51,6 +51,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
     loading$ = new BehaviorSubject<boolean>(false);
     editorElement!: HTMLElement;
+    // TODO change my value when it should be changed
+    highlightingMarking: boolean = false;
 
     private placeHolderElement!: HTMLElement;
     private baseURL!: string;
