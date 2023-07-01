@@ -52,7 +52,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     loading$ = new BehaviorSubject<boolean>(false);
     editorElement!: HTMLElement;
     // TODO change my value when it should be changed
-    highlightingMarking: boolean = false;
+    highlightingMarking: boolean = true;
 
     private placeHolderElement!: HTMLElement;
     private baseURL!: string;
