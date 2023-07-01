@@ -276,10 +276,16 @@
             </div>
         </div>
 
-        <div *ngIf='processedText?.textMarkings'>
-            <ng-template [ngIf]='!highlightingMarking' [ngIfElse]='highlightedMarking'>
+        <div *ngIf="processedText?.textMarkings">
+            <ng-template
+                [ngIf]="!highlightingMarking"
+                [ngIfElse]="highlightedMarking"
+            >
                 <div
-                    *ngFor="let textMarking of processedText?.textMarkings; index as i"
+                    *ngFor="
+                        let textMarking of processedText?.textMarkings;
+                        index as i
+                    "
                     class="card border-secondary {{ i > 0 ? 'mt-2' : '' }}"
                 >
                     <div
@@ -288,25 +294,25 @@
                     >
                         <div
                             style="
-                        display: grid;
-                        grid-template-columns: auto 1fr;
-                        grid-template-rows: inherit;
-                        max-width: 80%;
-                    "
+                                display: grid;
+                                grid-template-columns: auto 1fr;
+                                grid-template-rows: inherit;
+                                max-width: 80%;
+                            "
                         >
-                    <span
-                        class="{{ textMarking.type }}"
-                        style="
-                            display: inline-block;
-                            padding: 3px 6px;
-                            border-radius: 4px;
-                            color: black;
-                            white-space: nowrap;
-                            text-overflow: ellipsis;
-                            overflow: hidden;
-                        "
-                    >{{ getTextOfTextMarking(i) }}</span
-                    >
+                            <span
+                                class="{{ textMarking.type }}"
+                                style="
+                                    display: inline-block;
+                                    padding: 3px 6px;
+                                    border-radius: 4px;
+                                    color: black;
+                                    white-space: nowrap;
+                                    text-overflow: ellipsis;
+                                    overflow: hidden;
+                                "
+                                >{{ getTextOfTextMarking(i) }}</span
+                            >
                         </div>
                         <div>
                             <button
@@ -330,81 +336,93 @@
                                         class="bi bi-info-circle"
                                         routerLink="{{ textMarking.id }}"
                                         style="
-                                    font-size: 20px;
-                                    color: #484848;
-                                    cursor: pointer;
-                                "
+                                            font-size: 20px;
+                                            color: #484848;
+                                            cursor: pointer;
+                                        "
                                         data-test="marking-information-icon"
                                     ></i>
                                 </div>
                             </div>
                             <span *ngIf="textMarking.suggestions.length > 0">
-                        <div
-                            id="suggestions"
-                            style="
-                                display: flex;
-                                flex-wrap: wrap;
-                                align-content: stretch;
-                                justify-content: center;
-                                gap: 1rem;
-                            "
-                        >
-                            <button
-                                *ngFor="
-                                    let suggestion of textMarking.suggestions.slice(
-                                        0,
-                                        shouldCollapseSuggestions[i]
-                                            ? 4
-                                            : textMarking.suggestions.length
-                                    );
-                                    index as j
-                                "
-                                (click)="chooseSuggestion(i, j)"
-                                class="suggestion"
-                                style="color: black"
-                                data-test="suggestion"
-                            >
-                                <b>{{ suggestion.display }}</b>
-                            </button>
-                            <div
-                                *ngIf="textMarking.suggestions.length > 4"
-                                style="
-                                    display: flex;
-                                    justify-content: center;
-                                    align-items: center;
-                                    color: #737373;
-                                "
-                            >
-                                |
-                            </div>
-                            <div *ngIf="textMarking.suggestions.length > 4">
-                                <h3
-                                    (click)="oscillateSuggestion(i, $event)"
-                                    class="bi {{
-                                        shouldCollapseSuggestions[i]
-                                            ? 'bi-arrow-right-square'
-                                            : 'bi-arrow-left-square'
-                                    }}"
+                                <div
+                                    id="suggestions"
                                     style="
-                                        display: inline-block;
-                                        align-items: flex-start;
-                                        margin: 0;
-                                        line-height: inherit;
-                                        cursor: pointer;
+                                        display: flex;
+                                        flex-wrap: wrap;
+                                        align-content: stretch;
+                                        justify-content: center;
+                                        gap: 1rem;
                                     "
-                                    data-test="oscillate-suggestions-button"
-                                ></h3>
-                            </div>
-                        </div>
-                    </span>
+                                >
+                                    <button
+                                        *ngFor="
+                                            let suggestion of textMarking.suggestions.slice(
+                                                0,
+                                                shouldCollapseSuggestions[i]
+                                                    ? 4
+                                                    : textMarking.suggestions
+                                                          .length
+                                            );
+                                            index as j
+                                        "
+                                        (click)="chooseSuggestion(i, j)"
+                                        class="suggestion"
+                                        style="color: black"
+                                        data-test="suggestion"
+                                    >
+                                        <b>{{ suggestion.display }}</b>
+                                    </button>
+                                    <div
+                                        *ngIf="
+                                            textMarking.suggestions.length > 4
+                                        "
+                                        style="
+                                            display: flex;
+                                            justify-content: center;
+                                            align-items: center;
+                                            color: #737373;
+                                        "
+                                    >
+                                        |
+                                    </div>
+                                    <div
+                                        *ngIf="
+                                            textMarking.suggestions.length > 4
+                                        "
+                                    >
+                                        <h3
+                                            (click)="
+                                                oscillateSuggestion(i, $event)
+                                            "
+                                            class="bi {{
+                                                shouldCollapseSuggestions[i]
+                                                    ? 'bi-arrow-right-square'
+                                                    : 'bi-arrow-left-square'
+                                            }}"
+                                            style="
+                                                display: inline-block;
+                                                align-items: flex-start;
+                                                margin: 0;
+                                                line-height: inherit;
+                                                cursor: pointer;
+                                            "
+                                            data-test="oscillate-suggestions-button"
+                                        ></h3>
+                                    </div>
+                                </div>
+                            </span>
                         </li>
                     </ul>
                 </div>
             </ng-template>
 
             <ng-template #highlightedMarking>
-                <div
-                    class="card border-secondary"><h1>replace me with a card detailing the highlighted marking</h1></div>
+                <div class="card border-secondary">
+                    <h1>
+                        replace me with a card detailing the highlighted marking
+                    </h1>
+                </div>
             </ng-template>
         </div>
 
