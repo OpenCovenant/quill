@@ -1,0 +1,45 @@
+.item-content {
+    margin-top: 3%;
+    overflow: auto;
+  }
+
+.col-md-4{
+    margin-top: 3%;
+}
+.list-group-item{
+    margin-right: 221px;
+}
+.list-group-item-action{
+    position: relative;
+    display: block;
+    padding: 0.5rem 1rem;
+    color: #212529;
+    text-decoration: none;
+    background-color: inherit;
+    border: none;
+    margin-right: 221px;
+    margin-left: -70px;
+}
+
+.col-md-4 {
+    width: 20%;
+}
+
+.sun-icon{
+    display: flex;
+    position: absolute;
+}
+
+
+
+.moon-icon{
+
+}
+
+.form-check-input{
+
+}
+
+#hr-left-menu{
+
+}

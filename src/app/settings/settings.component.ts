@@ -9,6 +9,5 @@ import { Router } from '@angular/router';
 export class SettingsComponent implements OnInit {
     constructor() {}
 
-    ngOnInit(): void {
-    }
+    ngOnInit(): void {}
 }
