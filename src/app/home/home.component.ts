@@ -52,6 +52,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     loading$ = new BehaviorSubject<boolean>(false);
     editorElement!: HTMLElement;
     highlightingMarking: boolean = false;
+    highlightedMarking: TextMarking | undefined = undefined;
+    highlightedMarkingIndex: number = - 1;
 
     private placeHolderElement!: HTMLElement;
     private baseURL!: string;
@@ -845,18 +847,17 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             )
         );
 
-        textMarkingsRightSide.forEach((node: any, index: number) =>
-            node.addEventListener(
-                'click',
-                this.focusLeftSideMarking.bind(this, index)
-            )
-        );
+        // textMarkingsRightSide.forEach((node: any, index: number) =>
+        //     node.addEventListener(
+        //         'click',
+        //         this.focusLeftSideMarking.bind(this, index)
+        //     )
+        // );
     }
 
-    highlightedMarking: TextMarking | undefined = undefined;
-    highlightedMarkingIndex: number = - 1;
     /**
      * clicking on the LHS - focuses on the RHS
+     *
      * @param textMarkingIndex
      */
     focusRightSideMarking(textMarkingIndex: number): void {
@@ -864,29 +865,18 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.highlightingMarking = true;
         this.highlightedMarking = this.processedText?.textMarkings[textMarkingIndex];
         this.highlightedMarkingIndex = textMarkingIndex;
-        document
-            .querySelectorAll('#outputContainer > .card')
-            .forEach((cN: any, i) => {
-                if (i === textMarkingIndex) {
-                    cN.classList.add('marking-focus');
-                    cN.classList.add('focusedMarking');
-                } else {
-                    cN.classList.add('marking-blur');
-                }
-            });
-
     }
 
-    focusLeftSideMarking(textMarkingIndex: number): void {
-        console.log("focusLeftSideMarking")
-        // TODO remove + 1 once you remove the comment which is the first child in the children of outputContainer
-        const rightHandSideTextMarking: any =
-            document.getElementById('outputContainer')?.childNodes[
-                textMarkingIndex + 1
-            ]!;
-
-        rightHandSideTextMarking.classList.add('marking-focus');
-    }
+    // focusLeftSideMarking(textMarkingIndex: number): void {
+    //     console.log("focusLeftSideMarking")
+    //     // TODO remove + 1 once you remove the comment which is the first child in the children of outputContainer
+    //     const rightHandSideTextMarking: any =
+    //         document.getElementById('outputContainer')?.childNodes[
+    //             textMarkingIndex + 1
+    //         ]!;
+    //
+    //     rightHandSideTextMarking.classList.add('marking-focus');
+    // }
 
     checkUnfocusedMarkingsToBlur(): void {
         console.log("checkUnfocusedMarkingsToBlur");
@@ -908,30 +898,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         console.log('blurFocusedRightSideMarking');
         this.highlightingMarking = false;
         this.highlightedMarkingIndex = -1;
-        // const textMarkingsRightSide = document.querySelectorAll(
-        //     '#outputContainer > .card'
-        // );
-        //
-        // textMarkingsRightSide.forEach((tMRS) => {
-        //     if (
-        //         tMRS.classList.contains('marking-focus') ||
-        //         tMRS.classList.contains('focusedMarking')
-        //     ) {
-        //         tMRS.classList.remove('marking-focus');
-        //         tMRS.classList.add('marking-unfocus');
-        //     } else {
-        //         tMRS.classList.remove('marking-blur');
-        //     }
-        // });
-    }
-
-    unFocusMarking(notTextMarkingsIndex: number): void {
-        console.log('NEVER:unFocusMarking');
-        const notRightHandSideTextMarking: any =
-            document.getElementById('outputContainer')?.childNodes[
-                notTextMarkingsIndex + 1
-            ]!;
-        notRightHandSideTextMarking.classList.add('marking-unfocus');
     }
 
     unFocusedMarkingsBlured(notTextMarkingsIndex: number): void {
