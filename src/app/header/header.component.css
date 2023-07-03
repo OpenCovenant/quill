@@ -25,6 +25,59 @@
     box-shadow: 0 0 1px 1px #e3e3e3ae;
 }
 
+#offcanvasStartButton {
+    border: 1px solid rgb(202, 202, 202);
+    padding: 3px 5px;
+    border-radius: 6px;
+}
+
 #offcanvasStartButton:hover {
     background-color: #e3e3e3;
+}
+
+hr {
+    background-color: #353434;
+    height: 1px;
+    border: none;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.navText {
+    display: flex;
+    justify-content: start;
+    list-style: none;
+    height: 50px;
+    padding: 1rem;
+    margin-bottom: 0;
+}
+
+a {
+    text-decoration: none;
+    color: #000000;
+    font-size: 1rem;
+    margin-left: 0rem;
+    border-radius: 7px;
+}
+
+a:hover {
+    background-color: rgba(241, 238, 238, 0.952);
+    cursor: pointer;
+}
+
+.bi-info-circle,
+.bi-house-door,
+.bi-gear,
+.bi-question-circle {
+    padding-right: 1rem;
+    color: #3a3a3a;
+}
+
+.offcanvas-start {
+    border-radius: 0px 10px 10px 0px;
+    width: 300px;
+}
+
+.offcanvas-body {
+    padding: 0;
 }
