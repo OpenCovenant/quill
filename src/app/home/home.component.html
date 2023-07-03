@@ -279,7 +279,7 @@
         <div *ngIf="processedText?.textMarkings">
             <ng-template
                 [ngIf]="!highlightingMarking"
-                [ngIfElse]="highlightedMarking"
+                [ngIfElse]="highlightedMarkingTemplate"
             >
                 <div
                     *ngFor="
@@ -417,11 +417,33 @@
                 </div>
             </ng-template>
 
-            <ng-template #highlightedMarking>
+            <ng-template #highlightedMarkingTemplate>
                 <div class="card border-secondary">
+                    <div
+                        class="card-header"
+                        style="display: flex; justify-content: right"
+                    >
+                        <div>
+                    <button type="button"
+                            class="btn btn-secondary"
+                            (click)='blurFocusedRightSideMarking()'
+                        style="
+                            display: inline-block;
+                            padding-left: 6px;
+                            padding-right: 6px;
+                            border-radius: 4px;
+                            border: none;
+                        "
+                    >hiq fokusin</button
+                    >
+                        </div>
+                    </div>
                     <h1>
-                        replace me with a card detailing the highlighted marking
+                        {{getTextOfTextMarking(highlightedMarkingIndex)}}
                     </h1>
+                    <div>
+                        {{highlightedMarking?.description}}
+                    </div>
                 </div>
             </ng-template>
         </div>

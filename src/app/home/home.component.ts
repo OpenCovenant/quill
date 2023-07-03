@@ -51,8 +51,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
     loading$ = new BehaviorSubject<boolean>(false);
     editorElement!: HTMLElement;
-    // TODO change my value when it should be changed
-    highlightingMarking: boolean = true;
+    highlightingMarking: boolean = false;
 
     private placeHolderElement!: HTMLElement;
     private baseURL!: string;
@@ -831,6 +830,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     listenForMarkingFocus(): void {
+        console.log("listenForMarkingFocus")
         // TODO improve how the markings in the editor are picked
         const textMarkingsRightSide = document.querySelectorAll(
             '.card-header > div > span.typo'
@@ -853,7 +853,17 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         );
     }
 
+    highlightedMarking: TextMarking | undefined = undefined;
+    highlightedMarkingIndex: number = - 1;
+    /**
+     * clicking on the LHS - focuses on the RHS
+     * @param textMarkingIndex
+     */
     focusRightSideMarking(textMarkingIndex: number): void {
+        console.log("focusRightSideMarking", textMarkingIndex);
+        this.highlightingMarking = true;
+        this.highlightedMarking = this.processedText?.textMarkings[textMarkingIndex];
+        this.highlightedMarkingIndex = textMarkingIndex;
         document
             .querySelectorAll('#outputContainer > .card')
             .forEach((cN: any, i) => {
@@ -864,9 +874,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     cN.classList.add('marking-blur');
                 }
             });
+
     }
 
     focusLeftSideMarking(textMarkingIndex: number): void {
+        console.log("focusLeftSideMarking")
         // TODO remove + 1 once you remove the comment which is the first child in the children of outputContainer
         const rightHandSideTextMarking: any =
             document.getElementById('outputContainer')?.childNodes[
@@ -877,6 +889,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     checkUnfocusedMarkingsToBlur(): void {
+        console.log("checkUnfocusedMarkingsToBlur");
         const textMarkings = document.querySelectorAll(
             '.card-header > div > span.typo'
         );
@@ -892,25 +905,28 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     blurFocusedRightSideMarking(): void {
-        console.log('here');
-        const textMarkingsRightSide = document.querySelectorAll(
-            '#outputContainer > .card'
-        );
-
-        textMarkingsRightSide.forEach((tMRS) => {
-            if (
-                tMRS.classList.contains('marking-focus') ||
-                tMRS.classList.contains('focusedMarking')
-            ) {
-                tMRS.classList.remove('marking-focus');
-                tMRS.classList.add('marking-unfocus');
-            } else {
-                tMRS.classList.remove('marking-blur');
-            }
-        });
+        console.log('blurFocusedRightSideMarking');
+        this.highlightingMarking = false;
+        this.highlightedMarkingIndex = -1;
+        // const textMarkingsRightSide = document.querySelectorAll(
+        //     '#outputContainer > .card'
+        // );
+        //
+        // textMarkingsRightSide.forEach((tMRS) => {
+        //     if (
+        //         tMRS.classList.contains('marking-focus') ||
+        //         tMRS.classList.contains('focusedMarking')
+        //     ) {
+        //         tMRS.classList.remove('marking-focus');
+        //         tMRS.classList.add('marking-unfocus');
+        //     } else {
+        //         tMRS.classList.remove('marking-blur');
+        //     }
+        // });
     }
 
     unFocusMarking(notTextMarkingsIndex: number): void {
+        console.log('NEVER:unFocusMarking');
         const notRightHandSideTextMarking: any =
             document.getElementById('outputContainer')?.childNodes[
                 notTextMarkingsIndex + 1
@@ -919,6 +935,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     unFocusedMarkingsBlured(notTextMarkingsIndex: number): void {
+        console.log('unFocusedMarkingsBlured');
         const notRightHandSideTextMarkingBlured: any =
             document.getElementById('outputContainer')?.childNodes[
                 notTextMarkingsIndex + 1
