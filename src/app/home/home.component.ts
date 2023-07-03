@@ -589,7 +589,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 () => {},
                 () => {
                     setTimeout(() => this.listenForMarkingFocus(), 0);
-                    setTimeout(() => this.checkUnfocusedMarkingsToBlur(), 0);
                 }
             );
     }
@@ -833,30 +832,17 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     listenForMarkingFocus(): void {
         console.log("listenForMarkingFocus")
-        // TODO improve how the markings in the editor are picked
-        const textMarkingsRightSide = document.querySelectorAll(
-            '.card-header > div > span.typo'
-        );
-
         const textMarkings = document.querySelectorAll('#editor > p > .typo');
-
         textMarkings.forEach((node: any, index: number) =>
             node.addEventListener(
                 'click',
                 this.focusRightSideMarking.bind(this, index)
             )
         );
-
-        // textMarkingsRightSide.forEach((node: any, index: number) =>
-        //     node.addEventListener(
-        //         'click',
-        //         this.focusLeftSideMarking.bind(this, index)
-        //     )
-        // );
     }
 
     /**
-     * clicking on the LHS - focuses on the RHS
+     * Clicking on the LHS, focuses on the RHS.
      *
      * @param textMarkingIndex
      */
@@ -867,45 +853,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.highlightedMarkingIndex = textMarkingIndex;
     }
 
-    // focusLeftSideMarking(textMarkingIndex: number): void {
-    //     console.log("focusLeftSideMarking")
-    //     // TODO remove + 1 once you remove the comment which is the first child in the children of outputContainer
-    //     const rightHandSideTextMarking: any =
-    //         document.getElementById('outputContainer')?.childNodes[
-    //             textMarkingIndex + 1
-    //         ]!;
-    //
-    //     rightHandSideTextMarking.classList.add('marking-focus');
-    // }
-
-    checkUnfocusedMarkingsToBlur(): void {
-        console.log("checkUnfocusedMarkingsToBlur");
-        const textMarkings = document.querySelectorAll(
-            '.card-header > div > span.typo'
-        );
-
-        for (let i = 0; i < textMarkings.length; i++) {
-            if (!textMarkings[i].classList.contains('focusedMarking')) {
-                textMarkings[i].addEventListener(
-                    'click',
-                    this.unFocusedMarkingsBlured.bind(this, i)
-                );
-            }
-        }
-    }
-
     blurFocusedRightSideMarking(): void {
         console.log('blurFocusedRightSideMarking');
         this.highlightingMarking = false;
         this.highlightedMarkingIndex = -1;
-    }
-
-    unFocusedMarkingsBlured(notTextMarkingsIndex: number): void {
-        console.log('unFocusedMarkingsBlured');
-        const notRightHandSideTextMarkingBlured: any =
-            document.getElementById('outputContainer')?.childNodes[
-                notTextMarkingsIndex + 1
-            ]!;
-        notRightHandSideTextMarkingBlured.classList.add('marking-blur');
+        this.highlightedMarking = undefined;
     }
 }
