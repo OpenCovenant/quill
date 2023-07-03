@@ -831,7 +831,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     listenForMarkingFocus(): void {
-        console.log("listenForMarkingFocus")
         const textMarkings = document.querySelectorAll('#editor > p > .typo');
         textMarkings.forEach((node: any, index: number) =>
             node.addEventListener(
@@ -847,14 +846,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * @param textMarkingIndex
      */
     focusRightSideMarking(textMarkingIndex: number): void {
-        console.log("focusRightSideMarking", textMarkingIndex);
         this.highlightingMarking = true;
         this.highlightedMarking = this.processedText?.textMarkings[textMarkingIndex];
         this.highlightedMarkingIndex = textMarkingIndex;
     }
 
     blurFocusedRightSideMarking(): void {
-        console.log('blurFocusedRightSideMarking');
         this.highlightingMarking = false;
         this.highlightedMarkingIndex = -1;
         this.highlightedMarking = undefined;
