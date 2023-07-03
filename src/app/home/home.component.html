@@ -254,14 +254,9 @@
                                         <b>{{ suggestion.display }}</b>
                                     </button>
                                     <div
+                                        class="suggestionDisplay"
                                         *ngIf="
                                             textMarking.suggestions.length > 4
-                                        "
-                                        style="
-                                            display: flex;
-                                            justify-content: center;
-                                            align-items: center;
-                                            color: #737373;
                                         "
                                     >
                                         |
@@ -275,18 +270,11 @@
                                             (click)="
                                                 oscillateSuggestion(i, $event)
                                             "
-                                            class="bi {{
+                                            class="suggestionsHeader bi {{
                                                 shouldCollapseSuggestions[i]
                                                     ? 'bi-arrow-right-square'
                                                     : 'bi-arrow-left-square'
                                             }}"
-                                            style="
-                                                display: inline-block;
-                                                align-items: flex-start;
-                                                margin: 0;
-                                                line-height: inherit;
-                                                cursor: pointer;
-                                            "
                                             data-test="oscillate-suggestions-button"
                                         ></h3>
                                     </div>
