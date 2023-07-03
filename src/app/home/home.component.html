@@ -421,29 +421,121 @@
                 <div class="card border-secondary">
                     <div
                         class="card-header"
-                        style="display: flex; justify-content: right"
+                        style="display: flex; justify-content: space-between"
                     >
-                        <div>
-                    <button type="button"
-                            class="btn btn-secondary"
-                            (click)='blurFocusedRightSideMarking()'
-                        style="
-                            display: inline-block;
-                            padding-left: 6px;
-                            padding-right: 6px;
-                            border-radius: 4px;
-                            border: none;
-                        "
-                    >hiq fokusin</button
-                    >
+                        <div
+                            style="
+                                display: grid;
+                                grid-template-columns: auto 1fr;
+                                grid-template-rows: inherit;
+                                max-width: 80%;
+                            "
+                        >
+                            <span
+                                class="{{ highlightedMarking?.type }}"
+                                style="
+                                    display: inline-block;
+                                    padding: 3px 6px;
+                                    border-radius: 4px;
+                                    color: black;
+                                    white-space: nowrap;
+                                    text-overflow: ellipsis;
+                                    overflow: hidden;
+                                "
+                            >{{ getTextOfTextMarking(highlightedMarkingIndex) }}</span
+                            >
+                        </div>
+                        <div><i (click)="blurFocusedRightSideMarking()" style='color:black; cursor: pointer;' class="bi bi-x-lg fs-5" data-test="dismiss-marking-button"></i>
                         </div>
                     </div>
-                    <h1>
-                        {{getTextOfTextMarking(highlightedMarkingIndex)}}
-                    </h1>
-                    <div>
-                        {{highlightedMarking?.description}}
-                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div style="display: flex">
+                                <div>
+                                    <b>{{ highlightedMarking?.subtype }}</b> -
+                                    <span>{{ highlightedMarking?.description }}</span>
+                                </div>
+                                <div *ngIf="highlightedMarking?.id">
+                                    <i
+                                        class="bi bi-info-circle"
+                                        routerLink="{{ highlightedMarking?.id }}"
+                                        style="
+                                            font-size: 20px;
+                                            color: #484848;
+                                            cursor: pointer;
+                                        "
+                                        data-test="marking-information-icon"
+                                    ></i>
+                                </div>
+                            </div>
+                            <span *ngIf="highlightedMarking !== undefined && highlightedMarking?.suggestions!.length > 0">
+                                <div
+                                    style="
+                                        display: flex;
+                                        flex-wrap: wrap;
+                                        align-content: stretch;
+                                        justify-content: center;
+                                        gap: 1rem;
+                                    "
+                                >
+                                    <button
+                                        *ngFor="
+                                            let suggestion of highlightedMarking?.suggestions!.slice(
+                                                0,
+                                                shouldCollapseSuggestions[highlightedMarkingIndex]
+                                                    ? 4
+                                                    : highlightedMarking?.suggestions!.length
+                                            );
+                                            index as j
+                                        "
+                                        (click)="chooseSuggestion(highlightedMarkingIndex, j)"
+                                        class="suggestion"
+                                        style="color: black"
+                                        data-test="suggestion"
+                                    >
+                                        <b>{{ suggestion.display }}</b>
+                                    </button>
+                                    <div
+                                        *ngIf="
+                                            highlightedMarking?.suggestions!.length > 4
+                                        "
+                                        style="
+                                            display: flex;
+                                            justify-content: center;
+                                            align-items: center;
+                                            color: #737373;
+                                        "
+                                    >
+                                        |
+                                    </div>
+                                    <div
+                                        *ngIf="
+                                            highlightedMarking?.suggestions!.length > 4
+                                        "
+                                    >
+                                        <h3
+                                            (click)="
+                                                oscillateSuggestion(highlightedMarkingIndex, $event)
+                                            "
+                                            class="bi {{
+                                                shouldCollapseSuggestions[highlightedMarkingIndex]
+                                                    ? 'bi-arrow-right-square'
+                                                    : 'bi-arrow-left-square'
+                                            }}"
+                                            style="
+                                                display: inline-block;
+                                                align-items: flex-start;
+                                                margin: 0;
+                                                line-height: inherit;
+                                                cursor: pointer;
+                                            "
+                                            data-test="oscillate-suggestions-button"
+                                        ></h3>
+                                    </div>
+                                </div>
+                            </span>
+                        </li>
+                    </ul>
                 </div>
             </ng-template>
         </div>
