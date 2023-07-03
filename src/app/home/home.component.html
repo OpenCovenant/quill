@@ -441,10 +441,20 @@
                                     text-overflow: ellipsis;
                                     overflow: hidden;
                                 "
-                            >{{ getTextOfTextMarking(highlightedMarkingIndex) }}</span
+                                >{{
+                                    getTextOfTextMarking(
+                                        highlightedMarkingIndex
+                                    )
+                                }}</span
                             >
                         </div>
-                        <div><i (click)="blurFocusedRightSideMarking()" style='color:black; cursor: pointer;' class="bi bi-x-lg fs-5" data-test="dismiss-marking-button"></i>
+                        <div>
+                            <i
+                                (click)="blurFocusedRightSideMarking()"
+                                style="color: black; cursor: pointer"
+                                class="bi bi-x-lg fs-5"
+                                data-test="dismiss-marking-button"
+                            ></i>
                         </div>
                     </div>
                     <ul class="list-group list-group-flush">
@@ -452,12 +462,16 @@
                             <div style="display: flex">
                                 <div>
                                     <b>{{ highlightedMarking?.subtype }}</b> -
-                                    <span>{{ highlightedMarking?.description }}</span>
+                                    <span>{{
+                                        highlightedMarking?.description
+                                    }}</span>
                                 </div>
                                 <div *ngIf="highlightedMarking?.id">
                                     <i
                                         class="bi bi-info-circle"
-                                        routerLink="{{ highlightedMarking?.id }}"
+                                        routerLink="{{
+                                            highlightedMarking?.id
+                                        }}"
                                         style="
                                             font-size: 20px;
                                             color: #484848;
@@ -467,7 +481,13 @@
                                     ></i>
                                 </div>
                             </div>
-                            <span *ngIf="highlightedMarking !== undefined && highlightedMarking?.suggestions!.length > 0">
+                            <span
+                                *ngIf="
+                                    highlightedMarking !== undefined &&
+                                    (highlightedMarking?.suggestions)!.length >
+                                        0
+                                "
+                            >
                                 <div
                                     style="
                                         display: flex;
@@ -481,13 +501,21 @@
                                         *ngFor="
                                             let suggestion of highlightedMarking?.suggestions!.slice(
                                                 0,
-                                                shouldCollapseSuggestions[highlightedMarkingIndex]
+                                                shouldCollapseSuggestions[
+                                                    highlightedMarkingIndex
+                                                ]
                                                     ? 4
-                                                    : highlightedMarking?.suggestions!.length
+                                                    : (highlightedMarking?.suggestions)!
+                                                          .length
                                             );
                                             index as j
                                         "
-                                        (click)="chooseSuggestion(highlightedMarkingIndex, j)"
+                                        (click)="
+                                            chooseSuggestion(
+                                                highlightedMarkingIndex,
+                                                j
+                                            )
+                                        "
                                         class="suggestion"
                                         style="color: black"
                                         data-test="suggestion"
@@ -496,7 +524,8 @@
                                     </button>
                                     <div
                                         *ngIf="
-                                            highlightedMarking?.suggestions!.length > 4
+                                            (highlightedMarking?.suggestions)!
+                                                .length > 4
                                         "
                                         style="
                                             display: flex;
@@ -509,15 +538,21 @@
                                     </div>
                                     <div
                                         *ngIf="
-                                            highlightedMarking?.suggestions!.length > 4
+                                            (highlightedMarking?.suggestions)!
+                                                .length > 4
                                         "
                                     >
                                         <h3
                                             (click)="
-                                                oscillateSuggestion(highlightedMarkingIndex, $event)
+                                                oscillateSuggestion(
+                                                    highlightedMarkingIndex,
+                                                    $event
+                                                )
                                             "
                                             class="bi {{
-                                                shouldCollapseSuggestions[highlightedMarkingIndex]
+                                                shouldCollapseSuggestions[
+                                                    highlightedMarkingIndex
+                                                ]
                                                     ? 'bi-arrow-right-square'
                                                     : 'bi-arrow-left-square'
                                             }}"
