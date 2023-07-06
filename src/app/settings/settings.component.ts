@@ -18,8 +18,8 @@ export class SettingsComponent implements OnInit {
         this.http.get<any>('', {
             headers: headers
         }).subscribe(data=>{
-            console.log(data.marking_types['gabim-shkrimi']);
-            console.log(data.marking_types['hapesira-mes-datash']);
+            console.log(data.marking_types['']);
+            console.log(data.marking_types['']);
         });
 
     }
