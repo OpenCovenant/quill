@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 
 @Component({
     selector: 'app-settings',
@@ -7,7 +7,20 @@ import { Router } from '@angular/router';
     styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
-    constructor() {}
+    constructor(private http:HttpClient) {
+    }
 
-    ngOnInit(): void {}
+
+
+
+    ngOnInit(){
+        const headers = new HttpHeaders({});
+        this.http.get<any>('', {
+            headers: headers
+        }).subscribe(data=>{
+            console.log(data.marking_types['gabim-shkrimi']);
+            console.log(data.marking_types['hapesira-mes-datash']);
+        });
+
+    }
 }
