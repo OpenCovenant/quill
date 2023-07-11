@@ -282,7 +282,7 @@
     }
 }
 
-.marking-focus{
+.marking-focus {
     margin: 0 30px 0 -17px;
     border: 3px solid;
     font-weight: bold;
@@ -298,7 +298,7 @@
     font-weight: normal;
 }
 
-.marking-blur{
+.marking-blur {
     border-radius: 4px;
     padding-top: 3px;
     padding-bottom: 3px;
@@ -307,7 +307,6 @@
     font-weight: normal;
     filter: blur(2px);
 }
-
 
 /*TODO I don't like these two a lot, write better responsive code, I assume ideally this should be added in flex-stuff*/
 @media (min-width: 800px) {

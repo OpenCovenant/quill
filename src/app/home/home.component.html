@@ -195,11 +195,8 @@
                     "
                     class="card border-secondary {{ i > 0 ? 'mt-2' : '' }}"
                 >
-                    <div
-                        class="card-header secondHeader"
-                    >
-                        <div class="grid1"
-                        >
+                    <div class="card-header secondHeader">
+                        <div class="grid1">
                             <span
                                 id="textMarking"
                                 class="{{ textMarking.type }}"
@@ -233,9 +230,7 @@
                                 </div>
                             </div>
                             <span *ngIf="textMarking.suggestions.length > 0">
-                                <div
-                                    id="suggestions"
-                                >
+                                <div id="suggestions">
                                     <button
                                         *ngFor="
                                             let suggestion of textMarking.suggestions.slice(
@@ -287,13 +282,12 @@
 
             <ng-template #highlightedMarkingTemplate>
                 <div class="card border-secondary">
-                    <div
-                        class="card-header secondHeader"
-                    >
-                        <div class="grid1"
-                        >
+                    <div class="card-header secondHeader">
+                        <div class="grid1">
                             <span
-                                class="textMarking {{ highlightedMarking?.type }}"
+                                class="textMarking {{
+                                    highlightedMarking?.type
+                                }}"
                                 >{{
                                     getTextOfTextMarking(
                                         highlightedMarkingIndex
@@ -336,9 +330,7 @@
                                         0
                                 "
                             >
-                                <div
-                                    class='suggestions'
-                                >
+                                <div class="suggestions">
                                     <button
                                         *ngFor="
                                             let suggestion of highlightedMarking?.suggestions!.slice(
@@ -365,7 +357,7 @@
                                         <b>{{ suggestion.display }}</b>
                                     </button>
                                     <div
-                                        class='suggestion'
+                                        class="suggestion"
                                         *ngIf="
                                             (highlightedMarking?.suggestions)!
                                                 .length > 4
