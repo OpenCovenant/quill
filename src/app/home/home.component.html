@@ -293,16 +293,7 @@
                         <div class="grid1"
                         >
                             <span
-                                class="{{ highlightedMarking?.type }}"
-                                style="
-                                    display: inline-block;
-                                    padding: 3px 6px;
-                                    border-radius: 4px;
-                                    color: black;
-                                    white-space: nowrap;
-                                    text-overflow: ellipsis;
-                                    overflow: hidden;
-                                "
+                                class="textMarking {{ highlightedMarking?.type }}"
                                 >{{
                                     getTextOfTextMarking(
                                         highlightedMarkingIndex
@@ -330,15 +321,10 @@
                                 </div>
                                 <div *ngIf="highlightedMarking?.id">
                                     <i
-                                        class="bi bi-info-circle"
+                                        class="bi bi-info-circle informationCircle"
                                         routerLink="{{
                                             highlightedMarking?.id
                                         }}"
-                                        style="
-                                            font-size: 20px;
-                                            color: #484848;
-                                            cursor: pointer;
-                                        "
                                         data-test="marking-information-icon"
                                     ></i>
                                 </div>
@@ -351,13 +337,7 @@
                                 "
                             >
                                 <div
-                                    style="
-                                        display: flex;
-                                        flex-wrap: wrap;
-                                        align-content: stretch;
-                                        justify-content: center;
-                                        gap: 1rem;
-                                    "
+                                    class='suggestions'
                                 >
                                     <button
                                         *ngFor="
@@ -385,15 +365,10 @@
                                         <b>{{ suggestion.display }}</b>
                                     </button>
                                     <div
+                                        class='suggestion'
                                         *ngIf="
                                             (highlightedMarking?.suggestions)!
                                                 .length > 4
-                                        "
-                                        style="
-                                            display: flex;
-                                            justify-content: center;
-                                            align-items: center;
-                                            color: #737373;
                                         "
                                     >
                                         |
@@ -411,20 +386,13 @@
                                                     $event
                                                 )
                                             "
-                                            class="bi {{
+                                            class="bi suggestionsHeader {{
                                                 shouldCollapseSuggestions[
                                                     highlightedMarkingIndex
                                                 ]
                                                     ? 'bi-arrow-right-square'
                                                     : 'bi-arrow-left-square'
                                             }}"
-                                            style="
-                                                display: inline-block;
-                                                align-items: flex-start;
-                                                margin: 0;
-                                                line-height: inherit;
-                                                cursor: pointer;
-                                            "
                                             data-test="oscillate-suggestions-button"
                                         ></h3>
                                     </div>
