@@ -51,6 +51,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
     loading$ = new BehaviorSubject<boolean>(false);
     editorElement!: HTMLElement;
+    highlightingMarking: boolean = false;
+    highlightedMarking: TextMarking | undefined = undefined;
+    highlightedMarkingIndex: number = -1;
 
     private placeHolderElement!: HTMLElement;
     private baseURL!: string;
@@ -550,40 +553,47 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.http
             .post(this.generateMarkingsURL, editor.innerHTML)
             .pipe(finalize(() => this.loading$.next(false)))
-            .subscribe((next) => {
-                this.processedText = next as ProcessedText;
-                this.processedText.textMarkings = sortParagraphedTextMarkings(
-                    this.processedText.textMarkings
-                );
-                const consumableTextMarkings: TextMarking[] = Array.from(
-                    this.processedText.textMarkings
-                );
-                if (cursorPlacement === CursorPlacement.LAST_SAVE) {
-                    this.savedCursorPosition = this.saveCursorPosition(editor);
-                }
-
-                editor.childNodes.forEach(
-                    (childNode: ChildNode, index: number) => {
-                        const p: HTMLParagraphElement =
-                            document.createElement('p');
-                        p.innerHTML = childNode.textContent!;
-                        if (childNode.textContent === this.EMPTY_STRING) {
-                            p.innerHTML = this.LINE_BREAK;
-                        }
-                        editor.replaceChild(p, childNode);
-                        markText(
-                            p,
-                            consumableTextMarkings.filter(
-                                (tm: TextMarking) => tm.paragraph === index
-                            )
+            .subscribe({
+                next: (value) => {
+                    this.processedText = value as ProcessedText;
+                    this.processedText.textMarkings =
+                        sortParagraphedTextMarkings(
+                            this.processedText.textMarkings
                         );
+                    const consumableTextMarkings: TextMarking[] = Array.from(
+                        this.processedText.textMarkings
+                    );
+                    if (cursorPlacement === CursorPlacement.LAST_SAVE) {
+                        this.savedCursorPosition =
+                            this.saveCursorPosition(editor);
                     }
-                );
 
-                this.positionCursor(editor, cursorPlacement);
-                this.shouldCollapseSuggestions = new Array<boolean>(
-                    this.processedText.textMarkings.length
-                ).fill(true);
+                    editor.childNodes.forEach(
+                        (childNode: ChildNode, index: number) => {
+                            const p: HTMLParagraphElement =
+                                document.createElement('p');
+                            p.innerHTML = childNode.textContent!;
+                            if (childNode.textContent === this.EMPTY_STRING) {
+                                p.innerHTML = this.LINE_BREAK;
+                            }
+                            editor.replaceChild(p, childNode);
+                            markText(
+                                p,
+                                consumableTextMarkings.filter(
+                                    (tm: TextMarking) => tm.paragraph === index
+                                )
+                            );
+                        }
+                    );
+
+                    this.positionCursor(editor, cursorPlacement);
+                    this.shouldCollapseSuggestions = new Array<boolean>(
+                        this.processedText.textMarkings.length
+                    ).fill(true);
+                },
+                complete: () => {
+                    setTimeout(() => this.listenForMarkingFocus(), 0);
+                }
             });
     }
 
@@ -837,5 +847,33 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         retrievedButtons.forEach((btnsdown) => {
             btnsdown.disabled = true;
         });
+    }
+
+    listenForMarkingFocus(): void {
+        const textMarkings = document.querySelectorAll('#editor > p > .typo');
+        textMarkings.forEach((node: any, index: number) =>
+            node.addEventListener(
+                'click',
+                this.focusRightSideMarking.bind(this, index)
+            )
+        );
+    }
+
+    /**
+     * Clicking on the LHS, focuses on the RHS.
+     *
+     * @param textMarkingIndex
+     */
+    focusRightSideMarking(textMarkingIndex: number): void {
+        this.highlightingMarking = true;
+        this.highlightedMarking =
+            this.processedText?.textMarkings[textMarkingIndex];
+        this.highlightedMarkingIndex = textMarkingIndex;
+    }
+
+    blurFocusedRightSideMarking(): void {
+        this.highlightingMarking = false;
+        this.highlightedMarkingIndex = -1;
+        this.highlightedMarking = undefined;
     }
 }
