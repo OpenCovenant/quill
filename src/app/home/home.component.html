@@ -198,8 +198,7 @@
                     <div class="card-header secondHeader">
                         <div class="grid1">
                             <span
-                                id="textMarking"
-                                class="{{ textMarking.type }}"
+                                class="textMarkinggg {{ textMarking.type }}"
                                 >{{ getTextOfTextMarking(i) }}</span
                             >
                         </div>
@@ -222,15 +221,14 @@
                                 </div>
                                 <div *ngIf="textMarking.id">
                                     <i
-                                        id="informationCircle"
-                                        class="bi bi-info-circle"
+                                        class="bi bi-info-circle informationCircleee"
                                         routerLink="{{ textMarking.id }}"
                                         data-test="marking-information-icon"
                                     ></i>
                                 </div>
                             </div>
                             <span *ngIf="textMarking.suggestions.length > 0">
-                                <div id="suggestions">
+                                <div class="suggestionsss">
                                     <button
                                         *ngFor="
                                             let suggestion of textMarking.suggestions.slice(
@@ -285,7 +283,7 @@
                     <div class="card-header secondHeader">
                         <div class="grid1">
                             <span
-                                class="textMarking {{
+                                class="textMarkinggg {{
                                     highlightedMarking?.type
                                 }}"
                                 >{{
@@ -315,7 +313,7 @@
                                 </div>
                                 <div *ngIf="highlightedMarking?.id">
                                     <i
-                                        class="bi bi-info-circle informationCircle"
+                                        class="bi bi-info-circle informationCircleee"
                                         routerLink="{{
                                             highlightedMarking?.id
                                         }}"
@@ -326,11 +324,11 @@
                             <span
                                 *ngIf="
                                     highlightedMarking !== undefined &&
-                                    (highlightedMarking?.suggestions)!.length >
+                                    highlightedMarking?.suggestions!.length >
                                         0
                                 "
                             >
-                                <div class="suggestions">
+                                <div class="suggestionsss">
                                     <button
                                         *ngFor="
                                             let suggestion of highlightedMarking?.suggestions!.slice(
@@ -357,7 +355,7 @@
                                         <b>{{ suggestion.display }}</b>
                                     </button>
                                     <div
-                                        class="suggestion"
+                                        class="suggestionDisplay"
                                         *ngIf="
                                             (highlightedMarking?.suggestions)!
                                                 .length > 4
