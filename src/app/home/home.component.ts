@@ -341,6 +341,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 this.shouldCollapseSuggestions = new Array<boolean>(
                     this.processedText.textMarkings.length
                 ).fill(true);
+
+                this.highlightingMarking = false;
+                this.highlightedMarkingIndex = -1;
+                this.highlightedMarking = undefined;
             });
     }
 
