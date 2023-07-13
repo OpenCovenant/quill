@@ -114,7 +114,7 @@
     max-width: 80%;
 }
 
-.textMarkinggg {
+.text-marking {
     display: inline-block;
     padding: 3px 6px;
     border-radius: 4px;
@@ -124,13 +124,13 @@
     overflow: hidden;
 }
 
-.informationCircleee {
+.information-circle {
     font-size: 20px;
     color: #484848;
     cursor: pointer;
 }
 
-.suggestionsss {
+.suggestions {
     display: flex;
     flex-wrap: wrap;
     align-content: stretch;
@@ -142,14 +142,14 @@
     color: black;
 }
 
-.suggestionDisplay {
+.suggestion-display {
     display: flex;
     justify-content: center;
     align-items: center;
     color: #737373;
 }
 
-.suggestionsHeader {
+.suggestions-header {
     display: inline-block;
     align-items: flex-start;
     margin: 0;
@@ -157,7 +157,7 @@
     cursor: pointer;
 }
 
-.waitingText {
+.waiting-text {
     display: inline-block;
     padding-left: 6px;
     padding-right: 6px;

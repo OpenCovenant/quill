@@ -197,10 +197,9 @@
                 >
                     <div class="card-header secondHeader">
                         <div class="grid1">
-                            <span
-                                class="textMarkinggg {{ textMarking.type }}"
-                                >{{ getTextOfTextMarking(i) }}</span
-                            >
+                            <span class="text-marking {{ textMarking.type }}">{{
+                                getTextOfTextMarking(i)
+                            }}</span>
                         </div>
                         <div>
                             <button
@@ -221,14 +220,14 @@
                                 </div>
                                 <div *ngIf="textMarking.id">
                                     <i
-                                        class="bi bi-info-circle informationCircleee"
+                                        class="bi bi-info-circle information-circle"
                                         routerLink="{{ textMarking.id }}"
                                         data-test="marking-information-icon"
                                     ></i>
                                 </div>
                             </div>
                             <span *ngIf="textMarking.suggestions.length > 0">
-                                <div class="suggestionsss">
+                                <div class="suggestions">
                                     <button
                                         *ngFor="
                                             let suggestion of textMarking.suggestions.slice(
@@ -247,7 +246,7 @@
                                         <b>{{ suggestion.display }}</b>
                                     </button>
                                     <div
-                                        class="suggestionDisplay"
+                                        class="suggestion-display"
                                         *ngIf="
                                             textMarking.suggestions.length > 4
                                         "
@@ -263,7 +262,7 @@
                                             (click)="
                                                 oscillateSuggestion(i, $event)
                                             "
-                                            class="suggestionsHeader bi {{
+                                            class="bi suggestions-header {{
                                                 shouldCollapseSuggestions[i]
                                                     ? 'bi-arrow-right-square'
                                                     : 'bi-arrow-left-square'
@@ -283,7 +282,7 @@
                     <div class="card-header secondHeader">
                         <div class="grid1">
                             <span
-                                class="textMarkinggg {{
+                                class="text-marking {{
                                     highlightedMarking?.type
                                 }}"
                                 >{{
@@ -313,7 +312,7 @@
                                 </div>
                                 <div *ngIf="highlightedMarking?.id">
                                     <i
-                                        class="bi bi-info-circle informationCircleee"
+                                        class="bi bi-info-circle information-circle"
                                         routerLink="{{
                                             highlightedMarking?.id
                                         }}"
@@ -328,7 +327,7 @@
                                         0
                                 "
                             >
-                                <div class="suggestionsss">
+                                <div class="suggestions">
                                     <button
                                         *ngFor="
                                             let suggestion of highlightedMarking?.suggestions!.slice(
@@ -355,7 +354,7 @@
                                         <b>{{ suggestion.display }}</b>
                                     </button>
                                     <div
-                                        class="suggestionDisplay"
+                                        class="suggestion-display"
                                         *ngIf="
                                             (highlightedMarking?.suggestions)!
                                                 .length > 4
@@ -376,7 +375,7 @@
                                                     $event
                                                 )
                                             "
-                                            class="bi suggestionsHeader {{
+                                            class="bi suggestions-header {{
                                                 shouldCollapseSuggestions[
                                                     highlightedMarkingIndex
                                                 ]
@@ -405,7 +404,7 @@
         >
             <div class="card-header secondHeader">
                 <div>
-                    <span class="waitingText">duke lexuar shkrimin...</span>
+                    <span class="waiting-text">duke lexuar shkrimin...</span>
                 </div>
             </div>
             <ul class="list-group list-group-flush listStyling">
