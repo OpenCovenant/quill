@@ -342,9 +342,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     this.processedText.textMarkings.length
                 ).fill(true);
 
-                this.highlightingMarking = false;
-                this.highlightedMarkingIndex = -1;
-                this.highlightedMarking = undefined;
+                this.blurFocusedRightSideMarking();
             });
     }
 
@@ -395,6 +393,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.processedText = undefined;
         this.updateCharacterAndWordCount();
         this.shouldCollapseSuggestions = new Array<boolean>(0);
+        this.blurFocusedRightSideMarking();
     }
 
     /**
@@ -820,7 +819,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                         !this.shouldNotMarkEditor(keyboardEvent)
                 ),
                 debounceTime(this.EVENTUAL_MARKING_TIME),
-                tap(() => this.markEditor())
+                tap(() => {
+                    this.blurFocusedRightSideMarking();
+                    this.markEditor();
+                })
             )
             .subscribe();
     }
