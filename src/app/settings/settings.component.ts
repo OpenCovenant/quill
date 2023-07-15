@@ -20,7 +20,7 @@ export class SettingsComponent implements OnInit {
     getApiResponse() {
         this.http.get<any>(
             // API Link
-            'https://fierce-taiga-45450.herokuapp.com/api/getMarkingTypes').subscribe(response => {
+            '[URL]').subscribe(response => {
             this.results = response;
             this.markingTypes = Object.values(this.results.marking_types);
             for (const markingType in this.results.marking_types) {
