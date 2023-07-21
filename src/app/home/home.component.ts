@@ -24,7 +24,7 @@ import {
     markText,
     sortParagraphedTextMarkings
 } from '../text-marking/text-marking';
-import { DarkModeService } from '../dark-mode.service'
+import { DarkModeService } from '../dark-mode.service';
 
 @Component({
     selector: 'app-home',
