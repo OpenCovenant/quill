@@ -183,7 +183,7 @@
             </div>
         </div>
 
-        <div *ngIf="processedText?.textMarkings">
+        <div *ngIf="processedText?.textMarkings" [ngClass]="{'sticky': highlightingMarking}">
             <ng-template
                 [ngIf]="!highlightingMarking"
                 [ngIfElse]="highlightedMarkingTemplate"

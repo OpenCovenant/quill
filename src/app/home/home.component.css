@@ -318,3 +318,8 @@
         width: 35%;
     }
 }
+
+.sticky {
+    position: sticky;
+    top: 0;
+}
