@@ -24,6 +24,7 @@ import {
     markText,
     sortParagraphedTextMarkings
 } from '../text-marking/text-marking';
+import { DarkModeService } from '../dark-mode.service'
 
 @Component({
     selector: 'app-home',
@@ -67,7 +68,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     constructor(
         public localStorageService: LocalStorageService,
-        private http: HttpClient
+        private http: HttpClient,
+        public darkModeService: DarkModeService
     ) {
         this.initializeURLs();
         // should any other call be made here? probably not... actually even this should be removed soon
@@ -881,5 +883,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.highlightingMarking = false;
         this.highlightedMarkingIndex = -1;
         this.highlightedMarking = undefined;
+    }
+
+    toggleDarkMode() {
+        this.darkModeService.toggleDarkMode();
     }
 }

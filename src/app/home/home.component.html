@@ -1,6 +1,6 @@
-<div id="highLevelContainer">
-    <div id="inputContainer" class="inputText mt-5">
-        <div class="card border-secondary">
+<div class="high-level-container" [ngClass]="{'high-level-container-dark-mode': darkModeService.isDarkMode}">
+    <div class="input-container inputText mt-5">
+        <div class="card border-secondary" [ngClass]="{'input-container-card-dark-mode': darkModeService.isDarkMode}">
             <div class="card-header firstHeader">
                 <button
                     id="{{ writeTextToggleButtonID }}"
@@ -25,6 +25,7 @@
                 <div class="d-flex">
                     <div
                         id="editor"
+                        [ngClass]="{'editor-dark-mode': darkModeService.isDarkMode}"
                         contenteditable="true"
                         (paste)="onTextPaste($event)"
                         [innerHTML]="innerHTMLOfEditor"
@@ -40,13 +41,14 @@
                             !editorHasText() ||
                             editorElement.innerHTML === EMPTY_STRING
                         "
+                        [ngClass]="{'editor-placeholder-dark-mode': darkModeService.isDarkMode}"
                         data-test="editor-placeholder"
                     >
                         {{ EDITOR_PLACEHOLDER_TEXT }}
                     </div>
-                    <div class="placeholderText" *ngIf="editorHasText()">
+                    <div class="clear-editor-section" *ngIf="editorHasText()">
                         <span
-                            id="clearEditorSpan"
+                            class="clear-editor-span"
                             (click)="clearEditor()"
                             title="fshi shkrimin"
                             ><i
@@ -58,7 +60,7 @@
                 </div>
                 <hr />
                 <div class="flex1">
-                    <span class="flex2" data-test="characters-words-markings"
+                    <span class="characters-words-markings" [ngClass]="{'characters-words-markings-dark-mode': darkModeService.isDarkMode}" data-test="characters-words-markings"
                         >{{ characterCount }}&nbsp;{{
                             characterCount === 1 ? "karakter" : "karaktere"
                         }}&comma;&nbsp;{{ wordCount }}&nbsp;fjalë&comma;&nbsp;{{
@@ -121,7 +123,7 @@
             </div>
         </div>
     </div>
-    <div id="outputContainer" class="outputTexts mt-5">
+    <div class="output-container outputTexts mt-5">
         <div
             *ngIf="
                 (processedText === undefined ||
@@ -421,6 +423,8 @@
 <br />
 <br />
 
+<button (click)='toggleDarkMode()'>toggle dark mode</button>
+
 <div
     class="modal fade"
     id="writtenTextsHistoryModal"
@@ -431,7 +435,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="writtenTextsHistoryModalLabel">
+                <h5 id="writtenTextsHistoryModalLabel" class="modal-title">
                     Historiku i Shkrimeve
                 </h5>
                 <button

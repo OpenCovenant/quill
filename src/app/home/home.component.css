@@ -1,11 +1,20 @@
-#highLevelContainer {
+:root {
+    --dark-mode-theme: #2c2c2c;
+    --dark-mode-anti-theme: white;
+}
+
+.high-level-container {
     display: flex;
     justify-content: space-between;
     gap: 1rem;
     flex: 1;
 }
 
-#inputContainer {
+.high-level-container-dark-mode {
+    background-color: var(--dark-mode-theme);
+}
+
+.input-container {
     flex: 0 0 60%;
     margin-left: 3rem;
 }
@@ -30,11 +39,15 @@
     outline: 0 solid transparent;
 }
 
-.placeholderText {
+.editor-dark-mode {
+    color: var(--dark-mode-anti-theme);
+}
+
+.clear-editor-section {
     min-width: 4%;
 }
 
-#clearEditorSpan {
+.clear-editor-span {
     font-size: 36px;
     border-radius: 40%;
     cursor: pointer;
@@ -46,11 +59,15 @@
     font-size: 0.8rem;
 }
 
-.flex2 {
+.characters-words-markings {
     display: flex;
     justify-content: center;
     align-content: center;
     flex-direction: column;
+}
+
+.characters-words-markings-dark-mode {
+    color: var(--dark-mode-anti-theme);
 }
 
 #copyToClipboardButton {
@@ -73,7 +90,7 @@
     display: none;
 }
 
-#outputContainer {
+.output-container {
     flex: 0 0 30%;
     margin-right: 3rem;
 }
@@ -243,7 +260,7 @@
     background-color: #e3e3e3;
 }
 
-#clearEditorSpan:hover {
+.clear-editor-span:hover {
     background-color: #f3f3f3;
 }
 
@@ -252,7 +269,7 @@
 }
 
 @media (max-width: 800px) {
-    #highLevelContainer {
+    .high-level-container {
         flex-direction: column;
         gap: 2rem !important;
     }
@@ -266,15 +283,15 @@
         gap: 0.4rem !important;
     }
 
-    #inputContainer {
+    .input-container {
         margin-right: 3rem;
     }
 
-    #outputContainer {
+    .output-container {
         margin-left: 3rem;
     }
 
-    #clearEditorSpan {
+    .clear-editor-span {
         font-size: 160% !important;
     }
 }
@@ -307,11 +324,11 @@
 
 /*TODO I don't like these two a lot, write better responsive code, I assume ideally this should be added in flex-stuff*/
 @media (min-width: 800px) {
-    #inputContainer {
+    .input-container {
         width: 35%;
     }
 
-    #outputContainer {
+    .output-container {
         width: 35%;
     }
 }
@@ -319,4 +336,16 @@
 .sticky {
     position: sticky;
     top: 0;
+}
+
+.high-level-container-dark-mode {
+    background-color: var(--dark-mode-theme);
+}
+
+.editor-placeholder-dark-mode {
+    color: var(--dark-mode-anti-theme) !important;
+}
+
+.input-container-card-dark-mode {
+    background-color: var(--dark-mode-theme);
 }
