@@ -22,7 +22,7 @@
                 </button>
             </div>
             <div class="card-body" *ngIf="displayWriteTextOrUploadDocumentFlag">
-                <div class="flexProperty">
+                <div class="d-flex">
                     <div
                         id="editor"
                         contenteditable="true"
@@ -133,7 +133,7 @@
             <div class="card border-secondary">
                 <div class="card-header secondHeader">
                     <div>
-                        <span class="typo writingMisstakes"
+                        <span class="typo writing-mistakes"
                             >gabime shkrimi</span
                         >
                     </div>
@@ -183,7 +183,10 @@
             </div>
         </div>
 
-        <div *ngIf="processedText?.textMarkings">
+        <div
+            *ngIf="processedText?.textMarkings"
+            [ngClass]="{ sticky: highlightingMarking }"
+        >
             <ng-template
                 [ngIf]="!highlightingMarking"
                 [ngIfElse]="highlightedMarkingTemplate"
@@ -213,7 +216,7 @@
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
-                            <div style="display: flex">
+                            <div class="d-flex">
                                 <div>
                                     <b>{{ textMarking.subtype }}</b> -
                                     <span>{{ textMarking.description }}</span>
@@ -303,7 +306,7 @@
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
-                            <div style="display: flex">
+                            <div class="d-flex">
                                 <div>
                                     <b>{{ highlightedMarking?.subtype }}</b> -
                                     <span>{{
@@ -408,7 +411,7 @@
                 </div>
             </div>
             <ul class="list-group list-group-flush listStyling">
-                <div id="spinnerBorder" class="spinner-border" role="status">
+                <div class="spinner-border" role="status">
                     <span class="visually-hidden">duke lexuar shkrimin...</span>
                 </div>
             </ul>
@@ -452,7 +455,7 @@
                         >Përdor Historikun e Shkrimeve</label
                     >
                     <div>
-                        <i id="historyDeactivation"
+                        <i id="history-deactivation"
                             >çaktivizimi i historikut të shkrimeve do të fshijë
                             shkrimet ekzistuese</i
                         >
