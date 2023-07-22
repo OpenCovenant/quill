@@ -6,7 +6,10 @@
                 'input-container-card-dark-mode': darkModeService.isDarkMode
             }"
         >
-            <div class="card-header first-header">
+            <div class="card-header first-header"
+                 [ngClass]="{
+                'first-header-dark-mode': darkModeService.isDarkMode
+            }">
                 <button
                     id="{{ writeTextToggleButtonID }}"
                     (click)="toggleWriteTextButton()"
@@ -59,6 +62,10 @@
                     <div class="clear-editor-section" *ngIf="editorHasText()">
                         <span
                             class="clear-editor-span"
+                            [ngClass]="{
+                            'clear-editor-span-dark-mode':
+                                darkModeService.isDarkMode
+                        }"
                             (click)="clearEditor()"
                             title="fshi shkrimin"
                             ><i
@@ -68,7 +75,11 @@
                         </span>
                     </div>
                 </div>
-                <hr />
+                <hr
+                    [ngClass]="{
+                            'editor-footer-line-dark-mode':
+                                darkModeService.isDarkMode
+                        }"/>
                 <div class="flex1">
                     <span
                         class="characters-words-markings"
