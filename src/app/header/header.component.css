@@ -27,12 +27,17 @@
     background-color: var(--dark-mode-smoothed-theme);
 }
 
+.header-text-dark-mode {
+    color: var(--dark-mode-anti-theme);
+}
+
 .dropdown div {
     box-shadow: 0 0 1px 1px #e3e3e3ae;
 }
 
 .off-canvas-start-button {
     border: none;
+    border-radius: 0.5rem;
 }
 
 .off-canvas-start-button:hover {

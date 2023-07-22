@@ -22,6 +22,9 @@
             <span
                 routerLink="/"
                 class="penda-header-logo"
+                [ngClass]="{
+                    'header-text-dark-mode': darkModeService.isDarkMode
+                }"
                 data-test="penda-home-button"
                 >&nbsp;penda</span
             >
