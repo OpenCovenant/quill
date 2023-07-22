@@ -1,6 +1,6 @@
 :root {
     --dark-mode-theme: #2c2c2c;
-    --dark-mode-smoothed-theme: gray;
+    --dark-mode-smooth-theme: gray;
     --dark-mode-anti-theme: white;
     --media-cut-off-width: 800px; /*TODO: can this be utilized in the @medias?*/
     --typo-color: #ffc8c8;

@@ -20,11 +20,11 @@
 }
 
 .header-dark-mode {
-    background-color: var(--dark-mode-smoothed-theme);
+    background-color: var(--dark-mode-smooth-theme);
 }
 
 .header-button-dark-mode {
-    background-color: var(--dark-mode-smoothed-theme);
+    background-color: var(--dark-mode-smooth-theme);
 }
 
 .header-text-dark-mode {
