@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DarkModeService } from '../dark-mode.service'
+import { DarkModeService } from '../dark-mode.service';
 
 @Component({
     selector: 'app-footer',
@@ -7,6 +7,5 @@ import { DarkModeService } from '../dark-mode.service'
     styleUrls: ['./footer.component.css']
 })
 export class FooterComponent {
-    constructor(public darkModeService: DarkModeService) {
-    }
+    constructor(public darkModeService: DarkModeService) {}
 }
