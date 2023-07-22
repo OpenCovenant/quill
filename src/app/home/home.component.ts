@@ -884,8 +884,4 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.highlightedMarkingIndex = -1;
         this.highlightedMarking = undefined;
     }
-
-    toggleDarkMode() {
-        this.darkModeService.toggleDarkMode();
-    }
 }
