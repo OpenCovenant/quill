@@ -1,10 +1,5 @@
 @import "../app.component.css";
 
-:root {
-    --light: #eaeaea;
-    --dark: #28292c;
-}
-
 .high-level-container {
     display: flex;
     justify-content: space-between;
@@ -22,7 +17,7 @@
     justify-content: space-evenly;
 }
 
-.btnSeparator {
+.pipe-separator {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -72,7 +67,7 @@
     color: var(--dark-mode-anti-theme);
 }
 
-#copyToClipboardButton {
+.editor-footer-button {
     background: none;
     color: black;
     border: none;
@@ -82,14 +77,6 @@
 
 .clipboard-button-dark-mode {
     color: var(--dark-mode-anti-theme) !important;
-}
-
-#clockHistory {
-    background: none;
-    color: black;
-    border: none;
-    padding: 0;
-    font-size: 1.25rem;
 }
 
 #documentUploadingHiddenInput {
@@ -106,21 +93,7 @@
     justify-content: space-between;
 }
 
-.writing-mistakes {
-    display: inline-block;
-    padding-left: 6px;
-    padding-right: 6px;
-    color: black;
-}
-
-.wordsSuggestions {
-    display: inline-block;
-    padding-left: 6px;
-    padding-right: 6px;
-    color: black;
-}
-
-.stylingBookmarks {
+.template-marking-span {
     display: inline-block;
     padding-left: 6px;
     padding-right: 6px;
@@ -160,13 +133,6 @@
 
 .suggestion {
     color: black;
-}
-
-.suggestion-display {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #737373;
 }
 
 .suggestions-header {
@@ -251,7 +217,16 @@
     user-select: none;
 }
 
+/*TODO: improve the following*/
 #editor > p > .typo {
+    cursor: pointer;
+}
+
+#editor > p > .loanword {
+    cursor: pointer;
+}
+
+#editor > p > .stylistic {
     cursor: pointer;
 }
 
