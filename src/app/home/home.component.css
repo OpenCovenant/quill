@@ -18,7 +18,7 @@
     margin-left: 3rem;
 }
 
-.firstHeader {
+.first-header {
     display: flex;
     justify-content: space-evenly;
 }
@@ -94,7 +94,7 @@
     margin-right: 3rem;
 }
 
-.secondHeader {
+.second-header {
     display: flex;
     justify-content: space-between;
 }
@@ -284,6 +284,14 @@
     border: 3px solid;
     font-weight: bold;
     transition: all 0.1s;
+}
+
+.second-header-dark-mode {
+    background-color: var(--dark-mode-smooth-theme);
+}
+
+.supported-documents-text-dark-mode {
+    color: var(--dark-mode-anti-theme);
 }
 
 .marking-unfocus {

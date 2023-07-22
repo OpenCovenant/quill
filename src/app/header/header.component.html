@@ -1,8 +1,14 @@
 <div>
-    <nav class="navbar navbar-light">
+    <nav
+        class="navbar navbar-light"
+        [ngClass]="{ 'header-dark-mode': darkModeService.isDarkMode }"
+    >
         <div>
             <button
                 class="off-canvas-start-button"
+                [ngClass]="{
+                    'header-button-dark-mode': darkModeService.isDarkMode
+                }"
                 type="button"
                 data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasStart"
@@ -16,6 +22,9 @@
             <span
                 routerLink="/"
                 class="penda-header-logo"
+                [ngClass]="{
+                    'header-text-dark-mode': darkModeService.isDarkMode
+                }"
                 data-test="penda-home-button"
                 >&nbsp;penda</span
             >

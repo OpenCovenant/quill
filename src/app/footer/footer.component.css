@@ -14,3 +14,8 @@ a {
     text-decoration: none;
     font-size: 15px;
 }
+
+.footer-dark-mode {
+    color: var(--dark-mode-anti-theme) !important;
+    background-color: var(--dark-mode-smooth-theme) !important;
+}
