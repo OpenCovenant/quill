@@ -1,5 +1,5 @@
 <div>
-    <nav class="navbar navbar-light">
+    <nav class="navbar navbar-light" [ngClass]="{'header-dark-mode': darkModeService.isDarkMode}">
         <div>
             <button
                 class="off-canvas-start-button"
