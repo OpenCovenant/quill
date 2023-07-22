@@ -14,10 +14,6 @@
     font-size: 1.4rem;
 }
 
-.btn {
-    border: none;
-}
-
 #togglerIcon {
     width: 1.4rem;
 }
@@ -32,7 +28,11 @@
     box-shadow: 0 0 1px 1px #e3e3e3ae;
 }
 
-#offcanvasStartButton:hover {
+.off-canvas-start-button {
+    border: none;
+}
+
+.off-canvas-start-button:hover {
     background-color: #e3e3e3;
 }
 
