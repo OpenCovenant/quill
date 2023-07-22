@@ -286,6 +286,14 @@
     transition: all 0.1s;
 }
 
+.second-header-dark-mode {
+    background-color: var(--dark-mode-smoothed-theme);
+}
+
+.supported-documents-text-dark-mode {
+    color: var(--dark-mode-anti-theme);
+}
+
 .marking-unfocus {
     border-radius: 4px;
     padding-top: 3px;

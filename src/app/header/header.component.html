@@ -6,6 +6,7 @@
         <div>
             <button
                 class="off-canvas-start-button"
+                [ngClass]="{ 'header-button-dark-mode': darkModeService.isDarkMode }"
                 type="button"
                 data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasStart"

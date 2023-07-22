@@ -123,7 +123,7 @@
             >
                 <div class="text-center">
                     <br />
-                    <h5 class="card-title">
+                    <h5 class="card-title" [ngClass]="{'supported-documents-text-dark-mode': darkModeService.isDarkMode}">
                         Mbështesim dokumenta <b>Word</b>, <b>PDF</b>,
                         <b>Libre</b>.
                     </h5>
@@ -156,7 +156,7 @@
         >
             <!-- TODO put into a method -->
             <div class="card border-secondary">
-                <div class="card-header secondHeader">
+                <div class="card-header secondHeader" [ngClass]="{'second-header-dark-mode': darkModeService.isDarkMode}">
                     <div>
                         <span class="typo template-marking-span"
                             >gabime shkrimi</span
@@ -180,7 +180,7 @@
                 </ul>
             </div>
             <div class="card border-secondary mt-4">
-                <div class="card-header secondHeader">
+                <div class="card-header secondHeader" [ngClass]="{'second-header-dark-mode': darkModeService.isDarkMode}">
                     <div>
                         <span class="loanword template-marking-span"
                             >sugjerime huazimesh</span
@@ -204,7 +204,7 @@
                 </ul>
             </div>
             <div class="card border-secondary mt-4">
-                <div class="card-header secondHeader">
+                <div class="card-header secondHeader" [ngClass]="{'second-header-dark-mode': darkModeService.isDarkMode}">
                     <div>
                         <span class="stylistic template-marking-span"
                             >shenjime stilistike</span
@@ -241,7 +241,7 @@
                     "
                     class="card border-secondary {{ i > 0 ? 'mt-2' : '' }}"
                 >
-                    <div class="card-header secondHeader">
+                    <div class="card-header secondHeader" [ngClass]="{'second-header-dark-mode': darkModeService.isDarkMode}">
                         <div class="grid1">
                             <span class="text-marking {{ textMarking.type }}">{{
                                 getTextOfTextMarking(i)
@@ -331,7 +331,7 @@
 
             <ng-template #highlightedMarkingTemplate>
                 <div class="card border-secondary">
-                    <div class="card-header secondHeader">
+                    <div class="card-header secondHeader" [ngClass]="{'second-header-dark-mode': darkModeService.isDarkMode}">
                         <div class="grid1">
                             <span
                                 class="text-marking {{
@@ -460,7 +460,7 @@
             }}"
             *ngIf="loading$ | async"
         >
-            <div class="card-header secondHeader">
+            <div class="card-header secondHeader" [ngClass]="{'second-header-dark-mode': darkModeService.isDarkMode}">
                 <div>
                     <span class="waiting-text">duke lexuar shkrimin...</span>
                 </div>
