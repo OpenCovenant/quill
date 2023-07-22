@@ -340,10 +340,6 @@
     top: 0;
 }
 
-.high-level-container-dark-mode {
-    background-color: var(--dark-mode-theme);
-}
-
 .editor-placeholder-dark-mode {
     color: var(--dark-mode-anti-theme) !important;
 }
