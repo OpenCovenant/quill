@@ -79,6 +79,10 @@
     font-size: 1.25rem;
 }
 
+.clipboard-dark-mode {
+    color: var(--dark-mode-anti-theme) !important;
+}
+
 #clockHistory {
     background: none;
     color: black;
@@ -195,7 +199,7 @@
     font-size: 13px;
 }
 
-#writtenText {
+.written-text {
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -205,10 +209,18 @@
     padding: 5px;
 }
 
+.written-text:hover {
+    background-color: #f1f1f1;
+}
+
+.written-text-history-dark-mode {
+    color: var(--dark-mode-anti-theme) !important;
+}
+
 .typo {
     /*text-decoration: underline;*/
     /*text-decoration-color: red;*/
-    background-color: #ffc8c8;
+    background-color: var(--typo-color);
     border-radius: 4px;
     border: none;
     padding-top: 3px;
@@ -216,7 +228,7 @@
 }
 
 .loanword {
-    background-color: #ffd182;
+    background-color: var(--loanword-color);
     border-radius: 4px;
     border: none;
     padding-top: 3px;
@@ -224,7 +236,7 @@
 }
 
 .stylistic {
-    background-color: #a1b6dc;
+    background-color: var(--stylistic-color);
     border-radius: 4px;
     border: none;
     padding-top: 3px;
@@ -255,14 +267,6 @@
 .btnUnselected {
     color: white;
     background-color: #a9a9a9;
-}
-
-#offcanvasStartButton:hover {
-    background-color: #e3e3e3;
-}
-
-#writtenText:hover {
-    background-color: #f1f1f1;
 }
 
 @media (max-width: 800px) {
@@ -343,6 +347,73 @@
     color: var(--dark-mode-anti-theme) !important;
 }
 
+.list-group-item-dark-mode {
+    background-color: var(--dark-mode-theme);
+    color: var(--dark-mode-anti-theme);
+}
+
 .input-container-card-dark-mode {
     background-color: var(--dark-mode-theme);
+}
+
+:root {
+    --light: #eaeaea;
+    --dark: #28292c;
+    --link: rgb(27, 129, 112);
+    --link-hover: rgb(24, 94, 82);
+}
+
+.toggle-switch {
+    position: relative;
+    width: 3rem;
+}
+
+label {
+    position: absolute;
+    width: 100%;
+    height: 1.5rem;
+    background-color: var(--dark);
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+input {
+    position: absolute;
+    display: none;
+}
+
+.slider {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50px;
+    transition: 0.4s;
+}
+
+input:checked ~ .slider {
+    background-color: var(--light);
+}
+
+.slider::before {
+    content: "";
+    position: absolute;
+    /*top: 13px;*/
+    /*left: 1px;*/
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    box-shadow: inset 9px -4px 0 0 var(--light);
+    background-color: var(--dark);
+    transition: 0.4s;
+}
+
+input:checked ~ .slider::before {
+    transform: translateX(1.5rem);
+    background-color: var(--dark);
+    box-shadow: none;
+}
+
+
+.other-dark-mode {
+    background-color: red;
 }

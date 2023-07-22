@@ -98,6 +98,7 @@
                             id="copyToClipboardButton"
                             (click)="copyToClipboard()"
                             class="bi bi-clipboard"
+                            [ngClass]="{'clipboard-dark-mode': darkModeService.isDarkMode}"
                             title="kopjo shkrimin"
                             data-test="copy-to-clipboard-button"
                         ></button
@@ -108,6 +109,7 @@
                             data-bs-target="#writtenTextsHistoryModal"
                             title="trego historikun e shkrimeve"
                             class="bi bi-clock-history"
+                            [ngClass]="{'written-text-history-dark-mode': darkModeService.isDarkMode}"
                             data-test="written-texts-history-button"
                         ></button
                     ></span>
@@ -160,7 +162,7 @@
                     </div>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
+                    <li class="list-group-item" [ngClass]="{'list-group-item-dark-mode': darkModeService.isDarkMode}">
                         <b>shkrim pa gabime</b> -
                         <span
                             >shenjime për fjalë të shkruara gabim, gabime
@@ -178,7 +180,7 @@
                     </div>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
+                    <li class="list-group-item" [ngClass]="{'list-group-item-dark-mode': darkModeService.isDarkMode}">
                         <b>pa huazime për tani</b> -
                         <span
                             >shenjime për huazime me origjinë italiane, angleze,
@@ -196,7 +198,7 @@
                     </div>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
+                    <li class="list-group-item" [ngClass]="{'list-group-item-dark-mode': darkModeService.isDarkMode}">
                         <b>stilistikë e duhur</b> -
                         <span>shenjime për fjali tepër të gjata</span>
                     </li>
@@ -236,7 +238,7 @@
                         </div>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
+                        <li class="list-group-item" [ngClass]="{'list-group-item-dark-mode': darkModeService.isDarkMode}">
                             <div class="d-flex">
                                 <div>
                                     <b>{{ textMarking.subtype }}</b> -
@@ -326,7 +328,7 @@
                         </div>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
+                        <li class="list-group-item" [ngClass]="{'list-group-item-dark-mode': darkModeService.isDarkMode}">
                             <div class="d-flex">
                                 <div>
                                     <b>{{ highlightedMarking?.subtype }}</b> -
@@ -442,10 +444,18 @@
 <br />
 <br />
 
-<button (click)="toggleDarkMode()">toggle dark mode</button>
+<div class="toggle-switch" style='padding-left: 50px;'>
+    <label>
+        <input type="checkbox"
+               [checked]="!darkModeService.isDarkMode"
+               (change)="darkModeService.toggleDarkMode()"/>
+        <span class="slider"></span>
+    </label>
+</div>
 
 <div
     class="modal fade"
+    [ngClass]="{'other-dark-mode': darkModeService.isDarkMode}"
     id="writtenTextsHistoryModal"
     tabindex="-1"
     aria-labelledby="writtenTextsHistoryModalLabel"
@@ -492,7 +502,7 @@
                     class="list-group"
                 >
                     <p
-                        id="writtenText"
+                        class="written-text"
                         (click)="placeWrittenText(writtenText)"
                         type="button"
                         data-test="written-text"
