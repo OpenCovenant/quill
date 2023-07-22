@@ -167,7 +167,7 @@
     margin-top: 10px;
 }
 
-#history-deactivation {
+.history-deactivation-message {
     color: gray;
     font-size: 13px;
 }
@@ -262,7 +262,7 @@
         min-height: 18rem !important;
     }
 
-    #suggestions {
+    .suggestions {
         gap: 0.4rem !important;
     }
 
