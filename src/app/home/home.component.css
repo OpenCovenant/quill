@@ -1,14 +1,17 @@
 @import "../app.component.css";
 
+:root {
+    --light: #eaeaea;
+    --dark: #28292c;
+    --link: rgb(27, 129, 112);
+    --link-hover: rgb(24, 94, 82);
+}
+
 .high-level-container {
     display: flex;
     justify-content: space-between;
     gap: 1rem;
     flex: 1;
-}
-
-.high-level-container-dark-mode {
-    background-color: var(--dark-mode-theme);
 }
 
 .input-container {
@@ -354,13 +357,6 @@
 
 .input-container-card-dark-mode {
     background-color: var(--dark-mode-theme);
-}
-
-:root {
-    --light: #eaeaea;
-    --dark: #28292c;
-    --link: rgb(27, 129, 112);
-    --link-hover: rgb(24, 94, 82);
 }
 
 .toggle-switch {
