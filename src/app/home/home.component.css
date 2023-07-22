@@ -18,7 +18,7 @@
     margin-left: 3rem;
 }
 
-.firstHeader {
+.first-header {
     display: flex;
     justify-content: space-evenly;
 }
@@ -94,7 +94,7 @@
     margin-right: 3rem;
 }
 
-.secondHeader {
+.second-header {
     display: flex;
     justify-content: space-between;
 }

@@ -6,7 +6,7 @@
                 'input-container-card-dark-mode': darkModeService.isDarkMode
             }"
         >
-            <div class="card-header firstHeader">
+            <div class="card-header first-header">
                 <button
                     id="{{ writeTextToggleButtonID }}"
                     (click)="toggleWriteTextButton()"
@@ -163,7 +163,7 @@
             <!-- TODO put into a method -->
             <div class="card border-secondary">
                 <div
-                    class="card-header secondHeader"
+                    class="card-header second-header"
                     [ngClass]="{
                         'second-header-dark-mode': darkModeService.isDarkMode
                     }"
@@ -192,7 +192,7 @@
             </div>
             <div class="card border-secondary mt-4">
                 <div
-                    class="card-header secondHeader"
+                    class="card-header second-header"
                     [ngClass]="{
                         'second-header-dark-mode': darkModeService.isDarkMode
                     }"
@@ -221,7 +221,7 @@
             </div>
             <div class="card border-secondary mt-4">
                 <div
-                    class="card-header secondHeader"
+                    class="card-header second-header"
                     [ngClass]="{
                         'second-header-dark-mode': darkModeService.isDarkMode
                     }"
@@ -263,7 +263,7 @@
                     class="card border-secondary {{ i > 0 ? 'mt-2' : '' }}"
                 >
                     <div
-                        class="card-header secondHeader"
+                        class="card-header second-header"
                         [ngClass]="{
                             'second-header-dark-mode':
                                 darkModeService.isDarkMode
@@ -359,7 +359,7 @@
             <ng-template #highlightedMarkingTemplate>
                 <div class="card border-secondary">
                     <div
-                        class="card-header secondHeader"
+                        class="card-header second-header"
                         [ngClass]="{
                             'second-header-dark-mode':
                                 darkModeService.isDarkMode
@@ -494,7 +494,7 @@
             *ngIf="loading$ | async"
         >
             <div
-                class="card-header secondHeader"
+                class="card-header second-header"
                 [ngClass]="{
                     'second-header-dark-mode': darkModeService.isDarkMode
                 }"
