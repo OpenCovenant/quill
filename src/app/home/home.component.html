@@ -1,6 +1,4 @@
-<div
-    class="high-level-container"
->
+<div class="high-level-container">
     <div class="input-container inputText mt-5">
         <div
             class="card border-secondary"
@@ -97,7 +95,10 @@
                             id="copyToClipboardButton"
                             (click)="copyToClipboard()"
                             class="bi bi-clipboard"
-                            [ngClass]="{'clipboard-dark-mode': darkModeService.isDarkMode}"
+                            [ngClass]="{
+                                'clipboard-dark-mode':
+                                    darkModeService.isDarkMode
+                            }"
                             title="kopjo shkrimin"
                             data-test="copy-to-clipboard-button"
                         ></button
@@ -108,7 +109,10 @@
                             data-bs-target="#writtenTextsHistoryModal"
                             title="trego historikun e shkrimeve"
                             class="bi bi-clock-history"
-                            [ngClass]="{'written-text-history-dark-mode': darkModeService.isDarkMode}"
+                            [ngClass]="{
+                                'written-text-history-dark-mode':
+                                    darkModeService.isDarkMode
+                            }"
                             data-test="written-texts-history-button"
                         ></button
                     ></span>
@@ -161,7 +165,13 @@
                     </div>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item" [ngClass]="{'list-group-item-dark-mode': darkModeService.isDarkMode}">
+                    <li
+                        class="list-group-item"
+                        [ngClass]="{
+                            'list-group-item-dark-mode':
+                                darkModeService.isDarkMode
+                        }"
+                    >
                         <b>shkrim pa gabime</b> -
                         <span
                             >shenjime për fjalë të shkruara gabim, gabime
@@ -179,7 +189,13 @@
                     </div>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item" [ngClass]="{'list-group-item-dark-mode': darkModeService.isDarkMode}">
+                    <li
+                        class="list-group-item"
+                        [ngClass]="{
+                            'list-group-item-dark-mode':
+                                darkModeService.isDarkMode
+                        }"
+                    >
                         <b>pa huazime për tani</b> -
                         <span
                             >shenjime për huazime me origjinë italiane, angleze,
@@ -197,7 +213,13 @@
                     </div>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item" [ngClass]="{'list-group-item-dark-mode': darkModeService.isDarkMode}">
+                    <li
+                        class="list-group-item"
+                        [ngClass]="{
+                            'list-group-item-dark-mode':
+                                darkModeService.isDarkMode
+                        }"
+                    >
                         <b>stilistikë e duhur</b> -
                         <span>shenjime për fjali tepër të gjata</span>
                     </li>
@@ -237,7 +259,13 @@
                         </div>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item" [ngClass]="{'list-group-item-dark-mode': darkModeService.isDarkMode}">
+                        <li
+                            class="list-group-item"
+                            [ngClass]="{
+                                'list-group-item-dark-mode':
+                                    darkModeService.isDarkMode
+                            }"
+                        >
                             <div class="d-flex">
                                 <div>
                                     <b>{{ textMarking.subtype }}</b> -
@@ -327,7 +355,13 @@
                         </div>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item" [ngClass]="{'list-group-item-dark-mode': darkModeService.isDarkMode}">
+                        <li
+                            class="list-group-item"
+                            [ngClass]="{
+                                'list-group-item-dark-mode':
+                                    darkModeService.isDarkMode
+                            }"
+                        >
                             <div class="d-flex">
                                 <div>
                                     <b>{{ highlightedMarking?.subtype }}</b> -
@@ -445,7 +479,7 @@
 
 <div
     class="modal fade"
-    [ngClass]="{'other-dark-mode': darkModeService.isDarkMode}"
+    [ngClass]="{ 'other-dark-mode': darkModeService.isDarkMode }"
     id="writtenTextsHistoryModal"
     tabindex="-1"
     aria-labelledby="writtenTextsHistoryModalLabel"

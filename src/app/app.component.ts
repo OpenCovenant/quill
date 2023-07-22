@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DarkModeService } from './dark-mode.service'
+import { DarkModeService } from './dark-mode.service';
 
 @Component({
     selector: 'app-root',
@@ -9,6 +9,5 @@ import { DarkModeService } from './dark-mode.service'
 export class AppComponent {
     title: string = 'Penda';
 
-    constructor(public darkModeService: DarkModeService) {
-    }
+    constructor(public darkModeService: DarkModeService) {}
 }
