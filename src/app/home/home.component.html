@@ -443,15 +443,6 @@
 <br />
 <br />
 
-<div class="toggle-switch" style='padding-left: 50px;'>
-    <label>
-        <input type="checkbox"
-               [checked]="!darkModeService.isDarkMode"
-               (change)="darkModeService.toggleDarkMode()"/>
-        <span class="slider"></span>
-    </label>
-</div>
-
 <div
     class="modal fade"
     [ngClass]="{'other-dark-mode': darkModeService.isDarkMode}"
