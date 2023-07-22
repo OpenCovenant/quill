@@ -1,10 +1,5 @@
 @import "../app.component.css";
 
-:root {
-    --light: #eaeaea;
-    --dark: #28292c;
-}
-
 .navbar {
     background-color: var(--bar-color);
 }
@@ -14,15 +9,11 @@
     font-size: 1.4rem;
 }
 
-.btn {
-    border: none;
-}
-
-#togglerIcon {
+.navbar-toggler-icon-span {
     width: 1.4rem;
 }
 
-#pendaHeaderLogo {
+.penda-header-logo {
     color: black;
     font-size: 20px;
     cursor: pointer;
@@ -32,7 +23,11 @@
     box-shadow: 0 0 1px 1px #e3e3e3ae;
 }
 
-#offcanvasStartButton:hover {
+.off-canvas-start-button {
+    border: none;
+}
+
+.off-canvas-start-button:hover {
     background-color: #e3e3e3;
 }
 
