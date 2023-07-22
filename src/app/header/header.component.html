@@ -83,6 +83,27 @@
                 </div>
                 <br />
             </div>
+            <hr />
+            <div
+                style="
+                    display: flex;
+                    justify-content: space-between;
+                    padding-top: 2rem;
+                "
+            >
+                <div>Dark Mode:</div>
+                <div class="toggle-switch">
+                    <label class="dark-mode-label">
+                        <input
+                            class="dark-mode-input"
+                            type="checkbox"
+                            [checked]="!darkModeService.isDarkMode"
+                            (change)="darkModeService.toggleDarkMode()"
+                        />
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
         </div>
     </div>
 </div>

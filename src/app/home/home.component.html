@@ -1,6 +1,11 @@
-<div id="highLevelContainer">
-    <div id="inputContainer" class="inputText mt-5">
-        <div class="card border-secondary">
+<div class="high-level-container">
+    <div class="input-container mt-5">
+        <div
+            class="card border-secondary"
+            [ngClass]="{
+                'input-container-card-dark-mode': darkModeService.isDarkMode
+            }"
+        >
             <div class="card-header firstHeader">
                 <button
                     id="{{ writeTextToggleButtonID }}"
@@ -25,6 +30,9 @@
                 <div class="d-flex">
                     <div
                         id="editor"
+                        [ngClass]="{
+                            'editor-dark-mode': darkModeService.isDarkMode
+                        }"
                         contenteditable="true"
                         (paste)="onTextPaste($event)"
                         [innerHTML]="innerHTMLOfEditor"
@@ -40,13 +48,17 @@
                             !editorHasText() ||
                             editorElement.innerHTML === EMPTY_STRING
                         "
+                        [ngClass]="{
+                            'editor-placeholder-dark-mode':
+                                darkModeService.isDarkMode
+                        }"
                         data-test="editor-placeholder"
                     >
                         {{ EDITOR_PLACEHOLDER_TEXT }}
                     </div>
-                    <div class="placeholderText" *ngIf="editorHasText()">
+                    <div class="clear-editor-section" *ngIf="editorHasText()">
                         <span
-                            id="clearEditorSpan"
+                            class="clear-editor-span"
                             (click)="clearEditor()"
                             title="fshi shkrimin"
                             ><i
@@ -58,7 +70,13 @@
                 </div>
                 <hr />
                 <div class="flex1">
-                    <span class="flex2" data-test="characters-words-markings"
+                    <span
+                        class="characters-words-markings"
+                        [ngClass]="{
+                            'characters-words-markings-dark-mode':
+                                darkModeService.isDarkMode
+                        }"
+                        data-test="characters-words-markings"
                         >{{ characterCount }}&nbsp;{{
                             characterCount === 1 ? "karakter" : "karaktere"
                         }}&comma;&nbsp;{{ wordCount }}&nbsp;fjalë&comma;&nbsp;{{
@@ -77,6 +95,10 @@
                             id="copyToClipboardButton"
                             (click)="copyToClipboard()"
                             class="bi bi-clipboard"
+                            [ngClass]="{
+                                'clipboard-button-dark-mode':
+                                    darkModeService.isDarkMode
+                            }"
                             title="kopjo shkrimin"
                             data-test="copy-to-clipboard-button"
                         ></button
@@ -87,6 +109,10 @@
                             data-bs-target="#writtenTextsHistoryModal"
                             title="trego historikun e shkrimeve"
                             class="bi bi-clock-history"
+                            [ngClass]="{
+                                'written-text-history-button-dark-mode':
+                                    darkModeService.isDarkMode
+                            }"
                             data-test="written-texts-history-button"
                         ></button
                     ></span>
@@ -121,7 +147,7 @@
             </div>
         </div>
     </div>
-    <div id="outputContainer" class="outputTexts mt-5">
+    <div class="output-container mt-5">
         <div
             *ngIf="
                 (processedText === undefined ||
@@ -139,7 +165,13 @@
                     </div>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
+                    <li
+                        class="list-group-item"
+                        [ngClass]="{
+                            'list-group-item-dark-mode':
+                                darkModeService.isDarkMode
+                        }"
+                    >
                         <b>shkrim pa gabime</b> -
                         <span
                             >shenjime për fjalë të shkruara gabim, gabime
@@ -157,7 +189,13 @@
                     </div>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
+                    <li
+                        class="list-group-item"
+                        [ngClass]="{
+                            'list-group-item-dark-mode':
+                                darkModeService.isDarkMode
+                        }"
+                    >
                         <b>pa huazime për tani</b> -
                         <span
                             >shenjime për huazime me origjinë italiane, angleze,
@@ -175,7 +213,13 @@
                     </div>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
+                    <li
+                        class="list-group-item"
+                        [ngClass]="{
+                            'list-group-item-dark-mode':
+                                darkModeService.isDarkMode
+                        }"
+                    >
                         <b>stilistikë e duhur</b> -
                         <span>shenjime për fjali tepër të gjata</span>
                     </li>
@@ -215,7 +259,13 @@
                         </div>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
+                        <li
+                            class="list-group-item"
+                            [ngClass]="{
+                                'list-group-item-dark-mode':
+                                    darkModeService.isDarkMode
+                            }"
+                        >
                             <div class="d-flex">
                                 <div>
                                     <b>{{ textMarking.subtype }}</b> -
@@ -305,7 +355,13 @@
                         </div>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
+                        <li
+                            class="list-group-item"
+                            [ngClass]="{
+                                'list-group-item-dark-mode':
+                                    darkModeService.isDarkMode
+                            }"
+                        >
                             <div class="d-flex">
                                 <div>
                                     <b>{{ highlightedMarking?.subtype }}</b> -
@@ -431,7 +487,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="writtenTextsHistoryModalLabel">
+                <h5 id="writtenTextsHistoryModalLabel" class="modal-title">
                     Historiku i Shkrimeve
                 </h5>
                 <button
@@ -469,7 +525,7 @@
                     class="list-group"
                 >
                     <p
-                        id="writtenText"
+                        class="written-text"
                         (click)="placeWrittenText(writtenText)"
                         type="button"
                         data-test="written-text"
