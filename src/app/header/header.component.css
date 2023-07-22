@@ -30,3 +30,54 @@
 #offcanvasStartButton:hover {
     background-color: #e3e3e3;
 }
+
+.toggle-switch {
+    position: relative;
+    width: 3rem;
+}
+
+.dark-mode-label {
+    position: absolute;
+    width: 100%;
+    height: 1.5rem;
+    background-color: var(--dark);
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.dark-mode-input {
+    position: absolute;
+    display: none;
+}
+
+.slider {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50px;
+    transition: 0.4s;
+}
+
+.dark-mode-input:checked ~ .slider {
+    background-color: var(--light);
+}
+
+.slider::before {
+    content: "";
+    position: absolute;
+    /*top: 13px;*/
+    /*left: 1px;*/
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    box-shadow: inset 9px -4px 0 0 var(--light);
+    background-color: var(--dark);
+    transition: 0.4s;
+}
+
+.dark-mode-input:checked ~ .slider::before {
+    transform: translateX(1.5rem);
+    background-color: var(--dark);
+    box-shadow: none;
+}
+

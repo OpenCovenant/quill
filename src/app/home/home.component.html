@@ -96,7 +96,7 @@
                             (click)="copyToClipboard()"
                             class="bi bi-clipboard"
                             [ngClass]="{
-                                'clipboard-dark-mode':
+                                'clipboard-button-dark-mode':
                                     darkModeService.isDarkMode
                             }"
                             title="kopjo shkrimin"
@@ -110,7 +110,7 @@
                             title="trego historikun e shkrimeve"
                             class="bi bi-clock-history"
                             [ngClass]="{
-                                'written-text-history-dark-mode':
+                                'written-text-history-button-dark-mode':
                                     darkModeService.isDarkMode
                             }"
                             data-test="written-texts-history-button"
@@ -479,7 +479,6 @@
 
 <div
     class="modal fade"
-    [ngClass]="{ 'other-dark-mode': darkModeService.isDarkMode }"
     id="writtenTextsHistoryModal"
     tabindex="-1"
     aria-labelledby="writtenTextsHistoryModalLabel"

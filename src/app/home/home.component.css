@@ -80,7 +80,7 @@
     font-size: 1.25rem;
 }
 
-.clipboard-dark-mode {
+.clipboard-button-dark-mode {
     color: var(--dark-mode-anti-theme) !important;
 }
 
@@ -214,7 +214,7 @@
     background-color: #f1f1f1;
 }
 
-.written-text-history-dark-mode {
+.written-text-history-button-dark-mode {
     color: var(--dark-mode-anti-theme) !important;
 }
 
@@ -357,56 +357,6 @@
     background-color: var(--dark-mode-theme);
 }
 
-.toggle-switch {
-    position: relative;
-    width: 3rem;
-}
-
-label {
-    position: absolute;
-    width: 100%;
-    height: 1.5rem;
-    background-color: var(--dark);
-    border-radius: 50px;
-    cursor: pointer;
-}
-
-input {
-    position: absolute;
-    display: none;
-}
-
-.slider {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 50px;
-    transition: 0.4s;
-}
-
-input:checked ~ .slider {
-    background-color: var(--light);
-}
-
-.slider::before {
-    content: "";
-    position: absolute;
-    /*top: 13px;*/
-    /*left: 1px;*/
-    width: 1.5rem;
-    height: 1.5rem;
-    border-radius: 50%;
-    box-shadow: inset 9px -4px 0 0 var(--light);
-    background-color: var(--dark);
-    transition: 0.4s;
-}
-
-input:checked ~ .slider::before {
-    transform: translateX(1.5rem);
-    background-color: var(--dark);
-    box-shadow: none;
-}
-
-.other-dark-mode {
+.written-texts-history-dark-mode {
     background-color: red;
 }
