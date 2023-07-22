@@ -357,6 +357,7 @@
     background-color: var(--dark-mode-theme);
 }
 
+/*TODO: apply dark mode for the history of the written texts*/
 .written-texts-history-dark-mode {
-    background-color: red;
+    background-color: var(--dark-mode-theme);
 }
