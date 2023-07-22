@@ -1,0 +1,5 @@
+:root {
+    --dark-mode-theme: #2c2c2c;
+    --dark-mode-anti-theme: white;
+    --media-cut-off-width: 800px;
+}
