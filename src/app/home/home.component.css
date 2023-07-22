@@ -217,7 +217,16 @@
     user-select: none;
 }
 
+/*TODO: improve the following*/
 #editor > p > .typo {
+    cursor: pointer;
+}
+
+#editor > p > .loanword {
+    cursor: pointer;
+}
+
+#editor > p > .stylistic {
     cursor: pointer;
 }
 
