@@ -22,7 +22,7 @@
     width: 1.4rem;
 }
 
-#pendaHeaderLogo {
+.penda-header-logo {
     color: black;
     font-size: 20px;
     cursor: pointer;
