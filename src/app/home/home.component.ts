@@ -72,13 +72,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         public darkModeService: DarkModeService
     ) {
         this.initializeURLs();
-        // should any other call be made here? probably not... actually even this should be removed soon
-        this.http.get(this.pingURL).subscribe(
-            () => {
-                console.log('pinging server...');
-            },
-            () => {
-                this.disableEditor();
+
+        this.http.get(this.pingURL).subscribe( {
+                next: () => console.log('pinging server...'),
+                error: () => this.disableEditor()
             }
         );
     }
