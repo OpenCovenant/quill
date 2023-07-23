@@ -37,6 +37,7 @@ export class HeaderComponent {
         this.getMarkingTypesCount = `${this.baseURL}/api/getMarkingTypesCount`;
     }
 
+    // TODO: is this even used?
     closeOffcanvas() {
         document.getElementById('offcanvasCloseButton')!.click();
     }
