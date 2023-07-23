@@ -101,8 +101,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             // TODO some browsers still seem to use this deprecated method, keep it around for some more time
             minWidthMatchMedia.addListener(this.focusOnMediaMatch);
         }
-        (document.getElementById('flex-switch-check-checked') as HTMLInputElement).checked =
-            this.localStorageService.canStoreWrittenTexts;
+        (
+            document.getElementById(
+                'flex-switch-check-checked'
+            ) as HTMLInputElement
+        ).checked = this.localStorageService.canStoreWrittenTexts;
 
         this.fromKeyupEvent$ = fromEvent(
             document.getElementById(this.EDITOR_KEY)!,
@@ -449,7 +452,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 select.addRange(range);
                 document.execCommand('copy');
                 select.removeAllRanges();
-            } else { // NOTE: this part might only be for IE
+            } else {
+                // NOTE: this part might only be for IE
                 range = (document.body as any).createTextRange();
                 range.moveToElementText(editor);
                 range.select();
@@ -468,7 +472,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     toggleStoringOfWrittenTexts(): void {
         this.localStorageService.toggleWritingPermission(
-            (document.getElementById('flex-switch-check-checked') as HTMLInputElement).checked
+            (
+                document.getElementById(
+                    'flex-switch-check-checked'
+                ) as HTMLInputElement
+            ).checked
         );
     }
 
@@ -843,7 +851,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     disableEditor(): void {
-        (document.getElementById(this.EDITOR_KEY) as HTMLDivElement).contentEditable = 'false';
+        (
+            document.getElementById(this.EDITOR_KEY) as HTMLDivElement
+        ).contentEditable = 'false';
 
         document.getElementById(this.PLACEHOLDER_ELEMENT_ID)!.innerText =
             'Fatkeqësisht kemi një problem me serverat. Ju kërkojmë ndjesë, ndërsa kërkojme për një zgjidhje.';
