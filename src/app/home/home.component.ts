@@ -73,11 +73,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     ) {
         this.initializeURLs();
 
-        this.http.get(this.pingURL).subscribe( {
-                next: () => console.log('pinging server...'),
-                error: () => this.disableEditor()
-            }
-        );
+        this.http.get(this.pingURL).subscribe({
+            next: () => console.log('pinging server...'),
+            error: () => this.disableEditor()
+        });
     }
 
     ngAfterViewInit(): void {
