@@ -3,14 +3,14 @@
         <input
             class="form-check-label"
             role="switch"
-            for="flexSwitchCheckChecked"
             type="checkbox"
-            [id]="markingType.id"
-            [value]="markingType.description"
-            [checked]="markingType.enabled"
+            [id]="markingType[0]"
+            [value]="markingType[1].description"
+            [(ngModel)]="markingType[1].enabled"
+            (ngModelChange)='onMarkingTypeSelection(markingType[0], $event)'
         />
-        <label class="form-check-label" [for]="markingType.id">{{
-            markingType.description
+        <label class="form-check-label" [for]="markingType[0]">{{
+            markingType[1].description
         }}</label>
     </div>
 </div>
