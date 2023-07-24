@@ -307,6 +307,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             .subscribe((next) => {
                 this.processedText = next as ProcessedText;
 
+                this.processedText.textMarkings =
+                    this.filterUnselectedMarkingTypes(
+                        this.processedText.textMarkings
+                    );
+
                 if (this.processedText?.textMarkings.length != 0) {
                     this.processedText.textMarkings =
                         sortParagraphedTextMarkings(
@@ -565,6 +570,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             .subscribe({
                 next: (value) => {
                     this.processedText = value as ProcessedText;
+
+                    this.processedText.textMarkings =
+                        this.filterUnselectedMarkingTypes(
+                            this.processedText.textMarkings
+                        );
+
                     this.processedText.textMarkings =
                         sortParagraphedTextMarkings(
                             this.processedText.textMarkings
@@ -604,6 +615,26 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     setTimeout(() => this.listenForMarkingFocus(), 0);
                 }
             });
+    }
+
+    private filterUnselectedMarkingTypes(
+        textMarkings: TextMarking[]
+    ): TextMarking[] {
+        return textMarkings.filter((tM: TextMarking) => {
+            if (tM.id) {
+                const items = { ...localStorage };
+                let b = true;
+                Object.entries(items).forEach((e: any) => {
+                    console.log(e[0], tM.id);
+                    if (e[0] === tM.id) {
+                        b = e[1] === 'true';
+                    }
+                });
+                return b;
+            } else {
+                return true;
+            }
+        });
     }
 
     /**
