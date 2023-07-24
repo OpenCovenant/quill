@@ -1,6 +1,16 @@
 <div class="form-check form-switch">
-        <div *ngFor="let markingType of markingTypes">
-            <input class="form-check-label" role="switch" for="flexSwitchCheckChecked" type="checkbox" [id]="markingType.id" [value]="markingType.description" [checked]="markingType.enabled">
-            <label class="form-check-label" [for]="markingType.id">{{ markingType.description }}</label>
-        </div>
+    <div *ngFor="let markingType of markingTypes">
+        <input
+            class="form-check-label"
+            role="switch"
+            for="flexSwitchCheckChecked"
+            type="checkbox"
+            [id]="markingType.id"
+            [value]="markingType.description"
+            [checked]="markingType.enabled"
+        />
+        <label class="form-check-label" [for]="markingType.id">{{
+            markingType.description
+        }}</label>
+    </div>
 </div>

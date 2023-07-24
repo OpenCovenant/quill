@@ -5,7 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { SettingsComponent } from './settings/settings.component';
 
 const routes: Routes = [
-    {path: 'settings', component:SettingsComponent},
+    { path: 'settings', component: SettingsComponent },
     { path: ':id', component: MarkingDetailsComponent },
     { path: '', component: HomeComponent }
 ];
