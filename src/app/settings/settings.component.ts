@@ -48,8 +48,8 @@ export class SettingsComponent implements OnInit {
         });
     }
 
-    onMarkingTypeSelection(markingTypeID: string, e: any): void {
-        localStorage.setItem(markingTypeID, e);
+    onMarkingTypeSelection(markingTypeID: string, selected: boolean): void {
+        localStorage.setItem(markingTypeID, String(selected));
     }
 
     private initializeURLs(): void {
