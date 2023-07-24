@@ -623,11 +623,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         return textMarkings.filter((tM: TextMarking) => {
             if (tM.id) {
                 const items = { ...localStorage };
-                let b;
+                let b = true;
                 Object.entries(items).forEach((e: any) => {
                     console.log(e[0], tM.id);
                     if (e[0] === tM.id) {
-                        console.log(e[1]);
                         b = e[1] === 'true';
                     }
                 });
