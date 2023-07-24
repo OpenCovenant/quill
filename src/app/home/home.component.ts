@@ -307,7 +307,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             .subscribe((next) => {
                 this.processedText = next as ProcessedText;
 
-                this.processedText.textMarkings = this.filterUnselectedMarkingTypes(this.processedText.textMarkings);
+                this.processedText.textMarkings =
+                    this.filterUnselectedMarkingTypes(
+                        this.processedText.textMarkings
+                    );
 
                 if (this.processedText?.textMarkings.length != 0) {
                     this.processedText.textMarkings =
@@ -568,7 +571,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 next: (value) => {
                     this.processedText = value as ProcessedText;
 
-                    this.processedText.textMarkings = this.filterUnselectedMarkingTypes(this.processedText.textMarkings);
+                    this.processedText.textMarkings =
+                        this.filterUnselectedMarkingTypes(
+                            this.processedText.textMarkings
+                        );
 
                     this.processedText.textMarkings =
                         sortParagraphedTextMarkings(
@@ -611,16 +617,18 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             });
     }
 
-    private filterUnselectedMarkingTypes(textMarkings: TextMarking[]): TextMarking[] {
+    private filterUnselectedMarkingTypes(
+        textMarkings: TextMarking[]
+    ): TextMarking[] {
         return textMarkings.filter((tM: TextMarking) => {
             if (tM.id) {
                 const items = { ...localStorage };
                 let b;
                 Object.entries(items).forEach((e: any) => {
-                    console.log(e[0], tM.id)
+                    console.log(e[0], tM.id);
                     if (e[0] === tM.id) {
-                        console.log(e[1])
-                        b = (e[1] === 'true');
+                        console.log(e[1]);
+                        b = e[1] === 'true';
                     }
                 });
                 return b;
