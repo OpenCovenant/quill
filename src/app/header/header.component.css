@@ -1,5 +1,11 @@
 @import "../app.component.css";
 
+/* TODO: might be duplicated */
+:root {
+    --light: #eaeaea;
+    --dark: #28292c;
+}
+
 .navbar {
     background-color: var(--bar-color);
 }

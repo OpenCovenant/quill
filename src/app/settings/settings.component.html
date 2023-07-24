@@ -1,8 +1,8 @@
 <div class="form-check form-switch">
     <div *ngFor="let markingType of markingTypes">
-        <label class="switch m-2" [for]="markingType[0]">
+        <label class="marking-type-label m-2" [for]="markingType[0]">
             <input
-                class="switch"
+                class="marking-type-input"
                 role="switch"
                 type="checkbox"
                 [id]="markingType[0]"
