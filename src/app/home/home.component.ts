@@ -24,6 +24,7 @@ import {
     markText,
     sortParagraphedTextMarkings
 } from '../text-marking/text-marking';
+import { DarkModeService } from '../dark-mode.service';
 
 @Component({
     selector: 'app-home',
@@ -67,18 +68,15 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     constructor(
         public localStorageService: LocalStorageService,
-        private http: HttpClient
+        private http: HttpClient,
+        public darkModeService: DarkModeService
     ) {
         this.initializeURLs();
-        // should any other call be made here? probably not... actually even this should be removed soon
-        this.http.get(this.pingURL).subscribe(
-            () => {
-                console.log('pinging server...');
-            },
-            () => {
-                this.disableEditor();
-            }
-        );
+
+        this.http.get(this.pingURL).subscribe({
+            next: () => console.log('pinging server...'),
+            error: () => this.disableEditor()
+        });
     }
 
     ngAfterViewInit(): void {
@@ -99,8 +97,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             // TODO some browsers still seem to use this deprecated method, keep it around for some more time
             minWidthMatchMedia.addListener(this.focusOnMediaMatch);
         }
-        (document.getElementById('flexSwitchCheckChecked') as any).checked =
-            this.localStorageService.canStoreWrittenTexts;
+        (
+            document.getElementById(
+                'flex-switch-check-checked'
+            ) as HTMLInputElement
+        ).checked = this.localStorageService.canStoreWrittenTexts;
 
         this.fromKeyupEvent$ = fromEvent(
             document.getElementById(this.EDITOR_KEY)!,
@@ -341,6 +342,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 this.shouldCollapseSuggestions = new Array<boolean>(
                     this.processedText.textMarkings.length
                 ).fill(true);
+
+                this.blurFocusedRightSideMarking();
             });
     }
 
@@ -391,6 +394,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.processedText = undefined;
         this.updateCharacterAndWordCount();
         this.shouldCollapseSuggestions = new Array<boolean>(0);
+        this.blurFocusedRightSideMarking();
     }
 
     /**
@@ -419,7 +423,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     copyToClipboard(): void {
         const copyToClipboardButton: HTMLElement = document.getElementById(
-            'copyToClipboardButton'
+            'copy-to-clipboard-button'
         )!;
         copyToClipboardButton.classList.replace(
             'bi-clipboard',
@@ -445,6 +449,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 document.execCommand('copy');
                 select.removeAllRanges();
             } else {
+                // NOTE: this part might only be for IE
                 range = (document.body as any).createTextRange();
                 range.moveToElementText(editor);
                 range.select();
@@ -463,7 +468,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     toggleStoringOfWrittenTexts(): void {
         this.localStorageService.toggleWritingPermission(
-            (document.getElementById('flexSwitchCheckChecked') as any).checked
+            (
+                document.getElementById(
+                    'flex-switch-check-checked'
+                ) as HTMLInputElement
+            ).checked
         );
     }
 
@@ -480,7 +489,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      */
     placeWrittenText(writtenText: string): void {
         document.getElementById(this.EDITOR_KEY)!.innerText = writtenText;
-        document.getElementById('closeWrittenTextsModalButton')!.click();
+        document.getElementById('close-written-texts-modal-button')!.click();
         this.markEditor();
         this.updateCharacterAndWordCount();
     }
@@ -816,7 +825,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                         !this.shouldNotMarkEditor(keyboardEvent)
                 ),
                 debounceTime(this.EVENTUAL_MARKING_TIME),
-                tap(() => this.markEditor())
+                tap(() => {
+                    this.blurFocusedRightSideMarking();
+                    this.markEditor();
+                })
             )
             .subscribe();
     }
@@ -835,8 +847,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     disableEditor(): void {
-        (document.getElementById(this.EDITOR_KEY) as any)!.contentEditable =
-            false;
+        (
+            document.getElementById(this.EDITOR_KEY) as HTMLDivElement
+        ).contentEditable = 'false';
 
         document.getElementById(this.PLACEHOLDER_ELEMENT_ID)!.innerText =
             'Fatkeqësisht kemi një problem me serverat. Ju kërkojmë ndjesë, ndërsa kërkojme për një zgjidhje.';
@@ -851,8 +864,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     listenForMarkingFocus(): void {
         const textMarkings = document.querySelectorAll('#editor > p > .typo');
-        textMarkings.forEach((node: any, index: number) =>
-            node.addEventListener(
+        textMarkings.forEach((element: Element, index: number) =>
+            element.addEventListener(
                 'click',
                 this.focusRightSideMarking.bind(this, index)
             )

@@ -1,6 +1,9 @@
 <div style="display: flex; min-height: 100vh; flex-direction: column">
     <app-header></app-header>
-    <div style="flex: 1">
+    <div
+        style="flex: 1"
+        [ngClass]="{ 'component-dark-mode': darkModeService.isDarkMode }"
+    >
         <router-outlet></router-outlet>
     </div>
     <app-footer></app-footer>

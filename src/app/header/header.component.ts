@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from '../../environments/environment';
+import { DarkModeService } from '../dark-mode.service';
 
 @Component({
     selector: 'app-header',
@@ -16,7 +17,10 @@ export class HeaderComponent {
     markingTypes: any = {};
     markingTypeKeys: Array<string> = [];
 
-    constructor(private http: HttpClient) {
+    constructor(
+        private http: HttpClient,
+        public darkModeService: DarkModeService
+    ) {
         this.initializeURLs();
         this.http.get(this.getMarkingTypesCount).subscribe((data: any) => {
             this.markingTypesCount = data['count'];
@@ -33,6 +37,7 @@ export class HeaderComponent {
         this.getMarkingTypesCount = `${this.baseURL}/api/getMarkingTypesCount`;
     }
 
+    // TODO: is this even used?
     closeOffcanvas() {
         document.getElementById('offcanvasCloseButton')!.click();
     }

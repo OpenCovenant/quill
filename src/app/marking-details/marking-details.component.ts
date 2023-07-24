@@ -22,7 +22,7 @@ export class MarkingDetailsComponent {
                 .get(this.getMarkingDetailsURL + '/' + id)
                 .subscribe(
                     (html: any) =>
-                        (document.getElementById('markingDetails')!.innerHTML =
+                        (document.getElementById('marking-details')!.innerHTML =
                             html['marking_details_html'])
                 );
         });

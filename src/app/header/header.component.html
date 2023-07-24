@@ -1,24 +1,30 @@
 <div>
-    <nav class="navbar navbar-light">
+    <nav
+        class="navbar navbar-light"
+        [ngClass]="{ 'header-dark-mode': darkModeService.isDarkMode }"
+    >
         <div>
             <button
+                class="off-canvas-start-button"
+                [ngClass]="{
+                    'header-button-dark-mode': darkModeService.isDarkMode
+                }"
                 type="button"
                 data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasStart"
                 aria-controls="offcanvasStart"
-                class="btn"
-                id="offcanvasStartButton"
             >
                 <span
-                    id="togglerIcon"
-                    class="navbar-toggler-icon"
+                    class="navbar-toggler-icon navbar-toggler-icon-span"
                     data-test="navbar-toggler-icon"
                 ></span>
             </button>
             <span
-                id="pendaHeaderLogo"
                 routerLink="/"
                 class="penda-header-logo"
+                [ngClass]="{
+                    'header-text-dark-mode': darkModeService.isDarkMode
+                }"
                 data-test="penda-home-button"
                 >&nbsp;penda</span
             >
@@ -27,9 +33,9 @@
 </div>
 
 <div
+    id="offcanvasStart"
     class="offcanvas offcanvas-start"
     tabindex="-1"
-    id="offcanvasStart"
     aria-labelledby="offcanvasStartLabel"
 >
     <div class="offcanvas-header">
@@ -73,7 +79,7 @@
                 </div>
                 <div>
                     <a
-                        href="https://github.com/OpenCovenant/ink"
+                        href="https://github.com/OpenCovenant/quill"
                         role="button"
                         class="list-group-item list-group-item-action mb-3"
                         target="_blank"
@@ -82,6 +88,27 @@
                     >
                 </div>
                 <br />
+            </div>
+            <hr />
+            <div
+                style="
+                    display: flex;
+                    justify-content: space-between;
+                    padding-top: 2rem;
+                "
+            >
+                <div>Dark Mode:</div>
+                <div class="toggle-switch">
+                    <label class="dark-mode-label">
+                        <input
+                            class="dark-mode-input"
+                            type="checkbox"
+                            [checked]="!darkModeService.isDarkMode"
+                            (change)="darkModeService.toggleDarkMode()"
+                        />
+                        <span class="slider"></span>
+                    </label>
+                </div>
             </div>
         </div>
     </div>
