@@ -100,3 +100,12 @@
     background-color: var(--dark);
     box-shadow: none;
 }
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.settings-gear-dark-mode {
+    color: white;
+}
+
