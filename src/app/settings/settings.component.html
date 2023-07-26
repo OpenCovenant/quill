@@ -1,16 +1,33 @@
-<div class="form-check form-switch">
-    <div *ngFor="let markingType of markingTypes">
-        <label class="marking-type-label m-2" [for]="markingType[0]">
-            <input
-                class="marking-type-input"
-                role="switch"
-                type="checkbox"
-                [id]="markingType[0]"
-                [value]="markingType[1].description"
-                [(ngModel)]="markingType[1].enabled"
-                (ngModelChange)="onMarkingTypeSelection(markingType[0], $event)"
-            /><span class="slider round"></span>
-        </label>
-        <span>{{ markingType[1].description }}</span>
+<div style="display: flex; justify-content: center; padding-top: 2rem">
+    <div class="card p-3" style="width: 60%">
+        <div class="card-body">
+            <h5 class="card-title">Cilësimet</h5>
+            <p class="card-text">
+                Shto ose hiq lloje shenjimesh për të cilat dëshironi të shikoni
+                shenjime në shkrimet tuaja.
+            </p>
+            <hr />
+
+            <div *ngFor="let markingType of markingTypes">
+                <label
+                    class="marking-type-label"
+                    style="margin-bottom: 1.5rem; margin-right: 0.5rem"
+                    [for]="markingType[0]"
+                >
+                    <input
+                        class="marking-type-input"
+                        role="switch"
+                        type="checkbox"
+                        [id]="markingType[0]"
+                        [value]="markingType[1].description"
+                        [(ngModel)]="markingType[1].enabled"
+                        (ngModelChange)="
+                            onMarkingTypeSelection(markingType[0], $event)
+                        "
+                    /><span class="slider round cursor-pointer"></span>
+                </label>
+                <span>{{ markingType[1].description }}</span>
+            </div>
+        </div>
     </div>
 </div>
