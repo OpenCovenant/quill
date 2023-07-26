@@ -9,11 +9,11 @@ describe("Removing the highlighted marking by selecting all the text and deletin
         cy.get('[data-test="editor"]').type(" gabmim ");
         cy.get('[data-test="editor"]').type(" asd ");
         cy.get('#editor .typo:first-of-type').click();
-        cy.get('#editor').type('{selectall}');
-        cy.get('#editor').type('{del}');
-        cy.get('div.grid1 span.text-marking.typo').contains("asd").should("not.exist");
-        cy.get('div.grid1 span.text-marking.typo').contains("gabmim").should("not.exist");
-        cy.get('div.grid1 span.text-marking.typo').contains("asd").should("not.exist");
+        cy.get('[data-test="editor"]').type('{selectall}');
+        cy.get('[data-test="editor"]').type('{del}');
+        cy.get('[data-test="text-marking-typo-test"]').contains("asd").should("not.exist");
+        cy.get('[data-test="text-marking-typo-test"]').contains("gabmim").should("not.exist");
+        cy.get('[data-test="text-marking-typo-test"]').contains("asd").should("not.exist");
         cy.get('[data-test="editor"]').clear();
     });
 });

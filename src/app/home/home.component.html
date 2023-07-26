@@ -284,9 +284,11 @@
                         }"
                     >
                         <div class="grid1">
-                            <span class="text-marking {{ textMarking.type }}">{{
+                            <span data-test="text-marking-typo-test"
+                                class="text-marking {{ textMarking.type }}">{{
                                 getTextOfTextMarking(i)
-                            }}</span>
+                            }}
+                            </span>
                         </div>
                         <div>
                             <button
@@ -380,7 +382,7 @@
                         }"
                     >
                         <div class="grid1">
-                            <span
+                            <span data-test="text-marking-typo-test-marked"
                                 class="text-marking {{
                                     highlightedMarking?.type
                                 }}"
