@@ -53,7 +53,6 @@
 .clear-editor-span {
     font-size: 36px;
     border-radius: 40%;
-    cursor: pointer;
 }
 
 .clear-editor-span-dark-mode {
@@ -134,7 +133,6 @@
 .information-circle {
     font-size: 20px;
     color: #484848;
-    cursor: pointer;
 }
 
 .suggestions {
@@ -154,7 +152,6 @@
     align-items: flex-start;
     margin: 0;
     line-height: inherit;
-    cursor: pointer;
 }
 
 .waiting-text {

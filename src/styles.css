@@ -1,3 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap";
 @import "~bootstrap-icons/font/bootstrap-icons.css";
+
+:root {
+    --dark-mode-theme: #2c2c2c;
+    --dark-mode-smooth-theme: gray;
+    --dark-mode-anti-theme: white;
+    --media-cut-off-width: 800px; /*TODO: can this be utilized in the @medias?*/
+    --typo-color: #ffc8c8;
+    --loanword-color: #ffd182;
+    --stylistic-color: #a1b6dc;
+    --bar-color: #e9e9e9;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}

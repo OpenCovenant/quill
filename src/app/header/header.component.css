@@ -22,7 +22,6 @@
 .penda-header-logo {
     color: black;
     font-size: 20px;
-    cursor: pointer;
 }
 
 .header-dark-mode {
@@ -61,7 +60,6 @@
     height: 1.6rem;
     background-color: var(--dark);
     border-radius: 50px;
-    cursor: pointer;
     border: 1px solid gray;
 }
 
@@ -99,10 +97,6 @@
     transform: translateX(1.5rem);
     background-color: var(--dark);
     box-shadow: none;
-}
-
-.cursor-pointer {
-    cursor: pointer;
 }
 
 .settings-gear-dark-mode {

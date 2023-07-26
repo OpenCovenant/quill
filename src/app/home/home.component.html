@@ -63,7 +63,7 @@
                     </div>
                     <div class="clear-editor-section" *ngIf="editorHasText()">
                         <span
-                            class="clear-editor-span"
+                            class="clear-editor-span cursor-pointer"
                             [ngClass]="{
                                 'clear-editor-span-dark-mode':
                                     darkModeService.isDarkMode
@@ -313,7 +313,7 @@
                                 </div>
                                 <div *ngIf="textMarking.id">
                                     <i
-                                        class="bi bi-info-circle information-circle"
+                                        class="bi bi-info-circle information-circle cursor-pointer"
                                         routerLink="{{ textMarking.id }}"
                                         data-test="marking-information-icon"
                                     ></i>
@@ -355,7 +355,7 @@
                                             (click)="
                                                 oscillateSuggestion(i, $event)
                                             "
-                                            class="bi suggestions-header {{
+                                            class="bi suggestions-header cursor-pointer {{
                                                 shouldCollapseSuggestions[i]
                                                     ? 'bi-arrow-right-square'
                                                     : 'bi-arrow-left-square'
@@ -394,8 +394,8 @@
                         <div>
                             <i
                                 (click)="blurFocusedRightSideMarking()"
-                                style="color: black; cursor: pointer"
-                                class="bi bi-x-lg fs-5"
+                                style="color: black;"
+                                class="bi bi-x-lg fs-5 cursor-pointer"
                                 data-test="dismiss-marking-button"
                             ></i>
                         </div>
