@@ -1,15 +1,14 @@
-/*TODO: remove if used in styles.css?*/
-:root {
-    --dark-mode-theme: #2c2c2c;
-    --dark-mode-smooth-theme: gray;
-    --dark-mode-anti-theme: white;
-    --media-cut-off-width: 800px; /*TODO: can this be utilized in the @medias?*/
-    --typo-color: #ffc8c8;
-    --loanword-color: #ffd182;
-    --stylistic-color: #a1b6dc;
-    --bar-color: #e9e9e9;
-}
-
 .component-dark-mode {
     background-color: var(--dark-mode-theme);
 }
+
+.component-div {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.component-router-div {
+    flex: 1;
+}
+

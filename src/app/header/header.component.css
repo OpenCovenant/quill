@@ -102,3 +102,8 @@
 .settings-gear-dark-mode {
     color: white;
 }
+
+.dark-mode-div {
+    justify-content: space-between;
+    padding-top: 2rem;
+}
