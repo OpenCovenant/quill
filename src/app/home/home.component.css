@@ -1,11 +1,3 @@
-@import "../app.component.css";
-
-/*TODO: this should be in header.component.css but it doesn't seem to work?*/
-:root {
-    --light: #eaeaea;
-    --dark: #28292c;
-}
-
 .high-level-container {
     display: flex;
     justify-content: space-between;
