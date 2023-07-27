@@ -1,5 +1,3 @@
-@import "../app.component.css";
-
 div:first-of-type {
     background-color: var(--bar-color);
 }
