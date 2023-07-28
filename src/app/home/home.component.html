@@ -284,9 +284,11 @@
                         }"
                     >
                         <div class="grid1">
-                            <span class="text-marking {{ textMarking.type }}">{{
-                                getTextOfTextMarking(i)
-                            }}</span>
+                            <span
+                                class="text-marking {{ textMarking.type }}"
+                                data-test="text-marking-span"
+                                >{{ getTextOfTextMarking(i) }}
+                            </span>
                         </div>
                         <div>
                             <button
@@ -384,6 +386,7 @@
                                 class="text-marking {{
                                     highlightedMarking?.type
                                 }}"
+                                data-test="highlighted-text-marking"
                                 >{{
                                     getTextOfTextMarking(
                                         highlightedMarkingIndex
