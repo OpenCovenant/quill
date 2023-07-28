@@ -9,16 +9,7 @@ describe("Removing the highlighted marking by selecting all the text and deletin
         cy.get("#editor > p > .typo").first().click();
         cy.get('[data-test="editor"]').type("{selectall}");
         cy.get('[data-test="editor"]').type("{del}");
-        cy.wait(3000);
-        cy.get('[data-test="text-marking-span"]')
-            .contains("asd")
-            .should("not.exist");
-        cy.get('[data-test="text-marking-span"]')
-            .contains("gabmim")
-            .should("not.exist");
-        cy.get('[data-test="text-marking-span"]')
-            .contains("asd")
-            .should("not.exist");
+        cy.get('[data-test="highlighted-text-marking"]').should("not.exist");
         cy.get('[data-test="editor"]').clear();
     });
 });
