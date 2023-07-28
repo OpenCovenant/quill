@@ -284,8 +284,7 @@
                         }"
                     >
                         <div class="grid1">
-                            <span data-test="text-marking-typo-test"
-                                class="text-marking {{ textMarking.type }}">{{
+                            <span class="text-marking {{ textMarking.type }}" data-test="text-marking-span">{{
                                 getTextOfTextMarking(i)
                             }}
                             </span>
@@ -382,11 +381,11 @@
                         }"
                     >
                         <div class="grid1">
-                            <span data-test="text-marking-typo-test-marked"
+                            <span
                                 class="text-marking {{
                                     highlightedMarking?.type
                                 }}"
-                                >{{
+                                data-test="highlighted-text-marking">{{
                                     getTextOfTextMarking(
                                         highlightedMarkingIndex
                                     )
