@@ -63,7 +63,7 @@
                     </div>
                     <div class="clear-editor-section" *ngIf="editorHasText()">
                         <span
-                            class="clear-editor-span"
+                            class="clear-editor-span cursor-pointer"
                             [ngClass]="{
                                 'clear-editor-span-dark-mode':
                                     darkModeService.isDarkMode
@@ -284,9 +284,11 @@
                         }"
                     >
                         <div class="grid1">
-                            <span class="text-marking {{ textMarking.type }}">{{
-                                getTextOfTextMarking(i)
-                            }}</span>
+                            <span
+                                class="text-marking {{ textMarking.type }}"
+                                data-test="text-marking-span"
+                                >{{ getTextOfTextMarking(i) }}
+                            </span>
                         </div>
                         <div>
                             <button
@@ -313,8 +315,8 @@
                                 </div>
                                 <div *ngIf="textMarking.id">
                                     <i
-                                        class="bi bi-info-circle information-circle"
-                                        routerLink="{{ textMarking.id }}"
+                                        class="bi bi-info-circle information-circle cursor-pointer"
+                                        routerLink="/{{ textMarking.id }}"
                                         data-test="marking-information-icon"
                                     ></i>
                                 </div>
@@ -355,7 +357,7 @@
                                             (click)="
                                                 oscillateSuggestion(i, $event)
                                             "
-                                            class="bi suggestions-header {{
+                                            class="bi suggestions-header cursor-pointer {{
                                                 shouldCollapseSuggestions[i]
                                                     ? 'bi-arrow-right-square'
                                                     : 'bi-arrow-left-square'
@@ -384,6 +386,7 @@
                                 class="text-marking {{
                                     highlightedMarking?.type
                                 }}"
+                                data-test="highlighted-text-marking"
                                 >{{
                                     getTextOfTextMarking(
                                         highlightedMarkingIndex
@@ -394,8 +397,8 @@
                         <div>
                             <i
                                 (click)="blurFocusedRightSideMarking()"
-                                style="color: black; cursor: pointer"
-                                class="bi bi-x-lg fs-5"
+                                style="color: black"
+                                class="bi bi-x-lg fs-5 cursor-pointer"
                                 data-test="dismiss-marking-button"
                             ></i>
                         </div>

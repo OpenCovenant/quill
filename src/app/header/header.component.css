@@ -1,11 +1,3 @@
-@import "../app.component.css";
-
-/* TODO: might be duplicated */
-:root {
-    --light: #eaeaea;
-    --dark: #28292c;
-}
-
 .navbar {
     background-color: var(--bar-color);
 }
@@ -22,7 +14,6 @@
 .penda-header-logo {
     color: black;
     font-size: 20px;
-    cursor: pointer;
 }
 
 .header-dark-mode {
@@ -61,7 +52,6 @@
     height: 1.6rem;
     background-color: var(--dark);
     border-radius: 50px;
-    cursor: pointer;
     border: 1px solid gray;
 }
 
@@ -101,10 +91,11 @@
     box-shadow: none;
 }
 
-.cursor-pointer {
-    cursor: pointer;
-}
-
 .settings-gear-dark-mode {
     color: white;
+}
+
+.dark-mode-div {
+    justify-content: space-between;
+    padding-top: 2rem;
 }

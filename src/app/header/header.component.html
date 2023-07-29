@@ -21,7 +21,7 @@
             </button>
             <span
                 routerLink="/"
-                class="penda-header-logo"
+                class="penda-header-logo cursor-pointer"
                 [ngClass]="{
                     'header-text-dark-mode': darkModeService.isDarkMode
                 }"
@@ -80,6 +80,14 @@
                 <!--                </div>-->
                 <div>
                     <a
+                        routerLink="/settings"
+                        role="button"
+                        class="list-group-item list-group-item-action mb-3"
+                        >Cilësimet</a
+                    >
+                </div>
+                <div>
+                    <a
                         href="https://github.com/OpenCovenant"
                         role="button"
                         class="list-group-item list-group-item-action mb-3"
@@ -101,16 +109,10 @@
                 <br />
             </div>
             <hr />
-            <div
-                style="
-                    display: flex;
-                    justify-content: space-between;
-                    padding-top: 2rem;
-                "
-            >
-                <div>Dark Mode:</div>
+            <div class="d-flex dark-mode-div">
+                <div>Modalitet i Errët:</div>
                 <div class="toggle-switch">
-                    <label class="dark-mode-label">
+                    <label class="dark-mode-label cursor-pointer">
                         <input
                             class="dark-mode-input"
                             type="checkbox"
