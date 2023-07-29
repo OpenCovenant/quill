@@ -625,7 +625,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 const items = { ...localStorage };
                 let b = true;
                 Object.entries(items).forEach((e: any) => {
-                    console.log(e[0], tM.id);
                     if (e[0] === tM.id) {
                         b = e[1] === 'true';
                     }
