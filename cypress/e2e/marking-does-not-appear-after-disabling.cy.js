@@ -4,9 +4,9 @@ describe("A marking type does not appear after being disabled.", () => {
     });
 
     it("will disable all the marking types and check if they appeared on the main page", () => {
-        cy.get('[data-test="switch-check-testing"]').should('have.class', 'ng-untouched');
+        cy.get('[data-test="switch-check-testing"]').should('be.checked');
         cy.get('[data-test="switch-check-testing"]').click({ multiple: true, force:true });
-        cy.get('[data-test="switch-check-testing"]').should('have.class', 'ng-touched');
+        cy.get('[data-test="switch-check-testing"]').should('not.be.checked');
             cy.visit("/");
             cy.get('[data-test="editor"]').type("Pra shkoi tek zyra. ");
         cy.get("span.typo").contains("gabime shkrimi").should("exist");
@@ -71,9 +71,9 @@ describe("A marking type does not appear after being disabled.", () => {
             .should("exist");
         cy.get('[data-test="editor"]').clear();
         cy.visit("/settings");
-        cy.get('[data-test="switch-check-testing"]').should('have.class', 'ng-untouched');
+        cy.get('[data-test="switch-check-testing"]').should('not.be.checked');
         cy.get('[data-test="switch-check-testing"]').click({ multiple: true, force:true });
-        cy.get('[data-test="switch-check-testing"]').should('have.class', 'ng-touched');
+        cy.get('[data-test="switch-check-testing"]').should('be.checked');
             cy.visit("/");
             cy.get('[data-test="editor"]').type("Pra shkoi tek zyra.");
             cy.get('[data-test="text-marking-typo-test"]').contains("tek").should("exist");
