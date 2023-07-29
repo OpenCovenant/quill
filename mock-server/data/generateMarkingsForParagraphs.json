@@ -2095,6 +2095,29 @@
                 }
             ]
         }
+    },
+    {
+        "request": "<p>Kishte buk\\u00eb, sallam, etj.</p>",
+        "response": {
+            "text": "<p>Kishte buk\u00eb, sallam, etj.</p>",
+            "textMarkings": [
+                {
+                    "id": "pa-presje-para-etj",
+                    "from": 19,
+                    "to": 20,
+                    "type": "typo",
+                    "subtype": "gabim gramatikor, shenja pik\u00ebsimi",
+                    "description": "nuk vendoset presje para \"etj\" kur ajo mbyll nj\u00eb varg gjymtyr\u00ebsh homogjen\u00eb",
+                    "suggestions": [
+                        {
+                            "display": " ",
+                            "action": ""
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
     }
 ]
 
