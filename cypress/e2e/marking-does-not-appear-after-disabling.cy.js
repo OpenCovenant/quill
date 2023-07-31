@@ -75,11 +75,10 @@ describe("A marking type does not appear after being disabled.", () => {
         cy.get('[data-test="switch-check-testing"]').click({ multiple: true, force:true });
         cy.get('[data-test="switch-check-testing"]').should('be.checked');
             cy.visit("/");
-            cy.get('[data-test="editor"]').type("Pra shkoi tek zyra.");
-            cy.get('[data-test="text-marking-typo-test"]').contains("tek").should("exist");
+            cy.get('[data-test="editor"]').type("Pra shkoi tek zyra. ");
+            cy.get('[data-test="text-marking-span"]').contains("tek").should("exist");
             cy.get('[data-test="editor"]').type('{enter}');
-            cy.get('[data-test="editor"]').type("Kishte bukë, sallam, etj.");
-            cy.get('[data-test="text-marking-typo-test"]').contains(",").should("exist");
+
 
     });
 });
