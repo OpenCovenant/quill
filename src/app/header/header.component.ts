@@ -16,6 +16,8 @@ export class HeaderComponent {
     markingTypesCount: number = 0;
     markingTypes: any = {};
     markingTypeKeys: Array<string> = [];
+    ALREADY_MADE_DARKMODE_STATUS = 'penda-has-stored-darkmode-status';
+    darkModeTypes: boolean = true;
 
     constructor(
         private http: HttpClient,
@@ -40,5 +42,19 @@ export class HeaderComponent {
     // TODO: is this even used?
     closeOffcanvas() {
         document.getElementById('offcanvasCloseButton')!.click();
+    }
+    saveDarkModeStatusOnLocalStorageMethod (){
+    const saveDarkModeStatusOnLocalStorage = localStorage.getItem(
+        this.ALREADY_MADE_DARKMODE_STATUS);
+        if (!saveDarkModeStatusOnLocalStorage){
+            if(this.darkModeTypes){
+                localStorage.setItem(
+                    this.ALREADY_MADE_DARKMODE_STATUS,
+                    'true'
+                );
+        }
+    } if (saveDarkModeStatusOnLocalStorage === 'false'){
+            this.darkModeTypes = false;
+        }
     }
 }
