@@ -637,43 +637,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     /**
-     * Checks if the given emitted event key is included in a list of key triggers in order to mark the editor. For
-     * example breaking the current line is considered as a signal to attempt to mark the currently written text.
-     * Attempting to mark the editor after every keystroke can annoy the user and will also mean a significantly larger
-     * amount of requests made.
-     * @param {string} eventKey fetched from the **onKeyboardEvent** method
-     * @private
-     * @returns {boolean} true if the editor should be marked, false otherwise
-     */
-    // TODO there's also the paste to be considered
-    private shouldMarkEditor(eventKey: string): boolean {
-        const TRIGGERS = [
-            '.',
-            '!',
-            '?',
-            ',',
-            '…',
-            'Enter',
-            'Backspace',
-            'Delete',
-            ' ',
-            ':',
-            ';',
-            '"',
-            '“',
-            '”',
-            '&',
-            '(',
-            ')',
-            '/',
-            "'",
-            '«',
-            '»'
-        ];
-        return TRIGGERS.includes(eventKey);
-    }
-
-    /**
      * Checks if the given emitted event key is included in a list of key non-triggers in order to not mark the editor.
      * For example pressing one of the arrow keys in the keyboard should not alter the editor's markings.
      * @param {KeyboardEvent} keyboardEvent from the keyup in the editor
@@ -884,12 +847,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         document.getElementById(this.PLACEHOLDER_ELEMENT_ID)!.innerText =
             'Fatkeqësisht kemi një problem me serverat. Ju kërkojmë ndjesë, ndërsa kërkojme për një zgjidhje.';
 
-        const retrievedButtons = document.querySelectorAll(
-            '.card-header button'
-        ) as NodeListOf<HTMLButtonElement>;
-        retrievedButtons.forEach((btnsdown) => {
-            btnsdown.disabled = true;
-        });
+        (
+            document.querySelectorAll(
+                '.card-header button'
+            ) as NodeListOf<HTMLButtonElement>
+        ).forEach((b) => (b.disabled = true));
     }
 
     listenForMarkingFocus(): void {
