@@ -847,8 +847,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         document.getElementById(this.PLACEHOLDER_ELEMENT_ID)!.innerText =
             'Fatkeqësisht kemi një problem me serverat. Ju kërkojmë ndjesë, ndërsa kërkojme për një zgjidhje.';
 
-        (document.querySelectorAll('.card-header button') as NodeListOf<HTMLButtonElement>)
-            .forEach((b) => b.disabled = true);
+        (
+            document.querySelectorAll(
+                '.card-header button'
+            ) as NodeListOf<HTMLButtonElement>
+        ).forEach((b) => (b.disabled = true));
     }
 
     listenForMarkingFocus(): void {
