@@ -56,6 +56,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     highlightedMarking: TextMarking | undefined = undefined;
     highlightedMarkingIndex: number = -1;
 
+    // TODO consider removing, along with the code that initializes it
     private placeHolderElement!: HTMLElement;
     private baseURL!: string;
     private generateMarkingsURL!: string;
@@ -114,7 +115,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.eventualMarkingSubscription$.unsubscribe();
-
         this.eventualTextStoringSubscription$.unsubscribe();
     }
 
@@ -554,6 +554,15 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     /**
+     * Blurs the currently focused RHS marking.
+     */
+    blurFocusedRightSideMarking(): void {
+        this.highlightingMarking = false;
+        this.highlightedMarkingIndex = -1;
+        this.highlightedMarking = undefined;
+    }
+
+    /**
      * Make the call to mark the editor into paragraphs.
      * @param {CursorPlacement} cursorPlacement
      * @private
@@ -617,6 +626,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             });
     }
 
+    // TODO move to another place?
     private filterUnselectedMarkingTypes(
         textMarkings: TextMarking[]
     ): TextMarking[] {
@@ -877,14 +887,5 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.highlightedMarking =
             this.processedText?.textMarkings[textMarkingIndex];
         this.highlightedMarkingIndex = textMarkingIndex;
-    }
-
-    /**
-     * Blurs the currently focused RHS marking.
-     */
-    blurFocusedRightSideMarking(): void {
-        this.highlightingMarking = false;
-        this.highlightedMarkingIndex = -1;
-        this.highlightedMarking = undefined;
     }
 }
