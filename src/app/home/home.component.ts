@@ -56,8 +56,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     highlightedMarking: TextMarking | undefined = undefined;
     highlightedMarkingIndex: number = -1;
 
-    // TODO consider removing, along with the code that initializes it
-    private placeHolderElement!: HTMLElement;
     private baseURL!: string;
     private generateMarkingsURL!: string;
     private uploadDocumentURL!: string;
@@ -81,11 +79,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit(): void {
-        // save reference and reuse variable instead of reinitializing multiple times
+        // TODO: consider saving the reference and reuse variable instead of reinitializing multiple times
         this.editorElement = document.getElementById(this.EDITOR_KEY)!;
-        this.placeHolderElement = document.getElementById(
-            this.PLACEHOLDER_ELEMENT_ID
-        )!;
+
         const minWidthMatchMedia: MediaQueryList =
             window.matchMedia('(min-width: 800px)');
         this.focusOnMediaMatch(minWidthMatchMedia);
