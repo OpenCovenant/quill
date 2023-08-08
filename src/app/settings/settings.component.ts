@@ -20,7 +20,7 @@ export class SettingsComponent implements OnInit {
 
     ngOnInit(): void {
         this.initializeURLs();
-        // TODO: consider making changes to `LocalStorageService`
+        // TODO: consider making changes to `MarkingTypesLocalStorageService`
         this.http.get(this.markingTypesURL).subscribe((data: any) => {
             if (
                 !localStorage.getItem(this.ALREADY_MADE_MARKING_TYPE_SELECTIONS)
