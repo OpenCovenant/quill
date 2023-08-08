@@ -655,13 +655,16 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             'ArrowLeft',
             'ArrowDown'
         ];
-        const copyOrPasteEvent: boolean =
+
+        const copyOrPasteOrSelectAllEvent: boolean =
             keyboardEvent.ctrlKey &&
             (eventKey === 'v' ||
                 eventKey === 'V' ||
                 eventKey === 'c' ||
-                eventKey === 'C');
-        return NON_TRIGGERS.includes(eventKey) || copyOrPasteEvent;
+                eventKey === 'C' ||
+                eventKey === 'a' ||
+                eventKey === 'A');
+        return NON_TRIGGERS.includes(eventKey) || copyOrPasteOrSelectAllEvent;
     }
 
     /**
@@ -839,7 +842,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             .subscribe();
     }
 
-    disableEditor(): void {
+    private disableEditor(): void {
         (
             document.getElementById(this.EDITOR_KEY) as HTMLDivElement
         ).contentEditable = 'false';
@@ -854,7 +857,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         ).forEach((b) => (b.disabled = true));
     }
 
-    listenForMarkingFocus(): void {
+    private listenForMarkingFocus(): void {
         const textMarkings = document.querySelectorAll('#editor > p > .typo');
         textMarkings.forEach((element: Element, index: number) =>
             element.addEventListener(
@@ -865,17 +868,20 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     /**
-     * Clicking on the LHS, focuses on the RHS.
+     * Clicking on a LHS marking, focuses it in the RHS.
      *
-     * @param textMarkingIndex
+     * @param {number} textMarkingIndex
      */
-    focusRightSideMarking(textMarkingIndex: number): void {
+    private focusRightSideMarking(textMarkingIndex: number): void {
         this.highlightingMarking = true;
         this.highlightedMarking =
             this.processedText?.textMarkings[textMarkingIndex];
         this.highlightedMarkingIndex = textMarkingIndex;
     }
 
+    /**
+     * Blurs the currently focused RHS marking.
+     */
     blurFocusedRightSideMarking(): void {
         this.highlightingMarking = false;
         this.highlightedMarkingIndex = -1;
