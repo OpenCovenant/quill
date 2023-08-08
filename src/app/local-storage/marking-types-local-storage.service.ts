@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
-import { TextMarking } from '../models/text-marking'
+import { TextMarking } from '../models/text-marking';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class MarkingTypesLocalStorageService {
-    filterUnselectedMarkingTypes(
-        textMarkings: TextMarking[]
-    ): TextMarking[] {
+    filterUnselectedMarkingTypes(textMarkings: TextMarking[]): TextMarking[] {
         return textMarkings.filter((tM: TextMarking) => {
             if (tM.id) {
                 const items = { ...localStorage };

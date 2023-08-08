@@ -145,7 +145,6 @@ export function sortTextMarkings(
     });
 }
 
-
 /**
  * Checks if the given emitted event key is included in a list of key non-triggers in order to not mark the editor.
  * For example pressing one of the arrow keys in the keyboard should not alter the editor's markings.

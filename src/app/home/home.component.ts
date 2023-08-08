@@ -26,7 +26,7 @@ import {
     shouldNotMarkEditor
 } from '../text-marking/text-marking';
 import { DarkModeService } from '../dark-mode.service';
-import { MarkingTypesLocalStorageService } from '../local-storage/marking-types-local-storage.service'
+import { MarkingTypesLocalStorageService } from '../local-storage/marking-types-local-storage.service';
 
 @Component({
     selector: 'app-home',
