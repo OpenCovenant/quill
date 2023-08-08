@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
     providedIn: 'root'
 })
-export class LocalStorageService {
+export class WrittenTextsLocalStorageService {
     LOCAL_STORAGE_WRITTEN_TEXT_KEY: string = 'penda-can-store-written-texts';
     WRITTEN_TEXTS_LENGTH = 5;
     WRITTEN_TEXTS_PREFIX = 'penda-written-text-';

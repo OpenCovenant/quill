@@ -16,15 +16,17 @@ import {
 
 import { CursorPosition } from '../models/cursor-position';
 import { CursorPlacement } from '../models/cursor-placement';
-import { LocalStorageService } from '../local-storage/local-storage.service';
+import { WrittenTextsLocalStorageService } from '../local-storage/written-texts-local-storage.service';
 import { ProcessedText } from '../models/processed-text';
 import { TextMarking } from '../models/text-marking';
 import { environment } from '../../environments/environment';
 import {
     markText,
-    sortParagraphedTextMarkings
+    sortParagraphedTextMarkings,
+    shouldNotMarkEditor
 } from '../text-marking/text-marking';
 import { DarkModeService } from '../dark-mode.service';
+import { MarkingTypesLocalStorageService } from '../local-storage/marking-types-local-storage.service'
 
 @Component({
     selector: 'app-home',
@@ -66,7 +68,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private fromKeyupEvent$: any;
 
     constructor(
-        public localStorageService: LocalStorageService,
+        public writtenTextsLocalStorageService: WrittenTextsLocalStorageService,
+        public markingTypesLocalStorageService: MarkingTypesLocalStorageService,
         private http: HttpClient,
         public darkModeService: DarkModeService
     ) {
@@ -98,7 +101,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             document.getElementById(
                 'flex-switch-check-checked'
             ) as HTMLInputElement
-        ).checked = this.localStorageService.canStoreWrittenTexts;
+        ).checked = this.writtenTextsLocalStorageService.canStoreWrittenTexts;
 
         this.fromKeyupEvent$ = fromEvent(
             document.getElementById(this.EDITOR_KEY)!,
@@ -200,7 +203,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         document.execCommand('insertText', false, text);
 
-        this.localStorageService.storeWrittenText(text);
+        this.writtenTextsLocalStorageService.storeWrittenText(text);
 
         // DELETE: after strongly typing you can see the issue identified
         // positioning cursor based on event.key makes no sense here as for this onPaste event there is no key related to it
@@ -304,7 +307,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 this.processedText = next as ProcessedText;
 
                 this.processedText.textMarkings =
-                    this.filterUnselectedMarkingTypes(
+                    this.markingTypesLocalStorageService.filterUnselectedMarkingTypes(
                         this.processedText.textMarkings
                     );
 
@@ -468,7 +471,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     toggleStoringOfWrittenTexts(): void {
-        this.localStorageService.toggleWritingPermission(
+        this.writtenTextsLocalStorageService.toggleWritingPermission(
             (
                 document.getElementById(
                     'flex-switch-check-checked'
@@ -577,7 +580,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     this.processedText = value as ProcessedText;
 
                     this.processedText.textMarkings =
-                        this.filterUnselectedMarkingTypes(
+                        this.markingTypesLocalStorageService.filterUnselectedMarkingTypes(
                             this.processedText.textMarkings
                         );
 
@@ -620,57 +623,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     setTimeout(() => this.listenForMarkingFocus(), 0);
                 }
             });
-    }
-
-    // TODO move to another place?
-    private filterUnselectedMarkingTypes(
-        textMarkings: TextMarking[]
-    ): TextMarking[] {
-        return textMarkings.filter((tM: TextMarking) => {
-            if (tM.id) {
-                const items = { ...localStorage };
-                let b = true;
-                Object.entries(items).forEach((e: any) => {
-                    if (e[0] === tM.id) {
-                        b = e[1] === 'true';
-                    }
-                });
-                return b;
-            } else {
-                return true;
-            }
-        });
-    }
-
-    /**
-     * Checks if the given emitted event key is included in a list of key non-triggers in order to not mark the editor.
-     * For example pressing one of the arrow keys in the keyboard should not alter the editor's markings.
-     * @param {KeyboardEvent} keyboardEvent from the keyup in the editor
-     * @private
-     * @returns {boolean} true if the editor should be not marked, false otherwise
-     */
-    private shouldNotMarkEditor(keyboardEvent: KeyboardEvent): boolean {
-        const eventKey: string = keyboardEvent.key;
-        const NON_TRIGGERS: string[] = [
-            'Control',
-            'CapsLock',
-            'Shift',
-            'Alt',
-            'ArrowRight',
-            'ArrowUp',
-            'ArrowLeft',
-            'ArrowDown'
-        ];
-
-        const copyOrPasteOrSelectAllEvent: boolean =
-            keyboardEvent.ctrlKey &&
-            (eventKey === 'v' ||
-                eventKey === 'V' ||
-                eventKey === 'c' ||
-                eventKey === 'C' ||
-                eventKey === 'a' ||
-                eventKey === 'A');
-        return NON_TRIGGERS.includes(eventKey) || copyOrPasteOrSelectAllEvent;
     }
 
     /**
@@ -824,7 +776,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 }),
                 filter(
                     (keyboardEvent: KeyboardEvent) =>
-                        !this.shouldNotMarkEditor(keyboardEvent)
+                        !shouldNotMarkEditor(keyboardEvent)
                 ),
                 debounceTime(this.EVENTUAL_MARKING_TIME),
                 tap(() => {
@@ -840,7 +792,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             .pipe(
                 debounceTime(this.EVENTUAL_WRITTEN_TEXT_STORAGE_TIME),
                 tap(() =>
-                    this.localStorageService.storeWrittenText(
+                    this.writtenTextsLocalStorageService.storeWrittenText(
                         document.getElementById(this.EDITOR_KEY)!.innerText
                     )
                 )
@@ -864,6 +816,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     private listenForMarkingFocus(): void {
+        // TODO improve how these are picked
         const textMarkings = document.querySelectorAll('#editor > p > .typo');
         textMarkings.forEach((element: Element, index: number) =>
             element.addEventListener(
