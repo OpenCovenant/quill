@@ -22,7 +22,8 @@ import { TextMarking } from '../models/text-marking';
 import { environment } from '../../environments/environment';
 import {
     markText,
-    sortParagraphedTextMarkings
+    sortParagraphedTextMarkings,
+    shouldNotMarkEditor
 } from '../text-marking/text-marking';
 import { DarkModeService } from '../dark-mode.service';
 
@@ -624,37 +625,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     /**
-     * Checks if the given emitted event key is included in a list of key non-triggers in order to not mark the editor.
-     * For example pressing one of the arrow keys in the keyboard should not alter the editor's markings.
-     * @param {KeyboardEvent} keyboardEvent from the keyup in the editor
-     * @private
-     * @returns {boolean} true if the editor should be not marked, false otherwise
-     */
-    private shouldNotMarkEditor(keyboardEvent: KeyboardEvent): boolean {
-        const eventKey: string = keyboardEvent.key;
-        const NON_TRIGGERS: string[] = [
-            'Control',
-            'CapsLock',
-            'Shift',
-            'Alt',
-            'ArrowRight',
-            'ArrowUp',
-            'ArrowLeft',
-            'ArrowDown'
-        ];
-
-        const copyOrPasteOrSelectAllEvent: boolean =
-            keyboardEvent.ctrlKey &&
-            (eventKey === 'v' ||
-                eventKey === 'V' ||
-                eventKey === 'c' ||
-                eventKey === 'C' ||
-                eventKey === 'a' ||
-                eventKey === 'A');
-        return NON_TRIGGERS.includes(eventKey) || copyOrPasteOrSelectAllEvent;
-    }
-
-    /**
      * Place the cursor in the given element based on the provided placement.
      * @param {HTMLElement} element
      * @param {CursorPlacement} cursorPlacement
@@ -803,7 +773,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 tap(() => this.updateCharacterAndWordCount()),
                 filter(
                     (keyboardEvent: KeyboardEvent) =>
-                        !this.shouldNotMarkEditor(keyboardEvent)
+                        !shouldNotMarkEditor(keyboardEvent)
                 ),
                 debounceTime(this.EVENTUAL_MARKING_TIME),
                 tap(() => {
