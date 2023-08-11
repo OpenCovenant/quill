@@ -57,4 +57,10 @@ export class HeaderComponent {
             this.darkModeTypes = false;
         }
     }
+
+    onMarkingTypeSelection(statusType: DarkModeService, selected: boolean): void {
+        localStorage.setItem(statusType, String(selected));
+    }
+
+    protected readonly localStorage = localStorage;
 }
