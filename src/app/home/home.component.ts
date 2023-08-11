@@ -765,7 +765,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     /**
-     * Functions that are called on a **KeyboardEvent** in the editor.
+     * Functions that are called on a **input** event in the editor.
      */
     private subscribeForWritingInTheEditor(): void {
         this.eventualMarkingSubscription$ = this.fromEditorInputEvent$
