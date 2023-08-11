@@ -2,6 +2,7 @@ import { Injectable, OnInit } from '@angular/core'
 import { TextMarking } from '../models/text-marking';
 import { HttpClient } from '@angular/common/http'
 import { environment } from '../../environments/environment'
+import { map, Observable } from 'rxjs'
 
 @Injectable({
     providedIn: 'root'

@@ -12,7 +12,9 @@ export class SettingsComponent implements OnInit {
     constructor(private markingTypesLocalStorageService: MarkingTypesLocalStorageService) {}
 
     ngOnInit(): void {
-        this.markingTypesLocalStorageService.initializeMarkingTypes();
+        this.markingTypesLocalStorageService.fetchMarkingTypes().subscribe((d: any) => {
+
+        });
     }
 
     onMarkingTypeSelection(markingTypeID: string, selected: boolean): void {
