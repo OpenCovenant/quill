@@ -144,3 +144,34 @@ export function sortTextMarkings(
         }
     });
 }
+
+/**
+ * Checks if the given emitted event key is included in a list of key non-triggers in order to not mark the editor.
+ * For example pressing one of the arrow keys in the keyboard should not alter the editor's markings.
+ * @param {KeyboardEvent} keyboardEvent from the keyup in the editor
+ * @private
+ * @returns {boolean} true if the editor should be not marked, false otherwise
+ */
+export function shouldNotMarkEditor(keyboardEvent: KeyboardEvent): boolean {
+    const eventKey: string = keyboardEvent.key;
+    const NON_TRIGGERS: string[] = [
+        'Control',
+        'CapsLock',
+        'Shift',
+        'Alt',
+        'ArrowRight',
+        'ArrowUp',
+        'ArrowLeft',
+        'ArrowDown'
+    ];
+
+    const copyOrPasteOrSelectAllEvent: boolean =
+        keyboardEvent.ctrlKey &&
+        (eventKey === 'v' ||
+            eventKey === 'V' ||
+            eventKey === 'c' ||
+            eventKey === 'C' ||
+            eventKey === 'a' ||
+            eventKey === 'A');
+    return NON_TRIGGERS.includes(eventKey) || copyOrPasteOrSelectAllEvent;
+}
