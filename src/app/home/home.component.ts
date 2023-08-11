@@ -66,6 +66,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private eventualTextStoringSubscription$: any;
     private fromKeyupEvent$: any;
 
+    // TODO these are somewhat ugly...
+    private isTyping = false;
+    private justPasted = false
+
     constructor(
         public localStorageService: LocalStorageService,
         private http: HttpClient,
@@ -210,6 +214,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         // positioning cursor based on event.key makes no sense here as for this onPaste event there is no key related to it
         this.markEditor(CursorPlacement.END);
         this.updateCharacterAndWordCount();
+        if (this.isTyping) {
+            this.justPasted = true;
+        }
     }
 
     /**
@@ -554,6 +561,15 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     /**
+     * Blurs the currently focused RHS marking.
+     */
+    blurFocusedRightSideMarking(): void {
+        this.highlightingMarking = false;
+        this.highlightedMarkingIndex = -1;
+        this.highlightedMarking = undefined;
+    }
+
+    /**
      * Make the call to mark the editor into paragraphs.
      * @param {CursorPlacement} cursorPlacement
      * @private
@@ -814,6 +830,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.eventualMarkingSubscription$ = this.fromKeyupEvent$
             .pipe(
                 tap(() => {
+                    this.isTyping = true;
                     this.updateCharacterAndWordCount();
                 }),
                 filter(
@@ -822,8 +839,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 ),
                 debounceTime(this.EVENTUAL_MARKING_TIME),
                 tap(() => {
-                    this.blurFocusedRightSideMarking();
-                    this.markEditor();
+                    if (!this.justPasted) {
+                        this.blurFocusedRightSideMarking();
+                        this.markEditor();
+                    } else {
+                        this.justPasted = false;
+                    }
+                    this.isTyping = false;
                 })
             )
             .subscribe();
@@ -877,14 +899,5 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.highlightedMarking =
             this.processedText?.textMarkings[textMarkingIndex];
         this.highlightedMarkingIndex = textMarkingIndex;
-    }
-
-    /**
-     * Blurs the currently focused RHS marking.
-     */
-    blurFocusedRightSideMarking(): void {
-        this.highlightingMarking = false;
-        this.highlightedMarkingIndex = -1;
-        this.highlightedMarking = undefined;
     }
 }
