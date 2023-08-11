@@ -64,11 +64,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private savedCursorPosition: CursorPosition | undefined;
     private eventualMarkingSubscription$: any;
     private eventualTextStoringSubscription$: any;
-    private fromKeyupEvent$: any;
-
-    // TODO these are somewhat ugly...
-    private isTyping = false;
-    private justPasted = false
+    private fromEditorInputEvent$: any;
 
     constructor(
         public localStorageService: LocalStorageService,
@@ -107,9 +103,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             ) as HTMLInputElement
         ).checked = this.localStorageService.canStoreWrittenTexts;
 
-        this.fromKeyupEvent$ = fromEvent(
+        this.fromEditorInputEvent$ = fromEvent(
             document.getElementById(this.EDITOR_KEY)!,
-            'keyup'
+            'input'
         );
 
         this.subscribeForWritingInTheEditor();
@@ -118,7 +114,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.eventualMarkingSubscription$.unsubscribe();
-
         this.eventualTextStoringSubscription$.unsubscribe();
     }
 
@@ -159,9 +154,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         // TODO refactor!
         setTimeout(() => {
-            this.fromKeyupEvent$ = fromEvent(
+            this.fromEditorInputEvent$ = fromEvent(
                 document.getElementById(this.EDITOR_KEY)!,
-                'keyup'
+                'input'
             );
             this.subscribeForWritingInTheEditor();
             this.subscribeForStoringWrittenText();
@@ -192,30 +187,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             );
 
             this.displayWriteTextOrUploadDocumentFlag = false;
-        }
-    }
-
-    /**
-     * Function that is called when text is pasted in the editor.
-     * @param {ClipboardEvent} $event the event emitted
-     */
-    onTextPaste($event: ClipboardEvent): void {
-        $event.preventDefault();
-        if (!$event.clipboardData) {
-            return;
-        }
-        const text: string = $event.clipboardData.getData('text/plain');
-
-        document.execCommand('insertText', false, text);
-
-        this.localStorageService.storeWrittenText(text);
-
-        // DELETE: after strongly typing you can see the issue identified
-        // positioning cursor based on event.key makes no sense here as for this onPaste event there is no key related to it
-        this.markEditor(CursorPlacement.END);
-        this.updateCharacterAndWordCount();
-        if (this.isTyping) {
-            this.justPasted = true;
         }
     }
 
@@ -827,32 +798,24 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * Functions that are called on a **KeyboardEvent** in the editor.
      */
     private subscribeForWritingInTheEditor(): void {
-        this.eventualMarkingSubscription$ = this.fromKeyupEvent$
+        this.eventualMarkingSubscription$ = this.fromEditorInputEvent$
             .pipe(
-                tap(() => {
-                    this.isTyping = true;
-                    this.updateCharacterAndWordCount();
-                }),
+                tap(() => this.updateCharacterAndWordCount()),
                 filter(
                     (keyboardEvent: KeyboardEvent) =>
                         !this.shouldNotMarkEditor(keyboardEvent)
                 ),
                 debounceTime(this.EVENTUAL_MARKING_TIME),
                 tap(() => {
-                    if (!this.justPasted) {
-                        this.blurFocusedRightSideMarking();
-                        this.markEditor();
-                    } else {
-                        this.justPasted = false;
-                    }
-                    this.isTyping = false;
+                    this.blurFocusedRightSideMarking();
+                    this.markEditor();
                 })
             )
             .subscribe();
     }
 
     private subscribeForStoringWrittenText(): void {
-        this.eventualTextStoringSubscription$ = this.fromKeyupEvent$
+        this.eventualTextStoringSubscription$ = this.fromEditorInputEvent$
             .pipe(
                 debounceTime(this.EVENTUAL_WRITTEN_TEXT_STORAGE_TIME),
                 tap(() =>
