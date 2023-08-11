@@ -4,6 +4,8 @@ import { Injectable } from '@angular/core';
     providedIn: 'root'
 })
 export class LocalStorageService {
+    // TODO: this is duplicated in home.component.ts
+    EMPTY_STRING: string = '';
     LOCAL_STORAGE_WRITTEN_TEXT_KEY: string = 'penda-can-store-written-texts';
     WRITTEN_TEXTS_LENGTH = 5;
     WRITTEN_TEXTS_PREFIX = 'penda-written-text-';
@@ -71,6 +73,10 @@ export class LocalStorageService {
      * @param writtenText
      */
     storeWrittenText(writtenText: string): void {
+        if (writtenText.trim() === this.EMPTY_STRING) {
+            return;
+        }
+
         const arr: string[] = [];
         for (let i = 0; i < this.WRITTEN_TEXTS_LENGTH; i++) {
             arr.push(localStorage.getItem(this.WRITTEN_TEXTS_KEYS[i])!);
