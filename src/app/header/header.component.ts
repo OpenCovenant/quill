@@ -53,14 +53,14 @@ export class HeaderComponent {
                 'false'
             );
             this.darkModeService.isDarkMode = false;
-        }
+        } else {
+            if (alreadySetDarkMode === 'false') {
+                this.darkModeService.isDarkMode = false;
+            }
 
-        if (alreadySetDarkMode === 'false') {
-            this.darkModeService.isDarkMode = false;
-        }
-
-        if (alreadySetDarkMode === 'true') {
-            this.darkModeService.isDarkMode = true;
+            if (alreadySetDarkMode === 'true') {
+                this.darkModeService.isDarkMode = true;
+            }
         }
     }
 
