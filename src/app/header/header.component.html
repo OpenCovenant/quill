@@ -122,14 +122,8 @@
                             type="checkbox"
                             [id]="darkModeService"
                             [checked]="!darkModeService.isDarkMode"
-                            (change)="
-                                darkModeService.toggleDarkMode(),
-                        localStorage.setItem('darkMode', darkModeService.isDarkMode)
-"
                             [(ngModel)]="darkModeService.isDarkMode"
-                            (ngModelChange)="
-                            onMarkingTypeSelection(darkModeService, $event)
-                        "
+                            (change)='onDarkModeChange()'
                         />
                         <span class="slider"></span>
                     </label>
