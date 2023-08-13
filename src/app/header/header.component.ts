@@ -40,11 +40,6 @@ export class HeaderComponent {
         this.getMarkingTypesCount = `${this.baseURL}/api/getMarkingTypesCount`;
     }
 
-    // TODO: is this even used?
-    closeOffcanvas() {
-        document.getElementById('offcanvasCloseButton')!.click();
-    }
-
     initializeDarkMode(): void  {
         const alreadySetDarkMode: string | null = localStorage.getItem(this.DARK_MODE);
         if (!alreadySetDarkMode) {
@@ -66,5 +61,10 @@ export class HeaderComponent {
 
     onDarkModeChange(): void {
         localStorage.setItem(this.DARK_MODE, String(this.darkModeService.isDarkMode));
+    }
+
+    // TODO: is this even used?
+    closeOffcanvas() : void {
+        document.getElementById('offcanvasCloseButton')!.click();
     }
 }
