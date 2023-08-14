@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import {} from '../local-storage/local-storage.service';
 
 @Component({
     selector: 'app-settings',

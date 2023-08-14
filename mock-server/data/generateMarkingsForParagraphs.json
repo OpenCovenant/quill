@@ -2072,6 +2072,52 @@
                 }
             ]
         }
+    },
+    {
+        "request": "<p>Pra shkoi tek zyra.&nbsp;</p>",
+        "response": {
+            "text": "<p>Pra shkoi tek zyra.&nbsp;</p>",
+            "textMarkings": [
+                {
+                    "id": "te-dhe-tek",
+                    "from": 10,
+                    "to": 13,
+                    "type": "typo",
+                    "subtype": "gabim gramatikor, p\u00ebrdorimi i parafjal\u00ebve \"te\" dhe \"tek\"",
+                    "description": "parafjala \"te\" p\u00ebrdoret kur fjala vijuese fillon me bashk\u00ebtingellore, nd\u00ebrsa parafjala \"tek\" p\u00ebrdoret kur fjala vijuese fillon me zanore ",
+                    "suggestions": [
+                        {
+                            "display": "te zyra",
+                            "action": "te"
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
+    },
+    {
+        "request": "<p>Kishte buk\\u00eb, sallam, etj.</p>",
+        "response": {
+            "text": "<p>Kishte buk\u00eb, sallam, etj.</p>",
+            "textMarkings": [
+                {
+                    "id": "pa-presje-para-etj",
+                    "from": 19,
+                    "to": 20,
+                    "type": "typo",
+                    "subtype": "gabim gramatikor, shenja pik\u00ebsimi",
+                    "description": "nuk vendoset presje para \"etj\" kur ajo mbyll nj\u00eb varg gjymtyr\u00ebsh homogjen\u00eb",
+                    "suggestions": [
+                        {
+                            "display": " ",
+                            "action": ""
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
     }
 ]
 

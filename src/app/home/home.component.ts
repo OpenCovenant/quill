@@ -22,7 +22,8 @@ import { TextMarking } from '../models/text-marking';
 import { environment } from '../../environments/environment';
 import {
     markText,
-    sortParagraphedTextMarkings
+    sortParagraphedTextMarkings,
+    shouldNotMarkEditor
 } from '../text-marking/text-marking';
 import { DarkModeService } from '../dark-mode.service';
 
@@ -64,7 +65,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private savedCursorPosition: CursorPosition | undefined;
     private eventualMarkingSubscription$: any;
     private eventualTextStoringSubscription$: any;
-    private fromKeyupEvent$: any;
+    private fromEditorInputEvent$: any;
 
     constructor(
         public localStorageService: LocalStorageService,
@@ -103,9 +104,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             ) as HTMLInputElement
         ).checked = this.localStorageService.canStoreWrittenTexts;
 
-        this.fromKeyupEvent$ = fromEvent(
+        this.fromEditorInputEvent$ = fromEvent(
             document.getElementById(this.EDITOR_KEY)!,
-            'keyup'
+            'input'
         );
 
         this.subscribeForWritingInTheEditor();
@@ -114,7 +115,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.eventualMarkingSubscription$.unsubscribe();
-
         this.eventualTextStoringSubscription$.unsubscribe();
     }
 
@@ -155,9 +155,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         // TODO refactor!
         setTimeout(() => {
-            this.fromKeyupEvent$ = fromEvent(
+            this.fromEditorInputEvent$ = fromEvent(
                 document.getElementById(this.EDITOR_KEY)!,
-                'keyup'
+                'input'
             );
             this.subscribeForWritingInTheEditor();
             this.subscribeForStoringWrittenText();
@@ -189,27 +189,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
             this.displayWriteTextOrUploadDocumentFlag = false;
         }
-    }
-
-    /**
-     * Function that is called when text is pasted in the editor.
-     * @param {ClipboardEvent} $event the event emitted
-     */
-    onTextPaste($event: ClipboardEvent): void {
-        $event.preventDefault();
-        if (!$event.clipboardData) {
-            return;
-        }
-        const text: string = $event.clipboardData.getData('text/plain');
-
-        document.execCommand('insertText', false, text);
-
-        this.localStorageService.storeWrittenText(text);
-
-        // DELETE: after strongly typing you can see the issue identified
-        // positioning cursor based on event.key makes no sense here as for this onPaste event there is no key related to it
-        this.markEditor(CursorPlacement.END);
-        this.updateCharacterAndWordCount();
     }
 
     /**
@@ -554,6 +533,15 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     /**
+     * Blurs the currently focused RHS marking.
+     */
+    blurFocusedRightSideMarking(): void {
+        this.highlightingMarking = false;
+        this.highlightedMarkingIndex = -1;
+        this.highlightedMarking = undefined;
+    }
+
+    /**
      * Make the call to mark the editor into paragraphs.
      * @param {CursorPlacement} cursorPlacement
      * @private
@@ -634,71 +622,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 return true;
             }
         });
-    }
-
-    /**
-     * Checks if the given emitted event key is included in a list of key triggers in order to mark the editor. For
-     * example breaking the current line is considered as a signal to attempt to mark the currently written text.
-     * Attempting to mark the editor after every keystroke can annoy the user and will also mean a significantly larger
-     * amount of requests made.
-     * @param {string} eventKey fetched from the **onKeyboardEvent** method
-     * @private
-     * @returns {boolean} true if the editor should be marked, false otherwise
-     */
-    // TODO there's also the paste to be considered
-    private shouldMarkEditor(eventKey: string): boolean {
-        const TRIGGERS = [
-            '.',
-            '!',
-            '?',
-            ',',
-            '…',
-            'Enter',
-            'Backspace',
-            'Delete',
-            ' ',
-            ':',
-            ';',
-            '"',
-            '“',
-            '”',
-            '&',
-            '(',
-            ')',
-            '/',
-            "'",
-            '«',
-            '»'
-        ];
-        return TRIGGERS.includes(eventKey);
-    }
-
-    /**
-     * Checks if the given emitted event key is included in a list of key non-triggers in order to not mark the editor.
-     * For example pressing one of the arrow keys in the keyboard should not alter the editor's markings.
-     * @param {KeyboardEvent} keyboardEvent from the keyup in the editor
-     * @private
-     * @returns {boolean} true if the editor should be not marked, false otherwise
-     */
-    private shouldNotMarkEditor(keyboardEvent: KeyboardEvent): boolean {
-        const eventKey: string = keyboardEvent.key;
-        const NON_TRIGGERS: string[] = [
-            'Control',
-            'CapsLock',
-            'Shift',
-            'Alt',
-            'ArrowRight',
-            'ArrowUp',
-            'ArrowLeft',
-            'ArrowDown'
-        ];
-        const copyOrPasteEvent: boolean =
-            keyboardEvent.ctrlKey &&
-            (eventKey === 'v' ||
-                eventKey === 'V' ||
-                eventKey === 'c' ||
-                eventKey === 'C');
-        return NON_TRIGGERS.includes(eventKey) || copyOrPasteEvent;
     }
 
     /**
@@ -842,17 +765,15 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     /**
-     * Functions that are called on a **KeyboardEvent** in the editor.
+     * Functions that are called on a **input** event in the editor.
      */
     private subscribeForWritingInTheEditor(): void {
-        this.eventualMarkingSubscription$ = this.fromKeyupEvent$
+        this.eventualMarkingSubscription$ = this.fromEditorInputEvent$
             .pipe(
-                tap(() => {
-                    this.updateCharacterAndWordCount();
-                }),
+                tap(() => this.updateCharacterAndWordCount()),
                 filter(
                     (keyboardEvent: KeyboardEvent) =>
-                        !this.shouldNotMarkEditor(keyboardEvent)
+                        !shouldNotMarkEditor(keyboardEvent)
                 ),
                 debounceTime(this.EVENTUAL_MARKING_TIME),
                 tap(() => {
@@ -864,7 +785,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     private subscribeForStoringWrittenText(): void {
-        this.eventualTextStoringSubscription$ = this.fromKeyupEvent$
+        this.eventualTextStoringSubscription$ = this.fromEditorInputEvent$
             .pipe(
                 debounceTime(this.EVENTUAL_WRITTEN_TEXT_STORAGE_TIME),
                 tap(() =>
@@ -876,7 +797,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             .subscribe();
     }
 
-    disableEditor(): void {
+    private disableEditor(): void {
         (
             document.getElementById(this.EDITOR_KEY) as HTMLDivElement
         ).contentEditable = 'false';
@@ -884,15 +805,14 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         document.getElementById(this.PLACEHOLDER_ELEMENT_ID)!.innerText =
             'Fatkeqësisht kemi një problem me serverat. Ju kërkojmë ndjesë, ndërsa kërkojme për një zgjidhje.';
 
-        const retrievedButtons = document.querySelectorAll(
-            '.card-header button'
-        ) as NodeListOf<HTMLButtonElement>;
-        retrievedButtons.forEach((btnsdown) => {
-            btnsdown.disabled = true;
-        });
+        (
+            document.querySelectorAll(
+                '.card-header button'
+            ) as NodeListOf<HTMLButtonElement>
+        ).forEach((b) => (b.disabled = true));
     }
 
-    listenForMarkingFocus(): void {
+    private listenForMarkingFocus(): void {
         const textMarkings = document.querySelectorAll('#editor > p > .typo');
         textMarkings.forEach((element: Element, index: number) =>
             element.addEventListener(
@@ -903,20 +823,14 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     /**
-     * Clicking on the LHS, focuses on the RHS.
+     * Clicking on a LHS marking, focuses it in the RHS.
      *
-     * @param textMarkingIndex
+     * @param {number} textMarkingIndex
      */
-    focusRightSideMarking(textMarkingIndex: number): void {
+    private focusRightSideMarking(textMarkingIndex: number): void {
         this.highlightingMarking = true;
         this.highlightedMarking =
             this.processedText?.textMarkings[textMarkingIndex];
         this.highlightedMarkingIndex = textMarkingIndex;
-    }
-
-    blurFocusedRightSideMarking(): void {
-        this.highlightingMarking = false;
-        this.highlightedMarkingIndex = -1;
-        this.highlightedMarking = undefined;
     }
 }

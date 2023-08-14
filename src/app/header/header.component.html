@@ -37,6 +37,7 @@
                     'settings-gear-dark-mode': darkModeService.isDarkMode
                 }"
                 routerLink="/settings"
+                data-test="gear-button-testing"
             ></i>
         </div>
     </nav>
@@ -79,9 +80,13 @@
                 <!--                </div>-->
                 <div>
                     <a
+                        data-test="settings-button"
                         routerLink="/settings"
-                        role="button"
                         class="list-group-item list-group-item-action mb-3"
+                        role="button"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasStart"
+                        aria-controls="offcanvasStart"
                         >Cilësimet</a
                     >
                 </div>
@@ -115,8 +120,9 @@
                         <input
                             class="dark-mode-input"
                             type="checkbox"
-                            [checked]="!darkModeService.isDarkMode"
-                            (change)="darkModeService.toggleDarkMode()"
+                            [id]="darkModeService"
+                            [(ngModel)]="darkModeService.isDarkMode"
+                            (change)='onDarkModeChange()'
                         />
                         <span class="slider"></span>
                     </label>
