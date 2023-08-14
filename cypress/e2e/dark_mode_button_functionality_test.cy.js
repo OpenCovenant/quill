@@ -15,7 +15,7 @@ describe("Enable/disable dark mode button and reload to check if its working", (
         cy.get('[data-test="dark-mode-button-toggle-switch"]').should("not.be.checked");
         cy.reload();
         cy.get('[data-test="navbar-toggler-icon"]').click();
-        cy.get('[[data-test="dark-mode-button-toggle-switch"]').should("not.be.checked");
+        cy.get('[data-test="dark-mode-button-toggle-switch"]').should("not.be.checked");
         cy.reload();
     });
 });
