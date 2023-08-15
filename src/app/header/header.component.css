@@ -28,13 +28,12 @@
     width: 1.4rem;
 }
 
-#offcanvasStartButton {
+.off-canvas-start-button {
     border: 1px solid rgb(213, 213, 213);
-    padding: 3px 5px;
-    border-radius: 5px;
+    border-radius: 0.5rem;
 }
 
-#offcanvasStartButton:hover {
+.off-canvas-start-button:hover {
     background-color: #e3e3e3;
 }
 
@@ -77,15 +76,6 @@ hr {
 
 .offcanvas-body {
     padding: 0;
-}
-
-.off-canvas-start-button {
-    border: none;
-    border-radius: 0.5rem;
-}
-
-.off-canvas-start-button:hover {
-    background-color: #e3e3e3;
 }
 
 .toggle-switch {
