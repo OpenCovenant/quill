@@ -9,4 +9,3 @@ export default defineConfig({
   },
     blockHosts: ["*.google-analytics.com"]
 });
-
