@@ -5,30 +5,28 @@
     >
         <div>
             <button
+                class="off-canvas-start-button"
+                [ngClass]="{
+                    'header-button-dark-mode': darkModeService.isDarkMode
+                }"
                 type="button"
                 data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasStart"
                 aria-controls="offcanvasStart"
-                class="btn"
-                [ngClass]="{
-                    'header-button-dark-mode': darkModeService.isDarkMode
-                }"
-                id="offcanvasStartButton"
             >
                 <span
-                    class="navbar-toggler-icon"
+                    class="navbar-toggler-icon navbar-toggler-icon-span"
                     data-test="navbar-toggler-icon"
                 ></span>
             </button>
             <span
-                id="pendaHeaderLogo"
                 routerLink="/"
-                class="penda-header-logo"
+                class="penda-header-logo cursor-pointer"
                 [ngClass]="{
                     'header-text-dark-mode': darkModeService.isDarkMode
                 }"
                 data-test="penda-home-button"
-                >&nbsp;penda</span
+            >&nbsp;penda</span
             >
         </div>
 
@@ -46,9 +44,9 @@
 </div>
 
 <div
+    id="offcanvasStart"
     class="offcanvas offcanvas-start"
     tabindex="-1"
-    id="offcanvasStart"
     aria-labelledby="offcanvasStartLabel"
 >
     <div class="offcanvas-header">
