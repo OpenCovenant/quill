@@ -38,8 +38,8 @@
     color: var(--dark-mode-anti-theme);
 }
 
-.clear-editor-span-dark-mode {
-    background-color: white !important;
+.clear-editor-dark-mode {
+    background-color: white;
 }
 
 .flex1 {
