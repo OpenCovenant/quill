@@ -7,10 +7,6 @@
     font-size: 1.4rem;
 }
 
-.navbar-toggler-icon-span {
-    width: 1.4rem;
-}
-
 .penda-header-logo {
     color: black;
     font-size: 20px;
@@ -28,17 +24,58 @@
     color: var(--dark-mode-anti-theme);
 }
 
-.dropdown div {
-    box-shadow: 0 0 1px 1px #e3e3e3ae;
+.navbar-toggler-icon {
+    width: 1.4rem;
 }
 
 .off-canvas-start-button {
-    border: none;
+    border: 1px solid rgb(213, 213, 213);
     border-radius: 0.5rem;
 }
 
 .off-canvas-start-button:hover {
     background-color: #e3e3e3;
+}
+
+hr {
+    background-color: #353434;
+    height: 1px;
+    border: none;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.navText {
+    display: flex;
+    justify-content: start;
+    list-style: none;
+    height: 50px;
+    padding: 1rem;
+    margin-bottom: 0;
+    margin-left: 0;
+    text-decoration: none;
+    color: #000000;
+    font-size: 1rem;
+    border-radius: 7px;
+}
+
+.navText:hover {
+    background-color: rgba(241, 238, 238, 0.952);
+    color: black;
+}
+
+.bi {
+    padding-right: 1rem;
+    color: #3a3a3a;
+}
+
+.offcanvas-start {
+    border-radius: 0 3px 3px 0;
+    width: 350px;
+}
+
+.offcanvas-body {
+    padding: 0;
 }
 
 .toggle-switch {
@@ -98,4 +135,6 @@
 .dark-mode-div {
     justify-content: space-between;
     padding-top: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
