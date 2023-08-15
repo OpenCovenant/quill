@@ -61,20 +61,19 @@
                     >
                         {{ EDITOR_PLACEHOLDER_TEXT }}
                     </div>
-                    <div class="clear-editor-section" *ngIf="editorHasText()">
-                        <span
-                            class="clear-editor-span cursor-pointer"
+                    <div *ngIf="editorHasText()">
+                        <button
+                            type="button"
+                            class="btn-close text-reset cursor-pointer"
                             [ngClass]="{
-                                'clear-editor-span-dark-mode':
+                                'clear-editor-dark-mode':
                                     darkModeService.isDarkMode
                             }"
                             (click)="clearEditor()"
                             title="fshi shkrimin"
-                            ><i
-                                class="bi bi-x"
-                                data-test="clear-editor-icon"
-                            ></i>
-                        </span>
+                            aria-label="clear editor"
+                            data-test="clear-editor-icon"
+                        ></button>
                     </div>
                 </div>
                 <hr
