@@ -11,7 +11,7 @@
     border: none;
 }
 
-#togglerIcon {
+.navbar-toggler-icon {
     width: 1.4rem;
 }
 
@@ -20,11 +20,6 @@
     font-size: 20px;
     cursor: pointer;
 }
-
-/* TODO: remove this? */
-/*.dropdown div {*/
-/*    box-shadow: 0 0 1px 1px #e3e3e3ae;*/
-/*}*/
 
 #offcanvasStartButton {
     border: 1px solid rgb(213, 213, 213);
