@@ -15,7 +15,7 @@
                 aria-controls="offcanvasStart"
             >
                 <span
-                    class="navbar-toggler-icon navbar-toggler-icon-span"
+                    class="navbar-toggler-icon"
                     data-test="navbar-toggler-icon"
                 ></span>
             </button>
@@ -26,7 +26,7 @@
                     'header-text-dark-mode': darkModeService.isDarkMode
                 }"
                 data-test="penda-home-button"
-                >&nbsp;penda</span
+            >&nbsp;penda</span
             >
         </div>
 
@@ -64,7 +64,7 @@
     <br />
     <div class="offcanvas-body">
         <div class="list-group list-group-flush">
-            <div class="dropdown">
+            <div>
                 <!--                <div style="box-shadow: 0 0 1px 1px #E3E3E3AE;">-->
                 <!--                    <a role="button" class="dropdown-toggle list-group-item list-group-item-action mb-3"-->
                 <!--                       data-bs-toggle="dropdown" aria-expanded="false">Llojet&nbsp;e&nbsp;Shenjimeve&nbsp;<span-->
@@ -82,39 +82,39 @@
                     <a
                         data-test="settings-button"
                         routerLink="/settings"
-                        class="list-group-item list-group-item-action mb-3"
+                        class="navText list-group-item-action mb-3"
                         role="button"
                         data-bs-toggle="offcanvas"
                         data-bs-target="#offcanvasStart"
                         aria-controls="offcanvasStart"
-                        >Cilësimet</a
+                    ><i class="bi bi-gear"></i>Cilësimet</a
                     >
                 </div>
                 <div>
                     <a
                         href="https://github.com/OpenCovenant"
                         role="button"
-                        class="list-group-item list-group-item-action mb-3"
+                        class="navText list-group-item-action mb-3"
                         target="_blank"
                         rel="noopener noreferrer"
-                        >Rreth&nbsp;Nesh</a
+                        ><i class="bi bi-house-door"></i>Rreth&nbsp;Nesh</a
                     >
                 </div>
                 <div>
                     <a
                         href="https://github.com/OpenCovenant/quill"
                         role="button"
-                        class="list-group-item list-group-item-action mb-3"
+                        class="navText list-group-item-action mb-3"
                         target="_blank"
                         rel="noopener noreferrer"
-                        >Rreth&nbsp;Penda</a
+                        ><i class="bi bi-info-circle"></i>Rreth&nbsp;Penda</a
                     >
                 </div>
                 <br />
             </div>
             <hr />
             <div class="d-flex dark-mode-div">
-                <div>Modalitet i Errët:</div>
+                <div>Modalitet i Errët</div>
                 <div class="toggle-switch">
                     <label class="dark-mode-label cursor-pointer">
                         <input
