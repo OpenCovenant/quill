@@ -1,0 +1,13 @@
+.component-dark-mode {
+    background-color: var(--dark-mode-theme);
+}
+
+.component-div {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.component-router-div {
+    flex: 1;
+}

@@ -1700,6 +1700,424 @@
                 }
             ]
         }
+    },
+    {
+        "request": "<p>asd gabmim asd&nbsp;</p>",
+        "response": {
+            "text": "<p>asd gabmim asd&nbsp;</p>",
+            "textMarkings": [
+                {
+                    "from": 0,
+                    "to": 3,
+                    "type": "typo",
+                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "aks",
+                            "action": "aks"
+                        },
+                        {
+                            "display": "qas",
+                            "action": "qas"
+                        },
+                        {
+                            "display": "and",
+                            "action": "and"
+                        },
+                        {
+                            "display": "asi",
+                            "action": "asi"
+                        },
+                        {
+                            "display": "kad",
+                            "action": "kad"
+                        },
+                        {
+                            "display": "ras",
+                            "action": "ras"
+                        },
+                        {
+                            "display": "aed",
+                            "action": "aed"
+                        },
+                        {
+                            "display": "sad",
+                            "action": "sad"
+                        },
+                        {
+                            "display": "kas",
+                            "action": "kas"
+                        },
+                        {
+                            "display": "has",
+                            "action": "has"
+                        },
+                        {
+                            "display": "ase",
+                            "action": "ase"
+                        },
+                        {
+                            "display": "aso",
+                            "action": "aso"
+                        },
+                        {
+                            "display": "pas",
+                            "action": "pas"
+                        },
+                        {
+                            "display": "ad",
+                            "action": "ad"
+                        },
+                        {
+                            "display": "mas",
+                            "action": "mas"
+                        },
+                        {
+                            "display": "bas",
+                            "action": "bas"
+                        },
+                        {
+                            "display": "tas",
+                            "action": "tas"
+                        },
+                        {
+                            "display": "as",
+                            "action": "as"
+                        },
+                        {
+                            "display": "ars",
+                            "action": "ars"
+                        },
+                        {
+                            "display": "uas",
+                            "action": "uas"
+                        }
+                    ],
+                    "paragraph": 0
+                },
+                {
+                    "from": 4,
+                    "to": 10,
+                    "type": "typo",
+                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "gazmim",
+                            "action": "gazmim"
+                        },
+                        {
+                            "display": "gabim",
+                            "action": "gabim"
+                        },
+                        {
+                            "display": "gabimi",
+                            "action": "gabimi"
+                        },
+                        {
+                            "display": "gabime",
+                            "action": "gabime"
+                        }
+                    ],
+                    "paragraph": 0
+                },
+                {
+                    "from": 11,
+                    "to": 14,
+                    "type": "typo",
+                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "aso",
+                            "action": "aso"
+                        },
+                        {
+                            "display": "aed",
+                            "action": "aed"
+                        },
+                        {
+                            "display": "kad",
+                            "action": "kad"
+                        },
+                        {
+                            "display": "ars",
+                            "action": "ars"
+                        },
+                        {
+                            "display": "pas",
+                            "action": "pas"
+                        },
+                        {
+                            "display": "has",
+                            "action": "has"
+                        },
+                        {
+                            "display": "and",
+                            "action": "and"
+                        },
+                        {
+                            "display": "sad",
+                            "action": "sad"
+                        },
+                        {
+                            "display": "tas",
+                            "action": "tas"
+                        },
+                        {
+                            "display": "bas",
+                            "action": "bas"
+                        },
+                        {
+                            "display": "aks",
+                            "action": "aks"
+                        },
+                        {
+                            "display": "qas",
+                            "action": "qas"
+                        },
+                        {
+                            "display": "asi",
+                            "action": "asi"
+                        },
+                        {
+                            "display": "ad",
+                            "action": "ad"
+                        },
+                        {
+                            "display": "uas",
+                            "action": "uas"
+                        },
+                        {
+                            "display": "ase",
+                            "action": "ase"
+                        },
+                        {
+                            "display": "ras",
+                            "action": "ras"
+                        },
+                        {
+                            "display": "kas",
+                            "action": "kas"
+                        },
+                        {
+                            "display": "mas",
+                            "action": "mas"
+                        },
+                        {
+                            "display": "as",
+                            "action": "as"
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
+    },
+    {
+        "request": "<p>gabmim asd&nbsp;</p>",
+        "response": {
+            "text": "<p>gabmim asd&nbsp;</p>",
+            "textMarkings": [
+                {
+                    "from": 0,
+                    "to": 6,
+                    "type": "typo",
+                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "gabim",
+                            "action": "gabim"
+                        },
+                        {
+                            "display": "gabimi",
+                            "action": "gabimi"
+                        },
+                        {
+                            "display": "gazmim",
+                            "action": "gazmim"
+                        },
+                        {
+                            "display": "gabime",
+                            "action": "gabime"
+                        }
+                    ],
+                    "paragraph": 0
+                },
+                {
+                    "from": 7,
+                    "to": 10,
+                    "type": "typo",
+                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "ase",
+                            "action": "ase"
+                        },
+                        {
+                            "display": "qas",
+                            "action": "qas"
+                        },
+                        {
+                            "display": "ars",
+                            "action": "ars"
+                        },
+                        {
+                            "display": "uas",
+                            "action": "uas"
+                        },
+                        {
+                            "display": "aed",
+                            "action": "aed"
+                        },
+                        {
+                            "display": "tas",
+                            "action": "tas"
+                        },
+                        {
+                            "display": "mas",
+                            "action": "mas"
+                        },
+                        {
+                            "display": "kas",
+                            "action": "kas"
+                        },
+                        {
+                            "display": "ras",
+                            "action": "ras"
+                        },
+                        {
+                            "display": "pas",
+                            "action": "pas"
+                        },
+                        {
+                            "display": "and",
+                            "action": "and"
+                        },
+                        {
+                            "display": "as",
+                            "action": "as"
+                        },
+                        {
+                            "display": "has",
+                            "action": "has"
+                        },
+                        {
+                            "display": "kad",
+                            "action": "kad"
+                        },
+                        {
+                            "display": "asi",
+                            "action": "asi"
+                        },
+                        {
+                            "display": "ad",
+                            "action": "ad"
+                        },
+                        {
+                            "display": "aso",
+                            "action": "aso"
+                        },
+                        {
+                            "display": "aks",
+                            "action": "aks"
+                        },
+                        {
+                            "display": "sad",
+                            "action": "sad"
+                        },
+                        {
+                            "display": "bas",
+                            "action": "bas"
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
+    },
+    {
+        "request": "<p>gabmim</p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p>",
+        "response": {
+            "text": "<p>gabmim</p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p>",
+            "textMarkings": [
+                {
+                    "from": 0,
+                    "to": 6,
+                    "type": "typo",
+                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "gabimi",
+                            "action": "gabimi"
+                        },
+                        {
+                            "display": "gabim",
+                            "action": "gabim"
+                        },
+                        {
+                            "display": "gabime",
+                            "action": "gabime"
+                        },
+                        {
+                            "display": "gazmim",
+                            "action": "gazmim"
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
+    },
+    {
+        "request": "<p>Pra shkoi tek zyra.&nbsp;</p>",
+        "response": {
+            "text": "<p>Pra shkoi tek zyra.&nbsp;</p>",
+            "textMarkings": [
+                {
+                    "id": "te-dhe-tek",
+                    "from": 10,
+                    "to": 13,
+                    "type": "typo",
+                    "subtype": "gabim gramatikor, p\u00ebrdorimi i parafjal\u00ebve \"te\" dhe \"tek\"",
+                    "description": "parafjala \"te\" p\u00ebrdoret kur fjala vijuese fillon me bashk\u00ebtingellore, nd\u00ebrsa parafjala \"tek\" p\u00ebrdoret kur fjala vijuese fillon me zanore ",
+                    "suggestions": [
+                        {
+                            "display": "te zyra",
+                            "action": "te"
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
+    },
+    {
+        "request": "<p>Kishte buk\\u00eb, sallam, etj.</p>",
+        "response": {
+            "text": "<p>Kishte buk\u00eb, sallam, etj.</p>",
+            "textMarkings": [
+                {
+                    "id": "pa-presje-para-etj",
+                    "from": 19,
+                    "to": 20,
+                    "type": "typo",
+                    "subtype": "gabim gramatikor, shenja pik\u00ebsimi",
+                    "description": "nuk vendoset presje para \"etj\" kur ajo mbyll nj\u00eb varg gjymtyr\u00ebsh homogjen\u00eb",
+                    "suggestions": [
+                        {
+                            "display": " ",
+                            "action": ""
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
     }
 ]
 

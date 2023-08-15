@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
     declarations: [
@@ -16,7 +17,8 @@ import { HomeComponent } from './home/home.component';
         MarkingDetailsComponent,
         HeaderComponent,
         FooterComponent,
-        HomeComponent
+        HomeComponent,
+        SettingsComponent
     ],
     imports: [BrowserModule, HttpClientModule, FormsModule, AppRoutingModule],
     providers: [],

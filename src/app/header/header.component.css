@@ -60,6 +60,12 @@ hr {
     border-radius: 7px;
 }
 
+#pendaHeaderLogo {
+    color: black;
+    font-size: 20px;
+    cursor: pointer;
+}
+
 navText:hover {
     background-color: rgba(241, 238, 238, 0.952);
     color: black;
@@ -68,6 +74,18 @@ navText:hover {
 .bi {
     padding-right: 1rem;
     color: #3a3a3a;
+}
+
+.header-dark-mode {
+    background-color: var(--dark-mode-smooth-theme);
+}
+
+.header-button-dark-mode {
+    background-color: var(--dark-mode-smooth-theme);
+}
+
+.header-text-dark-mode {
+    color: var(--dark-mode-anti-theme);
 }
 
 .offcanvas-start {

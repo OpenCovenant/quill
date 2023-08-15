@@ -1,29 +1,29 @@
-#highLevelContainer {
+.high-level-container {
     display: flex;
     justify-content: space-between;
     gap: 1rem;
     flex: 1;
 }
 
-#inputContainer {
+.input-container {
     flex: 0 0 60%;
     margin-left: 3rem;
 }
 
-.firstHeader {
+.first-header {
     display: flex;
     justify-content: space-evenly;
 }
 
-.btnSeparator {
+.first-header-dark-mode {
+    border: 1px solid var(--dark-mode-smooth-theme);
+}
+
+.pipe-separator {
     display: flex;
     justify-content: center;
     align-items: center;
     color: #737373;
-}
-
-.flexProperty {
-    display: flex;
 }
 
 #editor {
@@ -34,14 +34,21 @@
     outline: 0 solid transparent;
 }
 
-.placeholderText {
+.editor-dark-mode {
+    color: var(--dark-mode-anti-theme);
+}
+
+.clear-editor-section {
     min-width: 4%;
 }
 
-#clearEditorSpan {
+.clear-editor-span {
     font-size: 36px;
     border-radius: 40%;
-    cursor: pointer;
+}
+
+.clear-editor-span-dark-mode {
+    color: var(--dark-mode-anti-theme) !important;
 }
 
 .flex1 {
@@ -50,14 +57,22 @@
     font-size: 0.8rem;
 }
 
-.flex2 {
+.characters-words-markings {
     display: flex;
     justify-content: center;
     align-content: center;
     flex-direction: column;
 }
 
-#copyToClipboardButton {
+.characters-words-markings-dark-mode {
+    color: var(--dark-mode-anti-theme);
+}
+
+.editor-footer-line-dark-mode {
+    color: var(--dark-mode-smooth-theme);
+}
+
+.editor-footer-button {
     background: none;
     color: black;
     border: none;
@@ -65,42 +80,25 @@
     font-size: 1.25rem;
 }
 
-#clockHistory {
-    background: none;
-    color: black;
-    border: none;
-    padding: 0;
-    font-size: 1.25rem;
+.clipboard-button-dark-mode {
+    color: var(--dark-mode-anti-theme) !important;
 }
 
 #documentUploadingHiddenInput {
     display: none;
 }
 
-#outputContainer {
+.output-container {
     flex: 0 0 30%;
     margin-right: 3rem;
 }
 
-.secondHeader {
+.second-header {
     display: flex;
     justify-content: space-between;
 }
-.writingMisstakes {
-    display: inline-block;
-    padding-left: 6px;
-    padding-right: 6px;
-    color: black;
-}
 
-.wordsSuggestions {
-    display: inline-block;
-    padding-left: 6px;
-    padding-right: 6px;
-    color: black;
-}
-
-.stylingBookmarks {
+.template-marking-span {
     display: inline-block;
     padding-left: 6px;
     padding-right: 6px;
@@ -114,7 +112,7 @@
     max-width: 80%;
 }
 
-#textMarking {
+.text-marking {
     display: inline-block;
     padding: 3px 6px;
     border-radius: 4px;
@@ -124,13 +122,12 @@
     overflow: hidden;
 }
 
-#informationCircle {
+.information-circle {
     font-size: 20px;
     color: #484848;
-    cursor: pointer;
 }
 
-#suggestions {
+.suggestions {
     display: flex;
     flex-wrap: wrap;
     align-content: stretch;
@@ -142,22 +139,14 @@
     color: black;
 }
 
-.suggestionDisplay {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #737373;
-}
-
-.suggestionsHeader {
+.suggestions-header {
     display: inline-block;
     align-items: flex-start;
     margin: 0;
     line-height: inherit;
-    cursor: pointer;
 }
 
-.waitingText {
+.waiting-text {
     display: inline-block;
     padding-left: 6px;
     padding-right: 6px;
@@ -170,17 +159,17 @@
     min-height: 50px;
 }
 
-#spinnerBorder {
+.spinner-border {
     margin-left: 45%;
     margin-top: 10px;
 }
 
-#historyDeactivation {
+.history-deactivation-message {
     color: gray;
     font-size: 13px;
 }
 
-#writtenText {
+.written-text {
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -190,10 +179,18 @@
     padding: 5px;
 }
 
+.written-text:hover {
+    background-color: #f1f1f1;
+}
+
+.written-text-history-button-dark-mode {
+    color: var(--dark-mode-anti-theme) !important;
+}
+
 .typo {
     /*text-decoration: underline;*/
     /*text-decoration-color: red;*/
-    background-color: #ffc8c8;
+    background-color: var(--typo-color);
     border-radius: 4px;
     border: none;
     padding-top: 3px;
@@ -201,7 +198,7 @@
 }
 
 .loanword {
-    background-color: #ffd182;
+    background-color: var(--loanword-color);
     border-radius: 4px;
     border: none;
     padding-top: 3px;
@@ -209,7 +206,7 @@
 }
 
 .stylistic {
-    background-color: #a1b6dc;
+    background-color: var(--stylistic-color);
     border-radius: 4px;
     border: none;
     padding-top: 3px;
@@ -221,6 +218,19 @@
     color: #a6a6a6;
     pointer-events: none;
     user-select: none;
+}
+
+/*TODO: improve the following*/
+#editor > p > .typo {
+    cursor: pointer;
+}
+
+#editor > p > .loanword {
+    cursor: pointer;
+}
+
+#editor > p > .stylistic {
+    cursor: pointer;
 }
 
 .suggestion {
@@ -238,20 +248,8 @@
     background-color: #a9a9a9;
 }
 
-#offcanvasStartButton:hover {
-    background-color: #e3e3e3;
-}
-
-#clearEditorSpan:hover {
-    background-color: #f3f3f3;
-}
-
-#writtenText:hover {
-    background-color: #f1f1f1;
-}
-
 @media (max-width: 800px) {
-    #highLevelContainer {
+    .high-level-container {
         flex-direction: column;
         gap: 2rem !important;
     }
@@ -261,30 +259,87 @@
         min-height: 18rem !important;
     }
 
-    #suggestions {
+    .suggestions {
         gap: 0.4rem !important;
     }
 
-    #inputContainer {
+    .input-container {
         margin-right: 3rem;
     }
 
-    #outputContainer {
+    .output-container {
         margin-left: 3rem;
     }
 
-    #clearEditorSpan {
+    .clear-editor-span {
         font-size: 160% !important;
     }
 }
 
+.marking-focus {
+    margin: 0 30px 0 -17px;
+    border: 3px solid;
+    font-weight: bold;
+    transition: all 0.1s;
+}
+
+.second-header-dark-mode {
+    background-color: var(--dark-mode-smooth-theme);
+}
+
+.supported-documents-text-dark-mode {
+    color: var(--dark-mode-anti-theme);
+}
+
+.marking-unfocus {
+    border-radius: 4px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    margin: 0;
+    border: 1px solid;
+    font-weight: normal;
+}
+
+.marking-blur {
+    border-radius: 4px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    margin: 0;
+    border: 1px solid;
+    font-weight: normal;
+    filter: blur(2px);
+}
+
 /*TODO I don't like these two a lot, write better responsive code, I assume ideally this should be added in flex-stuff*/
 @media (min-width: 800px) {
-    #inputContainer {
+    .input-container {
         width: 35%;
     }
 
-    #outputContainer {
+    .output-container {
         width: 35%;
     }
+}
+
+.sticky {
+    position: sticky;
+    top: 0;
+}
+
+.editor-placeholder-dark-mode {
+    color: var(--dark-mode-anti-theme) !important;
+}
+
+.list-group-item-dark-mode {
+    background-color: var(--dark-mode-theme);
+    color: var(--dark-mode-anti-theme);
+}
+
+.input-container-card-dark-mode {
+    background-color: var(--dark-mode-theme);
+}
+
+/*TODO: apply dark mode for the history of the written texts*/
+.written-texts-history-dark-mode {
+    background-color: var(--dark-mode-theme);
 }

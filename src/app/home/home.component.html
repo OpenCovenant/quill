@@ -1,7 +1,17 @@
-<div id="highLevelContainer">
-    <div id="inputContainer" class="inputText mt-5">
-        <div class="card border-secondary">
-            <div class="card-header firstHeader">
+<div class="high-level-container">
+    <div class="input-container mt-5">
+        <div
+            class="card border-secondary"
+            [ngClass]="{
+                'input-container-card-dark-mode': darkModeService.isDarkMode
+            }"
+        >
+            <div
+                class="card-header first-header"
+                [ngClass]="{
+                    'first-header-dark-mode': darkModeService.isDarkMode
+                }"
+            >
                 <button
                     id="{{ writeTextToggleButtonID }}"
                     (click)="toggleWriteTextButton()"
@@ -11,7 +21,7 @@
                 >
                     SHKRIM
                 </button>
-                <div class="btnSeparator">|</div>
+                <div class="pipe-separator">|</div>
                 <button
                     id="{{ uploadDocumentToggleButtonID }}"
                     (click)="toggleUploadDocumentButton()"
@@ -22,11 +32,14 @@
                 </button>
             </div>
             <div class="card-body" *ngIf="displayWriteTextOrUploadDocumentFlag">
-                <div class="flexProperty">
+                <div class="d-flex">
                     <div
                         id="editor"
-                        contenteditable="true"
                         (paste)="onTextPaste($event)"
+                        [ngClass]="{
+                            'editor-dark-mode': darkModeService.isDarkMode
+                        }"
+                        contenteditable="true"
                         [innerHTML]="innerHTMLOfEditor"
                         spellcheck="false"
                         autocapitalize="off"
@@ -40,13 +53,21 @@
                             !editorHasText() ||
                             editorElement.innerHTML === EMPTY_STRING
                         "
+                        [ngClass]="{
+                            'editor-placeholder-dark-mode':
+                                darkModeService.isDarkMode
+                        }"
                         data-test="editor-placeholder"
                     >
                         {{ EDITOR_PLACEHOLDER_TEXT }}
                     </div>
-                    <div class="placeholderText" *ngIf="editorHasText()">
+                    <div class="clear-editor-section" *ngIf="editorHasText()">
                         <span
-                            id="clearEditorSpan"
+                            class="clear-editor-span cursor-pointer"
+                            [ngClass]="{
+                                'clear-editor-span-dark-mode':
+                                    darkModeService.isDarkMode
+                            }"
                             (click)="clearEditor()"
                             title="fshi shkrimin"
                             ><i
@@ -56,9 +77,20 @@
                         </span>
                     </div>
                 </div>
-                <hr />
+                <hr
+                    [ngClass]="{
+                        'editor-footer-line-dark-mode':
+                            darkModeService.isDarkMode
+                    }"
+                />
                 <div class="flex1">
-                    <span class="flex2" data-test="characters-words-markings"
+                    <span
+                        class="characters-words-markings"
+                        [ngClass]="{
+                            'characters-words-markings-dark-mode':
+                                darkModeService.isDarkMode
+                        }"
+                        data-test="characters-words-markings"
                         >{{ characterCount }}&nbsp;{{
                             characterCount === 1 ? "karakter" : "karaktere"
                         }}&comma;&nbsp;{{ wordCount }}&nbsp;fjalë&comma;&nbsp;{{
@@ -74,19 +106,26 @@
                     >
                     <span
                         ><button
-                            id="copyToClipboardButton"
+                            id="copy-to-clipboard-button"
                             (click)="copyToClipboard()"
-                            class="bi bi-clipboard"
+                            class="bi bi-clipboard editor-footer-button"
+                            [ngClass]="{
+                                'clipboard-button-dark-mode':
+                                    darkModeService.isDarkMode
+                            }"
                             title="kopjo shkrimin"
                             data-test="copy-to-clipboard-button"
                         ></button
                         >&nbsp;&nbsp;&nbsp;&nbsp;<button
-                            id="clockHistory"
                             type="button"
                             data-bs-toggle="modal"
                             data-bs-target="#writtenTextsHistoryModal"
                             title="trego historikun e shkrimeve"
-                            class="bi bi-clock-history"
+                            class="bi bi-clock-history editor-footer-button"
+                            [ngClass]="{
+                                'written-text-history-button-dark-mode':
+                                    darkModeService.isDarkMode
+                            }"
                             data-test="written-texts-history-button"
                         ></button
                     ></span>
@@ -98,7 +137,13 @@
             >
                 <div class="text-center">
                     <br />
-                    <h5 class="card-title">
+                    <h5
+                        class="card-title"
+                        [ngClass]="{
+                            'supported-documents-text-dark-mode':
+                                darkModeService.isDarkMode
+                        }"
+                    >
                         Mbështesim dokumenta <b>Word</b>, <b>PDF</b>,
                         <b>Libre</b>.
                     </h5>
@@ -121,7 +166,7 @@
             </div>
         </div>
     </div>
-    <div id="outputContainer" class="outputTexts mt-5">
+    <div class="output-container mt-5">
         <div
             *ngIf="
                 (processedText === undefined ||
@@ -131,15 +176,26 @@
         >
             <!-- TODO put into a method -->
             <div class="card border-secondary">
-                <div class="card-header secondHeader">
+                <div
+                    class="card-header second-header"
+                    [ngClass]="{
+                        'second-header-dark-mode': darkModeService.isDarkMode
+                    }"
+                >
                     <div>
-                        <span class="typo writingMisstakes"
+                        <span class="typo template-marking-span"
                             >gabime shkrimi</span
                         >
                     </div>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
+                    <li
+                        class="list-group-item"
+                        [ngClass]="{
+                            'list-group-item-dark-mode':
+                                darkModeService.isDarkMode
+                        }"
+                    >
                         <b>shkrim pa gabime</b> -
                         <span
                             >shenjime për fjalë të shkruara gabim, gabime
@@ -149,15 +205,26 @@
                 </ul>
             </div>
             <div class="card border-secondary mt-4">
-                <div class="card-header secondHeader">
+                <div
+                    class="card-header second-header"
+                    [ngClass]="{
+                        'second-header-dark-mode': darkModeService.isDarkMode
+                    }"
+                >
                     <div>
-                        <span class="loanword wordsSuggestions"
+                        <span class="loanword template-marking-span"
                             >sugjerime huazimesh</span
                         >
                     </div>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
+                    <li
+                        class="list-group-item"
+                        [ngClass]="{
+                            'list-group-item-dark-mode':
+                                darkModeService.isDarkMode
+                        }"
+                    >
                         <b>pa huazime për tani</b> -
                         <span
                             >shenjime për huazime me origjinë italiane, angleze,
@@ -167,116 +234,291 @@
                 </ul>
             </div>
             <div class="card border-secondary mt-4">
-                <div class="card-header secondHeader">
+                <div
+                    class="card-header second-header"
+                    [ngClass]="{
+                        'second-header-dark-mode': darkModeService.isDarkMode
+                    }"
+                >
                     <div>
-                        <span class="stylistic stylingBookmarks"
+                        <span class="stylistic template-marking-span"
                             >shenjime stilistike</span
                         >
                     </div>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
+                    <li
+                        class="list-group-item"
+                        [ngClass]="{
+                            'list-group-item-dark-mode':
+                                darkModeService.isDarkMode
+                        }"
+                    >
                         <b>stilistikë e duhur</b> -
                         <span>shenjime për fjali tepër të gjata</span>
                     </li>
                 </ul>
             </div>
         </div>
-
         <div
-            *ngFor="let textMarking of processedText?.textMarkings; index as i"
-            class="card border-secondary {{ i > 0 ? 'mt-2' : '' }}"
+            *ngIf="processedText?.textMarkings"
+            [ngClass]="{ sticky: highlightingMarking }"
         >
-            <div class="card-header secondHeader">
-                <div class="grid1">
-                    <span id="textMarking" class="{{ textMarking.type }}">{{
-                        getTextOfTextMarking(i)
-                    }}</span>
-                </div>
-                <div>
-                    <button
-                        (click)="deleteTextMarking(i)"
-                        class="btn btn-outline-danger btn-sm"
-                        data-test="dismiss-marking-button"
+            <ng-template
+                [ngIf]="!highlightingMarking"
+                [ngIfElse]="highlightedMarkingTemplate"
+            >
+                <div
+                    *ngFor="
+                        let textMarking of processedText?.textMarkings;
+                        index as i
+                    "
+                    class="card border-secondary {{ i > 0 ? 'mt-2' : '' }}"
+                >
+                    <div
+                        class="card-header second-header"
+                        [ngClass]="{
+                            'second-header-dark-mode':
+                                darkModeService.isDarkMode
+                        }"
                     >
-                        HIQ&nbsp;<i class="bi bi-trash"></i>
-                    </button>
-                </div>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    <div class="flexProperty">
-                        <div>
-                            <b>{{ textMarking.subtype }}</b> -
-                            <span>{{ textMarking.description }}</span>
+                        <div class="grid1">
+                            <span
+                                class="text-marking {{ textMarking.type }}"
+                                data-test="text-marking-span"
+                                >{{ getTextOfTextMarking(i) }}
+                            </span>
                         </div>
-                        <div *ngIf="textMarking.id">
+                        <div>
+                            <button
+                                (click)="deleteTextMarking(i)"
+                                class="btn btn-outline-danger btn-sm"
+                                data-test="dismiss-marking-button"
+                            >
+                                HIQ&nbsp;<i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li
+                            class="list-group-item"
+                            [ngClass]="{
+                                'list-group-item-dark-mode':
+                                    darkModeService.isDarkMode
+                            }"
+                        >
+                            <div class="d-flex">
+                                <div>
+                                    <b>{{ textMarking.subtype }}</b> -
+                                    <span>{{ textMarking.description }}</span>
+                                </div>
+                                <div *ngIf="textMarking.id">
+                                    <i
+                                        class="bi bi-info-circle information-circle cursor-pointer"
+                                        routerLink="/{{ textMarking.id }}"
+                                        data-test="marking-information-icon"
+                                    ></i>
+                                </div>
+                            </div>
+                            <span *ngIf="textMarking.suggestions.length > 0">
+                                <div class="suggestions">
+                                    <button
+                                        *ngFor="
+                                            let suggestion of textMarking.suggestions.slice(
+                                                0,
+                                                shouldCollapseSuggestions[i]
+                                                    ? 4
+                                                    : textMarking.suggestions
+                                                          .length
+                                            );
+                                            index as j
+                                        "
+                                        (click)="chooseSuggestion(i, j)"
+                                        class="suggestion"
+                                        data-test="suggestion"
+                                    >
+                                        <b>{{ suggestion.display }}</b>
+                                    </button>
+                                    <div
+                                        class="pipe-separator"
+                                        *ngIf="
+                                            textMarking.suggestions.length > 4
+                                        "
+                                    >
+                                        |
+                                    </div>
+                                    <div
+                                        *ngIf="
+                                            textMarking.suggestions.length > 4
+                                        "
+                                    >
+                                        <h3
+                                            (click)="
+                                                oscillateSuggestion(i, $event)
+                                            "
+                                            class="bi suggestions-header cursor-pointer {{
+                                                shouldCollapseSuggestions[i]
+                                                    ? 'bi-arrow-right-square'
+                                                    : 'bi-arrow-left-square'
+                                            }}"
+                                            data-test="oscillate-suggestions-button"
+                                        ></h3>
+                                    </div>
+                                </div>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </ng-template>
+            <ng-template #highlightedMarkingTemplate>
+                <div class="card border-secondary">
+                    <div
+                        class="card-header second-header"
+                        [ngClass]="{
+                            'second-header-dark-mode':
+                                darkModeService.isDarkMode
+                        }"
+                    >
+                        <div class="grid1">
+                            <span
+                                class="text-marking {{
+                                    highlightedMarking?.type
+                                }}"
+                                data-test="highlighted-text-marking"
+                                >{{
+                                    getTextOfTextMarking(
+                                        highlightedMarkingIndex
+                                    )
+                                }}</span
+                            >
+                        </div>
+                        <div>
                             <i
-                                id="informationCircle"
-                                class="bi bi-info-circle"
-                                routerLink="{{ textMarking.id }}"
-                                data-test="marking-information-icon"
+                                (click)="blurFocusedRightSideMarking()"
+                                style="color: black"
+                                class="bi bi-x-lg fs-5 cursor-pointer"
+                                data-test="dismiss-marking-button"
                             ></i>
                         </div>
                     </div>
-                    <span *ngIf="textMarking.suggestions.length > 0">
-                        <div id="suggestions">
-                            <button
-                                *ngFor="
-                                    let suggestion of textMarking.suggestions.slice(
-                                        0,
-                                        shouldCollapseSuggestions[i]
-                                            ? 4
-                                            : textMarking.suggestions.length
-                                    );
-                                    index as j
+                    <ul class="list-group list-group-flush">
+                        <li
+                            class="list-group-item"
+                            [ngClass]="{
+                                'list-group-item-dark-mode':
+                                    darkModeService.isDarkMode
+                            }"
+                        >
+                            <div class="d-flex">
+                                <div>
+                                    <b>{{ highlightedMarking?.subtype }}</b> -
+                                    <span>{{
+                                        highlightedMarking?.description
+                                    }}</span>
+                                </div>
+                                <div *ngIf="highlightedMarking?.id">
+                                    <i
+                                        class="bi bi-info-circle information-circle"
+                                        routerLink="{{
+                                            highlightedMarking?.id
+                                        }}"
+                                        data-test="marking-information-icon"
+                                    ></i>
+                                </div>
+                            </div>
+                            <span
+                                *ngIf="
+                                    highlightedMarking !== undefined &&
+                                    (highlightedMarking?.suggestions)!.length >
+                                        0
                                 "
-                                (click)="chooseSuggestion(i, j)"
-                                class="suggestion"
-                                data-test="suggestion"
                             >
-                                <b>{{ suggestion.display }}</b>
-                            </button>
-                            <div
-                                class="suggestionDisplay"
-                                *ngIf="textMarking.suggestions.length > 4"
-                            >
-                                |
-                            </div>
-                            <div *ngIf="textMarking.suggestions.length > 4">
-                                <h3
-                                    class="suggestionsHeader"
-                                    (click)="oscillateSuggestion(i, $event)"
-                                    class="bi {{
-                                        shouldCollapseSuggestions[i]
-                                            ? 'bi-arrow-right-square'
-                                            : 'bi-arrow-left-square'
-                                    }}"
-                                    data-test="oscillate-suggestions-button"
-                                ></h3>
-                            </div>
-                        </div>
-                    </span>
-                </li>
-            </ul>
+                                <div class="suggestions">
+                                    <button
+                                        *ngFor="
+                                            let suggestion of highlightedMarking?.suggestions!.slice(
+                                                0,
+                                                shouldCollapseSuggestions[
+                                                    highlightedMarkingIndex
+                                                ]
+                                                    ? 4
+                                                    : (highlightedMarking?.suggestions)!
+                                                          .length
+                                            );
+                                            index as j
+                                        "
+                                        (click)="
+                                            chooseSuggestion(
+                                                highlightedMarkingIndex,
+                                                j
+                                            )
+                                        "
+                                        class="suggestion"
+                                        style="color: black"
+                                        data-test="suggestion"
+                                    >
+                                        <b>{{ suggestion.display }}</b>
+                                    </button>
+                                    <div
+                                        class="pipe-separator"
+                                        *ngIf="
+                                            (highlightedMarking?.suggestions)!
+                                                .length > 4
+                                        "
+                                    >
+                                        |
+                                    </div>
+                                    <div
+                                        *ngIf="
+                                            (highlightedMarking?.suggestions)!
+                                                .length > 4
+                                        "
+                                    >
+                                        <h3
+                                            (click)="
+                                                oscillateSuggestion(
+                                                    highlightedMarkingIndex,
+                                                    $event
+                                                )
+                                            "
+                                            class="bi suggestions-header {{
+                                                shouldCollapseSuggestions[
+                                                    highlightedMarkingIndex
+                                                ]
+                                                    ? 'bi-arrow-right-square'
+                                                    : 'bi-arrow-left-square'
+                                            }}"
+                                            data-test="oscillate-suggestions-button"
+                                        ></h3>
+                                    </div>
+                                </div>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </ng-template>
         </div>
-
         <div
             class="card border-secondary d-flex justify-content-center {{
-                processedText?.textMarkings === null ||
+                processedText?.textMarkings === undefined ||
                 processedText?.textMarkings?.length === 0
                     ? ''
                     : 'mt-2'
             }}"
             *ngIf="loading$ | async"
         >
-            <div class="card-header secondHeader">
+            <div
+                class="card-header second-header"
+                [ngClass]="{
+                    'second-header-dark-mode': darkModeService.isDarkMode
+                }"
+            >
                 <div>
-                    <span class="waitingText">duke lexuar shkrimin...</span>
+                    <span class="waiting-text">duke lexuar shkrimin...</span>
                 </div>
             </div>
             <ul class="list-group list-group-flush listStyling">
-                <div id="spinnerBorder" class="spinner-border" role="status">
+                <div class="spinner-border" role="status">
                     <span class="visually-hidden">duke lexuar shkrimin...</span>
                 </div>
             </ul>
@@ -285,10 +527,9 @@
 </div>
 <br />
 <br />
-
 <div
-    class="modal fade"
     id="writtenTextsHistoryModal"
+    class="modal fade"
     tabindex="-1"
     aria-labelledby="writtenTextsHistoryModalLabel"
     aria-hidden="true"
@@ -296,7 +537,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="writtenTextsHistoryModalLabel">
+                <h5 id="writtenTextsHistoryModalLabel" class="modal-title">
                     Historiku i Shkrimeve
                 </h5>
                 <button
@@ -310,17 +551,19 @@
                 <div class="form-check form-switch">
                     <input
                         (click)="toggleStoringOfWrittenTexts()"
-                        id="flexSwitchCheckChecked"
+                        id="flex-switch-check-checked"
                         class="form-check-input"
                         type="checkbox"
                         data-test="flex-switch-check-checked"
                     />
                     <!-- TODO if user changes call a method that changes it in the service and invalidates-->
-                    <label class="form-check-label" for="flexSwitchCheckChecked"
+                    <label
+                        class="form-check-label"
+                        for="flex-switch-check-checked"
                         >Përdor Historikun e Shkrimeve</label
                     >
                     <div>
-                        <i id="historyDeactivation"
+                        <i class="history-deactivation-message"
                             >çaktivizimi i historikut të shkrimeve do të fshijë
                             shkrimet ekzistuese</i
                         >
@@ -334,7 +577,7 @@
                     class="list-group"
                 >
                     <p
-                        id="writtenText"
+                        class="written-text"
                         (click)="placeWrittenText(writtenText)"
                         type="button"
                         data-test="written-text"
@@ -346,7 +589,7 @@
             </div>
             <div class="modal-footer">
                 <button
-                    id="closeWrittenTextsModalButton"
+                    id="close-written-texts-modal-button"
                     type="button"
                     class="btn btn-secondary"
                     data-bs-dismiss="modal"
