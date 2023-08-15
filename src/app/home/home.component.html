@@ -35,6 +35,7 @@
                 <div class="d-flex">
                     <div
                             id="editor"
+                            (paste)="onTextPaste($event)"
                             [ngClass]="{
                             'editor-dark-mode': darkModeService.isDarkMode
                         }"
