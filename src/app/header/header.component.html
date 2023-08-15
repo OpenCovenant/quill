@@ -113,21 +113,21 @@
                 <br />
             </div>
             <hr />
-        </div>
-        <div class="d-flex dark-mode-div">
-            <div>Modalitet i Errët</div>
-            <div class="toggle-switch">
-                <label class="dark-mode-label cursor-pointer">
-                    <input
-                        data-test="dark-mode-button-toggle-switch"
-                        class="dark-mode-input"
-                        type="checkbox"
-                        [id]="darkModeService"
-                        [(ngModel)]="darkModeService.isDarkMode"
-                        (change)="onDarkModeChange()"
-                    />
-                    <span class="slider"></span>
-                </label>
+            <div class="d-flex dark-mode-div">
+                <div>Modalitet i Errët</div>
+                <div class="toggle-switch">
+                    <label class="dark-mode-label cursor-pointer">
+                        <input
+                            data-test="dark-mode-button-toggle-switch"
+                            class="dark-mode-input"
+                            type="checkbox"
+                            [id]="darkModeService"
+                            [(ngModel)]="darkModeService.isDarkMode"
+                            (change)="onDarkModeChange()"
+                        />
+                        <span class="slider"></span>
+                    </label>
+                </div>
             </div>
         </div>
     </div>
