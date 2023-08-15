@@ -1,5 +1,6 @@
 <div>
-    <nav class="navbar navbar-light">
+    <nav class="navbar navbar-light"
+         [ngClass]="{ 'header-dark-mode': darkModeService.isDarkMode }">
         <div>
             <button
                 type="button"
@@ -7,6 +8,9 @@
                 data-bs-target="#offcanvasStart"
                 aria-controls="offcanvasStart"
                 class="btn"
+                [ngClass]="{
+                    'header-button-dark-mode': darkModeService.isDarkMode
+                }"
                 id="offcanvasStartButton"
             >
                 <span
@@ -18,9 +22,23 @@
                 id="pendaHeaderLogo"
                 routerLink="/"
                 class="penda-header-logo"
+                [ngClass]="{
+                    'header-text-dark-mode': darkModeService.isDarkMode
+                }"
                 data-test="penda-home-button"
                 >&nbsp;penda</span
             >
+        </div>
+
+        <div>
+            <i
+                class="bi bi-gear-fill p-3 cursor-pointer"
+                [ngClass]="{
+                    'settings-gear-dark-mode': darkModeService.isDarkMode
+                }"
+                routerLink="/settings"
+                data-test="gear-button-testing"
+            ></i>
         </div>
     </nav>
 </div>
