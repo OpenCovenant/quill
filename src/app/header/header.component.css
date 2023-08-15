@@ -21,14 +21,15 @@
     cursor: pointer;
 }
 
-.dropdown div {
-    box-shadow: 0 0 1px 1px #e3e3e3ae;
-}
+/* TODO: remove this? */
+/*.dropdown div {*/
+/*    box-shadow: 0 0 1px 1px #e3e3e3ae;*/
+/*}*/
 
 #offcanvasStartButton {
-    border: 1px solid rgb(202, 202, 202);
+    border: 1px solid rgb(213, 213, 213);
     padding: 3px 5px;
-    border-radius: 6px;
+    border-radius: 5px;
 }
 
 #offcanvasStartButton:hover {
@@ -50,32 +51,26 @@ hr {
     height: 50px;
     padding: 1rem;
     margin-bottom: 0;
-}
-
-a {
+    margin-left: 0;
     text-decoration: none;
     color: #000000;
     font-size: 1rem;
-    margin-left: 0rem;
     border-radius: 7px;
 }
 
-a:hover {
+navText:hover {
     background-color: rgba(241, 238, 238, 0.952);
-    cursor: pointer;
+    color: black;
 }
 
-.bi-info-circle,
-.bi-house-door,
-.bi-gear,
-.bi-question-circle {
+.bi {
     padding-right: 1rem;
     color: #3a3a3a;
 }
 
 .offcanvas-start {
-    border-radius: 0px 10px 10px 0px;
-    width: 300px;
+    border-radius: 0 3px 3px 0;
+    width: 350px;
 }
 
 .offcanvas-body {
