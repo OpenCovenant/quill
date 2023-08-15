@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from '../../environments/environment';
+import { DarkModeService } from '../dark-mode.service';
 
 @Component({
     selector: 'app-header',
@@ -15,8 +16,12 @@ export class HeaderComponent {
     markingTypesCount: number = 0;
     markingTypes: any = {};
     markingTypeKeys: Array<string> = [];
+    DARK_MODE = 'penda-dark-mode';
 
-    constructor(private http: HttpClient) {
+    constructor(
+        private http: HttpClient,
+        public darkModeService: DarkModeService
+    ) {
         this.initializeURLs();
         this.http.get(this.getMarkingTypesCount).subscribe((data: any) => {
             this.markingTypesCount = data['count'];
@@ -25,6 +30,8 @@ export class HeaderComponent {
             this.markingTypes = data['marking_types'];
             this.markingTypeKeys = Object.keys(this.markingTypes);
         });
+
+        this.initializeDarkMode();
     }
 
     initializeURLs(): void {
@@ -33,7 +40,33 @@ export class HeaderComponent {
         this.getMarkingTypesCount = `${this.baseURL}/api/getMarkingTypesCount`;
     }
 
-    closeOffcanvas() {
+    initializeDarkMode(): void {
+        const alreadySetDarkMode: string | null = localStorage.getItem(
+            this.DARK_MODE
+        );
+        if (!alreadySetDarkMode) {
+            localStorage.setItem(this.DARK_MODE, 'false');
+            this.darkModeService.isDarkMode = false;
+        } else {
+            if (alreadySetDarkMode === 'false') {
+                this.darkModeService.isDarkMode = false;
+            }
+
+            if (alreadySetDarkMode === 'true') {
+                this.darkModeService.isDarkMode = true;
+            }
+        }
+    }
+
+    onDarkModeChange(): void {
+        localStorage.setItem(
+            this.DARK_MODE,
+            String(this.darkModeService.isDarkMode)
+        );
+    }
+
+    // TODO: is this even used?
+    closeOffcanvas(): void {
         document.getElementById('offcanvasCloseButton')!.click();
     }
 }

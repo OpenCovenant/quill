@@ -110,6 +110,9 @@
                                 data-test="dark-mode-button-toggle-switch"
                                 class="dark-mode-input"
                                 type="checkbox"
+                                [id]="darkModeService"
+                                [(ngModel)]="darkModeService.isDarkMode"
+                                (change)="onDarkModeChange()"
                             />
                             <span class="slider"></span>
                         </label>
