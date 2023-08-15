@@ -16,3 +16,4 @@ jobs:
         with:
           build: npm run build
           start: npm run start:mock-with-server
+          wait-on: 'http://127.0.0.1:4200/'
