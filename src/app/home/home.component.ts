@@ -192,6 +192,20 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     /**
+     * Function that is called when text is pasted in the editor.
+     * @param {ClipboardEvent} $event the event emitted
+     */
+    onTextPaste($event: ClipboardEvent): void {
+        $event.preventDefault();
+        if (!$event.clipboardData) {
+            return;
+        }
+        const text: string = $event.clipboardData.getData('text/plain');
+
+        document.execCommand('insertText', false, text);
+    }
+
+    /**
      * Updates the character count field to the number of characters shown in the editor
      */
     updateCharacterCount(): void {
