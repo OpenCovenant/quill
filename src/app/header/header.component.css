@@ -66,7 +66,7 @@ hr {
     cursor: pointer;
 }
 
-navText:hover {
+.navText:hover {
     background-color: rgba(241, 238, 238, 0.952);
     color: black;
 }
@@ -76,18 +76,6 @@ navText:hover {
     color: #3a3a3a;
 }
 
-.header-dark-mode {
-    background-color: var(--dark-mode-smooth-theme);
-}
-
-.header-button-dark-mode {
-    background-color: var(--dark-mode-smooth-theme);
-}
-
-.header-text-dark-mode {
-    color: var(--dark-mode-anti-theme);
-}
-
 .offcanvas-start {
     border-radius: 0 3px 3px 0;
     width: 350px;
@@ -95,11 +83,6 @@ navText:hover {
 
 .offcanvas-body {
     padding: 0;
-}
-
-
-.dropdown div {
-    box-shadow: 0 0 1px 1px #e3e3e3ae;
 }
 
 .off-canvas-start-button {
