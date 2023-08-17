@@ -12,7 +12,7 @@ describe("Clicking on the remove-highlighted-marking actually removes the highli
         cy.get('[data-test="highlighted-text-marking"]')
             .contains("asd")
             .should("exist");
-        cy.get('[data-test="dismiss-marking-button"]').click();
+        cy.get('[data-test="blur-marking-button"]').click();
         cy.get('[data-test="text-marking-span"]')
             .contains("asd")
             .should("exist");

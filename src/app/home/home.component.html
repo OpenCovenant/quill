@@ -66,12 +66,12 @@
                             type="button"
                             class="btn-close text-reset cursor-pointer"
                             [ngClass]="{
-                                'clear-editor-dark-mode':
+                                'clear-element-dark-mode':
                                     darkModeService.isDarkMode
                             }"
                             (click)="clearEditor()"
                             title="fshi shkrimin"
-                            aria-label="clear editor"
+                            aria-label="fshi shkrimin"
                             data-test="clear-editor-icon"
                         ></button>
                     </div>
@@ -291,11 +291,16 @@
                         <div>
                             <button
                                 (click)="deleteTextMarking(i)"
-                                class="btn btn-outline-danger btn-sm"
+                                type="button"
+                                class="btn-close text-reset cursor-pointer"
+                                [ngClass]="{
+                                    'clear-element-dark-mode':
+                                        darkModeService.isDarkMode
+                                }"
+                                title="hiq shenjimin"
+                                aria-label="hiq shenjimin"
                                 data-test="dismiss-marking-button"
-                            >
-                                HIQ&nbsp;<i class="bi bi-trash"></i>
-                            </button>
+                            ></button>
                         </div>
                     </div>
                     <ul class="list-group list-group-flush">
@@ -392,12 +397,21 @@
                             >
                         </div>
                         <div>
-                            <i
+                            <button
                                 (click)="blurFocusedRightSideMarking()"
-                                style="color: black"
-                                class="bi bi-x-lg fs-5 cursor-pointer"
-                                data-test="dismiss-marking-button"
-                            ></i>
+                                class="btn btn-secondary"
+                                style="font-size: 1rem; padding: 0.1rem 0.3rem"
+                                data-test="blur-marking-button"
+                            >
+                                <i
+                                    class="bi bi-arrow-left"
+                                    style="
+                                        padding-right: 0.5rem;
+                                        font-size: 1rem;
+                                    "
+                                ></i
+                                >KTHEHU
+                            </button>
                         </div>
                     </div>
                     <ul class="list-group list-group-flush">
