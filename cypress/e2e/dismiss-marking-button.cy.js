@@ -14,12 +14,8 @@ describe("test for dismiss-marking button", () => {
         const text = "gabmim gabmim";
         cy.get("#editor > p > .typo").should("not.exist");
         cy.get('[data-test="editor"]').type(text);
-        cy.get('[data-test="dismiss-marking-button"]')
-            .first()
-            .click();
-        cy.get('[data-test="dismiss-marking-button"]')
-            .first()
-            .click();
+        cy.get('[data-test="dismiss-marking-button"]').first().click();
+        cy.get('[data-test="dismiss-marking-button"]').first().click();
         cy.get('[data-test="suggestion"]').should("not.exist");
         cy.get('[data-test="editor"]').should("have.text", text);
     });
