@@ -103,10 +103,11 @@ hr {
     height: 100%;
     border-radius: 50px;
     transition: 0.4s;
+    background-color: var(--light);
 }
 
 .dark-mode-input:checked ~ .slider {
-    background-color: var(--light);
+    background-color: var(--dark);
 }
 
 .slider::before {
@@ -117,7 +118,7 @@ hr {
     width: 1.2rem;
     height: 1.3rem;
     border-radius: 50%;
-    box-shadow: inset 7px -4px 0 0 var(--light);
+    box-shadow: inset 7px -4px 0 0 var(--dark);
     background-color: var(--dark);
     transition: 0.4s;
 }
@@ -125,7 +126,7 @@ hr {
 .dark-mode-input:checked ~ .slider::before {
     transform: translateX(1.5rem);
     background-color: var(--dark);
-    box-shadow: none;
+    box-shadow: inset -7px -3px 0 0 var(--light);
 }
 
 .settings-gear-dark-mode {
