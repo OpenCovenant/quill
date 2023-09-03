@@ -96,14 +96,5 @@
                 }
             ]
         }
-    },
-    {
-        "response": "&nbsp;",
-        "request": {
-            "text": "&nbsp;",
-            "textMarkings": [
-             
-            ]
-        }
     }
 ]
