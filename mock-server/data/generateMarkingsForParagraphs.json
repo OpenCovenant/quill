@@ -2118,6 +2118,13 @@
                 }
             ]
         }
+    },
+    {
+        "response": "<p>&nbsp;</p>",
+        "request": {
+            "text": "<p>&nbsp;</p>",
+            "textMarkings": []
+        }
     }
 ]
 
