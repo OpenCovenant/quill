@@ -272,7 +272,7 @@
                         let textMarking of processedText?.textMarkings;
                         index as i
                     "
-                    class="card border-secondary {{ i > 0 ? 'mt-2' : '' }}"
+                    class="card border-secondary {{ i > 0 ? 'mt-2 mb-2' : '' }}"
                 >
                     <div
                         class="card-header second-header"
@@ -511,17 +511,13 @@
                 </div>
             </ng-template>
         </div>
-        <div
-            class="card border-secondary d-flex justify-content-center {{
-                processedText?.textMarkings === undefined ||
-                processedText?.textMarkings?.length === 0
-                    ? ''
-                    : ''
-            }}"
+        <div 
+            class="card border-secondary d-flex justify-content-center"
             *ngIf="loading$ | async"
         >
+        
             <div
-                class="card-header second-header"
+                class="card-header second-header "
                 [ngClass]="{
                     'second-header-dark-mode': darkModeService.isDarkMode
                 }"
