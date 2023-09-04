@@ -244,7 +244,13 @@
         flex-direction: column;
         gap: 2rem !important;
     }
-
+    #editor {
+        min-width: 90%;
+        min-height: 30rem;
+        font-size: 17px;
+        padding-right: 2%;
+        outline: 0 solid transparent;
+    }
     /*TODO improve code*/
     #editor {
         min-height: 18rem !important;
@@ -307,6 +313,7 @@
         width: 35%;
     }
 }
+
 
 .sticky {
     position: sticky;
