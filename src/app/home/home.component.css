@@ -244,7 +244,9 @@
         flex-direction: column;
         gap: 2rem !important;
     }
-
+    #editor {
+        min-width: 90%;
+    }
     /*TODO improve code*/
     #editor {
         min-height: 18rem !important;
