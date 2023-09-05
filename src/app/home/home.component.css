@@ -246,10 +246,7 @@
     }
     #editor {
         min-width: 90%;
-        min-height: 30rem;
-        font-size: 17px;
-        padding-right: 2%;
-        outline: 0 solid transparent;
+       
     }
     /*TODO improve code*/
     #editor {
