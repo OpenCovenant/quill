@@ -1,5 +1,5 @@
 .navbar {
-    background-color: var(--bar-color);
+    background-color: #f8f9fa;
 }
 
 .navbar div {
@@ -29,7 +29,7 @@
 }
 
 .off-canvas-start-button {
-    border: 1px solid rgb(213, 213, 213);
+    border: 0px solid rgb(213, 213, 213);
     border-radius: 0.5rem;
 }
 

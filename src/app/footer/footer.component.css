@@ -1,5 +1,5 @@
 div:first-of-type {
-    background-color: var(--bar-color);
+    background-color: #f8f9fa;
 }
 
 footer div:first-child {

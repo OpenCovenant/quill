@@ -6,31 +6,7 @@
                 'input-container-card-dark-mode': darkModeService.isDarkMode
             }"
         >
-            <div
-                class="card-header first-header"
-                [ngClass]="{
-                    'first-header-dark-mode': darkModeService.isDarkMode
-                }"
-            >
-                <button
-                    id="{{ writeTextToggleButtonID }}"
-                    (click)="toggleWriteTextButton()"
-                    type="button"
-                    aria-pressed="true"
-                    class="btn btn-sm btn-secondary active"
-                >
-                    SHKRIM
-                </button>
-                <div class="pipe-separator">|</div>
-                <button
-                    id="{{ uploadDocumentToggleButtonID }}"
-                    (click)="toggleUploadDocumentButton()"
-                    type="button"
-                    class="btn btn-sm btnUnselected"
-                >
-                    DOKUMENT
-                </button>
-            </div>
+        
             <div class="card-body" *ngIf="displayWriteTextOrUploadDocumentFlag">
                 <div class="d-flex">
                     <div
@@ -76,12 +52,6 @@
                         ></button>
                     </div>
                 </div>
-                <hr
-                    [ngClass]="{
-                        'editor-footer-line-dark-mode':
-                            darkModeService.isDarkMode
-                    }"
-                />
                 <div class="flex1">
                     <span
                         class="characters-words-markings"
@@ -259,7 +229,7 @@
                 </ul>
             </div>
         </div>
-        <div
+                <div
             *ngIf="processedText?.textMarkings"
             [ngClass]="{ sticky: highlightingMarking }"
         >

@@ -4,10 +4,47 @@
     gap: 1rem;
     flex: 1;
 }
+.card-body {
+    flex: 1 1 auto;
+    padding: 1rem;
+    background-color: #f8f9fa;
+
+}
+
+
+.list-group-item {
+    position: relative;
+    display: block;
+    padding: 0.5rem 1rem;
+    color: #212529;
+    text-decoration: none;
+    background-color: #f8f9fa;
+    border: 1px solid rgba(0,0,0,.125);
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0px solid rgba(0,0,0,.125);
+    border-radius: 0.25rem;
+    box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
+}
+
+.card-header {
+    padding: 0.5rem 1rem;
+    margin-bottom: 0;
+    background-color: #00000008;
+    border-bottom: 0px solid rgba(0,0,0,.125);
+}
 
 .input-container {
-    flex: 0 0 60%;
-    margin-left: 3rem;
+    flex: 0 0 66%;
+    margin-left: 2rem;
 }
 
 .first-header {
@@ -32,6 +69,7 @@
     font-size: 17px;
     padding-right: 2%;
     outline: 0 solid transparent;
+    background-color: #f8f9fa;
 }
 
 .editor-dark-mode {
@@ -46,6 +84,8 @@
     display: flex;
     justify-content: space-between;
     font-size: 0.8rem;
+    position: sticky;
+    bottom: 0;
 }
 
 .characters-words-markings {
@@ -81,7 +121,7 @@
 
 .output-container {
     flex: 0 0 30%;
-    margin-right: 3rem;
+    margin-right: 0rem;
 }
 
 .second-header {
@@ -206,7 +246,8 @@
 
 #editor-placeholder {
     position: absolute;
-    color: #a6a6a6;
+    /*color: #707070;*/
+    color: #444;
     pointer-events: none;
     user-select: none;
 }
