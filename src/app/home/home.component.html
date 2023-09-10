@@ -34,8 +34,9 @@
                                 darkModeService.isDarkMode
                         }"
                         data-test="editor-placeholder"
+                        [innerHTML]="EDITOR_PLACEHOLDER_TEXT"
                     >
-                        {{ EDITOR_PLACEHOLDER_TEXT }}
+                    
                     </div>
                     <div *ngIf="editorHasText()">
                         <button

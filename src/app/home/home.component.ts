@@ -42,9 +42,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     PLACEHOLDER_ELEMENT_ID: string = 'editor-placeholder';
     LINE_BREAK: string = '<br>';
     LINE_BROKEN_PARAGRAPH: string = '<p>' + this.LINE_BREAK + '</p>';
-    EDITOR_PLACEHOLDER_TEXT: string = 'Shkruaj këtu ose ngarko një dokument.';
     writeTextToggleButtonID: string = 'writeTextToggleButton';
     uploadDocumentToggleButtonID: string = 'uploadDocumentToggleButton';
+    EDITOR_PLACEHOLDER_TEXT = `Shkruaj këtu ose <a id="${this.uploadDocumentToggleButtonID}" href="#" onClick="toggleUploadDocumentButton(); return false;">ngarko një dokument</a>`;
     processedText: ProcessedText | undefined;
     displayWriteTextOrUploadDocumentFlag: boolean = true;
     characterCount: number = 0;
