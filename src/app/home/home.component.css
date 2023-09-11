@@ -256,7 +256,7 @@
 }
 
 .editor-placeholder-upload {
-    color: white;
+    color: dodgerblue;
     cursor: pointer;
     text-decoration: underline;
 }
@@ -322,7 +322,7 @@
 }
 
 .second-header-dark-mode {
-    background-color: #2C2C2C;
+    background-color: var(--dark-mode-theme);
 }
 
 .supported-documents-text-dark-mode {

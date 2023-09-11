@@ -15,5 +15,5 @@ a {
 
 .footer-dark-mode {
     color: var(--dark-mode-anti-theme) !important;
-    background-color: #2C2C2C !important;
+    background-color: var(--dark-mode-theme) !important;
 }

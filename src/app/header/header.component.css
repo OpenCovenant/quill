@@ -13,7 +13,7 @@
 }
 
 .header-dark-mode {
-    background-color: #2C2C2C;
+    background-color: var(--dark-mode-theme);
 }
 
 .header-button-dark-mode {
