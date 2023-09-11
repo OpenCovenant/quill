@@ -117,10 +117,6 @@
     color: var(--dark-mode-anti-theme) !important;
 }
 
-#documentUploadingHiddenInput {
-    display: none;
-}
-
 .output-container {
     flex: 0 0 30%;
     margin-right: 0rem;
@@ -291,11 +287,6 @@
     color: white;
 }
 /*TODO change color on .suggestion:hover ?*/
-
-.btnUnselected {
-    color: white;
-    background-color: #a9a9a9;
-}
 
 @media (max-width: 800px) {
     .high-level-container {
