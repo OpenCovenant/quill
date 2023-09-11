@@ -10,6 +10,10 @@
     background-color: #f8f9fa;
 }
 
+.card-body-dark-mode{
+    background-color: #686868;
+}
+
 .list-group-item {
     position: relative;
     display: block;
@@ -71,7 +75,7 @@
 }
 
 .editor-dark-mode {
-    color: var(--dark-mode-anti-theme);
+    background-color: #686868 !important;
 }
 
 .clear-element-dark-mode {
@@ -164,6 +168,7 @@
     gap: 1rem;
 }
 
+
 .suggestion {
     color: black;
 }
@@ -254,7 +259,7 @@
 }
 
 .editor-placeholder-upload {
-    color: dodgerblue;
+    color: white;
     cursor: pointer;
     text-decoration: underline;
 }
@@ -278,8 +283,12 @@
     border: none;
     padding-top: 3px;
     padding-bottom: 3px;
+    color: black;
 }
-
+.suggestion-dark-mode{
+    background-color: #686868;
+    color: white;
+}
 /*TODO change color on .suggestion:hover ?*/
 
 .btnUnselected {
@@ -321,7 +330,7 @@
 }
 
 .second-header-dark-mode {
-    background-color: var(--dark-mode-smooth-theme);
+    background-color: #2C2C2C;
 }
 
 .supported-documents-text-dark-mode {

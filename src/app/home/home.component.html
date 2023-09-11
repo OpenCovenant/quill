@@ -6,7 +6,9 @@
                 'input-container-card-dark-mode': darkModeService.isDarkMode
             }"
         >
-            <div class="card-body" *ngIf="displayWriteTextOrUploadDocumentFlag">
+            <div class="card-body" *ngIf="displayWriteTextOrUploadDocumentFlag" 
+            [ngClass]="{
+                'card-body-dark-mode': darkModeService.isDarkMode}">
                 <div class="d-flex">
                     <div
                         id="editor"
@@ -326,6 +328,10 @@
                                         (click)="chooseSuggestion(i, j)"
                                         class="suggestion"
                                         data-test="suggestion"
+                                        [ngClass]="{
+                                            'suggestion-dark-mode':
+                                                darkModeService.isDarkMode
+                                        }"
                                     >
                                         <b>{{ suggestion.display }}</b>
                                     </button>
@@ -453,7 +459,6 @@
                                             )
                                         "
                                         class="suggestion"
-                                        style="color: black"
                                         data-test="suggestion"
                                     >
                                         <b>{{ suggestion.display }}</b>
