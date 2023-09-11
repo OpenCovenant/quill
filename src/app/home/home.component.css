@@ -124,6 +124,7 @@
 .output-container {
     flex: 0 0 30%;
     margin-right: 0rem;
+    padding-right: 25px;
 }
 
 .second-header {
