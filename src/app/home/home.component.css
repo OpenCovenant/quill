@@ -248,8 +248,17 @@
     position: absolute;
     /*color: #707070;*/
     color: #444;
+}
+
+.editor-placeholder-text {
     pointer-events: none;
     user-select: none;
+}
+
+.editor-placeholder-upload {
+    color: dodgerblue;
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 /*TODO: improve the following*/

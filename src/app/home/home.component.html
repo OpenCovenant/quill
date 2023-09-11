@@ -6,7 +6,7 @@
                 'input-container-card-dark-mode': darkModeService.isDarkMode
             }"
         >
-        
+
             <div class="card-body" *ngIf="displayWriteTextOrUploadDocumentFlag">
                 <div class="d-flex">
                     <div
@@ -34,9 +34,7 @@
                                 darkModeService.isDarkMode
                         }"
                         data-test="editor-placeholder"
-                        [innerHTML]="EDITOR_PLACEHOLDER_TEXT"
-                    >
-                    
+                    ><span class='editor-placeholder-text'>Shkruaj këtu ose </span><label for='file-upload' class='editor-placeholder-upload'>ngarko një dokument</label>
                     </div>
                     <div *ngIf="editorHasText()">
                         <button
@@ -101,6 +99,15 @@
                     ></span>
                 </div>
             </div>
+
+            <!-- TODO: is this a good place to put this? -->
+            <input id='file-upload' style='display: none;'
+                   type="file"
+                   (change)="uploadDocument($event)"
+                   placeholder="SHTYP KËTU"
+                   accept=".pdf,.doc,.docx,.odt"
+            />
+
             <div
                 class="card-body"
                 *ngIf="!displayWriteTextOrUploadDocumentFlag"
@@ -482,11 +489,11 @@
                 </div>
             </ng-template>
         </div>
-        <div 
+        <div
             class="card border-secondary d-flex justify-content-center"
             *ngIf="loading$ | async"
         >
-        
+
             <div
                 class="card-header second-header "
                 [ngClass]="{

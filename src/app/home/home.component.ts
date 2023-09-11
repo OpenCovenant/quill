@@ -44,7 +44,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     LINE_BROKEN_PARAGRAPH: string = '<p>' + this.LINE_BREAK + '</p>';
     writeTextToggleButtonID: string = 'writeTextToggleButton';
     uploadDocumentToggleButtonID: string = 'uploadDocumentToggleButton';
-    EDITOR_PLACEHOLDER_TEXT = `Shkruaj këtu ose <a id="${this.uploadDocumentToggleButtonID}" href="#" onClick="toggleUploadDocumentButton(); return false;">ngarko një dokument</a>`;
     processedText: ProcessedText | undefined;
     displayWriteTextOrUploadDocumentFlag: boolean = true;
     characterCount: number = 0;
