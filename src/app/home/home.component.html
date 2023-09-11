@@ -6,7 +6,6 @@
                 'input-container-card-dark-mode': darkModeService.isDarkMode
             }"
         >
-
             <div class="card-body" *ngIf="displayWriteTextOrUploadDocumentFlag">
                 <div class="d-flex">
                     <div
@@ -34,7 +33,14 @@
                                 darkModeService.isDarkMode
                         }"
                         data-test="editor-placeholder"
-                    ><span class='editor-placeholder-text'>Shkruaj këtu ose </span><label for='file-upload' class='editor-placeholder-upload'>ngarko një dokument</label>
+                    >
+                        <span class="editor-placeholder-text"
+                            >Shkruaj këtu ose </span
+                        ><label
+                            for="file-upload"
+                            class="editor-placeholder-upload"
+                            >ngarko një dokument</label
+                        >
                     </div>
                     <div *ngIf="editorHasText()">
                         <button
@@ -101,11 +107,13 @@
             </div>
 
             <!-- TODO: is this a good place to put this? -->
-            <input id='file-upload' style='display: none;'
-                   type="file"
-                   (change)="uploadDocument($event)"
-                   placeholder="SHTYP KËTU"
-                   accept=".pdf,.doc,.docx,.odt"
+            <input
+                id="file-upload"
+                style="display: none"
+                type="file"
+                (change)="uploadDocument($event)"
+                placeholder="SHTYP KËTU"
+                accept=".pdf,.doc,.docx,.odt"
             />
 
             <div
@@ -237,7 +245,7 @@
                 </ul>
             </div>
         </div>
-                <div
+        <div
             *ngIf="processedText?.textMarkings"
             [ngClass]="{ sticky: highlightingMarking }"
         >
@@ -493,9 +501,8 @@
             class="card border-secondary d-flex justify-content-center"
             *ngIf="loading$ | async"
         >
-
             <div
-                class="card-header second-header "
+                class="card-header second-header"
                 [ngClass]="{
                     'second-header-dark-mode': darkModeService.isDarkMode
                 }"

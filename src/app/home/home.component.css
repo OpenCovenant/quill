@@ -8,9 +8,7 @@
     flex: 1 1 auto;
     padding: 1rem;
     background-color: #f8f9fa;
-
 }
-
 
 .list-group-item {
     position: relative;
@@ -19,7 +17,7 @@
     color: #212529;
     text-decoration: none;
     background-color: #f8f9fa;
-    border: 1px solid rgba(0,0,0,.125);
+    border: 1px solid rgba(0, 0, 0, 0.125);
 }
 
 .card {
@@ -30,7 +28,7 @@
     word-wrap: break-word;
     background-color: #fff;
     background-clip: border-box;
-    border: 0px solid rgba(0,0,0,.125);
+    border: 0px solid rgba(0, 0, 0, 0.125);
     border-radius: 0.25rem;
     box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
 }
@@ -39,7 +37,7 @@
     padding: 0.5rem 1rem;
     margin-bottom: 0;
     background-color: #00000008;
-    border-bottom: 0px solid rgba(0,0,0,.125);
+    border-bottom: 0px solid rgba(0, 0, 0, 0.125);
 }
 
 .input-container {
