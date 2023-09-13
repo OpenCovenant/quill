@@ -166,6 +166,10 @@
     gap: 1rem;
 }
 
+.editor-hr {
+    color: lightgray;
+}
+
 .suggestion {
     color: black;
 }
