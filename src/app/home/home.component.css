@@ -11,7 +11,7 @@
 }
 
 .card-body-dark-mode{
-    background-color: #686868;
+    background-color: #9a9a9a;
 }
 
 .list-group-item {
@@ -75,7 +75,7 @@
 }
 
 .editor-dark-mode {
-    background-color: #686868 !important;
+    background-color: #9a9a9a !important;
 }
 
 .clear-element-dark-mode {
