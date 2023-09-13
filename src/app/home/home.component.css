@@ -86,8 +86,9 @@
     display: flex;
     justify-content: space-between;
     font-size: 0.8rem;
-    position: sticky;
-    bottom: 0;
+    /* TODO: an attempt to keep the bottom bar of the editor always visible */
+    /*position: sticky;*/
+    /*bottom: 0;*/
 }
 
 .characters-words-markings {
