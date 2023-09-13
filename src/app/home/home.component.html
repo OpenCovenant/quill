@@ -6,9 +6,12 @@
                 'input-container-card-dark-mode': darkModeService.isDarkMode
             }"
         >
-            <div class="card-body"
-            [ngClass]="{
-                'card-body-dark-mode': darkModeService.isDarkMode}">
+            <div
+                class="card-body"
+                [ngClass]="{
+                    'card-body-dark-mode': darkModeService.isDarkMode
+                }"
+            >
                 <div class="d-flex">
                     <div
                         id="editor"
@@ -112,13 +115,12 @@
             <!-- TODO: is this a good place to put this? -->
             <input
                 id="file-upload-input"
-                class='d-none'
+                class="d-none"
                 type="file"
                 (change)="uploadDocument($event)"
                 placeholder="SHTYP KËTU"
                 accept=".pdf,.doc,.docx,.odt"
             />
-
         </div>
     </div>
     <div class="output-container mt-5">

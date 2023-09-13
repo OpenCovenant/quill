@@ -1,15 +1,31 @@
-import { AfterViewInit, Component, OnDestroy, ViewEncapsulation } from '@angular/core'
-import { HttpClient } from '@angular/common/http'
-import { BehaviorSubject, debounceTime, filter, finalize, fromEvent, tap } from 'rxjs'
+import {
+    AfterViewInit,
+    Component,
+    OnDestroy,
+    ViewEncapsulation
+} from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import {
+    BehaviorSubject,
+    debounceTime,
+    filter,
+    finalize,
+    fromEvent,
+    tap
+} from 'rxjs';
 
-import { CursorPosition } from '../models/cursor-position'
-import { CursorPlacement } from '../models/cursor-placement'
-import { LocalStorageService } from '../local-storage/local-storage.service'
-import { ProcessedText } from '../models/processed-text'
-import { TextMarking } from '../models/text-marking'
-import { environment } from '../../environments/environment'
-import { markText, shouldNotMarkEditor, sortParagraphedTextMarkings } from '../text-marking/text-marking'
-import { DarkModeService } from '../dark-mode.service'
+import { CursorPosition } from '../models/cursor-position';
+import { CursorPlacement } from '../models/cursor-placement';
+import { LocalStorageService } from '../local-storage/local-storage.service';
+import { ProcessedText } from '../models/processed-text';
+import { TextMarking } from '../models/text-marking';
+import { environment } from '../../environments/environment';
+import {
+    markText,
+    shouldNotMarkEditor,
+    sortParagraphedTextMarkings
+} from '../text-marking/text-marking';
+import { DarkModeService } from '../dark-mode.service';
 
 @Component({
     selector: 'app-home',
@@ -169,7 +185,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     this.shouldCollapseSuggestions = new Array<boolean>(
                         this.processedText.textMarkings.length
                     ).fill(true);
-                    document.getElementById(this.EDITOR_KEY)!.innerHTML = this.processedText.text; // TODO: improve to add newlines and such
+                    document.getElementById(this.EDITOR_KEY)!.innerHTML =
+                        this.processedText.text; // TODO: improve to add newlines and such
                     // this.innerHTMLOfEditor = this.LINE_BROKEN_PARAGRAPH; // TODO careful with the <br> here
                     this.markEditor(CursorPlacement.END);
                 });
@@ -265,15 +282,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * @param {number} textMarkingIndex the index of the text marking from the list of the sorted text markings
      */
     deleteTextMarking(textMarkingIndex: number): void {
-            // based on the assumption that all spans within the paragraphs of the editor are markings
-            const currentTextMarking =
-                document.querySelectorAll('#editor > p > span')[
-                    textMarkingIndex
-                ];
-            currentTextMarking.parentNode!.replaceChild(
-                document.createTextNode(currentTextMarking.textContent!),
-                currentTextMarking
-            );
+        // based on the assumption that all spans within the paragraphs of the editor are markings
+        const currentTextMarking =
+            document.querySelectorAll('#editor > p > span')[textMarkingIndex];
+        currentTextMarking.parentNode!.replaceChild(
+            document.createTextNode(currentTextMarking.textContent!),
+            currentTextMarking
+        );
 
         this.processedText!.textMarkings =
             this.processedText!.textMarkings.filter(
@@ -409,23 +424,21 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             return this.EMPTY_STRING;
         }
 
-        const textMarking: TextMarking = this.processedText.textMarkings[textMarkingIndex];
+        const textMarking: TextMarking =
+            this.processedText.textMarkings[textMarkingIndex];
         if (!textMarking) {
             return this.EMPTY_STRING;
         }
 
-            const editor: HTMLElement = document.getElementById(
-                this.EDITOR_KEY
-            )!;
+        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
 
-            const editorTextContent: string | null =
-                editor.childNodes[textMarking.paragraph!].textContent;
-            if (!editorTextContent) {
-                return this.EMPTY_STRING;
-            }
+        const editorTextContent: string | null =
+            editor.childNodes[textMarking.paragraph!].textContent;
+        if (!editorTextContent) {
+            return this.EMPTY_STRING;
+        }
 
-            return editorTextContent.slice(textMarking.from, textMarking.to);
-
+        return editorTextContent.slice(textMarking.from, textMarking.to);
     }
 
     /**

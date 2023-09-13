@@ -10,7 +10,7 @@
     background-color: #f8f9fa;
 }
 
-.card-body-dark-mode{
+.card-body-dark-mode {
     background-color: #9a9a9a;
 }
 
@@ -166,7 +166,6 @@
     gap: 1rem;
 }
 
-
 .suggestion {
     color: black;
 }
@@ -283,7 +282,7 @@
     padding-bottom: 3px;
     color: black;
 }
-.suggestion-dark-mode{
+.suggestion-dark-mode {
     background-color: #686868;
     color: white;
 }
