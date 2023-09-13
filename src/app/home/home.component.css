@@ -45,8 +45,8 @@
 }
 
 .input-container {
-    flex: 0 0 66%;
-    margin-left: 2rem;
+    flex: 0 0 62%;
+    margin-left: 3rem;
 }
 
 .first-header {
@@ -119,8 +119,8 @@
 
 .output-container {
     flex: 0 0 30%;
-    margin-right: 0rem;
-    padding-right: 25px;
+    margin-right: 3rem;
+    /*padding-right: 25px;*/
 }
 
 .second-header {
