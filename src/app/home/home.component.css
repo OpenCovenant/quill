@@ -5,8 +5,48 @@
     flex: 1;
 }
 
+.card-body {
+    flex: 1 1 auto;
+    padding: 1rem;
+    background-color: #f8f9fa;
+}
+
+.card-body-dark-mode {
+    background-color: #9a9a9a;
+}
+
+.list-group-item {
+    position: relative;
+    display: block;
+    padding: 0.5rem 1rem;
+    color: #212529;
+    text-decoration: none;
+    background-color: #f8f9fa;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+    box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
+}
+
+.card-header {
+    padding: 0.5rem 1rem;
+    margin-bottom: 0;
+    background-color: #00000008;
+    border-bottom: 0px solid rgba(0, 0, 0, 0.125);
+}
+
 .input-container {
-    flex: 0 0 60%;
+    flex: 0 0 62%;
     margin-left: 3rem;
 }
 
@@ -32,10 +72,11 @@
     font-size: 17px;
     padding-right: 2%;
     outline: 0 solid transparent;
+    background-color: #f8f9fa;
 }
 
 .editor-dark-mode {
-    color: var(--dark-mode-anti-theme);
+    background-color: #9a9a9a !important;
 }
 
 .clear-element-dark-mode {
@@ -46,6 +87,9 @@
     display: flex;
     justify-content: space-between;
     font-size: 0.8rem;
+    /* TODO: an attempt to keep the bottom bar of the editor always visible */
+    /*position: sticky;*/
+    /*bottom: 0;*/
 }
 
 .characters-words-markings {
@@ -75,13 +119,10 @@
     color: var(--dark-mode-anti-theme) !important;
 }
 
-#documentUploadingHiddenInput {
-    display: none;
-}
-
 .output-container {
     flex: 0 0 30%;
     margin-right: 3rem;
+    /*padding-right: 25px;*/
 }
 
 .second-header {
@@ -118,12 +159,21 @@
     color: #484848;
 }
 
+.settings-dark-mode {
+    background-color: #2c2c2c;
+    color: white;
+}
+
 .suggestions {
     display: flex;
     flex-wrap: wrap;
     align-content: stretch;
     justify-content: center;
     gap: 1rem;
+}
+
+.editor-hr {
+    color: lightgray;
 }
 
 .suggestion {
@@ -206,9 +256,19 @@
 
 #editor-placeholder {
     position: absolute;
-    color: #a6a6a6;
+    /*color: #707070;*/
+    color: #858585;
+}
+
+.editor-placeholder-text {
     pointer-events: none;
     user-select: none;
+}
+
+.editor-placeholder-upload {
+    color: dodgerblue;
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 /*TODO: improve the following*/
@@ -230,14 +290,13 @@
     border: none;
     padding-top: 3px;
     padding-bottom: 3px;
+    color: black;
 }
-
-/*TODO change color on .suggestion:hover ?*/
-
-.btnUnselected {
+.suggestion-dark-mode {
+    background-color: #686868;
     color: white;
-    background-color: #a9a9a9;
 }
+/*TODO change color on .suggestion:hover ?*/
 
 @media (max-width: 800px) {
     .high-level-container {
@@ -273,7 +332,7 @@
 }
 
 .second-header-dark-mode {
-    background-color: var(--dark-mode-smooth-theme);
+    background-color: var(--dark-mode-theme);
 }
 
 .supported-documents-text-dark-mode {

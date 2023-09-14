@@ -7,10 +7,10 @@ import {
 import { HttpClient } from '@angular/common/http';
 import {
     BehaviorSubject,
-    finalize,
-    fromEvent,
     debounceTime,
     filter,
+    finalize,
+    fromEvent,
     tap
 } from 'rxjs';
 
@@ -22,8 +22,8 @@ import { TextMarking } from '../models/text-marking';
 import { environment } from '../../environments/environment';
 import {
     markText,
-    sortParagraphedTextMarkings,
-    shouldNotMarkEditor
+    shouldNotMarkEditor,
+    sortParagraphedTextMarkings
 } from '../text-marking/text-marking';
 import { DarkModeService } from '../dark-mode.service';
 
@@ -42,11 +42,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     PLACEHOLDER_ELEMENT_ID: string = 'editor-placeholder';
     LINE_BREAK: string = '<br>';
     LINE_BROKEN_PARAGRAPH: string = '<p>' + this.LINE_BREAK + '</p>';
-    EDITOR_PLACEHOLDER_TEXT: string = 'Shkruaj këtu ose ngarko një dokument.';
-    writeTextToggleButtonID: string = 'writeTextToggleButton';
-    uploadDocumentToggleButtonID: string = 'uploadDocumentToggleButton';
     processedText: ProcessedText | undefined;
-    displayWriteTextOrUploadDocumentFlag: boolean = true;
     characterCount: number = 0;
     wordCount: number = 0;
     innerHTMLOfEditor: string = this.LINE_BROKEN_PARAGRAPH;
@@ -126,71 +122,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.pingURL = this.baseURL + '/api/ping';
     }
 
-    // TODO this, along with the toggleUploadDocumentButton function surely can be improved
-    toggleWriteTextButton(): void {
-        const writeTextToggleButton = document.getElementById(
-            this.writeTextToggleButtonID
-        );
-        const uploadDocumentToggleButton = document.getElementById(
-            this.uploadDocumentToggleButtonID
-        );
-
-        if (!writeTextToggleButton?.classList.contains('active')) {
-            uploadDocumentToggleButton?.classList.remove(
-                'active',
-                'btn-secondary'
-            );
-            uploadDocumentToggleButton?.classList.add('btnUnselected');
-
-            writeTextToggleButton?.classList.remove('btnUnselected');
-            writeTextToggleButton?.classList.add('active', 'btn-secondary');
-
-            if (this.innerHTMLOfEditor === this.LINE_BROKEN_PARAGRAPH) {
-                // in the scenario that a file has been uploaded
-                this.processedText = undefined;
-            }
-
-            this.displayWriteTextOrUploadDocumentFlag = true;
-        }
-
-        // TODO refactor!
-        setTimeout(() => {
-            this.fromEditorInputEvent$ = fromEvent(
-                document.getElementById(this.EDITOR_KEY)!,
-                'input'
-            );
-            this.subscribeForWritingInTheEditor();
-            this.subscribeForStoringWrittenText();
-        }, 100);
-    }
-
-    // TODO this, along with the toggleWriteTextButton function surely can be improved
-    toggleUploadDocumentButton(): void {
-        const writeTextToggleButton = document.getElementById(
-            this.writeTextToggleButtonID
-        );
-        const uploadDocumentToggleButton = document.getElementById(
-            this.uploadDocumentToggleButtonID
-        );
-
-        if (!uploadDocumentToggleButton?.classList.contains('active')) {
-            this.innerHTMLOfEditor = document.getElementById(
-                this.EDITOR_KEY
-            )!.innerHTML;
-
-            writeTextToggleButton?.classList.remove('active', 'btn-secondary');
-            writeTextToggleButton?.classList.add('btnUnselected');
-
-            uploadDocumentToggleButton?.classList.remove('btnUnselected');
-            uploadDocumentToggleButton?.classList.add(
-                'active',
-                'btn-secondary'
-            );
-
-            this.displayWriteTextOrUploadDocumentFlag = false;
-        }
-    }
-
     /**
      * Function that is called when text is pasted in the editor.
      * @param {ClipboardEvent} $event the event emitted
@@ -254,7 +185,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     this.shouldCollapseSuggestions = new Array<boolean>(
                         this.processedText.textMarkings.length
                     ).fill(true);
-                    this.innerHTMLOfEditor = this.LINE_BROKEN_PARAGRAPH; // TODO careful with the <br> here
+                    document.getElementById(this.EDITOR_KEY)!.innerHTML =
+                        this.processedText.text; // TODO: improve to add newlines and such
+                    // this.innerHTMLOfEditor = this.LINE_BROKEN_PARAGRAPH; // TODO careful with the <br> here
+                    this.markEditor(CursorPlacement.END);
                 });
         } else {
             alert('Ngarko vetëm një dokument!');
@@ -268,9 +202,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      */
     chooseSuggestion(textMarkingIndex: number, suggestionIndex: number): void {
         // don't choose suggestions on an uploaded file
-        if (!this.displayWriteTextOrUploadDocumentFlag) {
-            return;
-        }
 
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
 
@@ -351,17 +282,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * @param {number} textMarkingIndex the index of the text marking from the list of the sorted text markings
      */
     deleteTextMarking(textMarkingIndex: number): void {
-        if (this.displayWriteTextOrUploadDocumentFlag) {
-            // based on the assumption that all spans within the paragraphs of the editor are markings
-            const currentTextMarking =
-                document.querySelectorAll('#editor > p > span')[
-                    textMarkingIndex
-                ];
-            currentTextMarking.parentNode!.replaceChild(
-                document.createTextNode(currentTextMarking.textContent!),
-                currentTextMarking
-            );
-        }
+        // based on the assumption that all spans within the paragraphs of the editor are markings
+        const currentTextMarking =
+            document.querySelectorAll('#editor > p > span')[textMarkingIndex];
+        currentTextMarking.parentNode!.replaceChild(
+            document.createTextNode(currentTextMarking.textContent!),
+            currentTextMarking
+        );
 
         this.processedText!.textMarkings =
             this.processedText!.textMarkings.filter(
@@ -493,57 +420,25 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     getTextOfTextMarking(textMarkingIndex: number): string {
-        const textMarking: TextMarking | null = this.processedText
-            ? this.processedText.textMarkings[textMarkingIndex]
-            : null;
+        if (!this.processedText) {
+            return this.EMPTY_STRING;
+        }
+
+        const textMarking: TextMarking =
+            this.processedText.textMarkings[textMarkingIndex];
         if (!textMarking) {
             return this.EMPTY_STRING;
         }
 
-        if (!this.displayWriteTextOrUploadDocumentFlag) {
-            if (!this.processedText) {
-                return this.EMPTY_STRING;
-            }
+        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
 
-            if (
-                textMarking.paragraph === undefined ||
-                textMarking.paragraph === null
-            ) {
-                return this.processedText.text.slice(
-                    textMarking.from,
-                    textMarking.to
-                );
-            }
-
-            const simulatedEditor: HTMLDivElement =
-                document.createElement('div');
-            simulatedEditor.innerHTML = this.processedText.text;
-            return simulatedEditor.childNodes[
-                textMarking.paragraph
-            ].textContent!.slice(textMarking.from, textMarking.to);
-        } else {
-            const editor: HTMLElement | null = document.getElementById(
-                this.EDITOR_KEY
-            );
-            if (!editor) {
-                return this.EMPTY_STRING;
-            }
-
-            if (
-                textMarking.paragraph === undefined ||
-                textMarking.paragraph === null
-            ) {
-                return this.EMPTY_STRING;
-            }
-
-            const editorTextContent: string | null =
-                editor.childNodes[textMarking.paragraph].textContent;
-            if (!editorTextContent) {
-                return this.EMPTY_STRING;
-            }
-
-            return editorTextContent.slice(textMarking.from, textMarking.to);
+        const editorTextContent: string | null =
+            editor.childNodes[textMarking.paragraph!].textContent;
+        if (!editorTextContent) {
+            return this.EMPTY_STRING;
         }
+
+        return editorTextContent.slice(textMarking.from, textMarking.to);
     }
 
     /**

@@ -1,5 +1,5 @@
 div:first-of-type {
-    background-color: var(--bar-color);
+    background-color: #f8f9fa;
 }
 
 footer div:first-child {
@@ -15,5 +15,5 @@ a {
 
 .footer-dark-mode {
     color: var(--dark-mode-anti-theme) !important;
-    background-color: var(--dark-mode-smooth-theme) !important;
+    background-color: var(--dark-mode-theme) !important;
 }
