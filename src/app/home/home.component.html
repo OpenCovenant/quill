@@ -555,7 +555,9 @@
                 >
                     <p
                         class="written-text"
-                        
+                        [ngClass]="{
+                            'written-text-dark-mode': darkModeService.isDarkMode
+                        }" 
                         (click)="placeWrittenText(writtenText)"
                         type="button"
                         data-test="written-text"
