@@ -206,7 +206,7 @@
 }
 
 .history-deactivation-message {
-    color: gray;
+    color: #919191;
     font-size: 13px;
 }
 
@@ -222,6 +222,9 @@
 
 .written-text:hover {
     background-color: #f1f1f1;
+}
+.written-text-dark-mode:hover{
+    background-color: #565656;
 }
 
 .written-text-history-button-dark-mode {
@@ -332,6 +335,22 @@
 }
 
 .second-header-dark-mode {
+    background-color: var(--dark-mode-theme);
+}
+
+.modal-header-dark-mode{
+    background-color: var(--dark-mode-theme);
+    color: white;
+
+}
+
+.modal-body-dark-mode{
+    background-color: var(--dark-mode-theme);
+    color: white;
+
+}
+
+.modal-footer-dark-mode{
     background-color: var(--dark-mode-theme);
 }
 
