@@ -215,7 +215,7 @@
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    border: 1px solid lightgray;
+    box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
     border-radius: 5px;
     padding: 5px;
 }
@@ -224,11 +224,16 @@
     background-color: #f1f1f1;
 }
 .written-text-dark-mode:hover{
-    background-color: #565656;
+    background-color: lightgray;
+}
+.written-text-dark-mode{
+    background-color: #9a9a9a;
+    color: black;
 }
 
 .written-text-history-button-dark-mode {
     color: var(--dark-mode-anti-theme) !important;
+    
 }
 
 .typo {
