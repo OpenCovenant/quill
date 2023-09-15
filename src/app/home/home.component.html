@@ -506,7 +506,11 @@
 >
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" 
+            [ngClass]="{
+                'modal-header-dark-mode': darkModeService.isDarkMode
+            }"
+            >
                 <h5 id="writtenTextsHistoryModalLabel" class="modal-title">
                     Historiku i Shkrimeve
                 </h5>
@@ -517,7 +521,10 @@
                     aria-label="Mbyll"
                 ></button>
             </div>
-            <div class="modal-body" data-test="written-texts-modal-body">
+            <div class="modal-body" [ngClass]="{
+                'modal-body-dark-mode': darkModeService.isDarkMode
+            }"
+            data-test="written-texts-modal-body">
                 <div class="form-check form-switch">
                     <input
                         (click)="toggleStoringOfWrittenTexts()"
@@ -548,6 +555,9 @@
                 >
                     <p
                         class="written-text"
+                        [ngClass]="{
+                            'written-text-dark-mode': darkModeService.isDarkMode
+                        }" 
                         (click)="placeWrittenText(writtenText)"
                         type="button"
                         data-test="written-text"
@@ -557,7 +567,10 @@
                     <br />
                 </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" [ngClass]="{
+                'modal-footer-dark-mode': darkModeService.isDarkMode
+            }"
+            >
                 <button
                     id="close-written-texts-modal-button"
                     type="button"
