@@ -226,6 +226,7 @@
 .written-text-dark-mode:hover{
     background-color: lightgray;
 }
+
 .written-text-dark-mode{
     background-color: #9a9a9a;
     color: black;
@@ -233,7 +234,6 @@
 
 .written-text-history-button-dark-mode {
     color: var(--dark-mode-anti-theme) !important;
-    
 }
 
 .typo {
