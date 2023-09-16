@@ -32,6 +32,10 @@
     width: 1.4rem;
 }
 
+.navbar-toggler-icon-dark-mode{
+    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23fff' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") center/1em auto no-repeat;
+}
+
 .off-canvas-start-button {
     border: 0;
     background-color: #f9f9f9;
@@ -42,8 +46,22 @@
     background-color: #e3e3e3;
 }
 
+.offcanvas-header-dark-mode{
+    background-color: var(--dark-mode-theme);
+    color: var(--light);
+}
+
+.offcanvas-body-dark-mode{
+    background-color: var(--dark-mode-theme);
+    color: var(--light);
+}
+
+.offcanvas-navText-dark-mode{
+    color: var(--light) !important;
+}
+
 hr {
-    background-color: #353434;
+    background-color: #9a9a9a;
     height: 1px;
     border: none;
     margin-bottom: 0;
@@ -65,7 +83,7 @@ hr {
 }
 
 .navText:hover {
-    background-color: rgba(241, 238, 238, 0.952);
+    background-color: #595959;
     color: black;
 }
 
@@ -74,9 +92,17 @@ hr {
     color: #3a3a3a;
 }
 
+.offcanvas-bi-info-circle-dark-mode{
+    color: var(--light);
+}
+
 .offcanvas-start {
     border-radius: 0 3px 3px 0;
     width: 350px;
+}
+
+.offcanvas-start-dark-mode{
+    background-color: var(--dark-mode-theme);
 }
 
 .offcanvas-body {
@@ -112,7 +138,7 @@ hr {
 }
 
 .dark-mode-input:checked ~ .slider {
-    background-color: var(--dark);
+    background-color: #9a9a9a;;
 }
 
 .slider::before {
@@ -130,7 +156,7 @@ hr {
 
 .dark-mode-input:checked ~ .slider::before {
     transform: translateX(1.5rem);
-    background-color: var(--dark);
+    background-color: #9a9a9a;
     box-shadow: inset -7px -3px 0 0 var(--light);
 }
 
@@ -143,4 +169,8 @@ hr {
     padding-top: 2rem;
     padding-left: 1rem;
     padding-right: 1rem;
+}
+
+.offcanvas-close-button-dark-mode{
+    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
 }

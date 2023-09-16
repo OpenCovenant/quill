@@ -16,6 +16,9 @@
             >
                 <span
                     class="navbar-toggler-icon"
+                    [ngClass]="{
+                        'navbar-toggler-icon-dark-mode': darkModeService.isDarkMode
+                    }"
                     data-test="navbar-toggler-icon"
                 ></span>
             </button>
@@ -46,23 +49,35 @@
 <div
     id="offcanvasStart"
     class="offcanvas offcanvas-start"
+    [ngClass]="{
+        'offcanvas-start-dark-mode': darkModeService.isDarkMode
+    }"
     tabindex="-1"
     aria-labelledby="offcanvasStartLabel"
->
-    <div class="offcanvas-header">
+    >
+    <div class="offcanvas-header"
+    [ngClass]="{
+        'offcanvas-header-dark-mode': darkModeService.isDarkMode
+    }">
         <h5 id="offcanvasStartLabel">penda</h5>
         <button
             id="offcanvasCloseButton"
             type="button"
             class="btn-close text-reset"
+            [ngClass]="{
+                'offcanvas-close-button-dark-mode': darkModeService.isDarkMode
+            }"
             data-bs-dismiss="offcanvas"
             aria-label="Close"
             data-test="close-offcanvas-button"
         ></button>
     </div>
-    <hr />
+    <hr/>
     <br />
-    <div class="offcanvas-body">
+    <div class="offcanvas-body"
+    [ngClass]="{
+        'offcanvas-body-dark-mode': darkModeService.isDarkMode
+    }">
         <div class="list-group list-group-flush">
             <div>
                 <!--                <div style="box-shadow: 0 0 1px 1px #E3E3E3AE;">-->
@@ -83,11 +98,18 @@
                         data-test="settings-button"
                         routerLink="/settings"
                         class="navText list-group-item-action mb-3"
+                        [ngClass]="{
+                            'offcanvas-navText-dark-mode': darkModeService.isDarkMode
+                        }"
                         role="button"
                         data-bs-toggle="offcanvas"
                         data-bs-target="#offcanvasStart"
                         aria-controls="offcanvasStart"
-                        ><i class="bi bi-gear"></i>Cilësimet</a
+                        ><i class="bi bi-gear"
+                        [ngClass]="{
+                            'offcanvas-bi-info-circle-dark-mode': darkModeService.isDarkMode
+                        }">
+                    </i>Cilësimet</a
                     >
                 </div>
                 <div>
@@ -95,9 +117,16 @@
                         href="https://github.com/OpenCovenant"
                         role="button"
                         class="navText list-group-item-action mb-3"
+                        [ngClass]="{
+                            'offcanvas-navText-dark-mode': darkModeService.isDarkMode
+                        }"
                         target="_blank"
                         rel="noopener noreferrer"
-                        ><i class="bi bi-house-door"></i>Rreth&nbsp;Nesh</a
+                        ><i class="bi bi-house-door"
+                        [ngClass]="{
+                            'offcanvas-bi-info-circle-dark-mode': darkModeService.isDarkMode
+                        }">
+                        </i>Rreth&nbsp;Nesh</a
                     >
                 </div>
                 <div>
@@ -105,14 +134,21 @@
                         href="https://github.com/OpenCovenant/quill"
                         role="button"
                         class="navText list-group-item-action mb-3"
+                        [ngClass]="{
+                            'offcanvas-navText-dark-mode': darkModeService.isDarkMode
+                        }"
                         target="_blank"
                         rel="noopener noreferrer"
-                        ><i class="bi bi-info-circle"></i>Rreth&nbsp;Penda</a
+                        ><i class="bi bi-info-circle"
+                        [ngClass]="{
+                            'offcanvas-bi-info-circle-dark-mode': darkModeService.isDarkMode
+                        }">
+                    </i>Rreth&nbsp;Penda</a
                     >
                 </div>
                 <br />
             </div>
-            <hr />
+            <hr/>
             <div class="d-flex dark-mode-div">
                 <div>Modalitet i Errët</div>
                 <div class="toggle-switch">
