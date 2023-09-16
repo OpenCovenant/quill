@@ -138,7 +138,7 @@ hr {
 }
 
 .dark-mode-input:checked ~ .slider {
-    background-color: #9a9a9a;;
+    background-color: #797979;;
 }
 
 .slider::before {
@@ -156,8 +156,8 @@ hr {
 
 .dark-mode-input:checked ~ .slider::before {
     transform: translateX(1.5rem);
-    background-color: #9a9a9a;
-    box-shadow: inset -7px -3px 0 0 var(--light);
+    background-color: #797979;
+    box-shadow: inset -7px -3px 0 0 #ffffff;;
 }
 
 .settings-gear-dark-mode {
