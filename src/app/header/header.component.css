@@ -60,6 +60,10 @@
     color: var(--light) !important;
 }
 
+.offcanvas-navText-dark-mode:hover{
+    background-color: #595959 !important;
+}
+
 hr {
     background-color: #9a9a9a;
     height: 1px;
@@ -83,7 +87,7 @@ hr {
 }
 
 .navText:hover {
-    background-color: #595959;
+    background-color: #e3e3e3;
     color: black;
 }
 

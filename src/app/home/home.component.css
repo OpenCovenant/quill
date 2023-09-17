@@ -8,11 +8,13 @@
 .card-body {
     flex: 1 1 auto;
     padding: 1rem;
+    border-radius: 0.25rem;
     background-color: #f8f9fa;
 }
 
 .card-body-dark-mode {
     background-color: #9a9a9a;
+    border-radius: .25rem;
 }
 
 .list-group-item {
@@ -223,6 +225,7 @@
 .written-text:hover {
     background-color: #f1f1f1;
 }
+
 .written-text-dark-mode:hover{
     background-color: lightgray;
 }
@@ -274,7 +277,7 @@
 }
 
 .editor-placeholder-upload {
-    color: dodgerblue;
+    color: #0074e5;
     cursor: pointer;
     text-decoration: underline;
 }
@@ -300,6 +303,7 @@
     padding-bottom: 3px;
     color: black;
 }
+
 .suggestion-dark-mode {
     background-color: #686868;
     color: white;
@@ -311,9 +315,11 @@
         flex-direction: column;
         gap: 2rem !important;
     }
+
     #editor {
         min-width: 90%;
     }
+    
     /*TODO improve code*/
     #editor {
         min-height: 18rem !important;
