@@ -226,11 +226,11 @@
     background-color: #f1f1f1;
 }
 
-.written-text-dark-mode:hover{
+.written-text-dark-mode:hover {
     background-color: lightgray;
 }
 
-.written-text-dark-mode{
+.written-text-dark-mode {
     background-color: #9a9a9a;
     color: black;
 }
@@ -349,19 +349,19 @@
     background-color: var(--dark-mode-theme);
 }
 
-.modal-header-dark-mode{
+.modal-header-dark-mode {
     background-color: var(--dark-mode-theme);
     color: white;
 
 }
 
-.modal-body-dark-mode{
+.modal-body-dark-mode {
     background-color: var(--dark-mode-theme);
     color: white;
 
 }
 
-.modal-footer-dark-mode{
+.modal-footer-dark-mode {
     background-color: var(--dark-mode-theme);
 }
 
