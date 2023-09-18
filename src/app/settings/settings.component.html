@@ -1,4 +1,4 @@
-<div style="display: flex; justify-content: center; padding-top: 2rem">
+<div class="main-settings-div">
     <div class="card p-3" style="width: 60%"
          [ngClass]="{
                     'settings-dark-mode': darkModeService.isDarkMode
@@ -7,6 +7,12 @@
              [ngClass]="{
                     'card-body-dark-mode': darkModeService.isDarkMode
                 }">
+            <span
+                routerLink="/"
+                class="settings-home-button"
+                data-test="settings-home-button">
+                <i class="bi bi-arrow-left"></i>
+            </span>
             <h5 class="card-title">Cilësimet</h5>
             <p class="card-text">
                 Shto ose hiq lloje shenjimesh për të cilat dëshironi të shikoni
