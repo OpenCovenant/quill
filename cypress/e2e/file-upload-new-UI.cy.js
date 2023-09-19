@@ -1,5 +1,4 @@
 describe("tests for uploaded files shown on editor", () => {
-    let labels;
 
     beforeEach(() => {
         cy.visit("/");
@@ -22,7 +21,6 @@ describe("tests for uploaded files shown on editor", () => {
             .selectFile("cypress/fixtures/test.pdf");
         cy.get('[data-test="editor"]').contains("lider asd").should("exist");
     });
-
 
     it("will click on editor placeholder to upload a file in LIBRA, and will check if there is text shown in editor", () => {
       
