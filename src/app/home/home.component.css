@@ -14,7 +14,7 @@
 
 .card-body-dark-mode {
     background-color: #9a9a9a;
-    border-radius: .25rem;
+    border-radius: 0.25rem;
 }
 
 .list-group-item {
@@ -319,7 +319,7 @@
     #editor {
         min-width: 90%;
     }
-    
+
     /*TODO improve code*/
     #editor {
         min-height: 18rem !important;
@@ -352,13 +352,11 @@
 .modal-header-dark-mode {
     background-color: var(--dark-mode-theme);
     color: white;
-
 }
 
 .modal-body-dark-mode {
     background-color: var(--dark-mode-theme);
     color: white;
-
 }
 
 .modal-footer-dark-mode {
