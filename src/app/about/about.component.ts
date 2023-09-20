@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
-import { environment } from '../../environments/environment'
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Component({
-  selector: 'app-about',
-  templateUrl: './about.component.html',
-  styleUrls: ['./about.component.css']
+    selector: 'app-about',
+    templateUrl: './about.component.html',
+    styleUrls: ['./about.component.css']
 })
 export class AboutComponent {
     baseURL!: string;
@@ -17,7 +17,8 @@ export class AboutComponent {
             .get(this.getAboutURL)
             .subscribe(
                 (html: any) =>
-                    (document.getElementById('about')!.innerHTML = html['about_html'])
+                    (document.getElementById('about')!.innerHTML =
+                        html['about_html'])
             );
     }
 

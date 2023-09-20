@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { MarkingDetailsComponent } from './marking-details/marking-details.component';
 import { HomeComponent } from './home/home.component';
 import { SettingsComponent } from './settings/settings.component';
-import { AboutComponent } from './about/about.component'
+import { AboutComponent } from './about/about.component';
 
 const routes: Routes = [
     { path: 'about', component: AboutComponent },
