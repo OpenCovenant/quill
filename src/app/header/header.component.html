@@ -124,6 +124,26 @@
                 </div>
                 <div>
                     <a
+                        routerLink="/about"
+                        role="button"
+                        class="navText list-group-item-action mb-3"
+                        [ngClass]="{
+                            'offcanvas-navText-dark-mode':
+                                darkModeService.isDarkMode
+                        }"
+                    ><i
+                        class="bi bi-info-circle"
+                        [ngClass]="{
+                                'offcanvas-bi-info-circle-dark-mode':
+                                    darkModeService.isDarkMode
+                            }"
+                    >
+                    </i
+                    >Rreth&nbsp;Penda</a
+                    >
+                </div>
+                <div>
+                    <a
                         href="https://github.com/OpenCovenant"
                         role="button"
                         class="navText list-group-item-action mb-3"
@@ -142,26 +162,6 @@
                         >
                         </i
                         >Rreth&nbsp;Nesh</a
-                    >
-                </div>
-                <div>
-                    <a
-                        routerLink="/about"
-                        role="button"
-                        class="navText list-group-item-action mb-3"
-                        [ngClass]="{
-                            'offcanvas-navText-dark-mode':
-                                darkModeService.isDarkMode
-                        }"
-                        ><i
-                            class="bi bi-info-circle"
-                            [ngClass]="{
-                                'offcanvas-bi-info-circle-dark-mode':
-                                    darkModeService.isDarkMode
-                            }"
-                        >
-                        </i
-                        >Rreth&nbsp;Penda</a
                     >
                 </div>
                 <br />
