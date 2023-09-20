@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { DarkModeService } from '../dark-mode.service'
+import { DarkModeService } from '../dark-mode.service';
 
 @Component({
     selector: 'app-settings',
@@ -17,8 +17,10 @@ export class SettingsComponent implements OnInit {
 
     markingTypes: any[] = [];
 
-    constructor(private http: HttpClient,
-                public darkModeService: DarkModeService) {}
+    constructor(
+        private http: HttpClient,
+        public darkModeService: DarkModeService
+    ) {}
 
     ngOnInit(): void {
         this.initializeURLs();
