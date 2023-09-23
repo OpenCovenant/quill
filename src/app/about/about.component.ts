@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { DarkModeService } from '../dark-mode.service';
 
 @Component({
     selector: 'app-about',
@@ -11,7 +12,10 @@ export class AboutComponent {
     baseURL!: string;
     getAboutURL!: string;
 
-    constructor(private http: HttpClient) {
+    constructor(
+        private http: HttpClient,
+        public darkModeService: DarkModeService
+        ) {
         this.initializeURLs();
         this.http
             .get(this.getAboutURL)
