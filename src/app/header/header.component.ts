@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { environment } from '../../environments/environment';
 import { DarkModeService } from '../dark-mode.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-header',
@@ -20,7 +21,8 @@ export class HeaderComponent {
 
     constructor(
         private http: HttpClient,
-        public darkModeService: DarkModeService
+        public darkModeService: DarkModeService,
+        private router: Router
     ) {
         this.initializeURLs();
         this.http.get(this.getMarkingTypesCount).subscribe((data: any) => {
@@ -68,5 +70,13 @@ export class HeaderComponent {
     // TODO: is this even used?
     closeOffcanvas(): void {
         document.getElementById('offcanvasCloseButton')!.click();
+    }
+
+    isSettingsRoute() {
+        return this.router.url === '/settings';
+      }
+
+    isHomeRoute() {
+        return this.router.url === '/';
     }
 }
