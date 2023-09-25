@@ -15,7 +15,7 @@ export class AboutComponent {
     constructor(
         private http: HttpClient,
         public darkModeService: DarkModeService
-        ) {
+    ) {
         this.initializeURLs();
         this.http
             .get(this.getAboutURL)
