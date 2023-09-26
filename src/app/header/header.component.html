@@ -38,7 +38,7 @@
             <i
                 class="p-3 cursor-pointer"
                 [ngClass]="{
-                    'bi bi-gear': isHomeRoute(),
+                    'bi bi-gear': !isSettingsRoute(),
                     'bi bi-gear-fill' : isSettingsRoute(),
                     'settings-gear-dark-mode': darkModeService.isDarkMode
                   }"
