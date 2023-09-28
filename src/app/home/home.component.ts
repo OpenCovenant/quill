@@ -52,6 +52,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     highlightingMarking: boolean = false;
     highlightedMarking: TextMarking | undefined = undefined;
     highlightedMarkingIndex: number = -1;
+    maxCharacters = 10000;
+    maxCharactersMessageDynamic = '';
 
     private placeHolderElement!: HTMLElement;
     private baseURL!: string;
@@ -148,6 +150,14 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.characterCount = document
             .getElementById(this.EDITOR_KEY)!
             .innerText.replace(/\n/g, this.EMPTY_STRING).length;
+        
+        const textWithoutLineBreaks = editor.innerText.replace(/\n/, this.EMPTY_STRING).trim();
+
+        if (textWithoutLineBreaks.length >= this.maxCharacters) {
+            // Prevent further input by removing the last character
+            editor.innerText = textWithoutLineBreaks.slice(0, this.maxCharacters);
+            this.maxCharactersMessageDynamic= "Keni arritur kufirin e 10 mije karaktereve, shkurtoni shkrimin"; 
+          }
     }
 
     /**
@@ -741,5 +751,15 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.highlightedMarking =
             this.processedText?.textMarkings[textMarkingIndex];
         this.highlightedMarkingIndex = textMarkingIndex;
+    }
+    
+    private maxCharacterLimiter(){
+        const maxCharacters = 10;
+    if (this.characterCount > maxCharacters) {
+        // Trim the text to the maximum allowed characters
+        
+        this.characterCount = maxCharacters;
+        console.log("ja arite plak");
+    }
     }
 }
