@@ -185,9 +185,9 @@
                             type="checkbox"
                             [id]="darkModeService"
                             [(ngModel)]="darkModeService.isDarkMode"
-                            (change)="onDarkModeChange()"
+                            (change)="darkModeService.onDarkModeChange()"
                         />
-                        <span class="slider"></span>
+                        <span class="dark-mode-slider"></span>
                     </label>
                 </div>
             </div>

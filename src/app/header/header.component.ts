@@ -17,7 +17,6 @@ export class HeaderComponent {
     markingTypesCount: number = 0;
     markingTypes: any = {};
     markingTypeKeys: Array<string> = [];
-    DARK_MODE = 'penda-dark-mode';
 
     constructor(
         private http: HttpClient,
@@ -33,38 +32,13 @@ export class HeaderComponent {
             this.markingTypeKeys = Object.keys(this.markingTypes);
         });
 
-        this.initializeDarkMode();
+        this.darkModeService.initializeDarkMode();
     }
 
     initializeURLs(): void {
         this.baseURL = environment.baseURL;
         this.getMarkingTypes = `${this.baseURL}/api/getMarkingTypes`;
         this.getMarkingTypesCount = `${this.baseURL}/api/getMarkingTypesCount`;
-    }
-
-    initializeDarkMode(): void {
-        const alreadySetDarkMode: string | null = localStorage.getItem(
-            this.DARK_MODE
-        );
-        if (!alreadySetDarkMode) {
-            localStorage.setItem(this.DARK_MODE, 'false');
-            this.darkModeService.isDarkMode = false;
-        } else {
-            if (alreadySetDarkMode === 'false') {
-                this.darkModeService.isDarkMode = false;
-            }
-
-            if (alreadySetDarkMode === 'true') {
-                this.darkModeService.isDarkMode = true;
-            }
-        }
-    }
-
-    onDarkModeChange(): void {
-        localStorage.setItem(
-            this.DARK_MODE,
-            String(this.darkModeService.isDarkMode)
-        );
     }
 
     // TODO: is this even used?
@@ -75,5 +49,4 @@ export class HeaderComponent {
     isSettingsRoute() {
         return this.router.url === '/settings';
       }
-      
 }
