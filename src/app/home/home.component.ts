@@ -157,8 +157,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             // Prevent further input by removing the last character
             editor.innerText = textWithoutLineBreaks.slice(0, this.maxCharacters);
             this.maxCharactersMessageDynamic= "Keni arritur kufirin e 10 mije karaktereve, shkurtoni shkrimin"; 
-          }
+            window.scrollTo(0, document.body.scrollHeight);
+        } else {
+            // Text is within the limit, clear the dynamic message
+            this.maxCharactersMessageDynamic = '';
     }
+}
 
     /**
      * Updates the word count field to the number of words shown in the editor
@@ -751,15 +755,5 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.highlightedMarking =
             this.processedText?.textMarkings[textMarkingIndex];
         this.highlightedMarkingIndex = textMarkingIndex;
-    }
-    
-    private maxCharacterLimiter(){
-        const maxCharacters = 10;
-    if (this.characterCount > maxCharacters) {
-        // Trim the text to the maximum allowed characters
-        
-        this.characterCount = maxCharacters;
-        console.log("ja arite plak");
-    }
     }
 }
