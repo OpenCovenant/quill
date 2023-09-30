@@ -1,6 +1,9 @@
 import { TextMarking } from '../models/text-marking';
 
 const SPAN_TAG = 'span';
+const highlightedMarkingWords: Array<string> = [];
+const lastHighlightedMarkingWords: Array<string> = [];
+let markingCount = 0;
 
 /// requires the markings to be ordered ASC by "from" and DESC by "to"
 export function markText(
@@ -10,6 +13,9 @@ export function markText(
     replaceSpacesWithNBSP = true
 ): void {
     const childNodes = node.childNodes;
+    const currentTextMarkings = document.getElementById('editor')!;
+    const typoElements = currentTextMarkings.querySelectorAll('#editor p .typo');
+
     while (0 < textMarkings.length) {
         let traversalIndex: number = 0;
         const textMarking: TextMarking = textMarkings.shift() as TextMarking;
@@ -47,6 +53,7 @@ export function markText(
                     continue;
                 }
 
+
                 const newNodes = [];
 
                 if (trueLeft < trueFrom) {
@@ -62,6 +69,7 @@ export function markText(
                     relativeRight >= relativeTo
                 ) {
                     const newNode = document.createElement(SPAN_TAG);
+
                     newNode.classList.add(
                         ...additionalClasses,
                         textMarking.type
@@ -83,6 +91,10 @@ export function markText(
                     }
                     newNode.innerHTML = newTextContent;
                     newNodes.push(newNode);
+
+                    // Text Highlighting logic
+                    makeTextMarkings(newNode, newTextContent)
+
                 }
 
                 if (trueRight > trueTo) {
@@ -99,9 +111,131 @@ export function markText(
             } else {
                 throw Error('Unexpected node type!');
             }
+
+        }
+
+    }
+
+    isLastCall(textMarkings.length, typoElements.length)
+
+}
+
+
+/**
+ * Updates the state of text markings and applies animations to the HTML element based on changes detected
+ * after invoking the `markText` function.
+ *
+ * @param {HTMLElement} newNode - The newly created or modified HTML element.
+ * @param {string} newTextContent - The text content of the HTML element.
+ *
+ * This function adds the new text content to the `highlightedMarkingWords` array.
+ * It then checks the previous state (`lastHighlightedMarkingWords`) and determines
+ * whether to apply animations to the nodes based on the changes detected.
+ * The logic considers scenarios where nodes are added, removed, or modified.
+ */
+function makeTextMarkings(newNode: HTMLElement, newTextContent: string){
+    highlightedMarkingWords.push(newTextContent)
+
+    // Check if there are any previous markings
+    if(lastHighlightedMarkingWords.length === 0){
+        // If no previous markings, apply animation to the new node
+        newNode.style.animation = 'fillBackground 500ms linear forwards';
+    }else{
+        // Check various scenarios based on changes in markings
+        if(lastHighlightedMarkingWords.length < markingCount){
+            // If fewer markings than expected, apply animation to the new node
+            newNode.style.animation = 'fillBackground 500ms linear forwards';
+        }else if(lastHighlightedMarkingWords[markingCount] === newTextContent){
+            // If the current marking is the same, remove animation
+            newNode.style.animation = '';
+        }else if(lastHighlightedMarkingWords[markingCount] !== newTextContent){
+            // Handle scenarios for additions, removals, and modifications
+            if(lastHighlightedMarkingWords[markingCount + 1] === newTextContent){
+                newNode.style.animation = '';
+                // Remove the item if it was changed back to the previous content
+                removeItemAtIndex(markingCount)
+            }else if(markingCount === 0 && lastHighlightedMarkingWords[markingCount + 1] !== newTextContent){
+                // If a new first node was added, insert it and apply animation
+                addItemAtIndex(0, newTextContent)
+                newNode.style.animation = 'fillBackground 500ms linear forwards';
+            }else if(lastHighlightedMarkingWords[markingCount - 1] !== newTextContent || lastHighlightedMarkingWords[markingCount + 1] !== newTextContent){
+                // If the node was modified or inserted somewhere in the middle, apply animation
+                addItemAtIndex(markingCount, newTextContent)
+                newNode.style.animation = 'fillBackground 500ms linear forwards';
+            }else{
+                newNode.style.animation = 'fillBackground 500ms linear forwards';
+            }
+
+        }else{
+            newNode.style.animation = '';
         }
     }
+
+    markingCount++;
 }
+
+
+/**
+ * Monitors the progress of the `markText` function and triggers an action when the specified
+ * number of text markings is reached. This function is designed to be called after each invocation
+ * of the `markText` function to check if it has completed processing.
+ *
+ * @param {number} textMarkings - The current count of text markings processed by the `markText` function.
+ * @param {number} typoElements - The expected total count of text markings to be processed.
+ *
+ * When the number of processed text markings equals the total expected count (typoElements),
+ * this function triggers the `pushArrayItems` action and resets the marking count.
+ */
+function isLastCall(textMarkings: number, typoElements: number){
+    if(textMarkings === typoElements){
+        pushArrayItems()
+        markingCount = 0
+    }
+}
+
+/**
+ * Updates the state of the lastHighlightedMarkingWords array. This function is designed to be
+ * called when a specific condition is met, ensuring that the lastHighlightedMarkingWords array
+ * reflects the current state of the highlightedMarkingWords array.
+ *
+ * This action is typically triggered after the completion of a specific operation or task, ensuring
+ * that the arrays are synchronized for future comparisons.
+ */
+function pushArrayItems() {
+    lastHighlightedMarkingWords.length = 0
+    highlightedMarkingWords.forEach((item) => {
+        lastHighlightedMarkingWords.push(item);
+    });
+    highlightedMarkingWords.length = 0;
+}
+
+/**
+ * Removes an item from the lastHighlightedMarkingWords array at the specified index.
+ * @param {number} index - The index of the item to be removed from the array.
+ */
+function removeItemAtIndex(index: number){
+    if (index >= 0 && index < lastHighlightedMarkingWords.length) {
+
+      lastHighlightedMarkingWords.splice(index, 1);
+    } else {
+      console.error('Invalid index');
+    }
+}
+
+/**
+ * Adds a new item to the lastHighlightedMarkingWords array at the specified index.
+ * @param {number} index - The index at which to insert the new item.
+ * @param {string} newItem - The new item to be added to the array.
+ */
+function addItemAtIndex(index: number, newItem: string){
+    if (index >= 0 && index <= lastHighlightedMarkingWords.length) {
+
+      lastHighlightedMarkingWords.splice(index, 0, newItem);
+    } else {
+      console.error('Invalid index');
+    }
+  }
+
 
 /// ASC by "paragraph", "from" and DESC by "to"
 export function sortParagraphedTextMarkings(
