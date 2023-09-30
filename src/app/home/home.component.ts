@@ -52,7 +52,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     highlightingMarking: boolean = false;
     highlightedMarking: TextMarking | undefined = undefined;
     highlightedMarkingIndex: number = -1;
-    maxCharacters = 2447;
+    maxCharacters = 10000;
     maxCharactersMessageDynamic = '';
     editor = document.getElementById('editor');
 
