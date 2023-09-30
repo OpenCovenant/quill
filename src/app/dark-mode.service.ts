@@ -7,7 +7,6 @@ export class DarkModeService {
     DARK_MODE = 'penda-dark-mode';
     isDarkMode: boolean = false;
 
-
     initializeDarkMode(): void {
         const alreadySetDarkMode: string | null = localStorage.getItem(
             this.DARK_MODE
@@ -31,9 +30,6 @@ export class DarkModeService {
     }
 
     onDarkModeChange(): void {
-        localStorage.setItem(
-            this.DARK_MODE,
-            String(this.isDarkMode)
-        );
+        localStorage.setItem(this.DARK_MODE, String(this.isDarkMode));
     }
 }
