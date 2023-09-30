@@ -27,6 +27,9 @@ export class DarkModeService {
 
     toggleDarkMode(): void {
         this.isDarkMode = !this.isDarkMode;
+        const styleTag = document.createElement('style');
+        styleTag.append(this.DARK_MODE)
+        document.body.append(styleTag);
     }
 
     onDarkModeChange(): void {
