@@ -78,3 +78,54 @@
 .slider.round:before {
     border-radius: 50%;
 }
+
+.toggle-switch {
+    position: relative;
+    width: 3.1rem;
+}
+
+.dark-mode-label {
+    position: absolute;
+    width: 3.2rem;
+    height: 1.6rem;
+    background-color: var(--dark);
+    border-radius: 50px;
+    border: 1px solid gray;
+}
+
+.dark-mode-input {
+    position: absolute;
+    display: none;
+}
+
+.dark-mode-slider {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50px;
+    transition: 0.4s;
+    background-color: var(--light);
+}
+
+.dark-mode-input:checked ~ .dark-mode-slider {
+    background-color: #797979;
+}
+
+.dark-mode-slider::before {
+    content: "";
+    position: absolute;
+    top: 0.1rem;
+    left: 0.1rem;
+    width: 1.2rem;
+    height: 1.3rem;
+    border-radius: 50%;
+    box-shadow: inset 7px -4px 0 0 var(--dark);
+    background-color: var(--dark);
+    transition: 0.4s;
+}
+
+.dark-mode-input:checked ~ .dark-mode-slider::before {
+    transform: translateX(1.5rem);
+    background-color: #797979;
+    box-shadow: inset -7px -3px 0 0 #ffffff;
+}
