@@ -52,8 +52,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     highlightingMarking: boolean = false;
     highlightedMarking: TextMarking | undefined = undefined;
     highlightedMarkingIndex: number = -1;
-    maxCharacters = 10000;
+    maxCharacters = 2447;
     maxCharactersMessageDynamic = '';
+    editor = document.getElementById('editor');
 
     private placeHolderElement!: HTMLElement;
     private baseURL!: string;
@@ -142,7 +143,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * Updates the character count field to the number of characters shown in the editor
      */
     updateCharacterCount(): void {
-        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
+        let editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
         if (editor.innerHTML === this.LINE_BROKEN_PARAGRAPH) {
             this.characterCount = 0;
             return;
@@ -152,17 +153,20 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             .innerText.replace(/\n/g, this.EMPTY_STRING).length;
         
         const textWithoutLineBreaks = editor.innerText.replace(/\n/, this.EMPTY_STRING).trim();
-
+        
         if (textWithoutLineBreaks.length >= this.maxCharacters) {
             // Prevent further input by removing the last character
             editor.innerText = textWithoutLineBreaks.slice(0, this.maxCharacters);
             this.maxCharactersMessageDynamic= "Keni arritur kufirin e 10 mije karaktereve, shkurtoni shkrimin"; 
-            window.scrollTo(0, document.body.scrollHeight);
+            const scrollToEndOfEditor = document.querySelector('.flex1');
+            if (scrollToEndOfEditor) {
+                scrollToEndOfEditor.scrollIntoView({ behavior: 'smooth' });
         } else {
             // Text is within the limit, clear the dynamic message
             this.maxCharactersMessageDynamic = '';
     }
 }
+    }
 
     /**
      * Updates the word count field to the number of words shown in the editor
