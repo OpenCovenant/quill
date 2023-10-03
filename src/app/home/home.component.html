@@ -86,9 +86,11 @@
                         }}</span
                     >
                     <span
-                        ><button
+                        ><button 
+                            
                             id="copy-to-clipboard-button"
                             (click)="copyToClipboard()"
+                            [disabled]="isCopying"
                             class="bi bi-clipboard editor-footer-button"
                             [ngClass]="{
                                 'clipboard-button-dark-mode':
