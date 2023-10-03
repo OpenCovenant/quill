@@ -430,10 +430,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             return this.EMPTY_STRING;
         }
 
-        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
+        const virtualEditor: HTMLDivElement = document.createElement('div');
+        virtualEditor.innerHTML = this.processedText.text;
 
         const editorTextContent: string | null =
-            editor.childNodes[textMarking.paragraph!].textContent;
+            virtualEditor.childNodes[textMarking.paragraph!].textContent;
         if (!editorTextContent) {
             return this.EMPTY_STRING;
         }
