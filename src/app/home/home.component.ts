@@ -72,14 +72,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         this.http.get(this.pingURL).subscribe({
             next: () => console.log('pinging server...'),
-            error: () => this.disableEditor()
-        });
-
-        this.http.get(this.pingURL).subscribe({
-            next: () => console.log('pinging server...'),
             error: (e: HttpErrorResponse) => {
                 if (e.status === 429) {
                     this.disableEditorToManyRequests();
+                } else {
+                    this.disableEditor();
                 }
         }
         });
