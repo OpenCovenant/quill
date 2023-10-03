@@ -52,7 +52,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     highlightingMarking: boolean = false;
     highlightedMarking: TextMarking | undefined = undefined;
     highlightedMarkingIndex: number = -1;
-  
 
     private placeHolderElement!: HTMLElement;
     private baseURL!: string;
@@ -365,7 +364,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 textArea.value = emptyString;
                 document.body.appendChild(textArea);
                 textArea.select();
-                console.log(textArea.value)
                 document.execCommand('copy');
                 document.body.removeChild(textArea);
             } else {
