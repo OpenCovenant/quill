@@ -81,10 +81,6 @@
     background-color: #9a9a9a !important;
 }
 
-.clear-element-dark-mode {
-    background-color: white;
-}
-
 .flex1 {
     display: flex;
     justify-content: space-between;

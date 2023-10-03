@@ -359,6 +359,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
         if (navigator.clipboard) {
             if (!editor.textContent) {
+                this.brieflyChangeClipboardIcon(copyToClipboardButton);
                 return;
             }
             navigator.clipboard.writeText(editor.textContent).then();
@@ -382,13 +383,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             }
         }
 
-        setTimeout(() => {
-            copyToClipboardButton.classList.replace(
-                'bi-clipboard2-check',
-                'bi-clipboard'
-            );
-            copyToClipboardButton.style.color = 'black';
-        }, 2 * this.SECONDS);
+        this.brieflyChangeClipboardIcon(copyToClipboardButton);
     }
 
     toggleStoringOfWrittenTexts(): void {
@@ -430,10 +425,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             return this.EMPTY_STRING;
         }
 
-        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
+        const virtualEditor: HTMLDivElement = document.createElement('div');
+        virtualEditor.innerHTML = this.processedText.text;
 
         const editorTextContent: string | null =
-            editor.childNodes[textMarking.paragraph!].textContent;
+            virtualEditor.childNodes[textMarking.paragraph!].textContent;
         if (!editorTextContent) {
             return this.EMPTY_STRING;
         }
@@ -741,5 +737,15 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.highlightedMarking =
             this.processedText?.textMarkings[textMarkingIndex];
         this.highlightedMarkingIndex = textMarkingIndex;
+    }
+
+    private brieflyChangeClipboardIcon(copyToClipboardButton: HTMLElement ): void {
+        setTimeout(() => {
+            copyToClipboardButton.classList.replace(
+                'bi-clipboard2-check',
+                'bi-clipboard'
+            );
+            copyToClipboardButton.style.color = 'black';
+        }, 2 * this.SECONDS);
     }
 }
