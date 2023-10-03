@@ -52,6 +52,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     highlightingMarking: boolean = false;
     highlightedMarking: TextMarking | undefined = undefined;
     highlightedMarkingIndex: number = -1;
+  
 
     private placeHolderElement!: HTMLElement;
     private baseURL!: string;
@@ -350,6 +351,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         const copyToClipboardButton: HTMLElement = document.getElementById(
             'copy-to-clipboard-button'
         )!;
+        const emptyString = '\u200B';
         copyToClipboardButton.classList.replace(
             'bi-clipboard',
             'bi-clipboard2-check'
@@ -359,9 +361,16 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
         if (navigator.clipboard) {
             if (!editor.textContent) {
-                return;
-            }
+                const textArea = document.createElement('textarea');
+                textArea.value = emptyString;
+                document.body.appendChild(textArea);
+                textArea.select();
+                console.log(textArea.value)
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+            } else {
             navigator.clipboard.writeText(editor.textContent).then();
+            }
         } else {
             // TODO some browsers still seem to use this deprecated method, keep it around for some more time
             let range, select: Selection;
