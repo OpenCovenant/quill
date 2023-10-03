@@ -77,15 +77,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         this.http.get(this.pingURL).subscribe({
             next: () => console.log('pinging server...'),
-            error: (err: HttpErrorResponse) => {
-                if (err.status === 429) {
-                    
-                    console.log('Shume kerkesa, provo me vone.');
+            error: (e: HttpErrorResponse) => {
+                if (e.status === 429) {
                     this.disableEditorToManyRequests();
-                } else {
-                    
-                    console.error('Nje Error:', err.error);
-            }
+                }
         }
         });
     }
@@ -763,7 +758,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         ).contentEditable = 'false';
 
         document.getElementById(this.PLACEHOLDER_ELEMENT_ID)!.innerText =
-            'Teper kerkesa per shenjime per momentin';
+            'Tepër kërkesa për shenjime për momentin';
 
         (
             document.querySelectorAll(
