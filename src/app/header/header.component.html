@@ -176,10 +176,9 @@
             </div>
             <hr />
             <div class="d-flex dark-mode-div">
-                <div *ngIf="darkModeService.isDarkMode; else newText">Pamje e Zbardhur</div>
-                <ng-template #newText > Pamje e Errët</ng-template>
-
+                <div>Ndrysho Pamjen</div>
                 
+             
                 <div class="toggle-switch">
                     <label class="dark-mode-label cursor-pointer">
                         <input
@@ -192,8 +191,16 @@
                         />
                         <span class="dark-mode-slider"></span>
                     </label>
-                </div>
+                </div>        
             </div>
+            <ng-template 
+            [ngIf]="darkModeService.isDarkMode" 
+            [ngIfElse]="textToChange">
+                <span class="dark-mode-theme">Përdor pamjen e çelur</span>
+            </ng-template>
+            <ng-template #textToChange>
+                <span class="light-mode-theme">Përdor pamjen e errët</span>
+            </ng-template>
         </div>
     </div>
 </div>
