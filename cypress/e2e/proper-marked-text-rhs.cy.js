@@ -7,10 +7,13 @@ describe("a properly generated marked text on the rhs which isn't falsely update
         const initialText = "pra gabmim kaq";
         cy.get('[data-test="editor"]').type(initialText);
         cy.wait(3000);
-        for (let i = 0; i< initialText.length; i++){
+        for (let i = 0; i < initialText.length; i++) {
             cy.get('[data-test="editor"]').type("{leftArrow}");
         }
         cy.get('[data-test="editor"]').type("edhe ");
-        cy.get('.grid1 > .typo', {timeout: 100}).should('have.text', 'gabmim ')
+        cy.get(".grid1 > .typo", { timeout: 100 }).should(
+            "have.text",
+            "gabmim "
+        );
     });
 });
