@@ -291,22 +291,22 @@
     }
 }
 
-#editor > p > .typo {
-    cursor: pointer;
+.animate-marking-text {
     background: linear-gradient(to left, transparent 50%, var(--typo-color) 0);
     background-size: 200% 100%;
+    animation: fillBackground 500ms linear forwards;
+}
+
+#editor > p > .typo {
+    cursor: pointer;
 }
 
 #editor > p > .loanword {
     cursor: pointer;
-    background: linear-gradient(to left, transparent 50%, var(--typo-color) 0);
-    background-size: 200% 100%;
 }
 
 #editor > p > .stylistic {
     cursor: pointer;
-    background: linear-gradient(to left, transparent 50%, var(--typo-color) 0);
-    background-size: 200% 100%;
 }
 
 .suggestion {

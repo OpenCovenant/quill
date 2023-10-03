@@ -37,6 +37,10 @@ describe('Marker', () => {
         const expectedEditor = document.createElement('div');
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
+        editor.innerHTML = editor.innerHTML.replace(
+            /\s*\banimate-marking-text\b\s*/g,
+            ''
+        );
 
         expect(editor).toEqual(expectedEditor);
     });
@@ -64,6 +68,10 @@ describe('Marker', () => {
         const expectedEditor = document.createElement('div');
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
+        editor.innerHTML = editor.innerHTML.replace(
+            /\s*\banimate-marking-text\b\s*/g,
+            ''
+        );
 
         expect(editor).toEqual(expectedEditor);
     });
@@ -91,6 +99,10 @@ describe('Marker', () => {
         const expectedEditor = document.createElement('div');
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
+        editor.innerHTML = editor.innerHTML.replace(
+            /\s*\banimate-marking-text\b\s*/g,
+            ''
+        );
 
         expect(editor).toEqual(expectedEditor);
     });
@@ -118,6 +130,10 @@ describe('Marker', () => {
         const expectedEditor = document.createElement('div');
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
+        editor.innerHTML = editor.innerHTML.replace(
+            /\s*\banimate-marking-text\b\s*/g,
+            ''
+        );
 
         expect(editor).toEqual(expectedEditor);
     });
@@ -145,6 +161,10 @@ describe('Marker', () => {
         const expectedEditor = document.createElement('div');
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
+        editor.innerHTML = editor.innerHTML.replace(
+            /\s*\banimate-marking-text\b\s*/g,
+            ''
+        );
 
         expect(editor).toEqual(expectedEditor);
     });
@@ -181,6 +201,10 @@ describe('Marker', () => {
         const expectedEditor = document.createElement('div');
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
+        editor.innerHTML = editor.innerHTML.replace(
+            /\s*\banimate-marking-text\b\s*/g,
+            ''
+        );
 
         expect(editor).toEqual(expectedEditor);
     });
@@ -217,6 +241,10 @@ describe('Marker', () => {
         const expectedEditor = document.createElement('div');
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
+        editor.innerHTML = editor.innerHTML.replace(
+            /\s*\banimate-marking-text\b\s*/g,
+            ''
+        );
 
         expect(editor).toEqual(expectedEditor);
     });
@@ -253,6 +281,10 @@ describe('Marker', () => {
         const expectedEditor = document.createElement('div');
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
+        editor.innerHTML = editor.innerHTML.replace(
+            /\s*\banimate-marking-text\b\s*/g,
+            ''
+        );
 
         expect(editor).toEqual(expectedEditor);
     });
@@ -289,6 +321,10 @@ describe('Marker', () => {
         const expectedEditor = document.createElement('div');
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
+        editor.innerHTML = editor.innerHTML.replace(
+            /\s*\banimate-marking-text\b\s*/g,
+            ''
+        );
 
         expect(editor).toEqual(expectedEditor);
     });
@@ -326,6 +362,10 @@ describe('Marker', () => {
         const expectedEditor = document.createElement('div');
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
+        editor.innerHTML = editor.innerHTML.replace(
+            /\s*\banimate-marking-text\b\s*/g,
+            ''
+        );
 
         expect(editor).toEqual(expectedEditor);
     });
@@ -363,6 +403,10 @@ describe('Marker', () => {
         const expectedEditor = document.createElement('div');
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
+        editor.innerHTML = editor.innerHTML.replace(
+            /\s*\banimate-marking-text\b\s*/g,
+            ''
+        );
 
         expect(editor).toEqual(expectedEditor);
     });
@@ -399,6 +443,10 @@ describe('Marker', () => {
         const expectedEditor = document.createElement('div');
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
+        editor.innerHTML = editor.innerHTML.replace(
+            /\s*\banimate-marking-text\b\s*/g,
+            ''
+        );
 
         expect(editor).toEqual(expectedEditor);
     });
@@ -436,6 +484,10 @@ describe('Marker', () => {
         const expectedEditor = document.createElement('div');
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
+        editor.innerHTML = editor.innerHTML.replace(
+            /\s*\banimate-marking-text\b\s*/g,
+            ''
+        );
 
         expect(editor).toEqual(expectedEditor);
     });
@@ -477,6 +529,100 @@ describe('Marker', () => {
 
         const expectedHMTL =
             '<span class="stylistic">asd <span class="typo">pra <span class="loanword">kli</span> vij</span> ghj</span>';
+        const expectedEditor = document.createElement('div');
+        expectedEditor.id = EDITOR_ID;
+        expectedEditor.innerHTML = expectedHMTL;
+        editor.innerHTML = editor.innerHTML.replace(
+            /\s*\banimate-marking-text\b\s*/g,
+            ''
+        );
+
+        expect(editor).toEqual(expectedEditor);
+    });
+
+    it(`marking with the animate-marking-text class`, () => {
+        const html = ' asd kli ghj';
+        const editor = document.createElement('div');
+        editor.id = EDITOR_ID;
+        editor.innerHTML = html;
+
+        const markings: TextMarking[] = [
+            {
+                from: 0,
+                to: 4,
+                type: 'typo',
+                subtype: '',
+                description: '',
+                suggestions: [{ display: '', action: '' }]
+            },
+            {
+                from: 5,
+                to: 8,
+                type: 'typo',
+                subtype: '',
+                description: '',
+                suggestions: [{ display: '', action: '' }]
+            },
+            {
+                from: 9,
+                to: 12,
+                type: 'typo',
+                subtype: '',
+                description: '',
+                suggestions: [{ display: '', action: '' }]
+            }
+        ];
+
+        markText(editor, markings);
+
+        const expectedHMTL =
+            '<span class="typo animate-marking-text"> asd</span> <span class="typo animate-marking-text">kli</span> <span class="typo animate-marking-text">ghj</span>';
+        console.log(expectedHMTL);
+        const expectedEditor = document.createElement('div');
+        expectedEditor.id = EDITOR_ID;
+        expectedEditor.innerHTML = expectedHMTL;
+
+        expect(editor).toEqual(expectedEditor);
+    });
+
+    it(`marking with normal text and typo`, () => {
+        const html = 'asd pra kli vij ghj';
+        const editor = document.createElement('div');
+        editor.id = EDITOR_ID;
+        editor.innerHTML = html;
+
+        const markings: TextMarking[] = [
+            {
+                from: 0,
+                to: 3,
+                type: 'typo',
+                subtype: '',
+                description: '',
+                suggestions: [{ display: '', action: '' }]
+            },
+            {
+                from: 8,
+                to: 11,
+                type: 'typo',
+                subtype: '',
+                description: '',
+                suggestions: [{ display: '', action: '' }]
+            },
+            {
+                from: 16,
+                to: 19,
+                type: 'typo',
+                subtype: '',
+                description: '',
+                suggestions: [{ display: '', action: '' }]
+            }
+        ];
+
+        markText(editor, markings);
+
+        const expectedHMTL =
+            '<span class="typo animate-marking-text">asd</span> pra <span class="typo animate-marking-text">kli</span> vij <span class="typo animate-marking-text">ghj</span>';
+        console.log(expectedHMTL);
         const expectedEditor = document.createElement('div');
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
