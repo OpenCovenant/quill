@@ -4,7 +4,7 @@ import {
     OnDestroy,
     ViewEncapsulation
 } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import {
     BehaviorSubject,
     debounceTime,
@@ -72,7 +72,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         this.http.get(this.pingURL).subscribe({
             next: () => console.log('pinging server...'),
-            error: () => this.disableEditor()
+            error: (e: HttpErrorResponse) => {
+                if (e.status === 429) {
+                    this.disableEditorToManyRequests();
+                } else {
+                    this.disableEditor();
+                }
+        }
         });
     }
 
@@ -747,5 +753,20 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             );
             copyToClipboardButton.style.color = 'black';
         }, 2 * this.SECONDS);
+    }
+
+    private disableEditorToManyRequests(): void {
+        (
+            document.getElementById(this.EDITOR_KEY) as HTMLDivElement
+        ).contentEditable = 'false';
+
+        document.getElementById(this.PLACEHOLDER_ELEMENT_ID)!.innerText =
+            'Tepër kërkesa për shenjime për momentin';
+
+        (
+            document.querySelectorAll(
+                '.card-header button'
+            ) as NodeListOf<HTMLButtonElement>
+        ).forEach((b) => (b.disabled = true));
     }
 }
