@@ -354,7 +354,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             'bi-clipboard',
             'bi-clipboard2-check'
         );
-        copyToClipboardButton.style.color = 'green';
+        copyToClipboardButton.style.setProperty('color', 'green', 'important');
 
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
         if (navigator.clipboard) {
