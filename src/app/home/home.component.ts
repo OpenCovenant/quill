@@ -278,7 +278,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     this.processedText.textMarkings.length
                 ).fill(true);
 
-                this.blurFocusedRightSideMarking();
+                this.blurHighlightedBoardMarking();
             });
     }
 
@@ -325,7 +325,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.processedText = undefined;
         this.updateCharacterAndWordCount();
         this.shouldCollapseSuggestions = new Array<boolean>(0);
-        this.blurFocusedRightSideMarking();
+        this.blurHighlightedBoardMarking();
     }
 
     /**
@@ -444,9 +444,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     /**
-     * Blurs the currently focused RHS marking.
+     * Blurs the currently highlighted board marking.
      */
-    blurFocusedRightSideMarking(): void {
+    blurHighlightedBoardMarking(): void {
         this.highlightingMarking = false;
         this.highlightedMarkingIndex = -1;
         this.highlightedMarking = undefined;
@@ -511,7 +511,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     ).fill(true);
                 },
                 complete: () => {
-                    setTimeout(() => this.listenForMarkingFocus(), 0);
+                    setTimeout(() => this.listenForMarkingHighlight(), 0);
                 }
             });
     }
@@ -688,7 +688,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 ),
                 debounceTime(this.EVENTUAL_MARKING_TIME),
                 tap(() => {
-                    this.blurFocusedRightSideMarking();
+                    this.blurHighlightedBoardMarking();
                     this.markEditor();
                 })
             )
@@ -723,22 +723,22 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         ).forEach((b) => (b.disabled = true));
     }
 
-    private listenForMarkingFocus(): void {
+    private listenForMarkingHighlight(): void {
         const textMarkings = document.querySelectorAll('#editor > p > .typo');
         textMarkings.forEach((element: Element, index: number) =>
             element.addEventListener(
                 'click',
-                this.focusRightSideMarking.bind(this, index)
+                this.highlightBoardMarking.bind(this, index)
             )
         );
     }
 
     /**
-     * Clicking on a LHS marking, focuses it in the RHS.
+     * Clicking on an editor marking, highlights it in the board of markings.
      *
      * @param {number} textMarkingIndex
      */
-    private focusRightSideMarking(textMarkingIndex: number): void {
+    private highlightBoardMarking(textMarkingIndex: number): void {
         this.highlightingMarking = true;
         this.highlightedMarking =
             this.processedText?.textMarkings[textMarkingIndex];
