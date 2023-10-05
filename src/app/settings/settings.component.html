@@ -1,3 +1,9 @@
+<ng-template *ngIf="isLoading; else loadingTemplate">
+    <div class="card" aria-hidden="true"></div>
+     <h5 class="placeholder col-12 bg-success"></h5>
+</ng-template>
+
+<ng-template  #loadingTemplate >
 <div style="display: flex; justify-content: center; padding-top: 2rem">
     <div
         class="card p-3"
@@ -98,3 +104,6 @@
         </div>
     </div>
 </div>
+
+</ng-template>
+

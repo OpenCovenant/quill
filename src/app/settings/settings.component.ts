@@ -16,6 +16,7 @@ export class SettingsComponent implements OnInit {
     markingTypesURL!: string;
 
     markingTypes: any[] = [];
+    isLoading:boolean = true;
 
     constructor(
         private http: HttpClient,
@@ -23,7 +24,8 @@ export class SettingsComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.initializeURLs();
+        this.initializeURLs();        
+
         // TODO: consider making changes to `LocalStorageService`
         this.http.get(this.markingTypesURL).subscribe((data: any) => {
             if (
@@ -47,6 +49,7 @@ export class SettingsComponent implements OnInit {
                         e[1].enabled = localStorage.getItem(e[0]) === 'true';
                         return e;
                     });
+                    this.isLoading = false;
             }
         });
     }
