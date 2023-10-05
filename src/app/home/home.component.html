@@ -233,7 +233,7 @@
                         index as i
                     "
                     class="card border-secondary"
-                    [ngClass]="{'mt-2 mb-2':i > 0}"
+                    [ngClass]="{ 'mt-2 mb-2': i > 0 }"
                 >
                     <div
                         class="card-header second-header"
@@ -464,7 +464,8 @@
                                                     highlightedMarkingIndex
                                                 ]
                                                     ? 'bi-arrow-right-square'
-                                                    : 'bi-arrow-left-square'"
+                                                    : 'bi-arrow-left-square'
+                                            "
                                             data-test="oscillate-suggestions-button"
                                         ></h3>
                                     </div>

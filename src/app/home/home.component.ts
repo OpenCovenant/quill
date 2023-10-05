@@ -4,7 +4,11 @@ import {
     OnDestroy,
     ViewEncapsulation
 } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import {
+    HttpClient,
+    HttpErrorResponse,
+    HttpResponse
+} from '@angular/common/http';
 import {
     BehaviorSubject,
     debounceTime,
@@ -78,7 +82,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 } else {
                     this.disableEditor();
                 }
-        }
+            }
         });
     }
 
@@ -745,7 +749,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.highlightedMarkingIndex = textMarkingIndex;
     }
 
-    private brieflyChangeClipboardIcon(copyToClipboardButton: HTMLElement ): void {
+    private brieflyChangeClipboardIcon(
+        copyToClipboardButton: HTMLElement
+    ): void {
         setTimeout(() => {
             copyToClipboardButton.classList.replace(
                 'bi-clipboard2-check',
