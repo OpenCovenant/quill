@@ -63,6 +63,10 @@ hr {
     color: var(--light) !important;
 }
 
+.offcanvas-navText-dark-mode:hover {
+    background-color: #595959 !important;
+}
+
 .navText {
     display: flex;
     height: 50px;
