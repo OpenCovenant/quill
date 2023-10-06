@@ -76,11 +76,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.http.get(this.pingURL).subscribe({
             next: () => console.log('pinging server...'),
             error: (e: HttpErrorResponse) => {
-                if (e.status === 429) {
-                    this.disableEditor('Tepër kërkesa për shenjime për momentin')
-                } else {
-                    this.disableEditor('Fatkeqësisht kemi një problem me serverat. Ju kërkojmë ndjesë, ndërsa kërkojme për një zgjidhje.' );
-                }
+               this.disableEditor(e);
             }
         });
     }
@@ -711,7 +707,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             .subscribe();
     }
     
-    private disableEditor(errorMessage:string): void {
+    private disableEditor(errorResponse:HttpErrorResponse): void {
+        const errorMessage = errorResponse.status === 429 
+        ? 'Tepër kërkesa për shenjime për momentin'
+        : 'Fatkeqësisht kemi një problem me serverat. Ju kërkojmë ndjesë, ndërsa kërkojme për një zgjidhje.';
         (
             document.getElementById(this.EDITOR_KEY) as HTMLDivElement
         ).contentEditable = 'false';
