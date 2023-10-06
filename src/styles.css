@@ -4,6 +4,7 @@
 
 :root {
     --dark-mode-theme: #2c2c2c;
+    /*gray color*/
     --dark-mode-smooth-theme: #808080;
     --dark-mode-anti-theme: #ffffff;
     --media-cut-off-width: 800px; /*TODO: can this be utilized in the @medias?*/
