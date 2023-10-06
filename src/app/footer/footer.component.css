@@ -11,5 +11,5 @@ footer div:first-child {
 
 .footer-dark-mode {
     color: var(--dark-mode-anti-theme) !important;
-    background-color: var(--dark-mode-theme) !important;
+    background-color: var(--dark-mode-theme);
 }

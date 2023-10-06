@@ -1,11 +1,11 @@
-hr {
+.off-canvas-hr {
     background-color: #9a9a9a;
     height: 1px;
     margin-bottom: 0;
     margin-top: 0;
 }
 
-.navbar div {
+.header-name-gear-icon {
     margin-left: 2rem;
     font-size: 1.4rem;
 }
@@ -20,7 +20,7 @@ hr {
 }
 
 .header-button-dark-mode {
-    background-color: var(--dark-mode-theme) !important;
+    background-color: var(--dark-mode-theme);
 }
 
 .header-button-dark-mode:hover {
@@ -90,7 +90,7 @@ hr {
 }
 
 .offcanvas-start {
-    border-radius: 0 3px 3px 0;
+    border-radius: 3px 3px;
     width: 350px;
 }
 
@@ -157,27 +157,23 @@ hr {
 
 .dark-mode-div {
     justify-content: space-between;
-    padding-top: 2rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding: 2rem 1rem 0 1rem;
 }
 
 /* #modeExplanationText{
     padding: 1rem;
     padding-top: 0.3rem;
     font-size: 0.8rem;
-    color:#858585;
+    color: #858585;
 } */
 
 .dark-mode-theme {
-    padding: 1rem;
-    padding-top: 0.3rem;
+    padding: 0.3rem 1rem 1rem;
     font-size: 0.8rem;
-    color: #B4B4B4;
+    color: #b4b4b4;
 }
 .light-mode-theme {
-    padding: 1rem;
-    padding-top: 0.3rem;
+    padding: 0.3rem 1rem 1rem;
     font-size: 0.8rem;
     color: rgb(75, 75, 75);
 }
