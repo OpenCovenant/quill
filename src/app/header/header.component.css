@@ -80,10 +80,6 @@ hr {
     color: black;
 }
 
-.offcanvas-navText-dark-mode:hover {
-    background-color: var(--dark-mode-theme) !important;
-}
-
 .bi {
     padding-right: 1rem;
     color: #3a3a3a;
