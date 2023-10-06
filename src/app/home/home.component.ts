@@ -4,10 +4,7 @@ import {
     OnDestroy,
     ViewEncapsulation
 } from '@angular/core';
-import {
-    HttpClient,
-    HttpErrorResponse,
-} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
     BehaviorSubject,
     debounceTime,
@@ -75,9 +72,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         this.http.get(this.pingURL).subscribe({
             next: () => console.log('pinging server...'),
-            error: (e: HttpErrorResponse) => {
-               this.disableEditor(e);
-            }
+            error: (e: HttpErrorResponse) => this.disableEditor(e)
         });
     }
 
@@ -706,19 +701,22 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             )
             .subscribe();
     }
-    
-    private disableEditor(errorResponse:HttpErrorResponse): void {
-        const errorMessage = errorResponse.status === 429 
-        ? 'Tepër kërkesa për shenjime për momentin'
-        : 'Fatkeqësisht kemi një problem me serverat. Ju kërkojmë ndjesë, ndërsa kërkojme për një zgjidhje.';
+
+    private disableEditor(errorResponse: HttpErrorResponse): void {
+        const errorMessage =
+            errorResponse.status === 429
+                ? 'Tepër kërkesa për shenjime për momentin'
+                : 'Fatkeqësisht kemi një problem me serverat. Ju kërkojmë ndjesë, ndërsa kërkojme për një zgjidhje.';
         (
             document.getElementById(this.EDITOR_KEY) as HTMLDivElement
         ).contentEditable = 'false';
 
-       const placeholderElement=  document.getElementById(this.PLACEHOLDER_ELEMENT_ID);
-            if(placeholderElement){
-                placeholderElement.innerText = errorMessage; 
-            }
+        const placeholderElement = document.getElementById(
+            this.PLACEHOLDER_ELEMENT_ID
+        );
+        if (placeholderElement) {
+            placeholderElement.innerText = errorMessage;
+        }
         (
             document.querySelectorAll(
                 '.card-header button'
