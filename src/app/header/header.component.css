@@ -52,15 +52,15 @@
     color: var(--light);
 }
 
-.offcanvas-navText-dark-mode {
+.offcanvas-nav-text-dark-mode {
     color: var(--light) !important;
 }
 
-.offcanvas-navText-dark-mode:hover {
+.offcanvas-nav-text-dark-mode:hover {
     background-color: #595959 !important;
 }
 
-.navText {
+.nav-text {
     display: flex;
     height: 50px;
     padding: 1rem;
@@ -75,7 +75,7 @@
     margin-top: 0;
 }
 
-.navText:hover {
+.nav-text:hover {
     background-color: var(--light-mode-hover-theme);
     color: black;
 }
