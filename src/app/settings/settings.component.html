@@ -1,6 +1,32 @@
-<ng-template *ngIf="isLoading; else loadingTemplate">
-    <div class="card" aria-hidden="true"></div>
-     <h5 class="placeholder col-12 bg-success"></h5>
+<ng-template [ngIf]="isLoading" 
+    [ngIfElse]="loadingTemplate">
+    <div class="container mt-5">
+        <div class="row">
+          <div class=" card p-3 col-md-8 mx-auto" style=" border: 1px solid black; box-shadow: 3px,3px,3px black;">
+        
+            <div class="col-4 placeholder-glow">
+                
+             <span class="placeholder col-6 placeholder-lg">  </span> 
+             <br>
+             <br> 
+             <br>
+             <span class="col-9 placeholder">  </span>  
+             <br>
+             <br>
+             <span class="col-12 placeholder">  </span>  
+
+            <hr>
+            <br>
+            <br>
+            <div class="card" aria-hidden="true"></div>
+
+            <div class="placeholder-glow col-4">
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+
 </ng-template>
 
 <ng-template  #loadingTemplate >
