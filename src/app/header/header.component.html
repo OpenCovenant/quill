@@ -1,13 +1,17 @@
 <div>
     <nav
         class="navbar navbar-light"
-        [ngClass]="{ 'header-dark-mode': darkModeService.isDarkMode }"
+        [ngClass]="{
+                    'header-dark-mode':
+                        darkModeService.isDarkMode
+                }"
     >
         <div>
             <button
                 class="off-canvas-start-button"
                 [ngClass]="{
-                    'header-button-dark-mode': darkModeService.isDarkMode
+                    'header-button-dark-mode':
+                        darkModeService.isDarkMode
                 }"
                 type="button"
                 title="hap menynë"
@@ -29,7 +33,8 @@
                 title="faqja kryesore"
                 class="penda-header-logo cursor-pointer"
                 [ngClass]="{
-                    'header-text-dark-mode': darkModeService.isDarkMode
+                    'header-text-dark-mode':
+                        darkModeService.isDarkMode
                 }"
                 data-test="penda-home-button"
                 >&nbsp;penda</span
@@ -43,7 +48,8 @@
                 [ngClass]="{
                     'bi bi-gear': !isSettingsRoute(),
                     'bi bi-gear-fill': isSettingsRoute(),
-                    'settings-gear-dark-mode': darkModeService.isDarkMode
+                    'settings-gear-dark-mode':
+                        darkModeService.isDarkMode
                 }"
                 routerLink="/settings"
                 data-test="gear-button-testing"
@@ -56,7 +62,8 @@
     id="offcanvasStart"
     class="offcanvas offcanvas-start"
     [ngClass]="{
-        'offcanvas-start-dark-mode': darkModeService.isDarkMode
+        'offcanvas-start-dark-mode':
+            darkModeService.isDarkMode
     }"
     tabindex="-1"
     aria-labelledby="offcanvasStartLabel"
@@ -64,7 +71,8 @@
     <div
         class="offcanvas-header"
         [ngClass]="{
-            'offcanvas-header-dark-mode': darkModeService.isDarkMode
+            'offcanvas-header-dark-mode':
+                darkModeService.isDarkMode
         }"
     >
         <h5 id="offcanvasStartLabel">penda</h5>
@@ -73,7 +81,8 @@
             type="button"
             class="btn-close text-reset"
             [ngClass]="{
-                'offcanvas-close-button-dark-mode': darkModeService.isDarkMode
+                'offcanvas-close-button-dark-mode':
+                    darkModeService.isDarkMode
             }"
             data-bs-dismiss="offcanvas"
             aria-label="Close"
@@ -85,7 +94,8 @@
     <div
         class="offcanvas-body"
         [ngClass]="{
-            'offcanvas-body-dark-mode': darkModeService.isDarkMode
+            'offcanvas-body-dark-mode':
+                darkModeService.isDarkMode
         }"
     >
         <div class="list-group list-group-flush">
