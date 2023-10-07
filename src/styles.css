@@ -14,6 +14,8 @@
     --bar-color: #e9e9e9;
     --pitch-black: #000000;
     --light-mode-hover-theme: #e3e3e3;
+    --checked-blue-color-theme: #2196f3;
+    --dark-mode-gray-color-checked-theme: #797979;
 
     /*TODO: these two should be in header.component.css but it doesn't seem to work?*/
     --light: #eaeaea;

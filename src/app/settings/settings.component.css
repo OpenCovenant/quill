@@ -3,6 +3,8 @@
     display: inline-block;
     width: 50px;
     height: 23px;
+    margin-bottom: 1.5rem;
+    margin-right: 0.5rem;
 }
 
 .marking-type-input {
@@ -13,7 +15,7 @@
 
 .settings-dark-mode {
     background-color: var(--dark-mode-theme) !important;
-    color: white;
+    color: var(--dark-mode-anti-theme);
 }
 
 .card {
@@ -23,6 +25,7 @@
     border: 0px solid rgba(0, 0, 0, 0.125);
     border-radius: 0.25rem;
     box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
+    width: 60%;
 }
 
 .card-body-dark-mode {
@@ -47,17 +50,17 @@
     width: 15px;
     left: 4px;
     bottom: 4px;
-    background-color: white;
+    background-color: var(--dark-mode-anti-theme);
     -webkit-transition: 0.4s;
     transition: 0.4s;
 }
 
 .marking-type-input:checked + .slider {
-    background-color: #2196f3;
+    background-color: var(--checked-blue-color-theme);
 }
 
 .marking-type-input:focus + .slider {
-    box-shadow: 0 0 1px #2196f3;
+    box-shadow: 0 0 1px var(--checked-blue-color-theme);
 }
 
 .marking-type-input:checked + .slider:before {
@@ -104,7 +107,7 @@
 }
 
 .dark-mode-input:checked ~ .dark-mode-slider {
-    background-color: #797979;
+    background-color: var(--dark-mode-gray-color-checked-theme);
 }
 
 .dark-mode-slider::before {
@@ -122,6 +125,25 @@
 
 .dark-mode-input:checked ~ .dark-mode-slider::before {
     transform: translateX(1.5rem);
-    background-color: #797979;
+    background-color: var(--dark-mode-gray-color-checked-theme);
     box-shadow: inset -7px -3px 0 0 var(--dark-mode-anti-theme);
+}
+
+.container-div-settings {
+    display: flex;
+    justify-content: center;
+    padding-top: 2rem;
+}
+
+.arrow-up-right-cursor {
+    color: var(--dark-mode-smooth-theme);
+    margin-left: 0.5rem;
+}
+
+.d-flex-dark-mode {
+    justify-content: space-between;
+}
+
+.d-flex {
+    justify-content: space-between;
 }
