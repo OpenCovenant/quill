@@ -54,9 +54,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     loading$ = new BehaviorSubject<boolean>(false);
     editorElement!: HTMLElement;
     highlightedMarkingIndex: number = -1;
-    highlightingMarking: boolean = this.highlightedMarkingIndex !== -1;
-    highlightedMarking: TextMarking | undefined = undefined;
-  
+
 
     private placeHolderElement!: HTMLElement;
     private baseURL!: string;
@@ -452,11 +450,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * Blurs the currently highlighted board marking.
      */
     blurHighlightedBoardMarking(): void {
-        if (this.highlightedMarkingIndex !== -1){;
-        this.highlightedMarkingIndex = -1;
-        this.highlightedMarking = undefined;
+        
+        this.highlightedMarkingIndex === -1;
     }
-}
 
     /**
      * Make the call to mark the editor into paragraphs.
@@ -745,12 +741,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * @param {number} textMarkingIndex
      */
     private highlightBoardMarking(textMarkingIndex: number): void {
-        if(this.highlightedMarkingIndex === -1) {
-        this.highlightedMarking =
-            this.processedText?.textMarkings[textMarkingIndex];
-        this.highlightedMarkingIndex = textMarkingIndex;
+        this.highlightedMarkingIndex = textMarkingIndex ;
     }
-    }
+
     private brieflyChangeClipboardIcon(
         copyToClipboardButton: HTMLElement
     ): void {

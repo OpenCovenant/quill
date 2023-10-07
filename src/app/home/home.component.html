@@ -221,10 +221,10 @@
         </div>
         <div
             *ngIf="processedText?.textMarkings"
-            [ngClass]="{ sticky: highlightingMarking }"
+            [ngClass]="{ sticky: highlightedMarkingIndex }"
         >
             <ng-template
-                [ngIf]="!highlightingMarking"
+                [ngIf]="!highlightedMarkingIndex"
                 [ngIfElse]="highlightedMarkingTemplate"
             >
                 <div
