@@ -351,7 +351,7 @@
                         <div class="grid1">
                             <span
                                 class="text-marking {{
-                                    processedText.textMarkings[highlightedMarkingIndex].type
+                                    processedText?.textMarkings?.[highlightedMarkingIndex]?.type
                                 }}"
                                 data-test="highlighted-text-marking"
                                 >{{
@@ -389,16 +389,21 @@
                         >
                             <div class="d-flex">
                                 <div>
-                                    <b>{{ processedText.textMarkings[highlightedMarkingIndex]?.subtype }}</b> -
+                                    <b
+                                        >{{  processedText?.textMarkings?.[highlightedMarkingIndex]?.subtype }}</b
+                                    >
+                                    -
                                     <span>{{
-                                        processedText.textMarkings[highlightedMarkingIndex]?.description
+                                        processedText?.textMarkings?.[highlightedMarkingIndex]?.description
                                     }}</span>
                                 </div>
-                                <div *ngIf="processedText.textMarkings[highlightedMarkingIndex]?.id">
+                                <div
+                                    *ngIf=" processedText?.textMarkings?.[highlightedMarkingIndex]?.id"
+                                >
                                     <i
                                         class="bi bi-info-circle information-circle"
                                         routerLink="{{
-                                            processedText.textMarkings[highlightedMarkingIndex]?.id
+                                            processedText?.textMarkings?.[highlightedMarkingIndex]?.id
                                         }}"
                                         data-test="marking-information-icon"
                                     ></i>
@@ -406,21 +411,21 @@
                             </div>
                             <span
                                 *ngIf="
-                                processedText.textMarkings[highlightedMarkingIndex] !== undefined &&
-                                    (processedText.textMarkings[highlightedMarkingIndex]?.suggestions)!.length >
+                                processedText?.textMarkings?.[highlightedMarkingIndex] !== undefined &&
+                                    ( processedText?.textMarkings?.[highlightedMarkingIndex]?.suggestions)!.length >
                                         0
                                 "
                             >
                                 <div class="suggestions">
                                     <button
                                         *ngFor="
-                                            let suggestion of processedText.textMarkings[highlightedMarkingIndex]?.suggestions!.slice(
+                                            let suggestion of  processedText?.textMarkings?.[highlightedMarkingIndex]?.suggestions!.slice(
                                                 0,
                                                 shouldCollapseSuggestions[
                                                     highlightedMarkingIndex
                                                 ]
                                                     ? 4
-                                                    : (processedText.textMarkings[highlightedMarkingIndex]?.suggestions)!
+                                                    : ( processedText?.textMarkings?.[highlightedMarkingIndex]?.suggestions)!
                                                           .length
                                             );
                                             index as j
@@ -439,7 +444,7 @@
                                     <div
                                         class="pipe-separator"
                                         *ngIf="
-                                            (processedText.textMarkings[highlightedMarkingIndex]?.suggestions)!
+                                            ( processedText?.textMarkings?.[highlightedMarkingIndex]?.suggestions)!
                                                 .length > 4
                                         "
                                     >
@@ -447,7 +452,7 @@
                                     </div>
                                     <div
                                         *ngIf="
-                                            (processedText.textMarkings[highlightedMarkingIndex]?.suggestions)!
+                                            ( processedText?.textMarkings?.[highlightedMarkingIndex]?.suggestions)!
                                                 .length > 4
                                         "
                                     >

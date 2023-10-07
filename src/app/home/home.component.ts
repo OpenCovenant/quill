@@ -55,7 +55,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     editorElement!: HTMLElement;
     highlightedMarkingIndex: number = -1;
 
-
     private placeHolderElement!: HTMLElement;
     private baseURL!: string;
     private generateMarkingsURL!: string;
@@ -450,8 +449,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * Blurs the currently highlighted board marking.
      */
     blurHighlightedBoardMarking(): void {
-        
-        this.highlightedMarkingIndex === -1;
+        this.highlightedMarkingIndex = -1;
     }
 
     /**
@@ -741,7 +739,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * @param {number} textMarkingIndex
      */
     private highlightBoardMarking(textMarkingIndex: number): void {
-        this.highlightedMarkingIndex = textMarkingIndex ;
+        this.highlightedMarkingIndex = textMarkingIndex;
     }
 
     private brieflyChangeClipboardIcon(
