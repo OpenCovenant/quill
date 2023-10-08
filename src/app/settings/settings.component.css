@@ -129,12 +129,12 @@
     background-color: #797979;
     box-shadow: inset -7px -3px 0 0 #ffffff;
 }
-.dark-mode-theme {
+.dark-mode-informative-text{
     padding-top: 0.3rem;
     font-size: 0.8rem;
     color: rgb(180, 180, 180);
 }
-.light-mode-theme {
+.light-mode-informative-text{
     padding-top: 0.3rem;
     font-size: 0.8rem;
     color: rgb(75, 75, 75);
