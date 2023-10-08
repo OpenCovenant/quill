@@ -103,7 +103,12 @@
     color: black;
 }
 
-.grid1 {
+.second-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.generated-marking {
     display: grid;
     grid-template-columns: auto 1fr;
     grid-template-rows: inherit;
@@ -111,46 +116,22 @@
 }
 
 .text-marking {
-    display: inline-block;
     padding: 3px 6px;
-    border-radius: 4px;
-    color: black;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
 }
 
 .information-circle {
     font-size: 20px;
-    color: #484848;
-}
-
-.settings-dark-mode {
-    background-color: var(--dark-mode-theme);
-    color: white;
 }
 
 .suggestions {
     display: flex;
     flex-wrap: wrap;
-    align-content: stretch;
     justify-content: center;
     gap: 1rem;
 }
 
 .editor-hr {
     color: lightgray;
-}
-
-.suggestion {
-    color: black;
-}
-
-.suggestions-header {
-    display: inline-block;
-    align-items: flex-start;
-    margin: 0;
-    line-height: inherit;
 }
 
 .waiting-text {
@@ -177,10 +158,6 @@
 }
 
 .written-text {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
     box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
     border-radius: 5px;
     padding: 5px;
@@ -200,7 +177,7 @@
 }
 
 .written-text-history-button-dark-mode {
-    color: var(--dark-mode-anti-theme) !important;
+    color: var(--dark-mode-anti-theme);
 }
 
 .typo {
@@ -208,7 +185,6 @@
     /*text-decoration-color: red;*/
     background-color: var(--typo-color);
     border-radius: 4px;
-    border: none;
     padding-top: 3px;
     padding-bottom: 3px;
 }
@@ -216,7 +192,6 @@
 .loanword {
     background-color: var(--loanword-color);
     border-radius: 4px;
-    border: none;
     padding-top: 3px;
     padding-bottom: 3px;
 }
@@ -224,7 +199,6 @@
 .stylistic {
     background-color: var(--stylistic-color);
     border-radius: 4px;
-    border: none;
     padding-top: 3px;
     padding-bottom: 3px;
 }
