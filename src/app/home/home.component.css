@@ -55,7 +55,7 @@
     outline: 0 solid transparent;
 }
 
-.flex1 {
+.editor-toolbar {
     display: flex;
     justify-content: space-between;
     font-size: 0.8rem;
@@ -67,7 +67,6 @@
 .characters-words-markings {
     display: flex;
     justify-content: center;
-    align-content: center;
     flex-direction: column;
 }
 
@@ -88,18 +87,13 @@
 }
 
 .clipboard-button-dark-mode {
-    color: var(--dark-mode-anti-theme) !important;
+    color: var(--dark-mode-anti-theme);
 }
 
 .output-container {
     flex: 0 0 30%;
     margin-right: 3rem;
     /*padding-right: 25px;*/
-}
-
-.second-header {
-    display: flex;
-    justify-content: space-between;
 }
 
 .template-marking-span {
