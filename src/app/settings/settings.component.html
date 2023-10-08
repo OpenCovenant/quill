@@ -17,15 +17,21 @@
             <br />
 
             <div>
-                <h5>Pamje e Errët</h5>
+                <ng-template
+                    [ngIf]="darkModeService.isDarkMode"
+                    [ngIfElse]="otherHeaderText"
+                >
+                    <h5>Pamje e Errët</h5>
+                </ng-template>
+                <ng-template #otherHeaderText>
+                    <h5>Pamje e Çelur</h5>
+                </ng-template>
                 <hr />
                 <div
                     class="d-flex dark-mode-div"
                     style="justify-content: space-between"
                 >
-                    <div>
-                        Zgjidhni pamjen e faqes e cila ju përshtatet më shumë
-                    </div>
+                    <div>Ndrysho Pamjen</div>
                     <div class="toggle-switch">
                         <label class="dark-mode-label cursor-pointer">
                             <input
@@ -40,6 +46,15 @@
                         </label>
                     </div>
                 </div>
+                <ng-template
+                    [ngIf]="darkModeService.isDarkMode"
+                    [ngIfElse]="otherModeText"
+                >
+                    <span class="dark-mode-theme">Përdor Pamjen e Çelur</span>
+                </ng-template>
+                <ng-template #otherModeText>
+                    <span class="light-mode-theme">Përdor Pamjen e Errët</span>
+                </ng-template>
             </div>
 
             <br />
