@@ -49,8 +49,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
     loading$ = new BehaviorSubject<boolean>(false);
     editorElement!: HTMLElement;
-    highlightingMarking: boolean = false;
-    highlightedMarking: TextMarking | undefined = undefined;
     highlightedMarkingIndex: number = -1;
 
     private placeHolderElement!: HTMLElement;
@@ -441,9 +439,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * Blurs the currently highlighted board marking.
      */
     blurHighlightedBoardMarking(): void {
-        this.highlightingMarking = false;
         this.highlightedMarkingIndex = -1;
-        this.highlightedMarking = undefined;
     }
 
     /**
@@ -740,9 +736,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * @param {number} textMarkingIndex
      */
     private highlightBoardMarking(textMarkingIndex: number): void {
-        this.highlightingMarking = true;
-        this.highlightedMarking =
-            this.processedText?.textMarkings[textMarkingIndex];
         this.highlightedMarkingIndex = textMarkingIndex;
     }
 
