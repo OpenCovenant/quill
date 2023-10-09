@@ -1,7 +1,6 @@
-<div style="display: flex; justify-content: center; padding-top: 2rem">
+<div  class="container-div-settings">
     <div
         class="card p-3"
-        style="width: 60%"
         [ngClass]="{
             'settings-dark-mode': darkModeService.isDarkMode
         }"
@@ -20,8 +19,7 @@
                 <h5>Pamje e Errët</h5>
                 <hr />
                 <div
-                    class="d-flex dark-mode-div"
-                    style="justify-content: space-between"
+                    class="d-flex dark-mode-div d-flex-dark-mode"
                 >
                     <div>
                         Zgjidhni pamjen e faqes e cila ju përshtatet më shumë
@@ -57,14 +55,12 @@
                 <div
                     *ngFor="let markingType of markingTypes"
                     class="d-flex"
-                    style="justify-content: space-between"
                 >
                     <span>
                         <span>{{ markingType[1].description }}</span>
                         <span
                             routerLink="/{{ markingType[0] }}"
-                            class="cursor-pointer"
-                            style="color: gray; margin-left: 0.5rem"
+                            class="cursor-pointer arrow-up-right-cursor"
                             ><i class="bi bi-box-arrow-up-right"></i
                         ></span>
                     </span>
@@ -72,7 +68,6 @@
                     <span>
                         <label
                             class="marking-type-label"
-                            style="margin-bottom: 1.5rem; margin-right: 0.5rem"
                             [for]="markingType[0]"
                         >
                             <input

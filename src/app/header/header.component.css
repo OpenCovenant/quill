@@ -1,8 +1,4 @@
-.navbar {
-    background-color: #f8f9fa;
-}
-
-.navbar div {
+.header-name-gear-icon {
     margin-left: 2rem;
     font-size: 1.4rem;
 }
@@ -17,7 +13,7 @@
 }
 
 .header-button-dark-mode {
-    background-color: #2c2c2c !important;
+    background-color: var(--dark-mode-theme);
 }
 
 .header-button-dark-mode:hover {
@@ -39,12 +35,11 @@
 
 .off-canvas-start-button {
     border: 0;
-    background-color: #f9f9f9;
     border-radius: 0.5rem;
 }
 
 .off-canvas-start-button:hover {
-    background-color: #e3e3e3;
+    background-color: var(--light-mode-hover-theme);
 }
 
 .offcanvas-header-dark-mode {
@@ -57,38 +52,31 @@
     color: var(--light);
 }
 
-.offcanvas-navText-dark-mode {
+.offcanvas-nav-text-dark-mode {
     color: var(--light) !important;
 }
 
-.offcanvas-navText-dark-mode:hover {
+.offcanvas-nav-text-dark-mode:hover {
     background-color: #595959 !important;
 }
 
-hr {
+.off-canvas-hr {
     background-color: #9a9a9a;
     height: 1px;
-    border: none;
     margin-bottom: 0;
     margin-top: 0;
 }
 
-.navText {
+.nav-text {
     display: flex;
-    justify-content: start;
-    list-style: none;
     height: 50px;
     padding: 1rem;
-    margin-bottom: 0;
-    margin-left: 0;
     text-decoration: none;
-    color: #000000;
-    font-size: 1rem;
-    border-radius: 7px;
+    color: var(--pitch-black);
 }
 
-.navText:hover {
-    background-color: #e3e3e3;
+.nav-text:hover {
+    background-color: var(--light-mode-hover-theme);
     color: black;
 }
 
@@ -102,7 +90,7 @@ hr {
 }
 
 .offcanvas-start {
-    border-radius: 0 3px 3px 0;
+    border-radius: 3px 3px;
     width: 350px;
 }
 
@@ -123,9 +111,8 @@ hr {
     position: absolute;
     width: 100%;
     height: 1.6rem;
-    background-color: var(--dark);
     border-radius: 50px;
-    border: 1px solid gray;
+    border: 1px solid var(--dark-mode-smooth-theme);
 }
 
 .dark-mode-input {
@@ -139,7 +126,6 @@ hr {
     height: 100%;
     border-radius: 50px;
     transition: 0.4s;
-    background-color: var(--light);
 }
 
 .dark-mode-input:checked ~ .dark-mode-slider {
@@ -162,36 +148,32 @@ hr {
 .dark-mode-input:checked ~ .dark-mode-slider::before {
     transform: translateX(1.5rem);
     background-color: #797979;
-    box-shadow: inset -7px -3px 0 0 #ffffff;
+    box-shadow: inset -7px -3px 0 0 var(--dark-mode-anti-theme);
 }
 
 .settings-gear-dark-mode {
-    color: white;
+    color: var(--dark-mode-anti-theme);
 }
 
 .dark-mode-div {
     justify-content: space-between;
-    padding-top: 2rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding: 2rem 1rem 0 1rem;
 }
 
 /* #modeExplanationText{
     padding: 1rem;
     padding-top: 0.3rem;
     font-size: 0.8rem;
-    color:#858585;
+    color: #858585;
 } */
 
 .dark-mode-theme {
-    padding: 1rem;
-    padding-top: 0.3rem;
+    padding: 0.3rem 1rem 1rem;
     font-size: 0.8rem;
-    color: rgb(180, 180, 180);
+    color: #b4b4b4;
 }
 .light-mode-theme {
-    padding: 1rem;
-    padding-top: 0.3rem;
+    padding: 0.3rem 1rem 1rem;
     font-size: 0.8rem;
     color: rgb(75, 75, 75);
 }

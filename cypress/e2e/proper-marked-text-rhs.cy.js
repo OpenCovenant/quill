@@ -11,7 +11,7 @@ describe("a properly generated marked text on the rhs which isn't falsely update
             cy.get('[data-test="editor"]').type("{leftArrow}");
         }
         cy.get('[data-test="editor"]').type("edhe ");
-        cy.get(".grid1 > .typo", { timeout: 100 }).should(
+        cy.get(".generated-marking > .typo", { timeout: 100 }).should(
             "have.text",
             "gabmim "
         );
