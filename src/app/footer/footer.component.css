@@ -1,8 +1,3 @@
-.section-anchor {
-    text-decoration: none;
-    font-size: 15px;
-}
-
 footer div:first-child {
     color: var(--dark-mode-theme);
     padding-top: 10px;
@@ -12,4 +7,9 @@ footer div:first-child {
 .footer-dark-mode {
     color: var(--dark-mode-anti-theme) !important;
     background-color: var(--dark-mode-theme);
+}
+
+.section-anchor {
+    text-decoration: none;
+    font-size: 15px;
 }

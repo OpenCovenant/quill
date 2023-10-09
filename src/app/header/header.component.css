@@ -60,19 +60,19 @@
     background-color: #595959 !important;
 }
 
+.off-canvas-hr {
+    background-color: #9a9a9a;
+    height: 1px;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
 .nav-text {
     display: flex;
     height: 50px;
     padding: 1rem;
     text-decoration: none;
     color: var(--pitch-black);
-}
-
-.off-canvas-hr {
-    background-color: #9a9a9a;
-    height: 1px;
-    margin-bottom: 0;
-    margin-top: 0;
 }
 
 .nav-text:hover {
