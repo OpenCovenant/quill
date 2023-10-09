@@ -19,6 +19,11 @@
     background-color: var(--light-mode-color);
 }
 
+.list-group-item-dark-mode {
+    background-color: var(--dark-mode-theme);
+    color: var(--dark-mode-anti-theme);
+}
+
 .card {
     border: 0px solid rgba(0, 0, 0, 0.125);
     box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
@@ -108,6 +113,10 @@
     justify-content: space-between;
 }
 
+.second-header-dark-mode {
+    background-color: var(--dark-mode-theme);
+}
+
 .generated-marking {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -161,6 +170,7 @@
     box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
     border-radius: 5px;
     padding: 5px;
+    overflow: hidden;
 }
 
 .written-text:hover {
@@ -187,6 +197,7 @@
     border-radius: 4px;
     padding-top: 3px;
     padding-bottom: 3px;
+    cursor: pointer;
 }
 
 .loanword {
@@ -194,6 +205,7 @@
     border-radius: 4px;
     padding-top: 3px;
     padding-bottom: 3px;
+    cursor: pointer;
 }
 
 .stylistic {
@@ -201,12 +213,17 @@
     border-radius: 4px;
     padding-top: 3px;
     padding-bottom: 3px;
+    cursor: pointer;
 }
 
 #editor-placeholder {
     position: absolute;
     /*color: #707070;*/
     color: #858585;
+}
+
+.editor-placeholder-dark-mode {
+    color: var(--dark-mode-anti-theme) !important;
 }
 
 .editor-placeholder-text {
@@ -221,59 +238,17 @@
 }
 
 /*TODO: improve the following*/
-#editor > p > .typo {
-    cursor: pointer;
-}
-
-#editor > p > .loanword {
-    cursor: pointer;
-}
-
-#editor > p > .stylistic {
-    cursor: pointer;
-}
-
 .suggestion {
     background-color: #eaeaea;
     border-radius: 4px;
     border: none;
     padding-top: 3px;
     padding-bottom: 3px;
-    color: black;
 }
 
 .suggestion-dark-mode {
     background-color: #686868;
     color: white;
-}
-/*TODO change color on .suggestion:hover ?*/
-
-@media (max-width: 800px) {
-    .high-level-container {
-        flex-direction: column;
-        gap: 2rem !important;
-    }
-
-    #editor {
-        min-width: 90%;
-    }
-
-    /*TODO improve code*/
-    #editor {
-        min-height: 18rem !important;
-    }
-
-    .suggestions {
-        gap: 0.4rem !important;
-    }
-
-    .input-container {
-        margin-right: 3rem;
-    }
-
-    .output-container {
-        margin-left: 3rem;
-    }
 }
 
 .marking-focus {
@@ -282,9 +257,13 @@
     font-weight: bold;
     transition: all 0.1s;
 }
-
-.second-header-dark-mode {
-    background-color: var(--dark-mode-theme);
+.marking-unfocus {
+    border-radius: 4px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    margin: 0;
+    border: 1px solid;
+    font-weight: normal;
 }
 
 .modal-header-dark-mode {
@@ -301,27 +280,53 @@
     background-color: var(--dark-mode-theme);
 }
 
-.supported-documents-text-dark-mode {
-    color: var(--dark-mode-anti-theme);
+
+.sticky {
+    position: sticky;
+    top: 0;
 }
 
-.marking-unfocus {
-    border-radius: 4px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    margin: 0;
-    border: 1px solid;
-    font-weight: normal;
+/*TODO: apply dark mode for the history of the written texts*/
+.written-texts-history-dark-mode {
+    background-color: var(--dark-mode-theme);
 }
 
-.marking-blur {
-    border-radius: 4px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    margin: 0;
-    border: 1px solid;
-    font-weight: normal;
-    filter: blur(2px);
+.clear-typo-element-dark-mode {
+    background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
+}
+
+.btn-secondary {
+    padding: 0.1rem 0.3rem;
+}
+
+.bi-arrow-left {
+    padding-right: 0.5rem;
+}
+/*TODO change color on .suggestion:hover ?*/
+
+@media (max-width: 800px) {
+    .high-level-container {
+        flex-direction: column;
+        gap: 2rem !important;
+    }
+
+    #editor {
+        min-width: 90%;
+        min-height: 18rem !important;
+    }
+
+    /*TODO improve code*/
+    .suggestions {
+        gap: 0.4rem !important;
+    }
+
+    .input-container {
+        margin-right: 3rem;
+    }
+
+    .output-container {
+        margin-left: 3rem;
+    }
 }
 
 /*TODO I don't like these two a lot, write better responsive code, I assume ideally this should be added in flex-stuff*/
@@ -335,29 +340,3 @@
     }
 }
 
-.sticky {
-    position: sticky;
-    top: 0;
-}
-
-.editor-placeholder-dark-mode {
-    color: var(--dark-mode-anti-theme) !important;
-}
-
-.list-group-item-dark-mode {
-    background-color: var(--dark-mode-theme);
-    color: var(--dark-mode-anti-theme);
-}
-
-.input-container-card-dark-mode {
-    background-color: var(--dark-mode-theme);
-}
-
-/*TODO: apply dark mode for the history of the written texts*/
-.written-texts-history-dark-mode {
-    background-color: var(--dark-mode-theme);
-}
-
-.clear-typo-element-dark-mode {
-    background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
-}
