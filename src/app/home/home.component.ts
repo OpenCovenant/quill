@@ -4,11 +4,7 @@ import {
     OnDestroy,
     ViewEncapsulation
 } from '@angular/core';
-import {
-    HttpClient,
-    HttpErrorResponse,
-    HttpResponse
-} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
     BehaviorSubject,
     debounceTime,
@@ -53,8 +49,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
     loading$ = new BehaviorSubject<boolean>(false);
     editorElement!: HTMLElement;
-    highlightingMarking: boolean = false;
-    highlightedMarking: TextMarking | undefined = undefined;
     highlightedMarkingIndex: number = -1;
 
     private placeHolderElement!: HTMLElement;
@@ -76,13 +70,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         this.http.get(this.pingURL).subscribe({
             next: () => console.log('pinging server...'),
-            error: (e: HttpErrorResponse) => {
-                if (e.status === 429) {
-                    this.disableEditorToManyRequests();
-                } else {
-                    this.disableEditor();
-                }
-            }
+            error: (e: HttpErrorResponse) => this.disableEditor(e)
         });
     }
 
@@ -451,9 +439,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * Blurs the currently highlighted board marking.
      */
     blurHighlightedBoardMarking(): void {
-        this.highlightingMarking = false;
         this.highlightedMarkingIndex = -1;
-        this.highlightedMarking = undefined;
     }
 
     /**
@@ -712,14 +698,21 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             .subscribe();
     }
 
-    private disableEditor(): void {
+    private disableEditor(errorResponse: HttpErrorResponse): void {
+        const errorMessage =
+            errorResponse.status === 429
+                ? 'Tepër kërkesa për shenjime për momentin'
+                : 'Fatkeqësisht kemi një problem me serverat. Ju kërkojmë ndjesë, ndërsa kërkojme për një zgjidhje.';
         (
             document.getElementById(this.EDITOR_KEY) as HTMLDivElement
         ).contentEditable = 'false';
 
-        document.getElementById(this.PLACEHOLDER_ELEMENT_ID)!.innerText =
-            'Fatkeqësisht kemi një problem me serverat. Ju kërkojmë ndjesë, ndërsa kërkojme për një zgjidhje.';
-
+        const placeholderElement = document.getElementById(
+            this.PLACEHOLDER_ELEMENT_ID
+        );
+        if (placeholderElement) {
+            placeholderElement.innerText = errorMessage;
+        }
         (
             document.querySelectorAll(
                 '.card-header button'
@@ -743,9 +736,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * @param {number} textMarkingIndex
      */
     private highlightBoardMarking(textMarkingIndex: number): void {
-        this.highlightingMarking = true;
-        this.highlightedMarking =
-            this.processedText?.textMarkings[textMarkingIndex];
         this.highlightedMarkingIndex = textMarkingIndex;
     }
 
@@ -759,20 +749,5 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             );
             copyToClipboardButton.style.color = 'black';
         }, 2 * this.SECONDS);
-    }
-
-    private disableEditorToManyRequests(): void {
-        (
-            document.getElementById(this.EDITOR_KEY) as HTMLDivElement
-        ).contentEditable = 'false';
-
-        document.getElementById(this.PLACEHOLDER_ELEMENT_ID)!.innerText =
-            'Tepër kërkesa për shenjime për momentin';
-
-        (
-            document.querySelectorAll(
-                '.card-header button'
-            ) as NodeListOf<HTMLButtonElement>
-        ).forEach((b) => (b.disabled = true));
     }
 }
