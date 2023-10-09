@@ -221,10 +221,10 @@
         </div>
         <div
             *ngIf="processedText?.textMarkings"
-            [ngClass]="{ sticky: highlightingMarking }"
+            [ngClass]="{ sticky: this.highlightedMarkingIndex === -1 }"
         >
             <ng-template
-                [ngIf]="!highlightingMarking"
+                [ngIf]="this.highlightedMarkingIndex === -1"
                 [ngIfElse]="highlightedMarkingTemplate"
             >
                 <div
@@ -232,7 +232,8 @@
                         let textMarking of processedText?.textMarkings;
                         index as i
                     "
-                    class="card border-secondary {{ i > 0 ? 'mt-2 mb-2' : '' }}"
+                    class="card border-secondary"
+                    [ngClass]="{ 'mt-2 mb-2': i > 0 }"
                 >
                     <div
                         class="card-header second-header"
@@ -254,7 +255,7 @@
                                 type="button"
                                 class="btn-close text-reset cursor-pointer"
                                 [ngClass]="{
-                                    'clear-element-dark-mode':
+                                    'clear-typo-element-dark-mode':
                                         darkModeService.isDarkMode
                                 }"
                                 title="hiq shenjimin"
@@ -350,7 +351,7 @@
                         <div class="grid1">
                             <span
                                 class="text-marking {{
-                                    highlightedMarking?.type
+                                    processedText?.textMarkings?.[highlightedMarkingIndex]?.type
                                 }}"
                                 data-test="highlighted-text-marking"
                                 >{{
@@ -362,7 +363,7 @@
                         </div>
                         <div>
                             <button
-                                (click)="blurFocusedRightSideMarking()"
+                                (click)="blurHighlightedBoardMarking()"
                                 class="btn btn-secondary"
                                 style="font-size: 1rem; padding: 0.1rem 0.3rem"
                                 data-test="blur-marking-button"
@@ -388,16 +389,21 @@
                         >
                             <div class="d-flex">
                                 <div>
-                                    <b>{{ highlightedMarking?.subtype }}</b> -
+                                    <b
+                                        >{{  processedText?.textMarkings?.[highlightedMarkingIndex]?.subtype }}</b
+                                    >
+                                    -
                                     <span>{{
-                                        highlightedMarking?.description
+                                        processedText?.textMarkings?.[highlightedMarkingIndex]?.description
                                     }}</span>
                                 </div>
-                                <div *ngIf="highlightedMarking?.id">
+                                <div
+                                    *ngIf=" processedText?.textMarkings?.[highlightedMarkingIndex]?.id"
+                                >
                                     <i
                                         class="bi bi-info-circle information-circle"
                                         routerLink="{{
-                                            highlightedMarking?.id
+                                            processedText?.textMarkings?.[highlightedMarkingIndex]?.id
                                         }}"
                                         data-test="marking-information-icon"
                                     ></i>
@@ -405,21 +411,21 @@
                             </div>
                             <span
                                 *ngIf="
-                                    highlightedMarking !== undefined &&
-                                    (highlightedMarking?.suggestions)!.length >
+                                processedText?.textMarkings?.[highlightedMarkingIndex] !== undefined &&
+                                    ( processedText?.textMarkings?.[highlightedMarkingIndex]?.suggestions)!.length >
                                         0
                                 "
                             >
                                 <div class="suggestions">
                                     <button
                                         *ngFor="
-                                            let suggestion of highlightedMarking?.suggestions!.slice(
+                                            let suggestion of  processedText?.textMarkings?.[highlightedMarkingIndex]?.suggestions!.slice(
                                                 0,
                                                 shouldCollapseSuggestions[
                                                     highlightedMarkingIndex
                                                 ]
                                                     ? 4
-                                                    : (highlightedMarking?.suggestions)!
+                                                    : ( processedText?.textMarkings?.[highlightedMarkingIndex]?.suggestions)!
                                                           .length
                                             );
                                             index as j
@@ -438,7 +444,7 @@
                                     <div
                                         class="pipe-separator"
                                         *ngIf="
-                                            (highlightedMarking?.suggestions)!
+                                            ( processedText?.textMarkings?.[highlightedMarkingIndex]?.suggestions)!
                                                 .length > 4
                                         "
                                     >
@@ -446,7 +452,7 @@
                                     </div>
                                     <div
                                         *ngIf="
-                                            (highlightedMarking?.suggestions)!
+                                            ( processedText?.textMarkings?.[highlightedMarkingIndex]?.suggestions)!
                                                 .length > 4
                                         "
                                     >
@@ -457,13 +463,14 @@
                                                     $event
                                                 )
                                             "
-                                            class="bi suggestions-header {{
+                                            class="bi suggestions-header"
+                                            [ngClass]="
                                                 shouldCollapseSuggestions[
                                                     highlightedMarkingIndex
                                                 ]
                                                     ? 'bi-arrow-right-square'
                                                     : 'bi-arrow-left-square'
-                                            }}"
+                                            "
                                             data-test="oscillate-suggestions-button"
                                         ></h3>
                                     </div>
