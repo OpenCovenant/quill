@@ -1,19 +1,15 @@
-div:first-of-type {
-    background-color: #f8f9fa;
-}
-
 footer div:first-child {
-    color: #444444;
+    color: var(--dark-mode-theme);
     padding-top: 10px;
-    font-size: 15px;
-}
-
-a {
-    text-decoration: none;
     font-size: 15px;
 }
 
 .footer-dark-mode {
     color: var(--dark-mode-anti-theme) !important;
-    background-color: var(--dark-mode-theme) !important;
+    background-color: var(--dark-mode-theme);
+}
+
+.section-anchor {
+    text-decoration: none;
+    font-size: 15px;
 }
