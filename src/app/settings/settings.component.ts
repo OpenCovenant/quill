@@ -41,7 +41,6 @@ export class SettingsComponent implements OnInit {
                 this.markingTypes.forEach((mT) =>
                     localStorage.setItem(mT[0], mT[1].enabled)
                 );
-                this.isLoading = false;
 
             } else {
                 // TODO: lot of cases here in which more/less types come from the endpoint than are in local storage
