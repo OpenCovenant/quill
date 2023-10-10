@@ -245,6 +245,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
                     editor.childNodes.forEach(
                         (childNode: ChildNode, index: number) => {
+                            const isLastChildNode =
+                                index === editor.childNodes.length - 1
+                                    ? true
+                                    : false;
                             const p = document.createElement('p');
                             p.innerHTML = childNode.textContent!;
                             if (childNode.textContent === this.EMPTY_STRING) {
@@ -253,6 +257,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                             editor.replaceChild(p, childNode);
                             markText(
                                 p,
+                                consumableTextMarkings.length,
+                                isLastChildNode,
                                 consumableTextMarkings.filter(
                                     (tm: TextMarking) => tm.paragraph === index
                                 )
@@ -479,6 +485,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
                     editor.childNodes.forEach(
                         (childNode: ChildNode, index: number) => {
+                            const isLastChildNode =
+                                index === editor.childNodes.length - 1
+                                    ? true
+                                    : false;
                             const p: HTMLParagraphElement =
                                 document.createElement('p');
                             p.innerHTML = childNode.textContent!;
@@ -488,6 +498,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                             editor.replaceChild(p, childNode);
                             markText(
                                 p,
+                                consumableTextMarkings.length,
+                                isLastChildNode,
                                 consumableTextMarkings.filter(
                                     (tm: TextMarking) => tm.paragraph === index
                                 )

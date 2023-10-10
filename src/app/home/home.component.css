@@ -237,7 +237,33 @@
     text-decoration: underline;
 }
 
-/*TODO: improve the following*/
+@keyframes fillBackground {
+    0% {
+        background-position: 100% 0%;
+    }
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+.animate-marking-text {
+    background: linear-gradient(to left, transparent 50%, var(--typo-color) 0);
+    background-size: 200% 100%;
+    animation: fillBackground 500ms linear forwards;
+}
+
+#editor > p > .typo {
+    cursor: pointer;
+}
+
+#editor > p > .loanword {
+    cursor: pointer;
+}
+
+#editor > p > .stylistic {
+    cursor: pointer;
+}
+
 .suggestion {
     background-color: #eaeaea;
     border-radius: 4px;
