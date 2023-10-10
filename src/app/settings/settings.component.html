@@ -2,42 +2,52 @@
     <div style="display: flex; justify-content: center; padding-top: 2rem">
         <div class="card p-3" style="width: 60%">
             <div class="card-body placeholder-glow">
-
-                <h3 class="skeleton-header placeholder col-3 placeholder-lg"> </h3>
-                <br>
-                <br>
-                <h5 class="col-4 placeholder"> </h5>
-                <hr>
+                <h3
+                    class="skeleton-header placeholder col-3 placeholder-lg"
+                ></h3>
+                <br />
+                <br />
+                <h5 class="col-4 placeholder"></h5>
+                <hr />
                 <div class="d-flex" style="justify-content: space-between">
-                    <h5 class="col-6 placeholder"> </h5>
-                    <span class="placeholder col-1 skeleton-border-radius"></span>
+                    <h5 class="col-6 placeholder"></h5>
+                    <span
+                        class="placeholder col-1 skeleton-border-radius"
+                    ></span>
                 </div>
                 <br />
                 <br />
-                <div class="section-two placeholder-glow ">
-                    <h5 class="col-4 placeholder"> </h5>
-                    <hr>
+                <div class="section-two placeholder-glow">
+                    <h5 class="col-4 placeholder"></h5>
+                    <hr />
                     <p class="placeholder col-8"></p>
                     <div class="d-flex" style="justify-content: space-between">
                         <span class="placeholder col-3"></span>
-                        <span class="placeholder col-1 skeleton-border-radius"></span>
+                        <span
+                            class="placeholder col-1 skeleton-border-radius"
+                        ></span>
                     </div>
-                    <br>
+                    <br />
                     <div class="d-flex" style="justify-content: space-between">
                         <span class="placeholder col-2"></span>
-                        <span class="placeholder col-1 skeleton-border-radius"></span>
+                        <span
+                            class="placeholder col-1 skeleton-border-radius"
+                        ></span>
                     </div>
-                    <br>
+                    <br />
                     <div class="d-flex" style="justify-content: space-between">
                         <span class="placeholder col-2"></span>
-                        <span class="placeholder col-1 skeleton-border-radius"></span>
+                        <span
+                            class="placeholder col-1 skeleton-border-radius"
+                        ></span>
                     </div>
-                    <br>
+                    <br />
                     <div class="d-flex" style="justify-content: space-between">
                         <span class="placeholder col-3"></span>
-                        <span class="placeholder col-1 skeleton-border-radius"></span>
+                        <span
+                            class="placeholder col-1 skeleton-border-radius"
+                        ></span>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -46,12 +56,19 @@
 
 <ng-template #loadingTemplate>
     <div style="display: flex; justify-content: center; padding-top: 2rem">
-        <div class="card p-3" style="width: 60%" [ngClass]="{
-            'settings-dark-mode': darkModeService.isDarkMode
-        }">
-            <div class="card-body" [ngClass]="{
-                'card-body-dark-mode': darkModeService.isDarkMode
-            }">
+        <div
+            class="card p-3"
+            style="width: 60%"
+            [ngClass]="{
+                'settings-dark-mode': darkModeService.isDarkMode
+            }"
+        >
+            <div
+                class="card-body"
+                [ngClass]="{
+                    'card-body-dark-mode': darkModeService.isDarkMode
+                }"
+            >
                 <h3 class="card-title">Cilësimet</h3>
                 <br />
                 <br />
@@ -59,15 +76,26 @@
                 <div>
                     <h5>Pamje e Errët</h5>
                     <hr />
-                    <div class="d-flex dark-mode-div" style="justify-content: space-between">
+                    <div
+                        class="d-flex dark-mode-div"
+                        style="justify-content: space-between"
+                    >
                         <div>
-                            Zgjidhni pamjen e faqes e cila ju përshtatet më shumë
+                            Zgjidhni pamjen e faqes e cila ju përshtatet më
+                            shumë
                         </div>
                         <div class="toggle-switch">
                             <label class="dark-mode-label cursor-pointer">
-                                <input data-test="dark-mode-button-toggle-switch" class="dark-mode-input"
-                                    type="checkbox" [id]="darkModeService" [(ngModel)]="darkModeService.isDarkMode"
-                                    (change)="darkModeService.onDarkModeChange()" />
+                                <input
+                                    data-test="dark-mode-button-toggle-switch"
+                                    class="dark-mode-input"
+                                    type="checkbox"
+                                    [id]="darkModeService"
+                                    [(ngModel)]="darkModeService.isDarkMode"
+                                    (change)="
+                                        darkModeService.onDarkModeChange()
+                                    "
+                                />
                                 <span class="dark-mode-slider"></span>
                             </label>
                         </div>
@@ -86,29 +114,51 @@
                     </p>
                     <!--                <hr />-->
 
-                    <div *ngFor="let markingType of markingTypes" class="d-flex" style="justify-content: space-between">
+                    <div
+                        *ngFor="let markingType of markingTypes"
+                        class="d-flex"
+                        style="justify-content: space-between"
+                    >
                         <span>
                             <span>{{ markingType[1].description }}</span>
-                            <span routerLink="/{{ markingType[0] }}" class="cursor-pointer"
-                                style="color: gray; margin-left: 0.5rem"><i class="bi bi-box-arrow-up-right"></i></span>
+                            <span
+                                routerLink="/{{ markingType[0] }}"
+                                class="cursor-pointer"
+                                style="color: gray; margin-left: 0.5rem"
+                                ><i class="bi bi-box-arrow-up-right"></i
+                            ></span>
                         </span>
 
                         <span>
-                            <label class="marking-type-label" style="margin-bottom: 1.5rem; margin-right: 0.5rem"
-                                [for]="markingType[0]">
-                                <input class="marking-type-input" role="switch" type="checkbox" [id]="markingType[0]"
-                                    [value]="markingType[1].description" [(ngModel)]="markingType[1].enabled"
+                            <label
+                                class="marking-type-label"
+                                style="
+                                    margin-bottom: 1.5rem;
+                                    margin-right: 0.5rem;
+                                "
+                                [for]="markingType[0]"
+                            >
+                                <input
+                                    class="marking-type-input"
+                                    role="switch"
+                                    type="checkbox"
+                                    [id]="markingType[0]"
+                                    [value]="markingType[1].description"
+                                    [(ngModel)]="markingType[1].enabled"
                                     (ngModelChange)="
-                                    onMarkingTypeSelection(
-                                        markingType[0],
-                                        $event
-                                    )
-                                " data-test="switch-check-testing" /><span class="slider round cursor-pointer"></span>
-                            </label></span>
+                                        onMarkingTypeSelection(
+                                            markingType[0],
+                                            $event
+                                        )
+                                    "
+                                    data-test="switch-check-testing"
+                                /><span
+                                    class="slider round cursor-pointer"
+                                ></span> </label
+                        ></span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 </ng-template>
