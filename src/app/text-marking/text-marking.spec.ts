@@ -39,7 +39,7 @@ describe('Marker', () => {
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
         editor.innerHTML = editor.innerHTML.replace(
-            /\s*\banimate-marking-text\b\s*/g,
+            /\s*\banimated-typo-marking\b\s*/g,
             ''
         );
 
@@ -71,7 +71,7 @@ describe('Marker', () => {
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
         editor.innerHTML = editor.innerHTML.replace(
-            /\s*\banimate-marking-text\b\s*/g,
+            /\s*\banimated-typo-marking\b\s*/g,
             ''
         );
 
@@ -103,7 +103,7 @@ describe('Marker', () => {
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
         editor.innerHTML = editor.innerHTML.replace(
-            /\s*\banimate-marking-text\b\s*/g,
+            /\s*\banimated-typo-marking\b\s*/g,
             ''
         );
 
@@ -135,7 +135,7 @@ describe('Marker', () => {
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
         editor.innerHTML = editor.innerHTML.replace(
-            /\s*\banimate-marking-text\b\s*/g,
+            /\s*\banimated-stylistic-marking\b\s*/g,
             ''
         );
 
@@ -167,7 +167,7 @@ describe('Marker', () => {
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
         editor.innerHTML = editor.innerHTML.replace(
-            /\s*\banimate-marking-text\b\s*/g,
+            /\s*\banimated-loanword-marking\b\s*/g,
             ''
         );
 
@@ -208,7 +208,7 @@ describe('Marker', () => {
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
         editor.innerHTML = editor.innerHTML.replace(
-            /\s*\banimate-marking-text\b\s*/g,
+            /\s*\banimated-typo-marking\b\s*/g,
             ''
         );
 
@@ -249,7 +249,11 @@ describe('Marker', () => {
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
         editor.innerHTML = editor.innerHTML.replace(
-            /\s*\banimate-marking-text\b\s*/g,
+            /\s*\banimated-loanword-marking\b\s*/g,
+            ''
+        );
+        editor.innerHTML = editor.innerHTML.replace(
+            /\s*\banimated-stylistic-marking\b\s*/g,
             ''
         );
 
@@ -290,7 +294,11 @@ describe('Marker', () => {
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
         editor.innerHTML = editor.innerHTML.replace(
-            /\s*\banimate-marking-text\b\s*/g,
+            /\s*\banimated-stylistic-marking\b\s*/g,
+            ''
+        );
+        editor.innerHTML = editor.innerHTML.replace(
+            /\s*\banimated-typo-marking\b\s*/g,
             ''
         );
 
@@ -331,7 +339,11 @@ describe('Marker', () => {
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
         editor.innerHTML = editor.innerHTML.replace(
-            /\s*\banimate-marking-text\b\s*/g,
+            /\s*\banimated-stylistic-marking\b\s*/g,
+            ''
+        );
+        editor.innerHTML = editor.innerHTML.replace(
+            /\s*\banimated-typo-marking\b\s*/g,
             ''
         );
 
@@ -373,7 +385,11 @@ describe('Marker', () => {
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
         editor.innerHTML = editor.innerHTML.replace(
-            /\s*\banimate-marking-text\b\s*/g,
+            /\s*\banimated-stylistic-marking\b\s*/g,
+            ''
+        );
+        editor.innerHTML = editor.innerHTML.replace(
+            /\s*\banimated-typo-marking\b\s*/g,
             ''
         );
 
@@ -415,7 +431,11 @@ describe('Marker', () => {
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
         editor.innerHTML = editor.innerHTML.replace(
-            /\s*\banimate-marking-text\b\s*/g,
+            /\s*\banimated-stylistic-marking\b\s*/g,
+            ''
+        );
+        editor.innerHTML = editor.innerHTML.replace(
+            /\s*\banimated-typo-marking\b\s*/g,
             ''
         );
 
@@ -456,7 +476,11 @@ describe('Marker', () => {
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
         editor.innerHTML = editor.innerHTML.replace(
-            /\s*\banimate-marking-text\b\s*/g,
+            /\s*\banimated-stylistic-marking\b\s*/g,
+            ''
+        );
+        editor.innerHTML = editor.innerHTML.replace(
+            /\s*\banimated-typo-marking\b\s*/g,
             ''
         );
 
@@ -498,7 +522,11 @@ describe('Marker', () => {
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
         editor.innerHTML = editor.innerHTML.replace(
-            /\s*\banimate-marking-text\b\s*/g,
+            /\s*\banimated-stylistic-marking\b\s*/g,
+            ''
+        );
+        editor.innerHTML = editor.innerHTML.replace(
+            /\s*\banimated-typo-marking\b\s*/g,
             ''
         );
 
@@ -547,7 +575,15 @@ describe('Marker', () => {
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
         editor.innerHTML = editor.innerHTML.replace(
-            /\s*\banimate-marking-text\b\s*/g,
+            /\s*\banimated-stylistic-marking\b\s*/g,
+            ''
+        );
+        editor.innerHTML = editor.innerHTML.replace(
+            /\s*\banimated-typo-marking\b\s*/g,
+            ''
+        );
+        editor.innerHTML = editor.innerHTML.replace(
+            /\s*\banimated-loanword-marking\b\s*/g,
             ''
         );
 
@@ -597,7 +633,15 @@ describe('Marker', () => {
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
         editor.innerHTML = editor.innerHTML.replace(
-            /\s*\banimate-marking-text\b\s*/g,
+            /\s*\banimated-typo-marking\b\s*/g,
+            ''
+        );
+        editor.innerHTML = editor.innerHTML.replace(
+            /\s*\banimated-typo-marking\b\s*/g,
+            ''
+        );
+        editor.innerHTML = editor.innerHTML.replace(
+            /\s*\banimated-typo-marking\b\s*/g,
             ''
         );
 
@@ -647,9 +691,18 @@ describe('Marker', () => {
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
         editor.innerHTML = editor.innerHTML.replace(
-            /\s*\banimate-marking-text\b\s*/g,
+            /\s*\banimated-typo-marking\b\s*/g,
             ''
         );
+        editor.innerHTML = editor.innerHTML.replace(
+            /\s*\banimated-typo-marking\b\s*/g,
+            ''
+        );
+        editor.innerHTML = editor.innerHTML.replace(
+            /\s*\banimated-typo-marking\b\s*/g,
+            ''
+        );
+
         expect(editor).toEqual(expectedEditor);
     });
 
@@ -696,9 +749,18 @@ describe('Marker', () => {
         expectedEditor.id = EDITOR_ID;
         expectedEditor.innerHTML = expectedHMTL;
         editor.innerHTML = editor.innerHTML.replace(
-            /\s*\banimate-marking-text\b\s*/g,
+            /\s*\banimated-typo-marking\b\s*/g,
             ''
         );
+        editor.innerHTML = editor.innerHTML.replace(
+            /\s*\banimated-typo-marking\b\s*/g,
+            ''
+        );
+        editor.innerHTML = editor.innerHTML.replace(
+            /\s*\banimated-typo-marking\b\s*/g,
+            ''
+        );
+
         expect(editor).toEqual(expectedEditor);
     });
 });
