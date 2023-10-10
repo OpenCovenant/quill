@@ -52,6 +52,7 @@ which the actual name is obviously optional.
 - AndersonCeci (Anderson Ceci) - developer
 - AndiBraimllari (Andi Braimllari) - core developer
 - Kledis98 ( Kledis Myrtollari) - developer
+- vaqueraoscar0 (Oscar Vaquera) - developer
 
 To get started with contributing, simply create an [issue](https://github.com/OpenCovenant/quill/issues) if there's a
 concern to be addressed, or a [pull request](https://github.com/OpenCovenant/quill/pulls) if there are changes you'd
