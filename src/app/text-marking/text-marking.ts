@@ -1,7 +1,9 @@
 import { TextMarking } from '../models/text-marking';
 
 const SPAN_TAG = 'span';
-const MARKING_TEXT = 'animate-marking-text';
+const ANIMATED_TYPO_MARKING_CLASS = 'animated-typo-marking';
+const ANIMATED_LOANWORD_MARKING_CLASS = 'animated-loanword-marking';
+const ANIMATED_STYLISTIC_MARKING_CLASS = 'animated-stylistic-marking';
 const highlightedMarkingWords: Array<string> = [];
 const lastHighlightedMarkingWords: Array<string> = [];
 let markingIndex = 0;
@@ -99,7 +101,11 @@ export function markText(
                         );
                     }
 
-                    applyMarkingFadein(newNode, newTextContent); // Text Highlighting logic
+                    applyMarkingFadein(
+                        newNode,
+                        textMarking.type,
+                        newTextContent
+                    ); // Text Highlighting logic
                     newNode.innerHTML = newTextContent;
                     newNodes.push(newNode);
                 }
@@ -137,24 +143,28 @@ export function markText(
  * whether to apply animations to the nodes based on the changes detected.
  * The logic considers scenarios where nodes are added, removed, or modified.
  */
-function applyMarkingFadein(newNode: HTMLElement, newTextContent: string) {
+function applyMarkingFadein(
+    newNode: HTMLElement,
+    textMarkingType: string,
+    newTextContent: string
+) {
     highlightedMarkingWords.push(newTextContent);
 
     // Check if there are any previous markings
     if (lastHighlightedMarkingWords.length === 0) {
         // If no previous markings (first time marking), apply animation to the new node
-        updateHighlightingMarkings(newNode, 'add');
+        updateHighlightingMarkings(newNode, textMarkingType, 'add');
     } else if (lastHighlightedMarkingWords.length < markingIndex) {
         // If fewer markings than old state, apply animation to the new node
-        updateHighlightingMarkings(newNode, 'add');
+        updateHighlightingMarkings(newNode, textMarkingType, 'add');
     } else if (lastHighlightedMarkingWords[markingIndex] === newTextContent) {
         // If the current marking is the same, remove animation
-        updateHighlightingMarkings(newNode, 'remove');
+        updateHighlightingMarkings(newNode, textMarkingType, 'remove');
     } else if (lastHighlightedMarkingWords[markingIndex] !== newTextContent) {
         // Handle scenarios for adding, removing, nodes
-        updatedMarkings(newNode, newTextContent);
+        updatedMarkings(newNode, textMarkingType, newTextContent);
     } else {
-        updateHighlightingMarkings(newNode, 'remove');
+        updateHighlightingMarkings(newNode, textMarkingType, 'remove');
     }
 
     markingIndex++;
@@ -167,7 +177,11 @@ function applyMarkingFadein(newNode: HTMLElement, newTextContent: string) {
  * @param newNode - The HTML element representing the updated node.
  * @param newTextContent - The new text content of the updated node.
  */
-function updatedMarkings(newNode: HTMLElement, newTextContent: string): void {
+function updatedMarkings(
+    newNode: HTMLElement,
+    textMarkingType: string,
+    newTextContent: string
+): void {
     // Handle scenarios for additions, removals, and modifications
     const deletedNodeNum: number =
         lastHighlightedMarkingWords.length - maxMarkings; // gets the difference between the old state's length and the new one.
@@ -179,16 +193,16 @@ function updatedMarkings(newNode: HTMLElement, newTextContent: string): void {
     ) {
         // If a new first node was added, insert it and apply animation
         lastHighlightedMarkingWords.splice(markingIndex, 0, newTextContent);
-        updateHighlightingMarkings(newNode, 'add');
+        updateHighlightingMarkings(newNode, textMarkingType, 'add');
     } else if (
         lastHighlightedMarkingWords[markingIndex + deletedNodeNum] ===
         newTextContent
     ) {
         // Remove the item if it was changed back to the previous content
-        updateHighlightingMarkings(newNode, 'remove');
+        updateHighlightingMarkings(newNode, textMarkingType, 'remove');
         lastHighlightedMarkingWords.splice(markingIndex, 1);
     } else {
-        updateHighlightingMarkings(newNode, 'remove');
+        updateHighlightingMarkings(newNode, textMarkingType, 'remove');
         lastHighlightedMarkingWords.splice(markingIndex, 1, newTextContent);
     }
 }
@@ -220,12 +234,25 @@ function isLastCall(isLastChildNode: boolean, typoElements: number): void {
  */
 function updateHighlightingMarkings(
     newNode: HTMLElement,
+    textMarkingType: string,
     status: string
 ): void {
     if (status === 'add') {
-        newNode.classList.add(MARKING_TEXT);
+        if (textMarkingType === 'typo') {
+            newNode.classList.add(ANIMATED_TYPO_MARKING_CLASS);
+        } else if (textMarkingType === 'loanword') {
+            newNode.classList.add(ANIMATED_LOANWORD_MARKING_CLASS);
+        } else if (textMarkingType === 'stylistic') {
+            newNode.classList.add(ANIMATED_STYLISTIC_MARKING_CLASS);
+        }
     } else {
-        newNode.classList.remove(MARKING_TEXT);
+        if (textMarkingType === 'typo') {
+            newNode.classList.remove(ANIMATED_TYPO_MARKING_CLASS);
+        } else if (textMarkingType === 'loanword') {
+            newNode.classList.remove(ANIMATED_LOANWORD_MARKING_CLASS);
+        } else if (textMarkingType === 'stylistic') {
+            newNode.classList.remove(ANIMATED_STYLISTIC_MARKING_CLASS);
+        }
     }
 }
 
