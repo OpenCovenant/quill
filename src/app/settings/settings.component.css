@@ -129,3 +129,9 @@
     background-color: #797979;
     box-shadow: inset -7px -3px 0 0 #ffffff;
 }
+.skeleton-border-radius{
+    border-radius: 50px;
+}
+.section-two{
+    padding-top: 1rem;
+}
