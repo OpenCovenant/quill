@@ -346,6 +346,9 @@
 .bi-arrow-left {
     padding-right: 0.5rem;
 }
+.suggestions-header {
+    cursor: pointer;
+}
 
 /*TODO change color on .suggestion:hover ?*/
 @media (max-width: 800px) {
