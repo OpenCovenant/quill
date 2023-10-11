@@ -52,7 +52,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     highlightingMarking: boolean = false;
     highlightedMarking: TextMarking | undefined = undefined;
     highlightedMarkingIndex: number = -1;
-    maxCharacters = 10000;
+    maxCharacters = 15000;
     maxCharactersMessageDynamic = '';
     editor = document.getElementById('editor');
 
@@ -142,31 +142,33 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     /**
      * Updates the character count field to the number of characters shown in the editor
      */
-    updateCharacterCount(): void {
+    updateCharacterCount(): boolean {
         let editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
         if (editor.innerHTML === this.LINE_BROKEN_PARAGRAPH) {
             this.characterCount = 0;
-            return;
+            return false; // Character limit not exceeded
         }
-        this.characterCount = document
-            .getElementById(this.EDITOR_KEY)!
-            .innerText.replace(/\n/g, this.EMPTY_STRING).length;
-        
-        const textWithoutLineBreaks = editor.innerText.replace(/\n/, this.EMPTY_STRING).trim();
-        
+        this.characterCount = editor.innerText.replace(/\n/g, this.EMPTY_STRING).length;
+
+        const textWithoutLineBreaks = editor.innerText.replace(/\n/g, this.EMPTY_STRING).trim();
+
         if (textWithoutLineBreaks.length >= this.maxCharacters) {
             // Prevent further input by removing the last character
             editor.innerText = textWithoutLineBreaks.slice(0, this.maxCharacters);
-            this.maxCharactersMessageDynamic= "Keni arritur kufirin e 10 mije karaktereve, shkurtoni shkrimin"; 
+            this.maxCharactersMessageDynamic =
+                'Keni arritur kufirin e 10 mijë karaktereve, shkurtoni shkrimin';
             const scrollToEndOfEditor = document.querySelector('.flex1');
             if (scrollToEndOfEditor) {
                 scrollToEndOfEditor.scrollIntoView({ behavior: 'smooth' });
+            }
+            return true; // Character limit exceeded
         } else {
             // Text is within the limit, clear the dynamic message
             this.maxCharactersMessageDynamic = '';
+            return false; // Character limit not exceeded
+        }
     }
-}
-    }
+
 
     /**
      * Updates the word count field to the number of words shown in the editor
@@ -190,24 +192,26 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * @param {Event} $event the event emitted when the file is selected
      */
     uploadDocument($event: Event): void {
-        const fileList: FileList | null = ($event.target as HTMLInputElement)
-            .files;
+        const fileList: FileList | null = ($event.target as HTMLInputElement).files;
         if (fileList && fileList.length === 1) {
             const file: File = fileList[0];
             const formData: FormData = new FormData();
             formData.append('uploadFile', file, file.name);
-            this.http
-                .post(this.uploadDocumentURL, formData)
-                .subscribe((next) => {
-                    this.processedText = next as ProcessedText;
-                    this.shouldCollapseSuggestions = new Array<boolean>(
-                        this.processedText.textMarkings.length
-                    ).fill(true);
-                    document.getElementById(this.EDITOR_KEY)!.innerHTML =
-                        this.processedText.text; // TODO: improve to add newlines and such
-                    // this.innerHTMLOfEditor = this.LINE_BROKEN_PARAGRAPH; // TODO careful with the <br> here
+            this.http.post(this.uploadDocumentURL, formData).subscribe((next) => {
+                this.processedText = next as ProcessedText;
+                this.shouldCollapseSuggestions = new Array<boolean>(
+                    this.processedText.textMarkings.length
+                ).fill(true);
+                const editor = document.getElementById(this.EDITOR_KEY)!;
+                editor.innerHTML = this.processedText.text; // TODO: improve to add newlines and such
+
+                // Check if character limit is exceeded
+                if (this.updateCharacterCount()) {
+                    this.maxCharactersMessageDynamic='Keni arritur kufirin e 10 mijë karaktereve, shkurtoni shkrimin';
+                } else {
                     this.markEditor(CursorPlacement.END);
-                });
+                }
+            });
         } else {
             alert('Ngarko vetëm një dokument!');
         }
