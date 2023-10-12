@@ -16,10 +16,11 @@
                     <div
                         id="editor"
                         (paste)="onTextPaste($event)"
-                        (keydown)='onKeyDown($event)'
+                        (keydown)="onKeyDown($event)"
                         [ngClass]="{
                             'editor-dark-mode': darkModeService.isDarkMode,
-                            'editor-max-characters': characterCount >= MAX_EDITOR_CHARACTERS
+                            'editor-max-characters':
+                                characterCount >= MAX_EDITOR_CHARACTERS
                         }"
                         contenteditable="true"
                         [innerHTML]="innerHTMLOfEditor"
