@@ -14,6 +14,7 @@ export class SettingsComponent implements OnInit {
 
     baseURL!: string;
     markingTypesURL!: string;
+    isLoading: boolean = true;
 
     markingTypes: any[] = [];
 
@@ -47,6 +48,7 @@ export class SettingsComponent implements OnInit {
                         e[1].enabled = localStorage.getItem(e[0]) === 'true';
                         return e;
                     });
+                this.isLoading = false;
             }
         });
     }
