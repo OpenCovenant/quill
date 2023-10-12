@@ -148,25 +148,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             this.characterCount = 0;
             return;
         }
-        this.characterCount = document
-            .getElementById(this.EDITOR_KEY)!
-            .innerText.replace(/\n/g, this.EMPTY_STRING).length;
-
-        const textWithoutLineBreaks = editor.innerText
-            .replace(/\n/g, this.EMPTY_STRING)
-            .trim();
-
-        if (textWithoutLineBreaks.length >= this.MAX_EDITOR_CHARACTERS) {
-            // Prevent further input by removing the last character
-            editor.innerText = textWithoutLineBreaks.slice(
-                0,
-                this.MAX_EDITOR_CHARACTERS
-            );
-            const scrollToEndOfEditor = document.querySelector('.flex1');
-            if (scrollToEndOfEditor) {
-                scrollToEndOfEditor.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
+        this.characterCount = editor.innerText.replace(
+            /\n/g,
+            this.EMPTY_STRING
+        ).length;
     }
 
     /**
