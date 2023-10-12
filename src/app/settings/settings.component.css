@@ -140,10 +140,10 @@
     margin-left: 0.5rem;
 }
 
-.d-flex-dark-mode {
+.display-flex-dark-mode {
     justify-content: space-between;
 }
 
-.d-flex {
+.display-flex {
     justify-content: space-between;
 }

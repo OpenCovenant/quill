@@ -130,6 +130,7 @@
 
 .information-circle {
     font-size: 20px;
+    cursor: pointer;
 }
 
 .suggestions {
@@ -345,6 +346,18 @@
 
 .bi-arrow-left {
     padding-right: 0.5rem;
+}
+
+.suggestions-header {
+    cursor: pointer;
+}
+
+.text-reset {
+    cursor: pointer;
+}
+
+.display-flex {
+    justify-content: space-between;
 }
 
 /*TODO change color on .suggestion:hover ?*/

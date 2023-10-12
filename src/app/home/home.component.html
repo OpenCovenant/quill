@@ -12,7 +12,7 @@
                     'card-body-dark-mode': darkModeService.isDarkMode
                 }"
             >
-                <div class="d-flex">
+                <div class="d-flex display-flex">
                     <div
                         id="editor"
                         (paste)="onTextPaste($event)"
@@ -51,7 +51,7 @@
                     <div *ngIf="editorHasText()">
                         <button
                             type="button"
-                            class="btn-close text-reset cursor-pointer"
+                            class="btn-close text-reset"
                             [ngClass]="{
                                 'clear-element-dark-mode':
                                     darkModeService.isDarkMode
@@ -253,7 +253,7 @@
                             <button
                                 (click)="deleteTextMarking(i)"
                                 type="button"
-                                class="btn-close text-reset cursor-pointer"
+                                class="btn-close text-reset"
                                 [ngClass]="{
                                     'clear-typo-element-dark-mode':
                                         darkModeService.isDarkMode
@@ -272,14 +272,14 @@
                                     darkModeService.isDarkMode
                             }"
                         >
-                            <div class="d-flex" style="justify-content: space-between">
+                            <div class="d-flex display-flex">
                                 <div>
                                     <b>{{ textMarking.subtype }}</b> -
                                     <span>{{ textMarking.description }}</span>
                                 </div>
                                 <div *ngIf="textMarking.id">
                                     <i
-                                        class="bi bi-info-circle information-circle cursor-pointer"
+                                        class="bi bi-info-circle information-circle"
                                         routerLink="/{{ textMarking.id }}"
                                         data-test="marking-information-icon"
                                     ></i>
@@ -325,7 +325,7 @@
                                             (click)="
                                                 oscillateSuggestion(i, $event)
                                             "
-                                            class="bi suggestions-header cursor-pointer {{
+                                            class="bi suggestions-header {{
                                                 shouldCollapseSuggestions[i]
                                                     ? 'bi-arrow-right-square'
                                                     : 'bi-arrow-left-square'
@@ -379,7 +379,7 @@
                                     darkModeService.isDarkMode
                             }"
                         >
-                            <div class="d-flex">
+                            <div class="d-flex display-flex">
                                 <div>
                                     <b
                                         >{{  processedText?.textMarkings?.[highlightedMarkingIndex]?.subtype }}</b
@@ -474,7 +474,7 @@
             </ng-template>
         </div>
         <div
-            class="card border-secondary d-flex justify-content-center"
+            class="card border-secondary d-flex display-flex"
             *ngIf="loading$ | async"
         >
             <div
