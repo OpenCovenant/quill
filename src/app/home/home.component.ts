@@ -41,7 +41,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     EDITOR_KEY: string = 'editor';
     PLACEHOLDER_ELEMENT_ID: string = 'editor-placeholder';
     MAX_EDITOR_CHARACTERS: number = 15000;
-    MAX_EDITOR_CHARACTERS_MESSAGE = 'Keni arritur kufirin e 10 mijë karaktereve, shkurtoni shkrimin';
+    MAX_EDITOR_CHARACTERS_MESSAGE = 'Keni arritur kufirin e 15 mijë karaktereve, shkurtoni shkrimin';
     LINE_BREAK: string = '<br>';
     LINE_BROKEN_PARAGRAPH: string = '<p>' + this.LINE_BREAK + '</p>';
     processedText: ProcessedText | undefined;
