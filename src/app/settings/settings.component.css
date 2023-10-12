@@ -147,9 +147,17 @@
 .d-flex {
     justify-content: space-between;
 }
+
+.central-settings-area {
+    display: flex; 
+    justify-content: center; 
+    padding-top: 2rem;
+}
+
 .skeleton-header {
     margin-bottom: 3rem;
 }
+
 .placeholder {
     color: #d9d9d9;
 }

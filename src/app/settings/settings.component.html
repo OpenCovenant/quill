@@ -1,38 +1,47 @@
+<div>
 <ng-template [ngIf]="isLoading" [ngIfElse]="loadingTemplate">
-    <div style="display: flex; justify-content: center; padding-top: 2rem">
-        <div
-            class="card p-3"
-            style="width: 60%"
-            [ngClass]="{
-                'settings-dark-mode': darkModeService.isDarkMode
+    <div class="central-settings-area">
+        <div class="card p-3" style="width: 60%"
+        [ngClass]="{
+            'settings-dark-mode': darkModeService.isDarkMode
+        }">
+            <div class="card-body placeholder-glow d-flex flex-column"
+                [ngClass]="{
+                'placeholder-dark-mode' : darkModeService.isDarkMode
             }"
-        >
-            <div class="card-body placeholder-glow d-flex flex-column">
+
+            >
                 <h3
                     class="placeholder col-5 placeholder-lg skeleton-header"
                 ></h3>
                 <p class="placeholder col-7"></p>
                 <p class="placeholder col-11"></p>
                 <p class="placeholder col-9"></p>
-                <hr />
-
-                <h3 class="placeholder col-3 skeleton-header"></h3>
-                <p class="placeholder col-6"></p>
-                <p class="placeholder col-12"></p>
-                <p class="placeholder col-8"></p>
-                <hr />
-
-                <h3 class="placeholder col-5 skeleton-header"></h3>
-                <p class="placeholder col-8"></p>
-                <p class="placeholder col-7"></p>
-                <p class="placeholder col-12"></p>
+                 <hr />
+                
+                    <h3
+                        class="placeholder col-3 skeleton-header"
+                    ></h3>
+                    <p class="placeholder col-6"></p>
+                    <p class="placeholder col-12"></p>
+                    <p class="placeholder col-8"></p>
+                     <hr />
+               
+                     <h3
+                     class="placeholder col-5 skeleton-header"
+                 ></h3>
+                 <p class="placeholder col-8"></p>
+                 <p class="placeholder col-7"></p>
+                 <p class="placeholder col-12"></p>
+                </div>
             </div>
         </div>
-    </div>
+  
+ 
 </ng-template>
 
 <ng-template #loadingTemplate>
-    <div style="display: flex; justify-content: center; padding-top: 2rem">
+    <div class="central-settings-area">
         <div
             class="card p-3"
             style="width: 60%"
@@ -139,3 +148,4 @@
         </div>
     </div>
 </ng-template>
+</div>
