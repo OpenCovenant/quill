@@ -77,12 +77,9 @@
                                 characterCount >= MAX_EDITOR_CHARACTERS
                         }"
                         data-test="characters-words-markings"
-                        ><ng-template
-                            [ngIf]="characterCount >= MAX_EDITOR_CHARACTERS"
-                            ><span>{{
+                        ><ng-container *ngIf='characterCount >= MAX_EDITOR_CHARACTERS'>{{
                                 MAX_EDITOR_CHARACTERS_MESSAGE
-                            }}</span></ng-template
-                        >
+                            }}&nbsp;–&nbsp;</ng-container>
                         {{ characterCount }}&nbsp;{{
                             characterCount === 1 ? "karakter" : "karaktere"
                         }}&comma;&nbsp;{{ wordCount }}&nbsp;fjalë&comma;&nbsp;{{
