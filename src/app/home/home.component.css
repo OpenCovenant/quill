@@ -420,27 +420,12 @@
     background-color: var(--dark-mode-theme);
 }
 
-/* This is supoused to give the user a light warning but it doesnt look good */
-
-/* @keyframes backgroundChange {
-    0% {
-      background-color: #ff9393; 
-    }
-    100% {
-      background-color: inherit; 
-    }
-  }
-  
-  .exceeded-max-characters-editor {
-    animation: backgroundChange 0.5s;
-  } */
-
-.exceeded-max-characters {
-   color:red; 
+.max-editor-characters {
+   color:red;
    animation: shake 0.5s;
 
  }
- 
+
 @keyframes shake {
   0% { transform: translateX(0); }
   25% { transform: translateX(-5px); }

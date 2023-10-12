@@ -69,7 +69,7 @@
                         class="characters-words-markings"
                         [ngClass]="{
                             'characters-words-markings-dark-mode': darkModeService.isDarkMode,
-                            'exceeded-max-characters': characterCount >= MAX_EDITOR_CHARACTERS
+                            'max-editor-characters': characterCount >= MAX_EDITOR_CHARACTERS
                           }"
                         data-test="characters-words-markings"
                     ><ng-template [ngIf]='characterCount >= MAX_EDITOR_CHARACTERS'><span>{{ MAX_EDITOR_CHARACTERS_MESSAGE }}</span></ng-template>

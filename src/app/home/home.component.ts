@@ -54,7 +54,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     highlightingMarking: boolean = false;
     highlightedMarking: TextMarking | undefined = undefined;
     highlightedMarkingIndex: number = -1;
-    editor = document.getElementById('editor');
 
     private placeHolderElement!: HTMLElement;
     private baseURL!: string;
@@ -197,9 +196,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 this.shouldCollapseSuggestions = new Array<boolean>(
                     this.processedText.textMarkings.length
                 ).fill(true);
-                const editor = document.getElementById(this.EDITOR_KEY)!;
-                editor.innerHTML = this.processedText.text; // TODO: improve to add newlines and such
 
+                document.getElementById(this.EDITOR_KEY)!.innerHTML =
+                    this.processedText.text; // TODO: improve to add newlines and such
+                // this.innerHTMLOfEditor = this.LINE_BROKEN_PARAGRAPH; // TODO careful with the <br> here
                 this.markEditor(CursorPlacement.END);
             });
         } else {
