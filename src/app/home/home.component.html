@@ -12,7 +12,7 @@
                     'card-body-dark-mode': darkModeService.isDarkMode
                 }"
             >
-                <div class="d-flex display-flex">
+                <div class="d-flex">
                     <div
                         id="editor"
                         (paste)="onTextPaste($event)"
@@ -272,7 +272,7 @@
                                     darkModeService.isDarkMode
                             }"
                         >
-                            <div class="d-flex display-flex">
+                            <div class="d-flex">
                                 <div>
                                     <b>{{ textMarking.subtype }}</b> -
                                     <span>{{ textMarking.description }}</span>
@@ -379,7 +379,7 @@
                                     darkModeService.isDarkMode
                             }"
                         >
-                            <div class="d-flex display-flex">
+                            <div class="d-flex">
                                 <div>
                                     <b
                                         >{{  processedText?.textMarkings?.[highlightedMarkingIndex]?.subtype }}</b
@@ -474,7 +474,7 @@
             </ng-template>
         </div>
         <div
-            class="card border-secondary d-flex display-flex"
+            class="card border-secondary d-flex"
             *ngIf="loading$ | async"
         >
             <div

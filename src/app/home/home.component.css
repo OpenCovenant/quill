@@ -356,7 +356,7 @@
     cursor: pointer;
 }
 
-.display-flex {
+.d-flex {
     justify-content: space-between;
 }
 
