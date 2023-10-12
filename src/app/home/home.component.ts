@@ -694,15 +694,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             .pipe(
                 tap(() => this.updateCharacterAndWordCount()),
                 filter(
-                    (keyboardEvent: KeyboardEvent) => {
-                        console.log(!shouldNotMarkEditor(keyboardEvent))
-                        console.log(this.characterCount < this.MAX_EDITOR_CHARACTERS)
-                        console.log(!shouldNotMarkEditor(keyboardEvent) && this.characterCount < this.MAX_EDITOR_CHARACTERS)
-                        return !shouldNotMarkEditor(keyboardEvent);
-                    }
+                    (keyboardEvent: KeyboardEvent) => !shouldNotMarkEditor(keyboardEvent)
                 ),
                 debounceTime(this.EVENTUAL_MARKING_TIME),
-                filter((v: any) => this.characterCount < this.MAX_EDITOR_CHARACTERS),
+                filter(() => this.characterCount < this.MAX_EDITOR_CHARACTERS),
                 tap(() => {
                     this.blurFocusedRightSideMarking();
                     this.markEditor();
