@@ -387,29 +387,6 @@
     }
 }
 
-.sticky {
-    position: sticky;
-    top: 0;
-}
-
-.editor-placeholder-dark-mode {
-    color: var(--dark-mode-anti-theme) !important;
-}
-
-.list-group-item-dark-mode {
-    background-color: var(--dark-mode-theme);
-    color: var(--dark-mode-anti-theme);
-}
-
-.input-container-card-dark-mode {
-    background-color: var(--dark-mode-theme);
-}
-
-/*TODO: apply dark mode for the history of the written texts*/
-.written-texts-history-dark-mode {
-    background-color: var(--dark-mode-theme);
-}
-
 .max-editor-characters {
     color: red;
     animation: shake 0.5s;
