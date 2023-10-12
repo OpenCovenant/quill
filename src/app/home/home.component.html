@@ -69,11 +69,10 @@
                         class="characters-words-markings"
                         [ngClass]="{
                             'characters-words-markings-dark-mode': darkModeService.isDarkMode,
-                            'exceeded-max-characters': characterCount >= maxCharacters
+                            'exceeded-max-characters': characterCount >= MAX_EDITOR_CHARACTERS
                           }"
                         data-test="characters-words-markings"
-                        >{{ maxCharactersMessageDynamic }}
-                        <ng-container *ngIf="characterCount <= maxCharacters">
+                    ><ng-template [ngIf]='characterCount <= MAX_EDITOR_CHARACTERS'><span>{{ MAX_EDITOR_CHARACTERS_MESSAGE }}</span></ng-template>
                           {{ characterCount }}&nbsp;{{
                             characterCount === 1 ? "karakter" : "karaktere"
                           }}&comma;&nbsp;{{ wordCount }}&nbsp;fjalë&comma;&nbsp;{{
@@ -81,8 +80,7 @@
                           }}&nbsp;{{
                             processedText !== undefined &&
                             processedText!.textMarkings.length === 1 ? "shenjim" : "shenjime"
-                          }}
-                        </ng-container></span
+                          }}</span
                     >
                     <span
                         ><button

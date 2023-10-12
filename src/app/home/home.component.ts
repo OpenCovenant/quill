@@ -40,6 +40,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     EMPTY_STRING: string = '';
     EDITOR_KEY: string = 'editor';
     PLACEHOLDER_ELEMENT_ID: string = 'editor-placeholder';
+    MAX_EDITOR_CHARACTERS: number = 15000;
+    MAX_EDITOR_CHARACTERS_MESSAGE = 'Keni arritur kufirin e 10 mijë karaktereve, shkurtoni shkrimin';
     LINE_BREAK: string = '<br>';
     LINE_BROKEN_PARAGRAPH: string = '<p>' + this.LINE_BREAK + '</p>';
     processedText: ProcessedText | undefined;
@@ -52,8 +54,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     highlightingMarking: boolean = false;
     highlightedMarking: TextMarking | undefined = undefined;
     highlightedMarkingIndex: number = -1;
-    maxCharacters = 15000;
-    maxCharactersMessageDynamic = '';
     editor = document.getElementById('editor');
 
     private placeHolderElement!: HTMLElement;
@@ -142,30 +142,25 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     /**
      * Updates the character count field to the number of characters shown in the editor
      */
-    updateCharacterCount(): boolean {
-        let editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
+    updateCharacterCount(): void {
+        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
         if (editor.innerHTML === this.LINE_BROKEN_PARAGRAPH) {
             this.characterCount = 0;
-            return false; // Character limit not exceeded
+            return;
         }
-        this.characterCount = editor.innerText.replace(/\n/g, this.EMPTY_STRING).length;
+        this.characterCount = document
+            .getElementById(this.EDITOR_KEY)!
+            .innerText.replace(/\n/g, this.EMPTY_STRING).length;
 
         const textWithoutLineBreaks = editor.innerText.replace(/\n/g, this.EMPTY_STRING).trim();
 
-        if (textWithoutLineBreaks.length >= this.maxCharacters) {
+        if (textWithoutLineBreaks.length >= this.MAX_EDITOR_CHARACTERS) {
             // Prevent further input by removing the last character
-            editor.innerText = textWithoutLineBreaks.slice(0, this.maxCharacters);
-            this.maxCharactersMessageDynamic =
-                'Keni arritur kufirin e 10 mijë karaktereve, shkurtoni shkrimin';
+            editor.innerText = textWithoutLineBreaks.slice(0, this.MAX_EDITOR_CHARACTERS);
             const scrollToEndOfEditor = document.querySelector('.flex1');
             if (scrollToEndOfEditor) {
                 scrollToEndOfEditor.scrollIntoView({ behavior: 'smooth' });
             }
-            return true; // Character limit exceeded
-        } else {
-            // Text is within the limit, clear the dynamic message
-            this.maxCharactersMessageDynamic = '';
-            return false; // Character limit not exceeded
         }
     }
 
@@ -205,12 +200,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 const editor = document.getElementById(this.EDITOR_KEY)!;
                 editor.innerHTML = this.processedText.text; // TODO: improve to add newlines and such
 
-                // Check if character limit is exceeded
-                if (this.updateCharacterCount()) {
-                    this.maxCharactersMessageDynamic='Keni arritur kufirin e 10 mijë karaktereve, shkurtoni shkrimin';
-                } else {
-                    this.markEditor(CursorPlacement.END);
-                }
+                this.markEditor(CursorPlacement.END);
             });
         } else {
             alert('Ngarko vetëm një dokument!');
