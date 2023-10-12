@@ -40,6 +40,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     EMPTY_STRING: string = '';
     EDITOR_KEY: string = 'editor';
     PLACEHOLDER_ELEMENT_ID: string = 'editor-placeholder';
+    MAX_EDITOR_CHARACTERS: number = 15000;
+    MAX_EDITOR_CHARACTERS_MESSAGE =
+        'Keni arritur kufirin e 15 mijë karaktereve, shkurtoni shkrimin';
     LINE_BREAK: string = '<br>';
     LINE_BROKEN_PARAGRAPH: string = '<p>' + this.LINE_BREAK + '</p>';
     processedText: ProcessedText | undefined;
@@ -134,6 +137,14 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         document.execCommand('insertText', false, text);
     }
 
+    onKeyDown($event: KeyboardEvent): void {
+        if (this.characterCount >= this.MAX_EDITOR_CHARACTERS) {
+            if ($event.key !== 'Backspace') {
+                $event.preventDefault();
+            }
+        }
+    }
+
     /**
      * Updates the character count field to the number of characters shown in the editor
      */
@@ -143,9 +154,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             this.characterCount = 0;
             return;
         }
-        this.characterCount = document
-            .getElementById(this.EDITOR_KEY)!
-            .innerText.replace(/\n/g, this.EMPTY_STRING).length;
+        this.characterCount = editor.innerText.replace(
+            /\n/g,
+            this.EMPTY_STRING
+        ).length;
     }
 
     /**
@@ -183,6 +195,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     this.shouldCollapseSuggestions = new Array<boolean>(
                         this.processedText.textMarkings.length
                     ).fill(true);
+
                     document.getElementById(this.EDITOR_KEY)!.innerHTML =
                         this.processedText.text; // TODO: improve to add newlines and such
                     // this.innerHTMLOfEditor = this.LINE_BROKEN_PARAGRAPH; // TODO careful with the <br> here
@@ -689,6 +702,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                         !shouldNotMarkEditor(keyboardEvent)
                 ),
                 debounceTime(this.EVENTUAL_MARKING_TIME),
+                filter(() => this.characterCount < this.MAX_EDITOR_CHARACTERS),
                 tap(() => {
                     this.blurHighlightedBoardMarking();
                     this.markEditor();
