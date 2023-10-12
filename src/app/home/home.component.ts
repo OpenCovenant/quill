@@ -40,7 +40,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     EMPTY_STRING: string = '';
     EDITOR_KEY: string = 'editor';
     PLACEHOLDER_ELEMENT_ID: string = 'editor-placeholder';
-    MAX_EDITOR_CHARACTERS: number = 15000;
+    MAX_EDITOR_CHARACTERS: number = 10;
     MAX_EDITOR_CHARACTERS_MESSAGE =
         'Keni arritur kufirin e 15 mijë karaktereve, shkurtoni shkrimin';
     LINE_BREAK: string = '<br>';
@@ -137,6 +137,14 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         const text: string = $event.clipboardData.getData('text/plain');
 
         document.execCommand('insertText', false, text);
+    }
+
+    onKeyDown($event: KeyboardEvent): void {
+        if (this.characterCount >= this.MAX_EDITOR_CHARACTERS) {
+            if ($event.key !== 'Backspace') {
+                $event.preventDefault();
+            }
+        }
     }
 
     /**
@@ -686,10 +694,15 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             .pipe(
                 tap(() => this.updateCharacterAndWordCount()),
                 filter(
-                    (keyboardEvent: KeyboardEvent) =>
-                        !shouldNotMarkEditor(keyboardEvent)
+                    (keyboardEvent: KeyboardEvent) => {
+                        console.log(!shouldNotMarkEditor(keyboardEvent))
+                        console.log(this.characterCount < this.MAX_EDITOR_CHARACTERS)
+                        console.log(!shouldNotMarkEditor(keyboardEvent) && this.characterCount < this.MAX_EDITOR_CHARACTERS)
+                        return !shouldNotMarkEditor(keyboardEvent);
+                    }
                 ),
                 debounceTime(this.EVENTUAL_MARKING_TIME),
+                filter((v: any) => this.characterCount < this.MAX_EDITOR_CHARACTERS),
                 tap(() => {
                     this.blurFocusedRightSideMarking();
                     this.markEditor();

@@ -16,6 +16,7 @@
                     <div
                         id="editor"
                         (paste)="onTextPaste($event)"
+                        (keydown)='onKeyDown($event)'
                         [ngClass]="{
                             'editor-dark-mode': darkModeService.isDarkMode
                         }"
