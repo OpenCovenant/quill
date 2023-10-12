@@ -425,6 +425,10 @@
     animation: shake 0.5s;
 }
 
+.editor-max-characters {
+    color:gray;
+}
+
 @keyframes shake {
     0% {
         transform: translateX(0);
