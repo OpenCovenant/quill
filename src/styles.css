@@ -4,14 +4,19 @@
 
 :root {
     --dark-mode-theme: #2c2c2c;
-    --dark-mode-smooth-theme: gray;
-    --dark-mode-anti-theme: white;
+    /*gray color*/
+    --dark-mode-smooth-theme: #808080;
+    --dark-mode-anti-theme: #ffffff;
     --media-cut-off-width: 800px; /*TODO: can this be utilized in the @medias?*/
     --typo-color: #ffc8c8;
     --loanword-color: #ffd182;
     --stylistic-color: #a1b6dc;
     --bar-color: #e9e9e9;
-
+    --pitch-black: #000000;
+    --light-mode-hover-theme: #e3e3e3;
+    --checked-blue-color-theme: #2196f3;
+    --dark-mode-gray-color-checked-theme: #797979;
+    --light-mode-color: #f8f9fa;
     /*TODO: these two should be in header.component.css but it doesn't seem to work?*/
     --light: #eaeaea;
     --dark: #28292c;

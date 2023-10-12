@@ -1,9 +1,11 @@
 <div>
     <nav
         class="navbar navbar-light"
-        [ngClass]="{ 'header-dark-mode': darkModeService.isDarkMode }"
+        [ngClass]="{
+            'header-dark-mode': darkModeService.isDarkMode
+        }"
     >
-        <div>
+        <div class="header-name-gear-icon">
             <button
                 class="off-canvas-start-button"
                 [ngClass]="{
@@ -36,7 +38,7 @@
             >
         </div>
 
-        <div>
+        <div class="header-name-gear-icon">
             <i
                 class="p-3 cursor-pointer"
                 title="hap cilësimet"
@@ -80,7 +82,7 @@
             data-test="close-offcanvas-button"
         ></button>
     </div>
-    <hr />
+    <hr class="off-canvas-hr" />
     <br />
     <div
         class="offcanvas-body"
@@ -107,9 +109,9 @@
                     <a
                         data-test="settings-button"
                         routerLink="/settings"
-                        class="navText list-group-item-action mb-3"
+                        class="nav-text list-group-item-action mb-3"
                         [ngClass]="{
-                            'offcanvas-navText-dark-mode':
+                            'offcanvas-nav-text-dark-mode':
                                 darkModeService.isDarkMode
                         }"
                         role="button"
@@ -134,9 +136,9 @@
                         data-bs-toggle="offcanvas"
                         data-bs-target="#offcanvasStart"
                         aria-controls="offcanvasStart"
-                        class="navText list-group-item-action mb-3"
+                        class="nav-text list-group-item-action mb-3"
                         [ngClass]="{
-                            'offcanvas-navText-dark-mode':
+                            'offcanvas-nav-text-dark-mode':
                                 darkModeService.isDarkMode
                         }"
                         ><i
@@ -154,9 +156,9 @@
                     <a
                         href="https://github.com/OpenCovenant"
                         role="button"
-                        class="navText list-group-item-action mb-3"
+                        class="nav-text list-group-item-action mb-3"
                         [ngClass]="{
-                            'offcanvas-navText-dark-mode':
+                            'offcanvas-nav-text-dark-mode':
                                 darkModeService.isDarkMode
                         }"
                         target="_blank"
@@ -174,9 +176,10 @@
                 </div>
                 <br />
             </div>
-            <hr />
+            <hr class="off-canvas-hr" />
             <div class="d-flex dark-mode-div">
-                <div>Pamje e Errët</div>
+                <div>Ndrysho Pamjen</div>
+
                 <div class="toggle-switch">
                     <label class="dark-mode-label cursor-pointer">
                         <input
@@ -185,12 +188,21 @@
                             type="checkbox"
                             [id]="darkModeService"
                             [(ngModel)]="darkModeService.isDarkMode"
-                            (change)="onDarkModeChange()"
+                            (change)="darkModeService.onDarkModeChange()"
                         />
-                        <span class="slider"></span>
+                        <span class="dark-mode-slider"></span>
                     </label>
                 </div>
             </div>
+            <ng-template
+                [ngIf]="darkModeService.isDarkMode"
+                [ngIfElse]="otherModeText"
+            >
+                <span class="dark-mode-theme">Përdor Pamjen e Çelur</span>
+            </ng-template>
+            <ng-template #otherModeText>
+                <span class="light-mode-theme">Përdor Pamjen e Errët</span>
+            </ng-template>
         </div>
     </div>
 </div>

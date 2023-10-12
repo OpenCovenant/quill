@@ -1,3 +1,8 @@
+.about {
+    margin-left: 20%;
+    width: 60%;
+}
+
 .about-dark-mode {
     color: var(--light);
 }

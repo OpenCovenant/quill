@@ -2,14 +2,12 @@
     display: flex;
     justify-content: space-between;
     gap: 1rem;
-    flex: 1;
 }
 
 .card-body {
-    flex: 1 1 auto;
     padding: 1rem;
     border-radius: 0.25rem;
-    background-color: #f8f9fa;
+    background-color: var(--light-mode-color);
 }
 
 .card-body-dark-mode {
@@ -18,32 +16,20 @@
 }
 
 .list-group-item {
-    position: relative;
-    display: block;
-    padding: 0.5rem 1rem;
-    color: #212529;
-    text-decoration: none;
-    background-color: #f8f9fa;
-    border: 1px solid rgba(0, 0, 0, 0.125);
+    background-color: var(--light-mode-color);
+}
+
+.list-group-item-dark-mode {
+    background-color: var(--dark-mode-theme);
+    color: var(--dark-mode-anti-theme);
 }
 
 .card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    word-wrap: break-word;
-    background-color: #fff;
-    background-clip: border-box;
     border: 0px solid rgba(0, 0, 0, 0.125);
-    border-radius: 0.25rem;
     box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
 }
 
 .card-header {
-    padding: 0.5rem 1rem;
-    margin-bottom: 0;
-    background-color: #00000008;
     border-bottom: 0px solid rgba(0, 0, 0, 0.125);
 }
 
@@ -63,29 +49,18 @@
 
 .pipe-separator {
     display: flex;
-    justify-content: center;
     align-items: center;
-    color: #737373;
+    color: var(--dark-mode-smooth-theme);
 }
 
 #editor {
     min-width: 96%;
     min-height: 30rem;
     font-size: 17px;
-    padding-right: 2%;
     outline: 0 solid transparent;
-    background-color: #f8f9fa;
 }
 
-.editor-dark-mode {
-    background-color: #9a9a9a !important;
-}
-
-.clear-element-dark-mode {
-    background-color: white;
-}
-
-.flex1 {
+.editor-toolbar {
     display: flex;
     justify-content: space-between;
     font-size: 0.8rem;
@@ -97,7 +72,6 @@
 .characters-words-markings {
     display: flex;
     justify-content: center;
-    align-content: center;
     flex-direction: column;
 }
 
@@ -118,18 +92,13 @@
 }
 
 .clipboard-button-dark-mode {
-    color: var(--dark-mode-anti-theme) !important;
+    color: var(--dark-mode-anti-theme);
 }
 
 .output-container {
     flex: 0 0 30%;
     margin-right: 3rem;
     /*padding-right: 25px;*/
-}
-
-.second-header {
-    display: flex;
-    justify-content: space-between;
 }
 
 .template-marking-span {
@@ -139,7 +108,16 @@
     color: black;
 }
 
-.grid1 {
+.second-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.second-header-dark-mode {
+    background-color: var(--dark-mode-theme);
+}
+
+.generated-marking {
     display: grid;
     grid-template-columns: auto 1fr;
     grid-template-rows: inherit;
@@ -147,46 +125,22 @@
 }
 
 .text-marking {
-    display: inline-block;
     padding: 3px 6px;
-    border-radius: 4px;
-    color: black;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
 }
 
 .information-circle {
     font-size: 20px;
-    color: #484848;
-}
-
-.settings-dark-mode {
-    background-color: #2c2c2c;
-    color: white;
 }
 
 .suggestions {
     display: flex;
     flex-wrap: wrap;
-    align-content: stretch;
     justify-content: center;
     gap: 1rem;
 }
 
 .editor-hr {
     color: lightgray;
-}
-
-.suggestion {
-    color: black;
-}
-
-.suggestions-header {
-    display: inline-block;
-    align-items: flex-start;
-    margin: 0;
-    line-height: inherit;
 }
 
 .waiting-text {
@@ -213,13 +167,10 @@
 }
 
 .written-text {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
     box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
     border-radius: 5px;
     padding: 5px;
+    overflow: hidden;
 }
 
 .written-text:hover {
@@ -236,7 +187,7 @@
 }
 
 .written-text-history-button-dark-mode {
-    color: var(--dark-mode-anti-theme) !important;
+    color: var(--dark-mode-anti-theme);
 }
 
 .typo {
@@ -244,7 +195,6 @@
     /*text-decoration-color: red;*/
     background-color: var(--typo-color);
     border-radius: 4px;
-    border: none;
     padding-top: 3px;
     padding-bottom: 3px;
 }
@@ -252,7 +202,6 @@
 .loanword {
     background-color: var(--loanword-color);
     border-radius: 4px;
-    border: none;
     padding-top: 3px;
     padding-bottom: 3px;
 }
@@ -260,7 +209,6 @@
 .stylistic {
     background-color: var(--stylistic-color);
     border-radius: 4px;
-    border: none;
     padding-top: 3px;
     padding-bottom: 3px;
 }
@@ -269,6 +217,10 @@
     position: absolute;
     /*color: #707070;*/
     color: #858585;
+}
+
+.editor-placeholder-dark-mode {
+    color: var(--dark-mode-anti-theme) !important;
 }
 
 .editor-placeholder-text {
@@ -282,7 +234,41 @@
     text-decoration: underline;
 }
 
-/*TODO: improve the following*/
+@keyframes fillBackground {
+    0% {
+        background-position: 100% 0%;
+    }
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+.animated-typo-marking {
+    background: linear-gradient(to left, transparent 50%, var(--typo-color) 0);
+    background-size: 200% 100%;
+    animation: fillBackground 500ms linear forwards;
+}
+
+.animated-loanword-marking {
+    background: linear-gradient(
+        to left,
+        transparent 50%,
+        var(--loanword-color) 0
+    );
+    background-size: 200% 100%;
+    animation: fillBackground 500ms linear forwards;
+}
+
+.animated-stylistic-marking {
+    background: linear-gradient(
+        to left,
+        transparent 50%,
+        var(--stylistic-color) 0
+    );
+    background-size: 200% 100%;
+    animation: fillBackground 500ms linear forwards;
+}
+
 #editor > p > .typo {
     cursor: pointer;
 }
@@ -301,41 +287,11 @@
     border: none;
     padding-top: 3px;
     padding-bottom: 3px;
-    color: black;
 }
 
 .suggestion-dark-mode {
     background-color: #686868;
     color: white;
-}
-/*TODO change color on .suggestion:hover ?*/
-
-@media (max-width: 800px) {
-    .high-level-container {
-        flex-direction: column;
-        gap: 2rem !important;
-    }
-
-    #editor {
-        min-width: 90%;
-    }
-
-    /*TODO improve code*/
-    #editor {
-        min-height: 18rem !important;
-    }
-
-    .suggestions {
-        gap: 0.4rem !important;
-    }
-
-    .input-container {
-        margin-right: 3rem;
-    }
-
-    .output-container {
-        margin-left: 3rem;
-    }
 }
 
 .marking-focus {
@@ -344,9 +300,13 @@
     font-weight: bold;
     transition: all 0.1s;
 }
-
-.second-header-dark-mode {
-    background-color: var(--dark-mode-theme);
+.marking-unfocus {
+    border-radius: 4px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    margin: 0;
+    border: 1px solid;
+    font-weight: normal;
 }
 
 .modal-header-dark-mode {
@@ -363,27 +323,57 @@
     background-color: var(--dark-mode-theme);
 }
 
-.supported-documents-text-dark-mode {
-    color: var(--dark-mode-anti-theme);
+.sticky {
+    position: sticky;
+    top: 0;
 }
 
-.marking-unfocus {
-    border-radius: 4px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    margin: 0;
-    border: 1px solid;
-    font-weight: normal;
+/*TODO: apply dark mode for the history of the written texts*/
+.written-texts-history-dark-mode {
+    background-color: var(--dark-mode-theme);
 }
 
-.marking-blur {
-    border-radius: 4px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    margin: 0;
-    border: 1px solid;
-    font-weight: normal;
-    filter: blur(2px);
+.clear-typo-element-dark-mode {
+    background: transparent
+        url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e")
+        center/1em auto no-repeat;
+}
+
+.btn-secondary {
+    padding: 0.1rem 0.3rem;
+}
+
+.bi-arrow-left {
+    padding-right: 0.5rem;
+}
+.suggestions-header {
+    cursor: pointer;
+}
+
+/*TODO change color on .suggestion:hover ?*/
+@media (max-width: 800px) {
+    .high-level-container {
+        flex-direction: column;
+        gap: 2rem !important;
+    }
+
+    #editor {
+        min-width: 90%;
+        min-height: 18rem !important;
+    }
+
+    /*TODO improve code*/
+    .suggestions {
+        gap: 0.4rem !important;
+    }
+
+    .input-container {
+        margin-right: 3rem;
+    }
+
+    .output-container {
+        margin-left: 3rem;
+    }
 }
 
 /*TODO I don't like these two a lot, write better responsive code, I assume ideally this should be added in flex-stuff*/

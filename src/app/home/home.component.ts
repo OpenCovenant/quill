@@ -4,7 +4,7 @@ import {
     OnDestroy,
     ViewEncapsulation
 } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
     BehaviorSubject,
     debounceTime,
@@ -52,8 +52,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
     loading$ = new BehaviorSubject<boolean>(false);
     editorElement!: HTMLElement;
-    highlightingMarking: boolean = false;
-    highlightedMarking: TextMarking | undefined = undefined;
     highlightedMarkingIndex: number = -1;
 
     private placeHolderElement!: HTMLElement;
@@ -75,7 +73,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         this.http.get(this.pingURL).subscribe({
             next: () => console.log('pinging server...'),
-            error: () => this.disableEditor()
+            error: (e: HttpErrorResponse) => this.disableEditor(e)
         });
     }
 
@@ -260,6 +258,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
                     editor.childNodes.forEach(
                         (childNode: ChildNode, index: number) => {
+                            const isLastChildNode =
+                                index === editor.childNodes.length - 1
+                                    ? true
+                                    : false;
                             const p = document.createElement('p');
                             p.innerHTML = childNode.textContent!;
                             if (childNode.textContent === this.EMPTY_STRING) {
@@ -268,6 +270,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                             editor.replaceChild(p, childNode);
                             markText(
                                 p,
+                                consumableTextMarkings.length,
+                                isLastChildNode,
                                 consumableTextMarkings.filter(
                                     (tm: TextMarking) => tm.paragraph === index
                                 )
@@ -285,7 +289,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     this.processedText.textMarkings.length
                 ).fill(true);
 
-                this.blurFocusedRightSideMarking();
+                this.blurHighlightedBoardMarking();
             });
     }
 
@@ -332,7 +336,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.processedText = undefined;
         this.updateCharacterAndWordCount();
         this.shouldCollapseSuggestions = new Array<boolean>(0);
-        this.blurFocusedRightSideMarking();
+        this.blurHighlightedBoardMarking();
     }
 
     /**
@@ -367,11 +371,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             'bi-clipboard',
             'bi-clipboard2-check'
         );
-        copyToClipboardButton.style.color = 'green';
+        copyToClipboardButton.style.setProperty('color', 'green', 'important');
 
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
         if (navigator.clipboard) {
             if (!editor.textContent) {
+                this.brieflyChangeClipboardIcon(copyToClipboardButton);
                 return;
             }
             navigator.clipboard.writeText(editor.textContent).then();
@@ -395,13 +400,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             }
         }
 
-        setTimeout(() => {
-            copyToClipboardButton.classList.replace(
-                'bi-clipboard2-check',
-                'bi-clipboard'
-            );
-            copyToClipboardButton.style.color = 'black';
-        }, 2 * this.SECONDS);
+        this.brieflyChangeClipboardIcon(copyToClipboardButton);
     }
 
     toggleStoringOfWrittenTexts(): void {
@@ -443,10 +442,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             return this.EMPTY_STRING;
         }
 
-        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
+        const virtualEditor: HTMLDivElement = document.createElement('div');
+        virtualEditor.innerHTML = this.processedText.text;
 
         const editorTextContent: string | null =
-            editor.childNodes[textMarking.paragraph!].textContent;
+            virtualEditor.childNodes[textMarking.paragraph!].textContent;
         if (!editorTextContent) {
             return this.EMPTY_STRING;
         }
@@ -455,12 +455,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     /**
-     * Blurs the currently focused RHS marking.
+     * Blurs the currently highlighted board marking.
      */
-    blurFocusedRightSideMarking(): void {
-        this.highlightingMarking = false;
+    blurHighlightedBoardMarking(): void {
         this.highlightedMarkingIndex = -1;
-        this.highlightedMarking = undefined;
     }
 
     /**
@@ -500,6 +498,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
                     editor.childNodes.forEach(
                         (childNode: ChildNode, index: number) => {
+                            const isLastChildNode =
+                                index === editor.childNodes.length - 1
+                                    ? true
+                                    : false;
                             const p: HTMLParagraphElement =
                                 document.createElement('p');
                             p.innerHTML = childNode.textContent!;
@@ -509,6 +511,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                             editor.replaceChild(p, childNode);
                             markText(
                                 p,
+                                consumableTextMarkings.length,
+                                isLastChildNode,
                                 consumableTextMarkings.filter(
                                     (tm: TextMarking) => tm.paragraph === index
                                 )
@@ -522,7 +526,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     ).fill(true);
                 },
                 complete: () => {
-                    setTimeout(() => this.listenForMarkingFocus(), 0);
+                    setTimeout(() => this.listenForMarkingHighlight(), 0);
                 }
             });
     }
@@ -700,7 +704,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 debounceTime(this.EVENTUAL_MARKING_TIME),
                 filter(() => this.characterCount < this.MAX_EDITOR_CHARACTERS),
                 tap(() => {
-                    this.blurFocusedRightSideMarking();
+                    this.blurHighlightedBoardMarking();
                     this.markEditor();
                 })
             )
@@ -720,14 +724,21 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             .subscribe();
     }
 
-    private disableEditor(): void {
+    private disableEditor(errorResponse: HttpErrorResponse): void {
+        const errorMessage =
+            errorResponse.status === 429
+                ? 'Tepër kërkesa për shenjime për momentin'
+                : 'Fatkeqësisht kemi një problem me serverat. Ju kërkojmë ndjesë, ndërsa kërkojme për një zgjidhje.';
         (
             document.getElementById(this.EDITOR_KEY) as HTMLDivElement
         ).contentEditable = 'false';
 
-        document.getElementById(this.PLACEHOLDER_ELEMENT_ID)!.innerText =
-            'Fatkeqësisht kemi një problem me serverat. Ju kërkojmë ndjesë, ndërsa kërkojme për një zgjidhje.';
-
+        const placeholderElement = document.getElementById(
+            this.PLACEHOLDER_ELEMENT_ID
+        );
+        if (placeholderElement) {
+            placeholderElement.innerText = errorMessage;
+        }
         (
             document.querySelectorAll(
                 '.card-header button'
@@ -735,25 +746,34 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         ).forEach((b) => (b.disabled = true));
     }
 
-    private listenForMarkingFocus(): void {
+    private listenForMarkingHighlight(): void {
         const textMarkings = document.querySelectorAll('#editor > p > .typo');
         textMarkings.forEach((element: Element, index: number) =>
             element.addEventListener(
                 'click',
-                this.focusRightSideMarking.bind(this, index)
+                this.highlightBoardMarking.bind(this, index)
             )
         );
     }
 
     /**
-     * Clicking on a LHS marking, focuses it in the RHS.
+     * Clicking on an editor marking, highlights it in the board of markings.
      *
      * @param {number} textMarkingIndex
      */
-    private focusRightSideMarking(textMarkingIndex: number): void {
-        this.highlightingMarking = true;
-        this.highlightedMarking =
-            this.processedText?.textMarkings[textMarkingIndex];
+    private highlightBoardMarking(textMarkingIndex: number): void {
         this.highlightedMarkingIndex = textMarkingIndex;
+    }
+
+    private brieflyChangeClipboardIcon(
+        copyToClipboardButton: HTMLElement
+    ): void {
+        setTimeout(() => {
+            copyToClipboardButton.classList.replace(
+                'bi-clipboard2-check',
+                'bi-clipboard'
+            );
+            copyToClipboardButton.style.color = 'black';
+        }, 2 * this.SECONDS);
     }
 }
