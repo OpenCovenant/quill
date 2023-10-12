@@ -41,7 +41,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     EDITOR_KEY: string = 'editor';
     PLACEHOLDER_ELEMENT_ID: string = 'editor-placeholder';
     MAX_EDITOR_CHARACTERS: number = 15000;
-    MAX_EDITOR_CHARACTERS_MESSAGE = 'Keni arritur kufirin e 15 mijë karaktereve, shkurtoni shkrimin';
+    MAX_EDITOR_CHARACTERS_MESSAGE =
+        'Keni arritur kufirin e 15 mijë karaktereve, shkurtoni shkrimin';
     LINE_BREAK: string = '<br>';
     LINE_BROKEN_PARAGRAPH: string = '<p>' + this.LINE_BREAK + '</p>';
     processedText: ProcessedText | undefined;
@@ -151,18 +152,22 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             .getElementById(this.EDITOR_KEY)!
             .innerText.replace(/\n/g, this.EMPTY_STRING).length;
 
-        const textWithoutLineBreaks = editor.innerText.replace(/\n/g, this.EMPTY_STRING).trim();
+        const textWithoutLineBreaks = editor.innerText
+            .replace(/\n/g, this.EMPTY_STRING)
+            .trim();
 
         if (textWithoutLineBreaks.length >= this.MAX_EDITOR_CHARACTERS) {
             // Prevent further input by removing the last character
-            editor.innerText = textWithoutLineBreaks.slice(0, this.MAX_EDITOR_CHARACTERS);
+            editor.innerText = textWithoutLineBreaks.slice(
+                0,
+                this.MAX_EDITOR_CHARACTERS
+            );
             const scrollToEndOfEditor = document.querySelector('.flex1');
             if (scrollToEndOfEditor) {
                 scrollToEndOfEditor.scrollIntoView({ behavior: 'smooth' });
             }
         }
     }
-
 
     /**
      * Updates the word count field to the number of words shown in the editor
@@ -186,22 +191,25 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * @param {Event} $event the event emitted when the file is selected
      */
     uploadDocument($event: Event): void {
-        const fileList: FileList | null = ($event.target as HTMLInputElement).files;
+        const fileList: FileList | null = ($event.target as HTMLInputElement)
+            .files;
         if (fileList && fileList.length === 1) {
             const file: File = fileList[0];
             const formData: FormData = new FormData();
             formData.append('uploadFile', file, file.name);
-            this.http.post(this.uploadDocumentURL, formData).subscribe((next) => {
-                this.processedText = next as ProcessedText;
-                this.shouldCollapseSuggestions = new Array<boolean>(
-                    this.processedText.textMarkings.length
-                ).fill(true);
+            this.http
+                .post(this.uploadDocumentURL, formData)
+                .subscribe((next) => {
+                    this.processedText = next as ProcessedText;
+                    this.shouldCollapseSuggestions = new Array<boolean>(
+                        this.processedText.textMarkings.length
+                    ).fill(true);
 
-                document.getElementById(this.EDITOR_KEY)!.innerHTML =
-                    this.processedText.text; // TODO: improve to add newlines and such
-                // this.innerHTMLOfEditor = this.LINE_BROKEN_PARAGRAPH; // TODO careful with the <br> here
-                this.markEditor(CursorPlacement.END);
-            });
+                    document.getElementById(this.EDITOR_KEY)!.innerHTML =
+                        this.processedText.text; // TODO: improve to add newlines and such
+                    // this.innerHTMLOfEditor = this.LINE_BROKEN_PARAGRAPH; // TODO careful with the <br> here
+                    this.markEditor(CursorPlacement.END);
+                });
         } else {
             alert('Ngarko vetëm një dokument!');
         }

@@ -68,19 +68,30 @@
                     <span
                         class="characters-words-markings"
                         [ngClass]="{
-                            'characters-words-markings-dark-mode': darkModeService.isDarkMode,
-                            'max-editor-characters': characterCount >= MAX_EDITOR_CHARACTERS
-                          }"
+                            'characters-words-markings-dark-mode':
+                                darkModeService.isDarkMode,
+                            'max-editor-characters':
+                                characterCount >= MAX_EDITOR_CHARACTERS
+                        }"
                         data-test="characters-words-markings"
-                    ><ng-template [ngIf]='characterCount >= MAX_EDITOR_CHARACTERS'><span>{{ MAX_EDITOR_CHARACTERS_MESSAGE }}</span></ng-template>
-                          {{ characterCount }}&nbsp;{{
+                        ><ng-template
+                            [ngIf]="characterCount >= MAX_EDITOR_CHARACTERS"
+                            ><span>{{
+                                MAX_EDITOR_CHARACTERS_MESSAGE
+                            }}</span></ng-template
+                        >
+                        {{ characterCount }}&nbsp;{{
                             characterCount === 1 ? "karakter" : "karaktere"
-                          }}&comma;&nbsp;{{ wordCount }}&nbsp;fjalë&comma;&nbsp;{{
-                            processedText === undefined ? 0 : processedText!.textMarkings.length
-                          }}&nbsp;{{
+                        }}&comma;&nbsp;{{ wordCount }}&nbsp;fjalë&comma;&nbsp;{{
+                            processedText === undefined
+                                ? 0
+                                : processedText!.textMarkings.length
+                        }}&nbsp;{{
                             processedText !== undefined &&
-                            processedText!.textMarkings.length === 1 ? "shenjim" : "shenjime"
-                          }}</span
+                            processedText!.textMarkings.length === 1
+                                ? "shenjim"
+                                : "shenjime"
+                        }}</span
                     >
                     <span
                         ><button

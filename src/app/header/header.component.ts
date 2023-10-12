@@ -74,6 +74,5 @@ export class HeaderComponent {
 
     isSettingsRoute() {
         return this.router.url === '/settings';
-      }
-      
+    }
 }
