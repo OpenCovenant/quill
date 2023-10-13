@@ -356,8 +356,16 @@
     cursor: pointer;
 }
 
-.d-flex {
-    justify-content: space-between;
+.editor-flex {
+    display: flex;
+}
+
+.information-circle-flex {
+    display: flex;
+}
+
+.reading-writing-flex {
+    display: flex;
 }
 
 /*TODO change color on .suggestion:hover ?*/

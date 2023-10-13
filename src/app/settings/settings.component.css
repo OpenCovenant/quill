@@ -140,10 +140,12 @@
     margin-left: 0.5rem;
 }
 
-.d-flex-dark-mode {
+.dark-mode-label-flex {
+    display: flex;
     justify-content: space-between;
 }
 
-.d-flex {
+.marking-type-flex {
+    display: flex;
     justify-content: space-between;
 }
