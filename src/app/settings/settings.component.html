@@ -1,151 +1,141 @@
 <div>
-<ng-template [ngIf]="isLoading" [ngIfElse]="loadingTemplate">
-    <div class="central-settings-area">
-        <div class="card p-3" style="width: 60%"
-        [ngClass]="{
-            'settings-dark-mode': darkModeService.isDarkMode
-        }">
-            <div class="card-body placeholder-glow d-flex flex-column"
-                [ngClass]="{
-                'placeholder-dark-mode' : darkModeService.isDarkMode
-            }"
-
-            >
-                <h3
-                    class="placeholder col-5 placeholder-lg skeleton-header"
-                ></h3>
-                <p class="placeholder col-7"></p>
-                <p class="placeholder col-11"></p>
-                <p class="placeholder col-9"></p>
-                 <hr />
-                
-                    <h3
-                        class="placeholder col-3 skeleton-header"
-                    ></h3>
-                    <p class="placeholder col-6"></p>
-                    <p class="placeholder col-12"></p>
-                    <p class="placeholder col-8"></p>
-                     <hr />
-               
-                     <h3
-                     class="placeholder col-5 skeleton-header"
-                 ></h3>
-                 <p class="placeholder col-8"></p>
-                 <p class="placeholder col-7"></p>
-                 <p class="placeholder col-12"></p>
-                </div>
-            </div>
-        </div>
-  
- 
-</ng-template>
-
-<ng-template #loadingTemplate>
-    <div class="central-settings-area">
-        <div
-            class="card p-3"
-            style="width: 60%"
-            [ngClass]="{
-                'settings-dark-mode': darkModeService.isDarkMode
-            }"
-        >
+    <ng-template [ngIf]="isLoading" [ngIfElse]="loadingTemplate">
+        <div class="central-settings-area">
             <div
-                class="card-body"
+                class="card p-3"
                 [ngClass]="{
-                    'card-body-dark-mode': darkModeService.isDarkMode
+                    'settings-dark-mode': darkModeService.isDarkMode
                 }"
             >
-                <h3 class="card-title">Cilësimet</h3>
-                <br />
-                <br />
-
-                <div>
-                    <h5>Pamje e Errët</h5>
+                <div
+                    class="card-body placeholder-glow flex-layout-div flex-column"
+                    [ngClass]="{
+                        'settings-dark-mode': darkModeService.isDarkMode
+                    }"
+                >
+                    <h3
+                        class="placeholder col-5 placeholder-lg skeleton-header skeleton-text-color"
+                    ></h3>
+                    <p class="placeholder skeleton-text-color col-7"></p>
+                    <p class="placeholder skeleton-text-color col-11"></p>
+                    <p class="placeholder skeleton-text-color col-9"></p>
                     <hr />
-                    <div
-                        class="d-flex dark-mode-div"
-                        style="justify-content: space-between"
-                    >
-                        <div>
-                            Zgjidhni pamjen e faqes e cila ju përshtatet më
-                            shumë
-                        </div>
-                        <div class="toggle-switch">
-                            <label class="dark-mode-label cursor-pointer">
-                                <input
-                                    data-test="dark-mode-button-toggle-switch"
-                                    class="dark-mode-input"
-                                    type="checkbox"
-                                    [id]="darkModeService"
-                                    [(ngModel)]="darkModeService.isDarkMode"
-                                    (change)="
-                                        darkModeService.onDarkModeChange()
-                                    "
-                                />
-                                <span class="dark-mode-slider"></span>
-                            </label>
+
+                    <h3
+                        class="placeholder col-3 skeleton-header skeleton-text-color"
+                    ></h3>
+                    <p class="placeholder skeleton-text-color col-6"></p>
+                    <p class="placeholder skeleton-text-color col-12"></p>
+                    <p class="placeholder skeleton-text-color col-8"></p>
+                    <hr />
+
+                    <h3
+                        class="placeholder col-5 skeleton-header skeleton-text-color"
+                    ></h3>
+                    <p class="placeholder skeleton-text-color col-8"></p>
+                    <p class="placeholder skeleton-text-color col-7"></p>
+                    <p class="placeholder skeleton-text-color col-12"></p>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #loadingTemplate>
+        <div class="central-settings-area">
+            <div
+                class="card p-3"
+                [ngClass]="{
+                    'settings-dark-mode': darkModeService.isDarkMode
+                }"
+            >
+                <div
+                    class="card-body"
+                    [ngClass]="{
+                        'card-body-dark-mode': darkModeService.isDarkMode
+                    }"
+                >
+                    <h3 class="card-title">Cilësimet</h3>
+                    <br />
+                    <br />
+
+                    <div>
+                        <h5>Pamje e Errët</h5>
+                        <hr />
+                        <div class="flex-layout-div dark-mode-div">
+                            <div>
+                                Zgjidhni pamjen e faqes e cila ju përshtatet më
+                                shumë
+                            </div>
+                            <div class="toggle-switch">
+                                <label class="dark-mode-label cursor-pointer">
+                                    <input
+                                        data-test="dark-mode-button-toggle-switch"
+                                        class="dark-mode-input"
+                                        type="checkbox"
+                                        [id]="darkModeService"
+                                        [(ngModel)]="darkModeService.isDarkMode"
+                                        (change)="
+                                            darkModeService.onDarkModeChange()
+                                        "
+                                    />
+                                    <span class="dark-mode-slider"></span>
+                                </label>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <br />
-                <br />
+                    <br />
+                    <br />
 
-                <div>
-                    <h5>Llojet e Shenjimeve</h5>
-                    <hr />
-                    <p class="card-text">
-                        Shto ose hiq lloje shenjimesh për të cilat dëshironi të
-                        shikoni shenjime në shkrimet tuaja.
-                    </p>
-                    <!--                <hr />-->
+                    <div>
+                        <h5>Llojet e Shenjimeve</h5>
+                        <hr />
+                        <p class="card-text">
+                            Shto ose hiq lloje shenjimesh për të cilat dëshironi
+                            të shikoni shenjime në shkrimet tuaja.
+                        </p>
+                        <!--                <hr />-->
 
-                    <div
-                        *ngFor="let markingType of markingTypes"
-                        class="d-flex"
-                        style="justify-content: space-between"
-                    >
-                        <span>
-                            <span>{{ markingType[1].description }}</span>
-                            <span
-                                routerLink="/{{ markingType[0] }}"
-                                class="cursor-pointer"
-                                style="color: gray; margin-left: 0.5rem"
-                                ><i class="bi bi-box-arrow-up-right"></i
+                        <div
+                            *ngFor="let markingType of markingTypes"
+                            class="flex-layout-div"
+                        >
+                            <span>
+                                <span>{{ markingType[1].description }}</span>
+                                <span
+                                    routerLink="/{{ markingType[0] }}"
+                                    class="cursor-pointer"
+                                    ><i class="bi bi-box-arrow-up-right"></i
+                                ></span>
+                            </span>
+
+                            <span>
+                                <label
+                                    class="marking-type-label"
+                                    [for]="markingType[0]"
+                                >
+                                    <input
+                                        class="marking-type-input"
+                                        role="switch"
+                                        type="checkbox"
+                                        [id]="markingType[0]"
+                                        [value]="markingType[1].description"
+                                        [(ngModel)]="markingType[1].enabled"
+                                        (ngModelChange)="
+                                            onMarkingTypeSelection(
+                                                markingType[0],
+                                                $event
+                                            )
+                                        "
+                                        data-test="switch-check-testing"
+                                    /><span
+                                        class="slider round cursor-pointer"
+                                    ></span> </label
                             ></span>
-                        </span>
-
-                        <span>
-                            <label
-                                class="marking-type-label"
-                                style="
-                                    margin-bottom: 1.5rem;
-                                    margin-right: 0.5rem;
-                                "
-                                [for]="markingType[0]"
-                            >
-                                <input
-                                    class="marking-type-input"
-                                    role="switch"
-                                    type="checkbox"
-                                    [id]="markingType[0]"
-                                    [value]="markingType[1].description"
-                                    [(ngModel)]="markingType[1].enabled"
-                                    (ngModelChange)="
-                                        onMarkingTypeSelection(
-                                            markingType[0],
-                                            $event
-                                        )
-                                    "
-                                    data-test="switch-check-testing"
-                                /><span
-                                    class="slider round cursor-pointer"
-                                ></span> </label
-                        ></span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</ng-template>
+    </ng-template>
 </div>

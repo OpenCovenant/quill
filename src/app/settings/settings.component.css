@@ -140,17 +140,23 @@
     margin-left: 0.5rem;
 }
 
+.cursor-pointer {
+    color: gray;
+    margin-left: 0.5rem;
+}
+
 .d-flex-dark-mode {
     justify-content: space-between;
 }
 
-.d-flex {
+.flex-layout-div {
+    display: flex;
     justify-content: space-between;
 }
 
 .central-settings-area {
-    display: flex; 
-    justify-content: center; 
+    display: flex;
+    justify-content: center;
     padding-top: 2rem;
 }
 
@@ -158,6 +164,6 @@
     margin-bottom: 3rem;
 }
 
-.placeholder {
+.skeleton-text-color {
     color: #d9d9d9;
 }
