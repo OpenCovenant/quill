@@ -167,3 +167,15 @@
 .skeleton-text-color {
     color: #d9d9d9;
 }
+
+.dark-mode-informative-text {
+    padding-top: 0.3rem;
+    font-size: 0.8rem;
+    color: var(--dark-mode-smooth-theme);
+}
+
+.light-mode-informative-text {
+    padding-top: 0.3rem;
+    font-size: 0.8rem;
+    color: var(--dark-mode-smooth-theme);
+}
