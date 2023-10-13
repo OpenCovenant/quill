@@ -44,6 +44,7 @@
         <div class="central-settings-area">
             <div
                 class="card p-3"
+                style="width: 60%"
                 [ngClass]="{
                     'settings-dark-mode': darkModeService.isDarkMode
                 }"
@@ -59,7 +60,7 @@
                     <br />
 
                     <div>
-                        <h5>Pamja e zgjedhur</h5>
+                        <h5>Pamja e Zgjedhur</h5>
                         <hr />
                         <div class="flex-layout-div dark-mode-div">
                             <div>Ndrysho Pamjen</div>
@@ -114,7 +115,7 @@
                                 <span>{{ markingType[1].description }}</span>
                                 <span
                                     routerLink="/{{ markingType[0] }}"
-                                    class="cursor-pointer"
+                                    class="cursor-pointer pointer"
                                     ><i class="bi bi-box-arrow-up-right"></i
                                 ></span>
                             </span>
@@ -122,6 +123,7 @@
                             <span>
                                 <label
                                     class="marking-type-label"
+                                    style="margin-bottom: 1.5rem; margin-right: 0.5rem"
                                     [for]="markingType[0]"
                                 >
                                     <input
