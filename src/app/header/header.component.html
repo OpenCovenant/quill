@@ -198,10 +198,14 @@
                 [ngIf]="darkModeService.isDarkMode"
                 [ngIfElse]="otherModeText"
             >
-                <span class="dark-mode-theme">Përdor Pamjen e Çelur</span>
+                <span class="dark-mode-informative-text"
+                    >Përdor Pamjen e Çelur</span
+                >
             </ng-template>
             <ng-template #otherModeText>
-                <span class="light-mode-theme">Përdor Pamjen e Errët</span>
+                <span class="light-mode-informative-text"
+                    >Përdor Pamjen e Errët</span
+                >
             </ng-template>
         </div>
     </div>
