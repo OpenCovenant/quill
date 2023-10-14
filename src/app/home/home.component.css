@@ -155,6 +155,7 @@
 
 .listStyling {
     min-height: 50px;
+    background-color: var(--light-mode-color);
 }
 
 .spinner-border {
@@ -371,6 +372,14 @@
     display: flex;
 }
 
+.listStyling-dark-mode {
+    background-color: var(--dark-mode-theme);
+    color: var(--dark-mode-anti-theme);
+}
+
+.waiting-text-dark-mode {
+    color: var(--dark-mode-anti-theme);
+}
 /*TODO change color on .suggestion:hover ?*/
 @media (max-width: 800px) {
     .high-level-container {

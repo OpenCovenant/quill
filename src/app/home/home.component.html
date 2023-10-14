@@ -495,10 +495,16 @@
                 }"
             >
                 <div>
-                    <span class="waiting-text">duke lexuar shkrimin...</span>
+                    <span class="waiting-text"
+                          [ngClass]="{
+                    'waiting-text-dark-mode': darkModeService.isDarkMode
+                }">duke lexuar shkrimin...</span>
                 </div>
             </div>
-            <ul class="list-group list-group-flush listStyling">
+            <ul class="list-group list-group-flush listStyling"
+                [ngClass]="{
+                    'listStyling-dark-mode': darkModeService.isDarkMode
+                }">
                 <div class="spinner-border" role="status">
                     <span class="visually-hidden">duke lexuar shkrimin...</span>
                 </div>
