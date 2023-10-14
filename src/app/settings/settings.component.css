@@ -146,15 +146,15 @@
     color: gray;
 }
 
-.d-flex-dark-mode {
-    justify-content: space-between;
-}
-
-.flex-layout-div {
+.dark-mode-label-flex {
     display: flex;
     justify-content: space-between;
 }
 
+.marking-type-flex {
+    display: flex;
+    justify-content: space-between;
+}
 .central-settings-area {
     display: flex;
     justify-content: center;

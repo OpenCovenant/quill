@@ -130,6 +130,7 @@
 
 .information-circle {
     font-size: 20px;
+    cursor: pointer;
 }
 
 .suggestions {
@@ -348,6 +349,26 @@
 }
 .suggestions-header {
     cursor: pointer;
+}
+
+.suggestions-header {
+    cursor: pointer;
+}
+
+.text-reset {
+    cursor: pointer;
+}
+
+.editor-flex {
+    display: flex;
+}
+
+.information-circle-flex {
+    display: flex;
+}
+
+.reading-writing-flex {
+    display: flex;
 }
 
 /*TODO change color on .suggestion:hover ?*/
