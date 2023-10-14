@@ -26,6 +26,7 @@
     border-radius: 0.25rem;
     box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
     width: 60%;
+    margin-bottom: 2rem;
 }
 
 .card-body-dark-mode {
@@ -140,6 +141,11 @@
     margin-left: 0.5rem;
 }
 
+.marking-type-routing-span{
+    margin-left: 0.5rem;
+    color: gray;
+}
+
 .dark-mode-label-flex {
     display: flex;
     justify-content: space-between;
@@ -148,4 +154,30 @@
 .marking-type-flex {
     display: flex;
     justify-content: space-between;
+}
+.central-settings-area {
+    display: flex;
+    justify-content: center;
+    padding-top: 2rem;
+}
+
+.skeleton-header {
+    margin-bottom: 3rem;
+}
+
+.skeleton-text-area {
+    color: #d9d9d9;
+    border-radius: 0.25rem;
+}
+
+.dark-mode-informative-text {
+    padding-top: 0.3rem;
+    font-size: 0.8rem;
+    color: var(--dark-mode-smooth-theme);
+}
+
+.light-mode-informative-text {
+    padding-top: 0.3rem;
+    font-size: 0.8rem;
+    color: var(--dark-mode-smooth-theme);
 }

@@ -16,8 +16,11 @@
                     <div
                         id="editor"
                         (paste)="onTextPaste($event)"
+                        (keydown)="onKeyDown($event)"
                         [ngClass]="{
-                            'editor-dark-mode': darkModeService.isDarkMode
+                            'editor-dark-mode': darkModeService.isDarkMode,
+                            'editor-max-characters':
+                                characterCount >= MAX_EDITOR_CHARACTERS
                         }"
                         contenteditable="true"
                         [innerHTML]="innerHTMLOfEditor"
@@ -69,10 +72,18 @@
                         class="characters-words-markings"
                         [ngClass]="{
                             'characters-words-markings-dark-mode':
-                                darkModeService.isDarkMode
+                                darkModeService.isDarkMode,
+                            'max-editor-characters':
+                                characterCount >= MAX_EDITOR_CHARACTERS
                         }"
                         data-test="characters-words-markings"
-                        >{{ characterCount }}&nbsp;{{
+                        ><ng-container
+                            *ngIf="characterCount >= MAX_EDITOR_CHARACTERS"
+                            >{{
+                                MAX_EDITOR_CHARACTERS_MESSAGE
+                            }}&nbsp;–&nbsp;</ng-container
+                        >
+                        {{ characterCount }}&nbsp;{{
                             characterCount === 1 ? "karakter" : "karaktere"
                         }}&comma;&nbsp;{{ wordCount }}&nbsp;fjalë&comma;&nbsp;{{
                             processedText === undefined
