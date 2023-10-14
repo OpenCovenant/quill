@@ -140,7 +140,7 @@
     margin-left: 0.5rem;
 }
 
-.dark-mode-label-flex {
+.dark-mode-label-flex{
     display: flex;
     justify-content: space-between;
 }
