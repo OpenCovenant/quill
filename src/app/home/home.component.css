@@ -153,8 +153,9 @@
     border: none;
 }
 
-.listStyling {
+.while-reading-text-ul {
     min-height: 50px;
+    background-color: var(--light-mode-color);
 }
 
 .spinner-border {
@@ -370,6 +371,15 @@
 
 .reading-writing-flex {
     display: flex;
+}
+
+.while-reading-text-ul-dark-mode {
+    background-color: var(--dark-mode-theme);
+    color: var(--dark-mode-anti-theme);
+}
+
+.waiting-text-dark-mode {
+    color: var(--dark-mode-anti-theme);
 }
 
 /*TODO change color on .suggestion:hover ?*/
