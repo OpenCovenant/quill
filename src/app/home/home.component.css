@@ -380,6 +380,7 @@
 .waiting-text-dark-mode {
     color: var(--dark-mode-anti-theme);
 }
+
 /*TODO change color on .suggestion:hover ?*/
 @media (max-width: 800px) {
     .high-level-container {
