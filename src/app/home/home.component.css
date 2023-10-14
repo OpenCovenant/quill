@@ -234,6 +234,7 @@
     color: #0074e5;
     cursor: pointer;
     text-decoration: underline;
+    user-select: none;
 }
 
 @keyframes fillBackground {
