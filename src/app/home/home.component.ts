@@ -53,6 +53,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     loading$ = new BehaviorSubject<boolean>(false);
     editorElement!: HTMLElement;
     highlightedMarkingIndex: number = -1;
+    cardsToRemove: number[] = [];
+    cardSuggestionsToRemove: number[] = [];
+    deleteTimer: number | undefined;
+    cardsElementToRemove: any[] = [];
+    elementNameMarking: any[] = [];
 
     private placeHolderElement!: HTMLElement;
     private baseURL!: string;
@@ -212,14 +217,61 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * @param {number} suggestionIndex the index of the chosen Suggestion of the above TextMarking
      */
     chooseSuggestion(textMarkingIndex: number, suggestionIndex: number): void {
-        // don't choose suggestions on an uploaded file
+        this.cardSuggestionsToRemove.push(textMarkingIndex);
 
+        const cards = document.querySelectorAll(
+            '.sticky .card'
+        ) as NodeListOf<HTMLElement>;
+        const setTimer = this.cardSuggestionsToRemove.length > 1 ? 1700 : 900;
+        cards.item(textMarkingIndex).classList.add('fade-out');
+
+        setTimeout(() => {
+            cards.item(textMarkingIndex).classList.add('card-fade');
+        }, 1000);
+
+        clearTimeout(this.deleteTimer);
+
+        this.deleteTimer = setTimeout(() => {
+            const cards = document.querySelectorAll(
+                '.sticky .card'
+            ) as NodeListOf<HTMLElement>;
+
+            this.cardSuggestionsToRemove.forEach((removeItem) => {
+                cards.item(removeItem).classList.add('card-hidden');
+
+                cards.forEach((card, index) => {
+                    if (
+                        this.cardSuggestionsToRemove.length === 1 &&
+                        index >= removeItem
+                    ) {
+                        card.classList.add('move-up-animation');
+                        card.addEventListener('animationend', () => {
+                            card.classList.remove('move-up-animation');
+                        });
+                    } else if (
+                        this.cardSuggestionsToRemove.length >= 2 &&
+                        index >= removeItem
+                    ) {
+                        card.classList.add('move-up-multiple-animation');
+                        card.addEventListener('animationend', () => {
+                            card.classList.remove('move-up-multiple-animation');
+                        });
+                    }
+                });
+            });
+
+            this.cardSuggestionsToRemove = [];
+        }, 1000);
+
+        // don't choose suggestions on an uploaded file
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
 
         const textMarking: TextMarking =
             this.processedText!.textMarkings[textMarkingIndex];
         const childNode: ChildNode = editor.childNodes[textMarking.paragraph!];
         const p = document.createElement('p');
+
+        console.log(textMarking, childNode, p, 'no');
 
         const writtenText = childNode.textContent!;
         const leftWrittenText = writtenText.slice(0, textMarking.from);
@@ -235,62 +287,67 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         if (childNode.textContent === this.EMPTY_STRING) {
             p.innerHTML = this.LINE_BREAK;
         }
+
         editor.replaceChild(p, childNode); // TODO keep in mind that this nullifies other markings in this p as well
 
-        this.http
-            .post(this.generateMarkingsURL, editor.innerHTML)
-            .subscribe((next) => {
-                this.processedText = next as ProcessedText;
+        this.deleteTimer = setTimeout(() => {
+            this.http
+                .post(this.generateMarkingsURL, editor.innerHTML)
+                .subscribe((next) => {
+                    this.processedText = next as ProcessedText;
 
-                this.processedText.textMarkings =
-                    this.filterUnselectedMarkingTypes(
-                        this.processedText.textMarkings
-                    );
-
-                if (this.processedText?.textMarkings.length != 0) {
                     this.processedText.textMarkings =
-                        sortParagraphedTextMarkings(
+                        this.filterUnselectedMarkingTypes(
                             this.processedText.textMarkings
                         );
-                    const consumableTextMarkings: TextMarking[] = Array.from(
-                        this.processedText.textMarkings
-                    );
 
-                    editor.childNodes.forEach(
-                        (childNode: ChildNode, index: number) => {
-                            const isLastChildNode =
-                                index === editor.childNodes.length - 1
-                                    ? true
-                                    : false;
-                            const p = document.createElement('p');
-                            p.innerHTML = childNode.textContent!;
-                            if (childNode.textContent === this.EMPTY_STRING) {
-                                p.innerHTML = this.LINE_BREAK;
-                            }
-                            editor.replaceChild(p, childNode);
-                            markText(
-                                p,
-                                consumableTextMarkings.length,
-                                isLastChildNode,
-                                consumableTextMarkings.filter(
-                                    (tm: TextMarking) => tm.paragraph === index
-                                )
+                    if (this.processedText?.textMarkings.length != 0) {
+                        this.processedText.textMarkings =
+                            sortParagraphedTextMarkings(
+                                this.processedText.textMarkings
                             );
-                        }
-                    );
+                        const consumableTextMarkings: TextMarking[] =
+                            Array.from(this.processedText.textMarkings);
 
-                    // TODO editor or childNode here? I guess we have to do the whole thing always...
-                    // markText(editor, consumableTextMarkings.filter((tm: TextMarking) => tm.paragraph === textMarking.paragraph!));
-                }
-                this.positionCursorToEnd(editor);
+                        editor.childNodes.forEach(
+                            (childNode: ChildNode, index: number) => {
+                                const isLastChildNode =
+                                    index === editor.childNodes.length - 1
+                                        ? true
+                                        : false;
+                                const p = document.createElement('p');
+                                p.innerHTML = childNode.textContent!;
+                                if (
+                                    childNode.textContent === this.EMPTY_STRING
+                                ) {
+                                    p.innerHTML = this.LINE_BREAK;
+                                }
+                                editor.replaceChild(p, childNode);
+                                markText(
+                                    p,
+                                    consumableTextMarkings.length,
+                                    isLastChildNode,
+                                    consumableTextMarkings.filter(
+                                        (tm: TextMarking) =>
+                                            tm.paragraph === index
+                                    )
+                                );
+                            }
+                        );
 
-                this.updateCharacterAndWordCount();
-                this.shouldCollapseSuggestions = new Array<boolean>(
-                    this.processedText.textMarkings.length
-                ).fill(true);
+                        // TODO editor or childNode here? I guess we have to do the whole thing always...
+                        // markText(editor, consumableTextMarkings.filter((tm: TextMarking) => tm.paragraph === textMarking.paragraph!));
+                    }
+                    this.positionCursorToEnd(editor);
 
-                this.blurHighlightedBoardMarking();
-            });
+                    this.updateCharacterAndWordCount();
+                    this.shouldCollapseSuggestions = new Array<boolean>(
+                        this.processedText.textMarkings.length
+                    ).fill(true);
+
+                    this.blurHighlightedBoardMarking();
+                });
+        }, 1600);
     }
 
     // TODO there might be a bug here that creates double spaces in the text, test more
@@ -300,21 +357,86 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      */
     deleteTextMarking(textMarkingIndex: number): void {
         // based on the assumption that all spans within the paragraphs of the editor are markings
-        const currentTextMarking =
-            document.querySelectorAll('#editor > p > span')[textMarkingIndex];
-        currentTextMarking.parentNode!.replaceChild(
-            document.createTextNode(currentTextMarking.textContent!),
-            currentTextMarking
-        );
+        this.cardsToRemove.push(textMarkingIndex);
+        const cards = document.querySelectorAll(
+            '.sticky .card'
+        ) as NodeListOf<HTMLElement>;
+        cards.item(textMarkingIndex).classList.add('fade-out');
 
+        setTimeout(() => {
+            cards.item(textMarkingIndex).classList.add('card-fade');
+        }, 1000);
+
+        clearTimeout(this.deleteTimer); // Will reset the time as the user deletes more markings
+
+        this.deleteTimer = setTimeout(() => {
+            this.moveUpRemainingCards();
+        }, 900);
+    }
+
+    moveUpRemainingCards(): void {
+        const cardMarking = document.querySelectorAll('#editor > p > span');
+        const cards = document.querySelectorAll(
+            '.sticky .card'
+        ) as NodeListOf<HTMLElement>;
+
+        this.cardsToRemove.forEach((removeItem) => {
+            const cardToRemove = cards
+                .item(removeItem)
+                .childNodes[0].childNodes[0].childNodes[0].textContent?.replace(
+                    ' ',
+                    ''
+                );
+            this.elementNameMarking.push(cardToRemove!);
+            cards.item(removeItem).classList.add('card-hidden');
+
+            cards.forEach((card, index) => {
+                if (this.cardsToRemove.length === 1 && index >= removeItem) {
+                    card.classList.add('move-up-animation');
+                    card.addEventListener('animationend', () => {
+                        card.classList.remove('move-up-animation');
+                    });
+                } else if (
+                    this.cardsToRemove.length >= 2 &&
+                    index >= removeItem
+                ) {
+                    card.classList.add('move-up-multiple-animation');
+                    card.addEventListener('animationend', () => {
+                        card.classList.remove('move-up-multiple-animation');
+                    });
+                }
+            });
+        });
+
+        this.elementNameMarking.forEach((elementMarking) => {
+            this.cardsElementToRemove.push(
+                ...Array.from(cardMarking).filter(
+                    (card) => card.textContent === elementMarking
+                )
+            );
+        });
+
+        this.cardsElementToRemove.forEach((cardElement) => {
+            const currentTextMarking = cardElement;
+            currentTextMarking.parentNode!.replaceChild(
+                document.createTextNode(currentTextMarking.textContent!),
+                currentTextMarking
+            );
+        });
+
+        // Create a new array without the marked indexes
         this.processedText!.textMarkings =
             this.processedText!.textMarkings.filter(
-                (tM) =>
-                    tM !== this.processedText!.textMarkings[textMarkingIndex]
+                (_, index) => !this.cardsToRemove.includes(index)
             );
+
         this.shouldCollapseSuggestions = new Array<boolean>(
             this.processedText!.textMarkings.length
         ).fill(true);
+
+        this.cardsToRemove = [];
+        this.cardsElementToRemove = [];
+        this.elementNameMarking = [];
     }
 
     /**
