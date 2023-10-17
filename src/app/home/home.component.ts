@@ -54,7 +54,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     editorElement!: HTMLElement;
     highlightedMarkingIndex: number = -1;
     cardsToRemove: number[] = [];
-    cardSuggestionsToRemove: number[] = [];
+    cardSuggestionsToRemove: {
+        textMarkingIndex: number;
+        suggestionIndex: number;
+    }[] = [];
     deleteTimer: number | undefined;
     cardsElementToRemove: any[] = [];
     elementNameMarking: any[] = [];
@@ -217,61 +220,135 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * @param {number} suggestionIndex the index of the chosen Suggestion of the above TextMarking
      */
     chooseSuggestion(textMarkingIndex: number, suggestionIndex: number): void {
-        this.cardSuggestionsToRemove.push(textMarkingIndex);
-
-        const cards = document.querySelectorAll(
-            '.sticky .card'
-        ) as NodeListOf<HTMLElement>;
-        const setTimer = this.cardSuggestionsToRemove.length > 1 ? 1700 : 900;
-        cards.item(textMarkingIndex).classList.add('fade-out');
-
-        setTimeout(() => {
-            cards.item(textMarkingIndex).classList.add('card-fade');
-        }, 1000);
+        if (this.cardsToRemove.length >= 1) return; // prevents collision action between suggestion and deletion
+        this.cardSuggestionsToRemove.push({
+            textMarkingIndex,
+            suggestionIndex
+        });
+        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
+        this.slideFadeAnimationCard(textMarkingIndex);
 
         clearTimeout(this.deleteTimer);
-
         this.deleteTimer = setTimeout(() => {
             const cards = document.querySelectorAll(
                 '.sticky .card'
             ) as NodeListOf<HTMLElement>;
 
             this.cardSuggestionsToRemove.forEach((removeItem) => {
-                cards.item(removeItem).classList.add('card-hidden');
+                cards
+                    .item(removeItem.textMarkingIndex)
+                    .classList.add('card-hidden');
 
                 cards.forEach((card, index) => {
-                    if (
-                        this.cardSuggestionsToRemove.length === 1 &&
-                        index >= removeItem
-                    ) {
-                        card.classList.add('move-up-animation');
-                        card.addEventListener('animationend', () => {
-                            card.classList.remove('move-up-animation');
-                        });
-                    } else if (
-                        this.cardSuggestionsToRemove.length >= 2 &&
-                        index >= removeItem
-                    ) {
-                        card.classList.add('move-up-multiple-animation');
-                        card.addEventListener('animationend', () => {
-                            card.classList.remove('move-up-multiple-animation');
-                        });
-                    }
+                    this.handleCardAnimations(
+                        this.cardSuggestionsToRemove.length,
+                        card,
+                        index,
+                        removeItem.textMarkingIndex
+                    );
                 });
             });
 
+            // don't choose suggestions on an uploaded file
+            this.cardSuggestionsToRemove.forEach((removeItem) => {
+                this.replaceSuggestedNode(editor, removeItem);
+            });
+
+            setTimeout(
+                () => {
+                    this.postSuggestedText(editor);
+                },
+                this.cardSuggestionsToRemove.length === 1 ? 100 : 250
+            );
+
             this.cardSuggestionsToRemove = [];
-        }, 1000);
+        }, 1500);
+    }
 
-        // don't choose suggestions on an uploaded file
-        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
+    /**
+     * Post the suggested text to the server for processing and update the editor accordingly.
+     *
+     * This method sends the content of the editor to the server, receives processed text with markings,
+     * and updates the editor's content, applying text markings and adjusting cursor position.
+     *
+     * @param {any} editor - The editor element to be updated.
+     * */
+    postSuggestedText(editor: any): void {
+        this.http
+            .post(this.generateMarkingsURL, editor.innerHTML)
+            .subscribe((next) => {
+                this.processedText = next as ProcessedText;
 
+                this.processedText.textMarkings =
+                    this.filterUnselectedMarkingTypes(
+                        this.processedText.textMarkings
+                    );
+
+                if (this.processedText?.textMarkings.length != 0) {
+                    this.processedText.textMarkings =
+                        sortParagraphedTextMarkings(
+                            this.processedText.textMarkings
+                        );
+                    const consumableTextMarkings: TextMarking[] = Array.from(
+                        this.processedText.textMarkings
+                    );
+
+                    editor.childNodes.forEach(
+                        (childNode: ChildNode, index: number) => {
+                            const isLastChildNode =
+                                index === editor.childNodes.length - 1
+                                    ? true
+                                    : false;
+                            const p = document.createElement('p');
+                            p.innerHTML = childNode.textContent!;
+                            if (childNode.textContent === this.EMPTY_STRING) {
+                                p.innerHTML = this.LINE_BREAK;
+                            }
+                            editor.replaceChild(p, childNode);
+                            markText(
+                                p,
+                                consumableTextMarkings.length,
+                                isLastChildNode,
+                                consumableTextMarkings.filter(
+                                    (tm: TextMarking) => tm.paragraph === index
+                                )
+                            );
+                        }
+                    );
+
+                    // TODO editor or childNode here? I guess we have to do the whole thing always...
+                    // markText(editor, consumableTextMarkings.filter((tm: TextMarking) => tm.paragraph === textMarking.paragraph!));
+                }
+                this.positionCursorToEnd(editor);
+
+                this.updateCharacterAndWordCount();
+                this.shouldCollapseSuggestions = new Array<boolean>(
+                    this.processedText.textMarkings.length
+                ).fill(true);
+
+                this.blurHighlightedBoardMarking();
+            });
+    }
+
+    /**
+     * Replace a suggested node in the editor with the chosen suggestion.
+     *
+     * This method takes the index of the text marking and the index of the suggestion to be applied.
+     * It replaces the content of the corresponding paragraph in the editor with the chosen suggestion,
+     * considering the starting and ending positions of the text marking.
+     *
+     * @param {any} editor - The editor element to be updated.
+     * @param {{ textMarkingIndex: number, suggestionIndex: number }} removeItem -
+     *     An object containing the index of the text marking and the index of the suggestion to be replaced.
+     */
+    replaceSuggestedNode(
+        editor: any,
+        removeItem: { textMarkingIndex: number; suggestionIndex: number }
+    ): void {
         const textMarking: TextMarking =
-            this.processedText!.textMarkings[textMarkingIndex];
+            this.processedText!.textMarkings[removeItem.textMarkingIndex];
         const childNode: ChildNode = editor.childNodes[textMarking.paragraph!];
         const p = document.createElement('p');
-
-        console.log(textMarking, childNode, p, 'no');
 
         const writtenText = childNode.textContent!;
         const leftWrittenText = writtenText.slice(0, textMarking.from);
@@ -282,72 +359,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         p.innerHTML =
             leftWrittenText +
-            textMarking.suggestions[suggestionIndex].action +
+            textMarking.suggestions[removeItem.suggestionIndex].action +
             rightWrittenText;
         if (childNode.textContent === this.EMPTY_STRING) {
             p.innerHTML = this.LINE_BREAK;
         }
 
         editor.replaceChild(p, childNode); // TODO keep in mind that this nullifies other markings in this p as well
-
-        this.deleteTimer = setTimeout(() => {
-            this.http
-                .post(this.generateMarkingsURL, editor.innerHTML)
-                .subscribe((next) => {
-                    this.processedText = next as ProcessedText;
-
-                    this.processedText.textMarkings =
-                        this.filterUnselectedMarkingTypes(
-                            this.processedText.textMarkings
-                        );
-
-                    if (this.processedText?.textMarkings.length != 0) {
-                        this.processedText.textMarkings =
-                            sortParagraphedTextMarkings(
-                                this.processedText.textMarkings
-                            );
-                        const consumableTextMarkings: TextMarking[] =
-                            Array.from(this.processedText.textMarkings);
-
-                        editor.childNodes.forEach(
-                            (childNode: ChildNode, index: number) => {
-                                const isLastChildNode =
-                                    index === editor.childNodes.length - 1
-                                        ? true
-                                        : false;
-                                const p = document.createElement('p');
-                                p.innerHTML = childNode.textContent!;
-                                if (
-                                    childNode.textContent === this.EMPTY_STRING
-                                ) {
-                                    p.innerHTML = this.LINE_BREAK;
-                                }
-                                editor.replaceChild(p, childNode);
-                                markText(
-                                    p,
-                                    consumableTextMarkings.length,
-                                    isLastChildNode,
-                                    consumableTextMarkings.filter(
-                                        (tm: TextMarking) =>
-                                            tm.paragraph === index
-                                    )
-                                );
-                            }
-                        );
-
-                        // TODO editor or childNode here? I guess we have to do the whole thing always...
-                        // markText(editor, consumableTextMarkings.filter((tm: TextMarking) => tm.paragraph === textMarking.paragraph!));
-                    }
-                    this.positionCursorToEnd(editor);
-
-                    this.updateCharacterAndWordCount();
-                    this.shouldCollapseSuggestions = new Array<boolean>(
-                        this.processedText.textMarkings.length
-                    ).fill(true);
-
-                    this.blurHighlightedBoardMarking();
-                });
-        }, 1600);
     }
 
     // TODO there might be a bug here that creates double spaces in the text, test more
@@ -357,23 +375,23 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      */
     deleteTextMarking(textMarkingIndex: number): void {
         // based on the assumption that all spans within the paragraphs of the editor are markings
-        this.cardsToRemove.push(textMarkingIndex);
-        const cards = document.querySelectorAll(
-            '.sticky .card'
-        ) as NodeListOf<HTMLElement>;
-        cards.item(textMarkingIndex).classList.add('fade-out');
+        if (this.cardSuggestionsToRemove.length >= 1) return; // prevents collision action between suggestion and deletion
 
-        setTimeout(() => {
-            cards.item(textMarkingIndex).classList.add('card-fade');
-        }, 1000);
+        this.cardsToRemove.push(textMarkingIndex);
+        this.slideFadeAnimationCard(textMarkingIndex);
 
         clearTimeout(this.deleteTimer); // Will reset the time as the user deletes more markings
-
         this.deleteTimer = setTimeout(() => {
             this.moveUpRemainingCards();
         }, 900);
     }
 
+    /**
+     * Move up and animate the remaining cards in the editor after deleting marked cards.
+     *
+     * This method is responsible for animating the remaining cards in the editor after
+     * certain marked cards have been deleted.
+     */
     moveUpRemainingCards(): void {
         const cardMarking = document.querySelectorAll('#editor > p > span');
         const cards = document.querySelectorAll(
@@ -381,30 +399,18 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         ) as NodeListOf<HTMLElement>;
 
         this.cardsToRemove.forEach((removeItem) => {
-            const cardToRemove = cards
-                .item(removeItem)
-                .childNodes[0].childNodes[0].childNodes[0].textContent?.replace(
-                    ' ',
-                    ''
-                );
+            const card = cards.item(removeItem);
+            const cardToRemove = this.extractCardInfo(card);
             this.elementNameMarking.push(cardToRemove!);
-            cards.item(removeItem).classList.add('card-hidden');
+            card.classList.add('card-hidden');
 
             cards.forEach((card, index) => {
-                if (this.cardsToRemove.length === 1 && index >= removeItem) {
-                    card.classList.add('move-up-animation');
-                    card.addEventListener('animationend', () => {
-                        card.classList.remove('move-up-animation');
-                    });
-                } else if (
-                    this.cardsToRemove.length >= 2 &&
-                    index >= removeItem
-                ) {
-                    card.classList.add('move-up-multiple-animation');
-                    card.addEventListener('animationend', () => {
-                        card.classList.remove('move-up-multiple-animation');
-                    });
-                }
+                this.handleCardAnimations(
+                    this.cardsToRemove.length,
+                    card,
+                    index,
+                    removeItem
+                );
             });
         });
 
@@ -416,6 +422,21 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             );
         });
 
+        this.deleteMarkings();
+
+        this.cardsToRemove = [];
+        this.cardsElementToRemove = [];
+        this.elementNameMarking = [];
+    }
+
+    /**
+     * Delete marked elements from the editor content and update processed text.
+     *
+     * responsible for removing marked elements from the editor's content.
+     * It replaces the marked elements with their respective text content and updates
+     * the processed text data accordingly.
+     */
+    deleteMarkings(): void {
         this.cardsElementToRemove.forEach((cardElement) => {
             const currentTextMarking = cardElement;
             currentTextMarking.parentNode!.replaceChild(
@@ -433,10 +454,64 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.shouldCollapseSuggestions = new Array<boolean>(
             this.processedText!.textMarkings.length
         ).fill(true);
+    }
 
-        this.cardsToRemove = [];
-        this.cardsElementToRemove = [];
-        this.elementNameMarking = [];
+    /**
+     * Handle animations for card removal in the editor.
+     *
+     * Applies animations to cards that are being removed from the editor.
+     * The animations are based on the number of cards to remove and their respective indexes.
+     * It adds specific classes for single and multiple card removal animations and listens
+     * for the animationend event to remove the animation classes after completion.
+     *
+     * @param {number} cardsToRemove - The total number of cards to be removed.
+     * @param {HTMLElement} card - The card element to apply animations.
+     * @param {number} index - The index of the card in the editor.
+     * @param {number} removeItem - The index of the card to be removed.
+     */
+    handleCardAnimations(
+        cardsToRemove: number,
+        card: HTMLElement,
+        index: number,
+        removeItem: number
+    ): void {
+        if (cardsToRemove === 1 && index >= removeItem) {
+            card.classList.add('move-up-animation');
+            card.addEventListener('animationend', () => {
+                card.classList.remove('move-up-animation');
+            });
+        } else if (cardsToRemove >= 2 && index >= removeItem) {
+            card.classList.add('move-up-multiple-animation');
+            card.addEventListener('animationend', () => {
+                card.classList.remove('move-up-multiple-animation');
+            });
+        }
+    }
+
+    /**
+     * Apply slide-fade animation to a card in the editor.
+     * @param {number} textMarkingIndex - The index of the card to apply the animation.
+     */
+    slideFadeAnimationCard(textMarkingIndex: number): void {
+        const cards = document.querySelectorAll(
+            '.sticky .card'
+        ) as NodeListOf<HTMLElement>;
+        cards.item(textMarkingIndex).classList.add('fade-out');
+
+        setTimeout(() => {
+            cards.item(textMarkingIndex).classList.add('card-fade');
+        }, 1000);
+    }
+
+    /**
+     * Returns the actual name of the marking.
+     * @param {HTMLElement} card - child node
+     */
+    extractCardInfo(card: HTMLElement): any {
+        return card.childNodes[0].childNodes[0].childNodes[0].textContent?.replace(
+            ' ',
+            ''
+        );
     }
 
     /**

@@ -29,16 +29,16 @@
     box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
 }
 
-.card-fade{
+.card-fade {
     opacity: 0;
 }
 
-.card-hidden{
+.card-hidden {
     display: none;
 }
 
 .fade-out {
-    animation: fadeOutAndSlideRight 1.0s cubic-bezier(0.42, 0, 0.58, 1);
+    animation: fadeOutAndSlideRight 1s cubic-bezier(0.42, 0, 0.58, 1);
 }
 
 @keyframes fadeOutAndSlideRight {
@@ -48,38 +48,40 @@
     }
     to {
         opacity: 0;
-        transform: translateX(200px); /* Adjust the value based on how much you want it to slide */
+        transform: translateX(
+            200px
+        ); /* Adjust the value based on how much you want it to slide */
     }
 }
 
 .move-up-animation {
-  animation: moveUp 0.6s cubic-bezier(0.42, 0, 0.58, 1);
+    animation: moveUp 0.6s cubic-bezier(0.42, 0, 0.58, 1);
 }
 
 @keyframes moveUp {
-  from {
-    transform: translateY(144px);
-    opacity: 1;
-  }
-  to {
-    transform: translateY(0px);
-    opacity: 1;
-  }
+    from {
+        transform: translateY(144px);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(0px);
+        opacity: 1;
+    }
 }
 
 .move-up-multiple-animation {
-  animation: moveUpMultiple 0.8s cubic-bezier(0.42, 0, 0.58, 1);
+    animation: moveUpMultiple 0.8s cubic-bezier(0.42, 0, 0.58, 1);
 }
 
 @keyframes moveUpMultiple {
-  from {
-    transform: translateY(144px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0px);
-    opacity: 1;
-  }
+    from {
+        transform: translateY(144px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0px);
+        opacity: 1;
+    }
 }
 
 .card-header {
