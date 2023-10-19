@@ -53,6 +53,14 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     loading$ = new BehaviorSubject<boolean>(false);
     editorElement!: HTMLElement;
     highlightedMarkingIndex: number = -1;
+    cardsToRemove: number[] = [];
+    cardSuggestionsToRemove: {
+        textMarkingIndex: number;
+        suggestionIndex: number;
+    }[] = [];
+    deleteTimer: number | undefined;
+    cardsElementToRemove: any[] = [];
+    elementNameMarking: any[] = [];
 
     private placeHolderElement!: HTMLElement;
     private baseURL!: string;
@@ -212,31 +220,60 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * @param {number} suggestionIndex the index of the chosen Suggestion of the above TextMarking
      */
     chooseSuggestion(textMarkingIndex: number, suggestionIndex: number): void {
-        // don't choose suggestions on an uploaded file
-
+        if (this.cardsToRemove.length >= 1) return; // prevents collision action between suggestion and deletion
+        this.cardSuggestionsToRemove.push({
+            textMarkingIndex,
+            suggestionIndex
+        });
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
+        this.slideFadeAnimationCard(textMarkingIndex);
 
-        const textMarking: TextMarking =
-            this.processedText!.textMarkings[textMarkingIndex];
-        const childNode: ChildNode = editor.childNodes[textMarking.paragraph!];
-        const p = document.createElement('p');
+        clearTimeout(this.deleteTimer);
+        this.deleteTimer = setTimeout(() => {
+            const cards = document.querySelectorAll(
+                '.sticky .card'
+            ) as NodeListOf<HTMLElement>;
 
-        const writtenText = childNode.textContent!;
-        const leftWrittenText = writtenText.slice(0, textMarking.from);
-        const rightWrittenText = writtenText.slice(
-            textMarking.to,
-            writtenText.length
-        );
+            this.cardSuggestionsToRemove.forEach((removeItem) => {
+                cards
+                    .item(removeItem.textMarkingIndex)
+                    .classList.add('card-hidden');
 
-        p.innerHTML =
-            leftWrittenText +
-            textMarking.suggestions[suggestionIndex].action +
-            rightWrittenText;
-        if (childNode.textContent === this.EMPTY_STRING) {
-            p.innerHTML = this.LINE_BREAK;
-        }
-        editor.replaceChild(p, childNode); // TODO keep in mind that this nullifies other markings in this p as well
+                cards.forEach((card, index) => {
+                    this.handleCardAnimations(
+                        this.cardSuggestionsToRemove.length,
+                        card,
+                        index,
+                        removeItem.textMarkingIndex
+                    );
+                });
+            });
 
+            // don't choose suggestions on an uploaded file
+            this.cardSuggestionsToRemove.forEach((removeItem) => {
+                this.replaceSuggestedNode(editor, removeItem);
+            });
+
+            setTimeout(
+                () => {
+                    this.postSuggestedText(editor);
+                },
+                this.cardSuggestionsToRemove.length === 1 ? 100 : 250
+            );
+
+            this.cardSuggestionsToRemove = [];
+        }, 1500);
+    }
+
+    /**
+     * Post the suggested text to the server for processing and update the editor accordingly.
+     *
+     * This method sends the content of the editor to the server, receives processed text with markings,
+     * and updates the editor's content, applying text markings and adjusting cursor position.
+     *
+     * @param {any} editor - The editor element to be updated.
+     * */
+    postSuggestedText(editor: any): void {
         this.http
             .post(this.generateMarkingsURL, editor.innerHTML)
             .subscribe((next) => {
@@ -293,6 +330,44 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             });
     }
 
+    /**
+     * Replace a suggested node in the editor with the chosen suggestion.
+     *
+     * This method takes the index of the text marking and the index of the suggestion to be applied.
+     * It replaces the content of the corresponding paragraph in the editor with the chosen suggestion,
+     * considering the starting and ending positions of the text marking.
+     *
+     * @param {any} editor - The editor element to be updated.
+     * @param {{ textMarkingIndex: number, suggestionIndex: number }} removeItem -
+     *     An object containing the index of the text marking and the index of the suggestion to be replaced.
+     */
+    replaceSuggestedNode(
+        editor: any,
+        removeItem: { textMarkingIndex: number; suggestionIndex: number }
+    ): void {
+        const textMarking: TextMarking =
+            this.processedText!.textMarkings[removeItem.textMarkingIndex];
+        const childNode: ChildNode = editor.childNodes[textMarking.paragraph!];
+        const p = document.createElement('p');
+
+        const writtenText = childNode.textContent!;
+        const leftWrittenText = writtenText.slice(0, textMarking.from);
+        const rightWrittenText = writtenText.slice(
+            textMarking.to,
+            writtenText.length
+        );
+
+        p.innerHTML =
+            leftWrittenText +
+            textMarking.suggestions[removeItem.suggestionIndex].action +
+            rightWrittenText;
+        if (childNode.textContent === this.EMPTY_STRING) {
+            p.innerHTML = this.LINE_BREAK;
+        }
+
+        editor.replaceChild(p, childNode); // TODO keep in mind that this nullifies other markings in this p as well
+    }
+
     // TODO there might be a bug here that creates double spaces in the text, test more
     /**
      * Delete the **TextMarking** based on the **textMarkingIndex**.
@@ -300,21 +375,143 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      */
     deleteTextMarking(textMarkingIndex: number): void {
         // based on the assumption that all spans within the paragraphs of the editor are markings
-        const currentTextMarking =
-            document.querySelectorAll('#editor > p > span')[textMarkingIndex];
-        currentTextMarking.parentNode!.replaceChild(
-            document.createTextNode(currentTextMarking.textContent!),
-            currentTextMarking
-        );
+        if (this.cardSuggestionsToRemove.length >= 1) return; // prevents collision action between suggestion and deletion
 
+        this.cardsToRemove.push(textMarkingIndex);
+        this.slideFadeAnimationCard(textMarkingIndex);
+
+        clearTimeout(this.deleteTimer); // Will reset the time as the user deletes more markings
+        this.deleteTimer = setTimeout(() => {
+            this.moveUpRemainingCards();
+        }, 900);
+    }
+
+    /**
+     * Move up and animate the remaining cards in the editor after deleting marked cards.
+     *
+     * This method is responsible for animating the remaining cards in the editor after
+     * certain marked cards have been deleted.
+     */
+    moveUpRemainingCards(): void {
+        const cardMarking = document.querySelectorAll('#editor > p > span');
+        const cards = document.querySelectorAll(
+            '.sticky .card'
+        ) as NodeListOf<HTMLElement>;
+
+        this.cardsToRemove.forEach((removeItem) => {
+            const card = cards.item(removeItem);
+            const cardToRemove = this.extractCardInfo(card);
+            this.elementNameMarking.push(cardToRemove!);
+            card.classList.add('card-hidden');
+
+            cards.forEach((card, index) => {
+                this.handleCardAnimations(
+                    this.cardsToRemove.length,
+                    card,
+                    index,
+                    removeItem
+                );
+            });
+        });
+
+        this.elementNameMarking.forEach((elementMarking) => {
+            this.cardsElementToRemove.push(
+                ...Array.from(cardMarking).filter(
+                    (card) => card.textContent === elementMarking
+                )
+            );
+        });
+
+        this.deleteMarkings();
+
+        this.cardsToRemove = [];
+        this.cardsElementToRemove = [];
+        this.elementNameMarking = [];
+    }
+
+    /**
+     * Delete marked elements from the editor content and update processed text.
+     *
+     * responsible for removing marked elements from the editor's content.
+     * It replaces the marked elements with their respective text content and updates
+     * the processed text data accordingly.
+     */
+    deleteMarkings(): void {
+        this.cardsElementToRemove.forEach((cardElement) => {
+            const currentTextMarking = cardElement;
+            currentTextMarking.parentNode!.replaceChild(
+                document.createTextNode(currentTextMarking.textContent!),
+                currentTextMarking
+            );
+        });
+
+        // Create a new array without the marked indexes
         this.processedText!.textMarkings =
             this.processedText!.textMarkings.filter(
-                (tM) =>
-                    tM !== this.processedText!.textMarkings[textMarkingIndex]
+                (_, index) => !this.cardsToRemove.includes(index)
             );
+
         this.shouldCollapseSuggestions = new Array<boolean>(
             this.processedText!.textMarkings.length
         ).fill(true);
+    }
+
+    /**
+     * Handle animations for card removal in the editor.
+     *
+     * Applies animations to cards that are being removed from the editor.
+     * The animations are based on the number of cards to remove and their respective indexes.
+     * It adds specific classes for single and multiple card removal animations and listens
+     * for the animationend event to remove the animation classes after completion.
+     *
+     * @param {number} cardsToRemove - The total number of cards to be removed.
+     * @param {HTMLElement} card - The card element to apply animations.
+     * @param {number} index - The index of the card in the editor.
+     * @param {number} removeItem - The index of the card to be removed.
+     */
+    handleCardAnimations(
+        cardsToRemove: number,
+        card: HTMLElement,
+        index: number,
+        removeItem: number
+    ): void {
+        if (cardsToRemove === 1 && index >= removeItem) {
+            card.classList.add('move-up-animation');
+            card.addEventListener('animationend', () => {
+                card.classList.remove('move-up-animation');
+            });
+        } else if (cardsToRemove >= 2 && index >= removeItem) {
+            card.classList.add('move-up-multiple-animation');
+            card.addEventListener('animationend', () => {
+                card.classList.remove('move-up-multiple-animation');
+            });
+        }
+    }
+
+    /**
+     * Apply slide-fade animation to a card in the editor.
+     * @param {number} textMarkingIndex - The index of the card to apply the animation.
+     */
+    slideFadeAnimationCard(textMarkingIndex: number): void {
+        const cards = document.querySelectorAll(
+            '.sticky .card'
+        ) as NodeListOf<HTMLElement>;
+        cards.item(textMarkingIndex).classList.add('fade-out');
+
+        setTimeout(() => {
+            cards.item(textMarkingIndex).classList.add('card-fade');
+        }, 1000);
+    }
+
+    /**
+     * Returns the actual name of the marking.
+     * @param {HTMLElement} card - child node
+     */
+    extractCardInfo(card: HTMLElement): any {
+        return card.childNodes[0].childNodes[0].childNodes[0].textContent?.replace(
+            ' ',
+            ''
+        );
     }
 
     /**
