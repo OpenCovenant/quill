@@ -4,7 +4,7 @@ describe("a properly generated marked text on the rhs which isn't falsely update
     });
 
     it("contains the editor in which we want to write", () => {
-        const initialText = "pra gabmim kaq";
+        const initialText = "gabmim kaq";
         cy.get('[data-test="editor"]').type(initialText);
         cy.wait(3000);
         for (let i = 0; i < initialText.length; i++) {

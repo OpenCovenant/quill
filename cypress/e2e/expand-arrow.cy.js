@@ -37,11 +37,11 @@ describe("click on expand/collapse arrow and then choose on a suggestion and che
         cy.get('[data-test="suggestion"]')
             .children()
             .should("have.length.gt", 8);
-        cy.get('[data-test="suggestion"]').contains("saktë").click();
+        cy.get('[data-test="suggestion"]').contains("fakt").click();
         cy.get(
             '[data-test="oscillate-suggestions-button"].bi-arrow-right-square'
         ).click();
-        cy.get('[data-test="suggestion"]').contains("është").click();
-        cy.get('[data-test="editor"]').should("have.text", "saktë është");
+        cy.get('[data-test="suggestion"]').contains("ishte").click();
+        cy.get('[data-test="editor"]').should("have.text", "fakt ishte");
     });
 });

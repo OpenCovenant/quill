@@ -14,9 +14,17 @@ describe("test for dismiss-marking button", () => {
         const text = "gabmim gabmim";
         cy.get("#editor > p > .typo").should("not.exist");
         cy.get('[data-test="editor"]').type(text);
-        cy.get('[data-test="dismiss-marking-button"]').first().click();
-        cy.get('[data-test="dismiss-marking-button"]').first().click();
+
+        // Click on each dismiss-marking button
+        cy.get(".sticky .card").each((card) => {
+            cy.wrap(card).find('[data-test="dismiss-marking-button"]').click();
+
+            cy.wrap(card).should("not.exist");
+        });
+
+        // Ensure that there are no remaining suggestions
         cy.get('[data-test="suggestion"]').should("not.exist");
+        // Ensure that the editor content matches the original text
         cy.get('[data-test="editor"]').should("have.text", text);
     });
 });

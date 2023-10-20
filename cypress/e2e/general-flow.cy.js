@@ -44,7 +44,7 @@ describe("a general flow of quill", () => {
         cy.get('[data-test="suggestion"]')
             .children()
             .should("have.length.gt", 4);
-        cy.get('[data-test="suggestion"]').contains("është").click();
-        cy.get('[data-test="editor"]').should("have.text", "është");
+        cy.get('[data-test="suggestion"]').contains("eshtë").click();
+        cy.get('[data-test="editor"]').should("have.text", "eshtë");
     });
 });

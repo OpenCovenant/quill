@@ -235,6 +235,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             ) as NodeListOf<HTMLElement>;
 
             this.cardSuggestionsToRemove.forEach((removeItem) => {
+                this.screenHeightAnimation('add');
                 cards
                     .item(removeItem.textMarkingIndex)
                     .classList.add('card-hidden');
@@ -248,6 +249,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     );
                 });
             });
+            this.screenHeightAnimation('remove');
 
             // don't choose suggestions on an uploaded file
             this.cardSuggestionsToRemove.forEach((removeItem) => {
@@ -402,6 +404,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             const card = cards.item(removeItem);
             const cardToRemove = this.extractCardInfo(card);
             this.elementNameMarking.push(cardToRemove!);
+            this.screenHeightAnimation('add');
             card.classList.add('card-hidden');
 
             cards.forEach((card, index) => {
@@ -413,6 +416,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 );
             });
         });
+
+        this.screenHeightAnimation('remove');
 
         this.elementNameMarking.forEach((elementMarking) => {
             this.cardsElementToRemove.push(
@@ -972,5 +977,17 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             );
             copyToClipboardButton.style.color = 'black';
         }, 2 * this.SECONDS);
+    }
+
+    private screenHeightAnimation(action: string) {
+        const sticky = document.getElementsByClassName('sticky')[0];
+
+        if (action === 'add') {
+            sticky.classList.add('screen_height_delay');
+        } else if (action === 'remove') {
+            setTimeout(() => {
+                sticky.classList.remove('screen_height_delay');
+            }, 800);
+        }
     }
 }
