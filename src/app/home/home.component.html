@@ -232,7 +232,7 @@
         </div>
         <div
             *ngIf="processedText?.textMarkings"
-            [ngClass]="{ sticky: this.highlightedMarkingIndex === -1 }"
+            [ngClass]="{ sticky: highlightedMarkingIndex === 0}"
         >
             <ng-template
                 [ngIf]="this.highlightedMarkingIndex === -1"
