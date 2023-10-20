@@ -233,9 +233,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             const cards = document.querySelectorAll(
                 '.sticky .card'
             ) as NodeListOf<HTMLElement>;
-
+          
+            this.screenHeightAnimation('add');
             this.cardSuggestionsToRemove.forEach((removeItem) => {
-                this.screenHeightAnimation('add');
                 cards
                     .item(removeItem.textMarkingIndex)
                     .classList.add('card-hidden');
@@ -418,6 +418,71 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         });
 
         this.screenHeightAnimation('remove');
+
+        this.elementNameMarking.forEach((elementMarking) => {
+            this.cardsElementToRemove.push(
+                ...Array.from(cardMarking).filter(
+                    (card) => card.textContent === elementMarking
+                )
+            );
+        });
+
+        this.deleteMarkings();
+
+        this.cardsToRemove = [];
+        this.cardsElementToRemove = [];
+        this.elementNameMarking = [];
+    }
+
+    /**
+     * Delete marked elements from the editor content and update processed text.
+     *
+     * responsible for removing marked elements from the editor's content.
+     * It replaces the marked elements with their respective text content and updates
+     * the processed text data accordingly.
+     */
+    deleteMarkings(): void {
+        this.cardsElementToRemove.forEach((cardElement) => {
+            const currentTextMarking = cardElement;
+            currentTextMarking.parentNode!.replaceChild(
+                document.createTextNode(currentTextMarking.textContent!),
+                currentTextMarking
+            );
+        });
+
+        clearTimeout(this.deleteTimer); // Will reset the time as the user deletes more markings
+        this.deleteTimer = setTimeout(() => {
+            this.moveUpRemainingCards();
+        }, 900);
+    }
+
+    /**
+     * Move up and animate the remaining cards in the editor after deleting marked cards.
+     *
+     * This method is responsible for animating the remaining cards in the editor after
+     * certain marked cards have been deleted.
+     */
+    moveUpRemainingCards(): void {
+        const cardMarking = document.querySelectorAll('#editor > p > span');
+        const cards = document.querySelectorAll(
+            '.sticky .card'
+        ) as NodeListOf<HTMLElement>;
+
+        this.cardsToRemove.forEach((removeItem) => {
+            const card = cards.item(removeItem);
+            const cardToRemove = this.extractCardInfo(card);
+            this.elementNameMarking.push(cardToRemove!);
+            card.classList.add('card-hidden');
+
+            cards.forEach((card, index) => {
+                this.handleCardAnimations(
+                    this.cardsToRemove.length,
+                    card,
+                    index,
+                    removeItem
+                );
+            });
+        });
 
         this.elementNameMarking.forEach((elementMarking) => {
             this.cardsElementToRemove.push(
