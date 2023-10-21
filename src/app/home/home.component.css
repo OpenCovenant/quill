@@ -24,6 +24,19 @@
     color: var(--dark-mode-anti-theme);
 }
 
+@keyframes reduceMargin {
+    from {
+        margin-bottom: 148px;
+    }
+    to {
+        margin-bottom: 0px;
+    }
+}
+
+.screen_height_delay {
+    animation: reduceMargin 0.8s cubic-bezier(0.42, 0, 0.58, 1);
+}
+
 .card {
     border: 0px solid rgba(0, 0, 0, 0.125);
     box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
@@ -48,9 +61,7 @@
     }
     to {
         opacity: 0;
-        transform: translateX(
-            200px
-        ); /* Adjust the value based on how much you want it to slide */
+        transform: translateX(200px);
     }
 }
 
@@ -154,6 +165,9 @@
     flex: 0 0 30%;
     margin-right: 3rem;
     /*padding-right: 25px;*/
+    overflow-x: hidden;
+    overflow-y: visible;
+    padding: 5px;
 }
 
 .template-marking-span {
@@ -358,6 +372,7 @@
     font-weight: bold;
     transition: all 0.1s;
 }
+
 .marking-unfocus {
     border-radius: 4px;
     padding-top: 3px;
@@ -404,6 +419,7 @@
 .bi-arrow-left {
     padding-right: 0.5rem;
 }
+
 .suggestions-header {
     cursor: pointer;
 }
