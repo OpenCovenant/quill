@@ -225,7 +225,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             textMarkingIndex,
             suggestionIndex
         });
+
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
+        if(this.isIndexHighlightSelected(editor)) return
+
+
         this.slideFadeAnimationCard(textMarkingIndex);
 
         clearTimeout(this.deleteTimer);
@@ -263,8 +267,26 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 this.cardSuggestionsToRemove.length === 1 ? 100 : 250
             );
 
-            this.cardSuggestionsToRemove = [];
         }, 1500);
+    }
+
+    /**
+     * Checks if a highlighting has been selected while a chosen suggestion has been hit.
+     *
+     * @param {any} editor - The editor element to be updated.
+     * */
+    isIndexHighlightSelected(editor: any): boolean {
+        let isSelected = false;
+
+        if(this.highlightedMarkingIndex >= 0){
+            this.cardSuggestionsToRemove.forEach((removeItem) => {
+                    this.replaceSuggestedNode(editor, removeItem);
+                });
+            this.postSuggestedText(editor);
+            isSelected = true;
+        }
+
+        return isSelected;
     }
 
     /**
@@ -321,6 +343,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     // TODO editor or childNode here? I guess we have to do the whole thing always...
                     // markText(editor, consumableTextMarkings.filter((tm: TextMarking) => tm.paragraph === textMarking.paragraph!));
                 }
+
                 this.positionCursorToEnd(editor);
 
                 this.updateCharacterAndWordCount();
@@ -329,6 +352,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 ).fill(true);
 
                 this.blurHighlightedBoardMarking();
+                this.listenForMarkingHighlight();
+                this.cardSuggestionsToRemove = [];
             });
     }
 

@@ -1916,6 +1916,228 @@
         }
     },
     {
+        "request": "<p>aks gabmim asd&nbsp;</p>",
+        "response": {
+            "text": "<p>aks gabmim asd&nbsp;</p>",
+            "textMarkings": [
+                {
+                    "from": 4,
+                    "to": 10,
+                    "type": "typo",
+                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "gazmim",
+                            "action": "gazmim"
+                        },
+                        {
+                            "display": "gabim",
+                            "action": "gabim"
+                        },
+                        {
+                            "display": "gabimi",
+                            "action": "gabimi"
+                        },
+                        {
+                            "display": "gabime",
+                            "action": "gabime"
+                        }
+                    ],
+                    "paragraph": 0
+                },
+                {
+                    "from": 11,
+                    "to": 14,
+                    "type": "typo",
+                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "aso",
+                            "action": "aso"
+                        },
+                        {
+                            "display": "aed",
+                            "action": "aed"
+                        },
+                        {
+                            "display": "kad",
+                            "action": "kad"
+                        },
+                        {
+                            "display": "ars",
+                            "action": "ars"
+                        },
+                        {
+                            "display": "pas",
+                            "action": "pas"
+                        },
+                        {
+                            "display": "has",
+                            "action": "has"
+                        },
+                        {
+                            "display": "and",
+                            "action": "and"
+                        },
+                        {
+                            "display": "sad",
+                            "action": "sad"
+                        },
+                        {
+                            "display": "tas",
+                            "action": "tas"
+                        },
+                        {
+                            "display": "bas",
+                            "action": "bas"
+                        },
+                        {
+                            "display": "aks",
+                            "action": "aks"
+                        },
+                        {
+                            "display": "qas",
+                            "action": "qas"
+                        },
+                        {
+                            "display": "asi",
+                            "action": "asi"
+                        },
+                        {
+                            "display": "ad",
+                            "action": "ad"
+                        },
+                        {
+                            "display": "uas",
+                            "action": "uas"
+                        },
+                        {
+                            "display": "ase",
+                            "action": "ase"
+                        },
+                        {
+                            "display": "ras",
+                            "action": "ras"
+                        },
+                        {
+                            "display": "kas",
+                            "action": "kas"
+                        },
+                        {
+                            "display": "mas",
+                            "action": "mas"
+                        },
+                        {
+                            "display": "as",
+                            "action": "as"
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
+    },
+    {
+        "request": "<p>aks gazmim asd&nbsp;</p>",
+        "response": {
+            "text": "<p>aks gazmim asd&nbsp;</p>",
+            "textMarkings": [
+                {
+                    "from": 11,
+                    "to": 14,
+                    "type": "typo",
+                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "aso",
+                            "action": "aso"
+                        },
+                        {
+                            "display": "aed",
+                            "action": "aed"
+                        },
+                        {
+                            "display": "kad",
+                            "action": "kad"
+                        },
+                        {
+                            "display": "ars",
+                            "action": "ars"
+                        },
+                        {
+                            "display": "pas",
+                            "action": "pas"
+                        },
+                        {
+                            "display": "has",
+                            "action": "has"
+                        },
+                        {
+                            "display": "and",
+                            "action": "and"
+                        },
+                        {
+                            "display": "sad",
+                            "action": "sad"
+                        },
+                        {
+                            "display": "tas",
+                            "action": "tas"
+                        },
+                        {
+                            "display": "bas",
+                            "action": "bas"
+                        },
+                        {
+                            "display": "aks",
+                            "action": "aks"
+                        },
+                        {
+                            "display": "qas",
+                            "action": "qas"
+                        },
+                        {
+                            "display": "asi",
+                            "action": "asi"
+                        },
+                        {
+                            "display": "ad",
+                            "action": "ad"
+                        },
+                        {
+                            "display": "uas",
+                            "action": "uas"
+                        },
+                        {
+                            "display": "ase",
+                            "action": "ase"
+                        },
+                        {
+                            "display": "ras",
+                            "action": "ras"
+                        },
+                        {
+                            "display": "kas",
+                            "action": "kas"
+                        },
+                        {
+                            "display": "mas",
+                            "action": "mas"
+                        },
+                        {
+                            "display": "as",
+                            "action": "as"
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
+    },
+    {
         "request": "<p>gabmim asd&nbsp;</p>",
         "response": {
             "text": "<p>gabmim asd&nbsp;</p>",
