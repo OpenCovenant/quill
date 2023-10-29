@@ -474,6 +474,11 @@
     color: var(--dark-mode-anti-theme);
 }
 
+.bi-stars {
+    padding-right: 7px;
+    color: purple;
+}
+
 /*TODO change color on .suggestion:hover ?*/
 @media (max-width: 800px) {
     .high-level-container {

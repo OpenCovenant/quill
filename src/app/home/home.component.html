@@ -249,7 +249,7 @@
                             'list-group-item-dark-mode':
                                 darkModeService.isDarkMode
                         }"
-                    >
+                    ><i class="bi bi-stars"></i>
                         <b>sipas rregullave gramatikore</b> -
                         <span>shenjime për gabime gramatikore të llojeve të ndryshme</span>
                     </li>
@@ -310,7 +310,8 @@
                             }"
                         >
                             <div class="information-circle-flex">
-                                <div>
+                                <div *ngIf="textMarking.subtype === 'gabim gramatikor'">
+                                    <i class="bi bi-stars"></i>
                                     <b>{{ textMarking.subtype }}</b> -
                                     <span>{{ textMarking.description }}</span>
                                 </div>
