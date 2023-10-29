@@ -229,6 +229,32 @@
                     </li>
                 </ul>
             </div>
+            <div class="card border-secondary mt-4">
+                <div
+                    class="card-header second-header"
+                    [ngClass]="{
+                        'second-header-dark-mode': darkModeService.isDarkMode
+                    }"
+                >
+                    <div>
+                        <span class="grammatical template-marking-span"
+                        >shenjime gabimesh gramatikore</span
+                        >
+                    </div>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li
+                        class="list-group-item"
+                        [ngClass]="{
+                            'list-group-item-dark-mode':
+                                darkModeService.isDarkMode
+                        }"
+                    >
+                        <b>sipas rregullave gramatikore</b> -
+                        <span>shenjime për gabime gramatikore të llojeve të ndryshme</span>
+                    </li>
+                </ul>
+            </div>
         </div>
         <div
             *ngIf="processedText?.textMarkings"

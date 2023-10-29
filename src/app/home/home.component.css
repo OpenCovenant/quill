@@ -284,6 +284,13 @@
     padding-bottom: 3px;
 }
 
+.grammatical {
+    background-color: var(--grammatical-color);
+    border-radius: 4px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
 #editor-placeholder {
     position: absolute;
     /*color: #707070;*/
@@ -341,6 +348,16 @@
     animation: fillBackground 500ms linear forwards;
 }
 
+.animated-grammatical-marking {
+    background: linear-gradient(
+        to left,
+        transparent 50%,
+        var(--grammatical-color) 0
+    );
+    background-size: 200% 100%;
+    animation: fillBackground 500ms linear forwards;
+}
+
 #editor > p > .typo {
     cursor: pointer;
 }
@@ -350,6 +367,10 @@
 }
 
 #editor > p > .stylistic {
+    cursor: pointer;
+}
+
+#editor > p > .grammatical {
     cursor: pointer;
 }
 
