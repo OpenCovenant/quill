@@ -310,8 +310,9 @@
                             }"
                         >
                             <div class="information-circle-flex">
-                                <div *ngIf="textMarking.subtype === 'gabim gramatikor'">
-                                    <i class="bi bi-stars"></i>
+                                <div>
+                                    <i *ngIf="textMarking.subtype === 'grammatical'"
+                                       class="bi bi-stars"></i>
                                     <b>{{ textMarking.subtype }}</b> -
                                     <span>{{ textMarking.description }}</span>
                                 </div>
@@ -419,6 +420,8 @@
                         >
                             <div class="information-circle-flex">
                                 <div>
+                                    <i *ngIf="processedText?.textMarkings?.[highlightedMarkingIndex]?.subtype === 'grammatical'"
+                                       class="bi bi-stars"></i>
                                     <b
                                         >{{  processedText?.textMarkings?.[highlightedMarkingIndex]?.subtype }}</b
                                     >
