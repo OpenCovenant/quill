@@ -439,6 +439,7 @@
 
 .information-circle-flex {
     display: flex;
+    justify-content: space-between;
 }
 
 .reading-writing-flex {
