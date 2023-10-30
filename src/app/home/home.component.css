@@ -225,6 +225,7 @@
 .while-reading-text-ul {
     min-height: 50px;
     background-color: var(--light-mode-color);
+    padding-bottom: 30px;
 }
 
 .spinner-border {
