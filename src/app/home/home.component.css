@@ -225,6 +225,7 @@
 .while-reading-text-ul {
     min-height: 50px;
     background-color: var(--light-mode-color);
+    padding-bottom: 1.8rem;
 }
 
 .spinner-border {
@@ -459,6 +460,7 @@
 
 .information-circle-flex {
     display: flex;
+    justify-content: space-between;
 }
 
 .reading-writing-flex {
