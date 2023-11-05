@@ -152,7 +152,12 @@
 }
 
 .settings-gear-dark-mode {
+    margin-right: 2.3rem;
     color: var(--dark-mode-anti-theme);
+}
+
+.settings-gear-dark-mode:hover {
+    background-color: #545454 !important;
 }
 
 .dark-mode-div {
@@ -196,3 +201,17 @@
     font-size: 0.8rem;
     color: var(--dark-mode-smooth-theme);
 }
+
+.p-3 {
+    padding: 0.5rem !important;
+}
+
+.settings-gear-button {
+    margin-right: 2.3rem;
+    border-radius: 0.5rem;
+}
+
+.settings-gear-button:hover {
+    background-color: var(--light-mode-hover-theme);
+}
+
