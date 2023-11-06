@@ -202,11 +202,8 @@
     color: var(--dark-mode-smooth-theme);
 }
 
-.p-3 {
-    padding: 0.5rem !important;
-}
-
 .settings-gear-button {
+    padding: 0.5rem !important;
     margin-right: 2.3rem;
     border-radius: 0.5rem;
 }
