@@ -460,7 +460,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             });
     }
 
-    seperateParagraphIndex(tempProcessedText: ProcessedText | undefined): void {
+    private seperateParagraphIndex(tempProcessedText: ProcessedText | undefined): void {
         let tempIndexValue = 0;
         tempProcessedText?.textMarkings.forEach((textMarking, index) => {
             if (tempIndexValue > textMarking.to) {
@@ -505,7 +505,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             // Clone the child node
             const clonedNode = node.cloneNode(true) as Element;
             counterChar += node.textContent?.length!;
-            const isWithinRange = Math.abs(counterChar - textMarking.to);
+            const isWithinRange = Math.abs(counterChar - textMarkingIndex.to);
 
             if (node.nodeName === 'SPAN') {
                 clonedNode.classList.remove('animated-typo-marking');
@@ -514,9 +514,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             if (
                 node.textContent &&
                 node.textContent.includes(currentNode) &&
-                isWithinRange >= 0 &&
-                isWithinRange <= 5 // if the index is within range
+                isWithinRange === 0 // if the index is within range
             ) {
+
                 const lengthDiff = Math.abs(
                     suggestedNode.length - currentNode.length
                 );
@@ -546,12 +546,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * @param {number} textMarkingIndex selected marking index
      */
     updateTempMarkings(textMarkingIndex: number): void {
+        if(this.characterCountPrePost === 0) return; // if no changes are needed
         const pIndexSelected = this.findRange(textMarkingIndex);
 
         this.tempProcessedText!.textMarkings.forEach((textMarking, index) => {
-            if (
-                !pIndexSelected ||
-                (pIndexSelected[0] >= index && pIndexSelected[1] <= index)
+            if (index > textMarkingIndex &&
+                pIndexSelected[0] <= index &&
+                pIndexSelected[1] > index
             ) {
                 textMarking.from -= this.characterCountPrePost;
                 textMarking.to -= this.characterCountPrePost;
@@ -559,7 +560,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         });
     }
 
-    findRange(index: number): [number, number] | null {
+    private findRange(index: number): [number, number]{
         let rangeStart: number | null = null;
         let rangeEnd: number | null = null;
 
@@ -584,12 +585,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         }
 
         // Handle edge case for the first index and last index
-        rangeEnd = rangeEnd === null ? Infinity : rangeEnd;
+        rangeEnd = rangeEnd === null ? this.tempProcessedText!.textMarkings.length : rangeEnd;
         rangeStart = rangeStart === null ? 0 : rangeStart;
 
-        return rangeStart !== null && rangeEnd !== null
-            ? [rangeStart, rangeEnd]
-            : null;
+        return [rangeStart, rangeEnd]
+
     }
 
     // TODO there might be a bug here that creates double spaces in the text, test more
