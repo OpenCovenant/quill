@@ -66,7 +66,7 @@
 }
 
 .move-up-animation {
-    animation: moveUp 0.6s cubic-bezier(0.42, 0, 0.58, 1);
+    animation: moveUp 0.8s cubic-bezier(0.42, 0, 0.58, 1);
 }
 
 @keyframes moveUp {
