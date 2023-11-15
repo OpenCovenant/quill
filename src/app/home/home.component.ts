@@ -1,6 +1,7 @@
 import {
     AfterViewInit,
     Component,
+    EventEmitter,
     OnDestroy,
     ViewEncapsulation
 } from '@angular/core';
@@ -37,6 +38,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     SECONDS: number = 1000;
     EVENTUAL_MARKING_TIME: number = 1.5 * this.SECONDS;
     EVENTUAL_WRITTEN_TEXT_STORAGE_TIME: number = 15 * this.SECONDS;
+    EVENTUAL_SUGGESTION_SELECTION_POST: number = 6 * this.SECONDS;
     EMPTY_STRING: string = '';
     EDITOR_KEY: string = 'editor';
     PLACEHOLDER_ELEMENT_ID: string = 'editor-placeholder';
@@ -46,6 +48,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     LINE_BREAK: string = '<br>';
     LINE_BROKEN_PARAGRAPH: string = '<p>' + this.LINE_BREAK + '</p>';
     processedText: ProcessedText | undefined;
+    tempProcessedText: ProcessedText | undefined;
     characterCount: number = 0;
     wordCount: number = 0;
     innerHTMLOfEditor: string = this.LINE_BROKEN_PARAGRAPH;
@@ -59,8 +62,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         suggestionIndex: number;
     }[] = [];
     deleteTimer: number | undefined;
+    characterCountPrePost: number = 0;
     cardsElementToRemove: any[] = [];
     elementNameMarking: any[] = [];
+    animationRemoved = new EventEmitter<void>();
+    suggestedMarkingCardCounter: number = 0;
+    textMarkingParagraphIndex: any[] = [];
 
     private placeHolderElement!: HTMLElement;
     private baseURL!: string;
@@ -70,6 +77,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private savedCursorPosition: CursorPosition | undefined;
     private eventualMarkingSubscription$: any;
     private eventualTextStoringSubscription$: any;
+    private animationRemovedSubscription: any;
     private fromEditorInputEvent$: any;
 
     constructor(
@@ -116,11 +124,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         this.subscribeForWritingInTheEditor();
         this.subscribeForStoringWrittenText();
+        this.subscribeForRemovedSuggestionCarAnimation();
     }
 
     ngOnDestroy(): void {
         this.eventualMarkingSubscription$.unsubscribe();
         this.eventualTextStoringSubscription$.unsubscribe();
+        this.animationRemovedSubscription.unsubscribe();
     }
 
     initializeURLs(): void {
@@ -221,14 +231,14 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      */
     chooseSuggestion(textMarkingIndex: number, suggestionIndex: number): void {
         if (this.cardsToRemove.length >= 1) return; // prevents collision action between suggestion and deletion
+        this.suggestedMarkingCardCounter++;
         this.cardSuggestionsToRemove.push({
             textMarkingIndex,
             suggestionIndex
         });
 
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
-        if(this.isIndexHighlightSelected(editor)) return
-
+        if (this.isIndexHighlightSelected(editor)) return;
 
         this.slideFadeAnimationCard(textMarkingIndex);
 
@@ -245,14 +255,16 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     .classList.add('card-hidden');
 
                 cards.forEach((card, index) => {
-                    this.handleCardAnimations(
+                    this.handleSuggestionCardAnimation(
                         this.cardSuggestionsToRemove.length,
                         card,
                         index,
-                        removeItem.textMarkingIndex
+                        removeItem.textMarkingIndex,
+                        cards.length - 1
                     );
                 });
             });
+
             this.screenHeightAnimation('remove');
 
             // don't choose suggestions on an uploaded file
@@ -260,13 +272,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 this.replaceSuggestedNode(editor, removeItem);
             });
 
-            setTimeout(
-                () => {
-                    this.postSuggestedText(editor);
-                },
-                this.cardSuggestionsToRemove.length === 1 ? 100 : 250
-            );
-
+            this.cardSuggestionsToRemove = [];
         }, 1500);
     }
 
@@ -278,15 +284,104 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     isIndexHighlightSelected(editor: any): boolean {
         let isSelected = false;
 
-        if(this.highlightedMarkingIndex >= 0){
+        if (this.highlightedMarkingIndex >= 0) {
             this.cardSuggestionsToRemove.forEach((removeItem) => {
-                    this.replaceSuggestedNode(editor, removeItem);
-                });
+                this.replaceSuggestedNode(editor, removeItem);
+            });
             this.postSuggestedText(editor);
             isSelected = true;
         }
 
         return isSelected;
+    }
+
+    /**
+     * Handle animations for card suggestion in the editor.
+     *
+     * The animations are based on the number of cards to remove and their respective indexes.
+     * It adds specific classes for single and multiple card removal animations and listens
+     * for the animationend event to remove the animation classes after completion.
+     *
+     * @param {number} cardsToRemove - The total number of cards to be removed.
+     * @param {HTMLElement} card - The card element to apply animations.
+     * @param {number} index - The index of the card in the editor.
+     * @param {number} removeItem - The index of the card to be removed.
+     * @param {number} lastIndex - The index of the last card.
+     */
+    handleSuggestionCardAnimation(
+        cardsToRemove: number,
+        card: HTMLElement,
+        index: number,
+        removeItem: number,
+        lastIndex: number
+    ): void {
+        if (lastIndex === 0) {
+            setTimeout(() => {
+                this.triggerSuggestionEmitterAnimation(lastIndex === index);
+            }, 100);
+            return;
+        }
+
+        if (cardsToRemove === 1 && index >= removeItem) {
+            card.classList.add('move-up-animation');
+            card.addEventListener('animationend', () => {
+                card.classList.remove('move-up-animation');
+                this.triggerSuggestionEmitterAnimation(lastIndex === index);
+            });
+        } else if (cardsToRemove >= 2 && index >= removeItem) {
+            card.classList.add('move-up-multiple-animation');
+            card.addEventListener('animationend', () => {
+                card.classList.remove('move-up-multiple-animation');
+                this.triggerSuggestionEmitterAnimation(lastIndex === index);
+            });
+        }
+    }
+
+    /**
+     * Check the animation state of cards and trigger text processing accordingly.
+     *
+     * This function checks the animation state of cards within the editor. If all animations have completed,
+     * it triggers a function to post the suggested text to the server for processing. The check is based on the
+     * presence of 'move-up-animation' or 'move-up-multiple-animation' classes on the cards.
+     *
+     * @param {HTMLElement} editor - The editor element to be processed.
+     *
+     */
+    checkForAnimationRemoval(): void {
+        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
+        const cards = document.querySelectorAll(
+            '.sticky .card'
+        ) as NodeListOf<HTMLElement>;
+
+        if (this.checkMoveUpAnimationState(cards)) {
+            this.postSuggestedText(editor);
+        } else if (this.suggestedMarkingCardCounter === cards.length) {
+            this.postSuggestedText(editor);
+        }
+    }
+
+    /**
+     * Check the animation state of cards within an HTML document.
+     * The presence of these classes indicates that the corresponding card is still undergoing animation.
+     *
+     * @param {NodeListOf<HTMLElement>} cards - A NodeList containing the HTML elements representing the cards to be checked.
+     * @returns {boolean} - Returns `true` if any card in the provided list still contains the animation classes; otherwise, returns `false`.
+     */
+    checkMoveUpAnimationState(cards: NodeListOf<HTMLElement>): boolean {
+        let hasAnimationClass = false;
+
+        cards.forEach((cardClassList) => {
+            if (
+                !cardClassList.classList.value.includes('move-up-animation') &&
+                !cardClassList.classList.value.includes(
+                    'move-up-multiple-animation'
+                )
+            ) {
+                hasAnimationClass = true;
+            }
+        });
+
+        return hasAnimationClass;
     }
 
     /**
@@ -313,6 +408,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                         sortParagraphedTextMarkings(
                             this.processedText.textMarkings
                         );
+
+                    this.tempProcessedText = this.tempProcessedText =
+                        JSON.parse(JSON.stringify(this.processedText));
+                    this.textMarkingParagraphIndex = [];
+                    this.seperateParagraphIndex(this.tempProcessedText);
+
                     const consumableTextMarkings: TextMarking[] = Array.from(
                         this.processedText.textMarkings
                     );
@@ -345,8 +446,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 }
 
                 this.positionCursorToEnd(editor);
-
                 this.updateCharacterAndWordCount();
+
                 this.shouldCollapseSuggestions = new Array<boolean>(
                     this.processedText.textMarkings.length
                 ).fill(true);
@@ -354,7 +455,19 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 this.blurHighlightedBoardMarking();
                 this.listenForMarkingHighlight();
                 this.cardSuggestionsToRemove = [];
+                this.characterCountPrePost = 0;
+                this.suggestedMarkingCardCounter = 0;
             });
+    }
+
+    private seperateParagraphIndex(tempProcessedText: ProcessedText | undefined): void {
+        let tempIndexValue = 0;
+        tempProcessedText?.textMarkings.forEach((textMarking, index) => {
+            if (tempIndexValue > textMarking.to) {
+                this.textMarkingParagraphIndex.push(index);
+            }
+            tempIndexValue = textMarking.to;
+        });
     }
 
     /**
@@ -374,25 +487,109 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     ): void {
         const textMarking: TextMarking =
             this.processedText!.textMarkings[removeItem.textMarkingIndex];
+        const textMarkingIndex =
+            this.tempProcessedText!.textMarkings[removeItem.textMarkingIndex];
         const childNode: ChildNode = editor.childNodes[textMarking.paragraph!];
         const p = document.createElement('p');
 
-        const writtenText = childNode.textContent!;
-        const leftWrittenText = writtenText.slice(0, textMarking.from);
-        const rightWrittenText = writtenText.slice(
-            textMarking.to,
-            writtenText.length
+        const currentNode = childNode.textContent!.substring(
+            textMarkingIndex.from,
+            textMarkingIndex.to
         );
+        const suggestedNode =
+            textMarking.suggestions[removeItem.suggestionIndex].action;
+        this.characterCountPrePost = currentNode.length - suggestedNode.length;
+        let counterChar = 0;
 
-        p.innerHTML =
-            leftWrittenText +
-            textMarking.suggestions[removeItem.suggestionIndex].action +
-            rightWrittenText;
-        if (childNode.textContent === this.EMPTY_STRING) {
-            p.innerHTML = this.LINE_BREAK;
+        childNode.childNodes.forEach((node) => {
+            // Clone the child node
+            const clonedNode = node.cloneNode(true) as Element;
+            counterChar += node.textContent?.length!;
+            const isWithinRange = Math.abs(counterChar - textMarkingIndex.to);
+
+            if (node.nodeName === 'SPAN') {
+                clonedNode.classList.remove('animated-typo-marking');
+            }
+
+            if (
+                node.textContent &&
+                node.textContent.includes(currentNode) &&
+                isWithinRange === 0 // if the index is within range
+            ) {
+
+                const lengthDiff = Math.abs(
+                    suggestedNode.length - currentNode.length
+                );
+                counterChar -= lengthDiff;
+
+                const replacedText = node.textContent.replace(
+                    currentNode,
+                    suggestedNode
+                );
+
+                const newText = document.createTextNode(replacedText);
+
+                p.appendChild(newText);
+            } else {
+                p.appendChild(clonedNode);
+            }
+        });
+
+        editor.replaceChild(p, childNode);
+        this.updateCharacterCount();
+        this.updateWordCount();
+        this.updateTempMarkings(removeItem.textMarkingIndex);
+    }
+
+    /**
+     * Updates the char index for all textMarkings
+     * @param {number} textMarkingIndex selected marking index
+     */
+    updateTempMarkings(textMarkingIndex: number): void {
+        if(this.characterCountPrePost === 0) return; // if no changes are needed
+        const pIndexSelected = this.findRange(textMarkingIndex);
+
+        this.tempProcessedText!.textMarkings.forEach((textMarking, index) => {
+            if (index > textMarkingIndex &&
+                pIndexSelected[0] <= index &&
+                pIndexSelected[1] > index
+            ) {
+                textMarking.from -= this.characterCountPrePost;
+                textMarking.to -= this.characterCountPrePost;
+            }
+        });
+    }
+
+    private findRange(index: number): [number, number]{
+        let rangeStart: number | null = null;
+        let rangeEnd: number | null = null;
+
+        for (let i = 0; i < this.textMarkingParagraphIndex.length; i++) {
+            if (this.textMarkingParagraphIndex[i] <= index) {
+                if (
+                    rangeStart === null ||
+                    this.textMarkingParagraphIndex[i] > rangeStart
+                ) {
+                    rangeStart = this.textMarkingParagraphIndex[i];
+                }
+            }
+
+            if (this.textMarkingParagraphIndex[i] > index) {
+                if (
+                    rangeEnd === null ||
+                    this.textMarkingParagraphIndex[i] < rangeEnd
+                ) {
+                    rangeEnd = this.textMarkingParagraphIndex[i];
+                }
+            }
         }
 
-        editor.replaceChild(p, childNode); // TODO keep in mind that this nullifies other markings in this p as well
+        // Handle edge case for the first index and last index
+        rangeEnd = rangeEnd === null ? this.tempProcessedText!.textMarkings.length : rangeEnd;
+        rangeStart = rangeStart === null ? 0 : rangeStart;
+
+        return [rangeStart, rangeEnd]
+
     }
 
     // TODO there might be a bug here that creates double spaces in the text, test more
@@ -564,6 +761,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.updateCharacterAndWordCount();
         this.shouldCollapseSuggestions = new Array<boolean>(0);
         this.blurHighlightedBoardMarking();
+        this.cardsToRemove = [];
+        this.cardSuggestionsToRemove = [];
     }
 
     /**
@@ -715,6 +914,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                         sortParagraphedTextMarkings(
                             this.processedText.textMarkings
                         );
+
+                    this.tempProcessedText = this.tempProcessedText =
+                        JSON.parse(JSON.stringify(this.processedText));
+                    this.textMarkingParagraphIndex = [];
+                    this.seperateParagraphIndex(this.tempProcessedText);
+
                     const consumableTextMarkings: TextMarking[] = Array.from(
                         this.processedText.textMarkings
                     );
@@ -747,6 +952,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                         }
                     );
 
+                    this.suggestedMarkingCardCounter = 0;
                     this.positionCursor(editor, cursorPlacement);
                     this.shouldCollapseSuggestions = new Array<boolean>(
                         this.processedText.textMarkings.length
@@ -951,6 +1157,14 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             .subscribe();
     }
 
+    private subscribeForRemovedSuggestionCarAnimation(): void {
+        this.animationRemovedSubscription = this.animationRemoved
+            .pipe(debounceTime(this.EVENTUAL_SUGGESTION_SELECTION_POST))
+            .subscribe(() => {
+                this.checkForAnimationRemoval();
+            });
+    }
+
     private disableEditor(errorResponse: HttpErrorResponse): void {
         const errorMessage =
             errorResponse.status === 429
@@ -1013,6 +1227,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             setTimeout(() => {
                 sticky.classList.remove('screen_height_delay');
             }, 800);
+        }
+    }
+
+    private triggerSuggestionEmitterAnimation(isLastIndex: boolean): void {
+        if (this.cardSuggestionsToRemove && isLastIndex) {
+            this.animationRemoved.emit();
         }
     }
 }
