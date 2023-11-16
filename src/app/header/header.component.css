@@ -1,5 +1,5 @@
 .header-name-gear-icon {
-    margin-left: 2rem;
+    margin-left: 3rem;
     font-size: 1.4rem;
 }
 
@@ -17,7 +17,7 @@
 }
 
 .header-button-dark-mode:hover {
-    background-color: #545454 !important;
+    background-color: var(--dark-mode-hover-color) !important;
 }
 
 .header-text-dark-mode {
@@ -152,7 +152,12 @@
 }
 
 .settings-gear-dark-mode {
+    margin-right: 2.3rem;
     color: var(--dark-mode-anti-theme);
+}
+
+.settings-gear-dark-mode:hover {
+    background-color: var(--dark-mode-hover-color) !important;
 }
 
 .dark-mode-div {
@@ -196,3 +201,14 @@
     font-size: 0.8rem;
     color: var(--dark-mode-smooth-theme);
 }
+
+.settings-gear-button {
+    padding: 0.5rem !important;
+    margin-right: 2.6rem;
+    border-radius: 0.5rem;
+}
+
+.settings-gear-button:hover {
+    background-color: var(--light-mode-hover-theme);
+}
+
