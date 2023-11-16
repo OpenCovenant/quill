@@ -460,7 +460,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             });
     }
 
-    private seperateParagraphIndex(tempProcessedText: ProcessedText | undefined): void {
+    private seperateParagraphIndex(
+        tempProcessedText: ProcessedText | undefined
+    ): void {
         let tempIndexValue = 0;
         tempProcessedText?.textMarkings.forEach((textMarking, index) => {
             if (tempIndexValue > textMarking.to) {
@@ -516,7 +518,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 node.textContent.includes(currentNode) &&
                 isWithinRange === 0 // if the index is within range
             ) {
-
                 const lengthDiff = Math.abs(
                     suggestedNode.length - currentNode.length
                 );
@@ -546,11 +547,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * @param {number} textMarkingIndex selected marking index
      */
     updateTempMarkings(textMarkingIndex: number): void {
-        if(this.characterCountPrePost === 0) return; // if no changes are needed
+        if (this.characterCountPrePost === 0) return; // if no changes are needed
         const pIndexSelected = this.findRange(textMarkingIndex);
 
         this.tempProcessedText!.textMarkings.forEach((textMarking, index) => {
-            if (index > textMarkingIndex &&
+            if (
+                index > textMarkingIndex &&
                 pIndexSelected[0] <= index &&
                 pIndexSelected[1] > index
             ) {
@@ -560,7 +562,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         });
     }
 
-    private findRange(index: number): [number, number]{
+    private findRange(index: number): [number, number] {
         let rangeStart: number | null = null;
         let rangeEnd: number | null = null;
 
@@ -585,11 +587,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         }
 
         // Handle edge case for the first index and last index
-        rangeEnd = rangeEnd === null ? this.tempProcessedText!.textMarkings.length : rangeEnd;
+        rangeEnd =
+            rangeEnd === null
+                ? this.tempProcessedText!.textMarkings.length
+                : rangeEnd;
         rangeStart = rangeStart === null ? 0 : rangeStart;
 
-        return [rangeStart, rangeEnd]
-
+        return [rangeStart, rangeEnd];
     }
 
     // TODO there might be a bug here that creates double spaces in the text, test more
@@ -602,12 +606,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         if (this.cardSuggestionsToRemove.length >= 1) return; // prevents collision action between suggestion and deletion
 
         this.cardsToRemove.push(textMarkingIndex);
+        console.log(textMarkingIndex, 'yes');
         this.slideFadeAnimationCard(textMarkingIndex);
 
         clearTimeout(this.deleteTimer); // Will reset the time as the user deletes more markings
         this.deleteTimer = setTimeout(() => {
             this.moveUpRemainingCards();
-        }, 900);
+        }, 1000);
     }
 
     /**
@@ -664,15 +669,16 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * the processed text data accordingly.
      */
     deleteMarkings(): void {
-        this.cardsElementToRemove.forEach((cardElement) => {
-            const currentTextMarking = cardElement;
-            currentTextMarking.parentNode!.replaceChild(
-                document.createTextNode(currentTextMarking.textContent!),
-                currentTextMarking
-            );
-        });
+        for (const index of this.cardsToRemove) {
+            const cardElement = this.cardsElementToRemove[index];
+            if (cardElement && cardElement.parentNode) {
+                cardElement.parentNode.replaceChild(
+                    document.createTextNode(cardElement.textContent || ''),
+                    cardElement
+                );
+            }
+        }
 
-        // Create a new array without the marked indexes
         this.processedText!.textMarkings =
             this.processedText!.textMarkings.filter(
                 (_, index) => !this.cardsToRemove.includes(index)
