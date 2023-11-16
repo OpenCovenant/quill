@@ -238,7 +238,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         });
 
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
-        if (this.isIndexHighlightSelected(editor)) return;
+        if (this.highlightedMarkingIndex >= 0) {
+            this.processTextMarkingSelected(editor);
+            return;
+        }
 
         this.slideFadeAnimationCard(textMarkingIndex);
 
@@ -277,22 +280,16 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     /**
-     * Checks if a highlighting has been selected while a chosen suggestion has been hit.
+     * Selected marking is processed and replaced by the selected suggestion option.
      *
      * @param {any} editor - The editor element to be updated.
      * */
-    isIndexHighlightSelected(editor: any): boolean {
-        let isSelected = false;
+    processTextMarkingSelected(editor: any): void {
+        this.cardSuggestionsToRemove.forEach((removeItem) => {
+            this.replaceSuggestedNode(editor, removeItem);
+        });
 
-        if (this.highlightedMarkingIndex >= 0) {
-            this.cardSuggestionsToRemove.forEach((removeItem) => {
-                this.replaceSuggestedNode(editor, removeItem);
-            });
-            this.postSuggestedText(editor);
-            isSelected = true;
-        }
-
-        return isSelected;
+        this.postSuggestedText(editor);
     }
 
     /**
@@ -353,9 +350,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             '.sticky .card'
         ) as NodeListOf<HTMLElement>;
 
-        if (this.checkMoveUpAnimationState(cards)) {
-            this.postSuggestedText(editor);
-        } else if (this.suggestedMarkingCardCounter === cards.length) {
+        if (
+            this.checkMoveUpAnimationState(cards) ||
+            this.suggestedMarkingCardCounter === cards.length
+        ) {
             this.postSuggestedText(editor);
         }
     }
@@ -368,20 +366,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * @returns {boolean} - Returns `true` if any card in the provided list still contains the animation classes; otherwise, returns `false`.
      */
     checkMoveUpAnimationState(cards: NodeListOf<HTMLElement>): boolean {
-        let hasAnimationClass = false;
-
-        cards.forEach((cardClassList) => {
-            if (
-                !cardClassList.classList.value.includes('move-up-animation') &&
-                !cardClassList.classList.value.includes(
-                    'move-up-multiple-animation'
-                )
-            ) {
-                hasAnimationClass = true;
-            }
-        });
-
-        return hasAnimationClass;
+        return Array.from(cards).some(
+            (card) =>
+                card.classList.contains('move-up-animation') ||
+                card.classList.contains('move-up-multiple-animation')
+        );
     }
 
     /**
@@ -421,9 +410,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     editor.childNodes.forEach(
                         (childNode: ChildNode, index: number) => {
                             const isLastChildNode =
-                                index === editor.childNodes.length - 1
-                                    ? true
-                                    : false;
+                                index === editor.childNodes.length - 1;
                             const p = document.createElement('p');
                             p.innerHTML = childNode.textContent!;
                             if (childNode.textContent === this.EMPTY_STRING) {
@@ -937,9 +924,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     editor.childNodes.forEach(
                         (childNode: ChildNode, index: number) => {
                             const isLastChildNode =
-                                index === editor.childNodes.length - 1
-                                    ? true
-                                    : false;
+                                index === editor.childNodes.length - 1;
                             const p: HTMLParagraphElement =
                                 document.createElement('p');
                             p.innerHTML = childNode.textContent!;
