@@ -26,15 +26,15 @@
 
 @keyframes reduceMargin {
     from {
-        margin-bottom: 148px;
+        margin-bottom: 170px;
     }
     to {
         margin-bottom: 0px;
     }
 }
 
-.screen_height_delay {
-    animation: reduceMargin 0.8s cubic-bezier(0.42, 0, 0.58, 1);
+.screen-height-delay {
+    animation: reduceMargin 1s cubic-bezier(0.42, 0, 0.58, 1);
 }
 
 .card {
@@ -51,10 +51,10 @@
 }
 
 .fade-out {
-    animation: fadeOutAndSlideRight 1s cubic-bezier(0.42, 0, 0.58, 1);
+    animation: fadeout-And-Slide-Right 1s cubic-bezier(0.42, 0, 0.58, 1);
 }
 
-@keyframes fadeOutAndSlideRight {
+@keyframes fadeout-And-Slide-Right {
     from {
         opacity: 1;
         transform: translateX(0px);
@@ -81,12 +81,12 @@
 }
 
 .move-up-multiple-animation {
-    animation: moveUpMultiple 0.8s cubic-bezier(0.42, 0, 0.58, 1);
+    animation: move-Up-Multiple 0.8s cubic-bezier(0.42, 0, 0.58, 1);
 }
 
-@keyframes moveUpMultiple {
+@keyframes move-Up-Multiple {
     from {
-        transform: translateY(calc(100% + 5px));
+        transform: translateY(100%);
         opacity: 0;
     }
     to {

@@ -5,7 +5,7 @@ import {
     OnDestroy,
     ViewEncapsulation
 } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {
     BehaviorSubject,
     debounceTime,
@@ -15,18 +15,18 @@ import {
     tap
 } from 'rxjs';
 
-import { CursorPosition } from '../models/cursor-position';
-import { CursorPlacement } from '../models/cursor-placement';
-import { LocalStorageService } from '../local-storage/local-storage.service';
-import { ProcessedText } from '../models/processed-text';
-import { TextMarking } from '../models/text-marking';
-import { environment } from '../../environments/environment';
+import {CursorPosition} from '../models/cursor-position';
+import {CursorPlacement} from '../models/cursor-placement';
+import {LocalStorageService} from '../local-storage/local-storage.service';
+import {ProcessedText} from '../models/processed-text';
+import {TextMarking} from '../models/text-marking';
+import {environment} from '../../environments/environment';
 import {
     markText,
     shouldNotMarkEditor,
     sortParagraphedTextMarkings
 } from '../text-marking/text-marking';
-import { DarkModeService } from '../dark-mode.service';
+import {DarkModeService} from '../dark-mode.service';
 
 @Component({
     selector: 'app-home',
@@ -245,6 +245,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         this.slideFadeAnimationCard(textMarkingIndex);
 
+        // if(document.querySelectorAll('#editor > p > span').length === 1){
+        //     setTimeout(() => {
+        //         this.processTextMarkingSelected(editor);
+        //     },900)
+        //     return;
+        // }
+
         clearTimeout(this.deleteTimer);
         this.deleteTimer = setTimeout(() => {
             const cards = document.querySelectorAll(
@@ -252,7 +259,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             ) as NodeListOf<HTMLElement>;
 
             this.cardSuggestionsToRemove.forEach((removeItem) => {
-                this.screenHeightAnimation('add');
+                document.getElementsByClassName('sticky')[0].classList.add('screen-height-delay');
+
                 cards
                     .item(removeItem.textMarkingIndex)
                     .classList.add('card-hidden');
@@ -268,7 +276,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 });
             });
 
-            this.screenHeightAnimation('remove');
+            this.removeScreenHeightDelay();
 
             // don't choose suggestions on an uploaded file
             this.cardSuggestionsToRemove.forEach((removeItem) => {
@@ -312,6 +320,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         removeItem: number,
         lastIndex: number
     ): void {
+
         if (lastIndex === 0) {
             setTimeout(() => {
                 this.triggerSuggestionEmitterAnimation(lastIndex === index);
@@ -319,30 +328,27 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             return;
         }
 
-        if (cardsToRemove === 1 && index >= removeItem) {
-            card.classList.add('move-up-animation');
-            card.addEventListener('animationend', () => {
-                card.classList.remove('move-up-animation');
-                this.triggerSuggestionEmitterAnimation(lastIndex === index);
-            });
-        } else if (cardsToRemove >= 2 && index >= removeItem) {
-            card.classList.add('move-up-multiple-animation');
-            card.addEventListener('animationend', () => {
-                card.classList.remove('move-up-multiple-animation');
-                this.triggerSuggestionEmitterAnimation(lastIndex === index);
-            });
+        if(index >= removeItem){
+            if (cardsToRemove === 1) {
+                card.classList.add('move-up-animation');
+                card.addEventListener('animationend', () => {
+                    card.classList.remove('move-up-animation');
+                    this.triggerSuggestionEmitterAnimation(lastIndex === index);
+                });
+            } else if (cardsToRemove >= 2) {
+                card.classList.add('move-up-multiple-animation');
+                card.addEventListener('animationend', () => {
+                    card.classList.remove('move-up-multiple-animation');
+                    this.triggerSuggestionEmitterAnimation(lastIndex === index);
+                });
+            }
         }
     }
 
     /**
-     * Check the animation state of cards and trigger text processing accordingly.
+     * Evaluates readiness of cards and initiates a post request when ready.
      *
-     * This function checks the animation state of cards within the editor. If all animations have completed,
-     * it triggers a function to post the suggested text to the server for processing. The check is based on the
-     * presence of 'move-up-animation' or 'move-up-multiple-animation' classes on the cards.
-     *
-     * @param {HTMLElement} editor - The editor element to be processed.
-     *
+     * This method inspects the cards and determines if they're ready for further processing.
      */
     checkForAnimationRemoval(): void {
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
@@ -401,7 +407,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     this.tempProcessedText = this.tempProcessedText =
                         JSON.parse(JSON.stringify(this.processedText));
                     this.textMarkingParagraphIndex = [];
-                    this.seperateParagraphIndex(this.tempProcessedText);
+                    this.separateParagraphIndex(this.tempProcessedText);
 
                     const consumableTextMarkings: TextMarking[] = Array.from(
                         this.processedText.textMarkings
@@ -447,7 +453,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             });
     }
 
-    private seperateParagraphIndex(
+    private separateParagraphIndex(
         tempProcessedText: ProcessedText | undefined
     ): void {
         let tempIndexValue = 0;
@@ -593,7 +599,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         if (this.cardSuggestionsToRemove.length >= 1) return; // prevents collision action between suggestion and deletion
 
         this.cardsToRemove.push(textMarkingIndex);
-        console.log(textMarkingIndex, 'yes');
         this.slideFadeAnimationCard(textMarkingIndex);
 
         clearTimeout(this.deleteTimer); // Will reset the time as the user deletes more markings
@@ -618,7 +623,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             const card = cards.item(removeItem);
             const cardToRemove = this.extractCardInfo(card);
             this.elementNameMarking.push(cardToRemove!);
-            this.screenHeightAnimation('add');
+
+            document.getElementsByClassName('sticky')[0].classList.add('screen-height-delay');
             card.classList.add('card-hidden');
 
             cards.forEach((card, index) => {
@@ -631,15 +637,16 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             });
         });
 
-        this.screenHeightAnimation('remove');
+        this.removeScreenHeightDelay();
 
-        this.elementNameMarking.forEach((elementMarking) => {
-            this.cardsElementToRemove.push(
-                ...Array.from(cardMarking).filter(
-                    (card) => card.textContent === elementMarking
-                )
-            );
+        this.elementNameMarking.forEach(elementMarking => {
+            cardMarking.forEach((card, index) => {
+                if (card.textContent === elementMarking) {
+                    this.cardsElementToRemove.push({cardElement: card, index});
+                }
+            });
         });
+
 
         this.deleteMarkings();
 
@@ -656,15 +663,14 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * the processed text data accordingly.
      */
     deleteMarkings(): void {
-        for (const index of this.cardsToRemove) {
-            const cardElement = this.cardsElementToRemove[index];
-            if (cardElement && cardElement.parentNode) {
-                cardElement.parentNode.replaceChild(
-                    document.createTextNode(cardElement.textContent || ''),
-                    cardElement
-                );
+        const cardsToRemoveSet = new Set(this.cardsToRemove);
+        this.cardsElementToRemove.forEach(cardElement => {
+            if (cardsToRemoveSet.has(cardElement.index)) {
+                const currentTextMarking = cardElement.cardElement;
+                const textNode = document.createTextNode(currentTextMarking.textContent || '');
+                currentTextMarking.parentNode?.replaceChild(textNode, currentTextMarking);
             }
-        }
+        });
 
         this.processedText!.textMarkings =
             this.processedText!.textMarkings.filter(
@@ -695,16 +701,18 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         index: number,
         removeItem: number
     ): void {
-        if (cardsToRemove === 1 && index >= removeItem) {
-            card.classList.add('move-up-animation');
-            card.addEventListener('animationend', () => {
-                card.classList.remove('move-up-animation');
-            });
-        } else if (cardsToRemove >= 2 && index >= removeItem) {
-            card.classList.add('move-up-multiple-animation');
-            card.addEventListener('animationend', () => {
-                card.classList.remove('move-up-multiple-animation');
-            });
+        if(index >= removeItem){
+            if (cardsToRemove === 1) {
+                card.classList.add('move-up-animation');
+                card.addEventListener('animationend', () => {
+                    card.classList.remove('move-up-animation');
+                });
+            } else if (cardsToRemove >= 2) {
+                card.classList.add('move-up-multiple-animation');
+                card.addEventListener('animationend', () => {
+                    card.classList.remove('move-up-multiple-animation');
+                });
+            }
         }
     }
 
@@ -911,7 +919,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     this.tempProcessedText = this.tempProcessedText =
                         JSON.parse(JSON.stringify(this.processedText));
                     this.textMarkingParagraphIndex = [];
-                    this.seperateParagraphIndex(this.tempProcessedText);
+                    this.separateParagraphIndex(this.tempProcessedText);
 
                     const consumableTextMarkings: TextMarking[] = Array.from(
                         this.processedText.textMarkings
@@ -960,7 +968,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     ): TextMarking[] {
         return textMarkings.filter((tM: TextMarking) => {
             if (tM.id) {
-                const items = { ...localStorage };
+                const items = {...localStorage};
                 let b = true;
                 Object.entries(items).forEach((e: any) => {
                     if (e[0] === tM.id) {
@@ -1209,16 +1217,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         }, 2 * this.SECONDS);
     }
 
-    private screenHeightAnimation(action: string) {
+    private removeScreenHeightDelay() {
         const sticky = document.getElementsByClassName('sticky')[0];
-
-        if (action === 'add') {
-            sticky.classList.add('screen_height_delay');
-        } else if (action === 'remove') {
-            setTimeout(() => {
-                sticky.classList.remove('screen_height_delay');
-            }, 800);
-        }
+        setTimeout(() => {
+            sticky.classList.remove('screen-height-delay');
+        }, 800);
     }
 
     private triggerSuggestionEmitterAnimation(isLastIndex: boolean): void {
