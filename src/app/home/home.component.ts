@@ -601,7 +601,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         clearTimeout(this.deleteTimer); // Will reset the time as the user deletes more markings
         this.deleteTimer = setTimeout(() => {
             this.moveUpRemainingCards();
-        }, 1000);
+        }, 1500);
     }
 
     /**

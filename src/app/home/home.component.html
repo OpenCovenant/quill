@@ -232,7 +232,7 @@
         </div>
         <div
             *ngIf="processedText?.textMarkings"
-            [ngClass]="{ sticky: highlightedMarkingIndex === -1 }"
+            [ngClass]="{ 'sticky': highlightedMarkingIndex === -1}"
         >
             <ng-template
                 [ngIf]="highlightedMarkingIndex === -1"
@@ -495,22 +495,16 @@
                 }"
             >
                 <div>
-                    <span
-                        class="waiting-text"
-                        [ngClass]="{
-                            'waiting-text-dark-mode': darkModeService.isDarkMode
-                        }"
-                        >duke lexuar shkrimin...</span
-                    >
+                    <span class="waiting-text"
+                          [ngClass]="{
+                    'waiting-text-dark-mode': darkModeService.isDarkMode
+                }">duke lexuar shkrimin...</span>
                 </div>
             </div>
-            <ul
-                class="list-group list-group-flush while-reading-text-ul"
+            <ul class="list-group list-group-flush while-reading-text-ul"
                 [ngClass]="{
-                    'while-reading-text-ul-dark-mode':
-                        darkModeService.isDarkMode
-                }"
-            >
+                    'while-reading-text-ul-dark-mode': darkModeService.isDarkMode
+                }">
                 <div class="spinner-border" role="status">
                     <span class="visually-hidden">duke lexuar shkrimin...</span>
                 </div>
