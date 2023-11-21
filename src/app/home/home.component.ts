@@ -5,7 +5,7 @@ import {
     OnDestroy,
     ViewEncapsulation
 } from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
     BehaviorSubject,
     debounceTime,
@@ -15,18 +15,18 @@ import {
     tap
 } from 'rxjs';
 
-import {CursorPosition} from '../models/cursor-position';
-import {CursorPlacement} from '../models/cursor-placement';
-import {LocalStorageService} from '../local-storage/local-storage.service';
-import {ProcessedText} from '../models/processed-text';
-import {TextMarking} from '../models/text-marking';
-import {environment} from '../../environments/environment';
+import { CursorPosition } from '../models/cursor-position';
+import { CursorPlacement } from '../models/cursor-placement';
+import { LocalStorageService } from '../local-storage/local-storage.service';
+import { ProcessedText } from '../models/processed-text';
+import { TextMarking } from '../models/text-marking';
+import { environment } from '../../environments/environment';
 import {
     markText,
     shouldNotMarkEditor,
     sortParagraphedTextMarkings
 } from '../text-marking/text-marking';
-import {DarkModeService} from '../dark-mode.service';
+import { DarkModeService } from '../dark-mode.service';
 
 @Component({
     selector: 'app-home',
@@ -64,7 +64,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     deleteTimer: number | undefined;
     characterCountPrePost: number = 0;
     cardsElementToRemove: any[] = [];
-    elementNameMarking: any[] = [];
     animationRemoved = new EventEmitter<void>();
     suggestedMarkingCardCounter: number = 0;
     textMarkingParagraphIndex: any[] = [];
@@ -245,12 +244,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         this.slideFadeAnimationCard(textMarkingIndex);
 
-        // if(document.querySelectorAll('#editor > p > span').length === 1){
-        //     setTimeout(() => {
-        //         this.processTextMarkingSelected(editor);
-        //     },900)
-        //     return;
-        // }
+        if (document.querySelectorAll('#editor > p > span').length === 1) {
+            setTimeout(() => {
+                this.processTextMarkingSelected(editor);
+            }, 900);
+            return;
+        }
 
         clearTimeout(this.deleteTimer);
         this.deleteTimer = setTimeout(() => {
@@ -259,7 +258,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             ) as NodeListOf<HTMLElement>;
 
             this.cardSuggestionsToRemove.forEach((removeItem) => {
-                document.getElementsByClassName('sticky')[0].classList.add('screen-height-delay');
+                document
+                    .getElementsByClassName('sticky')[0]
+                    .classList.add('screen-height-delay');
 
                 cards
                     .item(removeItem.textMarkingIndex)
@@ -320,7 +321,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         removeItem: number,
         lastIndex: number
     ): void {
-
         if (lastIndex === 0) {
             setTimeout(() => {
                 this.triggerSuggestionEmitterAnimation(lastIndex === index);
@@ -328,7 +328,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             return;
         }
 
-        if(index >= removeItem){
+        if (index >= removeItem) {
             if (cardsToRemove === 1) {
                 card.classList.add('move-up-animation');
                 card.addEventListener('animationend', () => {
@@ -580,11 +580,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         }
 
         // Handle edge case for the first index and last index
-        rangeEnd =
-            rangeEnd === null
-                ? this.tempProcessedText!.textMarkings.length
-                : rangeEnd;
-        rangeStart = rangeStart === null ? 0 : rangeStart;
+        rangeEnd = rangeEnd ?? this.tempProcessedText!.textMarkings.length;
+        rangeStart = rangeStart ?? 0;
 
         return [rangeStart, rangeEnd];
     }
@@ -618,13 +615,16 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         const cards = document.querySelectorAll(
             '.sticky .card'
         ) as NodeListOf<HTMLElement>;
+        const elementNameMarking: any[] = [];
 
         this.cardsToRemove.forEach((removeItem) => {
             const card = cards.item(removeItem);
             const cardToRemove = this.extractCardInfo(card);
-            this.elementNameMarking.push(cardToRemove!);
+            elementNameMarking.push(cardToRemove!);
 
-            document.getElementsByClassName('sticky')[0].classList.add('screen-height-delay');
+            document
+                .getElementsByClassName('sticky')[0]
+                .classList.add('screen-height-delay');
             card.classList.add('card-hidden');
 
             cards.forEach((card, index) => {
@@ -639,20 +639,21 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         this.removeScreenHeightDelay();
 
-        this.elementNameMarking.forEach(elementMarking => {
+        elementNameMarking.forEach((elementMarking) => {
             cardMarking.forEach((card, index) => {
                 if (card.textContent === elementMarking) {
-                    this.cardsElementToRemove.push({cardElement: card, index});
+                    this.cardsElementToRemove.push({
+                        cardElement: card,
+                        index
+                    });
                 }
             });
         });
-
 
         this.deleteMarkings();
 
         this.cardsToRemove = [];
         this.cardsElementToRemove = [];
-        this.elementNameMarking = [];
     }
 
     /**
@@ -664,11 +665,16 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      */
     deleteMarkings(): void {
         const cardsToRemoveSet = new Set(this.cardsToRemove);
-        this.cardsElementToRemove.forEach(cardElement => {
+        this.cardsElementToRemove.forEach((cardElement) => {
             if (cardsToRemoveSet.has(cardElement.index)) {
                 const currentTextMarking = cardElement.cardElement;
-                const textNode = document.createTextNode(currentTextMarking.textContent || '');
-                currentTextMarking.parentNode?.replaceChild(textNode, currentTextMarking);
+                const textNode = document.createTextNode(
+                    currentTextMarking.textContent || ''
+                );
+                currentTextMarking.parentNode?.replaceChild(
+                    textNode,
+                    currentTextMarking
+                );
             }
         });
 
@@ -701,7 +707,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         index: number,
         removeItem: number
     ): void {
-        if(index >= removeItem){
+        if (index >= removeItem) {
             if (cardsToRemove === 1) {
                 card.classList.add('move-up-animation');
                 card.addEventListener('animationend', () => {
@@ -764,6 +770,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.blurHighlightedBoardMarking();
         this.cardsToRemove = [];
         this.cardSuggestionsToRemove = [];
+        this.suggestedMarkingCardCounter = 0;
+        this.textMarkingParagraphIndex = [];
+        this.characterCountPrePost = 0;
     }
 
     /**
@@ -968,7 +977,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     ): TextMarking[] {
         return textMarkings.filter((tM: TextMarking) => {
             if (tM.id) {
-                const items = {...localStorage};
+                const items = { ...localStorage };
                 let b = true;
                 Object.entries(items).forEach((e: any) => {
                     if (e[0] === tM.id) {
@@ -1217,7 +1226,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         }, 2 * this.SECONDS);
     }
 
-    private removeScreenHeightDelay() {
+    private removeScreenHeightDelay(): void {
         const sticky = document.getElementsByClassName('sticky')[0];
         setTimeout(() => {
             sticky.classList.remove('screen-height-delay');

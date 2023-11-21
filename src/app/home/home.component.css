@@ -51,10 +51,10 @@
 }
 
 .fade-out {
-    animation: fadeout-And-Slide-Right 1s cubic-bezier(0.42, 0, 0.58, 1);
+    animation: fade-out-and-slide-right 1s cubic-bezier(0.42, 0, 0.58, 1);
 }
 
-@keyframes fadeout-And-Slide-Right {
+@keyframes fade-out-and-slide-right {
     from {
         opacity: 1;
         transform: translateX(0px);
@@ -81,10 +81,10 @@
 }
 
 .move-up-multiple-animation {
-    animation: move-Up-Multiple 0.8s cubic-bezier(0.42, 0, 0.58, 1);
+    animation: move-up-multiple 0.8s cubic-bezier(0.42, 0, 0.58, 1);
 }
 
-@keyframes move-Up-Multiple {
+@keyframes move-up-multiple {
     from {
         transform: translateY(100%);
         opacity: 0;
