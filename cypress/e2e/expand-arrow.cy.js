@@ -38,6 +38,7 @@ describe("click on expand/collapse arrow and then choose on a suggestion and che
             .children()
             .should("have.length.gt", 8);
         cy.get('[data-test="suggestion"]').contains("saktë").click();
+        cy.wait(5000)
         cy.get(
             '[data-test="oscillate-suggestions-button"].bi-arrow-right-square'
         ).click();
