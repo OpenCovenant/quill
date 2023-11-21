@@ -85,6 +85,13 @@
         }
     },
     {
+        "request": "<p>saktë</p>",
+        "response": {
+            "text": "<p>sakt\u00eb</p>",
+            "textMarkings": []
+        }
+    },
+    {
         "request": "<p>rreshti i parë</p><p>i dyti</p><p>dhe i treti</p>",
         "response": {
             "text": "<p>rreshti i par\u00eb</p><p>i dyti</p><p>dhe i treti</p>",

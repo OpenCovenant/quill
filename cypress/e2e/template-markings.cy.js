@@ -42,8 +42,8 @@ describe("will perform checks over the default markings", () => {
             .contains("shenjime stilistike")
             .should("exist");
 
-        cy.get('[data-test="editor"]').type("sakt eshte");
-        cy.get('[data-test="suggestion"]').contains("është").click();
+        cy.get('[data-test="editor"]').type("sakt");
+        cy.get('[data-test="suggestion"]').contains("saktë").click();
 
         cy.get("span.typo").contains("gabime shkrimi").should("exist");
         cy.get("span.loanword").contains("sugjerime huazimesh").should("exist");
@@ -59,7 +59,7 @@ describe("will perform checks over the default markings", () => {
             .contains("shenjime stilistike")
             .should("exist");
 
-        cy.get('[data-test="editor"]').type("sakt eshte");
+        cy.get('[data-test="editor"]').type("sakt");
         cy.get('[data-test="dismiss-marking-button"]').click();
 
         cy.get("span.typo").contains("gabime shkrimi").should("exist");
