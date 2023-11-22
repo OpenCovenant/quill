@@ -68,4 +68,22 @@ describe("will perform checks over the default markings", () => {
             .contains("shenjime stilistike")
             .should("exist");
     });
+
+    it("will check whether the default markings are shown when many suggestions are applied consecutively", () => {
+        cy.get("span.typo").contains("gabime shkrimi").should("exist");
+        cy.get("span.loanword").contains("sugjerime huazimesh").should("exist");
+        cy.get("span.stylistic")
+            .contains("shenjime stilistike")
+            .should("exist");
+
+        cy.get('[data-test="editor"]').type("gabmim gabmim");
+        cy.get(".sticky .card").eq(0).find('[data-test="suggestion"]').first().click();
+        cy.get(".sticky .card").eq(1).find('[data-test="suggestion"]').first().click();
+
+        cy.get("span.typo").contains("gabime shkrimi").should("exist");
+        cy.get("span.loanword").contains("sugjerime huazimesh").should("exist");
+        cy.get("span.stylistic")
+            .contains("shenjime stilistike")
+            .should("exist");
+    });
 });
