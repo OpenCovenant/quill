@@ -245,6 +245,7 @@
                     "
                     class="card border-secondary"
                     [ngClass]="{ 'mt-2 mb-2': i > 0 }"
+                    data-test="marking-card"
                 >
                     <div
                         class="card-header second-header"
@@ -351,7 +352,8 @@
                 </div>
             </ng-template>
             <ng-template #highlightedMarkingTemplate>
-                <div class="card border-secondary">
+                <div class="card border-secondary"
+                     data-test="marking-card">
                     <div
                         class="card-header second-header"
                         [ngClass]="{
