@@ -4,6 +4,7 @@ const SPAN_TAG = 'span';
 const ANIMATED_TYPO_MARKING_CLASS = 'animated-typo-marking';
 const ANIMATED_LOANWORD_MARKING_CLASS = 'animated-loanword-marking';
 const ANIMATED_STYLISTIC_MARKING_CLASS = 'animated-stylistic-marking';
+const ANIMATED_GRAMMATICAL_MARKING_CLASS = 'animated-grammatical-marking';
 const highlightedMarkingWords: Array<string> = [];
 const lastHighlightedMarkingWords: Array<string> = [];
 let markingIndex = 0;
@@ -244,6 +245,8 @@ function updateHighlightingMarkings(
             newNode.classList.add(ANIMATED_LOANWORD_MARKING_CLASS);
         } else if (textMarkingType === 'stylistic') {
             newNode.classList.add(ANIMATED_STYLISTIC_MARKING_CLASS);
+        } else if (textMarkingType === 'grammatical') {
+            newNode.classList.add(ANIMATED_GRAMMATICAL_MARKING_CLASS);
         }
     } else {
         if (textMarkingType === 'typo') {
@@ -252,6 +255,8 @@ function updateHighlightingMarkings(
             newNode.classList.remove(ANIMATED_LOANWORD_MARKING_CLASS);
         } else if (textMarkingType === 'stylistic') {
             newNode.classList.remove(ANIMATED_STYLISTIC_MARKING_CLASS);
+        } else if (textMarkingType === 'grammatical') {
+            newNode.classList.remove(ANIMATED_GRAMMATICAL_MARKING_CLASS);
         }
     }
 }

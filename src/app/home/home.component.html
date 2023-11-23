@@ -229,6 +229,32 @@
                     </li>
                 </ul>
             </div>
+            <div class="card border-secondary mt-4">
+                <div
+                    class="card-header second-header"
+                    [ngClass]="{
+                        'second-header-dark-mode': darkModeService.isDarkMode
+                    }"
+                >
+                    <div>
+                        <span class="grammatical template-marking-span"
+                        >shenjime gabimesh gramatikore</span
+                        >
+                    </div>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li
+                        class="list-group-item"
+                        [ngClass]="{
+                            'list-group-item-dark-mode':
+                                darkModeService.isDarkMode
+                        }"
+                    ><i class="bi bi-stars"></i>
+                        <b>sipas rregullave gramatikore</b> -
+                        <span>shenjime për gabime gramatikore të llojeve të ndryshme</span>
+                    </li>
+                </ul>
+            </div>
         </div>
         <div
             *ngIf="processedText?.textMarkings"
@@ -286,6 +312,8 @@
                         >
                             <div class="information-circle-flex">
                                 <div>
+                                    <i *ngIf="textMarking.type === 'grammatical'"
+                                       class="bi bi-stars"></i>
                                     <b>{{ textMarking.subtype }}</b> -
                                     <span>{{ textMarking.description }}</span>
                                 </div>
@@ -394,6 +422,8 @@
                         >
                             <div class="information-circle-flex">
                                 <div>
+                                    <i *ngIf="processedText?.textMarkings?.[highlightedMarkingIndex]?.subtype === 'grammatical'"
+                                       class="bi bi-stars"></i>
                                     <b
                                         >{{  processedText?.textMarkings?.[highlightedMarkingIndex]?.subtype }}</b
                                     >
