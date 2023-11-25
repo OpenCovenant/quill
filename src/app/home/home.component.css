@@ -208,6 +208,7 @@
     justify-content: center;
     gap: 1rem;
     align-items: center;
+    padding-top: 0.5rem;
 }
 
 .editor-hr {
