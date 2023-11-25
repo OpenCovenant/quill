@@ -445,12 +445,7 @@
 
 .suggestions-header {
     cursor: pointer;
-    margin-bottom: 0rem;
-}
-
-.suggestions-header {
-    cursor: pointer;
-    margin-bottom: 0rem;
+    margin-bottom: 0;
 }
 
 .text-reset {
