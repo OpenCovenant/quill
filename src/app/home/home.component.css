@@ -207,6 +207,7 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 1rem;
+    align-items: center;
 }
 
 .editor-hr {
@@ -444,10 +445,7 @@
 
 .suggestions-header {
     cursor: pointer;
-}
-
-.suggestions-header {
-    cursor: pointer;
+    margin-bottom: 0;
 }
 
 .text-reset {
