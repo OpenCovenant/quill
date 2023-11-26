@@ -67,6 +67,10 @@
     margin-top: 0;
 }
 
+.item-action-list{
+    margin: 1.5rem 0;
+}
+
 .nav-text {
     display: flex;
     height: 50px;
