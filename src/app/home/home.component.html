@@ -597,12 +597,11 @@
                         >
                     </div>
                 </div>
-                <br />
                 <div
                     *ngFor="
                         let writtenText of localStorageService.fetchWrittenTextsHistory()
                     "
-                    class="list-group"
+                    class="list-group home-list-group"
                 >
                     <p
                         class="written-text"
@@ -615,7 +614,6 @@
                     >
                         {{ writtenText }}
                     </p>
-                    <br />
                 </div>
             </div>
             <div
