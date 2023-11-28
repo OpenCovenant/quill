@@ -2554,6 +2554,13 @@
         }
     },
     {
+        "request": "<p>gabimi gabime</p>",
+        "response": {
+            "text": "<p>gabimi gabime</p>",
+            "textMarkings": []
+        }
+    },
+    {
         "request": "<p>pra gabmim kaq</p>",
         "response": {
             "text": "<p>pra gabmim kaq</p>",

@@ -63,6 +63,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }[] = [];
     deleteTimer: number | undefined;
     characterCountPrePost: number = 0;
+    cardCountSelectedPrePost: number = 0;
     cardsElementToRemove: any[] = [];
     animationRemoved = new EventEmitter<void>();
     suggestedMarkingCardCounter: number = 0;
@@ -229,8 +230,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * @param {number} suggestionIndex the index of the chosen Suggestion of the above TextMarking
      */
     chooseSuggestion(textMarkingIndex: number, suggestionIndex: number): void {
-        if (this.cardsToRemove.length >= 1) return; // prevents collision action between suggestion and deletion
+        // if (this.cardsToRemove.length >= 1) return; // prevents collision action between suggestion and deletion
         this.suggestedMarkingCardCounter++;
+        this.cardCountSelectedPrePost++;
         this.cardSuggestionsToRemove.push({
             textMarkingIndex,
             suggestionIndex
@@ -321,10 +323,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         removeItem: number,
         lastIndex: number
     ): void {
-        if (lastIndex === 0) {
-            setTimeout(() => {
-                this.triggerSuggestionEmitterAnimation(lastIndex === index);
-            }, 100);
+        if (this.cardCountSelectedPrePost >= document.querySelectorAll('.sticky .card').length) {
+            const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
+            this.processTextMarkingSelected(editor)
             return;
         }
 
@@ -450,6 +451,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 this.cardSuggestionsToRemove = [];
                 this.characterCountPrePost = 0;
                 this.suggestedMarkingCardCounter = 0;
+                this.cardCountSelectedPrePost = 0;
             });
     }
 
@@ -593,8 +595,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      */
     deleteTextMarking(textMarkingIndex: number): void {
         // based on the assumption that all spans within the paragraphs of the editor are markings
-        if (this.cardSuggestionsToRemove.length >= 1) return; // prevents collision action between suggestion and deletion
+        // if (this.cardSuggestionsToRemove.length >= 1) return; // prevents collision action between suggestion and deletion
 
+        this.cardCountSelectedPrePost++;
         this.cardsToRemove.push(textMarkingIndex);
         this.slideFadeAnimationCard(textMarkingIndex);
 
@@ -773,6 +776,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.suggestedMarkingCardCounter = 0;
         this.textMarkingParagraphIndex = [];
         this.characterCountPrePost = 0;
+        this.cardCountSelectedPrePost = 0;
     }
 
     /**
