@@ -12,7 +12,7 @@ describe("A marking type does not appear after being disabled.", () => {
         cy.get('[data-test="switch-check-testing"]').should("not.be.checked");
         cy.visit("/");
         cy.get('[data-test="editor"]').type("Pra shkoi tek zyra. ");
-        cy.get("span.typo").contains("gabime shkrimi").should("exist");
+        cy.get(".typo").contains("gabime shkrimi").should("exist");
         cy.get(".list-group-item b")
             .contains("shkrim pa gabime")
             .should("exist");
@@ -23,7 +23,7 @@ describe("A marking type does not appear after being disabled.", () => {
             .should("exist");
         cy.get('[data-test="editor"]').type("{enter}");
         cy.get('[data-test="editor"]').type("Pra  kaq.");
-        cy.get("span.typo").contains("gabime shkrimi").should("exist");
+        cy.get(".typo").contains("gabime shkrimi").should("exist");
         cy.get(".list-group-item b")
             .contains("shkrim pa gabime")
             .should("exist");

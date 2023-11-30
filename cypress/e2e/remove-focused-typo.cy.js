@@ -4,9 +4,9 @@ describe("Typing in the editor removes the focused typo.", () => {
     });
 
     it("will test if the focused marking will be removed when we start typing on the editor ", () => {
-        cy.get("#editor > p > .typo").should("not.exist");
+        cy.get(".typo").should("not.exist");
         cy.get('[data-test="editor"]').type("gabmim asd ");
-        cy.get("#editor > p > .typo").first().click();
+        cy.get(".typo").first().click();
         cy.get('[data-test="highlighted-text-marking"]').should(
             "have.text",
             "gabmim"

@@ -8,7 +8,7 @@ describe("Selecting all text should not mark the editor", () => {
         cy.get('[data-test="dismiss-marking-button"]').click();
         cy.get('[data-test="suggestion"]').should("not.exist");
         cy.get('[data-test="editor"]').type("{selectall}");
-        cy.get("span.typo").contains("gabime shkrimi").should("exist");
+        cy.get(".typo").contains("gabime shkrimi").should("exist");
         cy.get(".list-group-item b")
             .contains("shkrim pa gabime")
             .should("exist");

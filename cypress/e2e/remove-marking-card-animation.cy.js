@@ -5,7 +5,7 @@ describe("Remove Marking - Fade right animation", () => {
 
     it("Will remove all cards and trigger fade out animation", () => {
         // Check initial state
-        cy.get("#editor > p > .typo").should("not.exist");
+        cy.get(".typo").should("not.exist");
 
         // Type some text
         cy.get('[data-test="editor"]').type("sakt eshte");

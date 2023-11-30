@@ -4,7 +4,7 @@ describe("its going to test if the characters change, words, typos change as we 
     });
 
     it("will correctly update karaktere, fjalë, shenjime", () => {
-        cy.get("#editor > p > .typo").should("not.exist");
+        cy.get(".typo").should("not.exist");
 
         cy.get('[data-test="editor"]').type("gabmim ");
         cy.wait(2000);

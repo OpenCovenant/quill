@@ -5,7 +5,7 @@ describe("Suggestion Marking - Fade right animation", () => {
 
     it("Will replace all markings with the first suggestions. Will trigger fade animation", () => {
         // Check initial state
-        cy.get("#editor > p > .typo").should("not.exist");
+        cy.get(".typo").should("not.exist");
 
         // Add some text
         cy.get('[data-test="editor"]').type("gabmim gabmim");
