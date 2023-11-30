@@ -14,7 +14,7 @@ describe("will perform checks over the default markings", () => {
             )
             .should("exist");
 
-        cy.get("span.loanword").contains("sugjerime huazimesh").should("exist");
+        cy.get(".loanword").contains("sugjerime huazimesh").should("exist");
         cy.get(".list-group-item b")
             .contains("pa huazime për tani")
             .should("exist");
