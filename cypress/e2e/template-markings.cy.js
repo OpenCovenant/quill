@@ -4,7 +4,7 @@ describe("will perform checks over the default markings", () => {
     });
 
     it("will check whether the default markings are shown when the home page is loaded", () => {
-        cy.get(".typo").contains("gabime shkrimi").should("exist");
+        cy.get(".typo-marking-header").contains("gabime shkrimi").should("exist");
         cy.get(".list-group-item b")
             .contains("shkrim pa gabime")
             .should("exist");
@@ -14,7 +14,7 @@ describe("will perform checks over the default markings", () => {
             )
             .should("exist");
 
-        cy.get(".loanword").contains("sugjerime huazimesh").should("exist");
+        cy.get(".loanword-marking-header").contains("sugjerime huazimesh").should("exist");
         cy.get(".list-group-item b")
             .contains("pa huazime për tani")
             .should("exist");
@@ -24,7 +24,7 @@ describe("will perform checks over the default markings", () => {
             )
             .should("exist");
 
-        cy.get("span.stylistic")
+        cy.get(".stylistic-marking-header")
             .contains("shenjime stilistike")
             .should("exist");
         cy.get(".list-group-item b")
@@ -36,54 +36,72 @@ describe("will perform checks over the default markings", () => {
     });
 
     it("will check whether the default markings are shown when a suggestion is applied", () => {
-        cy.get(".typo").contains("gabime shkrimi").should("exist");
-        cy.get(".loanword").contains("sugjerime huazimesh").should("exist");
-        cy.get(".stylistic")
+        cy.get(".typo-marking-header").contains("gabime shkrimi").should("exist");
+        cy.get(".loanword-marking-header").contains("sugjerime huazimesh").should("exist");
+        cy.get(".stylistic-marking-header")
             .contains("shenjime stilistike")
+            .should("exist");
+        cy.get(".grammatical-marking-header")
+            .contains("shenjime gabimesh gramatikore")
             .should("exist");
 
         cy.get('[data-test="editor"]').type("sakt");
         cy.get('[data-test="suggestion"]').contains("saktë").click();
 
-        cy.get(".typo").contains("gabime shkrimi").should("exist");
-        cy.get(".loanword").contains("sugjerime huazimesh").should("exist");
-        cy.get(".stylistic")
+        cy.get(".typo-marking-header").contains("gabime shkrimi").should("exist");
+        cy.get(".loanword-marking-header").contains("sugjerime huazimesh").should("exist");
+        cy.get(".stylistic-marking-header")
             .contains("shenjime stilistike")
+            .should("exist");
+        cy.get(".grammatical-marking-header")
+            .contains("shenjime gabimesh gramatikore")
             .should("exist");
     });
 
     it("will check whether the default markings are shown when a marking is dismissed", () => {
-        cy.get(".typo").contains("gabime shkrimi").should("exist");
-        cy.get(".loanword").contains("sugjerime huazimesh").should("exist");
-        cy.get(".stylistic")
+        cy.get(".typo-marking-header").contains("gabime shkrimi").should("exist");
+        cy.get(".loanword-marking-header").contains("sugjerime huazimesh").should("exist");
+        cy.get(".stylistic-marking-header")
             .contains("shenjime stilistike")
+            .should("exist");
+        cy.get(".grammatical-marking-header")
+            .contains("shenjime gabimesh gramatikore")
             .should("exist");
 
         cy.get('[data-test="editor"]').type("sakt");
         cy.get('[data-test="dismiss-marking-button"]').click();
 
-        cy.get(".typo").contains("gabime shkrimi").should("exist");
-        cy.get(".loanword").contains("sugjerime huazimesh").should("exist");
-        cy.get(".stylistic")
+        cy.get(".typo-marking-header").contains("gabime shkrimi").should("exist");
+        cy.get(".loanword-marking-header").contains("sugjerime huazimesh").should("exist");
+        cy.get(".stylistic-marking-header")
             .contains("shenjime stilistike")
+            .should("exist");
+        cy.get(".grammatical-marking-header")
+            .contains("shenjime gabimesh gramatikore")
             .should("exist");
     });
 
     it("will check whether the default markings are shown when many suggestions are applied consecutively", () => {
-        cy.get(".typo").contains("gabime shkrimi").should("exist");
-        cy.get(".loanword").contains("sugjerime huazimesh").should("exist");
-        cy.get(".stylistic")
+        cy.get(".typo-marking-header").contains("gabime shkrimi").should("exist");
+        cy.get(".loanword-marking-header").contains("sugjerime huazimesh").should("exist");
+        cy.get(".stylistic-marking-header")
             .contains("shenjime stilistike")
+            .should("exist");
+        cy.get(".grammatical-marking-header")
+            .contains("shenjime gabimesh gramatikore")
             .should("exist");
 
         cy.get('[data-test="editor"]').type("gabmim gabmim");
         cy.get(".sticky .card").eq(0).find('[data-test="suggestion"]').first().click();
         cy.get(".sticky .card").eq(1).find('[data-test="suggestion"]').first().click();
 
-        cy.get(".typo").contains("gabime shkrimi").should("exist");
-        cy.get(".loanword").contains("sugjerime huazimesh").should("exist");
-        cy.get(".stylistic")
+        cy.get(".typo-marking-header").contains("gabime shkrimi").should("exist");
+        cy.get(".loanword-marking-header").contains("sugjerime huazimesh").should("exist");
+        cy.get(".stylistic-marking-header")
             .contains("shenjime stilistike")
+            .should("exist");
+        cy.get(".grammatical-marking-header")
+            .contains("shenjime gabimesh gramatikore")
             .should("exist");
     });
 });
