@@ -11,7 +11,8 @@ describe("a properly generated marked text on the rhs which isn't falsely update
             cy.get('[data-test="editor"]').type("{leftArrow}");
         }
         cy.get('[data-test="editor"]').type("edhe ");
-        cy.get(".generated-marking > .typo", { timeout: 100 }).should(
+        // NOTE: timeout of 100 ms so that no other request will be made in the meantime
+        cy.get(".typo-marking-header", { timeout: 100 }).should(
             "have.text",
             "gabmim "
         );

@@ -4,7 +4,7 @@ describe("Test request after suggestion selection", () => {
     });
 
     it("should make a post request after rapidly selecting suggestions from cards", () => {
-        cy.get("#editor > p > .typo").should("not.exist");
+        cy.get(".typo").should("not.exist");
 
         cy.get('[data-test="editor"]').type("asd Për kryerjen e programeve gabmim asd \nasd Për kryerjen e programeve gabmim asd \nasd Për kryerjen e programeve gabmim asd \nasd Për kryerjen e programeve gabmim asd \n");
         cy.wait(2000);

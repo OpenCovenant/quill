@@ -5,7 +5,7 @@ describe("Move up markings cards animation", () => {
 
     it("Will delete one card and trigger the move up animation for the remaining cards", () => {
         // Check initial state
-        cy.get("#editor > p > .typo").should("not.exist");
+        cy.get(".typo").should("not.exist");
 
         // Add some text
         cy.get('[data-test="editor"]').type("sakt eshte");

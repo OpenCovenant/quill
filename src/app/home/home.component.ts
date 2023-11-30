@@ -1200,7 +1200,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     private listenForMarkingHighlight(): void {
-        const textMarkings = document.querySelectorAll('#editor > p > .typo');
+        const textMarkings = document.querySelectorAll('.typo,.loanword,.stylistic,.grammatical');
         textMarkings.forEach((element: Element, index: number) =>
             element.addEventListener(
                 'click',

@@ -153,7 +153,7 @@
                     }"
                 >
                     <div>
-                        <span class="typo template-marking-span"
+                        <span class="typo-marking-header template-marking-span"
                             >gabime shkrimi</span
                         >
                     </div>
@@ -182,7 +182,7 @@
                     }"
                 >
                     <div>
-                        <span class="loanword template-marking-span"
+                        <span class="loanword-marking-header template-marking-span"
                             >sugjerime huazimesh</span
                         >
                     </div>
@@ -211,7 +211,7 @@
                     }"
                 >
                     <div>
-                        <span class="stylistic template-marking-span"
+                        <span class="stylistic-marking-header template-marking-span"
                             >shenjime stilistike</span
                         >
                     </div>
@@ -237,7 +237,7 @@
                     }"
                 >
                     <div>
-                        <span class="grammatical template-marking-span"
+                        <span class="grammatical-marking-header template-marking-span"
                         >shenjime gabimesh gramatikore</span
                         >
                     </div>
@@ -282,7 +282,7 @@
                     >
                         <div class="generated-marking">
                             <span
-                                class="text-marking {{ textMarking.type }}"
+                                class="text-marking {{ textMarking.type }}-marking-header"
                                 data-test="text-marking-span"
                                 >{{ getTextOfTextMarking(i) }}
                             </span>
@@ -293,7 +293,7 @@
                                 type="button"
                                 class="btn-close text-reset"
                                 [ngClass]="{
-                                    'clear-typo-element-dark-mode':
+                                    'dismiss-marking-element-dark-mode':
                                         darkModeService.isDarkMode
                                 }"
                                 title="hiq shenjimin"
