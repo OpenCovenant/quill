@@ -15,7 +15,7 @@ describe("tests for upload document button", () => {
             // .contains(labels.uploadFileLabel)
             .click()
             .selectFile("cypress/fixtures/test.docx");
-        cy.get("span.loanword").contains("lider").should("exist");
+        cy.get(".loanword").contains("lider").should("exist");
     });
 
     it("will click on button and will check for loanword in output container on WORD file", () => {
