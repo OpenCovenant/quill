@@ -453,10 +453,10 @@
     }
   }
   
-.dot1, .dot2, .dot3 {
+  .first-pulsing-dot , .second-pulsing-dot, .third-pulsing-dot {
     animation: pulse 1.5s infinite;
     display: inline-block;
-    font-size: 3em; 
+    font-size: 2.8em; 
     text-align: center;
     color: #465463; 
     vertical-align: top;
@@ -465,15 +465,15 @@
     top: -0.5em;
   }
 
-.dot1 {
+.first-pulsing-dot {
     animation-delay: 0s;
   }
   
-.dot2 {
+.second-pulsing-dot {
     animation-delay: 0.5s;
   }
   
-.dot3 {
+.third-pulsing-dot {
     animation-delay: 1s;
   }
 
