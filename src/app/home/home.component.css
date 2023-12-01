@@ -452,35 +452,35 @@
       opacity: 0.5;
     }
   }
-  
+
   .first-pulsing-dot , .second-pulsing-dot, .third-pulsing-dot {
     animation: pulse 1.5s infinite;
     display: inline-block;
-    font-size: 2.8em; 
+    font-size: 2.2em;
     text-align: center;
-    color: #465463; 
+    color: #465463;
     vertical-align: top;
     line-height: 1;
     position: relative;
-    top: -0.5em;
+    top: -0.35em;
   }
 
 .first-pulsing-dot {
     animation-delay: 0s;
   }
-  
+
 .second-pulsing-dot {
     animation-delay: 0.5s;
   }
-  
+
 .third-pulsing-dot {
     animation-delay: 1s;
   }
 
 .dot-dark-mode {
-    color: #fff; 
+    color: #fff;
   }
- 
+
 /*TODO: apply dark mode for the history of the written texts*/
 .written-texts-history-dark-mode {
     background-color: var(--dark-mode-theme);
