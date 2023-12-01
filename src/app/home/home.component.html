@@ -526,12 +526,14 @@
                     'second-header-dark-mode': darkModeService.isDarkMode
                 }"
             >
-                <div>
-                    <span class="waiting-text"
-                          [ngClass]="{
-                    'waiting-text-dark-mode': darkModeService.isDarkMode
-                }">duke lexuar shkrimin...</span>
-                </div>
+            <div>
+                <span class="waiting-text" [ngClass]="{'waiting-text-dark-mode': darkModeService.isDarkMode}">
+                  duke lexuar shkrimin
+                  <span class="first-pulsing-dot" [ngClass]="{'dot-dark-mode': darkModeService.isDarkMode}">.</span>
+                  <span class="second-pulsing-dot" [ngClass]="{'dot-dark-mode': darkModeService.isDarkMode}">.</span>
+                  <span class="third-pulsing-dot" [ngClass]="{'dot-dark-mode': darkModeService.isDarkMode}">.</span>
+                </span>
+              </div>
             </div>
             <ul class="list-group list-group-flush while-reading-text-ul"
                 [ngClass]="{

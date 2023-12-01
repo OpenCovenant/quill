@@ -444,6 +444,43 @@
     top: 0;
 }
 
+@keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+  
+  .first-pulsing-dot , .second-pulsing-dot, .third-pulsing-dot {
+    animation: pulse 1.5s infinite;
+    display: inline-block;
+    font-size: 2.8em; 
+    text-align: center;
+    color: #465463; 
+    vertical-align: top;
+    line-height: 1;
+    position: relative;
+    top: -0.5em;
+  }
+
+.first-pulsing-dot {
+    animation-delay: 0s;
+  }
+  
+.second-pulsing-dot {
+    animation-delay: 0.5s;
+  }
+  
+.third-pulsing-dot {
+    animation-delay: 1s;
+  }
+
+.dot-dark-mode {
+    color: #fff; 
+  }
+ 
 /*TODO: apply dark mode for the history of the written texts*/
 .written-texts-history-dark-mode {
     background-color: var(--dark-mode-theme);
