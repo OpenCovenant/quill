@@ -455,13 +455,16 @@
 }
 
 @keyframes ellipsis-dot {
+    from {
+      content: "";
+    }
     33% {
       content: ".";
     }
     66% {
       content: ". .";
     }
-    100% {
+    to {
       content: ". . .";
     }
 }
