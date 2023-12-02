@@ -527,13 +527,10 @@
                 }"
             >
             <div>
-                <span class="waiting-text" [ngClass]="{'waiting-text-dark-mode': darkModeService.isDarkMode}">
+                <span class="pulsing-dots" [ngClass]="{'waiting-text-dark-mode': darkModeService.isDarkMode}">
                   duke lexuar shkrimin
-                  <span class="first-pulsing-dot" [ngClass]="{'dot-dark-mode': darkModeService.isDarkMode}">.</span>
-                  <span class="second-pulsing-dot" [ngClass]="{'dot-dark-mode': darkModeService.isDarkMode}">.</span>
-                  <span class="third-pulsing-dot" [ngClass]="{'dot-dark-mode': darkModeService.isDarkMode}">.</span>
                 </span>
-              </div>
+                </div>
             </div>
             <ul class="list-group list-group-flush while-reading-text-ul"
                 [ngClass]="{
