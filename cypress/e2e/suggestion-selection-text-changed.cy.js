@@ -11,7 +11,7 @@ describe("Test editor marking's change in text", () => {
         cy.get('[data-test="editor"]').type("asd Për kryerjen e programeve gabmim asd \nasd Për kryerjen e programeve gabmim asd \nasd Për kryerjen e programeve gabmim asd \nasd Për kryerjen e programeve gabmim asd \n");
         cy.wait(2000);
 
-        cy.get(".sticky .card").each((card, index) => {
+        cy.get('.sticky [data-test="marking-card"]').each((card, index) => {
             cy.wrap(card).find('[data-test="suggestion"]').first().click();
         });
 
