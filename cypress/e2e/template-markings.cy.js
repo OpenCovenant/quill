@@ -81,8 +81,8 @@ describe("will perform checks over the default markings", () => {
             .should("be.visible");
 
         cy.get('[data-test="editor"]').type("gabmim gabmim");
-        cy.get('.sticky [data-test="marking-card"]').eq(0).find('[data-test="suggestion"]').first().click();
-        cy.get('.sticky [data-test="marking-card"]').eq(1).find('[data-test="suggestion"]').first().click();
+        cy.get('[data-test="marking-card"]').eq(0).find('[data-test="suggestion"]').first().click();
+        cy.get('[data-test="marking-card"]').eq(1).find('[data-test="suggestion"]').first().click();
 
         cy.get(".typo-marking-header").should("be.visible");
         cy.get(".loanword-marking-header").should("be.visible");
