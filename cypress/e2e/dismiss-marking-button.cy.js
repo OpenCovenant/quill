@@ -16,7 +16,7 @@ describe("test for dismiss-marking button", () => {
         cy.get('[data-test="editor"]').type(text);
 
         // Click on each dismiss-marking button
-        cy.get('.sticky [data-test="marking-card"] ').each((card) => {
+        cy.get('[data-test="marking-card"]').each((card) => {
             cy.wrap(card).find('[data-test="dismiss-marking-button"]').click();
 
             cy.wrap(card).should("not.exist");

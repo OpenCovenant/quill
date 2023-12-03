@@ -12,7 +12,7 @@ describe("Text Marking Dismissal/removal Test", () => {
         );
         cy.get('[data-test="dismiss-marking-button"]').should("be.visible");
 
-        cy.get('.sticky [data-test="marking-card"] ').each((card, index, list) => {
+        cy.get('[data-test="marking-card"] ').each((card, index, list) => {
             if (index <= 2) {
                 cy.wrap(card)
                     .find('[data-test="dismiss-marking-button"]')

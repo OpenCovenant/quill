@@ -9,7 +9,7 @@ describe("Test request after suggestion selection", () => {
         cy.get('[data-test="editor"]').type("asd Për kryerjen e programeve gabmim asd \nasd Për kryerjen e programeve gabmim asd \nasd Për kryerjen e programeve gabmim asd \nasd Për kryerjen e programeve gabmim asd \n");
         cy.wait(2000);
 
-        cy.get('.sticky [data-test="marking-card"]').each((card, index) => {
+        cy.get('[data-test="marking-card"]').each((card, index) => {
             if(index < 9){
                 cy.wrap(card).find('[data-test="suggestion"]').first().click();
             }
