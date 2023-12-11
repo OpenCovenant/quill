@@ -15,7 +15,7 @@ describe("Suggestion Marking - Fade right animation", () => {
 
         // Click the first suggestion for each card
         cy.get('[data-test="marking-card"]').each((card, index) => {
-            cy.wrap(card).find('[data-test="suggestion"]:first').click();
+            cy.wrap(card).find('[data-test="suggestion"]').first().click();
         });
 
         cy.get('[data-test="marking-card"] .fade-out').should('not.exist');
