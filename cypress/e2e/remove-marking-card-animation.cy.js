@@ -14,7 +14,7 @@ describe("Remove Marking - Fade right animation", () => {
         cy.get('[data-test="dismiss-marking-button"]').should("be.visible");
 
         // Click the button for each card
-        cy.get(".sticky .card").each((card, index) => {
+        cy.get('[data-test="marking-card"]').each((card, index) => {
             cy.wrap(card).find('[data-test="dismiss-marking-button"]').click();
 
             cy.wrap(card).should("not.exist");

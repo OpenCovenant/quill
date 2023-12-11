@@ -14,10 +14,10 @@ describe("Suggestion Marking - Fade right animation", () => {
         cy.get('[data-test="suggestion"]').should("be.visible");
 
         // Click the first suggestion for each card
-        cy.get(".sticky .card").each((card, index) => {
-            cy.wrap(card).find('[data-test="suggestion"]:first').click();
+        cy.get('[data-test="marking-card"]').each((card, index) => {
+            cy.wrap(card).find('[data-test="suggestion"]').first().click();
         });
 
-        cy.get(".sticky .card .fade-out").should("not.exist");
+        cy.get('[data-test="marking-card"] .fade-out').should('not.exist');
     });
 });
