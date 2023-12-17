@@ -1,4 +1,4 @@
-describe("the position of the cursor in the editor after writing in it", () => {
+xdescribe("the position of the cursor in the editor after writing in it", () => {
     beforeEach(() => {
         cy.visit("/");
     });

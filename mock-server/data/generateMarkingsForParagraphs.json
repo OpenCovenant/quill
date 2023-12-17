@@ -3657,6 +3657,13 @@
                 }
             ]
         }
+    },
+    {
+        "request": "<p><br></p><p><br></p>",
+        "response": {
+            "text": "<p><br></p><p><br></p>",
+            "textMarkings": []
+        }
     }
 ]
 
