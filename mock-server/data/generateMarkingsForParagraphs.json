@@ -3664,6 +3664,108 @@
             "text": "<p><br></p><p><br></p>",
             "textMarkings": []
         }
+    },
+    {
+        "request": "<p>saktë <span class=\"typo animated-typo-marking\">gabmim</span>&nbsp;</p><p><br></p>",
+        "response": {
+            "text": "<p>sakt\u00eb <span class=\"typo animated-typo-marking\">gabmim</span>&nbsp;</p><p><br></p>",
+            "textMarkings": [
+                {
+                    "from": 6,
+                    "to": 12,
+                    "type": "typo",
+                    "subtype": "gabim drejtshkrimi",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "gazmim",
+                            "action": "gazmim"
+                        },
+                        {
+                            "display": "gabime",
+                            "action": "gabime"
+                        },
+                        {
+                            "display": "gabimi",
+                            "action": "gabimi"
+                        },
+                        {
+                            "display": "gabim",
+                            "action": "gabim"
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
+    },
+    {
+        "request": "<p>saktë <span class=\"typo\">gabmim</span>&nbsp;</p><p><br></p><p><br></p><p><br></p>",
+        "response": {
+            "text": "<p>sakt\u00eb <span class=\"typo\">gabmim</span>&nbsp;</p><p><br></p><p><br></p><p><br></p>",
+            "textMarkings": [
+                {
+                    "from": 6,
+                    "to": 12,
+                    "type": "typo",
+                    "subtype": "gabim drejtshkrimi",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "gazmim",
+                            "action": "gazmim"
+                        },
+                        {
+                            "display": "gabime",
+                            "action": "gabime"
+                        },
+                        {
+                            "display": "gabimi",
+                            "action": "gabimi"
+                        },
+                        {
+                            "display": "gabim",
+                            "action": "gabim"
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
+    },
+    {
+        "request": "<p>saktë <span class=\"typo\">gabmim</span>&nbsp;</p><p><br></p><p><br></p><p>saktë saktë</p>",
+        "response": {
+            "text": "<p>sakt\u00eb <span class=\"typo\">gabmim</span>&nbsp;</p><p><br></p><p><br></p><p>sakt\u00eb sakt\u00eb</p>",
+            "textMarkings": [
+                {
+                    "from": 6,
+                    "to": 12,
+                    "type": "typo",
+                    "subtype": "gabim drejtshkrimi",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "gazmim",
+                            "action": "gazmim"
+                        },
+                        {
+                            "display": "gabime",
+                            "action": "gabime"
+                        },
+                        {
+                            "display": "gabimi",
+                            "action": "gabimi"
+                        },
+                        {
+                            "display": "gabim",
+                            "action": "gabim"
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
     }
 ]
 
