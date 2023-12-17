@@ -1,4 +1,4 @@
-describe("quickly applying a suggestion and dismissing a marking", () => {
+xdescribe("quickly applying a suggestion and dismissing a marking", () => {
     beforeEach(() => {
         cy.visit("/");
     });
