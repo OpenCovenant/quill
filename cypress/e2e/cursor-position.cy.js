@@ -1,4 +1,4 @@
-xdescribe("the position of the cursor in the editor after writing in it", () => {
+describe("the position of the cursor in the editor after writing in it", () => {
     beforeEach(() => {
         cy.visit("/");
     });
@@ -61,12 +61,12 @@ xdescribe("the position of the cursor in the editor after writing in it", () => 
                 assert(range.startOffset === 0);
                 assert(
                     range.startContainer.isEqualNode(
-                        someDocument.getElementById("editor").childNodes[1]
+                        someDocument.getElementById("editor").childNodes[1].firstChild
                     )
                 );
                 assert(
                     range.endContainer.isEqualNode(
-                        someDocument.getElementById("editor").childNodes[1]
+                        someDocument.getElementById("editor").childNodes[1].firstChild
                     )
                 );
                 assert(range.endOffset === 0);
@@ -83,12 +83,12 @@ xdescribe("the position of the cursor in the editor after writing in it", () => 
                 assert(range.startOffset === 0);
                 assert(
                     range.startContainer.isEqualNode(
-                        someDocument.getElementById("editor").childNodes[3]
+                        someDocument.getElementById("editor").childNodes[3].firstChild
                     )
                 );
                 assert(
                     range.endContainer.isEqualNode(
-                        someDocument.getElementById("editor").childNodes[3]
+                        someDocument.getElementById("editor").childNodes[3].firstChild
                     )
                 );
                 assert(range.endOffset === 0);
