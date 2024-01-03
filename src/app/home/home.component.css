@@ -1,6 +1,7 @@
 .high-level-container {
     display: flex;
     justify-content: space-between;
+    padding-bottom: 3rem;
     gap: 1rem;
 }
 
