@@ -601,6 +601,14 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.cardsToRemove.push(textMarkingIndex);
         this.slideFadeAnimationCard(textMarkingIndex);
 
+        const paragraphOnEditor = this.EDITOR_KEY;
+        const paragraphContent = document.getElementById(paragraphOnEditor)!;
+        if (paragraphContent) {
+            const paragraphContentString = paragraphContent.toString();
+            localStorage.setItem('penda-dismissed-markings', paragraphContentString);
+
+        }
+
         clearTimeout(this.deleteTimer); // Will reset the time as the user deletes more markings
         this.deleteTimer = setTimeout(() => {
             this.moveUpRemainingCards();
