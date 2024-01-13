@@ -606,7 +606,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             this.moveUpRemainingCards();
         }, 1500);
 
-        localStorage.setItem('penda-dismissed-markings', JSON.stringify(this.processedText?.text ?? ''));
+
+        localStorage.setItem(`penda-dismissed-markings`, JSON.stringify(this.processedText?.text ?? '').toString());
+
     }
 
     /**
