@@ -27,6 +27,7 @@ import {
     sortParagraphedTextMarkings
 } from '../text-marking/text-marking';
 import { DarkModeService } from '../dark-mode.service';
+import { DismissMarkingStorageService } from '../dismiss-marking-storage.service'
 
 @Component({
     selector: 'app-home',
@@ -83,7 +84,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     constructor(
         public localStorageService: LocalStorageService,
         private http: HttpClient,
-        public darkModeService: DarkModeService
+        public darkModeService: DarkModeService,
+        public DismissMarkingStorageService: DismissMarkingStorageService
     ) {
         this.initializeURLs();
 
@@ -606,8 +608,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             this.moveUpRemainingCards();
         }, 1500);
 
-
-        localStorage.setItem(`penda-dismissed-markings`, JSON.stringify(this.processedText?.text ?? '').toString());
+        this.DismissMarkingStorageService.storeDismissedText(document.getElementById(this.EDITOR_KEY)!.innerText);
 
     }
 
