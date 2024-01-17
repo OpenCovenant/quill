@@ -4,10 +4,12 @@ import { MarkingDetailsComponent } from './marking-details/marking-details.compo
 import { HomeComponent } from './home/home.component';
 import { SettingsComponent } from './settings/settings.component';
 import { AboutComponent } from './about/about.component';
+import { ShortcutsComponent } from './shortcuts/shortcuts.component'
 
 const routes: Routes = [
     { path: 'about', component: AboutComponent },
     { path: 'settings', component: SettingsComponent },
+    { path: 'shortcuts', component: ShortcutsComponent },
     { path: ':id', component: MarkingDetailsComponent },
     { path: '', component: HomeComponent }
 ];

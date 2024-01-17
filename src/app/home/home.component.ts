@@ -86,6 +86,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         public darkModeService: DarkModeService
     ) {
         this.initializeURLs();
+        this.addEventListenerForShortcuts();
 
         this.http.get(this.pingURL).subscribe({
             next: () => console.log('pinging server...'),
@@ -439,7 +440,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     // markText(editor, consumableTextMarkings.filter((tm: TextMarking) => tm.paragraph === textMarking.paragraph!));
                 }
 
-                this.positionCursorToEnd(editor);
+                if (this.isEditorActive()) {
+                    this.positionCursorToEnd(editor);
+                }
                 this.updateCharacterAndWordCount();
 
                 this.shouldCollapseSuggestions = new Array<boolean>(
@@ -965,7 +968,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     );
 
                     this.suggestedMarkingCardCounter = 0;
-                    this.positionCursor(editor, cursorPlacement);
+                    if (this.isEditorActive()) {
+                        this.positionCursor(editor, cursorPlacement);
+                    }
                     this.shouldCollapseSuggestions = new Array<boolean>(
                         this.processedText.textMarkings.length
                     ).fill(true);
@@ -1241,5 +1246,137 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         if (this.cardSuggestionsToRemove && isLastIndex) {
             this.animationRemoved.emit();
         }
+    }
+
+    private addEventListenerForShortcuts() {
+        const componentDiv = document.getElementsByClassName('component-div')[0];
+        componentDiv.addEventListener('keydown', (e: Event) => {
+            const keyboardEvent = e as KeyboardEvent;
+            if (document.getElementById('editor')! === document.activeElement) {
+                return;
+            }
+
+            if (keyboardEvent.shiftKey) {
+                switch (keyboardEvent.code) {
+                    case 'Digit1': {
+                        this.highlightBoardMarking(0);
+                        return
+                    }
+                    case 'Digit2': {
+                        this.highlightBoardMarking(1);
+                        return
+                    }
+                    case 'Digit3': {
+                        this.highlightBoardMarking(2);
+                        return
+                    }
+                    case 'Digit4': {
+                        this.highlightBoardMarking(3);
+                        return
+                    }
+                    case 'Digit5': {
+                        this.highlightBoardMarking(4);
+                        return
+                    }
+                    case 'Digit6': {
+                        this.highlightBoardMarking(5);
+                        return
+                    }
+                    case 'Digit7': {
+                        this.highlightBoardMarking(6);
+                        return
+                    }
+                    case 'Digit8': {
+                        this.highlightBoardMarking(7);
+                        return
+                    }
+                    case 'Digit9': {
+                        this.highlightBoardMarking(8);
+                        return
+                    }
+                }
+                return;
+            }
+
+            switch (keyboardEvent.key) {
+                case 'Escape': {
+                    this.blurHighlightedBoardMarking();
+                    return;
+                }
+                case 'h':
+                case 'H': {
+                    (document.querySelector('bi-clock-history')! as HTMLButtonElement).click();
+                    return;
+                } // open the dialog of written texts (history of written texts)
+                case 'c':
+                case 'C': {
+                    this.copyToClipboard();
+                    return
+                }// copy the text in the editor
+                case 'd':
+                case 'D': {
+                    this.deleteTextMarking(0);
+                    return;
+                }// dismiss the first/top-most marking
+                case '1': {
+                    if (!this.processedText?.textMarkings) return;
+                    this.chooseSuggestion(0, 0);
+                    return;
+                }
+                case '2':{
+                    if (!this.processedText?.textMarkings) return;
+                    this.chooseSuggestion(0, 1);
+                    return;
+                }
+                case '3':{
+                    if (!this.processedText?.textMarkings) return;
+                    this.chooseSuggestion(0, 2);
+                    return;
+                }
+                case '4':{
+                    if (!this.processedText?.textMarkings) return;
+                    this.chooseSuggestion(0, 3);
+                    return;
+                }
+                case '5':{
+                    if (!this.processedText?.textMarkings) return;
+                    this.chooseSuggestion(0, 4);
+                    return;
+                }
+                case '6':{
+                    if (!this.processedText?.textMarkings) return;
+                    this.chooseSuggestion(0, 5);
+                    return;
+                }
+                case '7':{
+                    if (!this.processedText?.textMarkings) return;
+                    this.chooseSuggestion(0, 6);
+                    return;
+                }
+                case '8':{
+                    if (!this.processedText?.textMarkings) return;
+                    this.chooseSuggestion(0, 7);
+                    return;
+                }
+                case '9':{
+                    if (!this.processedText?.textMarkings) return;
+                    this.chooseSuggestion(0, 8);
+                    return;
+                }
+
+                // if number from 1:infinity, apply the n-th (indexing starting from 1) suggestion of the first/top-most marking.
+                // if SHIFT + number from 1:infinity, highlight the n-th marking (indexing starting from 1)
+
+                // TODO: how to properly listen for double digit numbers? is there a sufficiently pleasant solution?
+
+                // history of texts? WritingsHistory
+            }
+
+        })
+    }
+
+
+    private isEditorActive(): boolean {
+        return document.activeElement === document.getElementById(this.EDITOR_KEY)!;
     }
 }
