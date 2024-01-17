@@ -1,6 +1,7 @@
 .high-level-container {
     display: flex;
     justify-content: space-between;
+    padding-bottom: 3rem;
     gap: 1rem;
 }
 
@@ -44,6 +45,7 @@
 .card {
     border: 0px solid rgba(0, 0, 0, 0.125);
     box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
+    margin-top: 5px;
 }
 
 .card-fade {
@@ -171,7 +173,7 @@
     /*padding-right: 25px;*/
     overflow-x: hidden;
     overflow-y: visible;
-    padding: 5px;
+    padding: 0px 5px 5px 5px;
 }
 
 .template-marking-span {
