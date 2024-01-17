@@ -20,18 +20,6 @@ export class DismissMarkingStorageService {
         if (readyToStoreDismissedMarkings === 'false') {
             this.canStoreDismissedMarking = false;
         }
-
-        this.generateDismissedTextKeys();
-    }
-
-    generateDismissedTextKeys(): void {
-        if (this.canStoreDismissedMarking) {
-            const numberOfKeysToGenerate = 5;
-
-            this.DISMISSED_TEXTS_KEYS = Array(numberOfKeysToGenerate)
-                .fill(this.DISMISSED_MARKING_PREFIX)
-                .map((prefix: string, i: number) => prefix + i.toString());
-        }
     }
 
     storeDismissedText(dismissedText: string): void {
@@ -39,34 +27,15 @@ export class DismissMarkingStorageService {
             return;
         }
 
-        const arr: string[] = [];
-        for (let i = 0; i < this.DISMISSED_TEXTS_KEYS.length; i++) {
-            arr.push(localStorage.getItem(this.DISMISSED_TEXTS_KEYS[i])!);
-            if (!arr[arr.length - 1]) {
-                for (let j = i; j >= 0; j--) {
-                    if (j === 0) {
-                        localStorage.setItem(
-                            this.DISMISSED_TEXTS_KEYS[j],
-                            dismissedText
-                        );
-                    } else {
-                        localStorage.setItem(
-                            this.DISMISSED_TEXTS_KEYS[j],
-                            arr[j - 1]
-                        )
-                    }
-                }
-                return;
-            }
+        let index = 0;
+        let key = this.DISMISSED_MARKING_PREFIX + index.toString();
+
+        while (JSON.parse(localStorage.getItem(key)!)) {
+            index++;
+            key = this.DISMISSED_MARKING_PREFIX + index.toString();
         }
 
-        for (let i = this.DISMISSED_TEXTS_KEYS.length - 1; i >= 0; i--) {
-            if (i === 0) {
-                localStorage.setItem(this.DISMISSED_TEXTS_KEYS[i], dismissedText);
-            } else {
-                localStorage.setItem(this.DISMISSED_TEXTS_KEYS[i], arr[i - 1]);
-            }
-        }
+        localStorage.setItem(key, dismissedText);
+        this.DISMISSED_TEXTS_KEYS.push(key);
     }
 }
-

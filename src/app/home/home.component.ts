@@ -28,6 +28,7 @@ import {
 } from '../text-marking/text-marking';
 import { DarkModeService } from '../dark-mode.service';
 import { DismissMarkingStorageService } from '../dismiss-marking-storage.service'
+import {mark} from "@angular/compiler-cli/src/ngtsc/perf/src/clock";
 
 @Component({
     selector: 'app-home',
@@ -608,8 +609,16 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             this.moveUpRemainingCards();
         }, 1500);
 
-        this.DismissMarkingStorageService.storeDismissedText(document.getElementById(this.EDITOR_KEY)!.innerText);
 
+        const listOfMarkings = this.processedText?.textMarkings;
+        if (listOfMarkings){
+            const getTypesFromTextMarkings = listOfMarkings.map(mark => mark.type)
+
+        this.DismissMarkingStorageService.storeDismissedText(JSON.stringify({
+            paragraph: document.getElementById(this.EDITOR_KEY)!.innerText,
+            listOfMarkings: getTypesFromTextMarkings
+        }));
+        }
     }
 
     /**
