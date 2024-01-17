@@ -17,7 +17,7 @@ describe("Uploaded Files Shown on Editor Tests", () => {
         cy.get('[data-test="editor"]').contains("lider asd").should("exist");
     });
 
-    it("hould click on editor placeholder to upload a LIBRA file and check if the text is shown in the editor", () => {
+    it("should click on editor placeholder to upload a LIBRA file and check if the text is shown in the editor", () => {
         cy.get('[data-test="editor-placeholder-upload"]')
             .click()
             .selectFile("cypress/fixtures/test.odt");
