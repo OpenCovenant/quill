@@ -1,9 +1,9 @@
-describe("A marking type does not appear after being disabled.", () => {
+describe("Disabled Marking Type Visibility", () => {
     beforeEach(() => {
         cy.visit("/settings");
     });
 
-    it("will disable all the marking types and check if they appeared on the main page", () => {
+    it("should hide marking types after being disabled and reappear after enabling", () => {
         cy.get('[data-test="switch-check-testing"]').should("be.checked");
         cy.get('[data-test="switch-check-testing"]').click({
             multiple: true,

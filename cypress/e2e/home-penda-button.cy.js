@@ -1,9 +1,9 @@
-describe('test the home button on "PENDA"', () => {
+describe("Home Button Test", () => {
     beforeEach(() => {
         cy.visit("/te-dhe-tek");
     });
 
-    it("will click on penda which redirects to home", () => {
+    it("should click on the PENDA home button, redirecting to the home page", () => {
         cy.get('[data-test="penda-home-button"]').click();
         cy.url().should("include", "");
     });

@@ -1,9 +1,9 @@
-describe("a properly generated marked text on the rhs which isn't falsely updated if writing before marking", () => {
+describe("Proper Generation of Marked Text on the RHS", () => {
     beforeEach(() => {
         cy.visit("/");
     });
 
-    it("contains the editor in which we want to write", () => {
+    it("should correctly generate marked text on the right-hand side without false updates when writing before marking", () => {
         const initialText = "pra gabmim kaq";
         cy.get('[data-test="editor"]').type(initialText);
         cy.wait(3000);

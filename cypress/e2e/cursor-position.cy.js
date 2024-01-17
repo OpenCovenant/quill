@@ -1,11 +1,11 @@
-describe("the position of the cursor in the editor after writing in it", () => {
+describe("Cursor Position in Editor Test", () => {
     beforeEach(() => {
         cy.visit("/");
     });
 
     // after every `cy.type`, it is assumed that the text is processed, hence the `cy.wait`
     // how can this code be improved?
-    it("will properly move the position of the cursor based on the text written in the editor", () => {
+    it("should properly update the position of the cursor based on the text written in the editor", () => {
         const THREE_SECONDS = 3000;
         cy.window().then((someWindow) => {
             cy.document().then((someDocument) => {

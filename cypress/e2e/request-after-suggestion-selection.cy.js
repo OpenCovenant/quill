@@ -1,9 +1,9 @@
-describe("Test request after suggestion selection", () => {
+describe("Test Request After Suggestion Selection", () => {
     beforeEach(() => {
         cy.visit("/");
     });
 
-    it("should make a post request after rapidly selecting suggestions from cards", () => {
+    it("should make a POST request after rapidly selecting suggestions from cards", () => {
         cy.get(".typo").should("not.exist");
 
         cy.get('[data-test="editor"]').type("asd Për kryerjen e programeve gabmim asd \nasd Për kryerjen e programeve gabmim asd \nasd Për kryerjen e programeve gabmim asd \nasd Për kryerjen e programeve gabmim asd \n");

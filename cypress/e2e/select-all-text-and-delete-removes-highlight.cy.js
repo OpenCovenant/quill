@@ -1,9 +1,9 @@
-describe("Removing the highlighted marking by selecting all the text and deleting it, actually removes the highlighted marking.", () => {
+describe("Remove Highlighted Marking by Deleting Selected Text", () => {
     beforeEach(() => {
         cy.visit("/");
     });
 
-    it("will select all text and delete and check if the highlighted marking is removed", () => {
+    it("should remove the highlighted marking when selecting all text and deleting it", () => {
         cy.get(".typo").should("not.exist");
         cy.get('[data-test="editor"]').type("asd gabmim asd ");
         cy.get(".typo").first().click();

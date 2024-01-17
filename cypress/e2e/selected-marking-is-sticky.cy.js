@@ -1,9 +1,9 @@
-describe("The selected marking is sticky.", () => {
+describe("Sticky Marking Test", () => {
     beforeEach(() => {
         cy.visit("/");
     });
 
-    it("will add multiple new lines and check if the selected marking is still on the screen", () => {
+    it("should remain on the screen after adding multiple new lines", () => {
         cy.get(".typo").should("not.exist");
         cy.get('[data-test="editor"]').type("gabmim");
 

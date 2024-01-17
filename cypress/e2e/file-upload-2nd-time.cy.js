@@ -1,9 +1,9 @@
-describe("same file upload tests", () => {
+describe("Same File Upload Tests", () => {
     beforeEach(() => {
         cy.visit("/");
     });
 
-    it("will upload the same WORD file 3 times in a row", () => {
+    it("should upload the same WORD file 3 times in a row", () => {
         for (let n = 0; n < 3; n++) {
             cy.get('[data-test="editor-placeholder-upload"]')
                 .click()
@@ -13,7 +13,7 @@ describe("same file upload tests", () => {
         }
     });
 
-    it("will upload the same PDF file 3 times in a row", () => {
+    it("should upload the same PDF file 3 times in a row", () => {
         for (let n = 0; n < 3; n++) {
             cy.get('[data-test="editor-placeholder-upload"]')
                 .click()
@@ -25,7 +25,7 @@ describe("same file upload tests", () => {
         }
     });
 
-    it("will upload the same LIBRA file 3 times in a row", () => {
+    it("should upload the same LIBRA file 3 times in a row", () => {
         for (let n = 0; n < 3; n++) {
             cy.get('[data-test="editor-placeholder-upload"]')
                 .click()
