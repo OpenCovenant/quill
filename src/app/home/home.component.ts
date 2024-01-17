@@ -1278,7 +1278,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 // if number from 1:infinity, apply the n-th (indexing starting from 1) suggestion of the first/top-most marking.
                 // if SHIFT + number from 1:infinity, highlight the n-th marking (indexing starting from 1)
 
-                // TODO: how to properly listen for double digit numbers? is there a sufficiently pleasant solution?
+                // TODO: how to properly listen for multiple digit numbers? is there a sufficiently pleasant solution?
             }
 
             switch (keyboardEvent.key) {
@@ -1290,21 +1290,20 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 case 'H': {
                     (document.querySelector('bi-clock-history')! as HTMLButtonElement).click();
                     return;
-                } // open the dialog of written texts (history of written texts)
+                }
                 case 'c':
                 case 'C': {
                     this.copyToClipboard();
                     return
-                }// copy the text in the editor
+                }
                 case 'd':
                 case 'D': {
                     this.deleteTextMarking(0);
                     return;
-                }// dismiss the first/top-most marking
+                }
 
-                // history of texts? WritingsHistory
+                // written texts, history of texts? WritingsHistory,
             }
-
         })
     }
 
