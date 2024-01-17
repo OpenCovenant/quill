@@ -1,9 +1,9 @@
-describe("the highlight of markings intertwined with some other marking operations", () => {
+describe("Highlighting Markings Through Various Operations", () => {
     beforeEach(() => {
         cy.visit("/");
     });
 
-    it("will behave as expected as we perform different operations on the markings", () => {
+    it("should behave as expected when performing different operations on the markings", () => {
         cy.get(".typo").should("not.exist");
         cy.get('[data-test="editor"]').type("asd gabmim asd ");
         cy.get(".typo").should("be.visible");

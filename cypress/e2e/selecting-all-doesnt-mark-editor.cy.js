@@ -1,9 +1,9 @@
-describe("Selecting all text should not mark the editor", () => {
+describe("Selecting All Text Test", () => {
     beforeEach(() => {
         cy.visit("/");
     });
 
-    it("will select all text and check if the editor is marked", () => {
+    it("should not mark the editor when selecting all text", () => {
         cy.get('[data-test="editor"]').type("gabmim ");
         cy.get('[data-test="dismiss-marking-button"]').click();
         cy.get('[data-test="suggestion"]').should("not.exist");

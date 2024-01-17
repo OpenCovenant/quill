@@ -1,4 +1,4 @@
-describe("will get local storage and check if the dark mode is turned on", () => {
+describe("Dark Mode Local Storage Check", () => {
     beforeEach(() => {
         cy.visit("/", {
             onBeforeLoad(win) {
@@ -7,7 +7,7 @@ describe("will get local storage and check if the dark mode is turned on", () =>
         });
     });
 
-    it("will get if darkmode is on local storage", () => {
+    it("should correctly update the dark mode status in local storage", () => {
 
         cy.window().then((win) => {
             const localStorageValue = win.localStorage.getItem('penda-dark-mode');

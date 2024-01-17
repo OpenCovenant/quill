@@ -1,22 +1,22 @@
-describe("it will check if the focus is on editor on desktop and not in mobiles", () => {
-    context("720p resolution", () => {
+describe("Focus on Editor - Resolution Testing", () => {
+    context("Desktop - 720p Resolution", () => {
         beforeEach(() => {
             cy.viewport(1280, 720);
             cy.visit("/");
         });
 
-        it("tests on resolution 1280-720 (desktop)", () => {
+        it("should have focus on editor in desktop view (1280x720)", () => {
             cy.focused().should("have.attr", "id", "editor");
         });
     });
 
-    context("iphone-7", () => {
+    context("Mobile - iPhone 7 Resolution", () => {
         beforeEach(() => {
             cy.viewport("iphone-7");
             cy.visit("/");
         });
 
-        it("tests on iphone 7 resolution 375-667", () => {
+        it("should not have focus on editor in iPhone 7 view (375x667)", () => {
             cy.focused().should("not.exist");
         });
     });

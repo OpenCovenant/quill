@@ -1,16 +1,16 @@
-describe("test for dismiss-marking button", () => {
+describe("Dismiss Marking Button Test", () => {
     beforeEach(() => {
         cy.visit("/");
     });
 
-    it("will click on dismiss-marking button and check if it deletes the text on editor", () => {
+    it("should delete the text in the editor when dismiss-marking button is clicked", () => {
         cy.get(".typo").should("not.exist");
         cy.get('[data-test="editor"]').type("gabmim ");
         cy.get('[data-test="dismiss-marking-button"]').click();
         cy.get('[data-test="suggestion"]').should("not.exist");
     });
 
-     it("will click on dismiss-marking buttons and check if it deletes the markings in the editor", () => {
+     it("should delete the markings in the editor when dismiss-marking buttons are clicked", () => {
         const text = "gabmim gabmim";
         cy.get(".typo").should("not.exist");
         cy.get('[data-test="editor"]').type(text);

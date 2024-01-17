@@ -1,9 +1,9 @@
-describe("test for history button", () => {
+describe("History Button Test", () => {
     beforeEach(() => {
         cy.visit("/");
     });
 
-    it("will test the history section and togle the history button on/off", () => {
+    it("should test the history section and toggle the history button on/off", () => {
         cy.get(".typo").should("not.exist");
         cy.get('[data-test="editor"]').type("saktë");
         cy.wait(16000);
