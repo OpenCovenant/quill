@@ -1249,53 +1249,36 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     private addEventListenerForShortcuts() {
-        const componentDiv = document.getElementsByClassName('component-div')[0];
-        componentDiv.addEventListener('keydown', (e: Event) => {
+        const componentDivs = document.getElementsByClassName('component-div');
+        if (componentDivs.length !== 1) {
+            return;
+        }
+        componentDivs[0].addEventListener('keydown', (e: Event) => {
             const keyboardEvent = e as KeyboardEvent;
-            if (document.getElementById('editor')! === document.activeElement) {
+            if (this.isEditorActive()) {
                 return;
             }
 
             if (keyboardEvent.shiftKey) {
-                switch (keyboardEvent.code) {
-                    case 'Digit1': {
-                        this.highlightBoardMarking(0);
-                        return
-                    }
-                    case 'Digit2': {
-                        this.highlightBoardMarking(1);
-                        return
-                    }
-                    case 'Digit3': {
-                        this.highlightBoardMarking(2);
-                        return
-                    }
-                    case 'Digit4': {
-                        this.highlightBoardMarking(3);
-                        return
-                    }
-                    case 'Digit5': {
-                        this.highlightBoardMarking(4);
-                        return
-                    }
-                    case 'Digit6': {
-                        this.highlightBoardMarking(5);
-                        return
-                    }
-                    case 'Digit7': {
-                        this.highlightBoardMarking(6);
-                        return
-                    }
-                    case 'Digit8': {
-                        this.highlightBoardMarking(7);
-                        return
-                    }
-                    case 'Digit9': {
-                        this.highlightBoardMarking(8);
-                        return
-                    }
+                if (keyboardEvent.code.includes('Digit') && keyboardEvent.code.length === 6 &&
+                    '0' <= keyboardEvent.code[keyboardEvent.code.length - 1]
+                    && keyboardEvent.code[keyboardEvent.code.length - 1] <= '9') {
+                    const digit = keyboardEvent.code[keyboardEvent.code.length - 1].charCodeAt(0) - 48;
+                    this.highlightBoardMarking(digit - 1)
+                    return;
                 }
+            }
+
+            if ('0' <= keyboardEvent.key && keyboardEvent.key <= '9') {
+                const digit = keyboardEvent.key.charCodeAt(0) - 48;
+
+                if (!this.processedText?.textMarkings) return;
+                this.chooseSuggestion(0, digit - 1);
                 return;
+                // if number from 1:infinity, apply the n-th (indexing starting from 1) suggestion of the first/top-most marking.
+                // if SHIFT + number from 1:infinity, highlight the n-th marking (indexing starting from 1)
+
+                // TODO: how to properly listen for double digit numbers? is there a sufficiently pleasant solution?
             }
 
             switch (keyboardEvent.key) {
@@ -1318,56 +1301,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     this.deleteTextMarking(0);
                     return;
                 }// dismiss the first/top-most marking
-                case '1': {
-                    if (!this.processedText?.textMarkings) return;
-                    this.chooseSuggestion(0, 0);
-                    return;
-                }
-                case '2':{
-                    if (!this.processedText?.textMarkings) return;
-                    this.chooseSuggestion(0, 1);
-                    return;
-                }
-                case '3':{
-                    if (!this.processedText?.textMarkings) return;
-                    this.chooseSuggestion(0, 2);
-                    return;
-                }
-                case '4':{
-                    if (!this.processedText?.textMarkings) return;
-                    this.chooseSuggestion(0, 3);
-                    return;
-                }
-                case '5':{
-                    if (!this.processedText?.textMarkings) return;
-                    this.chooseSuggestion(0, 4);
-                    return;
-                }
-                case '6':{
-                    if (!this.processedText?.textMarkings) return;
-                    this.chooseSuggestion(0, 5);
-                    return;
-                }
-                case '7':{
-                    if (!this.processedText?.textMarkings) return;
-                    this.chooseSuggestion(0, 6);
-                    return;
-                }
-                case '8':{
-                    if (!this.processedText?.textMarkings) return;
-                    this.chooseSuggestion(0, 7);
-                    return;
-                }
-                case '9':{
-                    if (!this.processedText?.textMarkings) return;
-                    this.chooseSuggestion(0, 8);
-                    return;
-                }
-
-                // if number from 1:infinity, apply the n-th (indexing starting from 1) suggestion of the first/top-most marking.
-                // if SHIFT + number from 1:infinity, highlight the n-th marking (indexing starting from 1)
-
-                // TODO: how to properly listen for double digit numbers? is there a sufficiently pleasant solution?
 
                 // history of texts? WritingsHistory
             }
