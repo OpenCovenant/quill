@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ShortcutsComponent } from './shortcuts.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing'
 
 describe('ShortcutsComponent', () => {
   let component: ShortcutsComponent;
@@ -8,7 +9,8 @@ describe('ShortcutsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ShortcutsComponent ]
+      declarations: [ ShortcutsComponent ],
+        imports: [HttpClientTestingModule]
     })
     .compileComponents();
   });
