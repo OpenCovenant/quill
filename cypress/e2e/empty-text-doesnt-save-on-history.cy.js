@@ -1,9 +1,9 @@
-describe("empty text should not be on the history tab", () => {
+describe("Empty Text History Test", () => {
     beforeEach(() => {
         cy.visit("/");
     });
 
-    it("will type empty text and new line and should not be saved on history tab", () => {
+    it("should not save empty text on the history tab", () => {
         cy.get(".typo").should("not.exist");
         cy.get('[data-test="editor"]').type(" ");
         cy.wait(16000);

@@ -1,9 +1,9 @@
-describe("Clicking on the gear icon takes you to /settings page", () => {
+describe("Settings Page Navigation Tests From Gear Icon", () => {
     beforeEach(() => {
         cy.visit("/");
     });
 
-    it("will click on gear icon and check if it goes to /settings", () => {
+    it("should navigate to the /settings page when the gear icon is clicked", () => {
         cy.get('[data-test="gear-button-testing"]').click();
         cy.url().should("include", "/settings");
     });

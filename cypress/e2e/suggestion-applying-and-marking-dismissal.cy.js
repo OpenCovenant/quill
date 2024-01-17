@@ -1,9 +1,9 @@
-xdescribe("quickly applying a suggestion and dismissing a marking", () => {
+xdescribe("Quick Suggestion and Marking Dismissal Test", () => {
     beforeEach(() => {
         cy.visit("/");
     });
 
-    it("will properly apply the respective suggestion and dismiss the respective marking", () => {
+    it("should properly apply a suggestion and dismiss a marking", () => {
         cy.get('[data-test="editor"]').clear().type("lider gabmim");
 
         cy.get('.typo-marking-header').parent().parent().parent().find('[data-test="suggestion"]').first().click();

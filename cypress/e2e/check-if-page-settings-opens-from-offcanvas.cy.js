@@ -1,9 +1,9 @@
-describe("Settings page should open from offcanvas page", () => {
+describe("Settings Page Opening from Offcanvas", () => {
     beforeEach(() => {
         cy.visit("/");
     });
 
-    it('will click on the "cilesimet" located on offcanvas and check if it loaded the /settings page ', () => {
+    it('should navigate to the "/settings" page when clicking on the "cilesimet" in the offcanvas menu', () => {
         cy.get('[data-test="navbar-toggler-icon"]').click();
         cy.get('[data-test="settings-button"]').click();
         cy.url().should("include", "/settings");

@@ -1,9 +1,9 @@
-describe("will perform checks over the default markings", () => {
+describe("Default Markings Checks", () => {
     beforeEach(() => {
         cy.visit("/");
     });
 
-    it("will check whether the default markings are shown when the home page is loaded", () => {
+    it("should display default markings on the home page", () => {
         cy.get(".typo-marking-header").should("be.visible");
         cy.get(".list-group-item b")
             .contains("shkrim pa gabime")
@@ -34,7 +34,7 @@ describe("will perform checks over the default markings", () => {
             .should("exist");
     });
 
-    it("will check whether the default markings are shown when a suggestion is applied", () => {
+    it("should display default markings after applying a suggestion", () => {
         cy.get(".typo-marking-header").should("be.visible");
         cy.get(".loanword-marking-header").should("be.visible");
         cy.get(".stylistic-marking-header")
@@ -53,7 +53,7 @@ describe("will perform checks over the default markings", () => {
             .should("be.visible");
     });
 
-    it("will check whether the default markings are shown when a marking is dismissed", () => {
+    it("should display default markings after dismissing a marking", () => {
         cy.get(".typo-marking-header").should("be.visible");
         cy.get(".loanword-marking-header").should("be.visible");
         cy.get(".stylistic-marking-header")
@@ -72,7 +72,7 @@ describe("will perform checks over the default markings", () => {
             .should("be.visible");
     });
 
-    it("will check whether the default markings are shown when many suggestions are applied consecutively", () => {
+    it("should display default markings after applying many suggestions consecutively", () => {
         cy.get(".typo-marking-header").should("be.visible");
         cy.get(".loanword-marking-header").should("be.visible");
         cy.get(".stylistic-marking-header")

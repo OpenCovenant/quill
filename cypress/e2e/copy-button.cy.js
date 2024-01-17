@@ -1,9 +1,9 @@
-describe("going to test the copy button and paste it on editor", () => {
+describe("Copy and Paste Functionality Test", () => {
     beforeEach(() => {
         cy.visit("/");
     });
 
-    it("will click on copy button and paste on editor", () => {
+    it("should copy the text from the editor and paste it correctly", () => {
         cy.get('[data-test="editor"]').clear().type("test per butonin copy");
 
         cy.get('[data-test="copy-to-clipboard-button"]').click();

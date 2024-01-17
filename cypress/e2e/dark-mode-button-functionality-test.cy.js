@@ -1,9 +1,9 @@
-describe("Enable/disable dark mode button and reload to check if its working", () => {
+describe("Dark Mode Toggle and Reload Check", () => {
     beforeEach(() => {
         cy.visit("/");
     });
 
-    it("will enable the dark mode button reload and then disable it and reload and check whether it stays as desired", () => {
+    it("should toggle the dark mode button, reload, and maintain the desired state", () => {
         cy.get('[data-test="navbar-toggler-icon"]').click();
         cy.get('[data-test="dark-mode-button-toggle-switch"]').should(
             "not.be.checked"
