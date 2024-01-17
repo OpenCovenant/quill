@@ -30,7 +30,7 @@ export class DismissMarkingStorageService {
         let index = 0;
         let key = this.DISMISSED_MARKING_PREFIX + index.toString();
 
-        while (JSON.parse(localStorage.getItem(key)!)) {
+        while (localStorage.getItem(key)) {
             index++;
             key = this.DISMISSED_MARKING_PREFIX + index.toString();
         }
