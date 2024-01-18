@@ -137,6 +137,13 @@
     padding-bottom: 3px;
 }
 
+.template-marking-span {
+    display: inline-block;
+    padding-left: 6px;
+    padding-right: 6px;
+    color: black;
+}
+
 .list-group-item {
     background-color: var(--light-mode-color);
 }
