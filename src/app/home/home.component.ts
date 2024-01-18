@@ -610,15 +610,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         }, 1500);
 
 
-        const listOfMarkings = this.processedText?.textMarkings;
-        if (listOfMarkings){
-            const getTypesFromTextMarkings = listOfMarkings.map(mark => mark.type)
-
-        this.DismissMarkingStorageService.storeDismissedText(JSON.stringify({
-            paragraph: document.getElementById(this.EDITOR_KEY)!.innerText,
-            listOfMarkings: getTypesFromTextMarkings
-        }));
-        }
+        const ourDataStructure = new Map<String, TextMarking[]>()
+        const markings: TextMarking[] = this.processedText?.textMarkings || [];
+        const paragraph = this.processedText?.text ?? this.EMPTY_STRING;
+        ourDataStructure.set(paragraph, markings)
+        this.DismissMarkingStorageService.storeDismissedText(
+            JSON.stringify(Array.from(ourDataStructure.entries())));
     }
 
     /**
