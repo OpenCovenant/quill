@@ -1288,7 +1288,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 }
                 case 'h':
                 case 'H': {
-                    (document.querySelector('bi-clock-history')! as HTMLButtonElement).click();
+                    (document.querySelector('.bi-clock-history')! as HTMLButtonElement).click();
                     return;
                 }
                 case 'c':
