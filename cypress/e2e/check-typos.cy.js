@@ -1,9 +1,9 @@
-describe("click on editor and check if changes are made on textfield for typos", () => {
+describe("Editor Interaction with Typo TextField", () => {
     beforeEach(() => {
         cy.visit("/");
     });
 
-    it("will click on editor and check if changes are made on textfield for typos", () => {
+    it("should reflect changes in the typo text field when suggestions are clicked in the editor", () => {
         cy.get(".typo").should("not.exist");
         cy.get('[data-test="editor"]').type("gabmim ");
         cy.get('[data-test="suggestion"]').contains("gabime").click();

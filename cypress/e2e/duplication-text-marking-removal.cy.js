@@ -1,4 +1,4 @@
-describe("Text Marking Dismissal/removal Test", () => {
+describe("Text Marking Dismissal Test", () => {
     beforeEach(() => {
         cy.visit("/");
     });

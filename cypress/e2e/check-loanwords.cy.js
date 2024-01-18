@@ -1,9 +1,9 @@
-describe("click on editor and check if changes are made on textfield for loanwords", () => {
+describe("Editor Interaction with Loanword TextField", () => {
     beforeEach(() => {
         cy.visit("/");
     });
 
-    it("will click on editor and check if changes are made on textfield for loanwords", () => {
+    it("should reflect changes in the loanword text field when suggestions are clicked in the editor", () => {
         cy.get(".loanword").should("not.exist");
         cy.get('[data-test="editor"]').type("lider ");
         cy.get('[data-test="suggestion"]').contains("prijës").click();

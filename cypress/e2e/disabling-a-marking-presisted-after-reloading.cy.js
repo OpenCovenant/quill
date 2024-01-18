@@ -1,9 +1,9 @@
-describe("Enabling/disabling a marking is persisted after reloading.", () => {
+describe("Persisted Marking Status Test", () => {
     beforeEach(() => {
         cy.visit("/settings");
     });
 
-    it("will uncheck all the switch on the /settings page reload the page and check if they are still disabled ", () => {
+    it("should persist the enabled/disabled status of markings after reloading", () => {
         cy.get('[data-test="switch-check-testing"]').should("be.checked");
         cy.get('[data-test="switch-check-testing"]').click({
             multiple: true,

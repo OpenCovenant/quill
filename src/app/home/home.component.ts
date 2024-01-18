@@ -86,6 +86,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         public darkModeService: DarkModeService
     ) {
         this.initializeURLs();
+        this.addEventListenerForShortcuts();
 
         this.http.get(this.pingURL).subscribe({
             next: () => console.log('pinging server...'),
@@ -439,7 +440,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     // markText(editor, consumableTextMarkings.filter((tm: TextMarking) => tm.paragraph === textMarking.paragraph!));
                 }
 
-                this.positionCursorToEnd(editor);
+                if (this.isEditorActive()) {
+                    this.positionCursorToEnd(editor);
+                }
                 this.updateCharacterAndWordCount();
 
                 this.shouldCollapseSuggestions = new Array<boolean>(
@@ -965,7 +968,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     );
 
                     this.suggestedMarkingCardCounter = 0;
-                    this.positionCursor(editor, cursorPlacement);
+                    if (this.isEditorActive()) {
+                        this.positionCursor(editor, cursorPlacement);
+                    }
                     this.shouldCollapseSuggestions = new Array<boolean>(
                         this.processedText.textMarkings.length
                     ).fill(true);
@@ -1241,5 +1246,69 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         if (this.cardSuggestionsToRemove && isLastIndex) {
             this.animationRemoved.emit();
         }
+    }
+
+    private addEventListenerForShortcuts() {
+        const componentDivs = document.getElementsByClassName('component-div');
+        if (componentDivs.length !== 1) {
+            return;
+        }
+        componentDivs[0].addEventListener('keydown', (e: Event) => {
+            const keyboardEvent = e as KeyboardEvent;
+            if (this.isEditorActive()) {
+                return;
+            }
+
+            if (keyboardEvent.shiftKey) {
+                if (keyboardEvent.code.includes('Digit') && keyboardEvent.code.length === 6 &&
+                    '0' <= keyboardEvent.code[keyboardEvent.code.length - 1]
+                    && keyboardEvent.code[keyboardEvent.code.length - 1] <= '9') {
+                    const digit = keyboardEvent.code[keyboardEvent.code.length - 1].charCodeAt(0) - 48;
+                    this.highlightBoardMarking(digit - 1)
+                    return;
+                }
+            }
+
+            if ('0' <= keyboardEvent.key && keyboardEvent.key <= '9') {
+                const digit = keyboardEvent.key.charCodeAt(0) - 48;
+
+                if (!this.processedText?.textMarkings) return;
+                this.chooseSuggestion(0, digit - 1);
+                return;
+                // if number from 1:infinity, apply the n-th (indexing starting from 1) suggestion of the first/top-most marking.
+                // if SHIFT + number from 1:infinity, highlight the n-th marking (indexing starting from 1)
+
+                // TODO: how to properly listen for multiple digit numbers? is there a sufficiently pleasant solution?
+            }
+
+            switch (keyboardEvent.key) {
+                case 'Escape': {
+                    this.blurHighlightedBoardMarking();
+                    return;
+                }
+                case 'h':
+                case 'H': {
+                    (document.querySelector('.bi-clock-history')! as HTMLButtonElement).click();
+                    return;
+                }
+                case 'c':
+                case 'C': {
+                    this.copyToClipboard();
+                    return
+                }
+                case 'd':
+                case 'D': {
+                    this.deleteTextMarking(0);
+                    return;
+                }
+
+                // written texts, history of texts? WritingsHistory,
+            }
+        })
+    }
+
+
+    private isEditorActive(): boolean {
+        return document.activeElement === document.getElementById(this.EDITOR_KEY)!;
     }
 }

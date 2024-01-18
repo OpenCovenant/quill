@@ -1,4 +1,4 @@
-describe("Test editor marking's change in text", () => {
+describe("Editor Marking Change Test", () => {
     beforeEach(() => {
         cy.visit("/");
     });

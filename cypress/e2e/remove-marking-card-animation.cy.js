@@ -1,9 +1,9 @@
-describe("Remove Marking - Fade right animation", () => {
+describe("Remove Marking - Fade Right Animation", () => {
     beforeEach(() => {
         cy.visit("/");
     });
 
-    it("Will remove all cards and trigger fade out animation", () => {
+    it("should remove all cards and trigger fade-out animation", () => {
         // Check initial state
         cy.get(".typo").should("not.exist");
 

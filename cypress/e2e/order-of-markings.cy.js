@@ -1,9 +1,9 @@
-describe("will check the order of markings are in the right order as we typed them in the text box", () => {
+describe("Marking Order Verification", () => {
     beforeEach(() => {
         cy.visit("/");
     });
 
-    it("will check the order of the markings as written in the editor", () => {
+    it("should verify the order of markings matches the order in the editor", () => {
         cy.get('[data-test="editor"]').type("gabmi lider gabmim");
         cy.get('[data-test="editor"] > p > span')
             .eq(0)
