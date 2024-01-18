@@ -42,15 +42,5 @@ describe("Shortcuts", () => {
         // TODO: fix two following lines
         // cy.get('body').type('h');
         // cy.get('[data-test="modal-dialog"]').should('not.be.visible');
-
-        // write some text with > 3 markings
-        // apply a suggestion
-        // focus to a marking
-        // apply another suggestion
-        // focus to a marking
-        // Escape
-        // d
-        // c
-        // h
     });
 });
