@@ -10,7 +10,7 @@ describe("Dismiss Marking Button Test", () => {
         cy.get('[data-test="suggestion"]').should("not.exist");
     });
 
-     it("should delete the markings in the editor when dismiss-marking buttons are clicked", () => {
+    it("should delete the markings in the editor when dismiss-marking buttons are clicked", () => {
         const text = "gabmim gabmim";
         cy.get(".typo").should("not.exist");
         cy.get('[data-test="editor"]').type(text);

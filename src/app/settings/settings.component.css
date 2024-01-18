@@ -28,7 +28,7 @@
     border-radius: 0.25rem;
 }
 
-.dark-mode-setting-section{
+.dark-mode-setting-section {
     margin: 3rem 0;
 
     .dark-mode-label-flex {
@@ -100,7 +100,7 @@
     justify-content: space-between;
 }
 
-.marking-type-routing-span{
+.marking-type-routing-span {
     margin-left: 0.5rem;
     color: gray;
 }
@@ -128,7 +128,7 @@
         background-color: #ccc;
         -webkit-transition: 0.4s;
         transition: 0.4s;
-    
+
         &::before {
             position: absolute;
             content: "";

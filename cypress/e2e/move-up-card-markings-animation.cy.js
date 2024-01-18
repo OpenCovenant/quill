@@ -8,12 +8,18 @@ describe("Move Up Marking Cards Animation", () => {
         cy.get('[data-test="editor"]').type("sakt eshte");
         cy.get('[data-test="suggestion"]').should("be.visible");
 
-        cy.get('[data-test="marking-card"]').first()
-            .find('[data-test="suggestion"]').first()
+        cy.get('[data-test="marking-card"]')
+            .first()
+            .find('[data-test="suggestion"]')
+            .first()
             .click();
 
-        cy.get('[data-test="marking-card"]').first().should("have.class", "fade-out");
-        cy.get('[data-test="marking-card"]').first().should("have.class", "move-up-animation");
+        cy.get('[data-test="marking-card"]')
+            .first()
+            .should("have.class", "fade-out");
+        cy.get('[data-test="marking-card"]')
+            .first()
+            .should("have.class", "move-up-animation");
         cy.get('[data-test="marking-card"]').should("have.length", 2);
     });
 });
