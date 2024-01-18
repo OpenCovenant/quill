@@ -61,12 +61,14 @@ describe("Cursor Position in Editor Test", () => {
                 assert(range.startOffset === 0);
                 assert(
                     range.startContainer.isEqualNode(
-                        someDocument.getElementById("editor").childNodes[1].firstChild
+                        someDocument.getElementById("editor").childNodes[1]
+                            .firstChild
                     )
                 );
                 assert(
                     range.endContainer.isEqualNode(
-                        someDocument.getElementById("editor").childNodes[1].firstChild
+                        someDocument.getElementById("editor").childNodes[1]
+                            .firstChild
                     )
                 );
                 assert(range.endOffset === 0);
@@ -83,12 +85,14 @@ describe("Cursor Position in Editor Test", () => {
                 assert(range.startOffset === 0);
                 assert(
                     range.startContainer.isEqualNode(
-                        someDocument.getElementById("editor").childNodes[3].firstChild
+                        someDocument.getElementById("editor").childNodes[3]
+                            .firstChild
                     )
                 );
                 assert(
                     range.endContainer.isEqualNode(
-                        someDocument.getElementById("editor").childNodes[3].firstChild
+                        someDocument.getElementById("editor").childNodes[3]
+                            .firstChild
                     )
                 );
                 assert(range.endOffset === 0);

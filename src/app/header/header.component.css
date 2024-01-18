@@ -1,11 +1,11 @@
 .header-name-gear-icon {
     margin-left: 3rem;
     font-size: 1.4rem;
-    
+
     .off-canvas-start-button {
         border: 0;
         border-radius: 0.5rem;
-        
+
         &:hover {
             background-color: var(--light-mode-hover-theme);
         }
@@ -18,7 +18,7 @@
         padding: 0.5rem !important;
         margin-right: 2.6rem;
         border-radius: 0.5rem;
-       
+
         &:hover {
             background-color: var(--light-mode-hover-theme);
         }
@@ -31,7 +31,7 @@
 
 .header-button-dark-mode {
     background-color: var(--dark-mode-theme);
-   
+
     &:hover {
         background-color: var(--dark-mode-hover-color) !important;
     }
@@ -63,13 +63,13 @@
 
 .offcanvas-nav-text-dark-mode {
     color: var(--light) !important;
-   
+
     &:hover {
         background-color: #595959 !important;
     }
 }
 
-.item-action-list{
+.item-action-list {
     margin: 1.5rem 0;
 }
 
@@ -79,7 +79,7 @@
     padding: 1rem;
     text-decoration: none;
     color: var(--pitch-black);
-   
+
     &:hover {
         background-color: var(--light-mode-hover-theme);
         color: black;
@@ -98,7 +98,7 @@
 .offcanvas-start {
     border-radius: 3px 3px;
     width: 350px;
-   
+
     .off-canvas-hr {
         background-color: #9a9a9a;
         height: 1px;
@@ -128,7 +128,7 @@
 .settings-gear-dark-mode {
     margin-right: 2.3rem;
     color: var(--dark-mode-anti-theme);
-   
+
     &:hover {
         background-color: var(--dark-mode-hover-color) !important;
     }
@@ -137,18 +137,18 @@
 .dark-mode-div {
     justify-content: space-between;
     padding: 2rem 1rem 0 1rem;
-   
+
     .toggle-switch {
         position: relative;
         width: 3.1rem;
-        
+
         .dark-mode-label {
             position: absolute;
             width: 100%;
             height: 1.6rem;
             border-radius: 50px;
             border: 1px solid var(--dark-mode-smooth-theme);
-          
+
             .dark-mode-input {
                 position: absolute;
                 display: none;
@@ -160,7 +160,7 @@
             height: 100%;
             border-radius: 50px;
             transition: 0.4s;
-           
+
             &:before {
                 content: "";
                 position: absolute;
@@ -202,4 +202,3 @@
     font-size: 0.8rem;
     color: var(--dark-mode-smooth-theme);
 }
-

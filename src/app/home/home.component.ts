@@ -43,8 +43,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     EDITOR_KEY: string = 'editor';
     PLACEHOLDER_ELEMENT_ID: string = 'editor-placeholder';
     MAX_EDITOR_CHARACTERS: number = 5000;
-    MAX_EDITOR_CHARACTERS_MESSAGE =
-        `Keni arritur kufirin e ${this.MAX_EDITOR_CHARACTERS} karaktereve, shkurtoni shkrimin`;
+    MAX_EDITOR_CHARACTERS_MESSAGE = `Keni arritur kufirin e ${this.MAX_EDITOR_CHARACTERS} karaktereve, shkurtoni shkrimin`;
     LINE_BREAK: string = '<br>';
     LINE_BROKEN_PARAGRAPH: string = '<p>' + this.LINE_BREAK + '</p>';
     processedText: ProcessedText | undefined;
@@ -324,9 +323,14 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         removeItem: number,
         lastIndex: number
     ): void {
-        if (this.cardCountSelectedPrePost >= document.querySelectorAll('.sticky .card').length) {
-            const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
-            this.processTextMarkingSelected(editor)
+        if (
+            this.cardCountSelectedPrePost >=
+            document.querySelectorAll('.sticky .card').length
+        ) {
+            const editor: HTMLElement = document.getElementById(
+                this.EDITOR_KEY
+            )!;
+            this.processTextMarkingSelected(editor);
             return;
         }
 
@@ -1205,7 +1209,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     private listenForMarkingHighlight(): void {
-        const textMarkings = document.querySelectorAll('.typo,.loanword,.stylistic,.grammatical');
+        const textMarkings = document.querySelectorAll(
+            '.typo,.loanword,.stylistic,.grammatical'
+        );
         textMarkings.forEach((element: Element, index: number) =>
             element.addEventListener(
                 'click',
@@ -1260,11 +1266,17 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             }
 
             if (keyboardEvent.shiftKey) {
-                if (keyboardEvent.code.includes('Digit') && keyboardEvent.code.length === 6 &&
-                    '0' <= keyboardEvent.code[keyboardEvent.code.length - 1]
-                    && keyboardEvent.code[keyboardEvent.code.length - 1] <= '9') {
-                    const digit = keyboardEvent.code[keyboardEvent.code.length - 1].charCodeAt(0) - 48;
-                    this.highlightBoardMarking(digit - 1)
+                if (
+                    keyboardEvent.code.includes('Digit') &&
+                    keyboardEvent.code.length === 6 &&
+                    '0' <= keyboardEvent.code[keyboardEvent.code.length - 1] &&
+                    keyboardEvent.code[keyboardEvent.code.length - 1] <= '9'
+                ) {
+                    const digit =
+                        keyboardEvent.code[
+                            keyboardEvent.code.length - 1
+                        ].charCodeAt(0) - 48;
+                    this.highlightBoardMarking(digit - 1);
                     return;
                 }
             }
@@ -1288,13 +1300,17 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 }
                 case 'h':
                 case 'H': {
-                    (document.querySelector('.bi-clock-history')! as HTMLButtonElement).click();
+                    (
+                        document.querySelector(
+                            '.bi-clock-history'
+                        )! as HTMLButtonElement
+                    ).click();
                     return;
                 }
                 case 'c':
                 case 'C': {
                     this.copyToClipboard();
-                    return
+                    return;
                 }
                 case 'd':
                 case 'D': {
@@ -1304,11 +1320,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
                 // written texts, history of texts? WritingsHistory,
             }
-        })
+        });
     }
 
-
     private isEditorActive(): boolean {
-        return document.activeElement === document.getElementById(this.EDITOR_KEY)!;
+        return (
+            document.activeElement === document.getElementById(this.EDITOR_KEY)!
+        );
     }
 }
