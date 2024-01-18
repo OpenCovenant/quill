@@ -10,6 +10,24 @@
     }
 }
 
+.card {
+    border: 0px solid rgba(0, 0, 0, 0.125);
+    box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
+    margin-top: 5px;
+
+    .card-header {
+        border-bottom: 0px solid rgba(0, 0, 0, 0.125);
+    }
+}
+
+.card-fade {
+    opacity: 0;
+}
+
+.card-hidden {
+    display: none;
+}
+
 .card-body {
     padding: 1rem;
     border-radius: 0.25rem;
@@ -65,6 +83,60 @@
     border-radius: 0.25rem;
 }
 
+.editor-hr {
+    color: lightgray;
+}
+
+.editor-placeholder-dark-mode {
+    color: var(--dark-mode-anti-theme) !important;
+}
+
+.editor-footer-button {
+    background: none;
+    color: black;
+    border: none;
+    padding: 0;
+    font-size: 1.25rem;
+}
+
+.written-text-history-button-dark-mode {
+    color: var(--dark-mode-anti-theme);
+}
+
+.output-container {
+    flex: 0 0 30%;
+    margin-right: 3rem;
+    /*padding-right: 25px;*/
+    overflow-x: hidden;
+    overflow-y: visible;
+    padding: 0px 5px 5px 5px;
+}
+
+.second-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.second-header-dark-mode {
+    background-color: var(--dark-mode-theme);
+}
+
+/* NOTE: it is cleaner if the only elements with these classes are the ones in the editor */
+.typo {
+    background-color: var(--typo-color);
+    border-radius: 4px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    cursor: pointer;
+}
+
+.typo-marking-header {
+    background-color: var(--typo-color);
+    border-radius: 4px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
 .list-group-item {
     background-color: var(--light-mode-color);
 }
@@ -85,24 +157,6 @@
 
 .screen-height-delay {
     animation: reduceMargin 1s cubic-bezier(0.42, 0, 0.58, 1);
-}
-
-.card {
-    border: 0px solid rgba(0, 0, 0, 0.125);
-    box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
-    margin-top: 5px;
-
-    .card-header {
-        border-bottom: 0px solid rgba(0, 0, 0, 0.125);
-    }
-}
-
-.card-fade {
-    opacity: 0;
-}
-
-.card-hidden {
-    display: none;
 }
 
 .fade-out {
@@ -167,41 +221,63 @@
     color: var(--dark-mode-smooth-theme);
 }
 
-.editor-footer-button {
-    background: none;
-    color: black;
-    border: none;
-    padding: 0;
-    font-size: 1.25rem;
-}
-
 .clipboard-button-dark-mode {
     color: var(--dark-mode-anti-theme);
 }
 
-.output-container {
-    flex: 0 0 30%;
-    margin-right: 3rem;
-    /*padding-right: 25px;*/
-    overflow-x: hidden;
-    overflow-y: visible;
-    padding: 0px 5px 5px 5px;
+.loanword {
+    background-color: var(--loanword-color);
+    border-radius: 4px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    cursor: pointer;
 }
 
-.template-marking-span {
-    display: inline-block;
-    padding-left: 6px;
-    padding-right: 6px;
-    color: black;
+.loanword-marking-header {
+    background-color: var(--loanword-color);
+    border-radius: 4px;
+    padding-top: 3px;
+    padding-bottom: 3px;
 }
 
-.second-header {
-    display: flex;
-    justify-content: space-between;
+.stylistic {
+    background-color: var(--stylistic-color);
+    border-radius: 4px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    cursor: pointer;
 }
 
-.second-header-dark-mode {
-    background-color: var(--dark-mode-theme);
+.stylistic-marking-header {
+    background-color: var(--stylistic-color);
+    border-radius: 4px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.grammatical {
+    background-color: var(--grammatical-color);
+    border-radius: 4px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    cursor: pointer;
+}
+
+.grammatical-marking-header {
+    background-color: var(--grammatical-color);
+    border-radius: 4px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.bi-stars {
+    padding-right: 7px;
+    color: purple;
+}
+
+.sticky {
+    position: sticky;
+    top: 0;
 }
 
 .generated-marking {
@@ -213,6 +289,16 @@
     .text-marking {
         padding: 3px 6px;
     }
+}
+
+.dismiss-marking-element-dark-mode {
+    background: transparent
+        url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e")
+        center/1em auto no-repeat;
+}
+
+.text-reset {
+    cursor: pointer;
 }
 
 .information-circle {
@@ -235,8 +321,68 @@
         }
 }
 
-.editor-hr {
-    color: lightgray;
+.suggestions-header {
+    cursor: pointer;
+    margin-bottom: 0;
+}
+
+.suggestion {
+    background-color: #eaeaea;
+    border-radius: 4px;
+    border: none;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.suggestion-dark-mode {
+    background-color: #686868;
+    color: white;
+}
+
+.bi-arrow-left {
+    padding-right: 0.5rem;
+}
+
+.information-circle-flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-secondary {
+    padding: 0.1rem 0.3rem;
+}
+
+.reading-writing-flex {
+    display: flex;
+}
+
+.pulsing-dots:after {
+    content: ". . .";
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: bottom;
+    animation: ellipsis-dot 4s infinite .3s;
+    animation-fill-mode: forwards;
+    width: 2em;
+}
+
+@keyframes ellipsis-dot {
+    from {
+      content: "";
+    }
+    33% {
+      content: ".";
+    }
+    66% {
+      content: ". .";
+    }
+    to {
+      content: ". . .";
+    }
+}
+
+.pulsing-dots-dark-mode {
+    color: var(--dark-mode-anti-theme);
 }
 
 .while-reading-text-ul {
@@ -250,24 +396,9 @@
     }
 }
 
-.history-deactivation-message {
-    color: #919191;
-    font-size: 13px;
-}
-
-.home-list-group{
-    margin: 1.5rem 0;
-
-    .written-text {
-        box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
-        border-radius: 5px;
-        padding: 5px;
-        overflow: hidden;
-    
-        &:hover {
-            background-color: #f1f1f1;
-        }
-    }
+.while-reading-text-ul-dark-mode {
+    background-color: var(--dark-mode-theme);
+    color: var(--dark-mode-anti-theme);
 }
 
 .written-text-dark-mode {
@@ -277,75 +408,6 @@
     &:hover {
         background-color: lightgray;
     }
-}
-
-.written-text-history-button-dark-mode {
-    color: var(--dark-mode-anti-theme);
-}
-
-/* NOTE: it is cleaner if the only elements with these classes are the ones in the editor */
-.typo {
-    background-color: var(--typo-color);
-    border-radius: 4px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    cursor: pointer;
-}
-
-.loanword {
-    background-color: var(--loanword-color);
-    border-radius: 4px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    cursor: pointer;
-}
-
-.stylistic {
-    background-color: var(--stylistic-color);
-    border-radius: 4px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    cursor: pointer;
-}
-
-.grammatical {
-    background-color: var(--grammatical-color);
-    border-radius: 4px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    cursor: pointer;
-}
-
-.typo-marking-header {
-    background-color: var(--typo-color);
-    border-radius: 4px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-}
-
-.loanword-marking-header {
-    background-color: var(--loanword-color);
-    border-radius: 4px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-}
-
-.stylistic-marking-header {
-    background-color: var(--stylistic-color);
-    border-radius: 4px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-}
-
-.grammatical-marking-header {
-    background-color: var(--grammatical-color);
-    border-radius: 4px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-}
-
-.editor-placeholder-dark-mode {
-    color: var(--dark-mode-anti-theme) !important;
 }
 
 @keyframes fillBackground {
@@ -393,19 +455,6 @@
     animation: fillBackground 500ms linear forwards;
 }
 
-.suggestion {
-    background-color: #eaeaea;
-    border-radius: 4px;
-    border: none;
-    padding-top: 3px;
-    padding-bottom: 3px;
-}
-
-.suggestion-dark-mode {
-    background-color: #686868;
-    color: white;
-}
-
 .marking-focus {
     margin: 0 30px 0 -17px;
     border: 3px solid;
@@ -436,85 +485,29 @@
     background-color: var(--dark-mode-theme);
 }
 
-.sticky {
-    position: sticky;
-    top: 0;
+.history-deactivation-message {
+    color: #919191;
+    font-size: 13px;
 }
 
-.pulsing-dots:after {
-    content: ". . .";
-    overflow: hidden;
-    display: inline-block;
-    vertical-align: bottom;
-    animation: ellipsis-dot 4s infinite .3s;
-    animation-fill-mode: forwards;
-    width: 2em;
-}
+.home-list-group{
+    margin: 1.5rem 0;
 
-@keyframes ellipsis-dot {
-    from {
-      content: "";
+    .written-text {
+        box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
+        border-radius: 5px;
+        padding: 5px;
+        overflow: hidden;
+    
+        &:hover {
+            background-color: #f1f1f1;
+        }
     }
-    33% {
-      content: ".";
-    }
-    66% {
-      content: ". .";
-    }
-    to {
-      content: ". . .";
-    }
-}
-
-.pulsing-dots-dark-mode {
-    color: var(--dark-mode-anti-theme);
 }
 
 /*TODO: apply dark mode for the history of the written texts*/
 .written-texts-history-dark-mode {
     background-color: var(--dark-mode-theme);
-}
-
-.dismiss-marking-element-dark-mode {
-    background: transparent
-        url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e")
-        center/1em auto no-repeat;
-}
-
-.btn-secondary {
-    padding: 0.1rem 0.3rem;
-}
-
-.bi-arrow-left {
-    padding-right: 0.5rem;
-}
-
-.suggestions-header {
-    cursor: pointer;
-    margin-bottom: 0;
-}
-
-.text-reset {
-    cursor: pointer;
-}
-
-.information-circle-flex {
-    display: flex;
-    justify-content: space-between;
-}
-
-.reading-writing-flex {
-    display: flex;
-}
-
-.while-reading-text-ul-dark-mode {
-    background-color: var(--dark-mode-theme);
-    color: var(--dark-mode-anti-theme);
-}
-
-.bi-stars {
-    padding-right: 7px;
-    color: purple;
 }
 
 /*TODO change color on .suggestion:hover ?*/
