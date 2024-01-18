@@ -6,9 +6,10 @@ import { SettingsComponent } from './settings/settings.component';
 import { AboutComponent } from './about/about.component';
 import { ShortcutsComponent } from './shortcuts/shortcuts.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
+import { AuthenticationGuard } from './authentication.guard'
 
 const routes: Routes = [
-    { path: 'authentication', component: AuthenticationComponent },
+    { path: 'authentication', component: AuthenticationComponent, canActivate: [AuthenticationGuard] },
     { path: 'about', component: AboutComponent },
     { path: 'settings', component: SettingsComponent },
     { path: 'shortcuts', component: ShortcutsComponent },

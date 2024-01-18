@@ -27,10 +27,10 @@ export class AuthenticationGuard implements CanActivate {
         | boolean
         | UrlTree {
         if (this.authService.authenticated) {
-            return true;
-        } else {
-            this.router.navigate(['/authentication']);
+            this.router.navigate(['/']);
             return false;
+        } else {
+            return true;
         }
     }
 }
