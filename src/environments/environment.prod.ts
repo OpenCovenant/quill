@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    baseURL: 'https://penda-ink.fly.dev'
+    baseURL: 'https://fierce-taiga-45450.herokuapp.com'
 };
