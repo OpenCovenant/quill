@@ -130,6 +130,30 @@
                 </div>
                 <div>
                     <a
+                        data-test="shortcuts-button"
+                        routerLink="/shortcuts"
+                        class="nav-text list-group-item-action mb-3"
+                        [ngClass]="{
+                            'offcanvas-nav-text-dark-mode':
+                                darkModeService.isDarkMode
+                        }"
+                        role="button"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasStart"
+                        aria-controls="offcanvasStart"
+                    ><i
+                        class="bi bi-keyboard"
+                        [ngClass]="{
+                                'offcanvas-bi-info-circle-dark-mode':
+                                    darkModeService.isDarkMode
+                            }"
+                    >
+                    </i
+                    >Shkurtimet</a
+                    >
+                </div>
+                <div>
+                    <a
                         routerLink="/about"
                         role="button"
                         data-bs-toggle="offcanvas"

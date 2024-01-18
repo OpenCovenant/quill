@@ -11,6 +11,7 @@ import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { SettingsComponent } from './settings/settings.component';
 import { AboutComponent } from './about/about.component';
+import { ShortcutsComponent } from './shortcuts/shortcuts.component';
 
 @NgModule({
     declarations: [
@@ -20,7 +21,8 @@ import { AboutComponent } from './about/about.component';
         FooterComponent,
         HomeComponent,
         SettingsComponent,
-        AboutComponent
+        AboutComponent,
+        ShortcutsComponent
     ],
     imports: [BrowserModule, HttpClientModule, FormsModule, AppRoutingModule],
     providers: [],
