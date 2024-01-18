@@ -38,7 +38,7 @@ describe("Expand/Collapse Suggestion Test", () => {
             .children()
             .should("have.length.gt", 8);
         cy.get('[data-test="suggestion"]').contains("saktë").click();
-        cy.wait(5000)
+        cy.wait(5000);
         cy.get(
             '[data-test="oscillate-suggestions-button"].bi-arrow-right-square'
         ).click();

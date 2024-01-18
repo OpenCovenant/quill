@@ -182,7 +182,8 @@
                     }"
                 >
                     <div>
-                        <span class="loanword-marking-header template-marking-span"
+                        <span
+                            class="loanword-marking-header template-marking-span"
                             >sugjerime huazimesh</span
                         >
                     </div>
@@ -211,7 +212,8 @@
                     }"
                 >
                     <div>
-                        <span class="stylistic-marking-header template-marking-span"
+                        <span
+                            class="stylistic-marking-header template-marking-span"
                             >shenjime stilistike</span
                         >
                     </div>
@@ -237,8 +239,9 @@
                     }"
                 >
                     <div>
-                        <span class="grammatical-marking-header template-marking-span"
-                        >shenjime gabimesh gramatikore</span
+                        <span
+                            class="grammatical-marking-header template-marking-span"
+                            >shenjime gabimesh gramatikore</span
                         >
                     </div>
                 </div>
@@ -249,16 +252,20 @@
                             'list-group-item-dark-mode':
                                 darkModeService.isDarkMode
                         }"
-                    ><i class="bi bi-stars"></i>
+                    >
+                        <i class="bi bi-stars"></i>
                         <b>sipas rregullave gramatikore</b> -
-                        <span>shenjime për gabime gramatikore të llojeve të ndryshme</span>
+                        <span
+                            >shenjime për gabime gramatikore të llojeve të
+                            ndryshme</span
+                        >
                     </li>
                 </ul>
             </div>
         </div>
         <div
             *ngIf="processedText?.textMarkings"
-            [ngClass]="{ 'sticky': highlightedMarkingIndex === -1}"
+            [ngClass]="{ sticky: highlightedMarkingIndex === -1 }"
         >
             <ng-template
                 [ngIf]="highlightedMarkingIndex === -1"
@@ -282,7 +289,9 @@
                     >
                         <div class="generated-marking">
                             <span
-                                class="text-marking {{ textMarking.type }}-marking-header"
+                                class="text-marking {{
+                                    textMarking.type
+                                }}-marking-header"
                                 data-test="text-marking-span"
                                 >{{ getTextOfTextMarking(i) }}
                             </span>
@@ -312,8 +321,12 @@
                         >
                             <div class="information-circle-flex">
                                 <div>
-                                    <i *ngIf="textMarking.type === 'grammatical'"
-                                       class="bi bi-stars"></i>
+                                    <i
+                                        *ngIf="
+                                            textMarking.type === 'grammatical'
+                                        "
+                                        class="bi bi-stars"
+                                    ></i>
                                     <b>{{ textMarking.subtype }}</b> -
                                     <span>{{ textMarking.description }}</span>
                                 </div>
@@ -380,8 +393,7 @@
                 </div>
             </ng-template>
             <ng-template #highlightedMarkingTemplate>
-                <div class="card border-secondary"
-                     data-test="marking-card">
+                <div class="card border-secondary" data-test="marking-card">
                     <div
                         class="card-header second-header"
                         [ngClass]="{
@@ -422,8 +434,10 @@
                         >
                             <div class="information-circle-flex">
                                 <div>
-                                    <i *ngIf="processedText?.textMarkings?.[highlightedMarkingIndex]?.subtype === 'grammatical'"
-                                       class="bi bi-stars"></i>
+                                    <i
+                                        *ngIf="processedText?.textMarkings?.[highlightedMarkingIndex]?.subtype === 'grammatical'"
+                                        class="bi bi-stars"
+                                    ></i>
                                     <b
                                         >{{  processedText?.textMarkings?.[highlightedMarkingIndex]?.subtype }}</b
                                     >
@@ -526,16 +540,24 @@
                     'second-header-dark-mode': darkModeService.isDarkMode
                 }"
             >
-            <div>
-                <span class="pulsing-dots" [ngClass]="{'waiting-text-dark-mode': darkModeService.isDarkMode}">
-                  duke lexuar shkrimin
-                </span>
+                <div>
+                    <span
+                        class="pulsing-dots"
+                        [ngClass]="{
+                            'pulsing-dots-dark-mode': darkModeService.isDarkMode
+                        }"
+                    >
+                        duke lexuar shkrimin
+                    </span>
                 </div>
             </div>
-            <ul class="list-group list-group-flush while-reading-text-ul"
+            <ul
+                class="list-group list-group-flush while-reading-text-ul"
                 [ngClass]="{
-                    'while-reading-text-ul-dark-mode': darkModeService.isDarkMode
-                }">
+                    'while-reading-text-ul-dark-mode':
+                        darkModeService.isDarkMode
+                }"
+            >
                 <div class="spinner-border" role="status">
                     <span class="visually-hidden">duke lexuar shkrimin...</span>
                 </div>
@@ -550,7 +572,7 @@
     aria-labelledby="writtenTextsHistoryModalLabel"
     aria-hidden="true"
 >
-    <div class="modal-dialog" data-test='modal-dialog'>
+    <div class="modal-dialog" data-test="modal-dialog">
         <div class="modal-content">
             <div
                 class="modal-header"
