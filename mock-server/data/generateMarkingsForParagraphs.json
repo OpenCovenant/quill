@@ -3766,6 +3766,334 @@
                 }
             ]
         }
+    },
+    {
+        "request": "<p>eshte keshtu si fjali me gabmime</p>",
+        "response": {
+            "text": "<p>eshte keshtu si fjali me gabmime</p>",
+            "textMarkings": [
+                {
+                    "from": 0,
+                    "to": 5,
+                    "type": "typo",
+                    "subtype": "gabim drejtshkrimi",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "esht\u00eb",
+                            "action": "esht\u00eb"
+                        },
+                        {
+                            "display": "\u00ebsht\u00eb",
+                            "action": "\u00ebsht\u00eb"
+                        },
+                        {
+                            "display": "shthe",
+                            "action": "shthe"
+                        },
+                        {
+                            "display": "shite",
+                            "action": "shite"
+                        },
+                        {
+                            "display": "yshte",
+                            "action": "yshte"
+                        },
+                        {
+                            "display": "shute",
+                            "action": "shute"
+                        },
+                        {
+                            "display": "shtie",
+                            "action": "shtie"
+                        },
+                        {
+                            "display": "oshte",
+                            "action": "oshte"
+                        },
+                        {
+                            "display": "shtet",
+                            "action": "shtet"
+                        },
+                        {
+                            "display": "shote",
+                            "action": "shote"
+                        },
+                        {
+                            "display": "shter",
+                            "action": "shter"
+                        },
+                        {
+                            "display": "shyte",
+                            "action": "shyte"
+                        },
+                        {
+                            "display": "shteg",
+                            "action": "shteg"
+                        },
+                        {
+                            "display": "shete",
+                            "action": "shete"
+                        },
+                        {
+                            "display": "shtek",
+                            "action": "shtek"
+                        },
+                        {
+                            "display": "ishte",
+                            "action": "ishte"
+                        },
+                        {
+                            "display": "lehte",
+                            "action": "lehte"
+                        },
+                        {
+                            "display": "dehte",
+                            "action": "dehte"
+                        },
+                        {
+                            "display": "vehte",
+                            "action": "vehte"
+                        },
+                        {
+                            "display": "behte",
+                            "action": "behte"
+                        },
+                        {
+                            "display": "ethte",
+                            "action": "ethte"
+                        },
+                        {
+                            "display": "meste",
+                            "action": "meste"
+                        },
+                        {
+                            "display": "teste",
+                            "action": "teste"
+                        },
+                        {
+                            "display": "feste",
+                            "action": "feste"
+                        },
+                        {
+                            "display": "estet",
+                            "action": "estet"
+                        },
+                        {
+                            "display": "veste",
+                            "action": "veste"
+                        },
+                        {
+                            "display": "qeste",
+                            "action": "qeste"
+                        },
+                        {
+                            "display": "eshke",
+                            "action": "eshke"
+                        },
+                        {
+                            "display": "peshe",
+                            "action": "peshe"
+                        },
+                        {
+                            "display": "neshe",
+                            "action": "neshe"
+                        },
+                        {
+                            "display": "epshe",
+                            "action": "epshe"
+                        },
+                        {
+                            "display": "seshe",
+                            "action": "seshe"
+                        },
+                        {
+                            "display": "reshe",
+                            "action": "reshe"
+                        },
+                        {
+                            "display": "leshe",
+                            "action": "leshe"
+                        },
+                        {
+                            "display": "qeshe",
+                            "action": "qeshe"
+                        },
+                        {
+                            "display": "deshe",
+                            "action": "deshe"
+                        },
+                        {
+                            "display": "veshe",
+                            "action": "veshe"
+                        },
+                        {
+                            "display": "vesht",
+                            "action": "vesht"
+                        },
+                        {
+                            "display": "hesht",
+                            "action": "hesht"
+                        },
+                        {
+                            "display": "resht",
+                            "action": "resht"
+                        },
+                        {
+                            "display": "desht",
+                            "action": "desht"
+                        },
+                        {
+                            "display": "eshtre",
+                            "action": "eshtre"
+                        },
+                        {
+                            "display": "eshtek",
+                            "action": "eshtek"
+                        },
+                        {
+                            "display": "heshte",
+                            "action": "heshte"
+                        },
+                        {
+                            "display": "reshte",
+                            "action": "reshte"
+                        },
+                        {
+                            "display": "beshte",
+                            "action": "beshte"
+                        },
+                        {
+                            "display": "veshte",
+                            "action": "veshte"
+                        },
+                        {
+                            "display": "qeshte",
+                            "action": "qeshte"
+                        },
+                        {
+                            "display": "ehte",
+                            "action": "ehte"
+                        }
+                    ],
+                    "paragraph": 0
+                },
+                {
+                    "from": 6,
+                    "to": 12,
+                    "type": "typo",
+                    "subtype": "gabim drejtshkrimi",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "k\u00ebshtu",
+                            "action": "k\u00ebshtu"
+                        },
+                        {
+                            "display": "reshtu",
+                            "action": "reshtu"
+                        },
+                        {
+                            "display": "kresht",
+                            "action": "kresht"
+                        }
+                    ],
+                    "paragraph": 0
+                },
+                {
+                    "from": 25,
+                    "to": 32,
+                    "type": "typo",
+                    "subtype": "gabim drejtshkrimi",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "gabimet",
+                            "action": "gabimet"
+                        },
+                        {
+                            "display": "gabime",
+                            "action": "gabime"
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
+    },
+    {
+        "request": "<p>është <span class=\"typo\">keshtu</span> si fjali me <span class=\"typo\">gabmime</span></p>",
+        "response": {
+            "text": "<p>është keshtu si fjali me gabmime</p>",
+            "textMarkings": [
+                {
+                    "from": 6,
+                    "to": 12,
+                    "type": "typo",
+                    "subtype": "gabim drejtshkrimi",
+                    "description": "kjo fjalë nuk ekziston, a doje të shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "kështu",
+                            "action": "kështu"
+                        },
+                        {
+                            "display": "reshtu",
+                            "action": "reshtu"
+                        },
+                        {
+                            "display": "kresht",
+                            "action": "kresht"
+                        }
+                    ],
+                    "paragraph": 0
+                },
+                {
+                    "from": 25,
+                    "to": 32,
+                    "type": "typo",
+                    "subtype": "gabim drejtshkrimi",
+                    "description": "kjo fjalë nuk ekziston, a doje të shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "gabimet",
+                            "action": "gabimet"
+                        },
+                        {
+                            "display": "gabime",
+                            "action": "gabime"
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
+    },
+    {
+        "request": "<p>është reshtu si fjali me <span class=\"typo\">gabmime</span></p>",
+        "response": {
+            "text": "<p><p>\u00ebsht\u00eb reshtu si fjali me gabmime</p></p><p><br></p>",
+            "textMarkings": [
+                {
+                    "from": 25,
+                    "to": 32,
+                    "type": "typo",
+                    "subtype": "gabim drejtshkrimi",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "gabimet",
+                            "action": "gabimet"
+                        },
+                        {
+                            "display": "gabime",
+                            "action": "gabime"
+                        }
+                    ],
+                    "paragraph": 1
+                }
+            ]
+        }
     }
 ]
 

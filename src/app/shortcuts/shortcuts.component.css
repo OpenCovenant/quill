@@ -1,0 +1,8 @@
+.shortcuts {
+    margin-left: 20%;
+    width: 60%;
+}
+
+.shortcuts-dark-mode {
+    color: var(--light);
+}
