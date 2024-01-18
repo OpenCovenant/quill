@@ -8,37 +8,39 @@ describe("Shortcuts", () => {
         cy.get('[data-test="marking-card"]').should("have.length", 3);
 
         cy.get('[data-test="contact"]').click();
-        cy.get('body').type('2');
+        cy.get("body").type("2");
 
         cy.wait(5000); // TODO: bug here (see: issue #413)
-        cy.get('[data-test="editor"]').should('have.text', 'është keshtu si fjali me gabmime');
+        cy.get('[data-test="editor"]').should(
+            "have.text",
+            "është keshtu si fjali me gabmime"
+        );
         cy.get('[data-test="marking-card"]').should("have.length", 2);
 
-        cy.get('body').type('{Shift} + 2');
+        cy.get("body").type("{Shift} + 2");
         cy.get('[data-test="contact"]').click();
-        cy.get('body').type('2');
+        cy.get("body").type("2");
 
-        cy.get('body').type('{Shift} + 1');
+        cy.get("body").type("{Shift} + 1");
         cy.get('[data-test="blur-marking-button"]').should("be.visible");
-        cy.get('body').type('{Esc}');
+        cy.get("body").type("{Esc}");
         cy.get('[data-test="blur-marking-button"]').should("not.exist");
 
         cy.get('[data-test="marking-card"]').should("have.length", 1);
-        cy.get('body').type('d');
+        cy.get("body").type("d");
         cy.get('[data-test="marking-card"]').should("not.exist");
 
-
-        cy.get('body').type('c');
+        cy.get("body").type("c");
         cy.window().then((win) => {
             win.navigator.clipboard.readText().then((text) => {
-                console.log(text)
+                console.log(text);
                 expect(text).to.eq("është reshtu si fjali me gabmime");
             });
         });
 
-        cy.get('[data-test="modal-dialog"]').should('not.be.visible');
-        cy.get('body').type('h');
-        cy.get('[data-test="modal-dialog"]').should('be.visible');
+        cy.get('[data-test="modal-dialog"]').should("not.be.visible");
+        cy.get("body").type("h");
+        cy.get('[data-test="modal-dialog"]').should("be.visible");
         // TODO: fix two following lines
         // cy.get('body').type('h');
         // cy.get('[data-test="modal-dialog"]').should('not.be.visible');

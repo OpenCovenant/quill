@@ -18,6 +18,6 @@ describe("Suggestion Marking - Fade Right Animation", () => {
             cy.wrap(card).find('[data-test="suggestion"]').first().click();
         });
 
-        cy.get('[data-test="marking-card"] .fade-out').should('not.exist');
+        cy.get('[data-test="marking-card"] .fade-out').should("not.exist");
     });
 });
