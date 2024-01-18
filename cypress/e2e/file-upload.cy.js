@@ -1,4 +1,4 @@
-xdescribe("tests for upload document button", () => {
+xdescribe("Upload Document Button Test", () => {
     let labels;
 
     beforeEach(() => {
@@ -8,7 +8,7 @@ xdescribe("tests for upload document button", () => {
         });
     });
 
-    it("will click on button and will check for loanword in output container on WORD file", () => {
+    it("should check for loanword in output container on WORD file", () => {
         // TODO update?
         // cy.get('button[id="uploadDocumentToggleButton"]').click();
         cy.get('[data-test="editor-placeholder-upload"]')
@@ -18,7 +18,7 @@ xdescribe("tests for upload document button", () => {
         cy.get(".loanword").contains("lider").should("exist");
     });
 
-    it("will click on button and will check for loanword in output container on WORD file", () => {
+    it("should check for typo in output container on WORD file", () => {
         // TODO update?
         // cy.get('button[id="uploadDocumentToggleButton"]').click();
         cy.get('[data-test="editor-placeholder-upload"]')
@@ -28,7 +28,7 @@ xdescribe("tests for upload document button", () => {
         cy.get(".typo").contains("asd").should("exist");
     });
 
-    it("will click on button and will check for loanword in output container on PDF file", () => {
+    it("should check for loanword in output container on PDF file", () => {
         // TODO update?
         // cy.get('button[id="uploadDocumentToggleButton"]').click();
         cy.get('[data-test="editor-placeholder-upload"]')
@@ -38,7 +38,7 @@ xdescribe("tests for upload document button", () => {
         cy.get(".loanword").contains("lider").should("exist");
     });
 
-    it("will click on button and will check for loanword in output container on PDF file", () => {
+    it("should check for typo in output container on PDF file", () => {
         // TODO update?
         // cy.get('button[id="uploadDocumentToggleButton"]').click();
         cy.get('[data-test="editor-placeholder-upload"]')
@@ -48,7 +48,7 @@ xdescribe("tests for upload document button", () => {
         cy.get(".typo").contains("asd").should("exist");
     });
 
-    it("will click on button and will check for loanword in output container on LIBRA file", () => {
+    it("should check for loanword in output container on LIBRA file", () => {
         // TODO update?
         // cy.get('button[id="uploadDocumentToggleButton"]').click();
         cy.get('[data-test="editor-placeholder-upload"]')
@@ -58,7 +58,7 @@ xdescribe("tests for upload document button", () => {
         cy.get(".loanword").contains("lider").should("exist");
     });
 
-    it("will click on button and will check for loanword in output container on LIBRA file", () => {
+    it("should check for typo in output container on LIBRA file", () => {
         // TODO update?
         // cy.get('button[id="uploadDocumentToggleButton"]').click();
         cy.get('[data-test="editor-placeholder-upload"]')

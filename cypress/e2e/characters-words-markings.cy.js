@@ -1,9 +1,9 @@
-describe("its going to test if the characters change, words, typos change as we write", () => {
+describe("Text Changes Detection - Character, Word, and Typo Count", () => {
     beforeEach(() => {
         cy.visit("/");
     });
 
-    it("will correctly update karaktere, fjalë, shenjime", () => {
+    it("should correctly update karaktere, fjalë, shenjime counts as we type", () => {
         cy.get(".typo").should("not.exist");
 
         cy.get('[data-test="editor"]').type("gabmim ");

@@ -1,9 +1,9 @@
-describe("Move up markings cards animation", () => {
+describe("Move Up Marking Cards Animation", () => {
     beforeEach(() => {
         cy.visit("/");
     });
 
-    it("Will delete one card and trigger the move up animation for the remaining cards", () => {
+    it("should trigger move-up animation for remaining cards after deleting one card", () => {
         cy.get(".typo").should("not.exist");
         cy.get('[data-test="editor"]').type("sakt eshte");
         cy.get('[data-test="suggestion"]').should("be.visible");

@@ -1,9 +1,9 @@
-describe("Suggestion Marking - Fade right animation", () => {
+describe("Suggestion Marking - Fade Right Animation", () => {
     beforeEach(() => {
         cy.visit("/");
     });
 
-    it("Will replace all markings with the first suggestions. Will trigger fade animation", () => {
+    it("should replace all markings with the first suggestions and trigger fade animation", () => {
         // Check initial state
         cy.get(".typo").should("not.exist");
 

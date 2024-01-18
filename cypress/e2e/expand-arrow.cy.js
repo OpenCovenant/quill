@@ -1,9 +1,9 @@
-describe("click on expand/collapse arrow and then choose on a suggestion and check if it exist on editor", () => {
+describe("Expand/Collapse Suggestion Test", () => {
     beforeEach(() => {
         cy.visit("/");
     });
 
-    it("will click on the expand/collapse arrows and then choose on a suggestion", () => {
+    it("should click on expand/collapse arrows and choose a suggestion", () => {
         cy.get('[data-test="editor"]').type("sakt eshte");
         cy.get('[data-test="suggestion"]').children().should("have.length", 8);
         cy.get(
