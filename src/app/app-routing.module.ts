@@ -5,8 +5,10 @@ import { HomeComponent } from './home/home.component';
 import { SettingsComponent } from './settings/settings.component';
 import { AboutComponent } from './about/about.component';
 import { ShortcutsComponent } from './shortcuts/shortcuts.component'
+import { AuthenticationComponent } from './authentication/authentication.component'
 
 const routes: Routes = [
+    {path: 'authentication', component: AuthenticationComponent},
     { path: 'about', component: AboutComponent },
     { path: 'settings', component: SettingsComponent },
     { path: 'shortcuts', component: ShortcutsComponent },
