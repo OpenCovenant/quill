@@ -4,12 +4,18 @@ import { Injectable } from '@angular/core';
     providedIn: 'root'
 })
 export class AuthenticationService {
-    public authenticated: boolean = true;
+    public authenticated: boolean = false;
+    public user: any = undefined;
 
     constructor() {
-        setTimeout(() => {
-            console.log('Signing out...');
-            this.authenticated = false;
-        }, 10_000);
+        // setTimeout(() => {
+        //     console.log('Signing out...');
+        //     this.authenticated = true;
+        // }, 5_000);
+    }
+
+    logout(): void {
+        this.authenticated = false;
+        this.user = undefined;
     }
 }

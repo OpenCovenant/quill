@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, NgZone, OnInit } from '@angular/core'
 import { AuthenticationService } from '../authentication.service'
 import { HttpClient } from '@angular/common/http'
-import { environment } from '../../environments/environment';
+import { environment } from '../../environments/environment'
+import { Router } from '@angular/router'
 
 @Component({
     selector: 'app-authentication',
@@ -9,7 +10,8 @@ import { environment } from '../../environments/environment';
     styleUrls: ['./authentication.component.css'],
 })
 export class AuthenticationComponent implements OnInit {
-    constructor(private authenticationService: AuthenticationService, private httpClient: HttpClient) {
+    constructor(private authenticationService: AuthenticationService, private httpClient: HttpClient,
+                private router: Router, private zone: NgZone ) {
     }
 
     private baseURL!: string;
@@ -17,7 +19,7 @@ export class AuthenticationComponent implements OnInit {
 
     initializeURLs(): void {
         this.baseURL = environment.baseURL;
-        this.postAccessTokenURL = this.baseURL + '/api/giveAccessToken';
+        this.postAccessTokenURL = this.baseURL + '/api/token/';
     }
 
 
@@ -54,26 +56,22 @@ export class AuthenticationComponent implements OnInit {
     login() {
         (<any>window)['FB'].login(
             (response: { authResponse: any }) => {
-                // this.authenticationService.authenticateUser()
-
                 console.log('login response', response)
-                if (response.authResponse) {
-                    // this.router.navigate(['dashboard']);
-                    (<any>window)['FB'].api(
-                        '/me',
-                        {
-                            fields: 'last_name, first_name, email',
-                        },
-                        (userInfo: any) => {
-                            console.log('user information')
-                            console.log(userInfo)
-                        },
-                    )
-                } else {
-                    console.log('User login failed')
+                if (!response.authResponse) {
+                    console.log('User login failed');
+                    return;
                 }
-                this.httpClient.post(this.postAccessTokenURL, {"access_token": response.authResponse.userID})
-                    .subscribe(f => console.log('hjwqe', f));
+                this.httpClient.post(this.postAccessTokenURL, { "username": "example_user", "password": "your_password", "act": response.authResponse.accessToken })
+                    .subscribe((f: any) => {
+                        console.log('postAccessToken output', f);
+
+                        this.authenticationService.authenticated = true;
+                        this.authenticationService.user = {username: f.username};
+
+                        this.zone.run(() => {
+                            this.router.navigate(['/']);
+                        });
+                    });
             },
             { scope: 'email' },
         )
