@@ -179,6 +179,29 @@
                 </div>
                 <div>
                     <a
+                        routerLink="/dashboard"
+                        role="button"
+                        class="nav-text list-group-item-action mb-3"
+                        [ngClass]="{
+                            'offcanvas-nav-text-dark-mode':
+                                darkModeService.isDarkMode
+                        }"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasStart"
+                        aria-controls="offcanvasStart"
+                    ><i
+                        class="bi bi-stars"
+                        [ngClass]="{
+                                'offcanvas-bi-info-circle-dark-mode':
+                                    darkModeService.isDarkMode
+                            }"
+                    >
+                    </i
+                    >Penda e Artë</a
+                    >
+                </div>
+                <div>
+                    <a
                         routerLink="/about"
                         role="button"
                         data-bs-toggle="offcanvas"
@@ -198,6 +221,52 @@
                         >
                         </i
                         >Rreth&nbsp;Penda</a
+                    >
+                </div>
+                <div>
+                    <a
+                        routerLink="/privacy-policy"
+                        role="button"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasStart"
+                        aria-controls="offcanvasStart"
+                        class="nav-text list-group-item-action mb-3"
+                        [ngClass]="{
+                            'offcanvas-nav-text-dark-mode':
+                                darkModeService.isDarkMode
+                        }"
+                    ><i
+                        class="bi bi-info-circle"
+                        [ngClass]="{
+                                'offcanvas-bi-info-circle-dark-mode':
+                                    darkModeService.isDarkMode
+                            }"
+                    >
+                    </i
+                    >Politikat e Privatësisë</a
+                    >
+                </div>
+                <div>
+                    <a
+                        routerLink="/terms-and-conditions"
+                        role="button"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasStart"
+                        aria-controls="offcanvasStart"
+                        class="nav-text list-group-item-action mb-3"
+                        [ngClass]="{
+                            'offcanvas-nav-text-dark-mode':
+                                darkModeService.isDarkMode
+                        }"
+                    ><i
+                        class="bi bi-info-circle"
+                        [ngClass]="{
+                                'offcanvas-bi-info-circle-dark-mode':
+                                    darkModeService.isDarkMode
+                            }"
+                    >
+                    </i
+                    >Kushtet e Përdorimit</a
                     >
                 </div>
                 <div>
