@@ -1,0 +1,8 @@
+.terms-and-conditions {
+    margin-left: 20%;
+    width: 60%;
+}
+
+.terms-and-conditions-policy-dark-mode {
+    color: var(--light);
+}

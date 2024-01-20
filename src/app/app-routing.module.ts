@@ -8,13 +8,19 @@ import { ShortcutsComponent } from './shortcuts/shortcuts.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { AuthenticationGuard } from './authentication.guard'
 import { ProfileComponent } from './profile/profile.component'
+import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component'
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component'
+import { DashboardComponent } from './dashboard/dashboard.component'
 
 const routes: Routes = [
     { path: 'authentication', component: AuthenticationComponent, canActivate: [AuthenticationGuard] },
     { path: 'about', component: AboutComponent },
+    { path: 'dashboard', component: DashboardComponent },
+    { path: 'privacy-policy', component: PrivacyPolicyComponent },
     { path: 'profile', component: ProfileComponent, canActivate: [AuthenticationGuard] },
     { path: 'settings', component: SettingsComponent },
     { path: 'shortcuts', component: ShortcutsComponent },
+    { path: 'terms-and-conditions', component: TermsAndConditionsComponent },
     { path: ':id', component: MarkingDetailsComponent },
     { path: '', component: HomeComponent }
 ];

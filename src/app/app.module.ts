@@ -14,6 +14,9 @@ import { AboutComponent } from './about/about.component';
 import { ShortcutsComponent } from './shortcuts/shortcuts.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { ProfileComponent } from './profile/profile.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
     declarations: [
@@ -26,7 +29,10 @@ import { ProfileComponent } from './profile/profile.component';
         AboutComponent,
         ShortcutsComponent,
         AuthenticationComponent,
-        ProfileComponent
+        ProfileComponent,
+        PrivacyPolicyComponent,
+        TermsAndConditionsComponent,
+        DashboardComponent
     ],
     imports: [BrowserModule, HttpClientModule, FormsModule, AppRoutingModule],
     providers: [],
