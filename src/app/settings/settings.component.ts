@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { DarkModeService } from '../dark-mode.service';
+import {DismissMarkingStorageService} from "../dismiss-marking-storage.service";
 
 @Component({
     selector: 'app-settings',
@@ -12,6 +13,7 @@ export class SettingsComponent implements OnInit {
     ALREADY_MADE_MARKING_TYPE_SELECTIONS =
         'penda-has-stored-marking-type-selections';
 
+
     baseURL!: string;
     markingTypesURL!: string;
     isLoading: boolean = false;
@@ -20,8 +22,11 @@ export class SettingsComponent implements OnInit {
 
     constructor(
         private http: HttpClient,
-        public darkModeService: DarkModeService
-    ) {}
+        public darkModeService: DarkModeService,
+        public dismissMarkingStorageService: DismissMarkingStorageService
+    ) {
+        this.dismissMarkingStorageService.initializeDismissMarkings();
+    }
 
     ngOnInit(): void {
         this.isLoading = true;
@@ -62,4 +67,6 @@ export class SettingsComponent implements OnInit {
         this.baseURL = environment.baseURL;
         this.markingTypesURL = `${this.baseURL}/api/getMarkingTypes`;
     }
+
+    protected readonly DismissMarkingStorageService = DismissMarkingStorageService;
 }

@@ -38,4 +38,26 @@ export class DismissMarkingStorageService {
         localStorage.setItem(key, dismissedText);
         this.DISMISSED_TEXTS_KEYS.push(key);
     }
+
+    initializeDismissMarkings(): void {
+        const alreadySetDismissMarkings: string | null = localStorage.getItem(
+            this.DISMISSED_MARKING_KEY
+        );
+        if (!alreadySetDismissMarkings) {
+            localStorage.setItem(this.DISMISSED_MARKING_KEY, 'false');
+            this.canStoreDismissedMarking = false;
+        } else {
+            if (alreadySetDismissMarkings === 'false') {
+                this.canStoreDismissedMarking = false;
+            }
+
+            if (alreadySetDismissMarkings === 'true') {
+                this.canStoreDismissedMarking = true;
+            }
+        }
+    }
+
+    onDismissChange(): void {
+        localStorage.setItem(this.DISMISSED_MARKING_KEY, String(this.canStoreDismissedMarking));
+    }
 }

@@ -150,6 +150,29 @@
                             ></span>
                         </div>
                     </div>
+                    <div class="dark-mode-setting-section">
+                        <h5>Dismissed Marking</h5>
+                        <hr />
+                        <div class="flex-layout-div dark-mode-div dark-mode-label-flex">
+                            <div>Dismissed Marking Toggle</div>
+                            <div class="toggle-switch">
+                                <label class="dark-mode-label cursor-pointer">
+                                    <input
+                                        data-test="dark-mode-button-toggle-switch"
+                                        class="dark-mode-input"
+                                        type="checkbox"
+                                        [id]="dismissMarkingStorageService"
+                                        [(ngModel)]="dismissMarkingStorageService.canStoreDismissedMarking"
+                                        (change)="
+                                            dismissMarkingStorageService.onDismissChange()
+                                        "
+                                    />
+
+                                    <span class="dark-mode-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
