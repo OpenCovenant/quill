@@ -23,7 +23,7 @@ export class DismissMarkingStorageService {
     }
 
     storeDismissedText(dismissedText: string): void {
-        if (dismissedText.trim() === this.EMPTY_STRING) {
+        if (!this.canStoreDismissedMarking || dismissedText.trim() === this.EMPTY_STRING) {
             return;
         }
 
