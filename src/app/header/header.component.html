@@ -39,9 +39,27 @@
         </div>
 
         <div class="header-name-gear-icon">
-            <button class="btn btn-primary" routerLink="/authentication">
-                Identifikohu
-            </button>
+            <ng-template
+                [ngIf]="authenticationService.authenticated"
+                [ngIfElse]="authenticateButton"
+            >
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        Artan
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" routerLink="/profile">Profili</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" (click)='logout()'>Dil</a></li>
+                    </ul>
+                </div>
+            </ng-template>
+            <ng-template #authenticateButton>
+                <button class="btn btn-primary" routerLink="/authentication">
+                    Identifikohu
+                </button>
+            </ng-template>
+
             <!-- <i class="bi bi-lock-fill" style='font-size: 20px'></i> ??? person-fill-lock -->
             <span style="padding-left: 1rem; font-size: 20px; color: #d2d2d2"
                 >|</span

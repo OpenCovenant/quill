@@ -13,6 +13,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { AboutComponent } from './about/about.component';
 import { ShortcutsComponent } from './shortcuts/shortcuts.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
     declarations: [
@@ -24,7 +25,8 @@ import { AuthenticationComponent } from './authentication/authentication.compone
         SettingsComponent,
         AboutComponent,
         ShortcutsComponent,
-        AuthenticationComponent
+        AuthenticationComponent,
+        ProfileComponent
     ],
     imports: [BrowserModule, HttpClientModule, FormsModule, AppRoutingModule],
     providers: [],
