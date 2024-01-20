@@ -3,21 +3,21 @@
     justify-content: space-between;
     padding-bottom: 3rem;
     gap: 1rem;
-
-    .input-container {
-        flex: 0 0 62%;
-        margin-left: 3rem;
-    }
 }
+    
+.input-container {
+    flex: 0 0 62%;
+    margin-left: 3rem;
+    }
 
 .card {
     border: 0px solid rgba(0, 0, 0, 0.125);
     box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
     margin-top: 5px;
-
-    .card-header {
-        border-bottom: 0px solid rgba(0, 0, 0, 0.125);
-    }
+}
+   
+.card-header {
+    border-bottom: 0px solid rgba(0, 0, 0, 0.125);
 }
 
 .card-fade {
@@ -32,50 +32,50 @@
     padding: 1rem;
     border-radius: 0.25rem;
     background-color: var(--light-mode-color);
+}
 
-    .editor-flex {
-        display: flex;
+.editor-flex {
+    display: flex;
+}
 
-        #editor {
-            min-width: 96%;
-            min-height: 30rem;
-            font-size: 17px;
-            outline: 0 solid transparent;
-        }
+#editor {
+    min-width: 96%;
+    min-height: 30rem;
+    font-size: 17px;
+    outline: 0 solid transparent;
+}
 
-        #editor-placeholder {
-            position: absolute;
-            /*color: #707070;*/
-            color: #858585;
+#editor-placeholder {
+    position: absolute;
+    /*color: #707070;*/
+    color: #858585;
+}
 
-            .editor-placeholder-text {
-                pointer-events: none;
-                user-select: none;
-            }
+.editor-placeholder-text {
+    pointer-events: none;
+    user-select: none;
+}
 
-            .editor-placeholder-upload {
-                color: #0074e5;
-                cursor: pointer;
-                text-decoration: underline;
-                user-select: none;
-            }
-        }
-    }
+.editor-placeholder-upload {
+    color: #0074e5;
+    cursor: pointer;
+    text-decoration: underline;
+    user-select: none;
+}
 
-    .editor-toolbar {
-        display: flex;
-        justify-content: space-between;
-        font-size: 0.8rem;
-        /* TODO: an attempt to keep the bottom bar of the editor always visible */
-        /*position: sticky;*/
-        /*bottom: 0;*/
+.editor-toolbar {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    /* TODO: an attempt to keep the bottom bar of the editor always visible */
+    /*position: sticky;*/
+    /*bottom: 0;*/
+}
 
-        .characters-words-markings {
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-        }
-    }
+.characters-words-markings {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .card-body-dark-mode {
@@ -292,10 +292,10 @@
     grid-template-columns: auto 1fr;
     grid-template-rows: inherit;
     max-width: 80%;
+}
 
-    .text-marking {
-        padding: 3px 6px;
-    }
+.text-marking {
+    padding: 3px 6px;
 }
 
 .dismiss-marking-element-dark-mode {
@@ -320,12 +320,12 @@
     gap: 1rem;
     align-items: center;
     padding-top: 0.5rem;
+}
 
-    .pipe-separator {
-        display: flex;
-        align-items: center;
-        color: var(--dark-mode-smooth-theme);
-    }
+.pipe-separator {
+    display: flex;
+    align-items: center;
+    color: var(--dark-mode-smooth-theme);
 }
 
 .suggestions-header {
@@ -396,11 +396,11 @@
     min-height: 50px;
     background-color: var(--light-mode-color);
     padding-bottom: 1.8rem;
+}
 
-    .spinner-border {
-        margin-left: 45%;
-        margin-top: 10px;
-    }
+.spinner-border {
+    margin-left: 45%;
+    margin-top: 10px;
 }
 
 .while-reading-text-ul-dark-mode {
@@ -411,10 +411,10 @@
 .written-text-dark-mode {
     background-color: #9a9a9a;
     color: black;
+}
 
-    &:hover {
-        background-color: lightgray;
-    }
+.written-text-dark-mode:hover {
+    background-color: lightgray;
 }
 
 @keyframes fillBackground {
@@ -499,17 +499,17 @@
 
 .home-list-group {
     margin: 1.5rem 0;
+}
 
-    .written-text {
-        box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
-        border-radius: 5px;
-        padding: 5px;
-        overflow: hidden;
+.written-text {
+    box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
+    border-radius: 5px;
+    padding: 5px;
+    overflow: hidden;
+}
 
-        &:hover {
-            background-color: #f1f1f1;
-        }
-    }
+.written-text:hover {
+    background-color: #f1f1f1;
 }
 
 /*TODO: apply dark mode for the history of the written texts*/
