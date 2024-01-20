@@ -1254,7 +1254,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         }
     }
 
-    private addEventListenerForShortcuts() {
+    private addEventListenerForShortcuts(): void {
         const componentDivs = document.getElementsByClassName('component-div');
         if (componentDivs.length !== 1) {
             return;
@@ -1287,10 +1287,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 if (!this.processedText?.textMarkings) return;
                 this.chooseSuggestion(0, digit - 1);
                 return;
-                // if number from 1:infinity, apply the n-th (indexing starting from 1) suggestion of the first/top-most marking.
-                // if SHIFT + number from 1:infinity, highlight the n-th marking (indexing starting from 1)
-
-                // TODO: how to properly listen for multiple digit numbers? is there a sufficiently pleasant solution?
             }
 
             switch (keyboardEvent.key) {
@@ -1317,8 +1313,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     this.deleteTextMarking(0);
                     return;
                 }
-
-                // written texts, history of texts? WritingsHistory,
             }
         });
     }

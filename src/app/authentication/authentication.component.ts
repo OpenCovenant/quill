@@ -1,13 +1,29 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { AuthenticationService } from '../authentication.service'
+import { HttpClient } from '@angular/common/http'
+import { environment } from '../../environments/environment';
 
 @Component({
     selector: 'app-authentication',
     templateUrl: './authentication.component.html',
     styleUrls: ['./authentication.component.css'],
 })
-export class AuthenticationComponent {
-    constructor(private authenticationService: AuthenticationService) {
+export class AuthenticationComponent implements OnInit {
+    constructor(private authenticationService: AuthenticationService, private httpClient: HttpClient) {
+    }
+
+    private baseURL!: string;
+    private postAccessTokenURL!: string;
+
+    initializeURLs(): void {
+        this.baseURL = environment.baseURL;
+        this.postAccessTokenURL = this.baseURL + '/api/giveAccessToken';
+    }
+
+
+    ngOnInit(): void {
+        this.fbLibrary();
+        this.initializeURLs();
     }
 
 //facebook
@@ -56,6 +72,8 @@ export class AuthenticationComponent {
                 } else {
                     console.log('User login failed')
                 }
+                this.httpClient.post(this.postAccessTokenURL, {"access_token": response.authResponse.userID})
+                    .subscribe(f => console.log('hjwqe', f));
             },
             { scope: 'email' },
         )
