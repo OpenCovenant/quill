@@ -12,7 +12,7 @@ import { ProfileComponent } from './profile/profile.component'
 const routes: Routes = [
     { path: 'authentication', component: AuthenticationComponent, canActivate: [AuthenticationGuard] },
     { path: 'about', component: AboutComponent },
-    { path: 'profile', component: ProfileComponent },
+    { path: 'profile', component: ProfileComponent, canActivate: [AuthenticationGuard] },
     { path: 'settings', component: SettingsComponent },
     { path: 'shortcuts', component: ShortcutsComponent },
     { path: ':id', component: MarkingDetailsComponent },

@@ -26,11 +26,16 @@ export class AuthenticationGuard implements CanActivate {
         | Promise<boolean | UrlTree>
         | boolean
         | UrlTree {
-        if (this.authService.authenticated) {
+        const pathSuffix = route.url[route.url.length - 1].path;
+
+        const unauthenticatedProfile = pathSuffix === 'profile' && !this.authService.authenticated;
+        const authenticatedAuthentication = pathSuffix === 'authentication' && this.authService.authenticated
+
+        if (unauthenticatedProfile || authenticatedAuthentication){
             this.router.navigate(['/']);
             return false;
         } else {
-            return true;
+            return true
         }
     }
 }
