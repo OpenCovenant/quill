@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { DarkModeService } from '../dark-mode.service'
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent {
+    isLoading = false;
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+  constructor(public darkModeService: DarkModeService) { }
 
 }

@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { DarkModeService } from '../dark-mode.service';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../authentication.service'
 
 @Component({
     selector: 'app-header',
@@ -20,8 +21,9 @@ export class HeaderComponent {
 
     constructor(
         private http: HttpClient,
+        private router: Router,
+        public authenticationService: AuthenticationService,
         public darkModeService: DarkModeService,
-        private router: Router
     ) {
         this.initializeURLs();
         this.http.get(this.getMarkingTypesCount).subscribe((data: any) => {
@@ -48,5 +50,9 @@ export class HeaderComponent {
 
     isSettingsRoute() {
         return this.router.url === '/settings';
+    }
+
+    logout(): void {
+        console.log('logging out...')
     }
 }

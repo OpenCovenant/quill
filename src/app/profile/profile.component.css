@@ -1,0 +1,49 @@
+.central-profile-area {
+    display: flex;
+    justify-content: center;
+    padding-top: 2rem;
+
+    .card {
+        background-color: #f8f9fa;
+        position: relative;
+        display: flex;
+        border: 0px solid rgba(0, 0, 0, 0.125);
+        border-radius: 0.25rem;
+        box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
+        width: 60%;
+        margin-bottom: 2rem;
+    }
+}
+
+.card-body-dark-mode {
+    background-color: var(--dark-mode-theme);
+}
+
+.skeleton-header {
+    margin-bottom: 3rem;
+}
+
+.skeleton-text-area {
+    color: #d9d9d9;
+    border-radius: 0.25rem;
+}
+
+.dark-mode-profile-section {
+    margin: 3rem 0;
+
+    .dark-mode-label-flex {
+        display: flex;
+        justify-content: space-between;
+    }
+}
+
+.profile-dark-mode {
+    background-color: var(--dark-mode-theme) !important;
+    color: var(--dark-mode-anti-theme);
+}
+
+.dark-mode-informative-text {
+    padding-top: 0.3rem;
+    font-size: 0.8rem;
+    color: var(--dark-mode-smooth-theme);
+}
