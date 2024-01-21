@@ -1,1 +1,9 @@
-<p>dashboard works!</p>
+<div
+    class="dashboard"
+    id="dashboard"
+    [ngClass]="{
+        'about-dark-mode': darkModeService.isDarkMode
+    }"
+>
+    <!-- display:flex; flex-direction:column;align-items:flex-start; align-self:center; -->
+</div>

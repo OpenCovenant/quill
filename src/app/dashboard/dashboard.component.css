@@ -1,0 +1,8 @@
+.dashboard {
+    margin-left: 20%;
+    width: 60%;
+}
+
+.dashboard-dark-mode {
+    color: var(--light);
+}
