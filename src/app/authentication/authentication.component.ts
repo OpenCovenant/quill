@@ -61,7 +61,7 @@ export class AuthenticationComponent implements OnInit {
                     console.log('User login failed');
                     return;
                 }
-                this.httpClient.post(this.postAccessTokenURL, { "username": "example_user", "password": "your_password", "act": response.authResponse.accessToken })
+                this.httpClient.post(this.postAccessTokenURL, { "act": response.authResponse.accessToken })
                     .subscribe((f: any) => {
                         console.log('postAccessToken output', f);
 
