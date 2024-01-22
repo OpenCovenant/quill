@@ -53,6 +53,6 @@ export class HeaderComponent {
     }
 
     logout(): void {
-        console.log('logging out...')
+        this.authenticationService.logout();
     }
 }

@@ -3,16 +3,17 @@
     justify-content: center;
     padding-top: 2rem;
 
-    .card {
-        background-color: #f8f9fa;
-        position: relative;
-        display: flex;
-        border: 0px solid rgba(0, 0, 0, 0.125);
-        border-radius: 0.25rem;
-        box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
-        width: 60%;
-        margin-bottom: 2rem;
-    }
+}
+
+.card {
+    background-color: #f8f9fa;
+    position: relative;
+    display: flex;
+    border: 0px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+    box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
+    width: 60%;
+    margin-bottom: 2rem;
 }
 
 .card-body-dark-mode {
@@ -30,11 +31,11 @@
 
 .dark-mode-profile-section {
     margin: 3rem 0;
+}
 
-    .dark-mode-label-flex {
-        display: flex;
-        justify-content: space-between;
-    }
+.dark-mode-label-flex {
+    display: flex;
+    justify-content: space-between;
 }
 
 .profile-dark-mode {

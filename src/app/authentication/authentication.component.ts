@@ -63,10 +63,13 @@ export class AuthenticationComponent implements OnInit {
                 }
                 this.httpClient.post(this.postAccessTokenURL, { "act": response.authResponse.accessToken })
                     .subscribe((f: any) => {
-                        console.log('postAccessToken output', f);
+                        // console.log('postAccessToken output', f);
 
                         this.authenticationService.authenticated = true;
-                        this.authenticationService.user = {username: f.username};
+                        this.authenticationService.user = {email: f.email};
+
+                        localStorage.setItem('penda-access-jwt', f.access_token)
+                        localStorage.setItem('penda-refresh-jwt', f.refresh_token)
 
                         this.zone.run(() => {
                             this.router.navigate(['/']);
