@@ -15,41 +15,49 @@ export class AuthenticationService {
 
     constructor(private http: HttpClient) {
         this.initializeURLs();
-        const access_token = localStorage.getItem('penda-access-jwt');
-        // console.log('act', access_token)
+        const access_token: string | null = localStorage.getItem('penda-access-jwt');
         if (!access_token) {
             return;
         }
         this.isJWTValid(access_token);
-
-        // setTimeout(() => {
-        //     console.log('Signing out...');
-        //     this.authenticated = true;
-        // }, 5_000);
     }
 
     logout(): void {
-        this.authenticated = false;
-        this.user = undefined;
-        this.http.post(this.logoutURL, {'access_token':2 }).subscribe((r: any) => {});
+        (<any>window)['FB'].getLoginStatus(function(response:any) {
+            if (response && response.status === 'connected') {
+                (<any>window)['FB'].logout(function(r:any) {
+                    document.location.reload();
+                });
+            }
+        });
+
+        this.http.post(this.logoutURL, {}).subscribe((r: any) => {
+            this.authenticated = false;
+            this.user = undefined;
+            localStorage.removeItem('penda-access-jwt')
+            localStorage.removeItem('penda-refresh-jwt')
+        });
     }
 
     private isJWTValid(access_token: string): void {
         this.http.post(this.validateJWTURL, {'access_token':access_token }).subscribe((r: any) => {
             const email: boolean = r.email;
-            // console.log(email);
             if (email) {
                 this.authenticated = true;
                 this.user = {email: email}
             } else {
-                console.log('the current access token has expired');// TODO: now remove the KV-pair from LS? corresponds to a dialog shown
-                const refresh_token: string | null = localStorage.getItem('penda-refresh-jwt');
-                // console.log(refresh_token);
-                this.authenticated = false;
-                if (!email && refresh_token) { // TODO should switchMap (or similar) be used here if we are going to make another call
-                    console.log('attempting to refresh...');
-                    // TODO: implement
-                }
+                // TODO: currently assuming we do not refresh
+                localStorage.removeItem('penda-access-jwt');
+                localStorage.removeItem('penda-refresh-jwt');
+                return;
+                // console.log('the current access token has expired');// TODO: now remove the KV-pair from LS? corresponds to a dialog shown
+                // const refresh_token: string | null = localStorage.getItem('penda-refresh-jwt');
+                // // console.log(refresh_token);
+                // this.authenticated = false;
+                // if (!email && refresh_token) { // TODO should switchMap (or similar) be used here if we are going to make another call
+                //     console.log('attempting to refresh...');
+                //     // TODO: implement
+                // }
             }
         })
     }

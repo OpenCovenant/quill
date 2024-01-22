@@ -24,36 +24,10 @@ export class AuthenticationComponent implements OnInit {
 
 
     ngOnInit(): void {
-        this.fbLibrary();
         this.initializeURLs();
     }
 
-//facebook
-    fbLibrary() {
-        (window as any).fbAsyncInit = function() {
-            (<any>window)['FB'].init({
-                appId: 'yourID',
-                cookie: true,
-                xfbml: true,
-                version: 'v3.1',
-            });
-            (<any>window)['FB'].AppEvents.logPageView()
-        };
-
-        (function(d, s, id) {
-            let js,
-                fjs = d.getElementsByTagName(s)[0]
-            if (d.getElementById(id)) {
-                return
-            }
-            js = d.createElement('script')
-            js.id = id
-            js.src = 'https://connect.facebook.net/sq_AL/sdk.js'
-            fjs?.parentNode?.insertBefore(js, fjs)
-        })(document, 'script', 'facebook-jssdk')
-    }
-
-    login() {
+    login(): void {
         (<any>window)['FB'].login(
             (response: { authResponse: any }) => {
                 console.log('login response', response)
