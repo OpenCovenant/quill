@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {environment} from "../environments/environment";
 
 @Injectable({
     providedIn: 'root'
@@ -9,8 +10,13 @@ export class DismissMarkingStorageService {
     canStoreDismissedMarking: boolean = true;
     EMPTY_STRING: string = '';
     DISMISSED_TEXTS_KEYS: string[] = [];
+    dismissedbaseURL!: string;
+    dismissingTypeUrl!: string;
 
     constructor() {
+        this.initializeDismissMarkings();
+        this.initializeURLs();
+
         const readyToStoreDismissedMarkings = localStorage.getItem(this.DISMISSED_MARKING_KEY);
         if (!readyToStoreDismissedMarkings) {
             if (this.canStoreDismissedMarking) {
@@ -22,6 +28,10 @@ export class DismissMarkingStorageService {
         }
     }
 
+    private initializeURLs(): void {
+        this.dismissedbaseURL = environment.baseURL;
+        this.dismissingTypeUrl = `${this.dismissedbaseURL}/api/generateMarkingsForParagraphs`;
+    }
     storeDismissedText(dismissedText: string): void {
         if (!this.canStoreDismissedMarking || dismissedText.trim() === this.EMPTY_STRING) {
             return;
