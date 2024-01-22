@@ -33,6 +33,22 @@
         center/1em auto no-repeat;
 }
 
+/* bolden "penda" header text in navigation bar on hover */
+.penda-header-logo{
+    -webkit-transition: all .5s;
+    -moz-transition: all .5s;
+    -o-transition: all .5s;
+    transition: all .5s;
+}
+.penda-header-logo:hover{
+    text-shadow:
+    -0.4px -0.4px 0,
+    0.4px -0.4px 0,
+    -0.4px 0.4px 0,
+    0.4px 0.4px 0;
+    /* letter-spacing: 0.05em; */
+}
+
 .off-canvas-start-button {
     border: 0;
     border-radius: 0.5rem;
