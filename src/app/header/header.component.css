@@ -35,18 +35,18 @@
 
 /* bolden "penda" header text in navigation bar on hover */
 .penda-header-logo{
-    -webkit-transition: all .5s;
-    -moz-transition: all .5s;
-    -o-transition: all .5s;
-    transition: all .5s;
+    -webkit-transition: all .4s;
+    -moz-transition: all .4s;
+    -o-transition: all .4s;
+    transition: all .4s;
 }
 .penda-header-logo:hover{
     text-shadow:
-    -0.4px -0.4px 0,
-    0.4px -0.4px 0,
-    -0.4px 0.4px 0,
-    0.4px 0.4px 0;
-    /* letter-spacing: 0.05em; */
+    -0.25px -0.25px 0,
+    0.25px -0.25px 0,
+    -0.25px 0.25px 0,
+    0.25px 0.25px 0;
+     letter-spacing: 0.005rem;
 }
 
 .off-canvas-start-button {
