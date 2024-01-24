@@ -9,6 +9,7 @@ export class AuthenticationService {
     baseURL!: string;
     validateJWTURL!: string;
     logoutURL!: string;
+    authenticationModalButton: HTMLButtonElement | undefined;
 
     public authenticated: boolean = false;
     public user: any = undefined;
@@ -49,6 +50,10 @@ export class AuthenticationService {
                 // TODO: currently assuming we do not refresh
                 localStorage.removeItem('penda-access-jwt');
                 localStorage.removeItem('penda-refresh-jwt');
+
+                setTimeout(() => {
+                    this.authenticationModalButton?.click()
+                }, 500)
                 return;
                 // console.log('the current access token has expired');// TODO: now remove the KV-pair from LS? corresponds to a dialog shown
                 // const refresh_token: string | null = localStorage.getItem('penda-refresh-jwt');
@@ -66,5 +71,9 @@ export class AuthenticationService {
         this.baseURL = environment.baseURL;
         this.validateJWTURL = this.baseURL + '/api/vad';
         this.logoutURL = this.baseURL + '/api/logout';
+    }
+
+    fetchAuthenticationModalButton(o: HTMLButtonElement): void {
+        this.authenticationModalButton = o
     }
 }

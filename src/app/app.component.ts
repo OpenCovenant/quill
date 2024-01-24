@@ -1,18 +1,23 @@
-import { Component, OnInit } from '@angular/core'
+import { AfterViewInit, Component, OnInit } from '@angular/core'
 import { DarkModeService } from './dark-mode.service';
+import { AuthenticationService } from './authentication.service'
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
     title: string = 'Penda';
 
-    constructor(public darkModeService: DarkModeService) {}
+    constructor(private authenticationService: AuthenticationService, public darkModeService: DarkModeService) {}
 
     ngOnInit(): void {
         this.fbLibrary();
+    }
+
+    ngAfterViewInit(): void {
+        this.authenticationService.fetchAuthenticationModalButton(document.getElementById('authenticationModalButton')! as HTMLButtonElement);
     }
 
     fbLibrary() : void {
