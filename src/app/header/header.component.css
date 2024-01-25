@@ -1,6 +1,8 @@
 .header-name-gear-icon {
     margin-left: 3rem;
     font-size: 1.4rem;
+    display: flex;
+    align-items: center;
 }
 
 .penda-header-logo {
@@ -49,9 +51,13 @@
      letter-spacing: 0.005rem;
 }
 
+/* compress side menu button (only) vertically #411 */
 .off-canvas-start-button {
     border: 0;
     border-radius: 0.5rem;
+    height: 30px;
+    display: flex;
+    align-items: center;
 }
 
 .off-canvas-start-button:hover {
