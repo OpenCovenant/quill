@@ -10,21 +10,20 @@ import { Router } from '@angular/router'
     styleUrls: ['./authentication.component.css'],
 })
 export class AuthenticationComponent implements OnInit {
+    private baseURL!: string;
+    private postAccessTokenURL!: string;
+
     constructor(private authenticationService: AuthenticationService, private httpClient: HttpClient,
                 private router: Router, private zone: NgZone ) {
     }
 
-    private baseURL!: string;
-    private postAccessTokenURL!: string;
+    ngOnInit(): void {
+        this.initializeURLs();
+    }
 
     initializeURLs(): void {
         this.baseURL = environment.baseURL;
         this.postAccessTokenURL = this.baseURL + '/api/token/';
-    }
-
-
-    ngOnInit(): void {
-        this.initializeURLs();
     }
 
     login(): void {
