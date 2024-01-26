@@ -1,9 +1,52 @@
-<div
-    class="dashboard"
-    id="dashboard"
-    [ngClass]="{
-        'about-dark-mode': darkModeService.isDarkMode
-    }"
->
-    <!-- display:flex; flex-direction:column;align-items:flex-start; align-self:center; -->
+<div class="container py-3">
+    <header>
+        <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+            <h1 class="display-4 fw-normal">Përmirëso Shenjimet e Pendës</h1>
+            <p class="fs-5 text-muted">Zgjidh mes dy abonimeve që ofrojmë në bazë të kërkesave tuaja.</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="row row-cols-1 row-cols-md-2 mb-3 text-center">
+            <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm" style='min-height: 400px;'>
+                    <div class="card-header py-3">
+                        <h2 class="my-0 fw-normal">Penda</h2>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title">0 €<small class="text-muted fw-light">/muaj</small></h1>
+                        <ul class="list-unstyled mt-3 mb-4" style='font-size:1.1rem;'>
+                            <li style='padding-bottom: 1rem;'>analizoni deri me 5 shkrime ne dite</li>
+                            <li style='padding-bottom: 3rem;'>shenjime per gabime shkrimi, huazimesh, stilistike</li>
+                            <li style='padding-bottom: 1rem;'>—</li>
+                            <li style='padding-bottom: 1rem;'>—</li>
+                            <li style='padding-bottom: 2rem;'>—</li>
+                        </ul>
+                        <button type="button" routerLink='/authentication' class="w-50 btn btn-lg btn-outline-primary">Identifikohu Falas</button>
+                        <div style='padding-top: 0.8rem;'>
+                            <span style='color: #7f7f7f; font-size: 0.8rem;'>nuk ju kërkojmë as kartë bankare</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm" style='border-color: #ebbcff; min-height: 400px;'>
+                    <div style='background-color: #ebbcff;border-color: #ebbcff' class="card-header py-3 text-black">
+                        <h2 class="my-0 fw-normal">Penda e Artë</h2>
+                    </div>
+                    <div class="card-body" style='padding-bottom: 3rem;'>
+                        <h1 class="card-title pricing-card-title">9.90 €<small class="text-muted fw-light">/muaj</small></h1>
+                        <ul class="list-unstyled mt-3 mb-4" style='font-size:1.1rem;'>
+                            <li style='padding-bottom: 1rem;'>analizoni sa shkrime në ditë t'ju duhen</li>
+                            <li style='padding-bottom: 1rem;'>shenjime për gabime shkrimi, huazimesh, stilistike dhe gramatikore nëpërmjet Inteligjencës Artificiale</li>
+                            <li style='padding-bottom: 1rem;'>personalizo cilat lloje shenjime doni të shihni ose jo</li>
+                            <li style='padding-bottom: 1rem;'>largoni shenjime që nuk ju duhen, këto nuk do të shfaqen më</li>
+                            <li style='padding-bottom: 1rem;'>shenjime automatike, p.sh. eshte do te korrigjohet automatikisht ne është sipas zgjedhjes tuaj</li>
+                        </ul>
+                        <button type="button" routerLink='/checkout' style='background-color: #ebbcff;' class="w-50 btn btn-lg contact-us-button">Paguaj</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 </div>

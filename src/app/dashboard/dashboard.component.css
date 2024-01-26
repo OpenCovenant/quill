@@ -6,3 +6,8 @@
 .dashboard-dark-mode {
     color: var(--light);
 }
+
+.contact-us-button:hover {
+    background-color: purple !important;
+    color: white;
+}
