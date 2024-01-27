@@ -78,7 +78,7 @@ export class AuthenticationService {
 
     initializeURLs() : void{
         this.baseURL = environment.baseURL;
-        this.validateJWTURL = this.baseURL + '/api/vad';
+        this.validateJWTURL = this.baseURL + '/api/checkJWTValidity';
         this.logoutURL = this.baseURL + '/api/logout';
     }
 

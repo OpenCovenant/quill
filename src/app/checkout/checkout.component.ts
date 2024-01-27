@@ -10,7 +10,7 @@ declare const paypal: any;
 })
 export class CheckoutComponent implements OnInit {
     baseURL!: string;
-    subscribeToPayPalURL!: string;
+    storePayPalSubscriptionURL!: string;
 
     @ViewChild('paypalButton', { static: true }) paypalButton!: ElementRef;
 
@@ -20,15 +20,15 @@ export class CheckoutComponent implements OnInit {
 
     initializeURLs() {
         this.baseURL = environment.baseURL;
-        this.subscribeToPayPalURL = this.baseURL + '/api/subscribeToPayPal';
+        this.storePayPalSubscriptionURL = this.baseURL + '/api/storePayPalSubscription';
     }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.renderPaypalButton();
     }
 
     allowedPaymentSources = ['paypal', 'card']
-    renderPaypalButton():void {
+    renderPaypalButton(): void {
         paypal.Buttons({
             style: {
                 layout: 'vertical',
@@ -36,11 +36,19 @@ export class CheckoutComponent implements OnInit {
                 shape:  'rect',
                 label:  'paypal'
             },
+            createSubscription: (data: any, actions: any) => {
+                return actions.subscription.create({
+                        'plan_id': '', // Replace with your PayPal plan ID
+                    });
+            },
             onApprove: (data: any, actions: any): void => {
                 if (!this.allowedPaymentSources.includes(data.paymentSource)) {
                     console.log('Odd payment source, cancelling...');
                 }
-                this.http.post(this.subscribeToPayPalURL, data).subscribe((v: any) => console.log('43', v))
+                // this.http.post(this.storePayPalSubscription, data).subscribe((v: any) => {
+                //     console.log('Subscription has been created, thank you!');
+                //     // TODO: route here
+                // })
                 console.log(data, actions)
                 // alert('Subscription created!');
                 // You can redirect or perform other actions after subscription approval
