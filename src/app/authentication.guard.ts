@@ -30,9 +30,13 @@ export class AuthenticationGuard implements CanActivate {
 
         const unauthenticatedProfile = pathSuffix === 'profile' && !this.authService.authenticated;
         const authenticatedAuthentication = pathSuffix === 'authentication' && this.authService.authenticated
+        const unauthenticatedCheckout = pathSuffix === 'checkout' && !this.authService.authenticated
 
-        if (unauthenticatedProfile || authenticatedAuthentication){
+        if (unauthenticatedProfile || authenticatedAuthentication) {
             this.router.navigate(['/']);
+            return false;
+        } else if (unauthenticatedCheckout) {
+            this.router.navigate(['/authentication']);
             return false;
         } else {
             return true

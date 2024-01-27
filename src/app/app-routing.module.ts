@@ -16,7 +16,7 @@ import { CheckoutComponent } from './checkout/checkout.component'
 const routes: Routes = [
     { path: 'authentication', component: AuthenticationComponent, canActivate: [AuthenticationGuard] },
     { path: 'about', component: AboutComponent },
-    { path: 'checkout', component: CheckoutComponent },
+    { path: 'checkout', component: CheckoutComponent, canActivate: [AuthenticationGuard] },
     { path: 'dashboard', component: DashboardComponent },
     { path: 'privacy-policy', component: PrivacyPolicyComponent },
     { path: 'profile', component: ProfileComponent, canActivate: [AuthenticationGuard] },

@@ -1,4 +1,6 @@
-import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { HttpClient } from '@angular/common/http'
+import { environment } from '../../environments/environment'
 declare const paypal: any;
 
 @Component({
@@ -7,10 +9,19 @@ declare const paypal: any;
   styleUrls: ['./checkout.component.css']
 })
 export class CheckoutComponent implements OnInit {
+    baseURL!: string;
+    createPlanURL!: string;
+
     @ViewChild('paypalButton', { static: true }) paypalButton!: ElementRef;
 
-    constructor(private ngZone: NgZone) {}
+    constructor(private http: HttpClient) {
+        this.initializeURLs();
+    }
 
+    initializeURLs() {
+        this.baseURL = environment.baseURL;
+        this.createPlanURL = this.baseURL + '/api/createPayPalPlan';
+    }
     ngOnInit() {
         this.renderPaypalButton();
     }
@@ -25,6 +36,7 @@ export class CheckoutComponent implements OnInit {
                 label:  'paypal'
             },
             onClick:() : void => {
+                this.http.post(this.createPlanURL, {}).subscribe((d: any) => console.log('39', d));
                 console.log('clicked');
             },
             onApprove: (data:any, actions:any): void => {
@@ -48,4 +60,5 @@ export class CheckoutComponent implements OnInit {
             }
         }).render(this.paypalButton.nativeElement);
     }
+
 }
