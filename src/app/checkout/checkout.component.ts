@@ -10,7 +10,7 @@ declare const paypal: any;
 })
 export class CheckoutComponent implements OnInit {
     baseURL!: string;
-    createPlanURL!: string;
+    subscribeToPayPalURL!: string;
 
     @ViewChild('paypalButton', { static: true }) paypalButton!: ElementRef;
 
@@ -20,8 +20,9 @@ export class CheckoutComponent implements OnInit {
 
     initializeURLs() {
         this.baseURL = environment.baseURL;
-        this.createPlanURL = this.baseURL + '/api/createPayPalPlan';
+        this.subscribeToPayPalURL = this.baseURL + '/api/subscribeToPayPal';
     }
+
     ngOnInit() {
         this.renderPaypalButton();
     }
@@ -35,30 +36,26 @@ export class CheckoutComponent implements OnInit {
                 shape:  'rect',
                 label:  'paypal'
             },
-            onClick:() : void => {
-                this.http.post(this.createPlanURL, {}).subscribe((d: any) => console.log('39', d));
-                console.log('clicked');
-            },
-            onApprove: (data:any, actions:any): void => {
+            onApprove: (data: any, actions: any): void => {
                 if (!this.allowedPaymentSources.includes(data.paymentSource)) {
                     console.log('Odd payment source, cancelling...');
                 }
+                this.http.post(this.subscribeToPayPalURL, data).subscribe((v: any) => console.log('43', v))
                 console.log(data, actions)
                 // alert('Subscription created!');
                 // You can redirect or perform other actions after subscription approval
             },
-            onCancel(data:any): void {
+            onCancel(data: any): void {
                 console.log('cancelled')
                 // remove created plan in onClick?
 
                 // Show a cancel page, or return to cart
             },
-            onError(err:any): void {
+            onError(err: any): void {
                 // For example, redirect to a specific error page
                 // window.location.href = "/your-error-page-here";
                 console.log('erred')
             }
         }).render(this.paypalButton.nativeElement);
     }
-
 }
