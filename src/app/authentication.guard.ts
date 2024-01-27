@@ -29,8 +29,10 @@ export class AuthenticationGuard implements CanActivate {
         const pathSuffix = route.url[route.url.length - 1].path;
 
         const unauthenticatedProfile = pathSuffix === 'profile' && !this.authService.authenticated;
-        const authenticatedAuthentication = pathSuffix === 'authentication' && this.authService.authenticated
-        const unauthenticatedCheckout = pathSuffix === 'checkout' && !this.authService.authenticated
+        const authenticatedAuthentication = pathSuffix === 'authentication' && this.authService.authenticated;
+        const unauthenticatedCheckout = pathSuffix === 'checkout' && !this.authService.authenticated;
+
+        // TODO: this.authService.authenticated seems to be always false, as it probably doesn't wait for POST responses
 
         if (unauthenticatedProfile || authenticatedAuthentication) {
             this.router.navigate(['/']);
