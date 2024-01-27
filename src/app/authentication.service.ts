@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { environment } from '../environments/environment'
+import { Observable, ReplaySubject } from 'rxjs'
+import { Router } from '@angular/router'
 
 @Injectable({
     providedIn: 'root'
@@ -11,16 +13,21 @@ export class AuthenticationService {
     logoutURL!: string;
     authenticationModalButton: HTMLButtonElement | undefined;
 
-    public authenticated: boolean = false;
+    public authenticated$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
     public user: any = undefined;
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private router: Router) {
         this.initializeURLs();
         const access_token: string | null = localStorage.getItem('penda-access-jwt');
         if (!access_token) {
+            this.authenticated$.next(false);
             return;
         }
         this.isJWTValid(access_token);
+    }
+
+    isAuthenticated(): Observable<boolean> {
+        return this.authenticated$.asObservable();
     }
 
     logout(): void {
@@ -32,8 +39,9 @@ export class AuthenticationService {
             }
         });
 
-        this.http.post(this.logoutURL, {}).subscribe((r: any) => {
-            this.authenticated = false;
+        this.http.post(this.logoutURL, {}).subscribe(() => {
+            this.authenticated$.next(false)
+            this.router.navigate(['/']);
             this.user = undefined;
             localStorage.removeItem('penda-access-jwt')
             localStorage.removeItem('penda-refresh-jwt')
@@ -44,9 +52,10 @@ export class AuthenticationService {
         this.http.post(this.validateJWTURL, {'access_token':access_token }).subscribe((r: any) => {
             const email: boolean = r.email;
             if (email) {
-                this.authenticated = true;
+                this.authenticated$.next(true);
                 this.user = {email: email}
             } else {
+                this.authenticated$.next(false);
                 // TODO: currently assuming we do not refresh
                 localStorage.removeItem('penda-access-jwt');
                 localStorage.removeItem('penda-refresh-jwt');

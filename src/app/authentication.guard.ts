@@ -6,7 +6,7 @@ import {
     RouterStateSnapshot,
     UrlTree
 } from '@angular/router';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs'
 import { AuthenticationService } from './authentication.service';
 
 @Injectable({
@@ -26,22 +26,26 @@ export class AuthenticationGuard implements CanActivate {
         | Promise<boolean | UrlTree>
         | boolean
         | UrlTree {
-        const pathSuffix = route.url[route.url.length - 1].path;
+        return this.authService.isAuthenticated().pipe(
+            map((authenticated: boolean) => {
+                const pathSuffix = route.url[route.url.length - 1].path;
 
-        const unauthenticatedProfile = pathSuffix === 'profile' && !this.authService.authenticated;
-        const authenticatedAuthentication = pathSuffix === 'authentication' && this.authService.authenticated;
-        const unauthenticatedCheckout = pathSuffix === 'checkout' && !this.authService.authenticated;
+                const unauthenticatedProfile = pathSuffix === 'profile' && !authenticated;
+                const authenticatedAuthentication = pathSuffix === 'authentication' && authenticated;
+                const unauthenticatedCheckout = pathSuffix === 'checkout' && !authenticated;
 
-        // TODO: this.authService.authenticated seems to be always false, as it probably doesn't wait for POST responses
+                // TODO: this.authService.authenticated seems to be always false, as it probably doesn't wait for POST responses
 
-        if (unauthenticatedProfile || authenticatedAuthentication) {
-            this.router.navigate(['/']);
-            return false;
-        } else if (unauthenticatedCheckout) {
-            this.router.navigate(['/authentication']);
-            return false;
-        } else {
-            return true
-        }
+                if (unauthenticatedProfile || authenticatedAuthentication) {
+                    this.router.navigate(['/']);
+                    return false;
+                } else if (unauthenticatedCheckout) {
+                    this.router.navigate(['/authentication']);
+                    return false;
+                } else {
+                    return true
+                }
+            })
+        );
     }
 }

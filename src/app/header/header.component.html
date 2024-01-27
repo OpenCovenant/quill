@@ -40,7 +40,7 @@
 
         <div class="header-name-gear-icon">
             <ng-template
-                [ngIf]="authenticationService.authenticated"
+                [ngIf]="authenticationService.authenticated$ | async"
                 [ngIfElse]="authenticateButton"
             >
                 <div class="btn-group">
