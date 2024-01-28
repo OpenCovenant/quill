@@ -383,6 +383,26 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         );
     }
 
+    filterDismissedText(backendMarkings: TextMarking[]): TextMarking[] {
+        const localStorageDismissedMarkings: string[] = [];
+
+        for (const keyInLocalStorage of this.DismissMarkingStorageService.DISMISSED_TEXTS_KEYS) {
+            const dismissedText: string | null = localStorage.getItem(keyInLocalStorage);
+            if (dismissedText !== null) {
+                localStorageDismissedMarkings.push(JSON.parse(dismissedText));
+            }
+        }
+
+        backendMarkings.filter(filteredMarkings =>{
+            localStorageDismissedMarkings.forEach(dismissedMarkingsInLocalStorage =>{
+                if (filteredMarkings.from === dismissedMarkingsInLocalStorage.from && filteredMarkings.to === dismissedMarkingsInLocalStorage.to){
+
+                }
+            })
+        })
+    }
+
+
     /**
      * Post the suggested text to the server for processing and update the editor accordingly.
      *
@@ -399,6 +419,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
                 this.processedText.textMarkings =
                     this.filterUnselectedMarkingTypes(
+                        this.processedText.textMarkings
+                    );
+                this.processedText.textMarkings =
+                    this.filterDismissedText(
                         this.processedText.textMarkings
                     );
 
