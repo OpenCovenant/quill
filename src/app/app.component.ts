@@ -17,7 +17,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        this.authenticationService.fetchAuthenticationModalButton(document.getElementById('authenticationModalButton')! as HTMLButtonElement);
+        this.authenticationService.setAuthenticationModalButton(document.getElementById('authenticationModalButton')! as HTMLButtonElement);
     }
 
     fbLibrary() : void {

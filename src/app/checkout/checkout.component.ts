@@ -18,11 +18,6 @@ export class CheckoutComponent implements OnInit {
         this.initializeURLs();
     }
 
-    initializeURLs() {
-        this.baseURL = environment.baseURL;
-        this.storePayPalSubscriptionURL = this.baseURL + '/api/storePayPalSubscription';
-    }
-
     ngOnInit(): void {
         this.renderPaypalButton();
     }
@@ -65,5 +60,10 @@ export class CheckoutComponent implements OnInit {
                 console.log('erred')
             }
         }).render(this.paypalButton.nativeElement);
+    }
+
+    private initializeURLs(): void {
+        this.baseURL = environment.baseURL;
+        this.storePayPalSubscriptionURL = this.baseURL + '/api/storePayPalSubscription';
     }
 }

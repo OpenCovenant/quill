@@ -33,7 +33,7 @@ export class AuthenticationService {
     logout(): void {
         (<any>window)['FB'].getLoginStatus(function(response:any) {
             if (response && response.status === 'connected') {
-                (<any>window)['FB'].logout(function(r:any) {
+                (<any>window)['FB'].logout(function(r: any) {
                     document.location.reload();
                 });
             }
@@ -60,9 +60,10 @@ export class AuthenticationService {
                 localStorage.removeItem('penda-access-jwt');
                 localStorage.removeItem('penda-refresh-jwt');
 
+                // TODO: think we've added this in case the HTMLButtonElement hasn't been set in the meantime
                 setTimeout(() => {
                     this.authenticationModalButton?.click()
-                }, 500)
+                }, 0);
                 return;
                 // console.log('the current access token has expired');// TODO: now remove the KV-pair from LS? corresponds to a dialog shown
                 // const refresh_token: string | null = localStorage.getItem('penda-refresh-jwt');
@@ -76,13 +77,13 @@ export class AuthenticationService {
         })
     }
 
-    initializeURLs() : void{
+    private initializeURLs() : void{
         this.baseURL = environment.baseURL;
         this.validateJWTURL = this.baseURL + '/api/checkJWTValidity';
         this.logoutURL = this.baseURL + '/api/logout';
     }
 
-    fetchAuthenticationModalButton(o: HTMLButtonElement): void {
+    setAuthenticationModalButton(o: HTMLButtonElement): void {
         this.authenticationModalButton = o
     }
 }
