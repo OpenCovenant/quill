@@ -80,8 +80,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private fromEditorInputEvent$: any;
 
     constructor(
-        public localStorageService: LocalStorageService,
         private http: HttpClient,
+        public localStorageService: LocalStorageService,
         public darkModeService: DarkModeService
     ) {
         this.initializeURLs();
@@ -125,6 +125,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.subscribeForWritingInTheEditor();
         this.subscribeForStoringWrittenText();
         this.subscribeForRemovedSuggestionCarAnimation();
+
+        if (localStorage.getItem('penda-thank-you')) {
+            document.getElementById('thankYouModalButton')?.click();
+            localStorage.removeItem('penda-thank-you');
+        }
     }
 
     ngOnDestroy(): void {

@@ -14,7 +14,7 @@ export class AuthenticationComponent implements OnInit {
     private postAccessTokenURL!: string;
 
     constructor(private authenticationService: AuthenticationService, private httpClient: HttpClient,
-                private router: Router, private zone: NgZone ) {
+                private router: Router, private zone: NgZone) {
     }
 
     ngOnInit(): void {
