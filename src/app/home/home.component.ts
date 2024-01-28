@@ -27,6 +27,7 @@ import {
     sortParagraphedTextMarkings
 } from '../text-marking/text-marking';
 import { DarkModeService } from '../dark-mode.service';
+import { Router } from '@angular/router'
 
 @Component({
     selector: 'app-home',
@@ -67,6 +68,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     animationRemoved = new EventEmitter<void>();
     suggestedMarkingCardCounter: number = 0;
     textMarkingParagraphIndex: any[] = [];
+    shouldShowThankYouModal: boolean = false; // TODO: exists because `this.router.getCurrentNavigation()` is not null only in the constructor
 
     private placeHolderElement!: HTMLElement;
     private baseURL!: string;
@@ -81,11 +83,14 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     constructor(
         private http: HttpClient,
+        private router: Router,
         public localStorageService: LocalStorageService,
         public darkModeService: DarkModeService
     ) {
         this.initializeURLs();
         this.addEventListenerForShortcuts();
+
+        this.showThankYouModal();
 
         this.http.get(this.pingURL).subscribe({
             next: () => console.log('pinging server...'),
@@ -126,9 +131,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.subscribeForStoringWrittenText();
         this.subscribeForRemovedSuggestionCarAnimation();
 
-        if (localStorage.getItem('penda-thank-you')) {
+        if (this.shouldShowThankYouModal) {
             document.getElementById('thankYouModalButton')?.click();
-            localStorage.removeItem('penda-thank-you');
+            this.shouldShowThankYouModal = false;
         }
     }
 
@@ -1326,5 +1331,15 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         return (
             document.activeElement === document.getElementById(this.EDITOR_KEY)!
         );
+    }
+
+    private showThankYouModal(): void {
+        const state = this.router.getCurrentNavigation()!.extras!.state;
+        if (!state) {
+            return
+        }
+        if (state['payload'] === 'penda-thank-you') {
+            this.shouldShowThankYouModal = true
+        }
     }
 }

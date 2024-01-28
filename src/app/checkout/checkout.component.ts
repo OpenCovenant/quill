@@ -1,7 +1,7 @@
 import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { environment } from '../../environments/environment'
-import { Router } from '@angular/router'
+import { NavigationExtras, Router } from '@angular/router'
 declare const paypal: any;
 
 @Component({
@@ -45,13 +45,12 @@ export class CheckoutComponent implements OnInit {
                 }
                 this.http.post(this.storePayPalSubscriptionURL, data).subscribe((v: any) => {
                     console.log('Subscription has been created, thank you!');
-                    // const navigationExtras: NavigationExtras = {
-                    //     state: { key: 'some data' }
-                    // };
+                    const navigationExtras: NavigationExtras = {
+                        state: { payload: 'penda-thank-you' }
+                    };
 
                     this.zone.run(() => {
-                        localStorage.setItem('penda-thank-you', 'true')
-                        this.router.navigate(['/']); //, navigationExtras);
+                        this.router.navigate(['/'], navigationExtras);
                     });
                 })
                 console.log(data, actions);
