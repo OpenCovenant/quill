@@ -1,6 +1,7 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { environment } from '../../environments/environment'
+import { Router } from '@angular/router'
 declare const paypal: any;
 
 @Component({
@@ -14,7 +15,7 @@ export class CheckoutComponent implements OnInit {
 
     @ViewChild('paypalButton', { static: true }) paypalButton!: ElementRef;
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private router: Router, private zone: NgZone) {
         this.initializeURLs();
     }
 
@@ -32,6 +33,8 @@ export class CheckoutComponent implements OnInit {
                 label:  'paypal'
             },
             createSubscription: (data: any, actions: any) => {
+                const tomorrowsNow: Date = new Date();
+                tomorrowsNow.setDate(tomorrowsNow.getDate() + 1);
                 return actions.subscription.create({
                         'plan_id': '', // Replace with your PayPal plan ID
                     });
@@ -40,13 +43,18 @@ export class CheckoutComponent implements OnInit {
                 if (!this.allowedPaymentSources.includes(data.paymentSource)) {
                     console.log('Odd payment source, cancelling...');
                 }
-                // this.http.post(this.storePayPalSubscription, data).subscribe((v: any) => {
-                //     console.log('Subscription has been created, thank you!');
-                //     // TODO: route here
-                // })
-                console.log(data, actions)
-                // alert('Subscription created!');
-                // You can redirect or perform other actions after subscription approval
+                this.http.post(this.storePayPalSubscriptionURL, data).subscribe((v: any) => {
+                    console.log('Subscription has been created, thank you!');
+                    // const navigationExtras: NavigationExtras = {
+                    //     state: { key: 'some data' }
+                    // };
+
+                    this.zone.run(() => {
+                        localStorage.setItem('penda-thank-you', 'true')
+                        this.router.navigate(['/']); //, navigationExtras);
+                    });
+                })
+                console.log(data, actions);
             },
             onCancel(data: any): void {
                 console.log('cancelled')
