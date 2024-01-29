@@ -1,26 +1,34 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core'
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core'
 import { DarkModeService } from './dark-mode.service';
 import { AuthenticationService } from './authentication.service'
+import { Subscription } from 'rxjs'
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     title: string = 'Penda';
+    reauthenticationModalSubscription$!: Subscription;
 
     constructor(private authenticationService: AuthenticationService, public darkModeService: DarkModeService) {}
 
     ngOnInit(): void {
-        this.fbLibrary();
+        this.initializeFBLibrary();
+    }
+
+    ngOnDestroy(): void {
+        this.reauthenticationModalSubscription$.unsubscribe();
     }
 
     ngAfterViewInit(): void {
-        this.authenticationService.setAuthenticationModalButton(document.getElementById('authenticationModalButton')! as HTMLButtonElement);
+        this.reauthenticationModalSubscription$ = this.authenticationService.reauthenticationModal$.asObservable()
+            .subscribe(() => (document.getElementById('authenticationModalButton')! as HTMLButtonElement).click())
+        // this.authenticationService.setAuthenticationModalButton(document.getElementById('authenticationModalButton')! as HTMLButtonElement);
     }
 
-    fbLibrary() : void {
+    private initializeFBLibrary(): void {
         (window as any).fbAsyncInit = function() {
             (<any>window)['FB'].init({
                 appId: '',
