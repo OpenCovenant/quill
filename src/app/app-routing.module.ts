@@ -12,11 +12,12 @@ import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-co
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component'
 import { DashboardComponent } from './dashboard/dashboard.component'
 import { CheckoutComponent } from './checkout/checkout.component'
+import { SubscriptionGuard } from './subscription.guard'
 
 const routes: Routes = [
     { path: 'authentication', component: AuthenticationComponent, canActivate: [AuthenticationGuard] },
     { path: 'about', component: AboutComponent },
-    { path: 'checkout', component: CheckoutComponent, canActivate: [AuthenticationGuard] },
+    { path: 'checkout', component: CheckoutComponent, canActivate: [AuthenticationGuard, SubscriptionGuard] },
     { path: 'dashboard', component: DashboardComponent },
     { path: 'privacy-policy', component: PrivacyPolicyComponent },
     { path: 'profile', component: ProfileComponent, canActivate: [AuthenticationGuard] },
