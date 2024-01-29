@@ -26,7 +26,7 @@ export class AboutComponent {
             );
     }
 
-    initializeURLs() {
+    private initializeURLs(): void {
         this.baseURL = environment.baseURL;
         this.getAboutURL = this.baseURL + '/api/getAbout';
     }

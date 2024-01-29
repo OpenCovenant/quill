@@ -33,10 +33,10 @@ export class AuthenticationComponent implements OnInit {
                     console.log('User login failed');
                     return;
                 }
-                this.httpClient.post(this.postAccessTokenURL, { "act": response.authResponse.accessToken })
+                this.httpClient.post(this.postAccessTokenURL, { "fb_access_token": response.authResponse.accessToken })
                     .subscribe((f: any) => {
                         this.authenticationService.authenticated$.next(true);
-                        this.authenticationService.user = {email: f.email};
+                        this.authenticationService.user = {email: f.email, first_name: f.first_name, last_name: f.last_name};
 
                         localStorage.setItem('penda-access-jwt', f.access_token)
                         localStorage.setItem('penda-refresh-jwt', f.refresh_token)
