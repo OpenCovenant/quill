@@ -25,7 +25,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     ngAfterViewInit(): void {
         this.reauthenticationModalSubscription$ = this.authenticationService.reauthenticationModal$.asObservable()
             .subscribe(() => (document.getElementById('authenticationModalButton')! as HTMLButtonElement).click())
-        // this.authenticationService.setAuthenticationModalButton(document.getElementById('authenticationModalButton')! as HTMLButtonElement);
     }
 
     private initializeFBLibrary(): void {

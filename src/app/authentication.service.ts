@@ -11,7 +11,6 @@ export class AuthenticationService {
     baseURL!: string;
     validateJWTURL!: string;
     logoutURL!: string;
-    // authenticationModalButton: HTMLButtonElement | undefined;
 
     public authenticated$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
     public reauthenticationModal$: Subject<any> = new Subject<any>();
@@ -56,8 +55,6 @@ export class AuthenticationService {
 
     private isJWTValid(access_token: string): void {
         this.http.post(this.validateJWTURL, {'access_token': access_token }).subscribe((r: any) => {
-            // const email: boolean = ;
-            // console.log('qqq', r)
             if (r.email) {
                 this.authenticated$.next(true);
                 this.user = {email: r.email, first_name: r.first_name, last_name: r.last_name}
@@ -68,11 +65,6 @@ export class AuthenticationService {
                 localStorage.removeItem('penda-refresh-jwt');
 
                 this.reauthenticationModal$.next({})
-                // // TODO: think we've added this in case the HTMLButtonElement hasn't been set in the meantime
-                // setTimeout(() => {
-                //     this.authenticationModalButton?.click()
-                // }, 0);
-                return;
                 // console.log('the current access token has expired');// TODO: now remove the KV-pair from LS? corresponds to a dialog shown
                 // const refresh_token: string | null = localStorage.getItem('penda-refresh-jwt');
                 // // console.log(refresh_token);
