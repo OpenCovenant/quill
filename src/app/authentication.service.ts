@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { environment } from '../environments/environment'
-import { Observable, ReplaySubject } from 'rxjs'
+import { Observable, ReplaySubject, Subject } from 'rxjs'
 import { Router } from '@angular/router'
 
 @Injectable({
@@ -11,10 +11,12 @@ export class AuthenticationService {
     baseURL!: string;
     validateJWTURL!: string;
     logoutURL!: string;
-    authenticationModalButton: HTMLButtonElement | undefined;
+    // authenticationModalButton: HTMLButtonElement | undefined;
 
     public authenticated$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
+    public reauthenticationModal$: Subject<any> = new Subject<any>();
     public user: any = undefined;
+    public subscribed$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
 
     constructor(private http: HttpClient, private router: Router) {
         this.initializeURLs();
@@ -28,6 +30,10 @@ export class AuthenticationService {
 
     isAuthenticated(): Observable<boolean> {
         return this.authenticated$.asObservable();
+    }
+
+    isSubscribed(): Observable<boolean> {
+        return this.subscribed$.asObservable();
     }
 
     logout(): void {
@@ -49,21 +55,23 @@ export class AuthenticationService {
     }
 
     private isJWTValid(access_token: string): void {
-        this.http.post(this.validateJWTURL, {'access_token':access_token }).subscribe((r: any) => {
-            const email: boolean = r.email;
-            if (email) {
+        this.http.post(this.validateJWTURL, {'access_token': access_token }).subscribe((r: any) => {
+            // const email: boolean = ;
+            // console.log('qqq', r)
+            if (r.email) {
                 this.authenticated$.next(true);
-                this.user = {email: email}
+                this.user = {email: r.email, first_name: r.first_name, last_name: r.last_name}
             } else {
                 this.authenticated$.next(false);
                 // TODO: currently assuming we do not refresh
                 localStorage.removeItem('penda-access-jwt');
                 localStorage.removeItem('penda-refresh-jwt');
 
-                // TODO: think we've added this in case the HTMLButtonElement hasn't been set in the meantime
-                setTimeout(() => {
-                    this.authenticationModalButton?.click()
-                }, 0);
+                this.reauthenticationModal$.next({})
+                // // TODO: think we've added this in case the HTMLButtonElement hasn't been set in the meantime
+                // setTimeout(() => {
+                //     this.authenticationModalButton?.click()
+                // }, 0);
                 return;
                 // console.log('the current access token has expired');// TODO: now remove the KV-pair from LS? corresponds to a dialog shown
                 // const refresh_token: string | null = localStorage.getItem('penda-refresh-jwt');
@@ -81,9 +89,5 @@ export class AuthenticationService {
         this.baseURL = environment.baseURL;
         this.validateJWTURL = this.baseURL + '/api/checkJWTValidity';
         this.logoutURL = this.baseURL + '/api/logout';
-    }
-
-    setAuthenticationModalButton(o: HTMLButtonElement): void {
-        this.authenticationModalButton = o
     }
 }
