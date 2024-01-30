@@ -383,23 +383,31 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         );
     }
 
-    filterDismissedText(backendMarkings: TextMarking[]): TextMarking[] {
-        const localStorageDismissedMarkings: string[] = [];
+    filterDismissedText(markings: TextMarking[]): TextMarking[] {
+        const markingLocalStorage: TextMarking[] = [];
+        const filteredArrayOfDismissedMarkings = []
+        for (const key of this.DismissMarkingStorageService.DISMISSED_TEXTS_KEYS){
+            const dismissedText: string | null = localStorage.getItem(key);
 
-        for (const keyInLocalStorage of this.DismissMarkingStorageService.DISMISSED_TEXTS_KEYS) {
-            const dismissedText: string | null = localStorage.getItem(keyInLocalStorage);
-            if (dismissedText !== null) {
-                localStorageDismissedMarkings.push(JSON.parse(dismissedText));
+            if (dismissedText !== null){
+                markingLocalStorage.push(JSON.parse(dismissedText));
             }
         }
 
-        backendMarkings.filter(filteredMarkings =>{
-            localStorageDismissedMarkings.forEach(dismissedMarkingsInLocalStorage =>{
-                if (filteredMarkings.from === dismissedMarkingsInLocalStorage.from && filteredMarkings.to === dismissedMarkingsInLocalStorage.to){
-
+        for (let i = 0; i < markingLocalStorage.length; i++) {
+            let doesTheWordMatch = false;
+            for (let j = 0; j < markings.length; j++) {
+                if (markings[j] === markingLocalStorage[i]) {
+                    doesTheWordMatch = true;
+                    break;
                 }
-            })
-        })
+            }
+            if (!doesTheWordMatch) {
+                filteredArrayOfDismissedMarkings.push(markingLocalStorage[i]);
+            }
+        }
+
+        return filteredArrayOfDismissedMarkings;
     }
 
 
