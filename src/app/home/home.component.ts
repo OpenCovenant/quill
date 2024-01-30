@@ -394,18 +394,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             }
         }
 
-        for (let i = 0; i < markingLocalStorage.length; i++) {
-            let doesTheWordMatch = false;
-            for (let j = 0; j < markings.length; j++) {
-                if (markings[j] === markingLocalStorage[i]) {
-                    doesTheWordMatch = true;
-                    break;
-                }
+        for (let i = 0; i < markings.length; i++) {
+            if(!markingLocalStorage.includes(markings[i])){
+                filteredArrayOfDismissedMarkings.push(markings[i]);
             }
-            if (!doesTheWordMatch) {
-                filteredArrayOfDismissedMarkings.push(markingLocalStorage[i]);
             }
-        }
 
         return filteredArrayOfDismissedMarkings;
     }
