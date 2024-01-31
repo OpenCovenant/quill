@@ -21,11 +21,6 @@ export class AuthenticationComponent implements OnInit {
         this.initializeURLs();
     }
 
-    private initializeURLs(): void {
-        this.baseURL = environment.baseURL;
-        this.postAccessTokenURL = this.baseURL + '/api/token/';
-    }
-
     login(): void {
         (<any>window)['FB'].login(
             (response: { authResponse: any }) => {
@@ -56,5 +51,10 @@ export class AuthenticationComponent implements OnInit {
             },
             { scope: 'email' },
         )
+    }
+
+    private initializeURLs(): void {
+        this.baseURL = environment.baseURL;
+        this.postAccessTokenURL = this.baseURL + '/api/token/';
     }
 }
