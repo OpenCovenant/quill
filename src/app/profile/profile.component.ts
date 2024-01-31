@@ -12,10 +12,11 @@ import { AuthenticationService } from '../authentication.service'
 })
 export class ProfileComponent {
     // TODO we do need this below here now but when/why was this added?
-    isLoading = false;
+    isLoading: boolean = false;
 
     baseURL!: string;
     deactivateAccountURL!: string;
+    cancelSubscriptionURL!: string;
 
 
     constructor(private http: HttpClient, private router: Router, public darkModeService: DarkModeService, public authenticationService: AuthenticationService) {
@@ -33,12 +34,14 @@ export class ProfileComponent {
         });
     }
 
+    cancelSubscription(): void {
+        console.log('trying to cancel a subscription...');
+        this.http.post(this.cancelSubscriptionURL, {}).subscribe(c => console.log('canc subs', c))
+    }
+
     private initializeURLs(): void {
         this.baseURL = environment.baseURL;
         this.deactivateAccountURL = this.baseURL + '/api/deactivateAccount';
-    }
-
-    cancelSubscription(): void {
-        console.log('trying to cancel a subscription...')
+        this.cancelSubscriptionURL = this.baseURL + '/api/cancelPayPalSubscription';
     }
 }

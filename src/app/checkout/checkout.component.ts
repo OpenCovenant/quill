@@ -53,7 +53,6 @@ export class CheckoutComponent implements OnInit {
                         this.router.navigate(['/'], navigationExtras);
                     });
                 })
-                console.log(data, actions);
             },
             onCancel(data: any): void {
                 console.log('cancelled')
