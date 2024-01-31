@@ -21,7 +21,7 @@ export class AuthenticationComponent implements OnInit {
         this.initializeURLs();
     }
 
-    initializeURLs(): void {
+    private initializeURLs(): void {
         this.baseURL = environment.baseURL;
         this.postAccessTokenURL = this.baseURL + '/api/token/';
     }
