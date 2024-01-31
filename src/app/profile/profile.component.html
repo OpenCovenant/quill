@@ -69,17 +69,36 @@
                     <div class="dark-mode-profile-section">
                         <h5>Abonimi i Zgjedhur</h5>
                         <hr />
-                        <div
-                            class="flex-layout-div dark-mode-div dark-mode-label-flex"
+                        <ng-template
+                            [ngIf]="!(authenticationService.isSubscribed() | async)"
+                            [ngIfElse]="paidSubscription"
                         >
-                            <div>Përmirëso shenjimet e Pendës.</div>
-                            <button class='btn btn-warning' style='font-weight: 500;' routerLink="/dashboard">Përdor Penda e Artë</button>
-                        </div>
-                        <div style='padding-top: 0.5rem'>
-                        <span class="dark-mode-informative-text"
-                        >Jeni duke përdorur versionin publik të Pendës. Nëse zgjdhni Pendën e Artë do të shihni gabime
+                            <div
+                                class="flex-layout-div dark-mode-div dark-mode-label-flex"
+                            >
+                                <div>Përmirëso shenjimet e Pendës.</div>
+                                <button class='btn btn-warning' style='font-weight: 500;' routerLink="/dashboard">Përdor Penda e Artë</button>
+                            </div>
+                            <div style='padding-top: 0.5rem'>
+                                <span class="dark-mode-informative-text"
+                                >Jeni duke përdorur versionin publik të Pendës. Nëse zgjdhni Pendën e Artë do të shihni gabime
                             gramatikore të dalluara nëpërmjet Inteligjences Artificiale, si edhe nuk do te keni limit mbi numrin e shkrimeve te analizuara.</span
-                        ></div>
+                                >
+                            </div>
+                        </ng-template>
+                        <ng-template #paidSubscription>
+                            <div
+                                class="flex-layout-div dark-mode-div dark-mode-label-flex"
+                            >
+                                <div>Jeni duke përdorur Pendën e Artë.</div>
+                                <button class='btn btn-danger' style='font-weight: 500;' (click)='cancelSubscription()'>Anulo Abonimin</button>
+                            </div>
+                            <div style='padding-top: 0.5rem'>
+                                <span class="dark-mode-informative-text"
+                                >Jeni duke përdorur aplikacionin tonë me të gjitha aftësitë e tij.</span
+                                >
+                            </div>
+                        </ng-template>
                     </div>
 
                     <div class="dark-mode-profile-section">
@@ -109,7 +128,7 @@
                         <hr />
                         <div style='display: flex; justify-content: space-between'>
                         <p class="card-text">
-                            Kjo do të fshijë të dhënat që ruhen te Penda.</p> <button class='btn btn-danger' style='font-weight: 500;'>Mbyll Llogarinë</button>
+                            Kjo do të çaktivizojë llogarinë tuaj te Penda dhe do të pezullojë abonimin nëse e keni një të tillë.</p> <button (click)='deactivateAccount()' class='btn btn-danger' style='font-weight: 500;'>Çaktivizo Llogarinë</button>
                         </div>
                     </div>
                 </div>
