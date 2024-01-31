@@ -16,16 +16,16 @@ import { SubscriptionGuard } from './subscription.guard'
 
 const routes: Routes = [
     { path: 'authentication', component: AuthenticationComponent, canActivate: [AuthenticationGuard] },
-    { path: 'about', component: AboutComponent },
+    { path: 'about', component: AboutComponent, canActivate: [AuthenticationGuard] },
     { path: 'checkout', component: CheckoutComponent, canActivate: [AuthenticationGuard, SubscriptionGuard] },
-    { path: 'dashboard', component: DashboardComponent },
-    { path: 'privacy-policy', component: PrivacyPolicyComponent },
+    { path: 'dashboard', component: DashboardComponent, canActivate: [AuthenticationGuard] },
+    { path: 'privacy-policy', component: PrivacyPolicyComponent, canActivate: [AuthenticationGuard] },
     { path: 'profile', component: ProfileComponent, canActivate: [AuthenticationGuard] },
-    { path: 'settings', component: SettingsComponent },
-    { path: 'shortcuts', component: ShortcutsComponent },
-    { path: 'terms-and-conditions', component: TermsAndConditionsComponent },
-    { path: ':id', component: MarkingDetailsComponent },
-    { path: '', component: HomeComponent }
+    { path: 'settings', component: SettingsComponent, canActivate: [AuthenticationGuard] },
+    { path: 'shortcuts', component: ShortcutsComponent, canActivate: [AuthenticationGuard] },
+    { path: 'terms-and-conditions', component: TermsAndConditionsComponent, canActivate: [AuthenticationGuard] },
+    { path: ':id', component: MarkingDetailsComponent, canActivate: [AuthenticationGuard] },
+    { path: '', component: HomeComponent, canActivate: [AuthenticationGuard] }
 ];
 
 @NgModule({

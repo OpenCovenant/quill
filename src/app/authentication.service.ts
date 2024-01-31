@@ -57,6 +57,7 @@ export class AuthenticationService {
         this.http.post(this.validateJWTURL, {'access_token': access_token }).subscribe((r: any) => {
             if (r.email) {
                 this.authenticated$.next(true);
+                this.subscribed$.next(r.subscribed);
                 this.user = {email: r.email, first_name: r.first_name, last_name: r.last_name}
             } else {
                 this.authenticated$.next(false);

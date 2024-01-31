@@ -27,12 +27,17 @@ export class AuthenticationGuard implements CanActivate {
         | boolean
         | UrlTree {
         return this.authService.isAuthenticated().pipe(
+            // switchMap(g => ), // TODO: check JWT validity here?
             map((authenticated: boolean) => {
+                if (route.url.length === 0) { // home page
+                    return true;
+                }
+
                 const pathSuffix = route.url[route.url.length - 1].path;
 
-                const unauthenticatedProfile = pathSuffix === 'profile' && !authenticated;
-                const authenticatedAuthentication = pathSuffix === 'authentication' && authenticated;
-                const unauthenticatedCheckout = pathSuffix === 'checkout' && !authenticated;
+                const unauthenticatedProfile: boolean= pathSuffix === 'profile' && !authenticated;
+                const authenticatedAuthentication: boolean = pathSuffix === 'authentication' && authenticated;
+                const unauthenticatedCheckout: boolean = pathSuffix === 'checkout' && !authenticated;
 
                 if (unauthenticatedProfile || authenticatedAuthentication) {
                     this.router.navigate(['/']);
