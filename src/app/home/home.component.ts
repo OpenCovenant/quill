@@ -69,6 +69,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     suggestedMarkingCardCounter: number = 0;
     textMarkingParagraphIndex: any[] = [];
     shouldShowThankYouModal: boolean = false; // TODO: exists because `this.router.getCurrentNavigation()` is not null only in the constructor
+    shouldShowWelcomeModal: boolean = false; // TODO: exists because `this.router.getCurrentNavigation()` is not null only in the constructor
 
     private placeHolderElement!: HTMLElement;
     private baseURL!: string;
@@ -90,6 +91,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.initializeURLs();
         this.addEventListenerForShortcuts();
 
+        this.showWelcomeModal();
         this.showThankYouModal();
 
         this.http.get(this.pingURL).subscribe({
@@ -134,6 +136,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         if (this.shouldShowThankYouModal) {
             document.getElementById('thankYouModalButton')?.click();
             this.shouldShowThankYouModal = false;
+        }
+        if (this.shouldShowWelcomeModal) {
+            document.getElementById('welcomeModalButton')?.click();
+            this.shouldShowWelcomeModal = false;
         }
     }
 
@@ -1340,6 +1346,16 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         }
         if (state['payload'] === 'penda-thank-you') {
             this.shouldShowThankYouModal = true
+        }
+    }
+
+    private showWelcomeModal(): void {
+        const state = this.router.getCurrentNavigation()!.extras!.state;
+        if (!state) {
+            return
+        }
+        if (state['payload'] === 'penda-welcome') {
+            this.shouldShowWelcomeModal = true
         }
     }
 }
