@@ -12,7 +12,6 @@ export class SettingsComponent implements OnInit {
     ALREADY_MADE_MARKING_TYPE_SELECTIONS =
         'penda-has-stored-marking-type-selections';
 
-
     baseURL!: string;
     markingTypesURL!: string;
     isLoading: boolean = false;
@@ -21,7 +20,7 @@ export class SettingsComponent implements OnInit {
 
     constructor(
         private http: HttpClient,
-        public darkModeService: DarkModeService,
+        public darkModeService: DarkModeService
     ) {}
 
     ngOnInit(): void {

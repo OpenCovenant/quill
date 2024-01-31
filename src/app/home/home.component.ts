@@ -27,8 +27,6 @@ import {
     sortParagraphedTextMarkings
 } from '../text-marking/text-marking';
 import { DarkModeService } from '../dark-mode.service';
-import { DismissMarkingStorageService } from '../dismiss-marking-storage.service'
-import {mark} from "@angular/compiler-cli/src/ngtsc/perf/src/clock";
 
 @Component({
     selector: 'app-home',
@@ -70,6 +68,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     animationRemoved = new EventEmitter<void>();
     suggestedMarkingCardCounter: number = 0;
     textMarkingParagraphIndex: any[] = [];
+    DISMISSED_MARKING_PREFIX = 'penda-dismissed-markings-';
+    canStoreDismissedMarking: boolean = true;
+    EMPTY_STRING: string = '';
+    DISMISSED_TEXTS_KEYS: string[] = [];
 
     private placeHolderElement!: HTMLElement;
     private baseURL!: string;
@@ -85,8 +87,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     constructor(
         public localStorageService: LocalStorageService,
         private http: HttpClient,
-        public darkModeService: DarkModeService,
-        public DismissMarkingStorageService: DismissMarkingStorageService
     ) {
         this.initializeURLs();
 
@@ -382,26 +382,22 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 card.classList.contains('move-up-multiple-animation')
         );
     }
-
     filterDismissedText(markings: TextMarking[]): TextMarking[] {
         const markingLocalStorage = [];
         const filteredArrayOfDismissedMarkings = []
-        for (const key of this.DismissMarkingStorageService.DISMISSED_TEXTS_KEYS){
+        for (const key of this.DISMISSED_TEXTS_KEYS){
             const dismissedText: string | null = localStorage.getItem(key);
-
             if (dismissedText !== null){
                 markingLocalStorage.push(JSON.parse(dismissedText));
             }
         }
-
         for (let i = 0; i < markings.length; i++) {
             if(!markingLocalStorage.includes(markings[i])){
                 filteredArrayOfDismissedMarkings.push(markings[i]);
             }
-            }
+        }
         return filteredArrayOfDismissedMarkings;
     }
-
 
     /**
      * Post the suggested text to the server for processing and update the editor accordingly.
@@ -634,13 +630,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             this.moveUpRemainingCards();
         }, 1500);
 
-        // this.DismissMarkingStorageService.storeDismissedText(
-        //     document.getElementById(this.EDITOR_KEY)!.innerText);
         const ourDataStructure = new Map<String, TextMarking[]>()
         const markings: TextMarking[] = this.processedText?.textMarkings || [];
         const paragraph = this.processedText?.text ?? this.EMPTY_STRING;
         ourDataStructure.set(paragraph, markings)
-        this.DismissMarkingStorageService.storeDismissedText(
+        this.storeDismissedText(
             JSON.stringify(Array.from(ourDataStructure.entries())));
     }
 
@@ -726,7 +720,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.shouldCollapseSuggestions = new Array<boolean>(
             this.processedText!.textMarkings.length
         ).fill(true);
-
     }
 
     /**
@@ -1279,5 +1272,21 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         if (this.cardSuggestionsToRemove && isLastIndex) {
             this.animationRemoved.emit();
         }
+    }
+    private storeDismissedText(dismissedText: string): void {
+        if (!this.canStoreDismissedMarking || dismissedText.trim() === this.EMPTY_STRING) {
+            return;
+        }
+
+        let index = 0;
+        let key = this.DISMISSED_MARKING_PREFIX + index.toString();
+
+        while (localStorage.getItem(key)) {
+            index++;
+            key = this.DISMISSED_MARKING_PREFIX + index.toString();
+        }
+
+        localStorage.setItem(key, dismissedText);
+        this.DISMISSED_TEXTS_KEYS.push(key);
     }
 }
