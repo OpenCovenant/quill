@@ -22,10 +22,15 @@
                             <li style='padding-bottom: 1rem;'>—</li>
                             <li style='padding-bottom: 2rem;'>—</li>
                         </ul>
-                        <button type="button" routerLink='/authentication' class="w-50 btn btn-lg btn-outline-primary">Identifikohu Falas</button>
-                        <div style='padding-top: 0.8rem;'>
-                            <span style='color: #7f7f7f; font-size: 0.8rem;'>nuk ju kërkojmë as kartë bankare</span>
-                        </div>
+                        <ng-template [ngIf]='!(authenticationService.isAuthenticated() | async)' [ngIfElse]='emptySection'>
+                            <button type="button" routerLink='/authentication' class="w-50 btn btn-lg btn-outline-primary">Identifikohu Falas</button>
+                            <div style='padding-top: 0.8rem;'>
+                                <span style='color: #7f7f7f; font-size: 0.8rem;'>nuk ju kërkojmë as kartë bankare</span>
+                            </div>
+                        </ng-template>
+                        <ng-template #emptySection>
+                            <div style='height: 5.3rem;'></div>
+                        </ng-template>
                     </div>
                 </div>
             </div>
@@ -43,7 +48,12 @@
                             <li style='padding-bottom: 1rem;'>largoni shenjime që nuk ju duhen, këto nuk do të shfaqen më</li>
                             <li style='padding-bottom: 1rem;'>shenjime automatike, p.sh. eshte do te korrigjohet automatikisht ne është sipas zgjedhjes tuaj</li>
                         </ul>
-                        <button type="button" routerLink='/checkout' style='background-color: #ebbcff;' class="w-50 btn btn-lg contact-us-button">Abonoju</button>
+                        <ng-template [ngIf]='!(authenticationService.isSubscribed() | async)' [ngIfElse]='otherEmptySection'>
+                            <button type="button" routerLink='/checkout' style='background-color: #ebbcff;' class="w-50 btn btn-lg contact-us-button">Abonoju</button>
+                        </ng-template>
+                        <ng-template #otherEmptySection>
+                            <div style='height: 3rem;'></div>
+                        </ng-template>
                     </div>
                 </div>
             </div>

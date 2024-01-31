@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { DarkModeService } from '../dark-mode.service'
-import { HttpClient } from '@angular/common/http'
-import { environment } from '../../environments/environment'
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,4 +7,6 @@ import { environment } from '../../environments/environment'
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
+    constructor(public authenticationService: AuthenticationService) {
+    }
 }

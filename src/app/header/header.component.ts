@@ -48,7 +48,7 @@ export class HeaderComponent {
         document.getElementById('offcanvasCloseButton')!.click();
     }
 
-    isSettingsRoute() {
+    isSettingsRoute(): boolean {
         return this.router.url === '/settings';
     }
 

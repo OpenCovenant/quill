@@ -2,7 +2,7 @@ import { Component, NgZone, OnInit } from '@angular/core'
 import { AuthenticationService } from '../authentication.service'
 import { HttpClient } from '@angular/common/http'
 import { environment } from '../../environments/environment'
-import { Router } from '@angular/router'
+import { NavigationExtras, Router } from '@angular/router'
 
 @Component({
     selector: 'app-authentication',
@@ -37,12 +37,21 @@ export class AuthenticationComponent implements OnInit {
                     .subscribe((f: any) => {
                         this.authenticationService.authenticated$.next(true);
                         this.authenticationService.user = {email: f.email, first_name: f.first_name, last_name: f.last_name};
+                        this.authenticationService.subscribed$.next(f.subscribed);
+
 
                         localStorage.setItem('penda-access-jwt', f.access_token)
                         localStorage.setItem('penda-refresh-jwt', f.refresh_token)
 
+                        let navigationExtras: NavigationExtras = {};
+                        if (f.onboarding) {
+                            navigationExtras = {
+                                state: { payload: 'penda-welcome' }
+                            };
+                        }
+
                         this.zone.run(() => {
-                            this.router.navigate(['/']);
+                            this.router.navigate(['/'], navigationExtras);
                         });
                     });
             },
