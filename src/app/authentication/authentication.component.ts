@@ -39,7 +39,6 @@ export class AuthenticationComponent implements OnInit {
                         this.authenticationService.user = {email: f.email, first_name: f.first_name, last_name: f.last_name};
                         this.authenticationService.subscribed$.next(f.subscribed);
 
-
                         localStorage.setItem('penda-access-jwt', f.access_token)
                         localStorage.setItem('penda-refresh-jwt', f.refresh_token)
 
