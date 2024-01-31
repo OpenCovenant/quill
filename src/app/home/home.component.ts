@@ -384,7 +384,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     filterDismissedText(markings: TextMarking[]): TextMarking[] {
-        const markingLocalStorage: TextMarking[] = [];
+        const markingLocalStorage = [];
         const filteredArrayOfDismissedMarkings = []
         for (const key of this.DismissMarkingStorageService.DISMISSED_TEXTS_KEYS){
             const dismissedText: string | null = localStorage.getItem(key);
@@ -399,7 +399,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 filteredArrayOfDismissedMarkings.push(markings[i]);
             }
             }
-
         return filteredArrayOfDismissedMarkings;
     }
 
@@ -422,6 +421,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     this.filterUnselectedMarkingTypes(
                         this.processedText.textMarkings
                     );
+
                 this.processedText.textMarkings =
                     this.filterDismissedText(
                         this.processedText.textMarkings
@@ -634,7 +634,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             this.moveUpRemainingCards();
         }, 1500);
 
-
+        // this.DismissMarkingStorageService.storeDismissedText(
+        //     document.getElementById(this.EDITOR_KEY)!.innerText);
         const ourDataStructure = new Map<String, TextMarking[]>()
         const markings: TextMarking[] = this.processedText?.textMarkings || [];
         const paragraph = this.processedText?.text ?? this.EMPTY_STRING;
