@@ -69,8 +69,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     suggestedMarkingCardCounter: number = 0;
     textMarkingParagraphIndex: any[] = [];
     DISMISSED_MARKING_PREFIX = 'penda-dismissed-markings-';
-    canStoreDismissedMarking: boolean = true;
-    EMPTY_STRING: string = '';
     DISMISSED_TEXTS_KEYS: string[] = [];
 
     private placeHolderElement!: HTMLElement;
@@ -87,6 +85,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     constructor(
         public localStorageService: LocalStorageService,
         private http: HttpClient,
+        public darkModeService: DarkModeService
     ) {
         this.initializeURLs();
 
@@ -383,16 +382,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         );
     }
     filterDismissedText(markings: TextMarking[]): TextMarking[] {
-        const markingLocalStorage = [];
+        const markingLocalStorage = localStorage.getItem(this.DISMISSED_MARKING_PREFIX)!
         const filteredArrayOfDismissedMarkings = []
-        for (const key of this.DISMISSED_TEXTS_KEYS){
-            const dismissedText: string | null = localStorage.getItem(key);
-            if (dismissedText !== null){
-                markingLocalStorage.push(JSON.parse(dismissedText));
-            }
-        }
         for (let i = 0; i < markings.length; i++) {
-            if(!markingLocalStorage.includes(markings[i])){
+            const markingString = markings[i].toString();
+            if(!markingLocalStorage.includes(markingString)){
                 filteredArrayOfDismissedMarkings.push(markings[i]);
             }
         }
@@ -630,12 +624,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             this.moveUpRemainingCards();
         }, 1500);
 
-        const ourDataStructure = new Map<String, TextMarking[]>()
-        const markings: TextMarking[] = this.processedText?.textMarkings || [];
         const paragraph = this.processedText?.text ?? this.EMPTY_STRING;
-        ourDataStructure.set(paragraph, markings)
         this.storeDismissedText(
-            JSON.stringify(Array.from(ourDataStructure.entries())));
+            JSON.stringify(paragraph));
+
     }
 
     /**
@@ -1274,10 +1266,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         }
     }
     private storeDismissedText(dismissedText: string): void {
-        if (!this.canStoreDismissedMarking || dismissedText.trim() === this.EMPTY_STRING) {
-            return;
-        }
-
         let index = 0;
         let key = this.DISMISSED_MARKING_PREFIX + index.toString();
 
@@ -1286,7 +1274,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             key = this.DISMISSED_MARKING_PREFIX + index.toString();
         }
 
-        localStorage.setItem(key, dismissedText);
+        localStorage.setItem(key, JSON.stringify(dismissedText));
         this.DISMISSED_TEXTS_KEYS.push(key);
     }
 }
