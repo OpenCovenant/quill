@@ -91,7 +91,7 @@
                                 class="flex-layout-div dark-mode-div dark-mode-label-flex"
                             >
                                 <div>Jeni duke përdorur Pendën e Artë.</div>
-                                <button class='btn btn-danger' style='font-weight: 500;' (click)='cancelSubscription()'>Anulo Abonimin</button>
+                                <button  id='unsubscriptionModalButton' type="button"  data-bs-toggle="modal" data-bs-target="#unsubscriptionModal" class='btn btn-danger' style='font-weight: 500;'>Anulo Abonimin</button>
                             </div>
                             <div style='padding-top: 0.5rem'>
                                 <span class="dark-mode-informative-text"
@@ -135,4 +135,22 @@
             </div>
         </div>
     </ng-template>
+</div>
+
+<div class="modal fade" id="unsubscriptionModal" tabindex="-1" aria-labelledby="unsubscriptionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="unsubscriptionModalLabel">Konfirmo Anulimin e Abonimit</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>A jeni të sigurtë që dëshironi të anuloni abonimin Penda e Artë?</p>
+            </div>
+            <div class="modal-footer" style='display: flex; justify-content: space-around'>
+                <button type="button" class='btn-outline-primary' style='background-color: transparent; color: #0d6efd; font-weight: 500; border: none' data-bs-dismiss="modal">Kthehu</button>
+                <button type="button" class='btn btn-danger' style='font-weight: 500;' (click)='cancelSubscription()' data-bs-dismiss="modal">Anulo Abonimin</button>
+            </div>
+        </div>
+    </div>
 </div>
