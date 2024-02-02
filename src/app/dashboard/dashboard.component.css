@@ -9,5 +9,9 @@
 
 .contact-us-button:hover {
     background-color: purple !important;
-    color: white;
+    color: var(--dark-mode-anti-theme);
+}
+
+.dashboard-header-dark-mode {
+    color: var(--dark-mode-anti-theme);
 }

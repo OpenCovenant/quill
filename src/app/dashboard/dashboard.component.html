@@ -1,7 +1,10 @@
 <div class="container py-3">
     <header>
         <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-            <h1 class="display-4 fw-normal">Përmirëso Shenjimet e Pendës</h1>
+            <h1 class="display-4 fw-normal"
+                [ngClass]="{
+        'dashboard-header-dark-mode': darkModeService.isDarkMode
+    }">Përmirëso Shenjimet e Pendës</h1>
             <p class="fs-5 text-muted">Zgjidh mes dy abonimeve që ofrojmë në bazë të kërkesave tuaja.</p>
         </div>
     </header>

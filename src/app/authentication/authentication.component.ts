@@ -3,6 +3,7 @@ import { AuthenticationService } from '../authentication.service'
 import { HttpClient } from '@angular/common/http'
 import { environment } from '../../environments/environment'
 import { NavigationExtras, Router } from '@angular/router'
+import { DarkModeService } from '../dark-mode.service'
 
 @Component({
     selector: 'app-authentication',
@@ -14,7 +15,7 @@ export class AuthenticationComponent implements OnInit {
     private postAccessTokenURL!: string;
 
     constructor(private authenticationService: AuthenticationService, private httpClient: HttpClient,
-                private router: Router, private zone: NgZone) {
+                private router: Router, private zone: NgZone, public darkModeService: DarkModeService) {
     }
 
     ngOnInit(): void {

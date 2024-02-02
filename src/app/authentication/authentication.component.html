@@ -1,5 +1,8 @@
 <div class="container" style='padding-top: 2rem;'>
-    <h1>Mire Së Vjen te Penda</h1>
+    <h1
+        [ngClass]="{
+        'authentication-header-dark-mode': darkModeService.isDarkMode
+    }">Mirë Së Vjen te Penda</h1>
 <!--    <hr style="color: darkgray; width: 33%;">-->
     <div style='display: flex; flex-flow: column; align-items: center;'>
         <div style='padding-top: 5rem'>
@@ -28,9 +31,9 @@
         </div>
     </div>
     <div style='padding-top: 15rem;'>
-        <span style='color: #808080;'
+        <span class='authentication-terms'
         >Duke vazhduar, pranoj qe kam lexuar dhe jam dakordësuar me <a href=''>Kushtet e Përdorimit</a> dhe <a href=''>Politikat e Privatësisë</a>.</span>
     </div>
 </div>
 
-<!-- TODO: improve the rotate code for the hr -->
+<!-- TODO: improve the rotate code for the hr, also add dark mode for it -->

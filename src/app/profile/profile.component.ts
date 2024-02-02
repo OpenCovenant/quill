@@ -23,7 +23,7 @@ export class ProfileComponent {
         this.initializeURLs();
     }
 
-    deactivateAccount(): void {
+    closeAccount(): void {
         console.log('deactivating account...')
         this.http.post(this.deactivateAccountURL, {}).subscribe(() => {
             // give feed to user that their account has been successfully deactivated
