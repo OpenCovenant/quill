@@ -1265,7 +1265,27 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 return;
             }
 
-            if (this.hasMarkings()) {
+            switch (keyboardEvent.key) {
+                case 'h':
+                case 'H': {
+                    (
+                        document.querySelector(
+                            '.bi-clock-history'
+                        )! as HTMLButtonElement
+                    ).click();
+                    return;
+                }
+                case 'c':
+                case 'C': {
+                    this.copyToClipboard();
+                    return;
+                }
+            }
+
+            if (!this.hasMarkings()) {
+                return;
+            }
+
             if (keyboardEvent.shiftKey) {
                 if (
                     keyboardEvent.code.includes('Digit') &&
@@ -1285,31 +1305,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             if ('0' <= keyboardEvent.key && keyboardEvent.key <= '9') {
                 const digit = keyboardEvent.key.charCodeAt(0) - 48;
 
-                if (!this.processedText?.textMarkings) return;
                 this.chooseSuggestion(0, digit - 1);
                 return;
-            }
             }
 
             switch (keyboardEvent.key) {
                 case 'Escape': {
-                    if (this.hasMarkings()) {
-                        this.blurHighlightedBoardMarking();
-                    }
-                    return;
-                }
-                case 'h':
-                case 'H': {
-                    (
-                        document.querySelector(
-                            '.bi-clock-history'
-                        )! as HTMLButtonElement
-                    ).click();
-                    return;
-                }
-                case 'c':
-                case 'C': {
-                    this.copyToClipboard();
+                    this.blurHighlightedBoardMarking();
                     return;
                 }
                 case 'd':
@@ -1322,7 +1324,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     private hasMarkings(): boolean {
-        return this.processedText !== undefined && this.processedText!.textMarkings.length > 1;
+        return this.processedText !== undefined && this.processedText!.textMarkings.length > 0;
     }
 
     private isEditorActive(): boolean {
