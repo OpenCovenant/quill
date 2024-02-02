@@ -44,18 +44,38 @@
                 [ngIfElse]="authenticateButton"
             >
                 <div class="btn-group">
-                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        {{authenticationService.user.first_name}}
+                    <button
+                        type="button"
+                        class="btn btn-secondary dropdown-toggle"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    >
+                        {{ authenticationService.user.first_name }}
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" routerLink="/profile">Profili</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" (click)='logout()' style='cursor:pointer;'>Dil</a></li>
+                        <li>
+                            <a class="dropdown-item" routerLink="/profile"
+                                >Profili</a
+                            >
+                        </li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li>
+                            <a
+                                class="dropdown-item"
+                                (click)="logout()"
+                                style="cursor: pointer"
+                                >Dil</a
+                            >
+                        </li>
                     </ul>
                 </div>
             </ng-template>
             <ng-template #authenticateButton>
-                <button class="btn btn-primary" style='font-weight: 500;' routerLink="/authentication">
+                <button
+                    class="btn btn-primary"
+                    style="font-weight: 500"
+                    routerLink="/authentication"
+                >
                     Identifikohu
                 </button>
             </ng-template>
@@ -189,15 +209,15 @@
                         data-bs-toggle="offcanvas"
                         data-bs-target="#offcanvasStart"
                         aria-controls="offcanvasStart"
-                    ><i
-                        class="bi bi-stars"
-                        [ngClass]="{
+                        ><i
+                            class="bi bi-stars"
+                            [ngClass]="{
                                 'offcanvas-bi-info-circle-dark-mode':
                                     darkModeService.isDarkMode
                             }"
-                    >
-                    </i
-                    >Penda e Artë</a
+                        >
+                        </i
+                        >Penda e Artë</a
                     >
                 </div>
                 <div>
@@ -235,15 +255,15 @@
                             'offcanvas-nav-text-dark-mode':
                                 darkModeService.isDarkMode
                         }"
-                    ><i
-                        class="bi bi-info-circle"
-                        [ngClass]="{
+                        ><i
+                            class="bi bi-info-circle"
+                            [ngClass]="{
                                 'offcanvas-bi-info-circle-dark-mode':
                                     darkModeService.isDarkMode
                             }"
-                    >
-                    </i
-                    >Politikat e Privatësisë</a
+                        >
+                        </i
+                        >Politikat e Privatësisë</a
                     >
                 </div>
                 <div>
@@ -258,15 +278,15 @@
                             'offcanvas-nav-text-dark-mode':
                                 darkModeService.isDarkMode
                         }"
-                    ><i
-                        class="bi bi-info-circle"
-                        [ngClass]="{
+                        ><i
+                            class="bi bi-info-circle"
+                            [ngClass]="{
                                 'offcanvas-bi-info-circle-dark-mode':
                                     darkModeService.isDarkMode
                             }"
-                    >
-                    </i
-                    >Kushtet e Përdorimit</a
+                        >
+                        </i
+                        >Kushtet e Përdorimit</a
                     >
                 </div>
                 <div>

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
-import { DarkModeService } from '../dark-mode.service'
-import { environment } from '../../environments/environment'
+import { HttpClient } from '@angular/common/http';
+import { DarkModeService } from '../dark-mode.service';
+import { environment } from '../../environments/environment';
 
 @Component({
-  selector: 'app-privacy-policy',
-  templateUrl: './privacy-policy.component.html',
-  styleUrls: ['./privacy-policy.component.css']
+    selector: 'app-privacy-policy',
+    templateUrl: './privacy-policy.component.html',
+    styleUrls: ['./privacy-policy.component.css']
 })
 export class PrivacyPolicyComponent {
     baseURL!: string;

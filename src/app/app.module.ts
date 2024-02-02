@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
@@ -18,7 +18,7 @@ import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.componen
 import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CheckoutComponent } from './checkout/checkout.component';
-import { AuthenticationInterceptor } from './authentication.interceptor'
+import { AuthenticationInterceptor } from './authentication.interceptor';
 
 @NgModule({
     declarations: [
@@ -38,7 +38,13 @@ import { AuthenticationInterceptor } from './authentication.interceptor'
         CheckoutComponent
     ],
     imports: [BrowserModule, HttpClientModule, FormsModule, AppRoutingModule],
-    providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true}],
+    providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthenticationInterceptor,
+            multi: true
+        }
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {}

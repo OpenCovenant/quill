@@ -27,7 +27,7 @@ import {
     sortParagraphedTextMarkings
 } from '../text-marking/text-marking';
 import { DarkModeService } from '../dark-mode.service';
-import { Router } from '@angular/router'
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-home',
@@ -1342,20 +1342,20 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private showThankYouModal(): void {
         const state = this.router.getCurrentNavigation()!.extras!.state;
         if (!state) {
-            return
+            return;
         }
         if (state['payload'] === 'penda-thank-you') {
-            this.shouldShowThankYouModal = true
+            this.shouldShowThankYouModal = true;
         }
     }
 
     private showWelcomeModal(): void {
         const state = this.router.getCurrentNavigation()!.extras!.state;
         if (!state) {
-            return
+            return;
         }
         if (state['payload'] === 'penda-welcome') {
-            this.shouldShowWelcomeModal = true
+            this.shouldShowWelcomeModal = true;
         }
     }
 }

@@ -1,22 +1,26 @@
-import { Component, NgZone, OnInit } from '@angular/core'
-import { AuthenticationService } from '../authentication.service'
-import { HttpClient } from '@angular/common/http'
-import { environment } from '../../environments/environment'
-import { NavigationExtras, Router } from '@angular/router'
-import { DarkModeService } from '../dark-mode.service'
+import { Component, NgZone, OnInit } from '@angular/core';
+import { AuthenticationService } from '../authentication.service';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { NavigationExtras, Router } from '@angular/router';
+import { DarkModeService } from '../dark-mode.service';
 
 @Component({
     selector: 'app-authentication',
     templateUrl: './authentication.component.html',
-    styleUrls: ['./authentication.component.css'],
+    styleUrls: ['./authentication.component.css']
 })
 export class AuthenticationComponent implements OnInit {
     private baseURL!: string;
     private postAccessTokenURL!: string;
 
-    constructor(private authenticationService: AuthenticationService, private httpClient: HttpClient,
-                private router: Router, private zone: NgZone, public darkModeService: DarkModeService) {
-    }
+    constructor(
+        private authenticationService: AuthenticationService,
+        private httpClient: HttpClient,
+        private router: Router,
+        private zone: NgZone,
+        public darkModeService: DarkModeService
+    ) {}
 
     ngOnInit(): void {
         this.initializeURLs();
@@ -29,14 +33,29 @@ export class AuthenticationComponent implements OnInit {
                     console.log('User login failed');
                     return;
                 }
-                this.httpClient.post(this.postAccessTokenURL, { "fb_access_token": response.authResponse.accessToken })
+                this.httpClient
+                    .post(this.postAccessTokenURL, {
+                        fb_access_token: response.authResponse.accessToken
+                    })
                     .subscribe((f: any) => {
                         this.authenticationService.authenticated$.next(true);
-                        this.authenticationService.user = {email: f.email, first_name: f.first_name, last_name: f.last_name};
-                        this.authenticationService.subscribed$.next(f.subscribed);
+                        this.authenticationService.user = {
+                            email: f.email,
+                            first_name: f.first_name,
+                            last_name: f.last_name
+                        };
+                        this.authenticationService.subscribed$.next(
+                            f.subscribed
+                        );
 
-                        localStorage.setItem('penda-access-jwt', f.access_token)
-                        localStorage.setItem('penda-refresh-jwt', f.refresh_token)
+                        localStorage.setItem(
+                            'penda-access-jwt',
+                            f.access_token
+                        );
+                        localStorage.setItem(
+                            'penda-refresh-jwt',
+                            f.refresh_token
+                        );
 
                         let navigationExtras: NavigationExtras = {};
                         if (f.onboarding) {
@@ -50,8 +69,8 @@ export class AuthenticationComponent implements OnInit {
                         });
                     });
             },
-            { scope: 'email' },
-        )
+            { scope: 'email' }
+        );
     }
 
     private initializeURLs(): void {

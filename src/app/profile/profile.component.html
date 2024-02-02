@@ -70,19 +70,31 @@
                         <h5>Abonimi i Zgjedhur</h5>
                         <hr />
                         <ng-template
-                            [ngIf]="!(authenticationService.isSubscribed() | async)"
+                            [ngIf]="
+                                !(authenticationService.isSubscribed() | async)
+                            "
                             [ngIfElse]="paidSubscription"
                         >
                             <div
                                 class="flex-layout-div dark-mode-div dark-mode-label-flex"
                             >
                                 <div>Përmirëso shenjimet e Pendës.</div>
-                                <button class='btn btn-warning' style='font-weight: 500;' routerLink="/dashboard">Përdor Penda e Artë</button>
+                                <button
+                                    class="btn btn-warning"
+                                    style="font-weight: 500"
+                                    routerLink="/dashboard"
+                                >
+                                    Përdor Penda e Artë
+                                </button>
                             </div>
-                            <div style='padding-top: 0.5rem'>
+                            <div style="padding-top: 0.5rem">
                                 <span class="dark-mode-informative-text"
-                                >Jeni duke përdorur versionin publik të Pendës. Nëse zgjdhni Pendën e Artë do të shihni gabime
-                            gramatikore të dalluara nëpërmjet Inteligjences Artificiale, si edhe nuk do te keni limit mbi numrin e shkrimeve te analizuara.</span
+                                    >Jeni duke përdorur versionin publik të
+                                    Pendës. Nëse zgjdhni Pendën e Artë do të
+                                    shihni gabime gramatikore të dalluara
+                                    nëpërmjet Inteligjences Artificiale, si edhe
+                                    nuk do te keni limit mbi numrin e shkrimeve
+                                    te analizuara.</span
                                 >
                             </div>
                         </ng-template>
@@ -91,11 +103,21 @@
                                 class="flex-layout-div dark-mode-div dark-mode-label-flex"
                             >
                                 <div>Jeni duke përdorur Pendën e Artë.</div>
-                                <button  id='unsubscriptionModalButton' type="button"  data-bs-toggle="modal" data-bs-target="#unsubscriptionModal" class='btn btn-danger' style='font-weight: 500;'>Anulo Abonimin</button>
+                                <button
+                                    id="unsubscriptionModalButton"
+                                    type="button"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#unsubscriptionModal"
+                                    class="btn btn-danger"
+                                    style="font-weight: 500"
+                                >
+                                    Anulo Abonimin
+                                </button>
                             </div>
-                            <div style='padding-top: 0.5rem'>
+                            <div style="padding-top: 0.5rem">
                                 <span class="dark-mode-informative-text"
-                                >Jeni duke përdorur aplikacionin tonë me të gjitha aftësitë e tij.</span
+                                    >Jeni duke përdorur aplikacionin tonë me të
+                                    gjitha aftësitë e tij.</span
                                 >
                             </div>
                         </ng-template>
@@ -107,28 +129,49 @@
                         <div
                             class="flex-layout-div dark-mode-div dark-mode-label-flex"
                         >
-                            <div>Llogaria e përdorur për tu identifikuar te Penda.</div>
-                            <div><h5><svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="22"
-                                height="24"
-                                fill="#1877F2"
-                                viewBox="0 0 16 16"
-                                style='padding-bottom: 3px;'
-                            >
-                                <path
-                                    d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"
-                                />
-                            </svg>&nbsp;&nbsp;Facebook</h5></div>
+                            <div>
+                                Llogaria e përdorur për tu identifikuar te
+                                Penda.
+                            </div>
+                            <div>
+                                <h5>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="22"
+                                        height="24"
+                                        fill="#1877F2"
+                                        viewBox="0 0 16 16"
+                                        style="padding-bottom: 3px"
+                                    >
+                                        <path
+                                            d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"
+                                        /></svg
+                                    >&nbsp;&nbsp;Facebook
+                                </h5>
+                            </div>
                         </div>
                     </div>
 
                     <div>
                         <h5>Mbyll Llogarinë te Penda</h5>
                         <hr />
-                        <div style='display: flex; justify-content: space-between'>
-                        <p class="card-text">
-                            Kjo do të mbyllë llogarinë tuaj te Penda dhe do të pezullojë abonimin nëse e keni një të tillë.</p> <button (click)='closeAccount()' class='btn btn-danger' style='font-weight: 500;'>Mbyll Llogarinë</button>
+                        <div
+                            style="
+                                display: flex;
+                                justify-content: space-between;
+                            "
+                        >
+                            <p class="card-text">
+                                Kjo do të mbyllë llogarinë tuaj te Penda dhe do
+                                të pezullojë abonimin nëse e keni një të tillë.
+                            </p>
+                            <button
+                                (click)="closeAccount()"
+                                class="btn btn-danger"
+                                style="font-weight: 500"
+                            >
+                                Mbyll Llogarinë
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -137,19 +180,58 @@
     </ng-template>
 </div>
 
-<div class="modal fade" id="unsubscriptionModal" tabindex="-1" aria-labelledby="unsubscriptionModalLabel" aria-hidden="true">
+<div
+    class="modal fade"
+    id="unsubscriptionModal"
+    tabindex="-1"
+    aria-labelledby="unsubscriptionModalLabel"
+    aria-hidden="true"
+>
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="unsubscriptionModalLabel">Konfirmo Anulimin e Abonimit</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="unsubscriptionModalLabel">
+                    Konfirmo Anulimin e Abonimit
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
             </div>
             <div class="modal-body">
-                <p>A jeni të sigurtë që dëshironi të anuloni abonimin Penda e Artë?</p>
+                <p>
+                    A jeni të sigurtë që dëshironi të anuloni abonimin Penda e
+                    Artë?
+                </p>
             </div>
-            <div class="modal-footer" style='display: flex; justify-content: space-around'>
-                <button type="button" class='btn-outline-primary' style='background-color: transparent; color: #0d6efd; font-weight: 500; border: none' data-bs-dismiss="modal">Kthehu</button>
-                <button type="button" class='btn btn-danger' style='font-weight: 500;' (click)='cancelSubscription()' data-bs-dismiss="modal">Anulo Abonimin</button>
+            <div
+                class="modal-footer"
+                style="display: flex; justify-content: space-around"
+            >
+                <button
+                    type="button"
+                    class="btn-outline-primary"
+                    style="
+                        background-color: transparent;
+                        color: #0d6efd;
+                        font-weight: 500;
+                        border: none;
+                    "
+                    data-bs-dismiss="modal"
+                >
+                    Kthehu
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-danger"
+                    style="font-weight: 500"
+                    (click)="cancelSubscription()"
+                    data-bs-dismiss="modal"
+                >
+                    Anulo Abonimin
+                </button>
             </div>
         </div>
     </div>

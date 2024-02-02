@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { DarkModeService } from '../dark-mode.service';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '../authentication.service'
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
     selector: 'app-header',
@@ -23,7 +23,7 @@ export class HeaderComponent {
         private http: HttpClient,
         private router: Router,
         public authenticationService: AuthenticationService,
-        public darkModeService: DarkModeService,
+        public darkModeService: DarkModeService
     ) {
         this.initializeURLs();
         this.http.get(this.getMarkingTypesCount).subscribe((data: any) => {
