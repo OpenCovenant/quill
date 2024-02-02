@@ -382,7 +382,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         );
     }
     filterDismissedText(markings: TextMarking[]): TextMarking[] {
-        const markingLocalStorage = localStorage.getItem(this.DISMISSED_MARKING_PREFIX)!
+        const markingLocalStorage = localStorage.getItem(this.DISMISSED_MARKING_PREFIX);
         const filteredArrayOfDismissedMarkings = []
         for (let i = 0; i < markings.length; i++) {
             const markingString = markings[i].toString();
@@ -625,9 +625,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         }, 1500);
 
         const paragraph = this.processedText?.text ?? this.EMPTY_STRING;
-        this.storeDismissedText(
-            JSON.stringify(paragraph));
-
+        this.storeDismissedText(JSON.stringify(paragraph));
     }
 
     /**
