@@ -1254,14 +1254,35 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         }
     }
 
-    private addEventListenerForShortcuts() {
-        const componentDivs = document.getElementsByClassName('component-div');
+    private addEventListenerForShortcuts(): void {
+        const componentDivs: HTMLCollectionOf<Element> = document.getElementsByClassName('component-div');
         if (componentDivs.length !== 1) {
             return;
         }
-        componentDivs[0].addEventListener('keydown', (e: Event) => {
-            const keyboardEvent = e as KeyboardEvent;
+        componentDivs[0].addEventListener('keydown', (e: Event): void => {
+            const keyboardEvent: KeyboardEvent = e as KeyboardEvent;
             if (this.isEditorActive()) {
+                return;
+            }
+
+            switch (keyboardEvent.key) {
+                case 'h':
+                case 'H': {
+                    (
+                        document.querySelector(
+                            '.bi-clock-history'
+                        )! as HTMLButtonElement
+                    ).click();
+                    return;
+                }
+                case 'c':
+                case 'C': {
+                    this.copyToClipboard();
+                    return;
+                }
+            }
+
+            if (!this.hasMarkings()) {
                 return;
             }
 
@@ -1284,13 +1305,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             if ('0' <= keyboardEvent.key && keyboardEvent.key <= '9') {
                 const digit = keyboardEvent.key.charCodeAt(0) - 48;
 
-                if (!this.processedText?.textMarkings) return;
                 this.chooseSuggestion(0, digit - 1);
                 return;
-                // if number from 1:infinity, apply the n-th (indexing starting from 1) suggestion of the first/top-most marking.
-                // if SHIFT + number from 1:infinity, highlight the n-th marking (indexing starting from 1)
-
-                // TODO: how to properly listen for multiple digit numbers? is there a sufficiently pleasant solution?
             }
 
             switch (keyboardEvent.key) {
@@ -1298,29 +1314,17 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     this.blurHighlightedBoardMarking();
                     return;
                 }
-                case 'h':
-                case 'H': {
-                    (
-                        document.querySelector(
-                            '.bi-clock-history'
-                        )! as HTMLButtonElement
-                    ).click();
-                    return;
-                }
-                case 'c':
-                case 'C': {
-                    this.copyToClipboard();
-                    return;
-                }
                 case 'd':
                 case 'D': {
                     this.deleteTextMarking(0);
                     return;
                 }
-
-                // written texts, history of texts? WritingsHistory,
             }
         });
+    }
+
+    private hasMarkings(): boolean {
+        return this.processedText !== undefined && this.processedText.textMarkings.length > 0;
     }
 
     private isEditorActive(): boolean {
