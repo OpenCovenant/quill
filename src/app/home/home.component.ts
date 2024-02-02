@@ -1324,7 +1324,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     private hasMarkings(): boolean {
-        return this.processedText !== undefined && this.processedText!.textMarkings.length > 0;
+        return this.processedText !== undefined && this.processedText.textMarkings.length > 0;
     }
 
     private isEditorActive(): boolean {
