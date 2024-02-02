@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { DarkModeService } from '../dark-mode.service'
-import { HttpClient } from '@angular/common/http'
-import { environment } from '../../environments/environment'
-import { Router } from '@angular/router'
-import { AuthenticationService } from '../authentication.service'
+import { DarkModeService } from '../dark-mode.service';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { Router } from '@angular/router';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'app-profile',
@@ -35,11 +35,9 @@ export class ProfileComponent {
     }
 
     cancelSubscription(): void {
-        console.log('trying to cancel a subscription...');
         this.http.post(this.cancelSubscriptionURL, {}).subscribe(c => {
-            console.log('canc subs', c, this.router.url);
+            console.log('Subscription has been cancelled.');
             this.authenticationService.subscribed$.next(false);
-            // this.router.navigate([this.router.url]).then();
         })
     }
 

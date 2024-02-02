@@ -1,8 +1,8 @@
-import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core'
-import { HttpClient } from '@angular/common/http'
-import { environment } from '../../environments/environment'
-import { NavigationExtras, Router } from '@angular/router'
-import { AuthenticationService } from '../authentication.service'
+import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { NavigationExtras, Router } from '@angular/router';
+import { AuthenticationService } from '../authentication.service';
 declare const paypal: any;
 
 @Component({
@@ -13,6 +13,7 @@ declare const paypal: any;
 export class CheckoutComponent implements OnInit {
     baseURL!: string;
     storePayPalSubscriptionURL!: string;
+    allowedPaymentSources: string[] = ['paypal', 'card']
 
     @ViewChild('paypalButton', { static: true }) paypalButton!: ElementRef;
 
@@ -24,7 +25,6 @@ export class CheckoutComponent implements OnInit {
         this.renderPaypalButton();
     }
 
-    allowedPaymentSources = ['paypal', 'card']
     renderPaypalButton(): void {
         paypal.Buttons({
             style: {

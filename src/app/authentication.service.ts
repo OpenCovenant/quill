@@ -48,7 +48,12 @@ export class AuthenticationService {
         });
     }
 
-    private isJWTValid(access_token: string): void {
+    private validateJWT(): void {
+        const access_token: string | null = localStorage.getItem('penda-access-jwt');
+        if (!access_token) {
+            this.authenticated$.next(false);
+            return;
+        }
         this.http.post(this.validateJWTURL, {'access_token': access_token }).subscribe((r: any) => {
             if (r.email) {
                 this.authenticated$.next(true);

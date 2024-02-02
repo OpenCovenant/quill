@@ -10,8 +10,6 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class AuthenticationInterceptor implements HttpInterceptor {
 
-  constructor() {}
-
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
       if (!localStorage.getItem('penda-access-jwt')) {
           return next.handle(request);
