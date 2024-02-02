@@ -1254,17 +1254,18 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         }
     }
 
-    private addEventListenerForShortcuts() {
-        const componentDivs = document.getElementsByClassName('component-div');
+    private addEventListenerForShortcuts(): void {
+        const componentDivs: HTMLCollectionOf<Element> = document.getElementsByClassName('component-div');
         if (componentDivs.length !== 1) {
             return;
         }
-        componentDivs[0].addEventListener('keydown', (e: Event) => {
-            const keyboardEvent = e as KeyboardEvent;
+        componentDivs[0].addEventListener('keydown', (e: Event): void => {
+            const keyboardEvent: KeyboardEvent = e as KeyboardEvent;
             if (this.isEditorActive()) {
                 return;
             }
 
+            if (this.hasMarkings()) {
             if (keyboardEvent.shiftKey) {
                 if (
                     keyboardEvent.code.includes('Digit') &&
@@ -1287,15 +1288,14 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 if (!this.processedText?.textMarkings) return;
                 this.chooseSuggestion(0, digit - 1);
                 return;
-                // if number from 1:infinity, apply the n-th (indexing starting from 1) suggestion of the first/top-most marking.
-                // if SHIFT + number from 1:infinity, highlight the n-th marking (indexing starting from 1)
-
-                // TODO: how to properly listen for multiple digit numbers? is there a sufficiently pleasant solution?
+            }
             }
 
             switch (keyboardEvent.key) {
                 case 'Escape': {
-                    this.blurHighlightedBoardMarking();
+                    if (this.hasMarkings()) {
+                        this.blurHighlightedBoardMarking();
+                    }
                     return;
                 }
                 case 'h':
@@ -1317,10 +1317,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     this.deleteTextMarking(0);
                     return;
                 }
-
-                // written texts, history of texts? WritingsHistory,
             }
         });
+    }
+
+    private hasMarkings(): boolean {
+        return this.processedText !== undefined && this.processedText!.textMarkings.length > 1;
     }
 
     private isEditorActive(): boolean {
