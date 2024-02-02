@@ -2,6 +2,7 @@ import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { environment } from '../../environments/environment'
 import { NavigationExtras, Router } from '@angular/router'
+import { AuthenticationService } from '../authentication.service'
 declare const paypal: any;
 
 @Component({
@@ -15,7 +16,7 @@ export class CheckoutComponent implements OnInit {
 
     @ViewChild('paypalButton', { static: true }) paypalButton!: ElementRef;
 
-    constructor(private http: HttpClient, private router: Router, private zone: NgZone) {
+    constructor(private http: HttpClient, private router: Router, private zone: NgZone, private authenticationService: AuthenticationService) {
         this.initializeURLs();
     }
 
@@ -50,6 +51,7 @@ export class CheckoutComponent implements OnInit {
                     };
 
                     this.zone.run(() => {
+                        this.authenticationService.subscribed$.next(true);
                         this.router.navigate(['/'], navigationExtras);
                     });
                 })

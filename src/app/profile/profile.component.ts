@@ -36,7 +36,11 @@ export class ProfileComponent {
 
     cancelSubscription(): void {
         console.log('trying to cancel a subscription...');
-        this.http.post(this.cancelSubscriptionURL, {}).subscribe(c => console.log('canc subs', c))
+        this.http.post(this.cancelSubscriptionURL, {}).subscribe(c => {
+            console.log('canc subs', c, this.router.url);
+            this.authenticationService.subscribed$.next(false);
+            // this.router.navigate([this.router.url]).then();
+        })
     }
 
     private initializeURLs(): void {

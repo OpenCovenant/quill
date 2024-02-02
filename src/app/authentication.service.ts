@@ -19,12 +19,7 @@ export class AuthenticationService {
 
     constructor(private http: HttpClient, private router: Router) {
         this.initializeURLs();
-        const access_token: string | null = localStorage.getItem('penda-access-jwt');
-        if (!access_token) {
-            this.authenticated$.next(false);
-            return;
-        }
-        this.isJWTValid(access_token);
+        this.validateJWT();
     }
 
     isAuthenticated(): Observable<boolean> {
