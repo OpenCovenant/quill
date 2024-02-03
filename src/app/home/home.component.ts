@@ -1,6 +1,7 @@
 import {
     AfterViewInit,
-    Component, ElementRef,
+    Component,
+    ElementRef,
     EventEmitter,
     OnDestroy,
     ViewEncapsulation
@@ -27,7 +28,7 @@ import {
     sortParagraphedTextMarkings
 } from '../text-marking/text-marking';
 import { DarkModeService } from '../dark-mode.service';
-import { EditorContentService } from '../editor-content.service'
+import { EditorContentService } from '../editor-content.service';
 
 @Component({
     selector: 'app-home',
@@ -104,7 +105,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         )!;
 
         if (this.editorContentService.editorInnerHTML) {
-            this.editorElement.innerHTML = this.editorContentService.editorInnerHTML;
+            this.editorElement.innerHTML =
+                this.editorContentService.editorInnerHTML;
         }
 
         const minWidthMatchMedia: MediaQueryList =
@@ -138,7 +140,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.editorContentService.editorInnerHTML = this.elementRef.nativeElement.querySelector('#editor').innerHTML!
+        this.editorContentService.editorInnerHTML =
+            this.elementRef.nativeElement.querySelector('#editor').innerHTML!;
 
         this.eventualMarkingSubscription$.unsubscribe();
         this.eventualTextStoringSubscription$.unsubscribe();
