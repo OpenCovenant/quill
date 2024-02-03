@@ -38,6 +38,7 @@
 }
 
 .slider {
+    cursor: pointer;
     position: absolute;
     top: 0;
     left: 0;
@@ -89,6 +90,7 @@
 }
 
 .dark-mode-label {
+    cursor: pointer;
     position: absolute;
     width: 3.2rem;
     height: 1.6rem;
@@ -146,6 +148,7 @@
 }
 
 .marking-type-routing-span {
+    cursor: pointer;
     margin-left: 0.5rem;
     color: gray;
 }
