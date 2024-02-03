@@ -1,6 +1,6 @@
 import {
     AfterViewInit,
-    Component,
+    Component, ElementRef,
     EventEmitter,
     OnDestroy,
     ViewEncapsulation
@@ -27,6 +27,7 @@ import {
     sortParagraphedTextMarkings
 } from '../text-marking/text-marking';
 import { DarkModeService } from '../dark-mode.service';
+import { EditorContentService } from '../editor-content.service'
 
 @Component({
     selector: 'app-home',
@@ -82,6 +83,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     constructor(
         public localStorageService: LocalStorageService,
         private http: HttpClient,
+        private editorContentService: EditorContentService,
+        private elementRef: ElementRef,
         public darkModeService: DarkModeService
     ) {
         this.initializeURLs();
@@ -99,6 +102,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.placeHolderElement = document.getElementById(
             this.PLACEHOLDER_ELEMENT_ID
         )!;
+
+        if (this.editorContentService.editorInnerHTML) {
+            this.editorElement.innerHTML = this.editorContentService.editorInnerHTML;
+        }
+
         const minWidthMatchMedia: MediaQueryList =
             window.matchMedia('(min-width: 800px)');
         this.focusOnMediaMatch(minWidthMatchMedia);
@@ -125,9 +133,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.subscribeForWritingInTheEditor();
         this.subscribeForStoringWrittenText();
         this.subscribeForRemovedSuggestionCarAnimation();
+
+        this.markEditor();
     }
 
     ngOnDestroy(): void {
+        this.editorContentService.editorInnerHTML = this.elementRef.nativeElement.querySelector('#editor').innerHTML!
+
         this.eventualMarkingSubscription$.unsubscribe();
         this.eventualTextStoringSubscription$.unsubscribe();
         this.animationRemovedSubscription.unsubscribe();
