@@ -36,20 +36,17 @@
 }
 
 /* bolden "penda" header text in navigation bar on hover */
-.penda-header-logo{
+.penda-header-logo {
     cursor: pointer;
-    -webkit-transition: all .4s;
-    -moz-transition: all .4s;
-    -o-transition: all .4s;
-    transition: all .4s;
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition: all 0.4s;
 }
-.penda-header-logo:hover{
-    text-shadow:
-    -0.25px -0.25px 0,
-    0.25px -0.25px 0,
-    -0.25px 0.25px 0,
-    0.25px 0.25px 0;
-     letter-spacing: 0.005rem;
+.penda-header-logo:hover {
+    text-shadow: -0.25px -0.25px 0, 0.25px -0.25px 0, -0.25px 0.25px 0,
+        0.25px 0.25px 0;
+    letter-spacing: 0.005rem;
 }
 
 /* compress side menu button (only) vertically #411 */

@@ -402,7 +402,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     filterDismissedMarkings(markings: TextMarking[]): TextMarking[] {
-        const dismissedMarkings: string[] = JSON.parse(localStorage.getItem('penda-dismissed-markings')!) as string[] ?? [];
+        const dismissedMarkings: string[] =
+            (JSON.parse(
+                localStorage.getItem('penda-dismissed-markings')!
+            ) as string[]) ?? [];
         return markings.filter((m: TextMarking) => {
             const virtualEditor: HTMLDivElement = document.createElement('div');
             virtualEditor.innerHTML = this.processedText?.text!;
@@ -435,10 +438,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                         this.processedText.textMarkings
                     );
 
-                this.processedText.textMarkings =
-                    this.filterDismissedMarkings(
-                        this.processedText.textMarkings
-                    );
+                this.processedText.textMarkings = this.filterDismissedMarkings(
+                    this.processedText.textMarkings
+                );
 
                 if (this.processedText?.textMarkings.length != 0) {
                     this.processedText.textMarkings =
@@ -642,12 +644,20 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         // TODO: collection in LS should conceptually be a set
         if (!localStorage.getItem('penda-dismissed-markings')) {
-            localStorage.setItem('penda-dismissed-markings', JSON.stringify([]));
+            localStorage.setItem(
+                'penda-dismissed-markings',
+                JSON.stringify([])
+            );
         }
-        const dismissedMarkings: string[] = JSON.parse(localStorage.getItem('penda-dismissed-markings')!) as string[];
+        const dismissedMarkings: string[] = JSON.parse(
+            localStorage.getItem('penda-dismissed-markings')!
+        ) as string[];
         const markingText: string = this.getTextOfTextMarking(textMarkingIndex);
-        dismissedMarkings.push(markingText)
-        localStorage.setItem('penda-dismissed-markings', JSON.stringify(dismissedMarkings));
+        dismissedMarkings.push(markingText);
+        localStorage.setItem(
+            'penda-dismissed-markings',
+            JSON.stringify(dismissedMarkings)
+        );
 
         this.cardCountSelectedPrePost++;
         this.cardsToRemove.push(textMarkingIndex);
@@ -1305,7 +1315,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     private addEventListenerForShortcuts(): void {
-        const componentDivs: HTMLCollectionOf<Element> = document.getElementsByClassName('component-div');
+        const componentDivs: HTMLCollectionOf<Element> =
+            document.getElementsByClassName('component-div');
         if (componentDivs.length !== 1) {
             return;
         }
@@ -1374,7 +1385,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     private hasMarkings(): boolean {
-        return this.processedText !== undefined && this.processedText.textMarkings.length > 0;
+        return (
+            this.processedText !== undefined &&
+            this.processedText.textMarkings.length > 0
+        );
     }
 
     private isEditorActive(): boolean {
