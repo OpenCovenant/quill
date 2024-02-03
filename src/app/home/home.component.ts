@@ -1,6 +1,7 @@
 import {
     AfterViewInit,
     Component,
+    ElementRef,
     EventEmitter,
     OnDestroy,
     ViewEncapsulation
@@ -28,6 +29,7 @@ import {
 } from '../text-marking/text-marking';
 import { DarkModeService } from '../dark-mode.service';
 import { Router } from '@angular/router';
+import { EditorContentService } from '../editor-content.service';
 
 @Component({
     selector: 'app-home',
@@ -85,6 +87,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     constructor(
         private http: HttpClient,
         private router: Router,
+        private editorContentService: EditorContentService,
+        private elementRef: ElementRef,
         public localStorageService: LocalStorageService,
         public darkModeService: DarkModeService
     ) {
@@ -106,6 +110,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.placeHolderElement = document.getElementById(
             this.PLACEHOLDER_ELEMENT_ID
         )!;
+
+        if (this.editorContentService.editorInnerHTML) {
+            this.editorElement.innerHTML =
+                this.editorContentService.editorInnerHTML;
+        }
+
         const minWidthMatchMedia: MediaQueryList =
             window.matchMedia('(min-width: 800px)');
         this.focusOnMediaMatch(minWidthMatchMedia);
@@ -141,9 +151,14 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             document.getElementById('welcomeModalButton')?.click();
             this.shouldShowWelcomeModal = false;
         }
+
+        this.markEditor(); // TODO: instead save processedText as well?
     }
 
     ngOnDestroy(): void {
+        this.editorContentService.editorInnerHTML =
+            this.elementRef.nativeElement.querySelector('#editor').innerHTML!;
+
         this.eventualMarkingSubscription$.unsubscribe();
         this.eventualTextStoringSubscription$.unsubscribe();
         this.animationRemovedSubscription.unsubscribe();
