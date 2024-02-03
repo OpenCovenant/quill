@@ -9,7 +9,8 @@ describe('PrivacyPolicyComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [PrivacyPolicyComponent], imports:[ HttpClientTestingModule]
+            declarations: [PrivacyPolicyComponent],
+            imports: [HttpClientTestingModule]
         }).compileComponents();
     });
 
