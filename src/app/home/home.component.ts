@@ -385,6 +385,21 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         );
     }
 
+    filterDismissedMarkings(markings: TextMarking[]): TextMarking[] {
+        const dismissedMarkings: string[] = JSON.parse(localStorage.getItem('penda-dismissed-markings')!) as string[] ?? [];
+        return markings.filter((m: TextMarking) => {
+            const virtualEditor: HTMLDivElement = document.createElement('div');
+            virtualEditor.innerHTML = this.processedText?.text!;
+
+            const editorTextContent: string | null =
+                virtualEditor.childNodes[m.paragraph!].textContent;
+
+            const markingText: string = editorTextContent!.slice(m.from, m.to);
+
+            return !dismissedMarkings.includes(markingText);
+        });
+    }
+
     /**
      * Post the suggested text to the server for processing and update the editor accordingly.
      *
@@ -401,6 +416,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
                 this.processedText.textMarkings =
                     this.filterUnselectedMarkingTypes(
+                        this.processedText.textMarkings
+                    );
+
+                this.processedText.textMarkings =
+                    this.filterDismissedMarkings(
                         this.processedText.textMarkings
                     );
 
@@ -603,6 +623,15 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     deleteTextMarking(textMarkingIndex: number): void {
         // based on the assumption that all spans within the paragraphs of the editor are markings
         // if (this.cardSuggestionsToRemove.length >= 1) return; // prevents collision action between suggestion and deletion
+
+        // TODO: collection in LS should conceptually be a set
+        if (!localStorage.getItem('penda-dismissed-markings')) {
+            localStorage.setItem('penda-dismissed-markings', JSON.stringify([]));
+        }
+        const dismissedMarkings: string[] = JSON.parse(localStorage.getItem('penda-dismissed-markings')!) as string[];
+        const markingText: string = this.getTextOfTextMarking(textMarkingIndex);
+        dismissedMarkings.push(markingText)
+        localStorage.setItem('penda-dismissed-markings', JSON.stringify(dismissedMarkings));
 
         this.cardCountSelectedPrePost++;
         this.cardsToRemove.push(textMarkingIndex);
@@ -928,6 +957,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
                     this.processedText.textMarkings =
                         this.filterUnselectedMarkingTypes(
+                            this.processedText.textMarkings
+                        );
+
+                    this.processedText.textMarkings =
+                        this.filterDismissedMarkings(
                             this.processedText.textMarkings
                         );
 
