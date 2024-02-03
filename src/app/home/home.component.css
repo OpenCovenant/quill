@@ -4,18 +4,18 @@
     padding-bottom: 3rem;
     gap: 1rem;
 }
-    
+
 .input-container {
     flex: 0 0 62%;
     margin-left: 3rem;
-    }
+}
 
 .card {
     border: 0px solid rgba(0, 0, 0, 0.125);
     box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
     margin-top: 5px;
 }
-   
+
 .card-header {
     border-bottom: 0px solid rgba(0, 0, 0, 0.125);
 }

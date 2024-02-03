@@ -23,7 +23,10 @@ export class SettingsComponent implements OnInit {
         private http: HttpClient,
         public darkModeService: DarkModeService
     ) {
-        this.dismissedMarkings = (JSON.parse(localStorage.getItem('penda-dismissed-markings')!) as string[]) ?? []
+        this.dismissedMarkings =
+            (JSON.parse(
+                localStorage.getItem('penda-dismissed-markings')!
+            ) as string[]) ?? [];
     }
 
     ngOnInit(): void {
@@ -62,16 +65,26 @@ export class SettingsComponent implements OnInit {
     }
 
     undoMarkingDismissal($event: MouseEvent): void {
-        const dismissedMarking = ($event.target as any).parentElement.parentElement.firstChild.textContent;
-        let dismissedMarkings :string[] = JSON.parse(localStorage.getItem('penda-dismissed-markings')!) as string[];
-        dismissedMarkings = dismissedMarkings.filter(dM => dM !== dismissedMarking);
+        const dismissedMarking = ($event.target as any).parentElement
+            .parentElement.firstChild.textContent;
+        let dismissedMarkings: string[] = JSON.parse(
+            localStorage.getItem('penda-dismissed-markings')!
+        ) as string[];
+        dismissedMarkings = dismissedMarkings.filter(
+            (dM) => dM !== dismissedMarking
+        );
         this.dismissedMarkings = dismissedMarkings;
-        localStorage.setItem('penda-dismissed-markings', JSON.stringify(this.dismissedMarkings));
+        localStorage.setItem(
+            'penda-dismissed-markings',
+            JSON.stringify(this.dismissedMarkings)
+        );
     }
 
     undoMarkingsDismissal(): void {
         localStorage.setItem('penda-dismissed-markings', JSON.stringify([]));
-        this.dismissedMarkings = JSON.parse(localStorage.getItem('penda-dismissed-markings')!) as string[];
+        this.dismissedMarkings = JSON.parse(
+            localStorage.getItem('penda-dismissed-markings')!
+        ) as string[];
     }
 
     private initializeURLs(): void {
