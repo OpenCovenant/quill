@@ -134,7 +134,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.subscribeForStoringWrittenText();
         this.subscribeForRemovedSuggestionCarAnimation();
 
-        this.markEditor();
+        this.markEditor(); // TODO: instead save processedText as well?
     }
 
     ngOnDestroy(): void {
