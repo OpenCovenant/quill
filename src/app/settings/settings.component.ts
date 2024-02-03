@@ -17,11 +17,14 @@ export class SettingsComponent implements OnInit {
     isLoading: boolean = false;
 
     markingTypes: any[] = [];
+    dismissedMarkings: string[] = [];
 
     constructor(
         private http: HttpClient,
         public darkModeService: DarkModeService
-    ) {}
+    ) {
+        this.dismissedMarkings = (JSON.parse(localStorage.getItem('penda-dismissed-markings')!) as string[]) ?? []
+    }
 
     ngOnInit(): void {
         this.isLoading = true;
@@ -56,6 +59,19 @@ export class SettingsComponent implements OnInit {
 
     onMarkingTypeSelection(markingTypeID: string, selected: boolean): void {
         localStorage.setItem(markingTypeID, String(selected));
+    }
+
+    undoMarkingDismissal($event: MouseEvent): void {
+        const dismissedMarking = ($event.target as any).parentElement.parentElement.firstChild.textContent;
+        let dismissedMarkings :string[] = JSON.parse(localStorage.getItem('penda-dismissed-markings')!) as string[];
+        dismissedMarkings = dismissedMarkings.filter(dM => dM !== dismissedMarking);
+        this.dismissedMarkings = dismissedMarkings;
+        localStorage.setItem('penda-dismissed-markings', JSON.stringify(this.dismissedMarkings));
+    }
+
+    undoMarkingsDismissal(): void {
+        localStorage.setItem('penda-dismissed-markings', JSON.stringify([]));
+        this.dismissedMarkings = JSON.parse(localStorage.getItem('penda-dismissed-markings')!) as string[];
     }
 
     private initializeURLs(): void {
