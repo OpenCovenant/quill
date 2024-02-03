@@ -2,6 +2,7 @@
 @import "~bootstrap";
 @import "~bootstrap-icons/font/bootstrap-icons.css";
 
+/*TODO: restructure/cleanup these a bit*/
 :root {
     --dark-mode-theme: #2c2c2c;
     /*gray color*/
