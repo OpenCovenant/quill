@@ -45,4 +45,47 @@ describe("Shortcuts", () => {
         // cy.get('body').type('h');
         // cy.get('[data-test="modal-dialog"]').should('not.be.visible');
     });
+
+    it("should accordingly to each shortcut for non-markings", () => {
+        cy.get('[data-test="editor"]').type("saktë");
+        cy.get('[data-test="marking-card"]').should("not.exist");
+
+        cy.get('[data-test="contact"]').click();
+        cy.get("body").type("2");
+
+        cy.wait(5000); // TODO: bug here (see: issue #413)
+        cy.get('[data-test="editor"]').should(
+            "have.text",
+            "saktë"
+        );
+        cy.get('[data-test="marking-card"]').should("not.exist");
+
+        cy.get("body").type("{Shift} + 2");
+        cy.get('[data-test="contact"]').click();
+        cy.get("body").type("2");
+
+        cy.get("body").type("{Shift} + 1");
+        cy.get('[data-test="blur-marking-button"]').should("not.exist");
+        cy.get("body").type("{Esc}");
+        cy.get('[data-test="blur-marking-button"]').should("not.exist");
+
+        cy.get('[data-test="marking-card"]').should("not.exist");
+        cy.get("body").type("d");
+        cy.get('[data-test="marking-card"]').should("not.exist");
+
+        cy.get("body").type("c");
+        cy.window().then((win) => {
+            win.navigator.clipboard.readText().then((text) => {
+                console.log(text);
+                expect(text).to.eq("është reshtu si fjali me gabmime");
+            });
+        });
+
+        cy.get('[data-test="modal-dialog"]').should("not.be.visible");
+        cy.get("body").type("h");
+        cy.get('[data-test="modal-dialog"]').should("be.visible");
+        // TODO: fix two following lines
+        // cy.get('body').type('h');
+        // cy.get('[data-test="modal-dialog"]').should('not.be.visible');
+    });
 });
