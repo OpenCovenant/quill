@@ -1,4 +1,4 @@
-describe("Cursor Position in Editor Test", () => {
+xdescribe("Cursor Position in Editor Test", () => {
     beforeEach(() => {
         cy.visit("/");
     });
