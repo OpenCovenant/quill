@@ -524,12 +524,12 @@
     background-color: var(--dark-mode-anti-theme);
 }
 
-.history-switch-toggle:checked{
+.history-switch-toggle:checked {
     background-color: var(--checked-green-color-theme);
     border-color: var(--checked-green-color-theme);
 }
 
-.history-switch .history-switch-toggle{
+.history-switch .history-switch-toggle {
     float: right;
     margin-right: 2.7rem;
 }
@@ -538,7 +538,6 @@
     border-color: #d9d9e3;
     outline: none;
     box-shadow: none;
-
 }
 
 /*TODO change color on .suggestion:hover ?*/
