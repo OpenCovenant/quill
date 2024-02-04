@@ -82,7 +82,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private fromEditorInputEvent$: any;
 
     constructor(
-        public localStorageService: WritingsHistoryService,
+        public writingsHistoryService: WritingsHistoryService,
         private http: HttpClient,
         private editorContentService: EditorContentService,
         private elementRef: ElementRef,
@@ -125,7 +125,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             document.getElementById(
                 'flex-switch-check-checked'
             ) as HTMLInputElement
-        ).checked = this.localStorageService.canStoreWritings;
+        ).checked = this.writingsHistoryService.canStoreWritings;
 
         this.fromEditorInputEvent$ = fromEvent(
             document.getElementById(this.EDITOR_KEY)!,
@@ -905,7 +905,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     toggleStoringOfWrittenTexts(): void {
-        this.localStorageService.toggleWritingPermission(
+        this.writingsHistoryService.toggleWritingPermission(
             (
                 document.getElementById(
                     'flex-switch-check-checked'
@@ -1229,7 +1229,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             .pipe(
                 debounceTime(this.EVENTUAL_WRITTEN_TEXT_STORAGE_TIME),
                 tap(() =>
-                    this.localStorageService.storeWriting(
+                    this.writingsHistoryService.storeWriting(
                         document.getElementById(this.EDITOR_KEY)!.innerText
                     )
                 )
