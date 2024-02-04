@@ -4,7 +4,7 @@
     padding-bottom: 3rem;
     gap: 1rem;
 }
-    
+
 .input-container {
     flex: 0 0 62%;
     margin-left: 3rem;
@@ -15,7 +15,7 @@
     box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
     margin-top: 5px;
 }
-   
+
 .card-header {
     border-bottom: 0px solid rgba(0, 0, 0, 0.125);
 }
@@ -515,6 +515,29 @@
 /*TODO: apply dark mode for the history of the written texts*/
 .written-texts-history-dark-mode {
     background-color: var(--dark-mode-theme);
+}
+
+.form-check-input {
+    display: inline-block;
+    width: 40px;
+    height: 19px;
+    background-color: var(--dark-mode-anti-theme);
+}
+
+.form-check-input:checked{
+    background-color: var(--checked-green-color-theme);
+    border-color: var(--checked-green-color-theme);
+}
+
+.form-check .form-check-input{
+    float: right;
+    margin-right: 2.7rem;
+}
+
+.form-check-input:focus {
+    border-color: #d9d9e3;
+    outline: none;
+    box-shadow: none;
 }
 
 /*TODO change color on .suggestion:hover ?*/
