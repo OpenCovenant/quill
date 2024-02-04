@@ -517,27 +517,28 @@
     background-color: var(--dark-mode-theme);
 }
 
-.form-check-input {
+.history-switch-toggle {
     display: inline-block;
     width: 40px;
     height: 19px;
     background-color: var(--dark-mode-anti-theme);
 }
 
-.form-check-input:checked{
+.history-switch-toggle:checked{
     background-color: var(--checked-green-color-theme);
     border-color: var(--checked-green-color-theme);
 }
 
-.form-check .form-check-input{
+.history-switch .history-switch-toggle{
     float: right;
     margin-right: 2.7rem;
 }
 
-.form-check-input:focus {
+.history-switch-toggle:focus {
     border-color: #d9d9e3;
     outline: none;
     box-shadow: none;
+
 }
 
 /*TODO change color on .suggestion:hover ?*/
