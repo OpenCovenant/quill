@@ -26,10 +26,7 @@ export class WritingsHistoryService {
         );
         if (!alreadyCanStoreWritings) {
             if (this.canStoreWritings) {
-                localStorage.setItem(
-                    this.LOCAL_STORAGE_WRITINGS_KEY,
-                    'true'
-                );
+                localStorage.setItem(this.LOCAL_STORAGE_WRITINGS_KEY, 'true');
             }
         }
         if (alreadyCanStoreWritings === 'false') {
@@ -108,7 +105,11 @@ export class WritingsHistoryService {
     }
 
     private clearWritingsHistory(): void {
-        for (let index = 0; index < this.WRITINGS_HISTORY_KEYS.length; index++) {
+        for (
+            let index = 0;
+            index < this.WRITINGS_HISTORY_KEYS.length;
+            index++
+        ) {
             localStorage.removeItem(this.WRITINGS_HISTORY_KEYS[index]);
         }
     }

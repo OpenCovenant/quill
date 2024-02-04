@@ -620,7 +620,7 @@
                 </div>
                 <div
                     *ngFor="
-                        let writtenText of localStorageService.fetchWritingsHistory()
+                        let writtenText of writingsHistoryService.fetchWritingsHistory()
                     "
                     class="list-group home-list-group"
                 >
