@@ -54,10 +54,7 @@ describe("Shortcuts", () => {
         cy.get("body").type("2");
 
         cy.wait(5000); // TODO: bug here (see: issue #413)
-        cy.get('[data-test="editor"]').should(
-            "have.text",
-            "saktë"
-        );
+        cy.get('[data-test="editor"]').should("have.text", "saktë");
         cy.get('[data-test="marking-card"]').should("not.exist");
 
         cy.get("body").type("{Shift} + 2");
