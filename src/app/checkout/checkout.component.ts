@@ -52,18 +52,15 @@ export class CheckoutComponent implements OnInit {
                         plan_id: '' // Replace with your PayPal plan ID
                     });
                 },
-                onApprove: (data: any, actions: any): void => {
+                onApprove: (data: any): void => {
                     if (
                         !this.allowedPaymentSources.includes(data.paymentSource)
                     ) {
-                        console.log('Odd payment source, cancelling...');
+                        console.warn('Odd payment source, cancelling...');
                     }
                     this.http
                         .post(this.storePayPalSubscriptionURL, data)
-                        .subscribe((v: any) => {
-                            console.log(
-                                'Subscription has been created, thank you!'
-                            );
+                        .subscribe(() => {
                             const navigationExtras: NavigationExtras = {
                                 state: { payload: 'penda-thank-you' }
                             };
@@ -75,12 +72,6 @@ export class CheckoutComponent implements OnInit {
                                 this.router.navigate(['/'], navigationExtras);
                             });
                         });
-                },
-                onCancel(data: any): void {
-                    console.log('cancelled');
-                    // remove created plan in onClick?
-
-                    // Show a cancel page, or return to cart
                 },
                 onError(err: any): void {
                     // For example, redirect to a specific error page
