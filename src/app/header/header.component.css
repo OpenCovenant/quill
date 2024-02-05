@@ -237,3 +237,7 @@
 .settings-gear-button:hover {
     background-color: var(--light-mode-hover-theme);
 }
+
+.profile-icon-dropdown {
+    margin-right: 16px;
+}
