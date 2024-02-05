@@ -44,28 +44,22 @@
                 [ngIfElse]="authenticateButton"
             >
                 <div class="btn-group">
-                    <button
-                        type="button"
-                        class="btn btn-secondary dropdown-toggle"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                    >
-                        {{ authenticationService.user.first_name }}
+                    <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle">
+                        <span>{{ authenticationService.user.first_name }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>
-                            <a class="dropdown-item" routerLink="/profile"
-                                >Profili</a
-                            >
+                            <a class="dropdown-item" routerLink="/profile">
+                                <span class="profile-icon-dropdown bi-person-circle"></span>
+                                <span>Profili</span>
+                            </a>
                         </li>
                         <li><hr class="dropdown-divider" /></li>
                         <li>
-                            <a
-                                class="dropdown-item"
-                                (click)="logout()"
-                                style="cursor: pointer"
-                                >Dil</a
-                            >
+                            <a class="dropdown-item" (click)="logout()" style="cursor: pointer">
+                                <span><i class="bi bi-box-arrow-right"></i></span>
+                                <span>Dil</span>
+                            </a>
                         </li>
                     </ul>
                 </div>
