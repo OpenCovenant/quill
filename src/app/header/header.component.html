@@ -44,13 +44,10 @@
                 [ngIfElse]="authenticateButton"
             >
                 <div class="btn-group">
-                    <button
-                        type="button"
-                        class="btn btn-secondary dropdown-toggle"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                    >
-                        {{ authenticationService.user.first_name }}
+                    <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle">
+                        <span class="profile-icon bi-person-circle"></span>
+                        <span class="separator"> | </span>
+                        <span class="profile-name">{{ authenticationService.user.first_name }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>
