@@ -354,11 +354,8 @@
     display: flex;
     justify-content: space-between;
 }
-.history-card-close-button {
-    padding: 0.1rem 0.3rem;
-}
 
-.highlighted-marking-go-back-button {
+.history-card-close-button {
     padding: 0.1rem 0.3rem;
 }
 
