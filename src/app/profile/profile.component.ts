@@ -28,26 +28,25 @@ export class ProfileComponent {
     }
 
     closeAccount(): void {
-        console.log('deactivating account...');
         this.http.post(this.deactivateAccountURL, {}).subscribe(() => {
             // give feed to user that their account has been successfully deactivated
             // TODO: clear localStorage and what not
             // TODO: sign user out (from anything that's left here)
             // TODO: route home?
+            this.authenticationService.logout();
             this.router.navigate(['/']);
         });
     }
 
     cancelSubscription(): void {
         this.http.post(this.cancelSubscriptionURL, {}).subscribe((c) => {
-            console.log('Subscription has been cancelled.');
             this.authenticationService.subscribed$.next(false);
         });
     }
 
     private initializeURLs(): void {
         this.baseURL = environment.baseURL;
-        this.deactivateAccountURL = this.baseURL + '/api/deactivateAccount';
+        this.deactivateAccountURL = this.baseURL + '/api/closeAccount';
         this.cancelSubscriptionURL =
             this.baseURL + '/api/cancelPayPalSubscription';
     }

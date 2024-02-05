@@ -27,7 +27,7 @@ export class TermsAndConditionsComponent {
             );
     }
 
-    initializeURLs() {
+    private initializeURLs(): void {
         this.baseURL = environment.baseURL;
         this.getTermsAndConditionsURL =
             this.baseURL + '/api/getTermsAndConditions';

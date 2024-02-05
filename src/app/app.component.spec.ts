@@ -8,17 +8,15 @@ describe('AppComponent', () => {
         }).compileComponents();
     });
 
-    // TODO
-    // it('should create the app', () => {
-    //     const fixture = TestBed.createComponent(AppComponent);
-    //     const app = fixture.componentInstance;
-    //     expect(app).toBeTruthy();
-    // });
+    xit('should create the app', () => {
+        const fixture = TestBed.createComponent(AppComponent);
+        const app = fixture.componentInstance;
+        expect(app).toBeTruthy();
+    });
 
-    // TODO
-    // it(`should have as title 'Penda'`, () => {
-    //     const fixture = TestBed.createComponent(AppComponent);
-    //     const app = fixture.componentInstance;
-    //     expect(app.title).toEqual('Penda');
-    // });
+    xit(`should have as title 'Penda'`, () => {
+        const fixture = TestBed.createComponent(AppComponent);
+        const app = fixture.componentInstance;
+        expect(app.title).toEqual('Penda');
+    });
 });

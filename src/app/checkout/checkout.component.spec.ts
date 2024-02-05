@@ -21,8 +21,7 @@ describe('CheckoutComponent', () => {
         fixture.detectChanges();
     });
 
-    // TODO
-    // it('should create', () => {
-    //     expect(component).toBeTruthy();
-    // });
+    xit('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

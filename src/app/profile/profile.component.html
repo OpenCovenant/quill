@@ -166,7 +166,10 @@
                                 të pezullojë abonimin nëse e keni një të tillë.
                             </p>
                             <button
-                                (click)="closeAccount()"
+                                id="accountClosureModalButton"
+                                type="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#accountClosureModal"
                                 class="btn btn-danger"
                                 style="font-weight: 500"
                             >
@@ -231,6 +234,62 @@
                     data-bs-dismiss="modal"
                 >
                     Anulo Abonimin
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div
+    class="modal fade"
+    id="accountClosureModal"
+    tabindex="-1"
+    aria-labelledby="accountClosureModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="accountClosureModalLabel">
+                    Konfirmo Mbylljen e Llogarisë
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Mbyll Dialogun"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    A jeni të sigurtë që dëshironi të mbyllni llogarinë tuaj te Penda?
+                </p>
+            </div>
+            <div
+                class="modal-footer"
+                style="display: flex; justify-content: space-around"
+            >
+                <button
+                    type="button"
+                    class="btn-outline-primary"
+                    style="
+                        background-color: transparent;
+                        color: #0d6efd;
+                        font-weight: 500;
+                        border: none;
+                    "
+                    data-bs-dismiss="modal"
+                >
+                    Kthehu
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-danger"
+                    style="font-weight: 500"
+                    (click)="closeAccount()"
+                    data-bs-dismiss="modal"
+                >
+                    Mbyll Llogarinë
                 </button>
             </div>
         </div>

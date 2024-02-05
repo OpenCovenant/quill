@@ -206,7 +206,7 @@
                     justify-content: space-between;
                 "
             >
-                <div>
+                <div *ngIf='dismissedMarkings.length !== 0'>
                     <button
                         *ngFor="let dismissedMarking of dismissedMarkings"
                         type="button"
@@ -232,6 +232,8 @@
                         </span>
                     </button>
                 </div>
+
+                <div *ngIf='dismissedMarkings.length === 0'><p>Nuk keni larguar ndonjë shenjim deri më tani.</p><p>Mund të klikoni te ikona kryq te një shenjim në mënyrë që të mos shfaqet më. Më tej ajo mund të rikthehet nëpërmjet këtij dialogu.</p></div>
             </div>
             <div
                 class="modal-footer"

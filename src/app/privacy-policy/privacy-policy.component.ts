@@ -26,7 +26,7 @@ export class PrivacyPolicyComponent {
             );
     }
 
-    initializeURLs() {
+    private initializeURLs(): void {
         this.baseURL = environment.baseURL;
         this.getPrivacyPolicyURL = this.baseURL + '/api/getPrivacyPolicy';
     }
