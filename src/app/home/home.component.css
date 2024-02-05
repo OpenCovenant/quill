@@ -354,8 +354,10 @@
     display: flex;
     justify-content: space-between;
 }
-
-.btn-secondary {
+.history-card-close-button{
+    padding: 0.1rem 0.3rem;
+}
+.highlighted-marking-go-back-button {
     padding: 0.1rem 0.3rem;
 }
 
@@ -521,8 +523,9 @@
     display: inline-block;
     width: 40px;
     height: 19px;
-    background-color: var(--dark-mode-anti-theme);
+    border-color: #d9d9e3;
 }
+
 
 .history-switch-toggle:checked {
     background-color: var(--checked-green-color-theme);
