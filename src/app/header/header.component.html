@@ -45,23 +45,21 @@
             >
                 <div class="btn-group">
                     <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle">
-                        <span class="profile-icon bi-person-circle"></span>
-                        <span class="profile-name"> {{ authenticationService.user.first_name }}</span>
+                        <span class="profile-name">{{ authenticationService.user.first_name }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>
-                            <a class="dropdown-item" routerLink="/profile"
-                                >Profili</a
-                            >
+                            <a class="dropdown-item" routerLink="/profile">
+                                <span class="profile-icon-dropdown bi-person-circle"></span>
+                                <span class="profile-text">Profili</span>
+                            </a>
                         </li>
                         <li><hr class="dropdown-divider" /></li>
                         <li>
-                            <a
-                                class="dropdown-item"
-                                (click)="logout()"
-                                style="cursor: pointer"
-                                >Dil</a
-                            >
+                            <a class="dropdown-item" (click)="logout()" style="cursor: pointer">
+                                <span class="logout-icon"><i class="bi bi-box-arrow-right"></i></span>
+                                <span class="logout-text">Dil</span>
+                            </a>
                         </li>
                     </ul>
                 </div>
