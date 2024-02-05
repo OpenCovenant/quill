@@ -26,7 +26,9 @@
                         <h2 class="my-0 fw-normal text-center">Penda</h2>
                     </div>
                     <div class="card-body">
-                        <h1 class="card-title pricing-card-title text-center pb-2">
+                        <h1
+                            class="card-title pricing-card-title text-center pb-2"
+                        >
                             0 €<small class="text-muted fw-light">/muaj</small>
                         </h1>
                         <ul
@@ -34,35 +36,47 @@
                             style="font-size: 1.05rem"
                         >
                             <li style="padding-bottom: 1rem">
-                                <i class="bi bi-check-lg" style='margin-right: 2rem;'></i>analizo deri më 5 shkrime në ditë
+                                <i
+                                    class="bi bi-check-lg"
+                                    style="margin-right: 2rem"
+                                ></i
+                                >analizo deri më 5 shkrime në ditë
                             </li>
                             <li style="padding-bottom: 11.55rem">
-                                <i class="bi bi-check-lg" style='margin-right: 2rem;'></i>shenjime për gabime shkrimi, huazimesh,
+                                <i
+                                    class="bi bi-check-lg"
+                                    style="margin-right: 2rem"
+                                ></i
+                                >shenjime për gabime shkrimi, huazimesh,
                                 stilistike
                             </li>
                         </ul>
                         <ng-template
                             [ngIf]="
-                                !(
-                                    authenticationService.isSubscribed()
-                                    | async
-                                )
+                                !(authenticationService.isSubscribed() | async)
                             "
                             [ngIfElse]="emptySection"
                         >
-                            <div class='text-center'>
-                            <button
-                                type="button"
-                                routerLink="/authentication"
-                                class="mybt w-50 btn btn-lg btn-secondary"
-                            >
-                                Abonimi Aktual
-                            </button>
-                            <div style="padding-top: 0.8rem">
-                                <span style="color: #7f7f7f; font-size: 0.8rem"
-                                    ><a routerLink='/authentication'>identifikohu falas</a>, nuk ju kërkojmë as kartë bankare</span
+                            <div class="text-center">
+                                <button
+                                    type="button"
+                                    routerLink="/authentication"
+                                    class="mybt w-50 btn btn-lg btn-secondary"
                                 >
-                            </div>
+                                    Abonimi Aktual
+                                </button>
+                                <div style="padding-top: 0.8rem">
+                                    <span
+                                        style="
+                                            color: #7f7f7f;
+                                            font-size: 0.8rem;
+                                        "
+                                        ><a routerLink="/authentication"
+                                            >identifikohu falas</a
+                                        >, nuk ju kërkojmë as kartë
+                                        bankare</span
+                                    >
+                                </div>
                             </div>
                         </ng-template>
                         <ng-template #emptySection>
@@ -83,7 +97,9 @@
                         <h2 class="my-0 fw-normal text-center">Penda e Artë</h2>
                     </div>
                     <div class="card-body" style="padding-bottom: 3rem">
-                        <h1 class="card-title pricing-card-title text-center pb-2">
+                        <h1
+                            class="card-title pricing-card-title text-center pb-2"
+                        >
                             9.90 €<small class="text-muted fw-light"
                                 >/muaj</small
                             >
@@ -93,15 +109,27 @@
                             style="font-size: 1.05rem"
                         >
                             <li style="padding-bottom: 1rem">
-                                <i class="bi bi-check-lg" style='margin-right: 2rem;'></i>analizo sa shkrime në ditë ju nevojiten
+                                <i
+                                    class="bi bi-check-lg"
+                                    style="margin-right: 2rem"
+                                ></i
+                                >analizo sa shkrime në ditë ju nevojiten
                             </li>
                             <li style="padding-bottom: 1rem">
-                                <i class="bi bi-check-lg" style='margin-right: 2rem;'></i>shenjime për gabime shkrimi, huazimesh,
+                                <i
+                                    class="bi bi-check-lg"
+                                    style="margin-right: 2rem"
+                                ></i
+                                >shenjime për gabime shkrimi, huazimesh,
                                 stilistike dhe gramatikore nëpërmjet
                                 Inteligjencës Artificiale
                             </li>
                             <li style="padding-bottom: 7.7rem">
-                                <i class="bi bi-check-lg" style='margin-right: 2rem;'></i>zgjidh çfarë lloj shenjimesh doni të shihni
+                                <i
+                                    class="bi bi-check-lg"
+                                    style="margin-right: 2rem"
+                                ></i
+                                >zgjidh çfarë lloj shenjimesh doni të shihni
                             </li>
                         </ul>
                         <ng-template
@@ -110,26 +138,26 @@
                             "
                             [ngIfElse]="otherEmptySection"
                         >
-                            <div class='text-center'>
-                            <button
-                                type="button"
-                                routerLink="/checkout"
-                                style="background-color: #ebbcff"
-                                class="w-50 btn btn-lg contact-us-button"
-                            >
-                                Abonoju
-                            </button>
+                            <div class="text-center">
+                                <button
+                                    type="button"
+                                    routerLink="/checkout"
+                                    style="background-color: #ebbcff"
+                                    class="w-50 btn btn-lg contact-us-button"
+                                >
+                                    Abonoju
+                                </button>
                             </div>
                         </ng-template>
                         <ng-template #otherEmptySection>
-                            <div class='text-center'>
-                            <button
-                                type="button"
-                                routerLink="/authentication"
-                                class="mybt w-50 btn btn-lg btn-secondary"
-                            >
-                                Abonimi Aktual
-                            </button>
+                            <div class="text-center">
+                                <button
+                                    type="button"
+                                    routerLink="/authentication"
+                                    class="mybt w-50 btn btn-lg btn-secondary"
+                                >
+                                    Abonimi Aktual
+                                </button>
                             </div>
                         </ng-template>
                     </div>
