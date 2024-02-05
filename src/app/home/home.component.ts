@@ -18,7 +18,7 @@ import {
 
 import { CursorPosition } from '../models/cursor-position';
 import { CursorPlacement } from '../models/cursor-placement';
-import { LocalStorageService } from '../local-storage/local-storage.service';
+import { WritingsHistoryService } from '../local-storage/writings-history.service';
 import { ProcessedText } from '../models/processed-text';
 import { TextMarking } from '../models/text-marking';
 import { environment } from '../../environments/environment';
@@ -85,11 +85,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private fromEditorInputEvent$: any;
 
     constructor(
+        public writingsHistoryService: WritingsHistoryService,
         private http: HttpClient,
         private router: Router,
         private editorContentService: EditorContentService,
         private elementRef: ElementRef,
-        public localStorageService: LocalStorageService,
         public darkModeService: DarkModeService
     ) {
         this.initializeURLs();
@@ -132,7 +132,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             document.getElementById(
                 'flex-switch-check-checked'
             ) as HTMLInputElement
-        ).checked = this.localStorageService.canStoreWrittenTexts;
+        ).checked = this.writingsHistoryService.canStoreWritings;
 
         this.fromEditorInputEvent$ = fromEvent(
             document.getElementById(this.EDITOR_KEY)!,
@@ -921,7 +921,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     toggleStoringOfWrittenTexts(): void {
-        this.localStorageService.toggleWritingPermission(
+        this.writingsHistoryService.toggleWritingPermission(
             (
                 document.getElementById(
                     'flex-switch-check-checked'
@@ -1245,7 +1245,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             .pipe(
                 debounceTime(this.EVENTUAL_WRITTEN_TEXT_STORAGE_TIME),
                 tap(() =>
-                    this.localStorageService.storeWrittenText(
+                    this.writingsHistoryService.storeWriting(
                         document.getElementById(this.EDITOR_KEY)!.innerText
                     )
                 )

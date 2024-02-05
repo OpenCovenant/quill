@@ -65,8 +65,9 @@ export class SettingsComponent implements OnInit {
     }
 
     undoMarkingDismissal($event: MouseEvent): void {
-        const dismissedMarking = ($event.target as any).parentElement
-            .parentElement.firstChild.textContent;
+        const dismissedMarking = ($event.target as any).getAttribute(
+            'data-dismissed-marking'
+        );
         let dismissedMarkings: string[] = JSON.parse(
             localStorage.getItem('penda-dismissed-markings')!
         ) as string[];
