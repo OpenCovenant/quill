@@ -2,7 +2,7 @@
     <ng-template [ngIf]="isLoading" [ngIfElse]="loadingTemplate">
         <div class="central-settings-area">
             <div
-                class="card p-3"
+                class="card main-card p-3"
                 [ngClass]="{
                     'settings-dark-mode': darkModeService.isDarkMode
                 }"
@@ -52,7 +52,7 @@
     <ng-template #loadingTemplate>
         <div class="central-settings-area">
             <div
-                class="card p-3"
+                class="card skeleton-main-card p-3"
                 style="width: 60%"
                 [ngClass]="{
                     'settings-dark-mode': darkModeService.isDarkMode
