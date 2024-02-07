@@ -574,7 +574,7 @@
     margin-top: 5px;
 }
 
-.highlighted-marking-card border-secondary {
+.highlighted-marking-card {
     border: 0px solid rgba(0, 0, 0, 0.125);
     box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
     margin-top: 5px;
