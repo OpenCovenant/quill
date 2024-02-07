@@ -521,7 +521,7 @@
 }
 
 
-.history-switch-toggle:checked {
+.history-switch-toggle:checked{
     background-color: var(--checked-green-color-theme);
     border-color: var(--checked-green-color-theme);
 }
