@@ -10,12 +10,6 @@
     margin-left: 3rem;
 }
 
-.card {
-    border: 0px solid rgba(0, 0, 0, 0.125);
-    box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
-    margin-top: 5px;
-}
-
 .card-header {
     border-bottom: 0px solid rgba(0, 0, 0, 0.125);
 }
@@ -544,6 +538,53 @@
     box-shadow: none;
 }
 
+.input-container-card {
+    border: 0px solid rgba(0, 0, 0, 0.125);
+    box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
+    margin-top: 5px;
+}
+
+.typo-marking-card {
+    border: 0px solid rgba(0, 0, 0, 0.125);
+    box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
+    margin-top: 5px;
+}
+
+.loanword-marking-card {
+    border: 0px solid rgba(0, 0, 0, 0.125);
+    box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
+    margin-top: 5px;
+}
+
+.stylistic-marking-card {
+    border: 0px solid rgba(0, 0, 0, 0.125);
+    box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
+    margin-top: 5px;
+}
+
+.grammatical-marking-card {
+    border: 0px solid rgba(0, 0, 0, 0.125);
+    box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
+    margin-top: 5px;
+}
+
+.generated-marking-card {
+    border: 0px solid rgba(0, 0, 0, 0.125);
+    box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
+    margin-top: 5px;
+}
+
+.highlighted-marking-card {
+    border: 0px solid rgba(0, 0, 0, 0.125);
+    box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
+    margin-top: 5px;
+}
+
+.loading-reading-text-card {
+    border: 0px solid rgba(0, 0, 0, 0.125);
+    box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
+    margin-top: 5px;
+}
 /*TODO change color on .suggestion:hover ?*/
 @media (max-width: 800px) {
     .high-level-container {

@@ -1,7 +1,7 @@
 <div class="high-level-container">
     <div class="input-container mt-5">
         <div
-            class="card border-secondary"
+            class="card input-container-card border-secondary"
             [ngClass]="{
                 'input-container-card-dark-mode': darkModeService.isDarkMode
             }"
@@ -145,7 +145,7 @@
             "
         >
             <!-- TODO put into a method -->
-            <div class="card border-secondary">
+            <div class="card typo-marking-card border-secondary">
                 <div
                     class="card-header second-header"
                     [ngClass]="{
@@ -174,7 +174,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="card border-secondary mt-4">
+            <div class="card loanword-marking-card border-secondary mt-4">
                 <div
                     class="card-header second-header"
                     [ngClass]="{
@@ -204,7 +204,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="card border-secondary mt-4">
+            <div class="card stylistic-marking-card border-secondary mt-4">
                 <div
                     class="card-header second-header"
                     [ngClass]="{
@@ -231,7 +231,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="card border-secondary mt-4">
+            <div class="card  grammatical-marking-card border-secondary mt-4">
                 <div
                     class="card-header second-header"
                     [ngClass]="{
@@ -276,7 +276,7 @@
                         let textMarking of processedText?.textMarkings;
                         index as i
                     "
-                    class="card border-secondary"
+                    class="card generated-marking-card border-secondary"
                     [ngClass]="{ 'mt-2 mb-2': i > 0 }"
                     data-test="marking-card"
                 >
@@ -393,7 +393,7 @@
                 </div>
             </ng-template>
             <ng-template #highlightedMarkingTemplate>
-                <div class="card border-secondary" data-test="marking-card">
+                <div class="card highlighted-marking-card border-secondary" data-test="marking-card">
                     <div
                         class="card-header second-header"
                         [ngClass]="{
@@ -531,7 +531,7 @@
             </ng-template>
         </div>
         <div
-            class="card border-secondary reading-writing-flex"
+            class="card loading-reading-text-card border-secondary reading-writing-flex"
             *ngIf="loading$ | async"
         >
             <div
