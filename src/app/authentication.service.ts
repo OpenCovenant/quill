@@ -64,7 +64,6 @@ export class AuthenticationService {
                     this.authenticated$.next(true);
                     this.subscribed$.next(r.subscribed);
                     this.user = {
-                        email: r.email,
                         first_name: r.first_name,
                         platform: r.platform
                     };
@@ -72,7 +71,6 @@ export class AuthenticationService {
                     this.authenticated$.next(false);
                     // TODO: currently assuming we do not refresh
                     localStorage.removeItem('penda-access-jwt');
-                    localStorage.removeItem('penda-refresh-jwt');
 
                     this.reauthenticationModal$.next({});
                     // console.log('the current access token has expired');// TODO: now remove the KV-pair from LS? corresponds to a dialog shown

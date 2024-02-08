@@ -42,7 +42,6 @@ export class AuthenticationComponent implements OnInit {
                     .subscribe((f: any) => {
                         this.authenticationService.authenticated$.next(true);
                         this.authenticationService.user = {
-                            email: f.email,
                             first_name: f.first_name,
                             platform: f.platform
                         };
@@ -53,10 +52,6 @@ export class AuthenticationComponent implements OnInit {
                         localStorage.setItem(
                             'penda-access-jwt',
                             f.access_token
-                        );
-                        localStorage.setItem(
-                            'penda-refresh-jwt',
-                            f.refresh_token
                         );
 
                         let navigationExtras: NavigationExtras = {};
@@ -89,7 +84,6 @@ export class AuthenticationComponent implements OnInit {
                     .subscribe((f: any) => {
                         this.authenticationService.authenticated$.next(true);
                         this.authenticationService.user = {
-                            email: f.email,
                             first_name: f.first_name,
                             platform: f.platform
                         };
@@ -100,10 +94,6 @@ export class AuthenticationComponent implements OnInit {
                         localStorage.setItem(
                             'penda-access-jwt',
                             f.access_token
-                        );
-                        localStorage.setItem(
-                            'penda-refresh-jwt',
-                            f.refresh_token
                         );
 
                         let navigationExtras: NavigationExtras = {};
