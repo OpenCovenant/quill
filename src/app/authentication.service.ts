@@ -66,7 +66,7 @@ export class AuthenticationService {
                     this.user = {
                         email: r.email,
                         first_name: r.first_name,
-                        last_name: r.last_name
+                        platform: r.platform
                     };
                 } else {
                     this.authenticated$.next(false);
