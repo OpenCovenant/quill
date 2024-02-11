@@ -241,3 +241,51 @@
 .profile-icon-dropdown {
     margin-right: 16px;
 }
+
+.dropdown-item {
+    border-radius: 10px;
+}
+.dropdown-item:hover {
+    border-radius: 10px;
+}
+
+.dropdown-item:active {
+    background-color: #d6d6d6;
+    color: black;
+}
+
+.dropdown-menu-item-list {
+    padding: 0px 5px 0px 5px;
+}
+
+.dropdown-divider {
+    margin-left: auto;
+    margin-right: auto;
+    width: 89%;
+}
+
+.dropdown-menu-dark-mode {
+    background-color: var(--dark-mode-theme);
+    box-shadow: 0px 0px 1px var(--dark-mode-smooth-theme);
+}
+
+.dropdown-item-dark-mode {
+    color: white;
+}
+
+.logout-icon-dark-mode {
+    color:white;
+}
+
+.dropdown-divider-dark-mode {
+    color: white;
+}
+
+.dropdown-item-dark-mode:hover {
+    background-color: var(--dark-mode-hover-color);
+}
+
+.dropdown-item-dark-mode:active {
+    background-color: #6e6e6e;
+    color: white;
+}
