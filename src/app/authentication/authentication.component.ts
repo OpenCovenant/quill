@@ -107,13 +107,11 @@ export class AuthenticationComponent implements OnInit {
                             this.router.navigate(['/'], navigationExtras);
                         });
                     });
-
-                console.log('got it here', v);
             }
         });
         google.accounts.id.renderButton(
             document.getElementById("googleSignInButton"),
-            { theme: "outline", size: "large", locale: 'sq'}
+            { theme: "outline", size: "large", locale: 'sq', width: 246}
         );
     }
 
