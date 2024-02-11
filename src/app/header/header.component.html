@@ -52,24 +52,61 @@
                     >
                         <span>{{ authenticationService.user.first_name }}</span>
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li>
-                            <a class="dropdown-item" routerLink="/profile">
+                    <ul
+                        class="dropdown-menu dropdown-menu-end"
+                        [ngClass]="{
+                            'dropdown-menu-dark-mode':
+                                darkModeService.isDarkMode
+                        }"
+                    >
+                        <li
+                            class="dropdown-menu-item-list"
+                            [ngClass]="{
+                                'dropdown-menu-item-list-dark-mode':
+                                    darkModeService.isDarkMode
+                            }"
+                        >
+                            <a
+                                class="dropdown-item menu-dropdown-item"
+                                [ngClass]="{
+                                    'menu-dropdown-item-dark-mode':
+                                        darkModeService.isDarkMode
+                                }"
+                                routerLink="/profile"
+                            >
                                 <span
                                     class="profile-icon-dropdown bi-person-circle"
                                 ></span>
                                 <span>Profili</span>
                             </a>
                         </li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li>
+                        <li><hr class="dropdown-divider menu-item-divider"
+                                [ngClass]="{
+                                    'menu-item-divider-dark-mode':
+                                        darkModeService.isDarkMode
+                                }"/></li>
+                        <li
+                            class="dropdown-menu-item-list"
+                            [ngClass]="{
+                                'dropdown-menu-item-list-dark-mode':
+                                    darkModeService.isDarkMode
+                            }"
+                        >
                             <a
-                                class="dropdown-item"
+                                class="dropdown-item menu-dropdown-item"
+                                [ngClass]="{
+                                    'menu-dropdown-item-dark-mode':
+                                        darkModeService.isDarkMode
+                                }"
                                 (click)="logout()"
                                 style="cursor: pointer"
                             >
                                 <span
-                                    ><i class="bi bi-box-arrow-right"></i
+                                    ><i class="bi bi-box-arrow-right"
+                                        [ngClass]="{
+                                    'logout-icon-dark-mode':
+                                        darkModeService.isDarkMode
+                                }"></i
                                 ></span>
                                 <span>Dil</span>
                             </a>
