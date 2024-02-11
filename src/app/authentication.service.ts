@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { Router } from '@angular/router';
+declare const google: any;
 
 @Injectable({
     providedIn: 'root'
@@ -33,13 +34,17 @@ export class AuthenticationService {
     }
 
     logout(): void {
-        (<any>window)['FB'].getLoginStatus(function (response: any) {
+        if (this.user.platform === 'facebook') {
+        (<any>window)['FB'].getLoginStatus(function(response: any) {
             if (response && response.status === 'connected') {
-                (<any>window)['FB'].logout(function (r: any) {
+                (<any>window)['FB'].logout((): void => {
                     document.location.reload();
                 });
             }
         });
+        } else {
+            google.accounts.id.disableAutoSelect();
+        }
 
         this.http.post(this.logoutURL, {}).subscribe(() => {
             this.authenticated$.next(false);
