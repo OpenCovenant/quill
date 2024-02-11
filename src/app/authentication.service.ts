@@ -46,12 +46,11 @@ export class AuthenticationService {
             google.accounts.id.disableAutoSelect();
         }
 
-        this.http.post(this.logoutURL, {}).subscribe(() => {
+        this.http.post(this.logoutURL, {}).subscribe((): void => {
             this.authenticated$.next(false);
             this.router.navigate(['/']);
             this.user = undefined;
             localStorage.removeItem('penda-access-jwt');
-            localStorage.removeItem('penda-refresh-jwt');
         });
     }
 
@@ -78,14 +77,6 @@ export class AuthenticationService {
                     localStorage.removeItem('penda-access-jwt');
 
                     this.reauthenticationModal$.next({});
-                    // console.log('the current access token has expired');// TODO: now remove the KV-pair from LS? corresponds to a dialog shown
-                    // const refresh_token: string | null = localStorage.getItem('penda-refresh-jwt');
-                    // // console.log(refresh_token);
-                    // this.authenticated = false;
-                    // if (!email && refresh_token) { // TODO should switchMap (or similar) be used here if we are going to make another call
-                    //     console.log('attempting to refresh...');
-                    //     // TODO: implement
-                    // }
                 }
             });
     }
