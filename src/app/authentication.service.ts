@@ -60,7 +60,7 @@ export class AuthenticationService {
         this.http
             .post(this.validateJWTURL, { access_token: access_token })
             .subscribe((r: any) => {
-                if (r.email) {
+                if (Object.keys(r).length > 0) {
                     this.authenticated$.next(true);
                     this.subscribed$.next(r.subscribed);
                     this.user = {
