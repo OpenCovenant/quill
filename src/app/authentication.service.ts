@@ -35,13 +35,13 @@ export class AuthenticationService {
 
     logout(): void {
         if (this.user.platform === 'facebook') {
-        (<any>window)['FB'].getLoginStatus(function(response: any) {
-            if (response && response.status === 'connected') {
-                (<any>window)['FB'].logout((): void => {
-                    document.location.reload();
-                });
-            }
-        });
+            (<any>window)['FB'].getLoginStatus(function(response: any): void {
+                if (response && response.status === 'connected') {
+                    (<any>window)['FB'].logout((): void => {
+                        document.location.reload();
+                    });
+                }
+            });
         } else {
             google.accounts.id.disableAutoSelect();
         }
