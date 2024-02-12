@@ -113,6 +113,7 @@ export class AuthenticationComponent implements OnInit {
             document.getElementById("googleSignInButton"),
             { theme: "outline", size: "large", locale: 'sq', width: 246}
         );
+        google.accounts.id.prompt();
     }
 
     private initializeURLs(): void {
