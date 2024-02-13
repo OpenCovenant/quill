@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from '../../environments/environment';
@@ -10,14 +10,19 @@ import { Router } from '@angular/router';
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.css']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit{
     baseURL!: string;
     getMarkingTypes!: string;
     getMarkingTypesCount!: string;
     markingTypesCount: number = 0;
     markingTypes: any = {};
     markingTypeKeys: Array<string> = [];
-
+    isOffCanvasVisible: boolean = false;
+    ngOnInit() {
+        setTimeout(() => {
+            this.isOffCanvasVisible = true;
+        }, 0);
+    }
     constructor(
         private http: HttpClient,
         public darkModeService: DarkModeService,
