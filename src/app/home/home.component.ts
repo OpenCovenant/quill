@@ -155,7 +155,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             console.log('in sub in afterviewinit w/ v:', g)
 
             if (g === 'cS') {
-                const editor = document.getElementById(this.EDITOR_KEY)!;
                 const cards = document.querySelectorAll(
                     '.sticky .card'
                 ) as NodeListOf<HTMLElement>;
@@ -183,13 +182,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
                 // don't choose suggestions on an uploaded file
                 this.markingSuggestionPairToRemove
-                    .forEach((removeItem) => this.replaceSuggestedNode(editor, removeItem));
+                    .forEach((removeItem) => this.replaceSuggestedNode(removeItem));
 
                 this.markingSuggestionPairToRemove = [];
             } else {
                 this.moveUpRemainingDismissedMarkings();
             }
-        })
+        });
 
         if (this.shouldShowThankYouModal) {
             document.getElementById('thankYouModalButton')?.click();
@@ -317,11 +316,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             suggestionIndex
         });
 
-        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
         if (this.highlightedMarkingIndex >= 0) {
             this.markingSuggestionPairToRemove
-                .forEach((markingSuggestionPair) => this.replaceSuggestedNode(editor, markingSuggestionPair));
-            this.postSuggestedText(editor);
+                .forEach((markingSuggestionPair) => this.replaceSuggestedNode(markingSuggestionPair));
+            this.postSuggestedText();
             return;
         }
 
@@ -330,16 +328,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         if (document.querySelectorAll('#editor > p > span').length === 1) {
             setTimeout(() => {
                 this.markingSuggestionPairToRemove
-                    .forEach((markingSuggestionPair) => this.replaceSuggestedNode(editor, markingSuggestionPair));
-                this.postSuggestedText(editor);
+                    .forEach((markingSuggestionPair) => this.replaceSuggestedNode(markingSuggestionPair));
+                this.postSuggestedText();
             }, 900);
             return;
         }
 
         this.suggestionChoosingSubject$.next('cS');
-        // clearTimeout(this.deleteTimer);
-        // this.deleteTimer = setTimeout(() => {
-        // }, 1500);
     }
 
     /**
@@ -365,12 +360,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             this.cardCountSelectedPrePost >=
             document.querySelectorAll('.sticky .card').length
         ) {
-            const editor: HTMLElement = document.getElementById(
-                this.EDITOR_KEY
-            )!;
             this.markingSuggestionPairToRemove
-                .forEach((removeItem) => this.replaceSuggestedNode(editor, removeItem));
-            this.postSuggestedText(editor);
+                .forEach((removeItem) => this.replaceSuggestedNode(removeItem));
+            this.postSuggestedText();
             return;
         }
 
@@ -401,7 +393,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * This method inspects the cards and determines if they're ready for further processing.
      */
     private checkForAnimationRemoval(): void {
-        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
         const cards = document.querySelectorAll(
             '.sticky .card'
         ) as NodeListOf<HTMLElement>;
@@ -410,7 +401,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             this.isMarkingInAnimation(cards) ||
             this.suggestedMarkingCardCounter === cards.length
         ) {
-            this.postSuggestedText(editor);
+            this.postSuggestedText();
         }
     }
 
@@ -452,10 +443,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      *
      * This method sends the content of the editor to the server, receives processed text with markings,
      * and updates the editor's content, applying text markings and adjusting cursor position.
-     *
-     * @param {any} editor - The editor element to be updated.
      * */
-    private postSuggestedText(editor: any): void {
+    private postSuggestedText(): void {
+        const editor = document.getElementById(this.EDITOR_KEY)!;
         this.http
             .post(this.generateMarkingsURL, editor.innerHTML)
             .subscribe((next) => {
@@ -554,14 +544,14 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * It replaces the content of the corresponding paragraph in the editor with the chosen suggestion,
      * considering the starting and ending positions of the text marking.
      *
-     * @param {any} editor - The editor element to be updated.
      * @param {{ textMarkingIndex: number, suggestionIndex: number }} markingSuggestionPair -
      *     An object containing the index of the text marking and the index of the suggestion to be replaced.
      */
     private replaceSuggestedNode(
-        editor: any,
         markingSuggestionPair: { markingIndex: number; suggestionIndex: number }
     ): void {
+        const editor = document.getElementById(this.EDITOR_KEY)!;
+
         const marking: TextMarking =
             this.processedText!.textMarkings[markingSuggestionPair.markingIndex];
         const textMarkingIndex =
