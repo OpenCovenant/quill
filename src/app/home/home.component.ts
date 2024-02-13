@@ -12,8 +12,8 @@ import {
     debounceTime,
     filter,
     finalize,
-    fromEvent,
-    tap
+    fromEvent, mergeWith, Subject,
+    tap,
 } from 'rxjs';
 
 import { CursorPosition } from '../models/cursor-position';
@@ -72,8 +72,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     cardCountSelectedPrePost: number = 0; // TODO: seems like a crutch
     markingElementsToRemove: any[] = [];
     animationRemoved = new EventEmitter<void>(); // TODO consider replacing with the proper subject
-    suggestedMarkingCardCounter: number = 0;
+    suggestedMarkingCardCounter: number = 0; // TODO: seems like a crutch
     textMarkingParagraphIndex: any[] = [];
+
+    markingDismissalSubject$ = new Subject();
+    suggestionChoosingSubject$ = new Subject();
 
     shouldShowThankYouModal: boolean = false; // TODO: exists because `this.router.getCurrentNavigation()` is not null only in the constructor
     shouldShowWelcomeModal: boolean = false; // TODO: exists because `this.router.getCurrentNavigation()` is not null only in the constructor
@@ -147,6 +150,46 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.subscribeForWritingInTheEditor();
         this.subscribeForStoringWrittenText();
         this.subscribeForRemovedSuggestionCarAnimation();
+
+        this.markingDismissalSubject$.pipe(mergeWith(this.suggestionChoosingSubject$), debounceTime(1500)).subscribe(g => {
+            console.log('in sub in afterviewinit w/ v:', g)
+
+            if (g === 'sC') {
+                const editor = document.getElementById(this.EDITOR_KEY)!;
+                const cards = document.querySelectorAll(
+                    '.sticky .card'
+                ) as NodeListOf<HTMLElement>;
+
+                this.markingSuggestionPairToRemove.forEach((removeItem) => {
+                    document
+                        .getElementsByClassName('sticky')[0]
+                        .classList.add('screen-height-delay');
+
+                    cards
+                        .item(removeItem.markingIndex)
+                        .classList.add('card-hidden');
+
+                    cards.forEach((card, index) => {
+                        this.handleSuggestionCardAnimation(
+                            card,
+                            index,
+                            removeItem.markingIndex,
+                            cards.length - 1
+                        );
+                    });
+                });
+
+                this.removeScreenHeightDelay();
+
+                // don't choose suggestions on an uploaded file
+                this.markingSuggestionPairToRemove
+                    .forEach((removeItem) => this.replaceSuggestedNode(editor, removeItem));
+
+                this.markingSuggestionPairToRemove = [];
+            } else {
+                this.moveUpRemainingDismissedMarkings();
+            }
+        })
 
         if (this.shouldShowThankYouModal) {
             document.getElementById('thankYouModalButton')?.click();
@@ -293,39 +336,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             return;
         }
 
-        clearTimeout(this.deleteTimer);
-        this.deleteTimer = setTimeout(() => {
-            const cards = document.querySelectorAll(
-                '.sticky .card'
-            ) as NodeListOf<HTMLElement>;
-
-            this.markingSuggestionPairToRemove.forEach((removeItem) => {
-                document
-                    .getElementsByClassName('sticky')[0]
-                    .classList.add('screen-height-delay');
-
-                cards
-                    .item(removeItem.markingIndex)
-                    .classList.add('card-hidden');
-
-                cards.forEach((card, index) => {
-                    this.handleSuggestionCardAnimation(
-                        card,
-                        index,
-                        removeItem.markingIndex,
-                        cards.length - 1
-                    );
-                });
-            });
-
-            this.removeScreenHeightDelay();
-
-            // don't choose suggestions on an uploaded file
-            this.markingSuggestionPairToRemove
-                .forEach((removeItem) => this.replaceSuggestedNode(editor, removeItem));
-
-            this.markingSuggestionPairToRemove = [];
-        }, 1500);
+        this.suggestionChoosingSubject$.next('cS');
+        // clearTimeout(this.deleteTimer);
+        // this.deleteTimer = setTimeout(() => {
+        // }, 1500);
     }
 
     /**
@@ -407,7 +421,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * @param {NodeListOf<HTMLElement>} cards - A NodeList containing the HTML elements representing the cards to be checked.
      * @returns {boolean} - Returns `true` if any card in the provided list still contains the animation classes; otherwise, returns `false`.
      */
-    isMarkingInAnimation(cards: NodeListOf<HTMLElement>): boolean {
+    private isMarkingInAnimation(cards: NodeListOf<HTMLElement>): boolean {
         return Array.from(cards).some(
             (card) =>
                 card.classList.contains('move-up-animation') ||
@@ -669,10 +683,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.indicesOfMarkingsToDismiss.push(markingIndex);
         this.slideFadeAnimationCard(markingIndex);
 
-        clearTimeout(this.deleteTimer); // Will reset the time as the user deletes more markings
-        this.deleteTimer = setTimeout((): void => {
-            this.moveUpRemainingDismissedMarkings();
-        }, 1500);
+        // clearTimeout(this.deleteTimer); // Will reset the time as the user deletes more markings
+        // this.deleteTimer = setTimeout((): void => {
+        this.markingDismissalSubject$.next('mD');
+            // this.moveUpRemainingDismissedMarkings();
+        // }, 1500);
     }
 
     /**
