@@ -594,13 +594,13 @@
                 ></button>
             </div>
             <div
-                class="modal-body"
+                class="modal-body history-modal-body"
                 [ngClass]="{
                     'modal-body-dark-mode': darkModeService.isDarkMode
                 }"
                 data-test="written-texts-modal-body"
             >
-                <div class="form-check form-switch history-switch">
+                <div class="form-check form-switch history-body">
                     <label class="switch">
                         <input
                             (click)="toggleStoringOfWrittenTexts()"

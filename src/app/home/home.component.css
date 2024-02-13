@@ -578,6 +578,7 @@
     width: 40px;
     height: 23px;
     float: right;
+    right: 53px;
 }
 
 .switch input {
@@ -624,6 +625,10 @@ input:checked + .slider:before {
     transform: translateX(16px);
 }
 
+.history-body {
+    padding: 1rem;
+}
+
 /* Rounded sliders */
 .slider.round {
     border-radius: 34px;
@@ -631,6 +636,10 @@ input:checked + .slider:before {
 
 .slider.round:before {
     border-radius: 50%;
+}
+
+.history-modal-body {
+    padding: 1rem 1rem 1rem 0rem;
 }
 /*TODO change color on .suggestion:hover ?*/
 @media (max-width: 800px) {
