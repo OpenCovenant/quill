@@ -154,7 +154,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.markingDismissalSubject$.pipe(mergeWith(this.suggestionChoosingSubject$), debounceTime(1500)).subscribe(g => {
             console.log('in sub in afterviewinit w/ v:', g)
 
-            if (g === 'sC') {
+            if (g === 'cS') {
                 const editor = document.getElementById(this.EDITOR_KEY)!;
                 const cards = document.querySelectorAll(
                     '.sticky .card'
@@ -309,6 +309,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * @param {number} suggestionIndex the index of the chosen Suggestion of the above TextMarking
      */
     chooseSuggestion(markingIndex: number, suggestionIndex: number): void {
+        console.log(markingIndex, suggestionIndex);
         // if (this.cardsToRemove.length >= 1) return; // prevents collision action between suggestion and deletion
         this.suggestedMarkingCardCounter++;
         this.cardCountSelectedPrePost++;
@@ -1336,6 +1337,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             if (this.isEditorActive()) {
                 return;
             }
+            console.log('qw123he')
 
             switch (keyboardEvent.key) {
                 case 'h':
@@ -1377,6 +1379,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             if ('0' <= keyboardEvent.key && keyboardEvent.key <= '9') {
                 const digit = keyboardEvent.key.charCodeAt(0) - 48;
 
+                console.log('twice')
                 this.chooseSuggestion(0, digit - 1);
                 return;
             }
