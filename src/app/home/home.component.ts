@@ -442,7 +442,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * and updates the editor's content, applying text markings and adjusting cursor position.
      * */
     private postSuggestedText(): void {
-        const editor = document.getElementById(this.EDITOR_KEY)!;
+        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
         this.http
             .post(this.generateMarkingsURL, editor.innerHTML)
             .subscribe((next) => {
@@ -476,7 +476,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                         (childNode: ChildNode, index: number) => {
                             const isLastChildNode =
                                 index === editor.childNodes.length - 1;
-                            const p = document.createElement('p');
+                            const p: HTMLParagraphElement = document.createElement('p');
                             p.innerHTML = childNode.textContent!;
                             if (childNode.textContent === this.EMPTY_STRING) {
                                 p.innerHTML = this.LINE_BREAK;
