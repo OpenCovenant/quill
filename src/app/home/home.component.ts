@@ -151,13 +151,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.subscribeForRemovedSuggestionCardAnimation();
 
         this.markingDismissalSubject$.pipe(mergeWith(this.suggestionChoosingSubject$), debounceTime(1500)).subscribe(g => {
-            console.log('in sub in afterviewinit w/ v:', g)
-
-            // if (g === 'cS') {
+            if (g === 'cS') {
                 this.moveUpRemainingChosenSuggestionMarkings();
-            // } else {
+            } else {
                 this.moveUpRemainingDismissedMarkings();
-            // }
+            }
         });
 
         if (this.shouldShowThankYouModal) {
@@ -287,8 +285,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         });
 
         if (this.highlightedMarkingIndex >= 0) {
-            this.suggestionsOfMarkingsToChoose
-                .forEach((markingSuggestionPair) => this.replaceSuggestedNode(markingSuggestionPair));
+            this.chooseSuggestionsOfMarkings();
             this.postSuggestedText();
             return;
         }
@@ -297,14 +294,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         if (document.querySelectorAll('#editor > p > span').length === 1) {
             setTimeout(() => {
-                this.suggestionsOfMarkingsToChoose
-                    .forEach((markingSuggestionPair) => this.replaceSuggestedNode(markingSuggestionPair));
+                this.chooseSuggestionsOfMarkings();
                 this.postSuggestedText();
             }, 900);
             return;
         }
 
-        this.suggestionChoosingSubject$.next({});
+        this.suggestionChoosingSubject$.next('cS');
     }
 
     /**
@@ -329,8 +325,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         if (
             this.cardCountSelectedPrePost >= countOfCards
         ) {
-            this.suggestionsOfMarkingsToChoose
-                .forEach((removeItem) => this.replaceSuggestedNode(removeItem));
+            this.chooseSuggestionsOfMarkings();
             this.postSuggestedText();
             return;
         }
@@ -514,68 +509,66 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * This method takes the index of the text marking and the index of the suggestion to be applied.
      * It replaces the content of the corresponding paragraph in the editor with the chosen suggestion,
      * considering the starting and ending positions of the text marking.
-     *
-     * @param {{ textMarkingIndex: number, suggestionIndex: number }} markingSuggestionPair -
-     *     An object containing the index of the text marking and the index of the suggestion to be replaced.
      */
-    private replaceSuggestedNode(
-        markingSuggestionPair: { markingIndex: number; suggestionIndex: number }
-    ): void {
-        const editor = document.getElementById(this.EDITOR_KEY)!;
+    private chooseSuggestionsOfMarkings(): void {
+        this.suggestionsOfMarkingsToChoose.forEach(({markingIndex: mI, suggestionIndex: sI}) => {
 
-        const marking: TextMarking =
-            this.processedText!.textMarkings[markingSuggestionPair.markingIndex];
-        const textMarkingIndex =
-            this.tempProcessedText!.textMarkings[markingSuggestionPair.markingIndex];
-        const childNode: ChildNode = editor.childNodes[marking.paragraph!];
-        const p = document.createElement('p');
+            const editor = document.getElementById(this.EDITOR_KEY)!;
 
-        const currentNode = childNode.textContent!.substring(
-            textMarkingIndex.from,
-            textMarkingIndex.to
-        );
-        const suggestedNode =
-            marking.suggestions[markingSuggestionPair.suggestionIndex].action;
-        this.characterCountPrePost = currentNode.length - suggestedNode.length;
-        let counterChar = 0;
+            const marking: TextMarking =
+                this.processedText!.textMarkings[mI];
+            const textMarkingIndex =
+                this.tempProcessedText!.textMarkings[mI];
+            const childNode: ChildNode = editor.childNodes[marking.paragraph!];
+            const p: HTMLParagraphElement = document.createElement('p');
 
-        childNode.childNodes.forEach((node) => {
-            // Clone the child node
-            const clonedNode = node.cloneNode(true) as Element;
-            counterChar += node.textContent?.length!;
-            const isWithinRange = Math.abs(counterChar - textMarkingIndex.to);
+            const currentNode = childNode.textContent!.substring(
+                textMarkingIndex.from,
+                textMarkingIndex.to
+            );
+            const suggestedNode =
+                marking.suggestions[sI].action;
+            this.characterCountPrePost = currentNode.length - suggestedNode.length;
+            let counterChar = 0;
 
-            if (node.nodeName === 'SPAN') {
-                clonedNode.classList.remove('animated-typo-marking');
-            }
+            childNode.childNodes.forEach((node) => {
+                // Clone the child node
+                const clonedNode = node.cloneNode(true) as Element;
+                counterChar += node.textContent?.length!;
+                const isWithinRange = Math.abs(counterChar - textMarkingIndex.to);
 
-            if (
-                node.textContent &&
-                node.textContent.includes(currentNode) &&
-                isWithinRange === 0 // if the index is within range
-            ) {
-                const lengthDiff = Math.abs(
-                    suggestedNode.length - currentNode.length
-                );
-                counterChar -= lengthDiff;
+                if (node.nodeName === 'SPAN') {
+                    clonedNode.classList.remove('animated-typo-marking');
+                }
 
-                const replacedText = node.textContent.replace(
-                    currentNode,
-                    suggestedNode
-                );
+                if (
+                    node.textContent &&
+                    node.textContent.includes(currentNode) &&
+                    isWithinRange === 0 // if the index is within range
+                ) {
+                    const lengthDiff = Math.abs(
+                        suggestedNode.length - currentNode.length
+                    );
+                    counterChar -= lengthDiff;
 
-                const newText = document.createTextNode(replacedText);
+                    const replacedText = node.textContent.replace(
+                        currentNode,
+                        suggestedNode
+                    );
 
-                p.appendChild(newText);
-            } else {
-                p.appendChild(clonedNode);
-            }
-        });
+                    const newText = document.createTextNode(replacedText);
 
-        editor.replaceChild(p, childNode);
-        this.updateCharacterCount();
-        this.updateWordCount();
-        this.updateTempMarkings(markingSuggestionPair.markingIndex);
+                    p.appendChild(newText);
+                } else {
+                    p.appendChild(clonedNode);
+                }
+            });
+
+            editor.replaceChild(p, childNode);
+            this.updateCharacterCount();
+            this.updateWordCount();
+            this.updateTempMarkings(mI);
+        })
     }
 
     /**
@@ -633,7 +626,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         const cards: NodeListOf<HTMLElement> = document.querySelectorAll(
             '.sticky .card'
         ) as NodeListOf<HTMLElement>;
-        console.log('moveUpRemainingChosenSuggestionMarkings', cards)
 
         this.suggestionsOfMarkingsToChoose.forEach(({markingIndex: mI , suggestionIndex: _ } ) => {
             document
@@ -652,8 +644,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         }, 800);
 
         // don't choose suggestions on an uploaded file
-        this.suggestionsOfMarkingsToChoose
-            .forEach((markingSuggestionPair) => this.replaceSuggestedNode(markingSuggestionPair));
+        this.chooseSuggestionsOfMarkings();
 
         this.suggestionsOfMarkingsToChoose = [];
     }
@@ -673,7 +664,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.indicesOfMarkingsToDismiss.push(markingIndex);
         this.applySlideFadeAnimationToCard(markingIndex);
 
-        this.markingDismissalSubject$.next({});
+        this.markingDismissalSubject$.next('dM');
     }
 
     /**
@@ -692,7 +683,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.indicesOfMarkingsToDismiss.forEach((mI) => {
             const card: HTMLElement = cards[mI];
             const cardToRemove = this.extractMarkingValue(card);
-            console.log('moveUpRemainingDismissedMarkings:cardToRemove', cardToRemove)
             markingValues.push(cardToRemove!);
 
             document
