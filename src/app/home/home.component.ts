@@ -808,7 +808,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * Returns the actual value of the marking.
      * @param {HTMLElement} card - child node
      */
-    extractMarkingValue(card: HTMLElement): any {
+    private extractMarkingValue(card: HTMLElement): any {
         return card.childNodes[0].childNodes[0].childNodes[0].textContent?.replace(
             ' ',
             ''
