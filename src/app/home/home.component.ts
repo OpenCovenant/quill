@@ -304,7 +304,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             return;
         }
 
-        this.suggestionChoosingSubject$.next('cS');
+        this.suggestionChoosingSubject$.next({});
     }
 
     /**
