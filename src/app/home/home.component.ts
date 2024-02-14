@@ -154,32 +154,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             console.log('in sub in afterviewinit w/ v:', g)
 
             if (g === 'cS') {
-                const cards: NodeListOf<HTMLElement> = document.querySelectorAll(
-                    '.sticky .card'
-                ) as NodeListOf<HTMLElement>;
-                console.log('ngAfterViewInit:cS:', cards)
-
-                this.suggestionsOfMarkingsToChoose.forEach(({markingIndex: mI , suggestionIndex: _ } ) => {
-                    document
-                        .getElementsByClassName('sticky')[0]
-                        .classList.add('screen-height-delay');
-
-                    cards[mI].classList.add('card-hidden');
-
-                    cards.forEach((card, index) => {
-                        this.handleCardAnimationsOnSuggestionChoosing(card, index, mI);
-                    });
-                });
-
-                setTimeout(() => {
-                    document.getElementsByClassName('sticky')[0].classList.remove('screen-height-delay');
-                }, 800);
-
-                // don't choose suggestions on an uploaded file
-                this.suggestionsOfMarkingsToChoose
-                    .forEach((markingSuggestionPair) => this.replaceSuggestedNode(markingSuggestionPair));
-
-                this.suggestionsOfMarkingsToChoose = [];
+                this.moveUpRemainingChosenSuggestionMarkings();
             } else {
                 this.moveUpRemainingDismissedMarkings();
             }
@@ -653,6 +628,35 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         rangeStart = rangeStart ?? 0;
 
         return [rangeStart, rangeEnd];
+    }
+
+    moveUpRemainingChosenSuggestionMarkings(): void {
+        const cards: NodeListOf<HTMLElement> = document.querySelectorAll(
+            '.sticky .card'
+        ) as NodeListOf<HTMLElement>;
+        console.log('moveUpRemainingChosenSuggestionMarkings', cards)
+
+        this.suggestionsOfMarkingsToChoose.forEach(({markingIndex: mI , suggestionIndex: _ } ) => {
+            document
+                .getElementsByClassName('sticky')[0]
+                .classList.add('screen-height-delay');
+
+            cards[mI].classList.add('card-hidden');
+
+            cards.forEach((card, index) => {
+                this.handleCardAnimationsOnSuggestionChoosing(card, index, mI);
+            });
+        });
+
+        setTimeout(() => {
+            document.getElementsByClassName('sticky')[0].classList.remove('screen-height-delay');
+        }, 800);
+
+        // don't choose suggestions on an uploaded file
+        this.suggestionsOfMarkingsToChoose
+            .forEach((markingSuggestionPair) => this.replaceSuggestedNode(markingSuggestionPair));
+
+        this.suggestionsOfMarkingsToChoose = [];
     }
 
     // TODO there might be a bug here that creates double spaces in the text, test more
