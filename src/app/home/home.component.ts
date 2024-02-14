@@ -364,10 +364,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * This method inspects the cards and determines if they're ready for further processing.
      */
     private checkForAnimationRemoval(): void {
-        const cards = document.querySelectorAll(
+        const cards: NodeListOf<HTMLElement> = document.querySelectorAll(
             '.sticky .card'
         ) as NodeListOf<HTMLElement>;
-        console.log('checkForAnimationRemoval:cards')
 
         if (
             this.isMarkingInAnimation(cards) ||
@@ -630,7 +629,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         return [rangeStart, rangeEnd];
     }
 
-    moveUpRemainingChosenSuggestionMarkings(): void {
+    private moveUpRemainingChosenSuggestionMarkings(): void {
         const cards: NodeListOf<HTMLElement> = document.querySelectorAll(
             '.sticky .card'
         ) as NodeListOf<HTMLElement>;
