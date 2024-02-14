@@ -684,8 +684,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * certain marked cards have been deleted.
      */
     private moveUpRemainingDismissedMarkings(): void {
-        const markings = document.querySelectorAll('#editor > p > span');
-        const cards = document.querySelectorAll(
+        const markings: NodeListOf<Element> = document.querySelectorAll('#editor > p > span');
+        const cards: NodeListOf<HTMLElement> = document.querySelectorAll(
             '.sticky .card'
         ) as NodeListOf<HTMLElement>;
         const markingValues: any[] = []; // TODO: (just a note for me) basically "eshte" for the typo eshte
