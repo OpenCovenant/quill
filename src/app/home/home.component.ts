@@ -153,11 +153,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.markingDismissalSubject$.pipe(mergeWith(this.suggestionChoosingSubject$), debounceTime(1500)).subscribe(g => {
             console.log('in sub in afterviewinit w/ v:', g)
 
-            if (g === 'cS') {
+            // if (g === 'cS') {
                 this.moveUpRemainingChosenSuggestionMarkings();
-            } else {
+            // } else {
                 this.moveUpRemainingDismissedMarkings();
-            }
+            // }
         });
 
         if (this.shouldShowThankYouModal) {
@@ -674,7 +674,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.indicesOfMarkingsToDismiss.push(markingIndex);
         this.applySlideFadeAnimationToCard(markingIndex);
 
-        this.markingDismissalSubject$.next('mD');
+        this.markingDismissalSubject$.next({});
     }
 
     /**
@@ -691,7 +691,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         const markingValues: any[] = []; // TODO: (just a note for me) basically "eshte" for the typo eshte
 
         this.indicesOfMarkingsToDismiss.forEach((mI) => {
-            const card = cards[mI];
+            const card: HTMLElement = cards[mI];
             const cardToRemove = this.extractMarkingValue(card);
             console.log('moveUpRemainingDismissedMarkings:cardToRemove', cardToRemove)
             markingValues.push(cardToRemove!);
@@ -736,7 +736,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * the processed text data accordingly.
      */
     private deleteMarkings(): void {
-        const cardsToRemoveSet = new Set(this.indicesOfMarkingsToDismiss);
+        const cardsToRemoveSet: Set<number> = new Set(this.indicesOfMarkingsToDismiss);
         this.markingElementsToRemove.forEach((cardElement) => {
             if (cardsToRemoveSet.has(cardElement.index)) {
                 const currentMarking = cardElement.cardElement;
