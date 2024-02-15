@@ -310,47 +310,47 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * It adds specific classes for single and multiple card removal animations and listens
      * for the "animationend" event to remove the animation classes after completion.
      *
-     * @param {HTMLElement} card - The card element to apply animations.
-     * @param {number} index - The index of the card in the editor.
      * @param {number} markingIndex - The index of the card to be removed.
      */
-    private handleCardAnimationsOnSuggestionChoosing(
-        card: HTMLElement,
-        index: number,
-        markingIndex: number
-    ): void {
-        const countOfCardSuggestionsToRemove: number = this.suggestionsOfMarkingsToChoose.length;
-        const countOfCards: number = document.querySelectorAll('.sticky .card').length;
-        // TODO when does the following occur?
-        if (
-            this.cardCountSelectedPrePost >= countOfCards
-        ) {
-            this.chooseSelectedSuggestions();
-            this.postSuggestedText();
-            return;
-        }
+    private handleAnimationsOfCardsOnSuggestionChoosing(markingIndex: number): void {
+        const cards: NodeListOf<HTMLElement> = document.querySelectorAll(
+            '.sticky .card'
+        ) as NodeListOf<HTMLElement>;
 
-        const lastIndex: number = countOfCards - 1;
-
-        if (index >= markingIndex) {
-            if (countOfCardSuggestionsToRemove === 1) {
-                card.classList.add('move-up-animation');
-                card.addEventListener(this.ANIMATION_END_EVENT, (): void => {
-                    card.classList.remove('move-up-animation');
-                    if (this.suggestionsOfMarkingsToChoose && index === lastIndex) {
-                        this.animationRemoved.emit();
-                    }
-                });
-            } else if (countOfCardSuggestionsToRemove >= 2) {
-                card.classList.add('move-up-multiple-animation');
-                card.addEventListener(this.ANIMATION_END_EVENT, (): void => {
-                    card.classList.remove('move-up-multiple-animation');
-                    if (this.suggestionsOfMarkingsToChoose && index === lastIndex) {
-                        this.animationRemoved.emit();
-                    }
-                });
+        cards.forEach((card: HTMLElement, index: number) => {
+            const countOfCardSuggestionsToRemove: number = this.suggestionsOfMarkingsToChoose.length;
+            const countOfCards: number = document.querySelectorAll('.sticky .card').length;
+            // TODO when does the following occur?
+            if (
+                this.cardCountSelectedPrePost >= countOfCards
+            ) {
+                this.chooseSelectedSuggestions();
+                this.postSuggestedText();
+                return;
             }
-        }
+
+            const lastIndex: number = countOfCards - 1;
+
+            if (index >= markingIndex) {
+                if (countOfCardSuggestionsToRemove === 1) {
+                    card.classList.add('move-up-animation');
+                    card.addEventListener(this.ANIMATION_END_EVENT, (): void => {
+                        card.classList.remove('move-up-animation');
+                        if (this.suggestionsOfMarkingsToChoose && index === lastIndex) {
+                            this.animationRemoved.emit();
+                        }
+                    });
+                } else if (countOfCardSuggestionsToRemove >= 2) {
+                    card.classList.add('move-up-multiple-animation');
+                    card.addEventListener(this.ANIMATION_END_EVENT, (): void => {
+                        card.classList.remove('move-up-multiple-animation');
+                        if (this.suggestionsOfMarkingsToChoose && index === lastIndex) {
+                            this.animationRemoved.emit();
+                        }
+                    });
+                }
+            }
+        });
     }
 
     /**
@@ -633,9 +633,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
             cards[mI].classList.add('card-hidden');
 
-            cards.forEach((card, index) => {
-                this.handleCardAnimationsOnSuggestionChoosing(card, index, mI);
-            });
+            this.handleAnimationsOfCardsOnSuggestionChoosing(mI);
         });
 
         setTimeout(() => {
@@ -690,9 +688,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
             card.classList.add('card-hidden');
 
-            cards.forEach((card, index) => {
-                this.handleCardAnimationsOnMarkingDismissal(card, index, mI);
-            });
+            this.handleAnimationsOfCardsOnMarkingDismissal(mI);
         });
 
         setTimeout(() => {
@@ -756,29 +752,31 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * It adds specific classes for single and multiple card removal animations and listens
      * for the animationend event to remove the animation classes after completion.
      *
-     * @param {HTMLElement} card - The card element to apply animations.
-     * @param {number} index - The index of the card in the editor.
      * @param {number} markingIndex - The index of the card to be removed.
      */
-    private handleCardAnimationsOnMarkingDismissal(
-        card: HTMLElement,
-        index: number,
+    private handleAnimationsOfCardsOnMarkingDismissal(
         markingIndex: number
     ): void {
-        const countOfCardsToRemove: number = this.indicesOfMarkingsToDismiss.length;
-        if (index >= markingIndex) {
-            if (countOfCardsToRemove === 1) {
-                card.classList.add('move-up-animation');
-                card.addEventListener(this.ANIMATION_END_EVENT, () => {
-                    card.classList.remove('move-up-animation');
-                });
-            } else if (countOfCardsToRemove >= 2) {
-                card.classList.add('move-up-multiple-animation');
-                card.addEventListener(this.ANIMATION_END_EVENT, () => {
-                    card.classList.remove('move-up-multiple-animation');
-                });
+        const cards: NodeListOf<HTMLElement> = document.querySelectorAll(
+            '.sticky .card'
+        ) as NodeListOf<HTMLElement>;
+
+        cards.forEach((card: HTMLElement, index: number) => {
+            const countOfCardsToRemove: number = this.indicesOfMarkingsToDismiss.length;
+            if (index >= markingIndex) {
+                if (countOfCardsToRemove === 1) {
+                    card.classList.add('move-up-animation');
+                    card.addEventListener(this.ANIMATION_END_EVENT, () => {
+                        card.classList.remove('move-up-animation');
+                    });
+                } else if (countOfCardsToRemove >= 2) {
+                    card.classList.add('move-up-multiple-animation');
+                    card.addEventListener(this.ANIMATION_END_EVENT, () => {
+                        card.classList.remove('move-up-multiple-animation');
+                    });
+                }
             }
-        }
+        })
     }
 
     /**
