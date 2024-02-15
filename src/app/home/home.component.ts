@@ -1341,22 +1341,24 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 return;
             }
 
-            switch (keyboardEvent.key) {
-                case 'h':
-                case 'H': {
-                    (
-                        document.querySelector(
-                            '.bi-clock-history'
-                        )! as HTMLButtonElement
-                    ).click();
-                    return;
+            if (!keyboardEvent.ctrlKey) {
+                switch (keyboardEvent.key) {
+                    case 'h':
+                    case 'H': {
+                        (
+                            document.querySelector(
+                                '.bi-clock-history'
+                            )! as HTMLButtonElement
+                        ).click();
+                        return;
+                    }
+                    case 'c':
+                    case 'C': {
+                        this.copyToClipboard();
+                        return;
+                    }
                 }
-                case 'c':
-                case 'C': {
-                    this.copyToClipboard();
-                    return;
-                }
-            }
+        }
 
             if (!this.hasMarkings()) {
                 return;
