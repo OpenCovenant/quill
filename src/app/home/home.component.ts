@@ -285,7 +285,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         });
 
         if (this.highlightedMarkingIndex >= 0) {
-            this.chooseSuggestionsOfMarkings();
+            this.chooseSelectedSuggestions();
             this.postSuggestedText();
             return;
         }
@@ -294,7 +294,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         if (document.querySelectorAll('#editor > p > span').length === 1) {
             setTimeout(() => {
-                this.chooseSuggestionsOfMarkings();
+                this.chooseSelectedSuggestions();
                 this.postSuggestedText();
             }, 900);
             return;
@@ -325,7 +325,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         if (
             this.cardCountSelectedPrePost >= countOfCards
         ) {
-            this.chooseSuggestionsOfMarkings();
+            this.chooseSelectedSuggestions();
             this.postSuggestedText();
             return;
         }
@@ -510,7 +510,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * It replaces the content of the corresponding paragraph in the editor with the chosen suggestion,
      * considering the starting and ending positions of the text marking.
      */
-    private chooseSuggestionsOfMarkings(): void {
+    private chooseSelectedSuggestions(): void {
         this.suggestionsOfMarkingsToChoose.forEach(({markingIndex: mI, suggestionIndex: sI}) => {
             const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
 
@@ -643,7 +643,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         }, 800);
 
         // don't choose suggestions on an uploaded file
-        this.chooseSuggestionsOfMarkings();
+        this.chooseSelectedSuggestions();
 
         this.suggestionsOfMarkingsToChoose = [];
     }
