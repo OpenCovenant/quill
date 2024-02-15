@@ -740,7 +740,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.markingCardsToDismiss.forEach((cardElement): void => {
             console.log(cardElement.index)
             if (cardsToRemoveSet.has(cardElement.index)) {
-                console.log('e ka posi:', cardsToRemoveSet)
                 const currentMarking = cardElement.cardElement;
                 const textNode: Text = document.createTextNode(
                     currentMarking.textContent || ''
