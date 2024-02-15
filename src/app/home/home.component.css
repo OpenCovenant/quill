@@ -585,6 +585,16 @@
     box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
     margin-top: 5px;
 }
+
+.modal-content-welcome-dark-mode {
+    background-color: var(--dark-mode-theme);
+    color: var(--dark-mode-anti-theme);
+}
+
+.modal-content-subscription-success-dark-mode {
+    background-color: var(--dark-mode-theme);
+    color: var(--dark-mode-anti-theme);
+}
 /*TODO change color on .suggestion:hover ?*/
 @media (max-width: 800px) {
     .high-level-container {

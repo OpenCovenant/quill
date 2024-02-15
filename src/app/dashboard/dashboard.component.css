@@ -36,6 +36,20 @@
     border: 0px solid rgba(0,0,0,.125);
 }
 
-.dashboard-card-header{
+.dashboard-card-header {
     background-color: var(--dark-mode-anti-theme);
+}
+
+.free-pricing-card-heading-dark-mode {
+    background-color: var(--dark-mode-theme);
+    color: var(--dark-mode-anti-theme);
+    box-shadow: 0 0 10px #d8d8d899;
+    border: 0px solid rgba(0,0,0,.125);
+}
+
+.free-pricing-card-body-dark-mode {
+    background-color: var(--dark-mode-theme);
+    color: var(--dark-mode-anti-theme);
+    box-shadow: 0 0 10px #d8d8d899;
+    border: 0px solid rgba(0,0,0,.125);
 }

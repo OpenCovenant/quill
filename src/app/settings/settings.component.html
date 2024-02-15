@@ -187,7 +187,7 @@
 >
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content "[ngClass]="{
-        'modal-content-dark-mode': darkModeService.isDarkMode
+        'modal-content-settings-dark-mode': darkModeService.isDarkMode
         }">
             <div class="modal-header">
                 <h5 class="modal-title" id="dismissedMarkingsModalLabel">
@@ -196,6 +196,9 @@
                 <button
                     type="button"
                     class="btn-close"
+                    [ngClass]="{
+                    'btn-close-white': darkModeService.isDarkMode
+                }"
                     data-bs-dismiss="modal"
                     aria-label="Close"
                 ></button>

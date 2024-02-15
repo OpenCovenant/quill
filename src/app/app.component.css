@@ -11,3 +11,15 @@
 .component-router-div {
     flex: 1;
 }
+
+.continue-without-account-button {
+    color: #0d6efd;
+}
+
+.continue-without-account-button-dark-mode {
+    color: var(--dark-mode-anti-theme);
+}
+.re-authenticate-modal-dark-mode {
+    background-color: var(--dark-mode-theme);
+    color: var(--dark-mode-anti-theme);
+}

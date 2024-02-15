@@ -21,11 +21,19 @@
                 <div
                     class="card mb-4 rounded-3 shadow-sm dashboard-card"
                     style="min-height: 400px"
+                    [ngClass]="{
+                    'free-pricing-card-heading-dark-mode': darkModeService.isDarkMode
+                }"
                 >
-                    <div class="card-header py-3 dashboard-card-header">
+                    <div class="card-header py-3 dashboard-card-header"
+                         [ngClass]="{
+                    'free-pricing-card-heading-dark-mode': darkModeService.isDarkMode
+                }">
                         <h2 class="my-0 fw-normal text-center">Penda</h2>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" [ngClass]="{
+                    'free-pricing-card-body-dark-mode': darkModeService.isDarkMode
+                }">
                         <h1
                             class="card-title pricing-card-title text-center pb-2"
                         >
