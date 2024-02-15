@@ -151,11 +151,15 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.subscribeForRemovedSuggestionCardAnimation();
 
         this.markingDismissalSubject$.pipe(mergeWith(this.suggestionChoosingSubject$), debounceTime(1500)).subscribe(g => {
-            if (g === 'cS') {
+            // if (g === 'cS') {
                 this.moveUpRemainingChosenSuggestionMarkings();
-            } else {
+            // } else {
                 this.moveUpRemainingDismissedMarkings();
-            }
+                // this.postSuggestedText();
+            // setTimeout(() => {
+                this.markEditor()
+            // }, 3000)
+            // }
         });
 
         if (this.shouldShowThankYouModal) {
@@ -285,6 +289,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         });
 
         if (this.highlightedMarkingIndex >= 0) {
+            console.error('NEVER HERE')
             this.chooseSelectedSuggestions();
             this.postSuggestedText();
             return;
@@ -293,6 +298,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.applySlideFadeAnimationToCard(markingIndex);
 
         if (document.querySelectorAll('#editor > p > span').length === 1) {
+            console.error('NEVER HERE')
             setTimeout(() => {
                 this.chooseSelectedSuggestions();
                 this.postSuggestedText();
@@ -317,20 +323,20 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             '.sticky .card'
         ) as NodeListOf<HTMLElement>;
 
+        const countOfCardSuggestionsToRemove: number = this.suggestionsOfMarkingsToChoose.length;
+        const countOfCards: number = document.querySelectorAll('.sticky .card').length;
+        // TODO when does the following occur?
+        if (
+            this.cardCountSelectedPrePost >= countOfCards
+        ) {
+            this.chooseSelectedSuggestions();
+            // this.postSuggestedText();
+            return;
+        }
+
+        const lastIndex: number = countOfCards - 1;
+
         cards.forEach((card: HTMLElement, index: number) => {
-            const countOfCardSuggestionsToRemove: number = this.suggestionsOfMarkingsToChoose.length;
-            const countOfCards: number = document.querySelectorAll('.sticky .card').length;
-            // TODO when does the following occur?
-            if (
-                this.cardCountSelectedPrePost >= countOfCards
-            ) {
-                this.chooseSelectedSuggestions();
-                this.postSuggestedText();
-                return;
-            }
-
-            const lastIndex: number = countOfCards - 1;
-
             if (index >= markingIndex) {
                 if (countOfCardSuggestionsToRemove === 1) {
                     card.classList.add('move-up-animation');
@@ -367,6 +373,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             this.isMarkingInAnimation(cards) ||
             this.suggestedMarkingCardCounter === cards.length
         ) {
+            console.log('checkForAnimationRemoval')
             this.postSuggestedText();
         }
     }
@@ -411,6 +418,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * and updates the editor's content, applying text markings and adjusting cursor position.
      * */
     private postSuggestedText(): void {
+        console.log("start:postSuggestedText")
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
         this.http
             .post(this.generateMarkingsURL, editor.innerHTML)
@@ -481,6 +489,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 this.characterCountPrePost = 0;
                 this.suggestedMarkingCardCounter = 0;
                 this.cardCountSelectedPrePost = 0;
+                console.log('done:postSuggestedText')
             });
     }
 
@@ -672,6 +681,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      */
     private moveUpRemainingDismissedMarkings(): void {
         const markings: NodeListOf<Element> = document.querySelectorAll('#editor > p > span');
+        console.log('moveUpRemainingDismissedMarkings:markings:', markings)
         const cards: NodeListOf<HTMLElement> = document.querySelectorAll(
             '.sticky .card'
         ) as NodeListOf<HTMLElement>;
@@ -705,6 +715,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 }
             });
         });
+        console.log("moveUpRemainingDismissedMarkings:this.markingCardsToDismiss:", this.markingCardsToDismiss)
+        console.log("moveUpRemainingDismissedMarkings:markings:", markings)
+        console.log("moveUpRemainingDismissedMarkings:this.indicesOfMarkingsToDismiss:", this.indicesOfMarkingsToDismiss)
+        // this.markingCardsToDismiss[1].index = 2;
+        // this.indicesOfMarkingsToDismiss = [0, 1]
+        // console.log("moveUpRemainingDismissedMarkings:this.indicesOfMarkingsToDismiss:", this.indicesOfMarkingsToDismiss)
 
         this.dismissSelectedMarkings();
 
@@ -722,7 +738,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private dismissSelectedMarkings(): void {
         const cardsToRemoveSet: Set<number> = new Set(this.indicesOfMarkingsToDismiss); // TODO: why do we have duplicates here to begin with?
         this.markingCardsToDismiss.forEach((cardElement): void => {
+            console.log(cardElement.index)
             if (cardsToRemoveSet.has(cardElement.index)) {
+                console.log('e ka posi', cardsToRemoveSet)
                 const currentMarking = cardElement.cardElement;
                 const textNode: Text = document.createTextNode(
                     currentMarking.textContent || ''
@@ -734,10 +752,16 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             }
         });
 
+        console.log(this.processedText?.textMarkings)
+        console.log(this.processedText!.textMarkings.filter(
+            (_, index) => !this.indicesOfMarkingsToDismiss.includes(index)
+        ))
         this.processedText!.textMarkings =
             this.processedText!.textMarkings.filter(
                 (_, index) => !this.indicesOfMarkingsToDismiss.includes(index)
             );
+        console.log(this.processedText)
+        // this.tempProcessedText = this.processedText;
 
         this.shouldCollapseSuggestions = new Array<boolean>(
             this.processedText!.textMarkings.length
@@ -963,6 +987,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private markEditor(
         cursorPlacement: CursorPlacement = CursorPlacement.LAST_SAVE
     ): void {
+        console.log("markEditor")
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
 
         this.loading$.next(true);
