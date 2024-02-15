@@ -699,8 +699,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             document.getElementsByClassName('sticky')[0].classList.remove('screen-height-delay');
         }, 800);
 
-        markingValues.forEach((elementMarking) => {
-            markings.forEach((card, index) => {
+        markingValues.forEach((elementMarking):void => {
+            markings.forEach((card: Element, index: number): void => {
                 if (card.textContent === elementMarking) {
                     this.markingCardsToDismiss.push({
                         cardElement: card,
