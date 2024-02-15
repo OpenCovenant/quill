@@ -69,7 +69,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }[] = [];
     characterCountPrePost: number = 0; // TODO: seems like a crutch
     cardCountSelectedPrePost: number = 0; // TODO: seems like a crutch
-    markingElementsToRemove: any[] = [];
+    markingCardsToDismiss: any[] = [];
     animationRemoved = new EventEmitter<void>(); // TODO consider replacing with the proper subject
     suggestedMarkingCardCounter: number = 0; // TODO: seems like a crutch
     markingParagraphIndex: any[] = [];
@@ -512,30 +512,29 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      */
     private chooseSuggestionsOfMarkings(): void {
         this.suggestionsOfMarkingsToChoose.forEach(({markingIndex: mI, suggestionIndex: sI}) => {
-
-            const editor = document.getElementById(this.EDITOR_KEY)!;
+            const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
 
             const marking: TextMarking =
                 this.processedText!.textMarkings[mI];
-            const textMarkingIndex =
+            const tempMarking: TextMarking =
                 this.tempProcessedText!.textMarkings[mI];
             const childNode: ChildNode = editor.childNodes[marking.paragraph!];
             const p: HTMLParagraphElement = document.createElement('p');
 
-            const currentNode = childNode.textContent!.substring(
-                textMarkingIndex.from,
-                textMarkingIndex.to
+            const currentNode: string = childNode.textContent!.substring(
+                tempMarking.from,
+                tempMarking.to
             );
-            const suggestedNode =
+            const suggestedNode: string =
                 marking.suggestions[sI].action;
             this.characterCountPrePost = currentNode.length - suggestedNode.length;
             let counterChar = 0;
 
             childNode.childNodes.forEach((node) => {
                 // Clone the child node
-                const clonedNode = node.cloneNode(true) as Element;
+                const clonedNode: Element = node.cloneNode(true) as Element;
                 counterChar += node.textContent?.length!;
-                const isWithinRange = Math.abs(counterChar - textMarkingIndex.to);
+                const isWithinRange: number = Math.abs(counterChar - tempMarking.to);
 
                 if (node.nodeName === 'SPAN') {
                     clonedNode.classList.remove('animated-typo-marking');
@@ -551,12 +550,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     );
                     counterChar -= lengthDiff;
 
-                    const replacedText = node.textContent.replace(
+                    const replacedText: string = node.textContent.replace(
                         currentNode,
                         suggestedNode
                     );
 
-                    const newText = document.createTextNode(replacedText);
+                    const newText: Text = document.createTextNode(replacedText);
 
                     p.appendChild(newText);
                 } else {
@@ -703,7 +702,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         markingValues.forEach((elementMarking) => {
             markings.forEach((card, index) => {
                 if (card.textContent === elementMarking) {
-                    this.markingElementsToRemove.push({
+                    this.markingCardsToDismiss.push({
                         cardElement: card,
                         index
                     });
@@ -711,10 +710,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             });
         });
 
-        this.deleteMarkings();
+        this.dismissSelectedMarkings();
 
         this.indicesOfMarkingsToDismiss = [];
-        this.markingElementsToRemove = [];
+        this.markingCardsToDismiss = [];
     }
 
     /**
@@ -724,12 +723,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * It replaces the marked elements with their respective text content and updates
      * the processed text data accordingly.
      */
-    private deleteMarkings(): void {
-        const cardsToRemoveSet: Set<number> = new Set(this.indicesOfMarkingsToDismiss);
-        this.markingElementsToRemove.forEach((cardElement) => {
+    private dismissSelectedMarkings(): void {
+        const cardsToRemoveSet: Set<number> = new Set(this.indicesOfMarkingsToDismiss); // TODO: why do we have duplicates here to begin with?
+        this.markingCardsToDismiss.forEach((cardElement): void => {
             if (cardsToRemoveSet.has(cardElement.index)) {
                 const currentMarking = cardElement.cardElement;
-                const textNode = document.createTextNode(
+                const textNode: Text = document.createTextNode(
                     currentMarking.textContent || ''
                 );
                 currentMarking.parentNode?.replaceChild(
