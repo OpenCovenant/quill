@@ -46,7 +46,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     EDITOR_KEY: string = 'editor';
     PLACEHOLDER_ELEMENT_ID: string = 'editor-placeholder';
     MAX_EDITOR_CHARACTERS: number = 5000;
-    MAX_EDITOR_CHARACTERS_MESSAGE = `Keni arritur kufirin e ${this.MAX_EDITOR_CHARACTERS} karaktereve, shkurtoni shkrimin`;
+    MAX_EDITOR_CHARACTERS_MESSAGE: string = `Keni arritur kufirin e ${this.MAX_EDITOR_CHARACTERS} karaktereve, shkurtoni shkrimin`;
     LINE_BREAK: string = '<br>';
     LINE_BROKEN_PARAGRAPH: string = '<p>' + this.LINE_BREAK + '</p>';
     processedText: ProcessedText | undefined;
@@ -57,7 +57,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     wordCount: number = 0;
     innerHTMLOfEditor: string = this.LINE_BROKEN_PARAGRAPH;
     shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
-    loading$ = new BehaviorSubject<boolean>(false);
+    loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     editorElement!: HTMLElement;
     highlightedMarkingIndex: number = -1;
 
@@ -70,12 +70,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     characterCountPrePost: number = 0; // TODO: seems like a crutch
     cardCountSelectedPrePost: number = 0; // TODO: seems like a crutch
     markingCardsToDismiss: any[] = [];
-    animationRemoved = new EventEmitter<void>(); // TODO consider replacing with the proper subject
+    animationRemoved: EventEmitter<void> = new EventEmitter<void>(); // TODO consider replacing with the proper subject
     suggestedMarkingCardCounter: number = 0; // TODO: seems like a crutch
     markingParagraphIndex: any[] = [];
 
-    markingDismissalSubject$ = new Subject();
-    suggestionChoosingSubject$ = new Subject();
+    markingDismissalSubject$: Subject<void>= new Subject<void>();
+    suggestionChoosingSubject$: Subject<void> = new Subject<void>();
 
     shouldShowThankYouModal: boolean = false; // TODO: exists because `this.router.getCurrentNavigation()` is not null only in the constructor
     shouldShowWelcomeModal: boolean = false; // TODO: exists because `this.router.getCurrentNavigation()` is not null only in the constructor
@@ -92,12 +92,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private fromEditorInputEvent$: any;
 
     constructor(
-        public writingsHistoryService: WritingsHistoryService,
         private http: HttpClient,
         private router: Router,
         private editorContentService: EditorContentService,
         private elementRef: ElementRef,
-        public darkModeService: DarkModeService
+        public darkModeService: DarkModeService,
+        public writingsHistoryService: WritingsHistoryService
     ) {
         this.initializeURLs();
         this.addEventListenerForShortcuts();
@@ -150,16 +150,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.subscribeForStoringWrittenText();
         this.subscribeForRemovedSuggestionCardAnimation();
 
-        this.markingDismissalSubject$.pipe(mergeWith(this.suggestionChoosingSubject$), debounceTime(1500)).subscribe(g => {
-            // if (g === 'cS') {
-                this.moveUpRemainingChosenSuggestionMarkings();
-            // } else {
-                this.moveUpRemainingDismissedMarkings();
-                // this.postSuggestedText();
-            // setTimeout(() => {
-                this.markEditor()
-            // }, 3000)
-            // }
+        this.markingDismissalSubject$.pipe(mergeWith(this.suggestionChoosingSubject$), debounceTime(1500)).subscribe((): void => {
+            this.moveUpRemainingChosenSuggestionMarkings();
+            this.moveUpRemainingDismissedMarkings();
+            this.markEditor()
         });
 
         if (this.shouldShowThankYouModal) {
