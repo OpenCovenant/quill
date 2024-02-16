@@ -300,7 +300,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             return;
         }
 
-        this.suggestionChoosingSubject$.next('cS');
+        this.suggestionChoosingSubject$.next();
     }
 
     /**
@@ -664,7 +664,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.indicesOfMarkingsToDismiss.push(markingIndex);
         this.applySlideFadeAnimationToCard(markingIndex);
 
-        this.markingDismissalSubject$.next('dM');
+        this.markingDismissalSubject$.next();
     }
 
     /**
