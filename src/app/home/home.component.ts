@@ -597,7 +597,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         let rangeStart: number | null = null;
         let rangeEnd: number | null = null;
 
-        for (let i = 0; i < this.markingParagraphIndex.length; i++) {
+        for (let i: number = 0; i < this.markingParagraphIndex.length; i++) {
             if (this.markingParagraphIndex[i] <= index) {
                 if (
                     rangeStart === null ||
