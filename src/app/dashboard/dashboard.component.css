@@ -30,3 +30,12 @@
 .mybtsub:hover {
     cursor: not-allowed !important;
 }
+
+.dashboard-card {
+    box-shadow: 0 0 10px #d8d8d899;
+    border: 0px solid rgba(0,0,0,.125);
+}
+
+.dashboard-card-header{
+    background-color: var(--dark-mode-anti-theme);
+}
