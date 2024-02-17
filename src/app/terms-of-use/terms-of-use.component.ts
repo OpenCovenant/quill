@@ -1,16 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DarkModeService } from '../dark-mode.service';
 import { environment } from '../../environments/environment';
 
 @Component({
-    selector: 'app-terms-and-conditions',
-    templateUrl: './terms-and-conditions.component.html',
-    styleUrls: ['./terms-and-conditions.component.css']
+    selector: 'app-terms-of-use',
+    templateUrl: './terms-of-use.component.html',
+    styleUrls: ['./terms-of-use.component.css']
 })
-export class TermsAndConditionsComponent {
+export class TermsOfUseComponent {
     baseURL!: string;
-    getTermsAndConditionsURL!: string;
+    getTermsOfUseURL!: string;
 
     constructor(
         private http: HttpClient,
@@ -18,18 +18,18 @@ export class TermsAndConditionsComponent {
     ) {
         this.initializeURLs();
         this.http
-            .get(this.getTermsAndConditionsURL)
+            .get(this.getTermsOfUseURL)
             .subscribe(
                 (html: any) =>
                     (document.getElementById(
-                        'terms-and-conditions'
-                    )!.innerHTML = html['terms_and_conditions_html'])
+                        'terms-of-use'
+                    )!.innerHTML = html['terms_of_use_html'])
             );
     }
 
     private initializeURLs(): void {
         this.baseURL = environment.baseURL;
-        this.getTermsAndConditionsURL =
-            this.baseURL + '/api/getTermsAndConditions';
+        this.getTermsOfUseURL =
+            this.baseURL + '/api/getTermsOfUse';
     }
 }

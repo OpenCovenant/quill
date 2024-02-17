@@ -8,7 +8,7 @@ import { ShortcutsComponent } from './shortcuts/shortcuts.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { AuthenticationGuard } from './authentication.guard';
 import { ProfileComponent } from './profile/profile.component';
-import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
+import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CheckoutComponent } from './checkout/checkout.component';
@@ -56,8 +56,8 @@ const routes: Routes = [
         canActivate: [AuthenticationGuard]
     },
     {
-        path: 'terms-and-conditions',
-        component: TermsAndConditionsComponent,
+        path: 'terms-of-use',
+        component: TermsOfUseComponent,
         canActivate: [AuthenticationGuard]
     },
     {
