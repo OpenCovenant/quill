@@ -109,7 +109,7 @@ export class AuthenticationComponent implements OnInit {
             }
         });
         google.accounts.id.renderButton(
-            document.getElementById('googleSignInButton'),
+            document.getElementById('google-sign-in-button'),
             { theme: 'outline', size: 'large', locale: 'sq', width: 246 }
         );
         google.accounts.id.prompt();
