@@ -27,7 +27,9 @@ describe("Quick Suggestion and Marking Dismissal Test", () => {
     });
 
     it("should properly choose suggestions and dismiss markings", () => {
-        cy.get('[data-test="editor"]').clear().type("gabmi lider e eshte e gabmim e saktë eshte pra eshte");
+        cy.get('[data-test="editor"]')
+            .clear()
+            .type("gabmi lider e eshte e gabmim e saktë eshte pra eshte");
 
         cy.get(".typo-marking-header")
             .parent()

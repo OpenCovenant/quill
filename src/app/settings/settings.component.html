@@ -79,7 +79,7 @@
                                         data-test="dark-mode-button-toggle-switch"
                                         class="dark-mode-input"
                                         type="checkbox"
-                                        name='dark-mode-input'
+                                        name="dark-mode-input"
                                         [(ngModel)]="darkModeService.isDarkMode"
                                         (change)="
                                             darkModeService.onDarkModeChange()
@@ -221,7 +221,7 @@
                     >
                         {{ dismissedMarking
                         }}<span
-                        (click)="undoMarkingDismissal(dismissedMarking)"
+                            (click)="undoMarkingDismissal(dismissedMarking)"
                             class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
                             style="background-color: #676767"
                         >

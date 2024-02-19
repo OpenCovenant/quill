@@ -20,7 +20,10 @@ export class AuthenticationService {
     public user: any = undefined;
     public subscribed$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
 
-    constructor(private http: HttpClient, private router: Router) {
+    constructor(
+        private http: HttpClient,
+        private router: Router
+    ) {
         this.initializeURLs();
         this.validateJWT();
     }
@@ -35,7 +38,7 @@ export class AuthenticationService {
 
     logout(): void {
         if (this.user.platform === 'facebook') {
-            (<any>window)['FB'].getLoginStatus(function(response: any): void {
+            (<any>window)['FB'].getLoginStatus(function (response: any): void {
                 if (response && response.status === 'connected') {
                     (<any>window)['FB'].logout((): void => {
                         document.location.reload();

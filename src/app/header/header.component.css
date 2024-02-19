@@ -44,7 +44,10 @@
     transition: all 0.4s;
 }
 .penda-header-logo:hover {
-    text-shadow: -0.25px -0.25px 0, 0.25px -0.25px 0, -0.25px 0.25px 0,
+    text-shadow:
+        -0.25px -0.25px 0,
+        0.25px -0.25px 0,
+        -0.25px 0.25px 0,
         0.25px 0.25px 0;
     letter-spacing: 0.005rem;
 }
@@ -275,7 +278,7 @@
 }
 
 .logout-icon-dark-mode {
-    color:white;
+    color: white;
 }
 
 .dropdown-divider-dark-mode {

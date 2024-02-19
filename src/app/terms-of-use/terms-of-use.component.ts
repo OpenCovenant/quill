@@ -21,15 +21,13 @@ export class TermsOfUseComponent {
             .get(this.getTermsOfUseURL)
             .subscribe(
                 (html: any) =>
-                    (document.getElementById(
-                        'terms-of-use'
-                    )!.innerHTML = html['terms_of_use_html'])
+                    (document.getElementById('terms-of-use')!.innerHTML =
+                        html['terms_of_use_html'])
             );
     }
 
     private initializeURLs(): void {
         this.baseURL = environment.baseURL;
-        this.getTermsOfUseURL =
-            this.baseURL + '/api/getTermsOfUse';
+        this.getTermsOfUseURL = this.baseURL + '/api/getTermsOfUse';
     }
 }

@@ -12,8 +12,10 @@ import {
     debounceTime,
     filter,
     finalize,
-    fromEvent, mergeWith, Subject,
-    tap,
+    fromEvent,
+    mergeWith,
+    Subject,
+    tap
 } from 'rxjs';
 
 import { CursorPosition } from '../models/cursor-position';
@@ -74,7 +76,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     suggestedMarkingCardCounter: number = 0; // TODO: seems like a crutch
     markingParagraphIndex: any[] = [];
 
-    markingDismissalSubject$: Subject<void>= new Subject<void>();
+    markingDismissalSubject$: Subject<void> = new Subject<void>();
     suggestionChoosingSubject$: Subject<void> = new Subject<void>();
 
     shouldShowThankYouModal: boolean = false; // TODO: exists because `this.router.getCurrentNavigation()` is not null only in the constructor
@@ -150,11 +152,16 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.subscribeForStoringWrittenText();
         this.subscribeForRemovedSuggestionCardAnimation();
 
-        this.markingDismissalSubject$.pipe(mergeWith(this.suggestionChoosingSubject$), debounceTime(1500)).subscribe((): void => {
-            this.moveUpRemainingChosenSuggestionMarkings();
-            this.moveUpRemainingDismissedMarkings();
-            this.markEditor()
-        });
+        this.markingDismissalSubject$
+            .pipe(
+                mergeWith(this.suggestionChoosingSubject$),
+                debounceTime(1500)
+            )
+            .subscribe((): void => {
+                this.moveUpRemainingChosenSuggestionMarkings();
+                this.moveUpRemainingDismissedMarkings();
+                this.markEditor();
+            });
 
         if (this.shouldShowThankYouModal) {
             document.getElementById('thankYouModalButton')?.click();
@@ -283,7 +290,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         });
 
         if (this.highlightedMarkingIndex >= 0) {
-            console.error('NEVER HERE')
+            console.error('NEVER HERE');
             this.chooseSelectedSuggestions();
             this.postSuggestedText();
             return;
@@ -292,7 +299,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.applySlideFadeAnimationToCard(markingIndex);
 
         if (document.querySelectorAll('#editor > p > span').length === 1) {
-            console.error('NEVER HERE')
+            console.error('NEVER HERE');
             setTimeout(() => {
                 this.chooseSelectedSuggestions();
                 this.postSuggestedText();
@@ -312,17 +319,19 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      *
      * @param {number} markingIndex - The index of the card to be removed.
      */
-    private handleAnimationsOfCardsOnSuggestionChoosing(markingIndex: number): void {
+    private handleAnimationsOfCardsOnSuggestionChoosing(
+        markingIndex: number
+    ): void {
         const cards: NodeListOf<HTMLElement> = document.querySelectorAll(
             '.sticky .card'
         ) as NodeListOf<HTMLElement>;
 
-        const countOfCardSuggestionsToRemove: number = this.suggestionsOfMarkingsToChoose.length;
-        const countOfCards: number = document.querySelectorAll('.sticky .card').length;
+        const countOfCardSuggestionsToRemove: number =
+            this.suggestionsOfMarkingsToChoose.length;
+        const countOfCards: number =
+            document.querySelectorAll('.sticky .card').length;
         // TODO when does the following occur?
-        if (
-            this.cardCountSelectedPrePost >= countOfCards
-        ) {
+        if (this.cardCountSelectedPrePost >= countOfCards) {
             this.chooseSelectedSuggestions();
             // this.postSuggestedText();
             return;
@@ -334,20 +343,32 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             if (index >= markingIndex) {
                 if (countOfCardSuggestionsToRemove === 1) {
                     card.classList.add('move-up-animation');
-                    card.addEventListener(this.ANIMATION_END_EVENT, (): void => {
-                        card.classList.remove('move-up-animation');
-                        if (this.suggestionsOfMarkingsToChoose && index === lastIndex) {
-                            this.animationRemoved.emit();
+                    card.addEventListener(
+                        this.ANIMATION_END_EVENT,
+                        (): void => {
+                            card.classList.remove('move-up-animation');
+                            if (
+                                this.suggestionsOfMarkingsToChoose &&
+                                index === lastIndex
+                            ) {
+                                this.animationRemoved.emit();
+                            }
                         }
-                    });
+                    );
                 } else if (countOfCardSuggestionsToRemove >= 2) {
                     card.classList.add('move-up-multiple-animation');
-                    card.addEventListener(this.ANIMATION_END_EVENT, (): void => {
-                        card.classList.remove('move-up-multiple-animation');
-                        if (this.suggestionsOfMarkingsToChoose && index === lastIndex) {
-                            this.animationRemoved.emit();
+                    card.addEventListener(
+                        this.ANIMATION_END_EVENT,
+                        (): void => {
+                            card.classList.remove('move-up-multiple-animation');
+                            if (
+                                this.suggestionsOfMarkingsToChoose &&
+                                index === lastIndex
+                            ) {
+                                this.animationRemoved.emit();
+                            }
                         }
-                    });
+                    );
                 }
             }
         });
@@ -367,7 +388,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             this.isMarkingInAnimation(cards) ||
             this.suggestedMarkingCardCounter === cards.length
         ) {
-            console.log('checkForAnimationRemoval')
+            console.log('checkForAnimationRemoval');
             this.postSuggestedText();
         }
     }
@@ -412,7 +433,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * and updates the editor's content, applying text markings and adjusting cursor position.
      * */
     private postSuggestedText(): void {
-        console.log("start:postSuggestedText")
+        console.log('start:postSuggestedText');
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
         this.http
             .post(this.generateMarkingsURL, editor.innerHTML)
@@ -447,7 +468,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                         (childNode: ChildNode, index: number) => {
                             const isLastChildNode =
                                 index === editor.childNodes.length - 1;
-                            const p: HTMLParagraphElement = document.createElement('p');
+                            const p: HTMLParagraphElement =
+                                document.createElement('p');
                             p.innerHTML = childNode.textContent!;
                             if (childNode.textContent === this.EMPTY_STRING) {
                                 p.innerHTML = this.LINE_BREAK;
@@ -483,7 +505,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 this.characterCountPrePost = 0;
                 this.suggestedMarkingCardCounter = 0;
                 this.cardCountSelectedPrePost = 0;
-                console.log('done:postSuggestedText')
+                console.log('done:postSuggestedText');
             });
     }
 
@@ -499,7 +521,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     ): void {
         let tempIndexValue = 0;
         tempProcessedText?.textMarkings.forEach((textMarking, index) => {
-            if (tempIndexValue > textMarking.to) { // TODO: first comparison always fails? as the first shortest marking is from 0 to 1?
+            if (tempIndexValue > textMarking.to) {
+                // TODO: first comparison always fails? as the first shortest marking is from 0 to 1?
                 this.markingParagraphIndex.push(index);
             }
             tempIndexValue = textMarking.to;
@@ -514,63 +537,71 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * considering the starting and ending positions of the text marking.
      */
     private chooseSelectedSuggestions(): void {
-        this.suggestionsOfMarkingsToChoose.forEach(({markingIndex: mI, suggestionIndex: sI}) => {
-            const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
+        this.suggestionsOfMarkingsToChoose.forEach(
+            ({ markingIndex: mI, suggestionIndex: sI }) => {
+                const editor: HTMLElement = document.getElementById(
+                    this.EDITOR_KEY
+                )!;
 
-            const marking: TextMarking =
-                this.processedText!.textMarkings[mI];
-            const tempMarking: TextMarking =
-                this.tempProcessedText!.textMarkings[mI];
-            const childNode: ChildNode = editor.childNodes[marking.paragraph!];
-            const p: HTMLParagraphElement = document.createElement('p');
+                const marking: TextMarking =
+                    this.processedText!.textMarkings[mI];
+                const tempMarking: TextMarking =
+                    this.tempProcessedText!.textMarkings[mI];
+                const childNode: ChildNode =
+                    editor.childNodes[marking.paragraph!];
+                const p: HTMLParagraphElement = document.createElement('p');
 
-            const currentNode: string = childNode.textContent!.substring(
-                tempMarking.from,
-                tempMarking.to
-            );
-            const suggestedNode: string =
-                marking.suggestions[sI].action;
-            this.characterCountPrePost = currentNode.length - suggestedNode.length;
-            let counterChar = 0;
+                const currentNode: string = childNode.textContent!.substring(
+                    tempMarking.from,
+                    tempMarking.to
+                );
+                const suggestedNode: string = marking.suggestions[sI].action;
+                this.characterCountPrePost =
+                    currentNode.length - suggestedNode.length;
+                let counterChar = 0;
 
-            childNode.childNodes.forEach((node) => {
-                // Clone the child node
-                const clonedNode: Element = node.cloneNode(true) as Element;
-                counterChar += node.textContent?.length!;
-                const isWithinRange: number = Math.abs(counterChar - tempMarking.to);
-
-                if (node.nodeName === 'SPAN') {
-                    clonedNode.classList.remove('animated-typo-marking');
-                }
-
-                if (
-                    node.textContent &&
-                    node.textContent.includes(currentNode) &&
-                    isWithinRange === 0 // if the index is within range
-                ) {
-                    const lengthDiff = Math.abs(
-                        suggestedNode.length - currentNode.length
-                    );
-                    counterChar -= lengthDiff;
-
-                    const replacedText: string = node.textContent.replace(
-                        currentNode,
-                        suggestedNode
+                childNode.childNodes.forEach((node) => {
+                    // Clone the child node
+                    const clonedNode: Element = node.cloneNode(true) as Element;
+                    counterChar += node.textContent?.length!;
+                    const isWithinRange: number = Math.abs(
+                        counterChar - tempMarking.to
                     );
 
-                    const newText: Text = document.createTextNode(replacedText);
+                    if (node.nodeName === 'SPAN') {
+                        clonedNode.classList.remove('animated-typo-marking');
+                    }
 
-                    p.appendChild(newText);
-                } else {
-                    p.appendChild(clonedNode);
-                }
-            });
+                    if (
+                        node.textContent &&
+                        node.textContent.includes(currentNode) &&
+                        isWithinRange === 0 // if the index is within range
+                    ) {
+                        const lengthDiff = Math.abs(
+                            suggestedNode.length - currentNode.length
+                        );
+                        counterChar -= lengthDiff;
 
-            editor.replaceChild(p, childNode);
-            this.updateCharacterCount();
-            this.updateWordCount();
-            this.updateTempMarkings(mI);
-        })
+                        const replacedText: string = node.textContent.replace(
+                            currentNode,
+                            suggestedNode
+                        );
+
+                        const newText: Text =
+                            document.createTextNode(replacedText);
+
+                        p.appendChild(newText);
+                    } else {
+                        p.appendChild(clonedNode);
+                    }
+                });
+
+                editor.replaceChild(p, childNode);
+                this.updateCharacterCount();
+                this.updateWordCount();
+                this.updateTempMarkings(mI);
+            }
+        );
     }
 
     /**
@@ -629,18 +660,22 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             '.sticky .card'
         ) as NodeListOf<HTMLElement>;
 
-        this.suggestionsOfMarkingsToChoose.forEach(({markingIndex: mI , suggestionIndex: _ } ) => {
-            document
-                .getElementsByClassName('sticky')[0]
-                .classList.add('screen-height-delay');
+        this.suggestionsOfMarkingsToChoose.forEach(
+            ({ markingIndex: mI, suggestionIndex: _ }) => {
+                document
+                    .getElementsByClassName('sticky')[0]
+                    .classList.add('screen-height-delay');
 
-            cards[mI].classList.add('card-hidden');
+                cards[mI].classList.add('card-hidden');
 
-            this.handleAnimationsOfCardsOnSuggestionChoosing(mI);
-        });
+                this.handleAnimationsOfCardsOnSuggestionChoosing(mI);
+            }
+        );
 
         setTimeout(() => {
-            document.getElementsByClassName('sticky')[0].classList.remove('screen-height-delay');
+            document
+                .getElementsByClassName('sticky')[0]
+                .classList.remove('screen-height-delay');
         }, 800);
 
         // don't choose suggestions on an uploaded file
@@ -654,7 +689,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * Dismiss the **TextMarking** based on the **markingIndex**.
      * @param {number} markingIndex the index of the text marking from the list of the sorted text markings
      */
-    dismissMarking(markingIndex: number): void { // TODO: think we should rename this to dismissTextMarking or even just dismissMarking
+    dismissMarking(markingIndex: number): void {
+        // TODO: think we should rename this to dismissTextMarking or even just dismissMarking
         // based on the assumption that all spans within the paragraphs of the editor are markings
         // if (this.cardSuggestionsToRemove.length >= 1) return; // prevents collision action between suggestion and deletion
 
@@ -674,8 +710,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * certain marked cards have been deleted.
      */
     private moveUpRemainingDismissedMarkings(): void {
-        const markings: NodeListOf<Element> = document.querySelectorAll('#editor > p > span');
-        console.log('moveUpRemainingDismissedMarkings:markings:', markings)
+        const markings: NodeListOf<Element> =
+            document.querySelectorAll('#editor > p > span');
+        console.log('moveUpRemainingDismissedMarkings:markings:', markings);
         const cards: NodeListOf<HTMLElement> = document.querySelectorAll(
             '.sticky .card'
         ) as NodeListOf<HTMLElement>;
@@ -696,10 +733,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         });
 
         setTimeout(() => {
-            document.getElementsByClassName('sticky')[0].classList.remove('screen-height-delay');
+            document
+                .getElementsByClassName('sticky')[0]
+                .classList.remove('screen-height-delay');
         }, 800);
 
-        markingValues.forEach((elementMarking):void => {
+        markingValues.forEach((elementMarking): void => {
             markings.forEach((card: Element, index: number): void => {
                 if (card.textContent === elementMarking) {
                     this.markingCardsToDismiss.push({
@@ -709,9 +748,15 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 }
             });
         });
-        console.log("moveUpRemainingDismissedMarkings:this.markingCardsToDismiss:", this.markingCardsToDismiss)
-        console.log("moveUpRemainingDismissedMarkings:markings:", markings)
-        console.log("moveUpRemainingDismissedMarkings:this.indicesOfMarkingsToDismiss:", this.indicesOfMarkingsToDismiss)
+        console.log(
+            'moveUpRemainingDismissedMarkings:this.markingCardsToDismiss:',
+            this.markingCardsToDismiss
+        );
+        console.log('moveUpRemainingDismissedMarkings:markings:', markings);
+        console.log(
+            'moveUpRemainingDismissedMarkings:this.indicesOfMarkingsToDismiss:',
+            this.indicesOfMarkingsToDismiss
+        );
         // this.markingCardsToDismiss[1].index = 2;
         // this.indicesOfMarkingsToDismiss = [0, 1]
         // console.log("moveUpRemainingDismissedMarkings:this.indicesOfMarkingsToDismiss:", this.indicesOfMarkingsToDismiss)
@@ -730,9 +775,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * the processed text data accordingly.
      */
     private dismissSelectedMarkings(): void {
-        const cardsToRemoveSet: Set<number> = new Set(this.indicesOfMarkingsToDismiss); // TODO: why do we have duplicates here to begin with?
+        const cardsToRemoveSet: Set<number> = new Set(
+            this.indicesOfMarkingsToDismiss
+        ); // TODO: why do we have duplicates here to begin with?
         this.markingCardsToDismiss.forEach((cardElement): void => {
-            console.log(cardElement.index)
+            console.log(cardElement.index);
             if (cardsToRemoveSet.has(cardElement.index)) {
                 const currentMarking = cardElement.cardElement;
                 const textNode: Text = document.createTextNode(
@@ -745,15 +792,17 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             }
         });
 
-        console.log(this.processedText?.textMarkings)
-        console.log(this.processedText!.textMarkings.filter(
-            (_, index) => !this.indicesOfMarkingsToDismiss.includes(index)
-        ))
+        console.log(this.processedText?.textMarkings);
+        console.log(
+            this.processedText!.textMarkings.filter(
+                (_, index) => !this.indicesOfMarkingsToDismiss.includes(index)
+            )
+        );
         this.processedText!.textMarkings =
             this.processedText!.textMarkings.filter(
                 (_, index) => !this.indicesOfMarkingsToDismiss.includes(index)
             );
-        console.log(this.processedText)
+        console.log(this.processedText);
         // this.tempProcessedText = this.processedText;
 
         this.shouldCollapseSuggestions = new Array<boolean>(
@@ -779,7 +828,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         ) as NodeListOf<HTMLElement>;
 
         cards.forEach((card: HTMLElement, index: number) => {
-            const countOfCardsToRemove: number = this.indicesOfMarkingsToDismiss.length;
+            const countOfCardsToRemove: number =
+                this.indicesOfMarkingsToDismiss.length;
             if (index >= markingIndex) {
                 if (countOfCardsToRemove === 1) {
                     card.classList.add('move-up-animation');
@@ -793,7 +843,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     });
                 }
             }
-        })
+        });
     }
 
     /**
@@ -980,7 +1030,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private markEditor(
         cursorPlacement: CursorPlacement = CursorPlacement.LAST_SAVE
     ): void {
-        console.log("markEditor")
+        console.log('markEditor');
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
 
         this.loading$.next(true);
@@ -1338,7 +1388,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                         return;
                     }
                 }
-        }
+            }
 
             if (!this.hasMarkings()) {
                 return;

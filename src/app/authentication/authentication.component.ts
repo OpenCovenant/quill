@@ -72,10 +72,9 @@ export class AuthenticationComponent implements OnInit {
 
     private initializeGoogleLibrary(): void {
         google.accounts.id.initialize({
-            client_id: "",
+            client_id: '',
             callback: (v: any): void => {
                 const accessToken = v.credential;
-
 
                 this.httpClient
                     .post(this.postAccessTokenURL, {
@@ -110,8 +109,8 @@ export class AuthenticationComponent implements OnInit {
             }
         });
         google.accounts.id.renderButton(
-            document.getElementById("googleSignInButton"),
-            { theme: "outline", size: "large", locale: 'sq', width: 246}
+            document.getElementById('googleSignInButton'),
+            { theme: 'outline', size: 'large', locale: 'sq', width: 246 }
         );
         google.accounts.id.prompt();
     }
