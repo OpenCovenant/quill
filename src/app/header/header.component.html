@@ -43,7 +43,7 @@
                 [ngIf]="authenticationService.isAuthenticated() | async"
                 [ngIfElse]="authenticateButton"
             >
-                <div class="btn-group">
+                <div class="btn-group user-dropdown-menu">
                     <button
                         type="button"
                         data-bs-toggle="dropdown"
@@ -122,7 +122,7 @@
             </ng-template>
             <ng-template #authenticateButton>
                 <button
-                    class="btn btn-primary"
+                    class="btn btn-primary login-header-button"
                     style="font-weight: 500"
                     routerLink="/authentication"
                 >
@@ -131,7 +131,7 @@
             </ng-template>
 
             <!-- <i class="bi bi-lock-fill" style='font-size: 20px'></i> ??? person-fill-lock -->
-            <span style="padding-left: 1rem; font-size: 20px; color: #d2d2d2"
+            <span class="header-seperator"
                 >|</span
             >
             <i

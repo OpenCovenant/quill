@@ -180,7 +180,6 @@
 }
 
 .settings-gear-dark-mode {
-    margin-right: 2.3rem;
     color: var(--dark-mode-anti-theme);
 }
 
@@ -233,7 +232,6 @@
 .settings-gear-button {
     cursor: pointer;
     padding: 0.5rem !important;
-    margin-right: 2.6rem;
     border-radius: 0.5rem;
 }
 
@@ -292,4 +290,20 @@
 .menu-dropdown-item-dark-mode:active {
     background-color: #6e6e6e;
     color: white;
+}
+
+.login-header-button {
+    order: 2;
+    margin-right: 2.9rem;
+}
+
+.header-seperator {
+    padding: 1rem;
+    font-size: 20px; color: #d2d2d2;
+    order: 1;
+}
+
+.user-dropdown-menu {
+    order: 2;
+    margin-right: 2.9rem;
 }
