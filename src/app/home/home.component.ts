@@ -298,7 +298,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.applySlideFadeAnimationToCard(markingIndex);
 
         if (document.querySelectorAll('#editor > p > span').length === 1) {
-            setTimeout(() => {
+            setTimeout((): void => {
                 this.chooseSelectedSuggestions();
                 this.postSuggestedText();
             }, 900);
@@ -321,13 +321,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         markingIndex: number
     ): void {
         const cards: NodeListOf<HTMLElement> = document.querySelectorAll(
-            '.sticky .card'
+            '.generated-marking-card'
         ) as NodeListOf<HTMLElement>;
 
         const countOfCardSuggestionsToRemove: number =
             this.suggestionsOfMarkingsToChoose.length;
         const countOfCards: number =
-            document.querySelectorAll('.sticky .card').length;
+            document.querySelectorAll('.generated-marking-card').length;
         // TODO when does the following occur?
         if (this.cardCountSelectedPrePost >= countOfCards) {
             this.chooseSelectedSuggestions();
@@ -379,7 +379,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      */
     private checkForAnimationRemoval(): void {
         const cards: NodeListOf<HTMLElement> = document.querySelectorAll(
-            '.sticky .card'
+            '.generated-marking-card'
         ) as NodeListOf<HTMLElement>;
 
         if (
@@ -652,7 +652,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     private moveUpRemainingChosenSuggestionMarkings(): void {
         const cards: NodeListOf<HTMLElement> = document.querySelectorAll(
-            '.sticky .card'
+            '.generated-marking-card'
         ) as NodeListOf<HTMLElement>;
 
         this.suggestionsOfMarkingsToChoose.forEach(
@@ -708,7 +708,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         const markings: NodeListOf<Element> =
             document.querySelectorAll('#editor > p > span');
         const cards: NodeListOf<HTMLElement> = document.querySelectorAll(
-            '.sticky .card'
+            '.generated-marking-card'
         ) as NodeListOf<HTMLElement>;
         const markingValues: any[] = []; // TODO: (just a note for me) basically "eshte" for the typo eshte
 
@@ -797,7 +797,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         markingIndex: number
     ): void {
         const cards: NodeListOf<HTMLElement> = document.querySelectorAll(
-            '.sticky .card'
+            '.generated-marking-card'
         ) as NodeListOf<HTMLElement>;
 
         cards.forEach((card: HTMLElement, index: number) => {
@@ -825,7 +825,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      */
     private applySlideFadeAnimationToCard(markingIndex: number): void {
         const cards: NodeListOf<HTMLElement> = document.querySelectorAll(
-            '.sticky .card'
+            '.generated-marking-card'
         ) as NodeListOf<HTMLElement>;
         cards[markingIndex].classList.add('fade-out');
 
