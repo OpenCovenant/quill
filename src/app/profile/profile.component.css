@@ -47,3 +47,29 @@
     font-size: 0.8rem;
     color: var(--dark-mode-smooth-theme);
 }
+
+.modal-content-subscription-dark-mode {
+    background-color: var(--dark-mode-theme);
+    color: var(--dark-mode-anti-theme);
+}
+
+.modal-go-back-button-subscription {
+    color: #0d6efd;
+}
+
+.modal-go-back-button-subscription-dark-mode {
+    color: var(--dark-mode-anti-theme);
+}
+
+.modal-content-profile-dark-mode {
+    background-color: var(--dark-mode-theme);
+    color: var(--dark-mode-anti-theme);
+}
+
+.modal-go-back-button-profile {
+    color: #0d6efd;
+}
+
+.modal-go-back-button-profile-dark-mode {
+    color: var(--dark-mode-anti-theme);
+}

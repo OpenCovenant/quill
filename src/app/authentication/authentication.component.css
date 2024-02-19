@@ -1,7 +1,9 @@
+.authentication-terms {
+    color: var(--dark-mode-smooth-theme);
+}
+
+
 .authentication-header-dark-mode {
     color: var(--dark-mode-anti-theme);
 }
 
-.authentication-terms {
-    color: var(--dark-mode-smooth-theme);
-}

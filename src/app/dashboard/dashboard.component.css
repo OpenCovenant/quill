@@ -39,3 +39,24 @@
 .dashboard-card-header {
     background-color: var(--dark-mode-anti-theme);
 }
+
+.free-pricing-card-heading-dark-mode {
+    background-color: var(--dark-mode-theme);
+    color: var(--dark-mode-anti-theme);
+    border-color: #71707099;
+
+}
+
+.pricing-card-body-dark-mode {
+    background-color: var(--dark-mode-theme);
+    color: var(--dark-mode-anti-theme);
+}
+
+.identify-anchor-dark-mode {
+    color: #0074e5;
+}
+
+.pricing-card-button-dark-mode {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}

@@ -230,7 +230,9 @@
     aria-hidden="true"
 >
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+        <div class="modal-content" [ngClass]="{
+            'modal-content-subscription-dark-mode': darkModeService.isDarkMode
+        }">
             <div class="modal-header">
                 <h5 class="modal-title" id="unsubscriptionModalLabel">
                     Konfirmo Anulimin e Abonimit
@@ -238,6 +240,9 @@
                 <button
                     type="button"
                     class="btn-close"
+                    [ngClass]="{
+                    'btn-close-white': darkModeService.isDarkMode
+                }"
                     data-bs-dismiss="modal"
                     aria-label="Close"
                 ></button>
@@ -254,10 +259,12 @@
             >
                 <button
                     type="button"
-                    class="btn-outline-primary"
+                    class="btn-outline-primary modal-go-back-button-subscription"
+                    [ngClass]="{
+            'modal-go-back-button-subscription-dark-mode': darkModeService.isDarkMode
+        }"
                     style="
                         background-color: transparent;
-                        color: #0d6efd;
                         font-weight: 500;
                         border: none;
                     "
@@ -287,7 +294,9 @@
     aria-hidden="true"
 >
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+        <div class="modal-content" [ngClass]="{
+            'modal-content-profile-dark-mode': darkModeService.isDarkMode
+        }">
             <div class="modal-header">
                 <h5 class="modal-title" id="accountClosureModalLabel">
                     Konfirmo Mbylljen e Llogarisë
@@ -295,6 +304,9 @@
                 <button
                     type="button"
                     class="btn-close"
+                    [ngClass]="{
+                    'btn-close-white': darkModeService.isDarkMode
+                }"
                     data-bs-dismiss="modal"
                     aria-label="Mbyll Dialogun"
                 ></button>
@@ -311,10 +323,12 @@
             >
                 <button
                     type="button"
-                    class="btn-outline-primary"
+                    class="btn-outline-primary modal-go-back-button-profile"
+                    [ngClass]="{
+            'modal-go-back-button-profile-dark-mode': darkModeService.isDarkMode
+        }"
                     style="
                         background-color: transparent;
-                        color: #0d6efd;
                         font-weight: 500;
                         border: none;
                     "

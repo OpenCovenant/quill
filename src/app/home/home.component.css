@@ -571,6 +571,16 @@
     margin-top: 5px;
 }
 
+.modal-content-welcome-dark-mode {
+    background-color: var(--dark-mode-theme);
+    color: var(--dark-mode-anti-theme);
+}
+
+.modal-content-subscription-success-dark-mode {
+    background-color: var(--dark-mode-theme);
+    color: var(--dark-mode-anti-theme);
+}
+
 .switch {
     position: relative;
     display: inline-block;

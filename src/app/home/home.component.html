@@ -681,7 +681,9 @@
     aria-hidden="true"
 >
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+        <div class="modal-content" [ngClass]="{
+                    'modal-content-subscription-success-dark-mode': darkModeService.isDarkMode
+                }">
             <div class="modal-header">
                 <h5 class="modal-title" id="thankYouModalLabel">
                     Abonimi u Krye me Sukses
@@ -689,6 +691,9 @@
                 <button
                     type="button"
                     class="btn-close"
+                    [ngClass]="{
+                    'btn-close-white': darkModeService.isDarkMode
+                }"
                     data-bs-dismiss="modal"
                     aria-label="Close"
                 ></button>
@@ -738,7 +743,9 @@
     aria-hidden="true"
 >
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+        <div class="modal-content"  [ngClass]="{
+                    'modal-content-welcome-dark-mode': darkModeService.isDarkMode
+                }">
             <div class="modal-header">
                 <h5 class="modal-title" id="welcomeModalLabel">
                     Mirë se Vini te Penda
@@ -746,6 +753,9 @@
                 <button
                     type="button"
                     class="btn-close"
+                    [ngClass]="{
+                    'btn-close-white': darkModeService.isDarkMode
+                }"
                     data-bs-dismiss="modal"
                     aria-label="Close"
                 ></button>

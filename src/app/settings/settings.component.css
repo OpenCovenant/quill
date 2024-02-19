@@ -199,3 +199,16 @@
     width: 60%;
     margin-bottom: 2rem;
 }
+
+.modal-content-settings-dark-mode {
+    background-color: var(--dark-mode-theme);
+    color: var(--dark-mode-anti-theme);
+}
+
+.modal-footer-button {
+    color: #0d6efd;
+}
+
+.modal-footer-button-dark-mode {
+    color: var(--dark-mode-anti-theme);
+}
