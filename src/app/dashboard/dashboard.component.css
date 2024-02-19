@@ -43,13 +43,20 @@
 .free-pricing-card-heading-dark-mode {
     background-color: var(--dark-mode-theme);
     color: var(--dark-mode-anti-theme);
-    box-shadow: 0 0 10px #d8d8d899;
-    border: 0px solid rgba(0,0,0,.125);
+    border-color: #71707099;
+
 }
 
-.free-pricing-card-body-dark-mode {
+.pricing-card-body-dark-mode {
     background-color: var(--dark-mode-theme);
     color: var(--dark-mode-anti-theme);
-    box-shadow: 0 0 10px #d8d8d899;
-    border: 0px solid rgba(0,0,0,.125);
+}
+
+.identify-anchor-dark-mode {
+    color: #0074e5;
+}
+
+.pricing-card-button-dark-mode {
+    background-color: #6c757d;
+    border-color: #6c757d;
 }
