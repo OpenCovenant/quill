@@ -27,9 +27,12 @@
     aria-hidden="true"
 >
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" [ngClass]="{
-                    're-authenticate-modal-dark-mode': darkModeService.isDarkMode
-                }">
+        <div
+            class="modal-content"
+            [ngClass]="{
+                're-authenticate-modal-dark-mode': darkModeService.isDarkMode
+            }"
+        >
             <div class="modal-header">
                 <h5 class="modal-title" id="reauthenticationModalLabel">
                     Identifikohu Përsëri
@@ -38,8 +41,8 @@
                     type="button"
                     class="btn-close"
                     [ngClass]="{
-                    'btn-close-white': darkModeService.isDarkMode
-                }"
+                        'btn-close-white': darkModeService.isDarkMode
+                    }"
                     data-bs-dismiss="modal"
                     aria-label="Close"
                 ></button>
@@ -62,8 +65,9 @@
                     data-bs-dismiss="modal"
                     class="continue-without-account-button"
                     [ngClass]="{
-                    'continue-without-account-button-dark-mode': darkModeService.isDarkMode
-                }"
+                        'continue-without-account-button-dark-mode':
+                            darkModeService.isDarkMode
+                    }"
                 >
                     Vazhdo Pa Llogari
                 </button>

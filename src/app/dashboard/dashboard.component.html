@@ -20,16 +20,24 @@
             <div class="col">
                 <div
                     class="card mb-4 rounded-3 dashboard-card"
-                    style="min-height: 400px" >
-                    <div class="card-header py-3 dashboard-card-header"
-                         [ngClass]="{
-'free-pricing-card-heading-dark-mode': darkModeService.isDarkMode
-}">
+                    style="min-height: 400px"
+                >
+                    <div
+                        class="card-header py-3 dashboard-card-header"
+                        [ngClass]="{
+                            'free-pricing-card-heading-dark-mode':
+                                darkModeService.isDarkMode
+                        }"
+                    >
                         <h2 class="my-0 fw-normal text-center">Penda</h2>
                     </div>
-                    <div class="card-body"  [ngClass]="{
-                    'pricing-card-body-dark-mode': darkModeService.isDarkMode
-                }">
+                    <div
+                        class="card-body"
+                        [ngClass]="{
+                            'pricing-card-body-dark-mode':
+                                darkModeService.isDarkMode
+                        }"
+                    >
                         <h1
                             class="card-title pricing-card-title text-center pb-2"
                         >
@@ -67,8 +75,9 @@
                                     routerLink="/authentication"
                                     class="mybt w-50 btn btn-lg btn-secondary"
                                     [ngClass]="{
-                    'pricing-card-button-dark-mode': darkModeService.isDarkMode
-                }"
+                                        'pricing-card-button-dark-mode':
+                                            darkModeService.isDarkMode
+                                    }"
                                 >
                                     Abonimi Aktual
                                 </button>
@@ -78,9 +87,13 @@
                                             color: #7f7f7f;
                                             font-size: 0.8rem;
                                         "
-                                        ><a routerLink="/authentication" [ngClass]="{
-                    'identify-anchor-dark-mode': darkModeService.isDarkMode
-                }"                       >identifikohu falas</a
+                                        ><a
+                                            routerLink="/authentication"
+                                            [ngClass]="{
+                                                'identify-anchor-dark-mode':
+                                                    darkModeService.isDarkMode
+                                            }"
+                                            >identifikohu falas</a
                                         >, nuk ju kërkojmë as kartë
                                         bankare</span
                                     >
@@ -104,9 +117,13 @@
                     >
                         <h2 class="my-0 fw-normal text-center">Penda e Artë</h2>
                     </div>
-                    <div class="card-body" [ngClass]="{
-                    'pricing-card-body-dark-mode': darkModeService.isDarkMode
-                }">
+                    <div
+                        class="card-body"
+                        [ngClass]="{
+                            'pricing-card-body-dark-mode':
+                                darkModeService.isDarkMode
+                        }"
+                    >
                         <h1
                             class="card-title pricing-card-title text-center pb-2"
                         >

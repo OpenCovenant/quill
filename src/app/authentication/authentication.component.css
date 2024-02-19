@@ -2,8 +2,6 @@
     color: var(--dark-mode-smooth-theme);
 }
 
-
 .authentication-header-dark-mode {
     color: var(--dark-mode-anti-theme);
 }
-
