@@ -184,14 +184,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.animationRemovedSubscription.unsubscribe();
     }
 
-    private initializeURLs(): void {
-        this.baseURL = environment.baseURL;
-        this.generateMarkingsURL =
-            this.baseURL + '/api/generateMarkingsForParagraphs';
-        this.uploadDocumentURL = this.baseURL + '/api/uploadDocument';
-        this.pingURL = this.baseURL + '/api/ping';
-    }
-
     /**
      * Function that is called when text is pasted in the editor.
      * @param {ClipboardEvent} $event the event emitted
@@ -306,6 +298,176 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         }
 
         this.suggestionChoosingSubject$.next();
+    }
+
+    // TODO there might be a bug here that creates double spaces in the text, test more
+    /**
+     * Dismiss the **TextMarking** based on the **markingIndex**.
+     * @param {number} markingIndex the index of the text marking from the list of the sorted text markings
+     */
+    dismissMarking(markingIndex: number): void {
+        // TODO: think we should rename this to dismissTextMarking or even just dismissMarking
+        // based on the assumption that all spans within the paragraphs of the editor are markings
+        // if (this.cardSuggestionsToRemove.length >= 1) return; // prevents collision action between suggestion and deletion
+
+        this.storeDismissedMarking(markingIndex); // TODO: uncomment before merging
+
+        this.cardCountSelectedPrePost++;
+        this.indicesOfMarkingsToDismiss.push(markingIndex);
+        this.applySlideFadeAnimationToCard(markingIndex);
+
+        this.markingDismissalSubject$.next();
+    }
+
+    /**
+     * Returns whether there is text in the editor or not
+     */
+    editorHasText(): boolean {
+        return (
+            document.getElementById(this.EDITOR_KEY)!.innerHTML !==
+            this.LINE_BROKEN_PARAGRAPH
+        );
+    }
+
+    /**
+     * Clears the written text in the editor
+     */
+    clearEditor(): void {
+        document.getElementById(this.EDITOR_KEY)!.innerHTML =
+            this.LINE_BROKEN_PARAGRAPH;
+        this.processedText = undefined;
+        this.updateCharacterAndWordCount();
+        this.shouldCollapseSuggestions = new Array<boolean>(0);
+        this.blurHighlightedBoardMarking();
+        this.indicesOfMarkingsToDismiss = [];
+        this.suggestionsOfMarkingsToChoose = [];
+        this.suggestedMarkingCardCounter = 0;
+        this.markingParagraphIndex = [];
+        this.characterCountPrePost = 0;
+        this.cardCountSelectedPrePost = 0;
+    }
+
+    /**
+     * Expand or contract the suggestions of a given TextMarking based on an index.
+     * @param {number} textMarkingIndex the index of the text marking from the list of the sorted text markings
+     * @param {Event} $event the click event that is triggered when clicking on the expand/contract icon
+     */
+    oscillateSuggestion(textMarkingIndex: number, $event: Event): void {
+        const oscillatingButtonClasses: DOMTokenList = (
+            $event.target as HTMLHeadingElement
+        ).classList;
+        if (oscillatingButtonClasses.contains('bi-arrow-right-square')) {
+            if (this.shouldCollapseSuggestions[textMarkingIndex]) {
+                this.shouldCollapseSuggestions[textMarkingIndex] = false;
+            }
+        } else if (oscillatingButtonClasses.contains('bi-arrow-left-square')) {
+            if (!this.shouldCollapseSuggestions[textMarkingIndex]) {
+                this.shouldCollapseSuggestions[textMarkingIndex] = true;
+            }
+        } else {
+            throw new Error(
+                'The oscillating button should have one of these classes given that you could see it to click it!'
+            );
+        }
+    }
+
+    copyToClipboard(): void {
+        const copyToClipboardButton: HTMLElement = document.getElementById(
+            'copy-to-clipboard-button'
+        )!;
+        copyToClipboardButton.classList.replace(
+            'bi-clipboard',
+            'bi-clipboard2-check'
+        );
+        copyToClipboardButton.style.setProperty('color', 'green', 'important');
+
+        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
+        if (navigator.clipboard) {
+            if (!editor.textContent) {
+                this.brieflyChangeClipboardIcon(copyToClipboardButton);
+                return;
+            }
+            navigator.clipboard.writeText(editor.textContent).then();
+        } else {
+            // TODO some browsers still seem to use this deprecated method, keep it around for some more time
+            let range, select: Selection;
+            if (document.createRange) {
+                range = document.createRange();
+                range.selectNodeContents(editor);
+                select = window.getSelection()!;
+                select.removeAllRanges();
+                select.addRange(range);
+                document.execCommand('copy');
+                select.removeAllRanges();
+            } else {
+                // NOTE: this part might only be for IE
+                range = (document.body as any).createTextRange();
+                range.moveToElementText(editor);
+                range.select();
+                document.execCommand('copy');
+            }
+        }
+
+        this.brieflyChangeClipboardIcon(copyToClipboardButton);
+    }
+
+    toggleStoringOfWrittenTexts(): void {
+        this.writingsHistoryService.toggleWritingPermission(
+            (
+                document.getElementById(
+                    'flex-switch-check-checked'
+                ) as HTMLInputElement
+            ).checked
+        );
+    }
+
+    /**
+     * Replaces the text of the editor with the given **writtenText** and generates its markings
+     * @param {string} writtenText
+     */
+    placeWrittenText(writtenText: string): void {
+        document.getElementById(this.EDITOR_KEY)!.innerText = writtenText;
+        document.getElementById('close-written-texts-modal-button')!.click();
+        this.markEditor();
+        this.updateCharacterAndWordCount();
+    }
+
+    getTextOfTextMarking(markingIndex: number): string {
+        if (!this.processedText) {
+            return this.EMPTY_STRING;
+        }
+
+        const marking: TextMarking =
+            this.processedText.textMarkings[markingIndex];
+        if (!marking) {
+            return this.EMPTY_STRING;
+        }
+
+        const virtualEditor: HTMLDivElement = document.createElement('div');
+        virtualEditor.innerHTML = this.processedText.text;
+
+        const editorTextContent: string | null =
+            virtualEditor.childNodes[marking.paragraph!].textContent;
+        if (!editorTextContent) {
+            return this.EMPTY_STRING;
+        }
+
+        return editorTextContent.slice(marking.from, marking.to);
+    }
+
+    /**
+     * Blurs the currently highlighted board marking.
+     */
+    blurHighlightedBoardMarking(): void {
+        this.highlightedMarkingIndex = -1;
+    }
+
+    private initializeURLs(): void {
+        this.baseURL = environment.baseURL;
+        this.generateMarkingsURL =
+            this.baseURL + '/api/generateMarkingsForParagraphs';
+        this.uploadDocumentURL = this.baseURL + '/api/uploadDocument';
+        this.pingURL = this.baseURL + '/api/ping';
     }
 
     /**
@@ -676,23 +838,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.suggestionsOfMarkingsToChoose = [];
     }
 
-    // TODO there might be a bug here that creates double spaces in the text, test more
-    /**
-     * Dismiss the **TextMarking** based on the **markingIndex**.
-     * @param {number} markingIndex the index of the text marking from the list of the sorted text markings
-     */
-    dismissMarking(markingIndex: number): void {
-        // TODO: think we should rename this to dismissTextMarking or even just dismissMarking
-        // based on the assumption that all spans within the paragraphs of the editor are markings
-        // if (this.cardSuggestionsToRemove.length >= 1) return; // prevents collision action between suggestion and deletion
-
-        this.storeDismissedMarking(markingIndex); // TODO: uncomment before merging
-
-        this.cardCountSelectedPrePost++;
-        this.indicesOfMarkingsToDismiss.push(markingIndex);
-        this.applySlideFadeAnimationToCard(markingIndex);
-
-        this.markingDismissalSubject$.next();
+    // TODO rename, add docs
+    private focusOnMediaMatch(mediaMatch: any): void {
+        if (mediaMatch.matches) {
+            document.getElementById(this.EDITOR_KEY)?.focus();
+        }
     }
 
     /**
@@ -839,156 +989,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             ' ',
             ''
         );
-    }
-
-    /**
-     * Returns whether there is text in the editor or not
-     */
-    editorHasText(): boolean {
-        return (
-            document.getElementById(this.EDITOR_KEY)!.innerHTML !==
-            this.LINE_BROKEN_PARAGRAPH
-        );
-    }
-
-    /**
-     * Clears the written text in the editor
-     */
-    clearEditor(): void {
-        document.getElementById(this.EDITOR_KEY)!.innerHTML =
-            this.LINE_BROKEN_PARAGRAPH;
-        this.processedText = undefined;
-        this.updateCharacterAndWordCount();
-        this.shouldCollapseSuggestions = new Array<boolean>(0);
-        this.blurHighlightedBoardMarking();
-        this.indicesOfMarkingsToDismiss = [];
-        this.suggestionsOfMarkingsToChoose = [];
-        this.suggestedMarkingCardCounter = 0;
-        this.markingParagraphIndex = [];
-        this.characterCountPrePost = 0;
-        this.cardCountSelectedPrePost = 0;
-    }
-
-    /**
-     * Expand or contract the suggestions of a given TextMarking based on an index.
-     * @param {number} textMarkingIndex the index of the text marking from the list of the sorted text markings
-     * @param {Event} $event the click event that is triggered when clicking on the expand/contract icon
-     */
-    oscillateSuggestion(textMarkingIndex: number, $event: Event): void {
-        const oscillatingButtonClasses: DOMTokenList = (
-            $event.target as HTMLHeadingElement
-        ).classList;
-        if (oscillatingButtonClasses.contains('bi-arrow-right-square')) {
-            if (this.shouldCollapseSuggestions[textMarkingIndex]) {
-                this.shouldCollapseSuggestions[textMarkingIndex] = false;
-            }
-        } else if (oscillatingButtonClasses.contains('bi-arrow-left-square')) {
-            if (!this.shouldCollapseSuggestions[textMarkingIndex]) {
-                this.shouldCollapseSuggestions[textMarkingIndex] = true;
-            }
-        } else {
-            throw new Error(
-                'The oscillating button should have one of these classes given that you could see it to click it!'
-            );
-        }
-    }
-
-    copyToClipboard(): void {
-        const copyToClipboardButton: HTMLElement = document.getElementById(
-            'copy-to-clipboard-button'
-        )!;
-        copyToClipboardButton.classList.replace(
-            'bi-clipboard',
-            'bi-clipboard2-check'
-        );
-        copyToClipboardButton.style.setProperty('color', 'green', 'important');
-
-        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
-        if (navigator.clipboard) {
-            if (!editor.textContent) {
-                this.brieflyChangeClipboardIcon(copyToClipboardButton);
-                return;
-            }
-            navigator.clipboard.writeText(editor.textContent).then();
-        } else {
-            // TODO some browsers still seem to use this deprecated method, keep it around for some more time
-            let range, select: Selection;
-            if (document.createRange) {
-                range = document.createRange();
-                range.selectNodeContents(editor);
-                select = window.getSelection()!;
-                select.removeAllRanges();
-                select.addRange(range);
-                document.execCommand('copy');
-                select.removeAllRanges();
-            } else {
-                // NOTE: this part might only be for IE
-                range = (document.body as any).createTextRange();
-                range.moveToElementText(editor);
-                range.select();
-                document.execCommand('copy');
-            }
-        }
-
-        this.brieflyChangeClipboardIcon(copyToClipboardButton);
-    }
-
-    toggleStoringOfWrittenTexts(): void {
-        this.writingsHistoryService.toggleWritingPermission(
-            (
-                document.getElementById(
-                    'flex-switch-check-checked'
-                ) as HTMLInputElement
-            ).checked
-        );
-    }
-
-    // TODO rename, add docs
-    private focusOnMediaMatch(mediaMatch: any): void {
-        if (mediaMatch.matches) {
-            document.getElementById(this.EDITOR_KEY)?.focus();
-        }
-    }
-
-    /**
-     * Replaces the text of the editor with the given **writtenText** and generates its markings
-     * @param {string} writtenText
-     */
-    placeWrittenText(writtenText: string): void {
-        document.getElementById(this.EDITOR_KEY)!.innerText = writtenText;
-        document.getElementById('close-written-texts-modal-button')!.click();
-        this.markEditor();
-        this.updateCharacterAndWordCount();
-    }
-
-    getTextOfTextMarking(markingIndex: number): string {
-        if (!this.processedText) {
-            return this.EMPTY_STRING;
-        }
-
-        const marking: TextMarking =
-            this.processedText.textMarkings[markingIndex];
-        if (!marking) {
-            return this.EMPTY_STRING;
-        }
-
-        const virtualEditor: HTMLDivElement = document.createElement('div');
-        virtualEditor.innerHTML = this.processedText.text;
-
-        const editorTextContent: string | null =
-            virtualEditor.childNodes[marking.paragraph!].textContent;
-        if (!editorTextContent) {
-            return this.EMPTY_STRING;
-        }
-
-        return editorTextContent.slice(marking.from, marking.to);
-    }
-
-    /**
-     * Blurs the currently highlighted board marking.
-     */
-    blurHighlightedBoardMarking(): void {
-        this.highlightedMarkingIndex = -1;
     }
 
     /**
