@@ -504,6 +504,7 @@
     border-radius: 5px;
     padding: 5px;
     overflow: hidden;
+    margin: 0 1rem;
 }
 
 .written-text:hover {
@@ -513,6 +514,7 @@
 /*TODO: apply dark mode for the history of the written texts*/
 .written-texts-history-dark-mode {
     background-color: var(--dark-mode-theme);
+    margin: 0 1rem;
 }
 .marking-type-label {
     position: relative;
