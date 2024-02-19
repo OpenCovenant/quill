@@ -137,6 +137,7 @@ export function markText(
  * after invoking the `markText` function.
  *
  * @param {HTMLElement} newNode - The newly created or modified HTML element.
+ * @param {string} textMarkingType - The type of the marking.
  * @param {string} newTextContent - The text content of the HTML element.
  *
  * This function adds the new text content to the `highlightedMarkingWords` array.
@@ -175,8 +176,9 @@ function applyMarkingFadein(
  * Updates the array of highlighted marking words based on changes in the text content.
  * This function is called when a node has been added, removed, or modified.
  *
- * @param newNode - The HTML element representing the updated node.
- * @param newTextContent - The new text content of the updated node.
+ * @param {HTMLElement} newNode - The HTML element representing the updated node.
+ * @param {string} textMarkingType - The type of the marking.
+ * @param {string} newTextContent - The new text content of the updated node.
  */
 function updatedMarkings(
     newNode: HTMLElement,
@@ -230,8 +232,9 @@ function isLastCall(isLastChildNode: boolean, typoElements: number): void {
  * Updates the highlighting markings on a given HTML element by adding or removing
  * the animation class based on the specified status.
  *
- * @param newNode - The HTML element whose highlighting markings need to be updated.
- * @param status - The status indicating whether to 'add' or 'remove' the animation class.
+ * @param {HTMLElement} newNode - The HTML element whose highlighting markings need to be updated.
+ * @param {string} textMarkingType - The type of the marking.
+ * @param {string} status - The status indicating whether to 'add' or 'remove' the animation class.
  */
 function updateHighlightingMarkings(
     newNode: HTMLElement,

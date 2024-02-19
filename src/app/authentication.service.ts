@@ -38,7 +38,7 @@ export class AuthenticationService {
 
     logout(): void {
         if (this.user.platform === 'facebook') {
-            (<any>window)['FB'].getLoginStatus(function (response: any): void {
+            (<any>window)['FB'].getLoginStatus((response: any): void => {
                 if (response && response.status === 'connected') {
                     (<any>window)['FB'].logout((): void => {
                         document.location.reload();
