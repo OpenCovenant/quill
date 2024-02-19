@@ -399,7 +399,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      */
     private isMarkingInAnimation(cards: NodeListOf<HTMLElement>): boolean {
         return Array.from(cards).some(
-            (card) =>
+            (card: HTMLElement) =>
                 card.classList.contains('move-up-animation') ||
                 card.classList.contains('move-up-multiple-animation')
         );
@@ -944,7 +944,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     // TODO rename, add docs
-    focusOnMediaMatch(mediaMatch: any): void {
+    private focusOnMediaMatch(mediaMatch: any): void {
         if (mediaMatch.matches) {
             document.getElementById(this.EDITOR_KEY)?.focus();
         }
@@ -1076,7 +1076,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private filterUnselectedMarkingTypes(
         textMarkings: TextMarking[]
     ): TextMarking[] {
-        return textMarkings.filter((tM: TextMarking) => {
+        return textMarkings.filter((tM: TextMarking): boolean => {
             if (tM.id) {
                 const items = { ...localStorage };
                 let b = true;
