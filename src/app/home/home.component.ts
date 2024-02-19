@@ -297,7 +297,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         this.applySlideFadeAnimationToCard(markingIndex);
 
-        if (document.querySelectorAll('#editor > p > span').length === 1) {
+        if (this.fetchEditorMarkings().length === 1) {
             setTimeout(() => {
                 this.chooseSelectedSuggestions();
                 this.postSuggestedText();
@@ -705,8 +705,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * certain marked cards have been deleted.
      */
     private moveUpRemainingDismissedMarkings(): void {
-        const markings: NodeListOf<Element> =
-            document.querySelectorAll('#editor > p > span');
+        const markings: NodeListOf<Element> = this.fetchEditorMarkings();
         const cards: NodeListOf<HTMLElement> = document.querySelectorAll(
             '.sticky .card'
         ) as NodeListOf<HTMLElement>;
@@ -1453,5 +1452,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             'penda-dismissed-markings',
             JSON.stringify(dismissedMarkings)
         );
+    }
+
+    private fetchEditorMarkings(): NodeListOf<HTMLSpanElement> {
+        return document.querySelectorAll('#editor > p > span');
     }
 }
