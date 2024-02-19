@@ -488,8 +488,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         const countOfCardSuggestionsToRemove: number =
             this.suggestionsOfMarkingsToChoose.length;
-        const countOfCards: number =
-            document.querySelectorAll('.generated-marking-card').length;
+        const countOfCards: number = document.querySelectorAll(
+            '.generated-marking-card'
+        ).length;
         // TODO when does the following occur?
         if (this.cardCountSelectedPrePost >= countOfCards) {
             this.chooseSelectedSuggestions();
@@ -674,13 +675,15 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         tempProcessedText: ProcessedText | undefined
     ): void {
         let tempIndexValue: number = 0;
-        tempProcessedText?.textMarkings.forEach((marking: TextMarking, index: number): void => {
-            if (tempIndexValue > marking.to) {
-                // TODO: first comparison always fails? as the first shortest marking is from 0 to 1?
-                this.markingParagraphIndex.push(index);
+        tempProcessedText?.textMarkings.forEach(
+            (marking: TextMarking, index: number): void => {
+                if (tempIndexValue > marking.to) {
+                    // TODO: first comparison always fails? as the first shortest marking is from 0 to 1?
+                    this.markingParagraphIndex.push(index);
+                }
+                tempIndexValue = marking.to;
             }
-            tempIndexValue = marking.to;
-        });
+        );
     }
 
     /**
@@ -905,7 +908,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      */
     private dismissSelectedMarkings(): void {
         // TODO: why do we have duplicates here to begin with?
-        const cardsToRemoveSet: Set<number> = new Set(this.indicesOfMarkingsToDismiss);
+        const cardsToRemoveSet: Set<number> = new Set(
+            this.indicesOfMarkingsToDismiss
+        );
         this.markingCardsToDismiss.forEach((cardElement): void => {
             if (cardsToRemoveSet.has(cardElement.index)) {
                 const currentMarking = cardElement.cardElement;
@@ -921,7 +926,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         this.processedText!.textMarkings =
             this.processedText!.textMarkings.filter(
-                (_: TextMarking, index: number) => !this.indicesOfMarkingsToDismiss.includes(index)
+                (_: TextMarking, index: number) =>
+                    !this.indicesOfMarkingsToDismiss.includes(index)
             );
 
         this.shouldCollapseSuggestions = new Array<boolean>(
@@ -952,14 +958,20 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             if (index >= markingIndex) {
                 if (countOfCardsToRemove === 1) {
                     card.classList.add('move-up-animation');
-                    card.addEventListener(this.ANIMATION_END_EVENT, (): void => {
-                        card.classList.remove('move-up-animation');
-                    });
+                    card.addEventListener(
+                        this.ANIMATION_END_EVENT,
+                        (): void => {
+                            card.classList.remove('move-up-animation');
+                        }
+                    );
                 } else if (countOfCardsToRemove >= 2) {
                     card.classList.add('move-up-multiple-animation');
-                    card.addEventListener(this.ANIMATION_END_EVENT, (): void => {
-                        card.classList.remove('move-up-multiple-animation');
-                    });
+                    card.addEventListener(
+                        this.ANIMATION_END_EVENT,
+                        (): void => {
+                            card.classList.remove('move-up-multiple-animation');
+                        }
+                    );
                 }
             }
         });
