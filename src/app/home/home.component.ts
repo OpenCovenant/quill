@@ -505,22 +505,19 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     /**
-     * TODO: guessing what this method does
-     *
-     *
      * @param tempProcessedText
      * @private
      */
     private separateParagraphIndex(
         tempProcessedText: ProcessedText | undefined
     ): void {
-        let tempIndexValue = 0;
-        tempProcessedText?.textMarkings.forEach((textMarking, index) => {
-            if (tempIndexValue > textMarking.to) {
+        let tempIndexValue: number = 0;
+        tempProcessedText?.textMarkings.forEach((marking: TextMarking, index: number): void => {
+            if (tempIndexValue > marking.to) {
                 // TODO: first comparison always fails? as the first shortest marking is from 0 to 1?
                 this.markingParagraphIndex.push(index);
             }
-            tempIndexValue = textMarking.to;
+            tempIndexValue = marking.to;
         });
     }
 
@@ -533,7 +530,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      */
     private chooseSelectedSuggestions(): void {
         this.suggestionsOfMarkingsToChoose.forEach(
-            ({ markingIndex: mI, suggestionIndex: sI }) => {
+            ({ markingIndex: mI, suggestionIndex: sI }): void => {
                 const editor: HTMLElement = document.getElementById(
                     this.EDITOR_KEY
                 )!;
@@ -553,9 +550,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 const suggestedNode: string = marking.suggestions[sI].action;
                 this.characterCountPrePost =
                     currentNode.length - suggestedNode.length;
-                let counterChar = 0;
+                let counterChar: number = 0;
 
-                childNode.childNodes.forEach((node) => {
+                childNode.childNodes.forEach((node: ChildNode): void => {
                     // Clone the child node
                     const clonedNode: Element = node.cloneNode(true) as Element;
                     counterChar += node.textContent?.length!;
@@ -774,7 +771,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         this.processedText!.textMarkings =
             this.processedText!.textMarkings.filter(
-                (_, index) => !this.indicesOfMarkingsToDismiss.includes(index)
+                (_: TextMarking, index: number) => !this.indicesOfMarkingsToDismiss.includes(index)
             );
 
         this.shouldCollapseSuggestions = new Array<boolean>(
@@ -799,18 +796,18 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             '.sticky .card'
         ) as NodeListOf<HTMLElement>;
 
-        cards.forEach((card: HTMLElement, index: number) => {
+        cards.forEach((card: HTMLElement, index: number): void => {
             const countOfCardsToRemove: number =
                 this.indicesOfMarkingsToDismiss.length;
             if (index >= markingIndex) {
                 if (countOfCardsToRemove === 1) {
                     card.classList.add('move-up-animation');
-                    card.addEventListener(this.ANIMATION_END_EVENT, () => {
+                    card.addEventListener(this.ANIMATION_END_EVENT, (): void => {
                         card.classList.remove('move-up-animation');
                     });
                 } else if (countOfCardsToRemove >= 2) {
                     card.classList.add('move-up-multiple-animation');
-                    card.addEventListener(this.ANIMATION_END_EVENT, () => {
+                    card.addEventListener(this.ANIMATION_END_EVENT, (): void => {
                         card.classList.remove('move-up-multiple-animation');
                     });
                 }
@@ -828,7 +825,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         ) as NodeListOf<HTMLElement>;
         cards[markingIndex].classList.add('fade-out');
 
-        setTimeout(() => {
+        setTimeout((): void => {
             cards[markingIndex].classList.add('card-fade');
         }, 1000);
     }
@@ -1321,7 +1318,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private brieflyChangeClipboardIcon(
         copyToClipboardButton: HTMLElement
     ): void {
-        setTimeout(() => {
+        setTimeout((): void => {
             copyToClipboardButton.classList.replace(
                 'bi-clipboard2-check',
                 'bi-clipboard'
