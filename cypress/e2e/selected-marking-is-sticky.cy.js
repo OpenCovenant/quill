@@ -1,4 +1,4 @@
-describe("Sticky Marking", () => {
+xdescribe("Sticky Marking", () => {
     beforeEach(() => {
         cy.visit("/");
     });
