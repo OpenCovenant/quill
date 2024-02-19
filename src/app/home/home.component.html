@@ -616,6 +616,9 @@
                 <button
                     type="button"
                     class="btn-close"
+                    [ngClass]="{
+                        'btn-close-white': darkModeService.isDarkMode
+                    }"
                     data-bs-dismiss="modal"
                     aria-label="Mbyll"
                 ></button>
