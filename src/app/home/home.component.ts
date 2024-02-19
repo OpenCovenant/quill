@@ -655,7 +655,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.suggestionsOfMarkingsToChoose.forEach(
             ({ markingIndex: mI, suggestionIndex: _ }) => {
                 document
-                    .getElementsByClassName('sticky')[0]
+                    .getElementById('sticky-container')!
                     .classList.add('screen-height-delay');
 
                 cards[mI].classList.add('card-hidden');
@@ -666,7 +666,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         setTimeout((): void => {
             document
-                .getElementsByClassName('sticky')[0]
+                .getElementById('sticky-container')!
                 .classList.remove('screen-height-delay');
         }, 800);
 
@@ -714,7 +714,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             markingValues.push(cardToRemove!);
 
             document
-                .getElementsByClassName('sticky')[0]
+                .getElementById('sticky-container')!
                 .classList.add('screen-height-delay');
 
             card.classList.add('card-hidden');
@@ -724,7 +724,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         setTimeout((): void => {
             document
-                .getElementsByClassName('sticky')[0]
+                .getElementById('sticky-container')!
                 .classList.remove('screen-height-delay');
         }, 800);
 

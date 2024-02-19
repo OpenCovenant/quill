@@ -265,6 +265,7 @@
         </div>
         <div
             *ngIf="processedText?.textMarkings"
+            id='sticky-container'
             [ngClass]="{ 'sticky': highlightedMarkingIndex === -1 }"
         >
             <ng-template
