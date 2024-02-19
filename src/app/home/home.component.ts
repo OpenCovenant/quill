@@ -13,6 +13,8 @@ import {
     filter,
     finalize,
     fromEvent,
+    mergeWith,
+    Subject,
     tap
 } from 'rxjs';
 
@@ -46,30 +48,37 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     EDITOR_KEY: string = 'editor';
     PLACEHOLDER_ELEMENT_ID: string = 'editor-placeholder';
     MAX_EDITOR_CHARACTERS: number = 5000;
-    MAX_EDITOR_CHARACTERS_MESSAGE = `Keni arritur kufirin e ${this.MAX_EDITOR_CHARACTERS} karaktereve, shkurtoni shkrimin`;
+    MAX_EDITOR_CHARACTERS_MESSAGE: string = `Keni arritur kufirin e ${this.MAX_EDITOR_CHARACTERS} karaktereve, shkurtoni shkrimin`;
     LINE_BREAK: string = '<br>';
     LINE_BROKEN_PARAGRAPH: string = '<p>' + this.LINE_BREAK + '</p>';
     processedText: ProcessedText | undefined;
+
     tempProcessedText: ProcessedText | undefined;
+
     characterCount: number = 0;
     wordCount: number = 0;
     innerHTMLOfEditor: string = this.LINE_BROKEN_PARAGRAPH;
     shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
-    loading$ = new BehaviorSubject<boolean>(false);
+    loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     editorElement!: HTMLElement;
     highlightedMarkingIndex: number = -1;
-    cardsToRemove: number[] = [];
-    cardSuggestionsToRemove: {
-        textMarkingIndex: number;
+
+    readonly ANIMATION_END_EVENT: string = 'animationend';
+    indicesOfMarkingsToDismiss: number[] = [];
+    suggestionsOfMarkingsToChoose: {
+        markingIndex: number;
         suggestionIndex: number;
     }[] = [];
-    deleteTimer: number | undefined;
-    characterCountPrePost: number = 0;
-    cardCountSelectedPrePost: number = 0;
-    cardsElementToRemove: any[] = [];
-    animationRemoved = new EventEmitter<void>();
-    suggestedMarkingCardCounter: number = 0;
-    textMarkingParagraphIndex: any[] = [];
+    characterCountPrePost: number = 0; // TODO: seems like a crutch
+    cardCountSelectedPrePost: number = 0; // TODO: seems like a crutch
+    markingCardsToDismiss: any[] = [];
+    animationRemoved: EventEmitter<void> = new EventEmitter<void>(); // TODO consider replacing with the proper subject
+    suggestedMarkingCardCounter: number = 0; // TODO: seems like a crutch
+    markingParagraphIndex: any[] = [];
+
+    markingDismissalSubject$: Subject<void> = new Subject<void>();
+    suggestionChoosingSubject$: Subject<void> = new Subject<void>();
+
     shouldShowThankYouModal: boolean = false; // TODO: exists because `this.router.getCurrentNavigation()` is not null only in the constructor
     shouldShowWelcomeModal: boolean = false; // TODO: exists because `this.router.getCurrentNavigation()` is not null only in the constructor
 
@@ -85,12 +94,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private fromEditorInputEvent$: any;
 
     constructor(
-        public writingsHistoryService: WritingsHistoryService,
         private http: HttpClient,
         private router: Router,
         private editorContentService: EditorContentService,
         private elementRef: ElementRef,
-        public darkModeService: DarkModeService
+        public darkModeService: DarkModeService,
+        public writingsHistoryService: WritingsHistoryService
     ) {
         this.initializeURLs();
         this.addEventListenerForShortcuts();
@@ -141,7 +150,18 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         this.subscribeForWritingInTheEditor();
         this.subscribeForStoringWrittenText();
-        this.subscribeForRemovedSuggestionCarAnimation();
+        this.subscribeForRemovedSuggestionCardAnimation();
+
+        this.markingDismissalSubject$
+            .pipe(
+                mergeWith(this.suggestionChoosingSubject$),
+                debounceTime(1500)
+            )
+            .subscribe((): void => {
+                this.moveUpRemainingChosenSuggestionMarkings();
+                this.moveUpRemainingDismissedMarkings();
+                this.markEditor();
+            });
 
         if (this.shouldShowThankYouModal) {
             document.getElementById('thankYouModalButton')?.click();
@@ -162,14 +182,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.eventualMarkingSubscription$.unsubscribe();
         this.eventualTextStoringSubscription$.unsubscribe();
         this.animationRemovedSubscription.unsubscribe();
-    }
-
-    initializeURLs(): void {
-        this.baseURL = environment.baseURL;
-        this.generateMarkingsURL =
-            this.baseURL + '/api/generateMarkingsForParagraphs';
-        this.uploadDocumentURL = this.baseURL + '/api/uploadDocument';
-        this.pingURL = this.baseURL + '/api/ping';
     }
 
     /**
@@ -257,575 +269,54 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     /**
      * Apply the chosen suggestion in the editor.
-     * @param {number} textMarkingIndex the index of the chosen TextMarking
+     * @param {number} markingIndex the index of the chosen TextMarking
      * @param {number} suggestionIndex the index of the chosen Suggestion of the above TextMarking
      */
-    chooseSuggestion(textMarkingIndex: number, suggestionIndex: number): void {
+    chooseSuggestion(markingIndex: number, suggestionIndex: number): void {
         // if (this.cardsToRemove.length >= 1) return; // prevents collision action between suggestion and deletion
         this.suggestedMarkingCardCounter++;
         this.cardCountSelectedPrePost++;
-        this.cardSuggestionsToRemove.push({
-            textMarkingIndex,
+        this.suggestionsOfMarkingsToChoose.push({
+            markingIndex: markingIndex,
             suggestionIndex
         });
 
-        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
         if (this.highlightedMarkingIndex >= 0) {
-            this.processTextMarkingSelected(editor);
+            this.chooseSelectedSuggestions();
+            this.postSuggestedText();
             return;
         }
 
-        this.slideFadeAnimationCard(textMarkingIndex);
+        this.applySlideFadeAnimationToCard(markingIndex);
 
-        if (document.querySelectorAll('#editor > p > span').length === 1) {
+        if (this.fetchEditorMarkings().length === 1) {
             setTimeout(() => {
-                this.processTextMarkingSelected(editor);
+                this.chooseSelectedSuggestions();
+                this.postSuggestedText();
             }, 900);
             return;
         }
 
-        clearTimeout(this.deleteTimer);
-        this.deleteTimer = setTimeout(() => {
-            const cards = document.querySelectorAll(
-                '.sticky .card'
-            ) as NodeListOf<HTMLElement>;
-
-            this.cardSuggestionsToRemove.forEach((removeItem) => {
-                document
-                    .getElementsByClassName('sticky')[0]
-                    .classList.add('screen-height-delay');
-
-                cards
-                    .item(removeItem.textMarkingIndex)
-                    .classList.add('card-hidden');
-
-                cards.forEach((card, index) => {
-                    this.handleSuggestionCardAnimation(
-                        this.cardSuggestionsToRemove.length,
-                        card,
-                        index,
-                        removeItem.textMarkingIndex,
-                        cards.length - 1
-                    );
-                });
-            });
-
-            this.removeScreenHeightDelay();
-
-            // don't choose suggestions on an uploaded file
-            this.cardSuggestionsToRemove.forEach((removeItem) => {
-                this.replaceSuggestedNode(editor, removeItem);
-            });
-
-            this.cardSuggestionsToRemove = [];
-        }, 1500);
-    }
-
-    /**
-     * Selected marking is processed and replaced by the selected suggestion option.
-     *
-     * @param {any} editor - The editor element to be updated.
-     * */
-    processTextMarkingSelected(editor: any): void {
-        this.cardSuggestionsToRemove.forEach((removeItem) => {
-            this.replaceSuggestedNode(editor, removeItem);
-        });
-
-        this.postSuggestedText(editor);
-    }
-
-    /**
-     * Handle animations for card suggestion in the editor.
-     *
-     * The animations are based on the number of cards to remove and their respective indexes.
-     * It adds specific classes for single and multiple card removal animations and listens
-     * for the animationend event to remove the animation classes after completion.
-     *
-     * @param {number} cardsToRemove - The total number of cards to be removed.
-     * @param {HTMLElement} card - The card element to apply animations.
-     * @param {number} index - The index of the card in the editor.
-     * @param {number} removeItem - The index of the card to be removed.
-     * @param {number} lastIndex - The index of the last card.
-     */
-    handleSuggestionCardAnimation(
-        cardsToRemove: number,
-        card: HTMLElement,
-        index: number,
-        removeItem: number,
-        lastIndex: number
-    ): void {
-        if (
-            this.cardCountSelectedPrePost >=
-            document.querySelectorAll('.sticky .card').length
-        ) {
-            const editor: HTMLElement = document.getElementById(
-                this.EDITOR_KEY
-            )!;
-            this.processTextMarkingSelected(editor);
-            return;
-        }
-
-        if (index >= removeItem) {
-            if (cardsToRemove === 1) {
-                card.classList.add('move-up-animation');
-                card.addEventListener('animationend', () => {
-                    card.classList.remove('move-up-animation');
-                    this.triggerSuggestionEmitterAnimation(lastIndex === index);
-                });
-            } else if (cardsToRemove >= 2) {
-                card.classList.add('move-up-multiple-animation');
-                card.addEventListener('animationend', () => {
-                    card.classList.remove('move-up-multiple-animation');
-                    this.triggerSuggestionEmitterAnimation(lastIndex === index);
-                });
-            }
-        }
-    }
-
-    /**
-     * Evaluates readiness of cards and initiates a post request when ready.
-     *
-     * This method inspects the cards and determines if they're ready for further processing.
-     */
-    checkForAnimationRemoval(): void {
-        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
-        const cards = document.querySelectorAll(
-            '.sticky .card'
-        ) as NodeListOf<HTMLElement>;
-
-        if (
-            this.checkMoveUpAnimationState(cards) ||
-            this.suggestedMarkingCardCounter === cards.length
-        ) {
-            this.postSuggestedText(editor);
-        }
-    }
-
-    /**
-     * Check the animation state of cards within an HTML document.
-     * The presence of these classes indicates that the corresponding card is still undergoing animation.
-     *
-     * @param {NodeListOf<HTMLElement>} cards - A NodeList containing the HTML elements representing the cards to be checked.
-     * @returns {boolean} - Returns `true` if any card in the provided list still contains the animation classes; otherwise, returns `false`.
-     */
-    checkMoveUpAnimationState(cards: NodeListOf<HTMLElement>): boolean {
-        return Array.from(cards).some(
-            (card) =>
-                card.classList.contains('move-up-animation') ||
-                card.classList.contains('move-up-multiple-animation')
-        );
-    }
-
-    filterDismissedMarkings(markings: TextMarking[]): TextMarking[] {
-        const dismissedMarkings: string[] =
-            (JSON.parse(
-                localStorage.getItem('penda-dismissed-markings')!
-            ) as string[]) ?? [];
-        return markings.filter((m: TextMarking) => {
-            const virtualEditor: HTMLDivElement = document.createElement('div');
-            virtualEditor.innerHTML = this.processedText?.text!;
-
-            const editorTextContent: string | null =
-                virtualEditor.childNodes[m.paragraph!].textContent;
-
-            const markingText: string = editorTextContent!.slice(m.from, m.to);
-
-            return !dismissedMarkings.includes(markingText);
-        });
-    }
-
-    /**
-     * Post the suggested text to the server for processing and update the editor accordingly.
-     *
-     * This method sends the content of the editor to the server, receives processed text with markings,
-     * and updates the editor's content, applying text markings and adjusting cursor position.
-     *
-     * @param {any} editor - The editor element to be updated.
-     * */
-    postSuggestedText(editor: any): void {
-        this.http
-            .post(this.generateMarkingsURL, editor.innerHTML)
-            .subscribe((next) => {
-                this.processedText = next as ProcessedText;
-
-                this.processedText.textMarkings =
-                    this.filterUnselectedMarkingTypes(
-                        this.processedText.textMarkings
-                    );
-
-                this.processedText.textMarkings = this.filterDismissedMarkings(
-                    this.processedText.textMarkings
-                );
-
-                if (this.processedText?.textMarkings.length != 0) {
-                    this.processedText.textMarkings =
-                        sortParagraphedTextMarkings(
-                            this.processedText.textMarkings
-                        );
-
-                    this.tempProcessedText = this.tempProcessedText =
-                        JSON.parse(JSON.stringify(this.processedText));
-                    this.textMarkingParagraphIndex = [];
-                    this.separateParagraphIndex(this.tempProcessedText);
-
-                    const consumableTextMarkings: TextMarking[] = Array.from(
-                        this.processedText.textMarkings
-                    );
-
-                    editor.childNodes.forEach(
-                        (childNode: ChildNode, index: number) => {
-                            const isLastChildNode =
-                                index === editor.childNodes.length - 1;
-                            const p = document.createElement('p');
-                            p.innerHTML = childNode.textContent!;
-                            if (childNode.textContent === this.EMPTY_STRING) {
-                                p.innerHTML = this.LINE_BREAK;
-                            }
-                            editor.replaceChild(p, childNode);
-                            markText(
-                                p,
-                                consumableTextMarkings.length,
-                                isLastChildNode,
-                                consumableTextMarkings.filter(
-                                    (tm: TextMarking) => tm.paragraph === index
-                                )
-                            );
-                        }
-                    );
-
-                    // TODO editor or childNode here? I guess we have to do the whole thing always...
-                    // markText(editor, consumableTextMarkings.filter((tm: TextMarking) => tm.paragraph === textMarking.paragraph!));
-                }
-
-                if (this.isEditorActive()) {
-                    this.positionCursorToEnd(editor);
-                }
-                this.updateCharacterAndWordCount();
-
-                this.shouldCollapseSuggestions = new Array<boolean>(
-                    this.processedText.textMarkings.length
-                ).fill(true);
-
-                this.blurHighlightedBoardMarking();
-                this.listenForMarkingHighlight();
-                this.cardSuggestionsToRemove = [];
-                this.characterCountPrePost = 0;
-                this.suggestedMarkingCardCounter = 0;
-                this.cardCountSelectedPrePost = 0;
-            });
-    }
-
-    private separateParagraphIndex(
-        tempProcessedText: ProcessedText | undefined
-    ): void {
-        let tempIndexValue = 0;
-        tempProcessedText?.textMarkings.forEach((textMarking, index) => {
-            if (tempIndexValue > textMarking.to) {
-                this.textMarkingParagraphIndex.push(index);
-            }
-            tempIndexValue = textMarking.to;
-        });
-    }
-
-    /**
-     * Replace a suggested node in the editor with the chosen suggestion.
-     *
-     * This method takes the index of the text marking and the index of the suggestion to be applied.
-     * It replaces the content of the corresponding paragraph in the editor with the chosen suggestion,
-     * considering the starting and ending positions of the text marking.
-     *
-     * @param {any} editor - The editor element to be updated.
-     * @param {{ textMarkingIndex: number, suggestionIndex: number }} removeItem -
-     *     An object containing the index of the text marking and the index of the suggestion to be replaced.
-     */
-    replaceSuggestedNode(
-        editor: any,
-        removeItem: { textMarkingIndex: number; suggestionIndex: number }
-    ): void {
-        const textMarking: TextMarking =
-            this.processedText!.textMarkings[removeItem.textMarkingIndex];
-        const textMarkingIndex =
-            this.tempProcessedText!.textMarkings[removeItem.textMarkingIndex];
-        const childNode: ChildNode = editor.childNodes[textMarking.paragraph!];
-        const p = document.createElement('p');
-
-        const currentNode = childNode.textContent!.substring(
-            textMarkingIndex.from,
-            textMarkingIndex.to
-        );
-        const suggestedNode =
-            textMarking.suggestions[removeItem.suggestionIndex].action;
-        this.characterCountPrePost = currentNode.length - suggestedNode.length;
-        let counterChar = 0;
-
-        childNode.childNodes.forEach((node) => {
-            // Clone the child node
-            const clonedNode = node.cloneNode(true) as Element;
-            counterChar += node.textContent?.length!;
-            const isWithinRange = Math.abs(counterChar - textMarkingIndex.to);
-
-            if (node.nodeName === 'SPAN') {
-                clonedNode.classList.remove('animated-typo-marking');
-            }
-
-            if (
-                node.textContent &&
-                node.textContent.includes(currentNode) &&
-                isWithinRange === 0 // if the index is within range
-            ) {
-                const lengthDiff = Math.abs(
-                    suggestedNode.length - currentNode.length
-                );
-                counterChar -= lengthDiff;
-
-                const replacedText = node.textContent.replace(
-                    currentNode,
-                    suggestedNode
-                );
-
-                const newText = document.createTextNode(replacedText);
-
-                p.appendChild(newText);
-            } else {
-                p.appendChild(clonedNode);
-            }
-        });
-
-        editor.replaceChild(p, childNode);
-        this.updateCharacterCount();
-        this.updateWordCount();
-        this.updateTempMarkings(removeItem.textMarkingIndex);
-    }
-
-    /**
-     * Updates the char index for all textMarkings
-     * @param {number} textMarkingIndex selected marking index
-     */
-    updateTempMarkings(textMarkingIndex: number): void {
-        if (this.characterCountPrePost === 0) return; // if no changes are needed
-        const pIndexSelected = this.findRange(textMarkingIndex);
-
-        this.tempProcessedText!.textMarkings.forEach((textMarking, index) => {
-            if (
-                index > textMarkingIndex &&
-                pIndexSelected[0] <= index &&
-                pIndexSelected[1] > index
-            ) {
-                textMarking.from -= this.characterCountPrePost;
-                textMarking.to -= this.characterCountPrePost;
-            }
-        });
-    }
-
-    private findRange(index: number): [number, number] {
-        let rangeStart: number | null = null;
-        let rangeEnd: number | null = null;
-
-        for (let i = 0; i < this.textMarkingParagraphIndex.length; i++) {
-            if (this.textMarkingParagraphIndex[i] <= index) {
-                if (
-                    rangeStart === null ||
-                    this.textMarkingParagraphIndex[i] > rangeStart
-                ) {
-                    rangeStart = this.textMarkingParagraphIndex[i];
-                }
-            }
-
-            if (this.textMarkingParagraphIndex[i] > index) {
-                if (
-                    rangeEnd === null ||
-                    this.textMarkingParagraphIndex[i] < rangeEnd
-                ) {
-                    rangeEnd = this.textMarkingParagraphIndex[i];
-                }
-            }
-        }
-
-        // Handle edge case for the first index and last index
-        rangeEnd = rangeEnd ?? this.tempProcessedText!.textMarkings.length;
-        rangeStart = rangeStart ?? 0;
-
-        return [rangeStart, rangeEnd];
+        this.suggestionChoosingSubject$.next();
     }
 
     // TODO there might be a bug here that creates double spaces in the text, test more
     /**
-     * Delete the **TextMarking** based on the **textMarkingIndex**.
-     * @param {number} textMarkingIndex the index of the text marking from the list of the sorted text markings
+     * Dismiss the **TextMarking** based on the **markingIndex**.
+     * @param {number} markingIndex the index of the text marking from the list of the sorted text markings
      */
-    deleteTextMarking(textMarkingIndex: number): void {
+    dismissMarking(markingIndex: number): void {
+        // TODO: think we should rename this to dismissTextMarking or even just dismissMarking
         // based on the assumption that all spans within the paragraphs of the editor are markings
         // if (this.cardSuggestionsToRemove.length >= 1) return; // prevents collision action between suggestion and deletion
 
-        // TODO: collection in LS should conceptually be a set
-        if (!localStorage.getItem('penda-dismissed-markings')) {
-            localStorage.setItem(
-                'penda-dismissed-markings',
-                JSON.stringify([])
-            );
-        }
-        const dismissedMarkings: string[] = JSON.parse(
-            localStorage.getItem('penda-dismissed-markings')!
-        ) as string[];
-        const markingText: string = this.getTextOfTextMarking(textMarkingIndex);
-        dismissedMarkings.push(markingText);
-        localStorage.setItem(
-            'penda-dismissed-markings',
-            JSON.stringify(dismissedMarkings)
-        );
+        this.storeDismissedMarking(markingIndex); // TODO: uncomment before merging
 
         this.cardCountSelectedPrePost++;
-        this.cardsToRemove.push(textMarkingIndex);
-        this.slideFadeAnimationCard(textMarkingIndex);
+        this.indicesOfMarkingsToDismiss.push(markingIndex);
+        this.applySlideFadeAnimationToCard(markingIndex);
 
-        clearTimeout(this.deleteTimer); // Will reset the time as the user deletes more markings
-        this.deleteTimer = setTimeout(() => {
-            this.moveUpRemainingCards();
-        }, 1500);
-    }
-
-    /**
-     * Move up and animate the remaining cards in the editor after deleting marked cards.
-     *
-     * This method is responsible for animating the remaining cards in the editor after
-     * certain marked cards have been deleted.
-     */
-    moveUpRemainingCards(): void {
-        const cardMarking = document.querySelectorAll('#editor > p > span');
-        const cards = document.querySelectorAll(
-            '.sticky .card'
-        ) as NodeListOf<HTMLElement>;
-        const elementNameMarking: any[] = [];
-
-        this.cardsToRemove.forEach((removeItem) => {
-            const card = cards.item(removeItem);
-            const cardToRemove = this.extractCardInfo(card);
-            elementNameMarking.push(cardToRemove!);
-
-            document
-                .getElementsByClassName('sticky')[0]
-                .classList.add('screen-height-delay');
-            card.classList.add('card-hidden');
-
-            cards.forEach((card, index) => {
-                this.handleCardAnimations(
-                    this.cardsToRemove.length,
-                    card,
-                    index,
-                    removeItem
-                );
-            });
-        });
-
-        this.removeScreenHeightDelay();
-
-        elementNameMarking.forEach((elementMarking) => {
-            cardMarking.forEach((card, index) => {
-                if (card.textContent === elementMarking) {
-                    this.cardsElementToRemove.push({
-                        cardElement: card,
-                        index
-                    });
-                }
-            });
-        });
-
-        this.deleteMarkings();
-
-        this.cardsToRemove = [];
-        this.cardsElementToRemove = [];
-    }
-
-    /**
-     * Delete marked elements from the editor content and update processed text.
-     *
-     * responsible for removing marked elements from the editor's content.
-     * It replaces the marked elements with their respective text content and updates
-     * the processed text data accordingly.
-     */
-    deleteMarkings(): void {
-        const cardsToRemoveSet = new Set(this.cardsToRemove);
-        this.cardsElementToRemove.forEach((cardElement) => {
-            if (cardsToRemoveSet.has(cardElement.index)) {
-                const currentTextMarking = cardElement.cardElement;
-                const textNode = document.createTextNode(
-                    currentTextMarking.textContent || ''
-                );
-                currentTextMarking.parentNode?.replaceChild(
-                    textNode,
-                    currentTextMarking
-                );
-            }
-        });
-
-        this.processedText!.textMarkings =
-            this.processedText!.textMarkings.filter(
-                (_, index) => !this.cardsToRemove.includes(index)
-            );
-
-        this.shouldCollapseSuggestions = new Array<boolean>(
-            this.processedText!.textMarkings.length
-        ).fill(true);
-    }
-
-    /**
-     * Handle animations for card removal in the editor.
-     *
-     * Applies animations to cards that are being removed from the editor.
-     * The animations are based on the number of cards to remove and their respective indexes.
-     * It adds specific classes for single and multiple card removal animations and listens
-     * for the animationend event to remove the animation classes after completion.
-     *
-     * @param {number} cardsToRemove - The total number of cards to be removed.
-     * @param {HTMLElement} card - The card element to apply animations.
-     * @param {number} index - The index of the card in the editor.
-     * @param {number} removeItem - The index of the card to be removed.
-     */
-    handleCardAnimations(
-        cardsToRemove: number,
-        card: HTMLElement,
-        index: number,
-        removeItem: number
-    ): void {
-        if (index >= removeItem) {
-            if (cardsToRemove === 1) {
-                card.classList.add('move-up-animation');
-                card.addEventListener('animationend', () => {
-                    card.classList.remove('move-up-animation');
-                });
-            } else if (cardsToRemove >= 2) {
-                card.classList.add('move-up-multiple-animation');
-                card.addEventListener('animationend', () => {
-                    card.classList.remove('move-up-multiple-animation');
-                });
-            }
-        }
-    }
-
-    /**
-     * Apply slide-fade animation to a card in the editor.
-     * @param {number} textMarkingIndex - The index of the card to apply the animation.
-     */
-    slideFadeAnimationCard(textMarkingIndex: number): void {
-        const cards = document.querySelectorAll(
-            '.sticky .card'
-        ) as NodeListOf<HTMLElement>;
-        cards.item(textMarkingIndex).classList.add('fade-out');
-
-        setTimeout(() => {
-            cards.item(textMarkingIndex).classList.add('card-fade');
-        }, 1000);
-    }
-
-    /**
-     * Returns the actual name of the marking.
-     * @param {HTMLElement} card - child node
-     */
-    extractCardInfo(card: HTMLElement): any {
-        return card.childNodes[0].childNodes[0].childNodes[0].textContent?.replace(
-            ' ',
-            ''
-        );
+        this.markingDismissalSubject$.next();
     }
 
     /**
@@ -848,10 +339,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.updateCharacterAndWordCount();
         this.shouldCollapseSuggestions = new Array<boolean>(0);
         this.blurHighlightedBoardMarking();
-        this.cardsToRemove = [];
-        this.cardSuggestionsToRemove = [];
+        this.indicesOfMarkingsToDismiss = [];
+        this.suggestionsOfMarkingsToChoose = [];
         this.suggestedMarkingCardCounter = 0;
-        this.textMarkingParagraphIndex = [];
+        this.markingParagraphIndex = [];
         this.characterCountPrePost = 0;
         this.cardCountSelectedPrePost = 0;
     }
@@ -930,13 +421,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         );
     }
 
-    // TODO rename, add docs
-    focusOnMediaMatch(mediaMatch: any): void {
-        if (mediaMatch.matches) {
-            document.getElementById(this.EDITOR_KEY)?.focus();
-        }
-    }
-
     /**
      * Replaces the text of the editor with the given **writtenText** and generates its markings
      * @param {string} writtenText
@@ -948,14 +432,14 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.updateCharacterAndWordCount();
     }
 
-    getTextOfTextMarking(textMarkingIndex: number): string {
+    getTextOfTextMarking(markingIndex: number): string {
         if (!this.processedText) {
             return this.EMPTY_STRING;
         }
 
-        const textMarking: TextMarking =
-            this.processedText.textMarkings[textMarkingIndex];
-        if (!textMarking) {
+        const marking: TextMarking =
+            this.processedText.textMarkings[markingIndex];
+        if (!marking) {
             return this.EMPTY_STRING;
         }
 
@@ -963,12 +447,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         virtualEditor.innerHTML = this.processedText.text;
 
         const editorTextContent: string | null =
-            virtualEditor.childNodes[textMarking.paragraph!].textContent;
+            virtualEditor.childNodes[marking.paragraph!].textContent;
         if (!editorTextContent) {
             return this.EMPTY_STRING;
         }
 
-        return editorTextContent.slice(textMarking.from, textMarking.to);
+        return editorTextContent.slice(marking.from, marking.to);
     }
 
     /**
@@ -976,6 +460,547 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      */
     blurHighlightedBoardMarking(): void {
         this.highlightedMarkingIndex = -1;
+    }
+
+    private initializeURLs(): void {
+        this.baseURL = environment.baseURL;
+        this.generateMarkingsURL =
+            this.baseURL + '/api/generateMarkingsForParagraphs';
+        this.uploadDocumentURL = this.baseURL + '/api/uploadDocument';
+        this.pingURL = this.baseURL + '/api/ping';
+    }
+
+    /**
+     * Handle animations for card suggestion in the editor.
+     *
+     * The animations are based on the number of cards to remove and their respective indexes.
+     * It adds specific classes for single and multiple card removal animations and listens
+     * for the "animationend" event to remove the animation classes after completion.
+     *
+     * @param {number} markingIndex - The index of the card to be removed.
+     */
+    private handleAnimationsOfCardsOnSuggestionChoosing(
+        markingIndex: number
+    ): void {
+        const cards: NodeListOf<HTMLElement> = document.querySelectorAll(
+            '.generated-marking-card'
+        ) as NodeListOf<HTMLElement>;
+
+        const countOfCardSuggestionsToRemove: number =
+            this.suggestionsOfMarkingsToChoose.length;
+        const countOfCards: number = document.querySelectorAll(
+            '.generated-marking-card'
+        ).length;
+        // TODO when does the following occur?
+        if (this.cardCountSelectedPrePost >= countOfCards) {
+            this.chooseSelectedSuggestions();
+            // this.postSuggestedText();
+            return;
+        }
+
+        const lastIndex: number = countOfCards - 1;
+
+        cards.forEach((card: HTMLElement, index: number) => {
+            if (index >= markingIndex) {
+                if (countOfCardSuggestionsToRemove === 1) {
+                    card.classList.add('move-up-animation');
+                    card.addEventListener(
+                        this.ANIMATION_END_EVENT,
+                        (): void => {
+                            card.classList.remove('move-up-animation');
+                            if (
+                                this.suggestionsOfMarkingsToChoose &&
+                                index === lastIndex
+                            ) {
+                                this.animationRemoved.emit();
+                            }
+                        }
+                    );
+                } else if (countOfCardSuggestionsToRemove >= 2) {
+                    card.classList.add('move-up-multiple-animation');
+                    card.addEventListener(
+                        this.ANIMATION_END_EVENT,
+                        (): void => {
+                            card.classList.remove('move-up-multiple-animation');
+                            if (
+                                this.suggestionsOfMarkingsToChoose &&
+                                index === lastIndex
+                            ) {
+                                this.animationRemoved.emit();
+                            }
+                        }
+                    );
+                }
+            }
+        });
+    }
+
+    /**
+     * Evaluates readiness of cards and initiates a post request when ready.
+     *
+     * This method inspects the cards and determines if they're ready for further processing.
+     */
+    private checkForAnimationRemoval(): void {
+        const cards: NodeListOf<HTMLElement> = document.querySelectorAll(
+            '.generated-marking-card'
+        ) as NodeListOf<HTMLElement>;
+
+        if (
+            this.isMarkingInAnimation(cards) ||
+            this.suggestedMarkingCardCounter === cards.length
+        ) {
+            this.postSuggestedText();
+        }
+    }
+
+    /**
+     * Check the animation state of cards within an HTML document.
+     * The presence of these classes indicates that the corresponding card is still undergoing animation.
+     *
+     * @param {NodeListOf<HTMLElement>} cards - A NodeList containing the HTML elements representing the cards to be checked.
+     * @returns {boolean} - Returns `true` if any card in the provided list still contains the animation classes; otherwise, returns `false`.
+     */
+    private isMarkingInAnimation(cards: NodeListOf<HTMLElement>): boolean {
+        return Array.from(cards).some(
+            (card: HTMLElement) =>
+                card.classList.contains('move-up-animation') ||
+                card.classList.contains('move-up-multiple-animation')
+        );
+    }
+
+    private filterDismissedMarkings(markings: TextMarking[]): TextMarking[] {
+        const dismissedMarkings: string[] =
+            (JSON.parse(
+                localStorage.getItem('penda-dismissed-markings')!
+            ) as string[]) ?? [];
+        return markings.filter((m: TextMarking) => {
+            const virtualEditor: HTMLDivElement = document.createElement('div');
+            virtualEditor.innerHTML = this.processedText?.text!;
+
+            const editorTextContent: string | null =
+                virtualEditor.childNodes[m.paragraph!].textContent;
+
+            const markingText: string = editorTextContent!.slice(m.from, m.to);
+
+            return !dismissedMarkings.includes(markingText);
+        });
+    }
+
+    /**
+     * Post the suggested text to the server for processing and update the editor accordingly.
+     *
+     * This method sends the content of the editor to the server, receives processed text with markings,
+     * and updates the editor's content, applying text markings and adjusting cursor position.
+     * */
+    private postSuggestedText(): void {
+        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
+        this.http
+            .post(this.generateMarkingsURL, editor.innerHTML)
+            .subscribe((next) => {
+                this.processedText = next as ProcessedText;
+
+                this.processedText.textMarkings =
+                    this.filterUnselectedMarkingTypes(
+                        this.processedText.textMarkings
+                    );
+
+                this.processedText.textMarkings = this.filterDismissedMarkings(
+                    this.processedText.textMarkings
+                );
+
+                if (this.processedText?.textMarkings.length != 0) {
+                    this.processedText.textMarkings =
+                        sortParagraphedTextMarkings(
+                            this.processedText.textMarkings
+                        );
+
+                    this.tempProcessedText = this.tempProcessedText =
+                        JSON.parse(JSON.stringify(this.processedText));
+                    this.markingParagraphIndex = [];
+                    this.separateParagraphIndex(this.tempProcessedText);
+
+                    const consumableTextMarkings: TextMarking[] = Array.from(
+                        this.processedText.textMarkings
+                    );
+
+                    editor.childNodes.forEach(
+                        (childNode: ChildNode, index: number) => {
+                            const isLastChildNode =
+                                index === editor.childNodes.length - 1;
+                            const p: HTMLParagraphElement =
+                                document.createElement('p');
+                            p.innerHTML = childNode.textContent!;
+                            if (childNode.textContent === this.EMPTY_STRING) {
+                                p.innerHTML = this.LINE_BREAK;
+                            }
+                            editor.replaceChild(p, childNode);
+                            markText(
+                                p,
+                                consumableTextMarkings.length,
+                                isLastChildNode,
+                                consumableTextMarkings.filter(
+                                    (tm: TextMarking) => tm.paragraph === index
+                                )
+                            );
+                        }
+                    );
+
+                    // TODO editor or childNode here? I guess we have to do the whole thing always...
+                    // markText(editor, consumableTextMarkings.filter((tm: TextMarking) => tm.paragraph === textMarking.paragraph!));
+                }
+
+                if (this.isEditorActive()) {
+                    this.positionCursorToEnd(editor);
+                }
+                this.updateCharacterAndWordCount();
+
+                this.shouldCollapseSuggestions = new Array<boolean>(
+                    this.processedText.textMarkings.length
+                ).fill(true);
+
+                this.blurHighlightedBoardMarking();
+                this.listenForMarkingHighlight();
+                this.suggestionsOfMarkingsToChoose = [];
+                this.characterCountPrePost = 0;
+                this.suggestedMarkingCardCounter = 0;
+                this.cardCountSelectedPrePost = 0;
+            });
+    }
+
+    /**
+     * @param tempProcessedText
+     * @private
+     */
+    private separateParagraphIndex(
+        tempProcessedText: ProcessedText | undefined
+    ): void {
+        let tempIndexValue: number = 0;
+        tempProcessedText?.textMarkings.forEach(
+            (marking: TextMarking, index: number): void => {
+                if (tempIndexValue > marking.to) {
+                    // TODO: first comparison always fails? as the first shortest marking is from 0 to 1?
+                    this.markingParagraphIndex.push(index);
+                }
+                tempIndexValue = marking.to;
+            }
+        );
+    }
+
+    /**
+     * Replace a suggested node in the editor with the chosen suggestion.
+     *
+     * This method takes the index of the text marking and the index of the suggestion to be applied.
+     * It replaces the content of the corresponding paragraph in the editor with the chosen suggestion,
+     * considering the starting and ending positions of the text marking.
+     */
+    private chooseSelectedSuggestions(): void {
+        this.suggestionsOfMarkingsToChoose.forEach(
+            ({ markingIndex: mI, suggestionIndex: sI }): void => {
+                const editor: HTMLElement = document.getElementById(
+                    this.EDITOR_KEY
+                )!;
+
+                const marking: TextMarking =
+                    this.processedText!.textMarkings[mI];
+                const tempMarking: TextMarking =
+                    this.tempProcessedText!.textMarkings[mI];
+                const childNode: ChildNode =
+                    editor.childNodes[marking.paragraph!];
+                const p: HTMLParagraphElement = document.createElement('p');
+
+                const currentNode: string = childNode.textContent!.substring(
+                    tempMarking.from,
+                    tempMarking.to
+                );
+                const suggestedNode: string = marking.suggestions[sI].action;
+                this.characterCountPrePost =
+                    currentNode.length - suggestedNode.length;
+                let counterChar: number = 0;
+
+                childNode.childNodes.forEach((node: ChildNode): void => {
+                    // Clone the child node
+                    const clonedNode: Element = node.cloneNode(true) as Element;
+                    counterChar += node.textContent?.length!;
+                    const isWithinRange: number = Math.abs(
+                        counterChar - tempMarking.to
+                    );
+
+                    if (node.nodeName === 'SPAN') {
+                        clonedNode.classList.remove('animated-typo-marking');
+                    }
+
+                    if (
+                        node.textContent &&
+                        node.textContent.includes(currentNode) &&
+                        isWithinRange === 0 // if the index is within range
+                    ) {
+                        const lengthDiff = Math.abs(
+                            suggestedNode.length - currentNode.length
+                        );
+                        counterChar -= lengthDiff;
+
+                        const replacedText: string = node.textContent.replace(
+                            currentNode,
+                            suggestedNode
+                        );
+
+                        const newText: Text =
+                            document.createTextNode(replacedText);
+
+                        p.appendChild(newText);
+                    } else {
+                        p.appendChild(clonedNode);
+                    }
+                });
+
+                editor.replaceChild(p, childNode);
+                this.updateCharacterCount();
+                this.updateWordCount();
+                this.updateTempMarkings(mI);
+            }
+        );
+    }
+
+    /**
+     * Updates the char index for all textMarkings
+     * @param {number} markingIndex selected marking index
+     */
+    private updateTempMarkings(markingIndex: number): void {
+        if (this.characterCountPrePost === 0) return; // if no changes are needed
+        const pIndexSelected = this.findRange(markingIndex);
+
+        this.tempProcessedText!.textMarkings.forEach((marking, index) => {
+            if (
+                index > markingIndex &&
+                pIndexSelected[0] <= index &&
+                pIndexSelected[1] > index
+            ) {
+                marking.from -= this.characterCountPrePost;
+                marking.to -= this.characterCountPrePost;
+            }
+        });
+    }
+
+    private findRange(index: number): [number, number] {
+        let rangeStart: number | null = null;
+        let rangeEnd: number | null = null;
+
+        for (let i: number = 0; i < this.markingParagraphIndex.length; i++) {
+            if (this.markingParagraphIndex[i] <= index) {
+                if (
+                    rangeStart === null ||
+                    this.markingParagraphIndex[i] > rangeStart
+                ) {
+                    rangeStart = this.markingParagraphIndex[i];
+                }
+            }
+
+            if (this.markingParagraphIndex[i] > index) {
+                if (
+                    rangeEnd === null ||
+                    this.markingParagraphIndex[i] < rangeEnd
+                ) {
+                    rangeEnd = this.markingParagraphIndex[i];
+                }
+            }
+        }
+
+        // Handle edge case for the first index and last index
+        rangeEnd = rangeEnd ?? this.tempProcessedText!.textMarkings.length;
+        rangeStart = rangeStart ?? 0;
+
+        return [rangeStart, rangeEnd];
+    }
+
+    private moveUpRemainingChosenSuggestionMarkings(): void {
+        const cards: NodeListOf<HTMLElement> = document.querySelectorAll(
+            '.generated-marking-card'
+        ) as NodeListOf<HTMLElement>;
+
+        this.suggestionsOfMarkingsToChoose.forEach(
+            ({ markingIndex: mI, suggestionIndex: _ }) => {
+                document
+                    .getElementById('sticky-container')!
+                    .classList.add('screen-height-delay');
+
+                cards[mI].classList.add('card-hidden');
+
+                this.handleAnimationsOfCardsOnSuggestionChoosing(mI);
+            }
+        );
+
+        setTimeout((): void => {
+            document
+                .getElementById('sticky-container')!
+                .classList.remove('screen-height-delay');
+        }, 800);
+
+        // don't choose suggestions on an uploaded file
+        this.chooseSelectedSuggestions();
+
+        this.suggestionsOfMarkingsToChoose = [];
+    }
+
+    // TODO rename, add docs
+    private focusOnMediaMatch(mediaMatch: any): void {
+        if (mediaMatch.matches) {
+            document.getElementById(this.EDITOR_KEY)?.focus();
+        }
+    }
+
+    /**
+     * Move up and animate the remaining cards in the editor after deleting marked cards.
+     *
+     * This method is responsible for animating the remaining cards in the editor after
+     * certain marked cards have been deleted.
+     */
+    private moveUpRemainingDismissedMarkings(): void {
+        const markings: NodeListOf<Element> = this.fetchEditorMarkings();
+        const cards: NodeListOf<HTMLElement> = document.querySelectorAll(
+            '.generated-marking-card'
+        ) as NodeListOf<HTMLElement>;
+        const markingValues: any[] = []; // TODO: (just a note for me) basically "eshte" for the typo eshte
+
+        this.indicesOfMarkingsToDismiss.forEach((mI: number): void => {
+            const card: HTMLElement = cards[mI];
+            const cardToRemove = this.extractMarkingValue(card);
+            markingValues.push(cardToRemove!);
+
+            // TODO: does this need to be done for every marking?
+            document
+                .getElementById('sticky-container')!
+                .classList.add('screen-height-delay');
+
+            card.classList.add('card-hidden');
+
+            this.handleAnimationsOfCardsOnMarkingDismissal(mI);
+        });
+
+        setTimeout((): void => {
+            document
+                .getElementById('sticky-container')!
+                .classList.remove('screen-height-delay');
+        }, 800);
+
+        markingValues.forEach((elementMarking): void => {
+            markings.forEach((card: Element, index: number): void => {
+                if (card.textContent === elementMarking) {
+                    this.markingCardsToDismiss.push({
+                        cardElement: card,
+                        index
+                    });
+                }
+            });
+        });
+
+        this.dismissSelectedMarkings();
+
+        this.indicesOfMarkingsToDismiss = [];
+        this.markingCardsToDismiss = [];
+    }
+
+    /**
+     * Delete marked elements from the editor content and update processed text.
+     *
+     * responsible for removing marked elements from the editor's content.
+     * It replaces the marked elements with their respective text content and updates
+     * the processed text data accordingly.
+     */
+    private dismissSelectedMarkings(): void {
+        // TODO: why do we have duplicates here to begin with?
+        const cardsToRemoveSet: Set<number> = new Set(
+            this.indicesOfMarkingsToDismiss
+        );
+        this.markingCardsToDismiss.forEach((cardElement): void => {
+            if (cardsToRemoveSet.has(cardElement.index)) {
+                const currentMarking = cardElement.cardElement;
+                const textNode: Text = document.createTextNode(
+                    currentMarking.textContent || ''
+                );
+                currentMarking.parentNode?.replaceChild(
+                    textNode,
+                    currentMarking
+                );
+            }
+        });
+
+        this.processedText!.textMarkings =
+            this.processedText!.textMarkings.filter(
+                (_: TextMarking, index: number) =>
+                    !this.indicesOfMarkingsToDismiss.includes(index)
+            );
+
+        this.shouldCollapseSuggestions = new Array<boolean>(
+            this.processedText!.textMarkings.length
+        ).fill(true);
+    }
+
+    /**
+     * Handle animations for card removal in the editor.
+     *
+     * Applies animations to cards that are being removed from the editor.
+     * The animations are based on the number of cards to remove and their respective indexes.
+     * It adds specific classes for single and multiple card removal animations and listens
+     * for the animationend event to remove the animation classes after completion.
+     *
+     * @param {number} markingIndex - The index of the card to be removed.
+     */
+    private handleAnimationsOfCardsOnMarkingDismissal(
+        markingIndex: number
+    ): void {
+        const cards: NodeListOf<HTMLElement> = document.querySelectorAll(
+            '.generated-marking-card'
+        ) as NodeListOf<HTMLElement>;
+
+        cards.forEach((card: HTMLElement, index: number): void => {
+            const countOfCardsToRemove: number =
+                this.indicesOfMarkingsToDismiss.length;
+            if (index >= markingIndex) {
+                if (countOfCardsToRemove === 1) {
+                    card.classList.add('move-up-animation');
+                    card.addEventListener(
+                        this.ANIMATION_END_EVENT,
+                        (): void => {
+                            card.classList.remove('move-up-animation');
+                        }
+                    );
+                } else if (countOfCardsToRemove >= 2) {
+                    card.classList.add('move-up-multiple-animation');
+                    card.addEventListener(
+                        this.ANIMATION_END_EVENT,
+                        (): void => {
+                            card.classList.remove('move-up-multiple-animation');
+                        }
+                    );
+                }
+            }
+        });
+    }
+
+    /**
+     * Apply slide-fade animation to a card in the editor.
+     * @param {number} markingIndex - The index of the card to apply the animation.
+     */
+    private applySlideFadeAnimationToCard(markingIndex: number): void {
+        const cards: NodeListOf<HTMLElement> = document.querySelectorAll(
+            '.generated-marking-card'
+        ) as NodeListOf<HTMLElement>;
+        cards[markingIndex].classList.add('fade-out');
+
+        setTimeout((): void => {
+            cards[markingIndex].classList.add('card-fade');
+        }, 1000);
+    }
+
+    /**
+     * Returns the actual value of the marking.
+     * @param {HTMLElement} card - child node
+     */
+    private extractMarkingValue(card: HTMLElement): any {
+        return card.childNodes[0].childNodes[0].childNodes[0].textContent?.replace(
+            ' ',
+            ''
+        );
     }
 
     /**
@@ -1013,7 +1038,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
                     this.tempProcessedText = this.tempProcessedText =
                         JSON.parse(JSON.stringify(this.processedText));
-                    this.textMarkingParagraphIndex = [];
+                    this.markingParagraphIndex = [];
                     this.separateParagraphIndex(this.tempProcessedText);
 
                     const consumableTextMarkings: TextMarking[] = Array.from(
@@ -1063,7 +1088,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private filterUnselectedMarkingTypes(
         textMarkings: TextMarking[]
     ): TextMarking[] {
-        return textMarkings.filter((tM: TextMarking) => {
+        return textMarkings.filter((tM: TextMarking): boolean => {
             if (tM.id) {
                 const items = { ...localStorage };
                 let b = true;
@@ -1253,12 +1278,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             .subscribe();
     }
 
-    private subscribeForRemovedSuggestionCarAnimation(): void {
+    private subscribeForRemovedSuggestionCardAnimation(): void {
         this.animationRemovedSubscription = this.animationRemoved
             .pipe(debounceTime(this.EVENTUAL_SUGGESTION_SELECTION_POST))
-            .subscribe(() => {
-                this.checkForAnimationRemoval();
-            });
+            .subscribe(() => this.checkForAnimationRemoval());
     }
 
     private disableEditor(errorResponse: HttpErrorResponse): void {
@@ -1307,26 +1330,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private brieflyChangeClipboardIcon(
         copyToClipboardButton: HTMLElement
     ): void {
-        setTimeout(() => {
+        setTimeout((): void => {
             copyToClipboardButton.classList.replace(
                 'bi-clipboard2-check',
                 'bi-clipboard'
             );
             copyToClipboardButton.style.color = 'black';
         }, 2 * this.SECONDS);
-    }
-
-    private removeScreenHeightDelay(): void {
-        const sticky = document.getElementsByClassName('sticky')[0];
-        setTimeout(() => {
-            sticky.classList.remove('screen-height-delay');
-        }, 800);
-    }
-
-    private triggerSuggestionEmitterAnimation(isLastIndex: boolean): void {
-        if (this.cardSuggestionsToRemove && isLastIndex) {
-            this.animationRemoved.emit();
-        }
     }
 
     private addEventListenerForShortcuts(): void {
@@ -1341,20 +1351,22 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 return;
             }
 
-            switch (keyboardEvent.key) {
-                case 'h':
-                case 'H': {
-                    (
-                        document.querySelector(
-                            '.bi-clock-history'
-                        )! as HTMLButtonElement
-                    ).click();
-                    return;
-                }
-                case 'c':
-                case 'C': {
-                    this.copyToClipboard();
-                    return;
+            if (!keyboardEvent.ctrlKey) {
+                switch (keyboardEvent.key) {
+                    case 'h':
+                    case 'H': {
+                        (
+                            document.querySelector(
+                                '.bi-clock-history'
+                            )! as HTMLButtonElement
+                        ).click();
+                        return;
+                    }
+                    case 'c':
+                    case 'C': {
+                        this.copyToClipboard();
+                        return;
+                    }
                 }
             }
 
@@ -1392,7 +1404,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 }
                 case 'd':
                 case 'D': {
-                    this.deleteTextMarking(0);
+                    this.dismissMarking(0);
                     return;
                 }
             }
@@ -1430,5 +1442,28 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         if (state['payload'] === 'penda-welcome') {
             this.shouldShowWelcomeModal = true;
         }
+    }
+
+    private storeDismissedMarking(textMarkingIndex: number): void {
+        // TODO: collection in LS should conceptually be a set
+        if (!localStorage.getItem('penda-dismissed-markings')) {
+            localStorage.setItem(
+                'penda-dismissed-markings',
+                JSON.stringify([])
+            );
+        }
+        const dismissedMarkings: string[] = JSON.parse(
+            localStorage.getItem('penda-dismissed-markings')!
+        ) as string[];
+        const markingText: string = this.getTextOfTextMarking(textMarkingIndex);
+        dismissedMarkings.push(markingText);
+        localStorage.setItem(
+            'penda-dismissed-markings',
+            JSON.stringify(dismissedMarkings)
+        );
+    }
+
+    private fetchEditorMarkings(): NodeListOf<HTMLSpanElement> {
+        return document.querySelectorAll('#editor > p > span');
     }
 }

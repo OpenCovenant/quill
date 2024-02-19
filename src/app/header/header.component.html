@@ -80,11 +80,15 @@
                                 <span>Profili</span>
                             </a>
                         </li>
-                        <li><hr class="dropdown-divider menu-item-divider"
+                        <li>
+                            <hr
+                                class="dropdown-divider menu-item-divider"
                                 [ngClass]="{
                                     'menu-item-divider-dark-mode':
                                         darkModeService.isDarkMode
-                                }"/></li>
+                                }"
+                            />
+                        </li>
                         <li
                             class="dropdown-menu-item-list"
                             [ngClass]="{
@@ -102,11 +106,13 @@
                                 style="cursor: pointer"
                             >
                                 <span
-                                    ><i class="bi bi-box-arrow-right"
+                                    ><i
+                                        class="bi bi-box-arrow-right"
                                         [ngClass]="{
-                                    'logout-icon-dark-mode':
-                                        darkModeService.isDarkMode
-                                }"></i
+                                            'logout-icon-dark-mode':
+                                                darkModeService.isDarkMode
+                                        }"
+                                    ></i
                                 ></span>
                                 <span>Dil</span>
                             </a>
@@ -312,7 +318,7 @@
                 </div>
                 <div>
                     <a
-                        routerLink="/terms-and-conditions"
+                        routerLink="/terms-of-use"
                         role="button"
                         data-bs-toggle="offcanvas"
                         data-bs-target="#offcanvasStart"

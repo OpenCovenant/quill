@@ -3,7 +3,7 @@ describe("Shortcuts", () => {
         cy.visit("/");
     });
 
-    it("should accordingly to each shortcut", () => {
+    it("should accordingly respond to each shortcut", () => {
         cy.get('[data-test="editor"]').type("eshte keshtu si fjali me gabmime");
         cy.get('[data-test="marking-card"]').should("have.length", 3);
 
@@ -22,9 +22,9 @@ describe("Shortcuts", () => {
         cy.get("body").type("2");
 
         cy.get("body").type("{Shift} + 1");
-        cy.get('[data-test="blur-marking-button"]').should("be.visible");
+        cy.get(".highlighted-marking-card").should("be.visible");
         cy.get("body").type("{Esc}");
-        cy.get('[data-test="blur-marking-button"]').should("not.exist");
+        cy.get(".highlighted-marking-card").should("not.exist");
 
         cy.get('[data-test="marking-card"]').should("have.length", 1);
         cy.get("body").type("d");
@@ -33,7 +33,6 @@ describe("Shortcuts", () => {
         cy.get("body").type("c");
         cy.window().then((win) => {
             win.navigator.clipboard.readText().then((text) => {
-                console.log(text);
                 expect(text).to.eq("është reshtu si fjali me gabmime");
             });
         });
@@ -46,7 +45,7 @@ describe("Shortcuts", () => {
         // cy.get('[data-test="modal-dialog"]').should('not.be.visible');
     });
 
-    it("should accordingly to each shortcut for non-markings", () => {
+    it("should accordingly respond to each shortcut for non-markings", () => {
         cy.get('[data-test="editor"]').type("saktë");
         cy.get('[data-test="marking-card"]').should("not.exist");
 
@@ -73,7 +72,6 @@ describe("Shortcuts", () => {
         cy.get("body").type("c");
         cy.window().then((win) => {
             win.navigator.clipboard.readText().then((text) => {
-                console.log(text);
                 expect(text).to.eq("është reshtu si fjali me gabmime");
             });
         });
@@ -84,5 +82,17 @@ describe("Shortcuts", () => {
         // TODO: fix two following lines
         // cy.get('body').type('h');
         // cy.get('[data-test="modal-dialog"]').should('not.be.visible');
+    });
+
+    it("should not trigger a shortcut-copy when the user is specifically trying to copy something using Ctrl+c", () => {
+        cy.get('[data-test="editor"]').type("saktë");
+        cy.get('[data-test="penda-home-button"]').dblclick();
+
+        cy.get("body").type("{Control} + c");
+        cy.window().then((win) => {
+            win.navigator.clipboard.readText().then((text) => {
+                expect(text).to.eq("penda");
+            });
+        });
     });
 });

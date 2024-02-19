@@ -7,13 +7,10 @@
         Mirë Së Vjen te Penda
     </h1>
     <!--    <hr style="color: darkgray; width: 33%;">-->
-    <div style="display: flex; flex-direction: column;">
-        <div style="padding-top: 5rem;">
-            <div style='display: flex; justify-content: center;'>
-                <button
-                    class="btn btn-primary"
-                    (click)="login()"
-                >
+    <div style="display: flex; flex-direction: column">
+        <div style="padding-top: 5rem">
+            <div style="display: flex; justify-content: center">
+                <button class="btn btn-primary" (click)="login()">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"
@@ -29,22 +26,19 @@
                 </button>
             </div>
         </div>
-        <div style='display: flex; justify-content: center;'>
-            <hr
-                style="
-                    color: darkgray;
-                    width: 10%;
-                    height: 1px;
-                "
-            />
+        <div style="display: flex; justify-content: center">
+            <hr style="color: darkgray; width: 10%; height: 1px" />
         </div>
-        <div style='display: flex; justify-content: center;' id="googleSignInButton"></div>
+        <div
+            style="display: flex; justify-content: center"
+            id="google-sign-in-button"
+        ></div>
     </div>
     <div style="padding-top: 15rem">
         <span class="authentication-terms"
             >Duke vazhduar, pranoj qe kam lexuar dhe jam dakordësuar me
-            <a href="">Kushtet e Përdorimit</a> dhe
-            <a href="">Politikat e Privatësisë</a>.</span
+            <a routerLink="/terms-of-use">Kushtet e Përdorimit</a> dhe
+            <a routerLink="/privacy-policy">Politikat e Privatësisë</a>.</span
         >
     </div>
 </div>
