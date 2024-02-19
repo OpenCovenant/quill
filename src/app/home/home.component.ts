@@ -713,6 +713,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             const cardToRemove = this.extractMarkingValue(card);
             markingValues.push(cardToRemove!);
 
+            // TODO: does this need to be done for every marking?
             document
                 .getElementById('sticky-container')!
                 .classList.add('screen-height-delay');
@@ -753,9 +754,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * the processed text data accordingly.
      */
     private dismissSelectedMarkings(): void {
-        const cardsToRemoveSet: Set<number> = new Set(
-            this.indicesOfMarkingsToDismiss
-        ); // TODO: why do we have duplicates here to begin with?
+        // TODO: why do we have duplicates here to begin with?
+        const cardsToRemoveSet: Set<number> = new Set(this.indicesOfMarkingsToDismiss);
         this.markingCardsToDismiss.forEach((cardElement): void => {
             if (cardsToRemoveSet.has(cardElement.index)) {
                 const currentMarking = cardElement.cardElement;
