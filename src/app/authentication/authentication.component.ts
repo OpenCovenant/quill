@@ -1,9 +1,9 @@
 import { Component, NgZone, OnInit } from '@angular/core';
-import { AuthenticationService } from '../authentication.service';
+import { AuthenticationService } from '../services/authentication.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { NavigationExtras, Router } from '@angular/router';
-import { DarkModeService } from '../dark-mode.service';
+import { DarkModeService } from '../services/dark-mode.service';
 declare const google: any;
 
 @Component({

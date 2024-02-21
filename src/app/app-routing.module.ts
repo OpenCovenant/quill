@@ -6,13 +6,13 @@ import { SettingsComponent } from './settings/settings.component';
 import { AboutComponent } from './about/about.component';
 import { ShortcutsComponent } from './shortcuts/shortcuts.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
-import { AuthenticationGuard } from './authentication.guard';
+import { AuthenticationGuard } from './guards/authentication.guard';
 import { ProfileComponent } from './profile/profile.component';
 import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CheckoutComponent } from './checkout/checkout.component';
-import { SubscriptionGuard } from './subscription.guard';
+import { SubscriptionGuard } from './guards/subscription.guard';
 
 const routes: Routes = [
     {

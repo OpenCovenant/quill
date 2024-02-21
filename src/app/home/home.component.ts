@@ -20,7 +20,7 @@ import {
 
 import { CursorPosition } from '../models/cursor-position';
 import { CursorPlacement } from '../models/cursor-placement';
-import { WritingsHistoryService } from '../local-storage/writings-history.service';
+import { WritingsHistoryService } from '../services/writings-history.service';
 import { ProcessedText } from '../models/processed-text';
 import { TextMarking } from '../models/text-marking';
 import { environment } from '../../environments/environment';
@@ -29,9 +29,9 @@ import {
     shouldNotMarkEditor,
     sortParagraphedTextMarkings
 } from '../text-marking/text-marking';
-import { DarkModeService } from '../dark-mode.service';
+import { DarkModeService } from '../services/dark-mode.service';
 import { Router } from '@angular/router';
-import { EditorContentService } from '../editor-content.service';
+import { EditorContentService } from '../services/editor-content.service';
 
 @Component({
     selector: 'app-home',

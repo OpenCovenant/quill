@@ -8,7 +8,7 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { NavigationExtras, Router } from '@angular/router';
-import { AuthenticationService } from '../authentication.service';
+import { AuthenticationService } from '../services/authentication.service';
 declare const paypal: any;
 
 @Component({

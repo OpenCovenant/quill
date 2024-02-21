@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { AuthenticationService } from '../authentication.service';
-import { DarkModeService } from '../dark-mode.service';
+import { AuthenticationService } from '../services/authentication.service';
+import { DarkModeService } from '../services/dark-mode.service';
 
 @Component({
     selector: 'app-dashboard',

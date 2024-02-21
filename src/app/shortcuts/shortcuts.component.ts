@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DarkModeService } from '../dark-mode.service';
+import { DarkModeService } from '../services/dark-mode.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
@@ -26,7 +26,7 @@ export class ShortcutsComponent {
             );
     }
 
-    initializeURLs() {
+    private initializeURLs(): void {
         this.baseURL = environment.baseURL;
         this.getShortcutsURL = this.baseURL + '/api/getShortcuts';
     }

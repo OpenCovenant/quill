@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from '../../environments/environment';
-import { DarkModeService } from '../dark-mode.service';
+import { DarkModeService } from '../services/dark-mode.service';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '../authentication.service';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
     selector: 'app-header',
@@ -37,7 +37,7 @@ export class HeaderComponent {
         this.darkModeService.initializeDarkMode();
     }
 
-    initializeURLs(): void {
+    private initializeURLs(): void {
         this.baseURL = environment.baseURL;
         this.getMarkingTypes = `${this.baseURL}/api/getMarkingTypes`;
         this.getMarkingTypesCount = `${this.baseURL}/api/getMarkingTypesCount`;

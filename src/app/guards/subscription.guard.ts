@@ -7,7 +7,7 @@ import {
     UrlTree
 } from '@angular/router';
 import { map, Observable } from 'rxjs';
-import { AuthenticationService } from './authentication.service';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Injectable({
     providedIn: 'root'
@@ -27,9 +27,9 @@ export class SubscriptionGuard implements CanActivate {
         | UrlTree {
         return this.authService.isSubscribed().pipe(
             map((subscribed: boolean) => {
-                const pathSuffix = route.url[route.url.length - 1].path;
+                const pathSuffix: string = route.url[route.url.length - 1].path;
 
-                const subscribedCheckout =
+                const subscribedCheckout: boolean =
                     pathSuffix === 'checkout' && subscribed;
 
                 if (subscribedCheckout) {

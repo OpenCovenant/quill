@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { DarkModeService } from './dark-mode.service';
-import { AuthenticationService } from './authentication.service';
+import { DarkModeService } from './services/dark-mode.service';
+import { AuthenticationService } from './services/authentication.service';
 import { Subscription } from 'rxjs';
 
 @Component({

@@ -16,19 +16,15 @@
     color: var(--dark-mode-anti-theme);
 }
 
-.mybt {
+.current-tier-button {
     background-color: #c5c5c5;
     border-color: #c5c5c5;
     cursor: not-allowed !important;
 }
 
-.mybt:hover {
+.current-tier-button:hover {
     cursor: not-allowed !important;
     background-color: #c5c5c5;
-}
-
-.mybtsub:hover {
-    cursor: not-allowed !important;
 }
 
 .dashboard-card {
