@@ -299,7 +299,8 @@
 
 .header-seperator {
     padding: 1rem;
-    font-size: 20px; color: #d2d2d2;
+    font-size: 20px;
+    color: #d2d2d2;
     order: 1;
 }
 
