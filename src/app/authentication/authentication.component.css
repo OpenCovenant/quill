@@ -5,3 +5,44 @@
 .authentication-header-dark-mode {
     color: var(--dark-mode-anti-theme);
 }
+
+.authentication-header-div {
+    padding-top: 2rem;
+}
+
+.authentication-buttons-main-div {
+    display: flex;
+    flex-direction: column;
+}
+
+.authentication-buttons-div {
+    padding-top: 5rem;
+}
+
+.authentication-facebook-button-div {
+    display: flex;
+    justify-content: center;
+}
+
+.facebook-button-svg {
+    padding-bottom: 3px;
+}
+
+.middle-hr-div {
+    display: flex;
+    justify-content: center;
+}
+
+.hr-divider {
+    color: darkgray;
+    width: 10%; height: 1px;
+}
+
+#google-sign-in-button {
+    display: flex;
+    justify-content: center;
+}
+
+.terms-of-use-div-authentication {
+    padding-top: 15rem
+}
