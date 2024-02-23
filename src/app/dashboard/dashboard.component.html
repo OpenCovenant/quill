@@ -20,7 +20,6 @@
             <div class="col">
                 <div
                     class="card mb-4 rounded-3 dashboard-card"
-                    style="min-height: 400px"
                 >
                     <div
                         class="card-header py-3 dashboard-card-header"
@@ -44,20 +43,17 @@
                             0 €<small class="text-muted fw-light">/muaj</small>
                         </h1>
                         <ul
-                            class="list-unstyled mt-3 mb-4"
-                            style="font-size: 1.05rem"
+                            class="list-unstyled mt-3 mb-4 card-inside-content-list"
                         >
-                            <li style="padding-bottom: 1rem">
+                            <li class="inside-content-list">
                                 <i
-                                    class="bi bi-check-lg"
-                                    style="margin-right: 2rem"
+                                    class="bi bi-check-lg check-icon-inside-list"
                                 ></i
                                 >analizo deri më 5 shkrime në ditë
                             </li>
-                            <li style="padding-bottom: 11.55rem">
+                            <li class="inside-premium-content-list">
                                 <i
-                                    class="bi bi-check-lg"
-                                    style="margin-right: 2rem"
+                                    class="bi bi-check-lg check-icon-inside-list"
                                 ></i
                                 >shenjime për gabime shkrimi, huazimesh,
                                 stilistike
@@ -81,12 +77,9 @@
                                 >
                                     Abonimi Aktual
                                 </button>
-                                <div style="padding-top: 0.8rem">
+                                <div class="package-card-footer">
                                     <span
-                                        style="
-                                            color: #7f7f7f;
-                                            font-size: 0.8rem;
-                                        "
+                                        class="package-card-footer-span"
                                         ><a
                                             routerLink="/authentication"
                                             [ngClass]="{
@@ -101,19 +94,17 @@
                             </div>
                         </ng-template>
                         <ng-template #emptySection>
-                            <div style="height: 5.3rem"></div>
+                            <div class="empty-section-div"></div>
                         </ng-template>
                     </div>
                 </div>
             </div>
             <div class="col">
                 <div
-                    class="card mb-4 rounded-3 dashboard-card"
-                    style="border-color: #ebbcff; min-height: 400px"
+                    class="card mb-4 rounded-3 dashboard-card dashboard-premium-card"
                 >
                     <div
-                        style="background-color: #ebbcff; border-color: #ebbcff"
-                        class="card-header py-3 text-black"
+                        class="card-header py-3 text-black dashboard-card-premium-header"
                     >
                         <h2 class="my-0 fw-normal text-center">Penda e Artë</h2>
                     </div>
@@ -132,29 +123,25 @@
                             >
                         </h1>
                         <ul
-                            class="list-unstyled mt-3 mb-4"
-                            style="font-size: 1.05rem"
+                            class="list-unstyled mt-3 mb-4 ul-premium-content-inside"
                         >
-                            <li style="padding-bottom: 1rem">
+                            <li class="li-premium-content-inside">
                                 <i
-                                    class="bi bi-check-lg"
-                                    style="margin-right: 2rem"
+                                    class="bi bi-check-lg dashboard-premium-card-checkmark"
                                 ></i
                                 >analizo sa shkrime në ditë ju nevojiten
                             </li>
-                            <li style="padding-bottom: 1rem">
+                            <li class="li-premium-content-inside">
                                 <i
-                                    class="bi bi-check-lg"
-                                    style="margin-right: 2rem"
+                                    class="bi bi-check-lg dashboard-premium-card-checkmark"
                                 ></i
                                 >shenjime për gabime shkrimi, huazimesh,
                                 stilistike dhe gramatikore nëpërmjet
                                 Inteligjencës Artificiale
                             </li>
-                            <li style="padding-bottom: 7.4rem">
+                            <li class="dashboard-premium-card-chose-marking">
                                 <i
-                                    class="bi bi-check-lg"
-                                    style="margin-right: 2rem"
+                                    class="bi bi-check-lg dashboard-premium-card-checkmark"
                                 ></i
                                 >zgjidh çfarë lloj shenjimesh doni të shihni
                             </li>
@@ -169,17 +156,13 @@
                                 <button
                                     type="button"
                                     routerLink="/checkout"
-                                    style="background-color: #ebbcff"
                                     class="w-50 btn btn-lg contact-us-button"
                                 >
                                     Abonoju
                                 </button>
-                                <div style="padding-top: 0.8rem">
+                                <div class="dashboard-premium-card-span-div">
                                     <span
-                                        style="
-                                            color: #7f7f7f;
-                                            font-size: 0.8rem;
-                                        "
+                                        class="dashboard-premium-card-span"
                                         >abonimi përfshin dhe një tarifë 0.01 €
                                         që paguhet vetëm një herë në
                                         fillim</span
