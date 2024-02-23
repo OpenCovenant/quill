@@ -53,7 +53,6 @@
         <div class="central-settings-area">
             <div
                 class="card skeleton-main-card p-3"
-                style="width: 60%"
                 [ngClass]="{
                     'settings-dark-mode': darkModeService.isDarkMode
                 }"
@@ -148,10 +147,6 @@
                             <span>
                                 <label
                                     class="marking-type-label"
-                                    style="
-                                        margin-bottom: 1.5rem;
-                                        margin-right: 0.5rem;
-                                    "
                                     [for]="markingType[0]"
                                 >
                                     <input
@@ -207,36 +202,22 @@
                 ></button>
             </div>
             <div
-                class="modal-body"
-                style="
-                    display: flex;
-                    align-content: flex-start;
-                    justify-content: space-between;
-                "
+                class="modal-body dismissed-marking-list-modal"
             >
                 <div *ngIf="dismissedMarkings.length !== 0">
                     <button
                         *ngFor="let dismissedMarking of dismissedMarkings"
                         type="button"
-                        class="btn position-relative"
-                        style="
-                            background-color: #ff7676;
-                            color: white;
-                            font-weight: 500;
-                            margin-right: 2rem;
-                            margin-bottom: 1.5rem;
-                        "
+                        class="btn position-relative list-of-dismissed-markings"
                     >
                         {{ dismissedMarking
                         }}<span
                             (click)="undoMarkingDismissal(dismissedMarking)"
-                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
-                            style="background-color: #676767"
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill undo-dismissed-marking"
                         >
                             <button
                                 type="button"
-                                style="width: 0.2rem; height: 0.5rem"
-                                class="btn-close btn-close-white"
+                                class="btn-close btn-close-white remove-marking-button"
                                 aria-label="Largo Shenjimin"
                             ></button>
                         </span>
@@ -253,16 +234,10 @@
                 </div>
             </div>
             <div
-                class="modal-footer"
-                style="display: flex; justify-content: space-around"
+                class="modal-footer dismissed-marking-modal-footer"
             >
                 <button
                     type="button"
-                    style="
-                        background-color: transparent;
-                        font-weight: 500;
-                        border: none;
-                    "
                     class="modal-footer-button"
                     data-bs-dismiss="modal"
                     [ngClass]="{
@@ -274,8 +249,7 @@
                 </button>
                 <button
                     type="button"
-                    class="btn btn-primary"
-                    style="font-weight: 500"
+                    class="btn btn-primary undo-all-dismissed-markings"
                     data-bs-toggle="modal"
                     data-bs-target="#dismissedMarkingsModal"
                     aria-controls="dismissedMarkingsModal"
