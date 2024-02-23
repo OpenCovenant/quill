@@ -75,6 +75,7 @@ export class AuthenticationComponent implements OnInit {
     private initializeGoogleLibrary(): void {
         google.accounts.id.initialize({
             client_id: '',
+            // use_fedcm_for_prompt: "true",
             callback: (v: any): void => {
                 const accessToken = v.credential;
 
