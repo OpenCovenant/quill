@@ -1,9 +1,11 @@
 import { Component, NgZone, OnInit } from '@angular/core';
-import { AuthenticationService } from '../services/authentication.service';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
 import { NavigationExtras, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+
+import { AuthenticationService } from '../services/authentication.service';
 import { DarkModeService } from '../services/dark-mode.service';
+import { environment } from '../../environments/environment';
+
 declare const google: any;
 
 @Component({
@@ -16,11 +18,11 @@ export class AuthenticationComponent implements OnInit {
     private postAccessTokenURL!: string;
 
     constructor(
+        public darkModeService: DarkModeService,
         private authenticationService: AuthenticationService,
         private httpClient: HttpClient,
         private router: Router,
-        private zone: NgZone,
-        public darkModeService: DarkModeService
+        private zone: NgZone
     ) {}
 
     ngOnInit(): void {
