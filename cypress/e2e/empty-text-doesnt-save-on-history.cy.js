@@ -7,7 +7,7 @@ describe("Empty Text History Test", () => {
         cy.get(".typo").should("not.exist");
         cy.get('[data-test="editor"]').type(" ");
         cy.wait(16000);
-        cy.get('[data-test="written-texts-history-button"]').click();
-        cy.get('[data-test="written-text"]').should("not.exist");
+        cy.get('[data-test="writings-history-button"]').click();
+        cy.get('[data-test="writing"]').should("not.exist");
     });
 });

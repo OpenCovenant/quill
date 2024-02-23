@@ -14,6 +14,6 @@ xdescribe("Sticky Marking", () => {
         cy.get(".typo").first().click();
         // TODO: similar effect to cy.scrollTo("bottom"); cy.wait(3000); so why does the scroll "take time"?
         cy.get('[data-test="contact"]').dblclick();
-        cy.get('[data-test="highlighted-text-marking"]').should("be.visible");
+        cy.get('[data-test="highlighted-marking"]').should("be.visible");
     });
 });

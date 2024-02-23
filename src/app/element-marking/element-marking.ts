@@ -1,4 +1,4 @@
-import { TextMarking } from '../models/text-marking';
+import { Marking } from '../models/marking';
 
 const SPAN_TAG = 'span';
 const ANIMATED_TYPO_MARKING_CLASS = 'animated-typo-marking';
@@ -12,37 +12,37 @@ let maxMarkings = 0;
 let lastIterationCounter = 0;
 
 /// requires the markings to be ordered ASC by "from" and DESC by "to"
-export function markText(
+export function markElement(
     node: HTMLElement,
-    numberOfTextMarkings: number,
+    numberOfMarkings: number,
     isLastChildNode: boolean,
-    textMarkings: TextMarking[],
+    markings: Marking[],
     additionalClasses: string[] = [],
-    replaceSpacesWithNBSP = true
+    replaceSpacesWithNBSP: boolean = true
 ): void {
-    const childNodes = node.childNodes;
-    maxMarkings = markingIndex === 0 ? numberOfTextMarkings : maxMarkings;
+    const childNodes: NodeListOf<ChildNode> = node.childNodes;
+    maxMarkings = markingIndex === 0 ? numberOfMarkings : maxMarkings;
 
-    while (0 < textMarkings.length) {
+    while (0 < markings.length) {
         let traversalIndex: number = 0;
-        const textMarking: TextMarking = textMarkings.shift() as TextMarking;
-        for (let j = 0; j < childNodes.length; j++) {
+        const marking: Marking = markings.shift() as Marking;
+        for (let j: number = 0; j < childNodes.length; j++) {
             const childNode: HTMLElement = childNodes[j] as HTMLElement;
             lastIterationCounter = j;
             if (childNode.nodeType === 1) {
                 // element node
                 const currentTextContent: string = childNode.textContent!;
-                const deeperTextMarking: TextMarking = {
-                    ...textMarking,
-                    from: textMarking.from - traversalIndex,
-                    to: textMarking.to - traversalIndex
+                const deeperMarking: Marking = {
+                    ...marking,
+                    from: marking.from - traversalIndex,
+                    to: marking.to - traversalIndex
                 };
 
-                markText(
+                markElement(
                     childNode,
-                    numberOfTextMarkings,
+                    numberOfMarkings,
                     isLastChildNode,
-                    [deeperTextMarking],
+                    [deeperMarking],
                     additionalClasses
                 );
 
@@ -50,10 +50,10 @@ export function markText(
             } else if (childNode.nodeType === 3) {
                 // text node
                 const currentTextContent = childNode.textContent!;
-                const trueFrom = textMarking.from;
-                const trueTo = textMarking.to;
-                const relativeFrom = textMarking.from - traversalIndex;
-                const relativeTo = textMarking.to - traversalIndex;
+                const trueFrom = marking.from;
+                const trueTo = marking.to;
+                const relativeFrom = marking.from - traversalIndex;
+                const relativeTo = marking.to - traversalIndex;
 
                 const trueLeft = traversalIndex;
                 const trueRight = traversalIndex + currentTextContent.length;
@@ -69,7 +69,7 @@ export function markText(
                 const newNodes = [];
 
                 if (trueLeft < trueFrom) {
-                    const newTextContent = currentTextContent.slice(
+                    const newTextContent: string = currentTextContent.slice(
                         relativeLeft,
                         relativeFrom
                     );
@@ -82,11 +82,8 @@ export function markText(
                 ) {
                     const newNode = document.createElement(SPAN_TAG);
 
-                    newNode.classList.add(
-                        ...additionalClasses,
-                        textMarking.type
-                    );
-                    let newTextContent = currentTextContent.slice(
+                    newNode.classList.add(...additionalClasses, marking.type);
+                    let newTextContent: string = currentTextContent.slice(
                         relativeFrom,
                         relativeTo
                     );
@@ -102,17 +99,13 @@ export function markText(
                         );
                     }
 
-                    applyMarkingFadein(
-                        newNode,
-                        textMarking.type,
-                        newTextContent
-                    ); // Text Highlighting logic
+                    applyMarkingFadein(newNode, marking.type, newTextContent); // Text Highlighting logic
                     newNode.innerHTML = newTextContent;
                     newNodes.push(newNode);
                 }
 
                 if (trueRight > trueTo) {
-                    const newTextContent = currentTextContent.slice(
+                    const newTextContent: string = currentTextContent.slice(
                         relativeTo,
                         relativeRight
                     );
@@ -137,7 +130,7 @@ export function markText(
  * after invoking the `markText` function.
  *
  * @param {HTMLElement} newNode - The newly created or modified HTML element.
- * @param {string} textMarkingType - The type of the marking.
+ * @param {string} markingType - The type of the marking.
  * @param {string} newTextContent - The text content of the HTML element.
  *
  * This function adds the new text content to the `highlightedMarkingWords` array.
@@ -147,7 +140,7 @@ export function markText(
  */
 function applyMarkingFadein(
     newNode: HTMLElement,
-    textMarkingType: string,
+    markingType: string,
     newTextContent: string
 ) {
     highlightedMarkingWords.push(newTextContent);
@@ -155,18 +148,18 @@ function applyMarkingFadein(
     // Check if there are any previous markings
     if (lastHighlightedMarkingWords.length === 0) {
         // If no previous markings (first time marking), apply animation to the new node
-        updateHighlightingMarkings(newNode, textMarkingType, 'add');
+        updateHighlightingMarkings(newNode, markingType, 'add');
     } else if (lastHighlightedMarkingWords.length < markingIndex) {
         // If fewer markings than old state, apply animation to the new node
-        updateHighlightingMarkings(newNode, textMarkingType, 'add');
+        updateHighlightingMarkings(newNode, markingType, 'add');
     } else if (lastHighlightedMarkingWords[markingIndex] === newTextContent) {
         // If the current marking is the same, remove animation
-        updateHighlightingMarkings(newNode, textMarkingType, 'remove');
+        updateHighlightingMarkings(newNode, markingType, 'remove');
     } else if (lastHighlightedMarkingWords[markingIndex] !== newTextContent) {
         // Handle scenarios for adding, removing, nodes
-        updatedMarkings(newNode, textMarkingType, newTextContent);
+        updatedMarkings(newNode, markingType, newTextContent);
     } else {
-        updateHighlightingMarkings(newNode, textMarkingType, 'remove');
+        updateHighlightingMarkings(newNode, markingType, 'remove');
     }
 
     markingIndex++;
@@ -177,12 +170,12 @@ function applyMarkingFadein(
  * This function is called when a node has been added, removed, or modified.
  *
  * @param {HTMLElement} newNode - The HTML element representing the updated node.
- * @param {string} textMarkingType - The type of the marking.
+ * @param {string} markingType - The type of the marking.
  * @param {string} newTextContent - The new text content of the updated node.
  */
 function updatedMarkings(
     newNode: HTMLElement,
-    textMarkingType: string,
+    markingType: string,
     newTextContent: string
 ): void {
     // Handle scenarios for additions, removals, and modifications
@@ -196,16 +189,16 @@ function updatedMarkings(
     ) {
         // If a new first node was added, insert it and apply animation
         lastHighlightedMarkingWords.splice(markingIndex, 0, newTextContent);
-        updateHighlightingMarkings(newNode, textMarkingType, 'add');
+        updateHighlightingMarkings(newNode, markingType, 'add');
     } else if (
         lastHighlightedMarkingWords[markingIndex + deletedNodeNum] ===
         newTextContent
     ) {
         // Remove the item if it was changed back to the previous content
-        updateHighlightingMarkings(newNode, textMarkingType, 'remove');
+        updateHighlightingMarkings(newNode, markingType, 'remove');
         lastHighlightedMarkingWords.splice(markingIndex, 1);
     } else {
-        updateHighlightingMarkings(newNode, textMarkingType, 'remove');
+        updateHighlightingMarkings(newNode, markingType, 'remove');
         lastHighlightedMarkingWords.splice(markingIndex, 1, newTextContent);
     }
 }
@@ -233,32 +226,32 @@ function isLastCall(isLastChildNode: boolean, typoElements: number): void {
  * the animation class based on the specified status.
  *
  * @param {HTMLElement} newNode - The HTML element whose highlighting markings need to be updated.
- * @param {string} textMarkingType - The type of the marking.
+ * @param {string} markingType - The type of the marking.
  * @param {string} status - The status indicating whether to 'add' or 'remove' the animation class.
  */
 function updateHighlightingMarkings(
     newNode: HTMLElement,
-    textMarkingType: string,
+    markingType: string,
     status: string
 ): void {
     if (status === 'add') {
-        if (textMarkingType === 'typo') {
+        if (markingType === 'typo') {
             newNode.classList.add(ANIMATED_TYPO_MARKING_CLASS);
-        } else if (textMarkingType === 'loanword') {
+        } else if (markingType === 'loanword') {
             newNode.classList.add(ANIMATED_LOANWORD_MARKING_CLASS);
-        } else if (textMarkingType === 'stylistic') {
+        } else if (markingType === 'stylistic') {
             newNode.classList.add(ANIMATED_STYLISTIC_MARKING_CLASS);
-        } else if (textMarkingType === 'grammatical') {
+        } else if (markingType === 'grammatical') {
             newNode.classList.add(ANIMATED_GRAMMATICAL_MARKING_CLASS);
         }
     } else {
-        if (textMarkingType === 'typo') {
+        if (markingType === 'typo') {
             newNode.classList.remove(ANIMATED_TYPO_MARKING_CLASS);
-        } else if (textMarkingType === 'loanword') {
+        } else if (markingType === 'loanword') {
             newNode.classList.remove(ANIMATED_LOANWORD_MARKING_CLASS);
-        } else if (textMarkingType === 'stylistic') {
+        } else if (markingType === 'stylistic') {
             newNode.classList.remove(ANIMATED_STYLISTIC_MARKING_CLASS);
-        } else if (textMarkingType === 'grammatical') {
+        } else if (markingType === 'grammatical') {
             newNode.classList.remove(ANIMATED_GRAMMATICAL_MARKING_CLASS);
         }
     }
@@ -274,49 +267,28 @@ function updateHighlightingMarkings(
  */
 function pushArrayItems(): void {
     lastHighlightedMarkingWords.length = 0;
-    highlightedMarkingWords.forEach((item) => {
+    highlightedMarkingWords.forEach((item: string): void => {
         lastHighlightedMarkingWords.push(item);
     });
     highlightedMarkingWords.length = 0;
 }
 
 /// ASC by "paragraph", "from" and DESC by "to"
-export function sortParagraphedTextMarkings(
-    textMarkings: Array<TextMarking>
-): Array<TextMarking> {
-    return textMarkings.sort((tM: TextMarking, otherTM: TextMarking) => {
-        if (tM.paragraph! > otherTM.paragraph!) {
+export function sortMarkings(markings: Array<Marking>): Array<Marking> {
+    return markings.sort((m: Marking, otherM: Marking): number => {
+        if (m.paragraph! > otherM.paragraph!) {
             return 1;
         } else {
-            if (tM.from > otherTM.from) {
+            if (m.from > otherM.from) {
                 return 1;
-            } else if (tM.from < otherTM.from) {
+            } else if (m.from < otherM.from) {
                 return -1;
             } else {
-                if (tM.to < otherTM.to) {
+                if (m.to < otherM.to) {
                     return 1;
                 } else {
                     return -1;
                 }
-            }
-        }
-    });
-}
-
-/// ASC by "from" and DESC by "to"
-export function sortTextMarkings(
-    textMarkings: Array<TextMarking>
-): Array<TextMarking> {
-    return textMarkings.sort((tM: TextMarking, otherTM: TextMarking) => {
-        if (tM.from > otherTM.from) {
-            return 1;
-        } else if (tM.from < otherTM.from) {
-            return -1;
-        } else {
-            if (tM.to < otherTM.to) {
-                return 1;
-            } else {
-                return -1;
             }
         }
     });
