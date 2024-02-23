@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { DarkModeService } from '../services/dark-mode.service';
 import { HttpClient } from '@angular/common/http';
+
+import { DarkModeService } from '../services/dark-mode.service';
 import { environment } from '../../environments/environment';
 
 @Component({
@@ -13,8 +14,8 @@ export class ShortcutsComponent {
     getShortcutsURL!: string;
 
     constructor(
+        public darkModeService: DarkModeService,
         private http: HttpClient,
-        public darkModeService: DarkModeService
     ) {
         this.initializeURLs();
         this.http

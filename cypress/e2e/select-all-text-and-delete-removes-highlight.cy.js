@@ -9,7 +9,7 @@ describe("Remove Highlighted Marking by Deleting Selected Text", () => {
         cy.get(".typo").first().click();
         cy.get('[data-test="editor"]').type("{selectall}");
         cy.get('[data-test="editor"]').type("{del}");
-        cy.get('[data-test="highlighted-text-marking"]').should("not.exist");
+        cy.get('[data-test="highlighted-marking"]').should("not.exist");
         cy.get('[data-test="editor"]').clear();
     });
 });

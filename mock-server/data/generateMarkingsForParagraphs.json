@@ -3,21 +3,21 @@
         "request": "<p><br></p>",
         "response": {
             "text": "<p><br></p>",
-            "textMarkings": []
+            "markings": []
         }
     },
     {
         "request": "<p>&nbsp;</p>",
         "response": {
             "text": "<p>&nbsp;</p>",
-            "textMarkings": []
+            "markings": []
         }
     },
     {
         "request": "<p>lider&nbsp;</p>",
         "response": {
             "text": "<p>lider&nbsp;</p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 0,
                     "to": 5,
@@ -47,7 +47,7 @@
         "request": "<p>gabmim&nbsp;</p>",
         "response": {
             "text": "<p>gabmim&nbsp;</p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 0,
                     "to": 6,
@@ -81,28 +81,28 @@
         "request": "<p>saktë&nbsp;</p>",
         "response": {
             "text": "<p>sakt\u00eb&nbsp;</p>",
-            "textMarkings": []
+            "markings": []
         }
     },
     {
         "request": "<p>saktë</p>",
         "response": {
             "text": "<p>sakt\u00eb</p>",
-            "textMarkings": []
+            "markings": []
         }
     },
     {
         "request": "<p>rreshti i parë</p><p>i dyti</p><p>dhe i treti</p>",
         "response": {
             "text": "<p>rreshti i par\u00eb</p><p>i dyti</p><p>dhe i treti</p>",
-            "textMarkings": []
+            "markings": []
         }
     },
     {
         "request": "<p>rreshti i <span class=\"typo\">parh</span></p><p>ky <span class=\"typo\">eshte</span> i dyti</p><p>dhe i fudnit</p>",
         "response": {
             "text": "<p>rreshti i <span class=\"typo\">parh</span></p><p>ky <span class=\"typo\">eshte</span> i dyti</p><p>dhe i fudnit</p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 10,
                     "to": 14,
@@ -424,7 +424,7 @@
         "request": "<p>Shkoi tek zyra.</p>",
         "response": {
             "text": "<p>Shkoi tek zyra.</p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "id": "te-dhe-tek",
                     "from": 6,
@@ -447,7 +447,7 @@
         "request": "<p>gabmim gabmim</p>",
         "response": {
             "text": "<p>gabmim gabmim</p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 0,
                     "to": 6,
@@ -507,7 +507,7 @@
         "request": "<p>lider gabmim</p>",
         "response": {
             "text": "<p>lider gabmim</p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 0,
                     "to": 5,
@@ -563,7 +563,7 @@
         "request": "<p>lider gabime</p>",
         "response": {
             "text": "<p>lider gabime</p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 0,
                     "to": 5,
@@ -593,7 +593,7 @@
         "request": "<p>gabmi lider gabmim</p>",
         "response": {
             "text": "<p>gabmi lider gabmim</p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 0,
                     "to": 5,
@@ -679,7 +679,7 @@
         "request": "<p>gabmi lider e eshte e gabmim e saktë eshte pra eshte</p>",
         "response": {
             "text": "<p>gabmi lider e eshte e gabmim e sakt\u00eb eshte pra eshte</p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 0,
                     "to": 5,
@@ -1382,7 +1382,7 @@
     {"request": "<p>gamit <span class=\"loanword animated-loanword-marking\">lider</span> e eshtë e gazmim e saktë eshtë pra eshtë</p>",
     "response": {
         "text": "<p>gamit <span class=\"loanword animated-loanword-marking\">lider</span> e esht\u00eb e gazmim e sakt\u00eb esht\u00eb pra esht\u00eb</p>",
-        "textMarkings": [
+        "markings": [
             {
                 "from": 6,
                 "to": 11,
@@ -1411,7 +1411,7 @@
         "request": "<p><span class=\"typo\">gabmim</span>&nbsp;gabmim&nbsp;</p>",
         "response": {
             "text": "<p><span class=\"typo\">gabmim</span>&nbsp;gabmim&nbsp;</p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 0,
                     "to": 6,
@@ -1471,7 +1471,7 @@
         "request": "<p>saktë gabmim&nbsp;</p>",
         "response": {
             "text": "<p>sakt\u00eb gabmim&nbsp;</p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 6,
                     "to": 12,
@@ -1505,7 +1505,7 @@
         "request": "<p>eshte</p>",
         "response": {
             "text": "<p>eshte</p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 0,
                     "to": 5,
@@ -1703,14 +1703,14 @@
         "request": "<p>saktë saktë</p>",
         "response": {
             "text": "<p>sakt\u00eb sakt\u00eb</p>",
-            "textMarkings": []
+            "markings": []
         }
     },
     {
         "request": "<p>sakt</p>",
         "response": {
             "text": "<p>sakt</p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 0,
                     "to": 4,
@@ -1868,7 +1868,7 @@
         "request": "<p>sakt eshte</p>",
         "response": {
             "text": "<p>sakt eshte</p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 0,
                     "to": 4,
@@ -2216,7 +2216,7 @@
         "request": "<p>saktë eshte</p>",
         "response": {
             "text": "<p>sakt\u00eb eshte</p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 6,
                     "to": 11,
@@ -2414,7 +2414,7 @@
         "request": "<p>saktë <span class=\"typo\">eshte</span></p>",
         "response": {
             "text": "<p>sakt\u00eb eshte</p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 6,
                     "to": 11,
@@ -2612,7 +2612,7 @@
         "request": "<p>njeri-tjetri dhe&nbsp; ckemi&nbsp;</p>",
         "response": {
             "text": "<p>njeri-tjetri dhe&nbsp; ckemi&nbsp;</p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 0,
                     "to": 12,
@@ -2672,7 +2672,7 @@
         "request": "<p>asd gabmim asd&nbsp;</p>",
         "response": {
             "text": "<p>asd gabmim asd&nbsp;</p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 0,
                     "to": 3,
@@ -2886,7 +2886,7 @@
         "request": "<p>aks gabmim asd&nbsp;</p>",
         "response": {
             "text": "<p>aks gabmim asd&nbsp;</p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 4,
                     "to": 10,
@@ -3010,7 +3010,7 @@
         "request": "<p>aks gazmim asd&nbsp;</p>",
         "response": {
             "text": "<p>aks gazmim asd&nbsp;</p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 11,
                     "to": 14,
@@ -3108,7 +3108,7 @@
         "request": "<p>gabmim asd&nbsp;</p>",
         "response": {
             "text": "<p>gabmim asd&nbsp;</p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 0,
                     "to": 6,
@@ -3232,7 +3232,7 @@
         "request": "<p>gabmim</p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p>",
         "response": {
             "text": "<p>gabmim</p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 0,
                     "to": 6,
@@ -3266,7 +3266,7 @@
         "request": "<p>Pra shkoi tek zyra.&nbsp;</p>",
         "response": {
             "text": "<p>Pra shkoi tek zyra.&nbsp;</p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "id": "te-dhe-tek",
                     "from": 10,
@@ -3289,7 +3289,7 @@
         "request": "<p>Kishte buk\\u00eb, sallam, etj.</p>",
         "response": {
             "text": "<p>Kishte buk\u00eb, sallam, etj.</p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "id": "pa-presje-para-etj",
                     "from": 19,
@@ -3312,21 +3312,21 @@
         "request": "<p>&nbsp;</p>",
         "response": {
             "text": "<p>&nbsp;</p>",
-            "textMarkings": []
+            "markings": []
         }
     },
     {
         "request": "<p>gabimi gabime</p>",
         "response": {
             "text": "<p>gabimi gabime</p>",
-            "textMarkings": []
+            "markings": []
         }
     },
     {
         "request": "<p>pra gabmim kaq</p>",
         "response": {
             "text": "<p>pra gabmim kaq</p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 4,
                     "to": 10,
@@ -3360,7 +3360,7 @@
         "request": "<p>aks <span class=\"typo\">gabmim</span> <span class=\"typo\">asd</span>&nbsp;</p>",
         "response": {
             "text": "<p>aks <span class=\"typo\">gabmim</span> <span class=\"typo\">asd</span>&nbsp;</p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 4,
                     "to": 10,
@@ -3472,7 +3472,7 @@
         "request": "<p>aks gazmim <span class=\"typo\">asd</span>&nbsp;</p>",
         "response": {
             "text": "<p>aks gazmim <span class=\"typo animated-typo-marking\">asd</span>&nbsp;</p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 11,
                     "to": 14,
@@ -3558,7 +3558,7 @@
         "request": "<p>edhe pra <span class=\"typo\">gabmim</span> kaq</p>",
         "response": {
             "text": "<p>edhe pra <span class=\"typo\">gabmim</span> kaq</p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 9,
                     "to": 15,
@@ -3592,7 +3592,7 @@
         "request": "<p>asd Për kryerjen e programeve gabmim asd&nbsp;</p><p>asd Për kryerjen e programeve gabmim asd&nbsp;</p><p>asd Për kryerjen e programeve gabmim asd&nbsp;</p><p>asd Për kryerjen e programeve gabmim asd&nbsp;</p><p><br></p>",
         "response": {
             "text": "<p>asd Për kryerjen e programeve gabmim asd&nbsp;</p><p>asd Për kryerjen e programeve gabmim asd&nbsp;</p><p>asd Për kryerjen e programeve gabmim asd&nbsp;</p><p>asd Për kryerjen e programeve gabmim asd&nbsp;</p><p><br></p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 0,
                     "to": 3,
@@ -4424,14 +4424,14 @@
         "request": "<p><br></p><p><br></p>",
         "response": {
             "text": "<p><br></p><p><br></p>",
-            "textMarkings": []
+            "markings": []
         }
     },
     {
         "request": "<p>saktë <span class=\"typo animated-typo-marking\">gabmim</span>&nbsp;</p><p><br></p>",
         "response": {
             "text": "<p>sakt\u00eb <span class=\"typo animated-typo-marking\">gabmim</span>&nbsp;</p><p><br></p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 6,
                     "to": 12,
@@ -4465,7 +4465,7 @@
         "request": "<p>saktë <span class=\"typo\">gabmim</span>&nbsp;</p><p><br></p><p><br></p><p><br></p>",
         "response": {
             "text": "<p>sakt\u00eb <span class=\"typo\">gabmim</span>&nbsp;</p><p><br></p><p><br></p><p><br></p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 6,
                     "to": 12,
@@ -4499,7 +4499,7 @@
         "request": "<p>saktë <span class=\"typo\">gabmim</span>&nbsp;</p><p><br></p><p><br></p><p>saktë saktë</p>",
         "response": {
             "text": "<p>sakt\u00eb <span class=\"typo\">gabmim</span>&nbsp;</p><p><br></p><p><br></p><p>sakt\u00eb sakt\u00eb</p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 6,
                     "to": 12,
@@ -4533,7 +4533,7 @@
         "request": "<p>eshte keshtu si fjali me gabmime</p>",
         "response": {
             "text": "<p>eshte keshtu si fjali me gabmime</p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 0,
                     "to": 5,
@@ -4787,7 +4787,7 @@
         "request": "<p>është <span class=\"typo\">keshtu</span> si fjali me <span class=\"typo\">gabmime</span></p>",
         "response": {
             "text": "<p>është keshtu si fjali me gabmime</p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 6,
                     "to": 12,
@@ -4835,7 +4835,7 @@
         "request": "<p>është reshtu si fjali me <span class=\"typo\">gabmime</span></p>",
         "response": {
             "text": "<p><p>\u00ebsht\u00eb reshtu si fjali me gabmime</p></p><p><br></p>",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 25,
                     "to": 32,

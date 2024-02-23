@@ -93,7 +93,7 @@
     font-size: 1.25rem;
 }
 
-.written-text-history-button-dark-mode {
+.writings-history-button-dark-mode {
     color: var(--dark-mode-anti-theme);
 }
 
@@ -406,12 +406,12 @@
     color: var(--dark-mode-anti-theme);
 }
 
-.written-text-dark-mode {
+.writing-dark-mode {
     background-color: #9a9a9a;
     color: black;
 }
 
-.written-text-dark-mode:hover {
+.writing-dark-mode:hover {
     background-color: lightgray;
 }
 
@@ -499,7 +499,7 @@
     margin: 1.5rem 0;
 }
 
-.written-text {
+.writing {
     box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
     border-radius: 5px;
     padding: 5px;
@@ -507,12 +507,12 @@
     margin: 0 1rem;
 }
 
-.written-text:hover {
+.writing:hover {
     background-color: #f1f1f1;
 }
 
 /*TODO: apply dark mode for the history of the written texts*/
-.written-texts-history-dark-mode {
+.writings-history-dark-mode {
     background-color: var(--dark-mode-theme);
     margin: 0 1rem;
 }

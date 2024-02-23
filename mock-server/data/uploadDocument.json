@@ -3,7 +3,7 @@
         "filePath": "cypress/fixtures/test.docx",
         "response": {
             "text": "lider asd",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 0,
                     "to": 5,
@@ -123,7 +123,7 @@
         "filePath": "cypress/fixtures/test.odt",
         "response": {
             "text": "lider asd",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 0,
                     "to": 5,
@@ -243,7 +243,7 @@
         "filePath": "cypress/fixtures/test.pdf",
         "response": {
             "text": "lider asd",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 0,
                     "to": 5,

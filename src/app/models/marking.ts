@@ -1,6 +1,6 @@
 import { Suggestion } from './suggestion';
 
-export interface TextMarking {
+export interface Marking {
     id?: string;
     from: number;
     to: number;

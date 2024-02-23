@@ -22,13 +22,13 @@ import { CursorPosition } from '../models/cursor-position';
 import { CursorPlacement } from '../models/cursor-placement';
 import { WritingsHistoryService } from '../services/writings-history.service';
 import { ProcessedText } from '../models/processed-text';
-import { TextMarking } from '../models/text-marking';
+import { Marking } from '../models/marking';
 import { environment } from '../../environments/environment';
 import {
-    markText,
+    markElement,
     shouldNotMarkEditor,
-    sortParagraphedTextMarkings
-} from '../text-marking/text-marking';
+    sortMarkings
+} from '../element-marking/element-marking';
 import { DarkModeService } from '../services/dark-mode.service';
 import { Router } from '@angular/router';
 import { EditorContentService } from '../services/editor-content.service';
@@ -254,7 +254,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 .subscribe((next) => {
                     this.processedText = next as ProcessedText;
                     this.shouldCollapseSuggestions = new Array<boolean>(
-                        this.processedText.textMarkings.length
+                        this.processedText.markings.length
                     ).fill(true);
 
                     document.getElementById(this.EDITOR_KEY)!.innerHTML =
@@ -269,8 +269,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     /**
      * Apply the chosen suggestion in the editor.
-     * @param {number} markingIndex the index of the chosen TextMarking
-     * @param {number} suggestionIndex the index of the chosen Suggestion of the above TextMarking
+     * @param {number} markingIndex the index of the chosen Marking
+     * @param {number} suggestionIndex the index of the chosen Suggestion of the above Marking
      */
     chooseSuggestion(markingIndex: number, suggestionIndex: number): void {
         // if (this.cardsToRemove.length >= 1) return; // prevents collision action between suggestion and deletion
@@ -302,7 +302,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     // TODO there might be a bug here that creates double spaces in the text, test more
     /**
-     * Dismiss the **TextMarking** based on the **markingIndex**.
+     * Dismiss the **Marking** based on the **markingIndex**.
      * @param {number} markingIndex the index of the text marking from the list of the sorted text markings
      */
     dismissMarking(markingIndex: number): void {
@@ -348,21 +348,21 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     /**
-     * Expand or contract the suggestions of a given TextMarking based on an index.
-     * @param {number} textMarkingIndex the index of the text marking from the list of the sorted text markings
+     * Expand or contract the suggestions of a given Marking based on an index.
+     * @param {number} markingIndex the index of the text marking from the list of the sorted text markings
      * @param {Event} $event the click event that is triggered when clicking on the expand/contract icon
      */
-    oscillateSuggestion(textMarkingIndex: number, $event: Event): void {
+    oscillateSuggestion(markingIndex: number, $event: Event): void {
         const oscillatingButtonClasses: DOMTokenList = (
             $event.target as HTMLHeadingElement
         ).classList;
         if (oscillatingButtonClasses.contains('bi-arrow-right-square')) {
-            if (this.shouldCollapseSuggestions[textMarkingIndex]) {
-                this.shouldCollapseSuggestions[textMarkingIndex] = false;
+            if (this.shouldCollapseSuggestions[markingIndex]) {
+                this.shouldCollapseSuggestions[markingIndex] = false;
             }
         } else if (oscillatingButtonClasses.contains('bi-arrow-left-square')) {
-            if (!this.shouldCollapseSuggestions[textMarkingIndex]) {
-                this.shouldCollapseSuggestions[textMarkingIndex] = true;
+            if (!this.shouldCollapseSuggestions[markingIndex]) {
+                this.shouldCollapseSuggestions[markingIndex] = true;
             }
         } else {
             throw new Error(
@@ -411,7 +411,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.brieflyChangeClipboardIcon(copyToClipboardButton);
     }
 
-    toggleStoringOfWrittenTexts(): void {
+    toggleStoringOfWritings(): void {
         this.writingsHistoryService.toggleWritingPermission(
             (
                 document.getElementById(
@@ -425,20 +425,20 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * Replaces the text of the editor with the given **writtenText** and generates its markings
      * @param {string} writtenText
      */
-    placeWrittenText(writtenText: string): void {
+    placeWriting(writtenText: string): void {
         document.getElementById(this.EDITOR_KEY)!.innerText = writtenText;
-        document.getElementById('close-written-texts-modal-button')!.click();
+        document.getElementById('close-writings-history-modal-button')!.click();
         this.markEditor();
         this.updateCharacterAndWordCount();
     }
 
-    getTextOfTextMarking(markingIndex: number): string {
+    getTextOfMarking(markingIndex: number): string {
         if (!this.processedText) {
             return this.EMPTY_STRING;
         }
 
-        const marking: TextMarking =
-            this.processedText.textMarkings[markingIndex];
+        const marking: Marking =
+            this.processedText.markings[markingIndex];
         if (!marking) {
             return this.EMPTY_STRING;
         }
@@ -568,12 +568,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         );
     }
 
-    private filterDismissedMarkings(markings: TextMarking[]): TextMarking[] {
+    private filterDismissedMarkings(markings: Marking[]): Marking[] {
         const dismissedMarkings: string[] =
             (JSON.parse(
                 localStorage.getItem('penda-dismissed-markings')!
             ) as string[]) ?? [];
-        return markings.filter((m: TextMarking) => {
+        return markings.filter((m: Marking) => {
             const virtualEditor: HTMLDivElement = document.createElement('div');
             virtualEditor.innerHTML = this.processedText?.text!;
 
@@ -599,19 +599,19 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             .subscribe((next) => {
                 this.processedText = next as ProcessedText;
 
-                this.processedText.textMarkings =
+                this.processedText.markings =
                     this.filterUnselectedMarkingTypes(
-                        this.processedText.textMarkings
+                        this.processedText.markings
                     );
 
-                this.processedText.textMarkings = this.filterDismissedMarkings(
-                    this.processedText.textMarkings
+                this.processedText.markings = this.filterDismissedMarkings(
+                    this.processedText.markings
                 );
 
-                if (this.processedText?.textMarkings.length != 0) {
-                    this.processedText.textMarkings =
-                        sortParagraphedTextMarkings(
-                            this.processedText.textMarkings
+                if (this.processedText?.markings.length != 0) {
+                    this.processedText.markings =
+                        sortMarkings(
+                            this.processedText.markings
                         );
 
                     this.tempProcessedText = this.tempProcessedText =
@@ -619,8 +619,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     this.markingParagraphIndex = [];
                     this.separateParagraphIndex(this.tempProcessedText);
 
-                    const consumableTextMarkings: TextMarking[] = Array.from(
-                        this.processedText.textMarkings
+                    const consumableMarkings: Marking[] = Array.from(
+                        this.processedText.markings
                     );
 
                     editor.childNodes.forEach(
@@ -634,12 +634,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                                 p.innerHTML = this.LINE_BREAK;
                             }
                             editor.replaceChild(p, childNode);
-                            markText(
+                            markElement(
                                 p,
-                                consumableTextMarkings.length,
+                                consumableMarkings.length,
                                 isLastChildNode,
-                                consumableTextMarkings.filter(
-                                    (tm: TextMarking) => tm.paragraph === index
+                                consumableMarkings.filter(
+                                    (tm: Marking) => tm.paragraph === index
                                 )
                             );
                         }
@@ -655,7 +655,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 this.updateCharacterAndWordCount();
 
                 this.shouldCollapseSuggestions = new Array<boolean>(
-                    this.processedText.textMarkings.length
+                    this.processedText.markings.length
                 ).fill(true);
 
                 this.blurHighlightedBoardMarking();
@@ -675,8 +675,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         tempProcessedText: ProcessedText | undefined
     ): void {
         let tempIndexValue: number = 0;
-        tempProcessedText?.textMarkings.forEach(
-            (marking: TextMarking, index: number): void => {
+        tempProcessedText?.markings.forEach(
+            (marking: Marking, index: number): void => {
                 if (tempIndexValue > marking.to) {
                     // TODO: first comparison always fails? as the first shortest marking is from 0 to 1?
                     this.markingParagraphIndex.push(index);
@@ -700,10 +700,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     this.EDITOR_KEY
                 )!;
 
-                const marking: TextMarking =
-                    this.processedText!.textMarkings[mI];
-                const tempMarking: TextMarking =
-                    this.tempProcessedText!.textMarkings[mI];
+                const marking: Marking =
+                    this.processedText!.markings[mI];
+                const tempMarking: Marking =
+                    this.tempProcessedText!.markings[mI];
                 const childNode: ChildNode =
                     editor.childNodes[marking.paragraph!];
                 const p: HTMLParagraphElement = document.createElement('p');
@@ -762,14 +762,14 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     /**
-     * Updates the char index for all textMarkings
+     * Updates the char index for all markings
      * @param {number} markingIndex selected marking index
      */
     private updateTempMarkings(markingIndex: number): void {
         if (this.characterCountPrePost === 0) return; // if no changes are needed
         const pIndexSelected = this.findRange(markingIndex);
 
-        this.tempProcessedText!.textMarkings.forEach((marking, index) => {
+        this.tempProcessedText!.markings.forEach((marking, index) => {
             if (
                 index > markingIndex &&
                 pIndexSelected[0] <= index &&
@@ -806,7 +806,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         }
 
         // Handle edge case for the first index and last index
-        rangeEnd = rangeEnd ?? this.tempProcessedText!.textMarkings.length;
+        rangeEnd = rangeEnd ?? this.tempProcessedText!.markings.length;
         rangeStart = rangeStart ?? 0;
 
         return [rangeStart, rangeEnd];
@@ -924,14 +924,14 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             }
         });
 
-        this.processedText!.textMarkings =
-            this.processedText!.textMarkings.filter(
-                (_: TextMarking, index: number) =>
+        this.processedText!.markings =
+            this.processedText!.markings.filter(
+                (_: Marking, index: number) =>
                     !this.indicesOfMarkingsToDismiss.includes(index)
             );
 
         this.shouldCollapseSuggestions = new Array<boolean>(
-            this.processedText!.textMarkings.length
+            this.processedText!.markings.length
         ).fill(true);
     }
 
@@ -1021,19 +1021,19 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 next: (value) => {
                     this.processedText = value as ProcessedText;
 
-                    this.processedText.textMarkings =
+                    this.processedText.markings =
                         this.filterUnselectedMarkingTypes(
-                            this.processedText.textMarkings
+                            this.processedText.markings
                         );
 
-                    this.processedText.textMarkings =
+                    this.processedText.markings =
                         this.filterDismissedMarkings(
-                            this.processedText.textMarkings
+                            this.processedText.markings
                         );
 
-                    this.processedText.textMarkings =
-                        sortParagraphedTextMarkings(
-                            this.processedText.textMarkings
+                    this.processedText.markings =
+                        sortMarkings(
+                            this.processedText.markings
                         );
 
                     this.tempProcessedText = this.tempProcessedText =
@@ -1041,8 +1041,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     this.markingParagraphIndex = [];
                     this.separateParagraphIndex(this.tempProcessedText);
 
-                    const consumableTextMarkings: TextMarking[] = Array.from(
-                        this.processedText.textMarkings
+                    const consumableMarkings: Marking[] = Array.from(
+                        this.processedText.markings
                     );
                     if (cursorPlacement === CursorPlacement.LAST_SAVE) {
                         this.savedCursorPosition =
@@ -1060,12 +1060,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                                 p.innerHTML = this.LINE_BREAK;
                             }
                             editor.replaceChild(p, childNode);
-                            markText(
+                            markElement(
                                 p,
-                                consumableTextMarkings.length,
+                                consumableMarkings.length,
                                 isLastChildNode,
-                                consumableTextMarkings.filter(
-                                    (tm: TextMarking) => tm.paragraph === index
+                                consumableMarkings.filter(
+                                    (tm: Marking) => tm.paragraph === index
                                 )
                             );
                         }
@@ -1076,7 +1076,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                         this.positionCursor(editor, cursorPlacement);
                     }
                     this.shouldCollapseSuggestions = new Array<boolean>(
-                        this.processedText.textMarkings.length
+                        this.processedText.markings.length
                     ).fill(true);
                 },
                 complete: () => {
@@ -1086,9 +1086,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     private filterUnselectedMarkingTypes(
-        textMarkings: TextMarking[]
-    ): TextMarking[] {
-        return textMarkings.filter((tM: TextMarking): boolean => {
+        markings: Marking[]
+    ): Marking[] {
+        return markings.filter((tM: Marking): boolean => {
             if (tM.id) {
                 const items = { ...localStorage };
                 let b = true;
@@ -1307,10 +1307,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     private listenForMarkingHighlight(): void {
-        const textMarkings = document.querySelectorAll(
+        const markings: NodeListOf<Element> = document.querySelectorAll(
             '.typo,.loanword,.stylistic,.grammatical'
         );
-        textMarkings.forEach((element: Element, index: number) =>
+        markings.forEach((element: Element, index: number) =>
             element.addEventListener(
                 'click',
                 this.highlightBoardMarking.bind(this, index)
@@ -1321,10 +1321,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     /**
      * Clicking on an editor marking, highlights it in the board of markings.
      *
-     * @param {number} textMarkingIndex
+     * @param {number} markingIndex
      */
-    private highlightBoardMarking(textMarkingIndex: number): void {
-        this.highlightedMarkingIndex = textMarkingIndex;
+    private highlightBoardMarking(markingIndex: number): void {
+        this.highlightedMarkingIndex = markingIndex;
     }
 
     private brieflyChangeClipboardIcon(
@@ -1414,7 +1414,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private hasMarkings(): boolean {
         return (
             this.processedText !== undefined &&
-            this.processedText.textMarkings.length > 0
+            this.processedText.markings.length > 0
         );
     }
 
@@ -1444,7 +1444,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         }
     }
 
-    private storeDismissedMarking(textMarkingIndex: number): void {
+    private storeDismissedMarking(markingIndex: number): void {
         // TODO: collection in LS should conceptually be a set
         if (!localStorage.getItem('penda-dismissed-markings')) {
             localStorage.setItem(
@@ -1455,7 +1455,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         const dismissedMarkings: string[] = JSON.parse(
             localStorage.getItem('penda-dismissed-markings')!
         ) as string[];
-        const markingText: string = this.getTextOfTextMarking(textMarkingIndex);
+        const markingText: string = this.getTextOfMarking(markingIndex);
         dismissedMarkings.push(markingText);
         localStorage.setItem(
             'penda-dismissed-markings',
