@@ -15,7 +15,7 @@ export class ShortcutsComponent {
 
     constructor(
         public darkModeService: DarkModeService,
-        private http: HttpClient,
+        private http: HttpClient
     ) {
         this.initializeURLs();
         this.http

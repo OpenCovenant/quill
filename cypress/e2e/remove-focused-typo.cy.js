@@ -16,12 +16,8 @@ describe("Typing in the Editor Removes the Focused Typo", () => {
             .should("not.exist");
         cy.get('[data-test="editor"]').type("{end}");
         cy.get('[data-test="editor"]').type("pra ");
-        cy.get('[data-test="marking-span"]')
-            .contains("gabmim")
-            .should("exist");
-        cy.get('[data-test="marking-span"]')
-            .contains("asd")
-            .should("exist");
+        cy.get('[data-test="marking-span"]').contains("gabmim").should("exist");
+        cy.get('[data-test="marking-span"]').contains("asd").should("exist");
         cy.get('[data-test="editor"]').clear();
     });
 });

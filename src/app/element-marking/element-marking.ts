@@ -82,10 +82,7 @@ export function markElement(
                 ) {
                     const newNode = document.createElement(SPAN_TAG);
 
-                    newNode.classList.add(
-                        ...additionalClasses,
-                        marking.type
-                    );
+                    newNode.classList.add(...additionalClasses, marking.type);
                     let newTextContent: string = currentTextContent.slice(
                         relativeFrom,
                         relativeTo
@@ -102,11 +99,7 @@ export function markElement(
                         );
                     }
 
-                    applyMarkingFadein(
-                        newNode,
-                        marking.type,
-                        newTextContent
-                    ); // Text Highlighting logic
+                    applyMarkingFadein(newNode, marking.type, newTextContent); // Text Highlighting logic
                     newNode.innerHTML = newTextContent;
                     newNodes.push(newNode);
                 }
@@ -281,9 +274,7 @@ function pushArrayItems(): void {
 }
 
 /// ASC by "paragraph", "from" and DESC by "to"
-export function sortMarkings(
-    markings: Array<Marking>
-): Array<Marking> {
+export function sortMarkings(markings: Array<Marking>): Array<Marking> {
     return markings.sort((m: Marking, otherM: Marking): number => {
         if (m.paragraph! > otherM.paragraph!) {
             return 1;

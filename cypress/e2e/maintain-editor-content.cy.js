@@ -11,8 +11,6 @@ describe("Written Text Should Stay On Editor When Navigating On Other Pages", ()
         cy.get('[data-test="penda-home-button"]').click();
         cy.url().should("include", "");
         cy.get('[data-test="editor"]').contains("gabmim").should("exist");
-        cy.get('[data-test="marking-span"')
-            .contains("gabmim")
-            .should("exist");
+        cy.get('[data-test="marking-span"').contains("gabmim").should("exist");
     });
 });

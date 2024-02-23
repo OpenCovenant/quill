@@ -13,15 +13,9 @@ describe("Removing Highlighted Marking", () => {
             .contains("asd")
             .should("exist");
         cy.get('[data-test="blur-marking-button"]').click();
-        cy.get('[data-test="marking-span"]')
-            .contains("asd")
-            .should("exist");
-        cy.get('[data-test="marking-span"]')
-            .contains("gabmim")
-            .should("exist");
-        cy.get('[data-test="marking-span"]')
-            .contains("asd")
-            .should("exist");
+        cy.get('[data-test="marking-span"]').contains("asd").should("exist");
+        cy.get('[data-test="marking-span"]').contains("gabmim").should("exist");
+        cy.get('[data-test="marking-span"]').contains("asd").should("exist");
         cy.get('[data-test="editor"]').clear();
     });
 });

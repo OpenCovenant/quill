@@ -437,8 +437,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             return this.EMPTY_STRING;
         }
 
-        const marking: Marking =
-            this.processedText.markings[markingIndex];
+        const marking: Marking = this.processedText.markings[markingIndex];
         if (!marking) {
             return this.EMPTY_STRING;
         }
@@ -599,20 +598,18 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             .subscribe((next) => {
                 this.processedText = next as ProcessedText;
 
-                this.processedText.markings =
-                    this.filterUnselectedMarkingTypes(
-                        this.processedText.markings
-                    );
+                this.processedText.markings = this.filterUnselectedMarkingTypes(
+                    this.processedText.markings
+                );
 
                 this.processedText.markings = this.filterDismissedMarkings(
                     this.processedText.markings
                 );
 
                 if (this.processedText?.markings.length != 0) {
-                    this.processedText.markings =
-                        sortMarkings(
-                            this.processedText.markings
-                        );
+                    this.processedText.markings = sortMarkings(
+                        this.processedText.markings
+                    );
 
                     this.tempProcessedText = this.tempProcessedText =
                         JSON.parse(JSON.stringify(this.processedText));
@@ -700,8 +697,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     this.EDITOR_KEY
                 )!;
 
-                const marking: Marking =
-                    this.processedText!.markings[mI];
+                const marking: Marking = this.processedText!.markings[mI];
                 const tempMarking: Marking =
                     this.tempProcessedText!.markings[mI];
                 const childNode: ChildNode =
@@ -924,11 +920,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             }
         });
 
-        this.processedText!.markings =
-            this.processedText!.markings.filter(
-                (_: Marking, index: number) =>
-                    !this.indicesOfMarkingsToDismiss.includes(index)
-            );
+        this.processedText!.markings = this.processedText!.markings.filter(
+            (_: Marking, index: number) =>
+                !this.indicesOfMarkingsToDismiss.includes(index)
+        );
 
         this.shouldCollapseSuggestions = new Array<boolean>(
             this.processedText!.markings.length
@@ -1026,15 +1021,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                             this.processedText.markings
                         );
 
-                    this.processedText.markings =
-                        this.filterDismissedMarkings(
-                            this.processedText.markings
-                        );
+                    this.processedText.markings = this.filterDismissedMarkings(
+                        this.processedText.markings
+                    );
 
-                    this.processedText.markings =
-                        sortMarkings(
-                            this.processedText.markings
-                        );
+                    this.processedText.markings = sortMarkings(
+                        this.processedText.markings
+                    );
 
                     this.tempProcessedText = this.tempProcessedText =
                         JSON.parse(JSON.stringify(this.processedText));
@@ -1085,9 +1078,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             });
     }
 
-    private filterUnselectedMarkingTypes(
-        markings: Marking[]
-    ): Marking[] {
+    private filterUnselectedMarkingTypes(markings: Marking[]): Marking[] {
         return markings.filter((tM: Marking): boolean => {
             if (tM.id) {
                 const items = { ...localStorage };

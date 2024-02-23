@@ -10,6 +10,9 @@ describe("Writings History", () => {
         cy.get('[data-test="writing"]').contains("saktë").should("exist");
         cy.get('[data-test="close-writings-history-modal-button"]').click();
         cy.get('[data-test="flex-switch-check-checked"]').click();
-        cy.get('[data-test="writings-history-modal-body"]').should("not.contain", 'saktë');
+        cy.get('[data-test="writings-history-modal-body"]').should(
+            "not.contain",
+            "saktë"
+        );
     });
 });

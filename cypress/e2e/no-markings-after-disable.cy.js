@@ -42,9 +42,7 @@ describe("Disabled Marking Type Visibility", () => {
         cy.get('[data-test="switch-check-testing"]').should("be.checked");
         cy.visit("/");
         cy.get('[data-test="editor"]').type("Pra shkoi tek zyra. ");
-        cy.get('[data-test="marking-span"]')
-            .contains("tek")
-            .should("exist");
+        cy.get('[data-test="marking-span"]').contains("tek").should("exist");
         cy.get('[data-test="editor"]').type("{enter}");
     });
 });

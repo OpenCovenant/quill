@@ -273,10 +273,7 @@
                 [ngIfElse]="highlightedMarkingTemplate"
             >
                 <div
-                    *ngFor="
-                        let marking of processedText?.markings;
-                        index as i
-                    "
+                    *ngFor="let marking of processedText?.markings; index as i"
                     class="card generated-marking-card border-secondary"
                     [ngClass]="{ 'mt-2 mb-2': i > 0 }"
                     data-test="marking-card"
@@ -323,9 +320,7 @@
                             <div class="information-circle-flex">
                                 <div>
                                     <i
-                                        *ngIf="
-                                            marking.type === 'grammatical'
-                                        "
+                                        *ngIf="marking.type === 'grammatical'"
                                         class="bi bi-stars"
                                     ></i>
                                     <b>{{ marking.subtype }}</b> -
@@ -347,8 +342,7 @@
                                                 0,
                                                 shouldCollapseSuggestions[i]
                                                     ? 4
-                                                    : marking.suggestions
-                                                          .length
+                                                    : marking.suggestions.length
                                             );
                                             index as j
                                         "
@@ -364,17 +358,11 @@
                                     </button>
                                     <div
                                         class="pipe-separator"
-                                        *ngIf="
-                                            marking.suggestions.length > 4
-                                        "
+                                        *ngIf="marking.suggestions.length > 4"
                                     >
                                         |
                                     </div>
-                                    <div
-                                        *ngIf="
-                                            marking.suggestions.length > 4
-                                        "
-                                    >
+                                    <div *ngIf="marking.suggestions.length > 4">
                                         <h3
                                             (click)="
                                                 oscillateSuggestion(i, $event)
@@ -414,9 +402,7 @@
                                 }}"
                                 data-test="highlighted-marking"
                                 >{{
-                                    getTextOfMarking(
-                                        highlightedMarkingIndex
-                                    )
+                                    getTextOfMarking(highlightedMarkingIndex)
                                 }}</span
                             >
                         </div>
@@ -664,7 +650,8 @@
                     <p
                         class="writing"
                         [ngClass]="{
-                            'writings-history-dark-mode': darkModeService.isDarkMode
+                            'writings-history-dark-mode':
+                                darkModeService.isDarkMode
                         }"
                         (click)="placeWriting(writing)"
                         type="button"
