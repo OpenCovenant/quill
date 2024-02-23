@@ -35,7 +35,8 @@
 
 .hr-divider {
     color: darkgray;
-    width: 10%; height: 1px;
+    width: 10%;
+    height: 1px;
 }
 
 #google-sign-in-button {
@@ -44,5 +45,5 @@
 }
 
 .terms-of-use-div-authentication {
-    padding-top: 15rem
+    padding-top: 15rem;
 }
