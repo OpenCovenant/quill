@@ -245,6 +245,7 @@
 
 .menu-dropdown-item {
     border-radius: 10px;
+    cursor: pointer;
 }
 
 .menu-dropdown-item:hover {
@@ -295,6 +296,7 @@
 .login-header-button {
     order: 2;
     margin-right: 2.9rem;
+    font-weight: 500;
 }
 
 .header-separator {
@@ -307,4 +309,8 @@
 .user-dropdown-menu {
     order: 2;
     margin-right: 2.9rem;
+}
+
+.menu-item-divider-dark-mode {
+    color: var(--dark-mode-anti-theme);
 }
