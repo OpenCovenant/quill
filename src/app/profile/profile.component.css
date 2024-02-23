@@ -55,6 +55,9 @@
 
 .modal-go-back-button-subscription {
     color: #0d6efd;
+    background-color: transparent;
+    font-weight: 500;
+    border: none;
 }
 
 .modal-go-back-button-subscription-dark-mode {
@@ -67,9 +70,63 @@
 }
 
 .modal-go-back-button-profile {
+    background-color: transparent;
+    font-weight: 500;
+    border: none;
     color: #0d6efd;
 }
 
 .modal-go-back-button-profile-dark-mode {
     color: var(--dark-mode-anti-theme);
+}
+
+.main-profile-card {
+    width: 60%;
+}
+
+.get-subscription-button {
+    font-weight: 500;
+}
+
+.informative-text-free-package-div {
+    padding-top: 0.5rem;
+}
+
+.cancel-subscription-button {
+    font-weight: 500;
+}
+
+.informative-text-premium-package-div {
+    padding-top: 0.5rem;
+}
+
+.facebook-logo-login {
+    padding-bottom: 3px;
+}
+
+.close-account-information {
+    display: flex;
+    justify-content: space-between;
+}
+
+.close-account-button {
+    font-weight: 500;
+}
+
+.cancel-subscription-modal-footer {
+    display: flex;
+    justify-content: space-around;
+}
+
+.cancel-subscription-modal-button {
+    font-weight: 500;
+}
+
+.close-account-modal {
+    display: flex;
+    justify-content: space-around;
+}
+
+.close-account-modal-button {
+    font-weight: 500;
 }
