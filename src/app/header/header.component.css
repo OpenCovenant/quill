@@ -80,11 +80,11 @@
 }
 
 .offcanvas-nav-text-dark-mode:hover {
-    background-color: #595959 !important;
+    background-color: var(--dark-mode-hover-color) !important;
 }
 
 .off-canvas-hr {
-    background-color: #9a9a9a;
+    background-color: var(--dark-mode-gray-color-checked-theme);
     height: 1px;
     margin-bottom: 0;
     margin-top: 0;
@@ -104,12 +104,12 @@
 
 .nav-text:hover {
     background-color: var(--light-mode-hover-theme);
-    color: black;
+    color: var(--pitch-black);
 }
 
 .bi {
     padding-right: 1rem;
-    color: #3a3a3a;
+    color: var(--pitch-black);
 }
 
 .offcanvas-bi-info-circle-dark-mode {
@@ -157,7 +157,7 @@
 }
 
 .dark-mode-input:checked ~ .dark-mode-slider {
-    background-color: #797979;
+    background-color: var(--dark-mode-gray-color-checked-theme);
 }
 
 .dark-mode-slider::before {
@@ -175,7 +175,7 @@
 
 .dark-mode-input:checked ~ .dark-mode-slider::before {
     transform: translateX(1.5rem);
-    background-color: #797979;
+    background-color: var(--dark-mode-gray-color-checked-theme);
     box-shadow: inset -7px -3px 0 0 var(--dark-mode-anti-theme);
 }
 
@@ -202,12 +202,12 @@
 .dark-mode-theme {
     padding: 0.3rem 1rem 1rem;
     font-size: 0.8rem;
-    color: #b4b4b4;
+    color: var(--dark-mode-theme);
 }
 .light-mode-theme {
     padding: 0.3rem 1rem 1rem;
     font-size: 0.8rem;
-    color: #4b4b4b;
+    color: var(--light);
 }
 
 .offcanvas-close-button-dark-mode {
@@ -253,7 +253,7 @@
 }
 
 .menu-dropdown-item:active {
-    background-color: #d6d6d6;
+    background-color: var(--active-dropdown-menu);
     color: black;
 }
 
@@ -273,15 +273,15 @@
 }
 
 .menu-dropdown-item-dark-mode {
-    color: white;
+    color: var(--dark-mode-anti-theme);
 }
 
 .logout-icon-dark-mode {
-    color: white;
+    color: var(--dark-mode-anti-theme);
 }
 
 .dropdown-divider-dark-mode {
-    color: white;
+    color: var(--dark-mode-anti-theme);
 }
 
 .menu-dropdown-item-dark-mode:hover {
@@ -289,7 +289,7 @@
 }
 
 .menu-dropdown-item-dark-mode:active {
-    background-color: #6e6e6e;
+    background-color: var(--active-dropdown-menu-dark-mode);
     color: white;
 }
 
@@ -301,7 +301,7 @@
 .header-separator {
     padding: 1rem;
     font-size: 20px;
-    color: #d2d2d2;
+    color: var(--active-dropdown-menu);
 }
 
 .user-dropdown-menu {

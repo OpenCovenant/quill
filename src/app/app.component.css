@@ -13,7 +13,7 @@
 }
 
 .continue-without-account-button {
-    color: #0d6efd;
+    color: var(--modal-go-back-button-color);
     background-color: transparent;
     font-weight: 500;
     border: none;

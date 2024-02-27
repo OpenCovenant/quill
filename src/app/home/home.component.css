@@ -337,7 +337,7 @@
 
 .suggestion-dark-mode {
     background-color: #686868;
-    color: white;
+    color: var(--dark-mode-anti-theme);
 }
 
 .bi-arrow-left {
@@ -478,12 +478,12 @@
 
 .modal-header-dark-mode {
     background-color: var(--dark-mode-theme);
-    color: white;
+    color: var(--dark-mode-anti-theme);
 }
 
 .modal-body-dark-mode {
     background-color: var(--dark-mode-theme);
-    color: white;
+    color: var(--dark-mode-anti-theme);
 }
 
 .modal-footer-dark-mode {

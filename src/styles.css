@@ -19,6 +19,10 @@
     --checked-blue-color-theme: #2196f3;
     --dark-mode-gray-color-checked-theme: #797979;
     --light-mode-color: #f8f9fa;
+    --active-dropdown-menu: #d6d6d6;
+    --active-dropdown-menu-dark-mode: #6e6e6e;
+    --skeleton-color: #d9d9d9;
+    --modal-go-back-button-color: #0d6efd;
     /*TODO: these two should be in header.component.css but it doesn't seem to work?*/
     --light: #eaeaea;
     --dark: #28292c;
