@@ -39,6 +39,22 @@
         </div>
 
         <div class="header-name-gear-icon">
+
+            <i
+                class="p-3 settings-gear-button"
+                title="hap cilësimet"
+                [ngClass]="{
+                    'bi bi-gear': !isSettingsRoute(),
+                    'bi bi-gear-fill': isSettingsRoute(),
+                    'settings-gear-dark-mode': darkModeService.isDarkMode
+                }"
+                routerLink="/settings"
+                data-test="gear-button-testing"
+            ></i>
+
+            <span class="header-separator">|</span>
+
+
             <ng-template
                 [ngIf]="authenticationService.isAuthenticated() | async"
                 [ngIfElse]="authenticateButton"
@@ -129,18 +145,7 @@
             </ng-template>
 
             <!-- <i class="bi bi-lock-fill" style='font-size: 20px'></i> ??? person-fill-lock -->
-            <span class="header-separator">|</span>
-            <i
-                class="p-3 settings-gear-button"
-                title="hap cilësimet"
-                [ngClass]="{
-                    'bi bi-gear': !isSettingsRoute(),
-                    'bi bi-gear-fill': isSettingsRoute(),
-                    'settings-gear-dark-mode': darkModeService.isDarkMode
-                }"
-                routerLink="/settings"
-                data-test="gear-button-testing"
-            ></i>
+
         </div>
     </nav>
 </div>

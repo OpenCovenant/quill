@@ -7,7 +7,7 @@
 
 .penda-header-logo {
     color: black;
-    font-size: 20px;
+    font-size: 1.8125rem;
 }
 
 .header-dark-mode {
@@ -56,7 +56,7 @@
 .off-canvas-start-button {
     border: 0;
     border-radius: 0.5rem;
-    height: 30px;
+    height: 48px;
     display: flex;
     align-items: center;
 }
@@ -294,7 +294,6 @@
 }
 
 .login-header-button {
-    order: 2;
     margin-right: 2.9rem;
     font-weight: 500;
 }
@@ -303,11 +302,9 @@
     padding: 1rem;
     font-size: 20px;
     color: #d2d2d2;
-    order: 1;
 }
 
 .user-dropdown-menu {
-    order: 2;
     margin-right: 2.9rem;
 }
 
