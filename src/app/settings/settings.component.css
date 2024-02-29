@@ -145,11 +145,13 @@
 .dark-mode-label-flex {
     display: flex;
     justify-content: space-between;
+    font-weight: 500;
 }
 
 .marking-type-flex {
     display: flex;
     justify-content: space-between;
+    font-weight: 500;
 }
 .central-settings-area {
     display: flex;
