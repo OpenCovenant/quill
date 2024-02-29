@@ -78,7 +78,7 @@
 }
 
 .package-card-footer-span {
-    color: #7f7f7f;
+    color: var(--dark-mode-gray-color-checked-theme);
     font-size: 0.8rem;
 }
 
@@ -121,6 +121,6 @@
 }
 
 .dashboard-premium-card-span {
-    color: #7f7f7f;
+    color: var(--dark-mode-gray-color-checked-theme);
     font-size: 0.8rem;
 }

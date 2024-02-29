@@ -145,11 +145,13 @@
 .dark-mode-label-flex {
     display: flex;
     justify-content: space-between;
+    font-weight: 500;
 }
 
 .marking-type-flex {
     display: flex;
     justify-content: space-between;
+    font-weight: 500;
 }
 .central-settings-area {
     display: flex;
@@ -162,7 +164,7 @@
 }
 
 .skeleton-text-area {
-    color: #d9d9d9;
+    color: var(--skeleton-color);
     border-radius: 0.25rem;
 }
 
@@ -179,7 +181,7 @@
 }
 
 .main-card {
-    background-color: #f8f9fa;
+    background-color: var(--light-mode-color);
     position: relative;
     display: flex;
     border: 0px solid rgba(0, 0, 0, 0.125);
@@ -190,7 +192,7 @@
 }
 
 .skeleton-main-card {
-    background-color: #f8f9fa;
+    background-color: var(--light-mode-color);
     position: relative;
     display: flex;
     border: 0px solid rgba(0, 0, 0, 0.125);
@@ -206,7 +208,7 @@
 }
 
 .modal-footer-button {
-    color: #0d6efd;
+    color: var(--modal-go-back-button-color);
     background-color: transparent;
     font-weight: 500;
     border: none;

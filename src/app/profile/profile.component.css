@@ -5,7 +5,7 @@
 }
 
 .card {
-    background-color: #f8f9fa;
+    background-color: var(--light-mode-color);
     position: relative;
     display: flex;
     border: 0px solid rgba(0, 0, 0, 0.125);
@@ -24,7 +24,7 @@
 }
 
 .skeleton-text-area {
-    color: #d9d9d9;
+    color: var(--skeleton-color);
     border-radius: 0.25rem;
 }
 
@@ -54,7 +54,7 @@
 }
 
 .modal-go-back-button-subscription {
-    color: #0d6efd;
+    color: var(--modal-go-back-button-color);
     background-color: transparent;
     font-weight: 500;
     border: none;
@@ -73,7 +73,7 @@
     background-color: transparent;
     font-weight: 500;
     border: none;
-    color: #0d6efd;
+    color: var(--modal-go-back-button-color);
 }
 
 .modal-go-back-button-profile-dark-mode {

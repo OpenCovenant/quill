@@ -42,7 +42,7 @@
 #editor-placeholder {
     position: absolute;
     /*color: #707070;*/
-    color: #858585;
+    color: var(--dark-mode-smooth-theme);
 }
 
 .editor-placeholder-text {
@@ -51,7 +51,7 @@
 }
 
 .editor-placeholder-upload {
-    color: #0074e5;
+    color: var(--modal-go-back-button-color);
     cursor: pointer;
     text-decoration: underline;
     user-select: none;
@@ -70,6 +70,7 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
+    font-weight: 500;
 }
 
 .card-body-dark-mode {
@@ -336,8 +337,8 @@
 }
 
 .suggestion-dark-mode {
-    background-color: #686868;
-    color: white;
+    background-color: var(--active-dropdown-menu-dark-mode);
+    color: var(--dark-mode-anti-theme);
 }
 
 .bi-arrow-left {
@@ -405,7 +406,7 @@
     background-color: var(--dark-mode-theme);
     color: var(--dark-mode-anti-theme);
 }
-
+/*is this even used?*/
 .writing-dark-mode {
     background-color: #9a9a9a;
     color: black;
@@ -478,12 +479,12 @@
 
 .modal-header-dark-mode {
     background-color: var(--dark-mode-theme);
-    color: white;
+    color: var(--dark-mode-anti-theme);
 }
 
 .modal-body-dark-mode {
     background-color: var(--dark-mode-theme);
-    color: white;
+    color: var(--dark-mode-anti-theme);
 }
 
 .modal-footer-dark-mode {
@@ -491,7 +492,7 @@
 }
 
 .history-deactivation-message {
-    color: #919191;
+    color: var(--dark-mode-smooth-theme);
     font-size: 13px;
 }
 
