@@ -43,20 +43,14 @@
     -o-transition: all 0.4s;
     transition: all 0.4s;
 }
-.penda-header-logo:hover {
-    text-shadow:
-        -0.25px -0.25px 0,
-        0.25px -0.25px 0,
-        -0.25px 0.25px 0,
-        0.25px 0.25px 0;
-    letter-spacing: 0.005rem;
-}
 
-/* compress side menu button (only) vertically #411 */
+/*TODO: do something nice with the hover*/
+/*.penda-header-logo:hover {}*/
+
 .off-canvas-start-button {
     border: 0;
     border-radius: 0.5rem;
-    height: 48px;
+    height: 41px;
     display: flex;
     align-items: center;
 }
