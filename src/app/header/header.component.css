@@ -148,11 +148,15 @@
     width: 100%;
     height: 100%;
     border-radius: 50px;
-    transition: 0.4s;
 }
 
 .dark-mode-input:checked ~ .dark-mode-slider {
     background-color: #797979;
+}
+
+.dark-mode-slider.transition-enabled,
+.dark-mode-slider.transition-enabled::before {
+    transition: 0.4s;
 }
 
 .dark-mode-slider::before {
@@ -165,7 +169,6 @@
     border-radius: 50%;
     box-shadow: inset 7px -4px 0 0 var(--dark);
     background-color: var(--dark);
-    transition: 0.4s;
 }
 
 .dark-mode-input:checked ~ .dark-mode-slider::before {
