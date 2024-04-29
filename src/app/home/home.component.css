@@ -43,6 +43,7 @@
     position: absolute;
     /*color: #707070;*/
     color: #858585;
+    pointer-events: none;
 }
 
 .editor-placeholder-text {
@@ -55,6 +56,7 @@
     cursor: pointer;
     text-decoration: underline;
     user-select: none;
+    pointer-events: auto;
 }
 
 .editor-toolbar {
