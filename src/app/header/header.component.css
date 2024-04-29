@@ -7,7 +7,7 @@
 
 .penda-header-logo {
     color: black;
-    font-size: 20px;
+    font-size: 1.8125rem;
 }
 
 .header-dark-mode {
@@ -37,22 +37,20 @@
 
 /* bolden "penda" header text in navigation bar on hover */
 .penda-header-logo {
+    cursor: pointer;
     -webkit-transition: all 0.4s;
     -moz-transition: all 0.4s;
     -o-transition: all 0.4s;
     transition: all 0.4s;
 }
-.penda-header-logo:hover {
-    text-shadow: -0.25px -0.25px 0, 0.25px -0.25px 0, -0.25px 0.25px 0,
-        0.25px 0.25px 0;
-    letter-spacing: 0.005rem;
-}
 
-/* compress side menu button (only) vertically #411 */
+/*TODO: do something nice with the hover*/
+/*.penda-header-logo:hover {}*/
+
 .off-canvas-start-button {
     border: 0;
     border-radius: 0.5rem;
-    height: 30px;
+    height: 41px;
     display: flex;
     align-items: center;
 }
@@ -76,11 +74,11 @@
 }
 
 .offcanvas-nav-text-dark-mode:hover {
-    background-color: #595959 !important;
+    background-color: var(--dark-mode-hover-color) !important;
 }
 
 .off-canvas-hr {
-    background-color: #9a9a9a;
+    background-color: var(--dark-mode-gray-color-checked-theme);
     height: 1px;
     margin-bottom: 0;
     margin-top: 0;
@@ -96,16 +94,17 @@
     padding: 1rem;
     text-decoration: none;
     color: var(--pitch-black);
+    font-weight: 500;
 }
 
 .nav-text:hover {
     background-color: var(--light-mode-hover-theme);
-    color: black;
+    color: var(--pitch-black);
 }
 
 .bi {
     padding-right: 1rem;
-    color: #3a3a3a;
+    color: var(--pitch-black);
 }
 
 .offcanvas-bi-info-circle-dark-mode {
@@ -131,6 +130,7 @@
 }
 
 .dark-mode-label {
+    cursor: pointer;
     position: absolute;
     width: 100%;
     height: 1.6rem;
@@ -152,7 +152,7 @@
 }
 
 .dark-mode-input:checked ~ .dark-mode-slider {
-    background-color: #797979;
+    background-color: var(--dark-mode-gray-color-checked-theme);
 }
 
 .dark-mode-slider::before {
@@ -170,12 +170,11 @@
 
 .dark-mode-input:checked ~ .dark-mode-slider::before {
     transform: translateX(1.5rem);
-    background-color: #797979;
+    background-color: var(--dark-mode-gray-color-checked-theme);
     box-shadow: inset -7px -3px 0 0 var(--dark-mode-anti-theme);
 }
 
 .settings-gear-dark-mode {
-    margin-right: 2.3rem;
     color: var(--dark-mode-anti-theme);
 }
 
@@ -186,6 +185,7 @@
 .dark-mode-div {
     justify-content: space-between;
     padding: 2rem 1rem 0 1rem;
+    font-weight: 500;
 }
 
 /* #modeExplanationText{
@@ -198,12 +198,12 @@
 .dark-mode-theme {
     padding: 0.3rem 1rem 1rem;
     font-size: 0.8rem;
-    color: #b4b4b4;
+    color: var(--dark-mode-theme);
 }
 .light-mode-theme {
     padding: 0.3rem 1rem 1rem;
     font-size: 0.8rem;
-    color: #4b4b4b;
+    color: var(--light);
 }
 
 .offcanvas-close-button-dark-mode {
@@ -226,11 +226,84 @@
 }
 
 .settings-gear-button {
+    cursor: pointer;
     padding: 0.5rem !important;
-    margin-right: 2.6rem;
     border-radius: 0.5rem;
 }
 
 .settings-gear-button:hover {
     background-color: var(--light-mode-hover-theme);
+}
+
+.profile-icon-dropdown {
+    margin-right: 16px;
+}
+
+.menu-dropdown-item {
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.menu-dropdown-item:hover {
+    border-radius: 10px;
+}
+
+.menu-dropdown-item:active {
+    background-color: var(--active-dropdown-menu);
+    color: black;
+}
+
+.dropdown-menu-item-list {
+    padding: 0px 5px 0px 5px;
+}
+
+.menu-item-divider {
+    margin-left: auto;
+    margin-right: auto;
+    width: 89%;
+}
+
+.dropdown-menu-dark-mode {
+    background-color: var(--dark-mode-theme);
+    box-shadow: 0px 0px 1px var(--dark-mode-smooth-theme);
+}
+
+.menu-dropdown-item-dark-mode {
+    color: var(--dark-mode-anti-theme);
+}
+
+.logout-icon-dark-mode {
+    color: var(--dark-mode-anti-theme);
+}
+
+.dropdown-divider-dark-mode {
+    color: var(--dark-mode-anti-theme);
+}
+
+.menu-dropdown-item-dark-mode:hover {
+    background-color: var(--dark-mode-hover-color);
+}
+
+.menu-dropdown-item-dark-mode:active {
+    background-color: var(--active-dropdown-menu-dark-mode);
+    color: white;
+}
+
+.login-header-button {
+    margin-right: 2.9rem;
+    font-weight: 500;
+}
+
+.header-separator {
+    padding: 1rem;
+    font-size: 20px;
+    color: var(--active-dropdown-menu);
+}
+
+.user-dropdown-menu {
+    margin-right: 2.9rem;
+}
+
+.menu-item-divider-dark-mode {
+    color: var(--dark-mode-anti-theme);
 }

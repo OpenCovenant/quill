@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 
 import { environment } from '../../environments/environment';
-import { DarkModeService } from '../dark-mode.service';
+import { DarkModeService } from '../services/dark-mode.service';
 
 @Component({
     selector: 'app-marking-details',
@@ -15,13 +15,13 @@ export class MarkingDetailsComponent {
     getMarkingDetailsURL!: string;
 
     constructor(
+        public darkModeService: DarkModeService,
         private route: ActivatedRoute,
-        private http: HttpClient,
-        public darkModeService: DarkModeService
+        private http: HttpClient
     ) {
         this.initializeURLs();
-        this.route.paramMap.subscribe((paramMap) => {
-            const id = paramMap.get('id');
+        this.route.paramMap.subscribe((paramMap): void => {
+            const id: string | null = paramMap.get('id');
 
             this.http
                 .get(this.getMarkingDetailsURL + '/' + id)
@@ -33,7 +33,7 @@ export class MarkingDetailsComponent {
         });
     }
 
-    initializeURLs() {
+    private initializeURLs(): void {
         this.baseURL = environment.baseURL;
         this.getMarkingDetailsURL = this.baseURL + '/api/getMarkingDetails';
     }

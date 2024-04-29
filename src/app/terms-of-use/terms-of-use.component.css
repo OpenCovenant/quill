@@ -1,0 +1,8 @@
+.terms-of-use {
+    margin-left: 20%;
+    width: 60%;
+}
+
+.terms-of-use-dark-mode {
+    color: var(--light);
+}

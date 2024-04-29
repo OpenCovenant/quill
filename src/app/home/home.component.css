@@ -42,7 +42,7 @@
 #editor-placeholder {
     position: absolute;
     /*color: #707070;*/
-    color: #858585;
+    color: var(--dark-mode-smooth-theme);
 }
 
 .editor-placeholder-text {
@@ -51,7 +51,7 @@
 }
 
 .editor-placeholder-upload {
-    color: #0074e5;
+    color: var(--modal-go-back-button-color);
     cursor: pointer;
     text-decoration: underline;
     user-select: none;
@@ -70,6 +70,7 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
+    font-weight: 500;
 }
 
 .card-body-dark-mode {
@@ -93,7 +94,7 @@
     font-size: 1.25rem;
 }
 
-.written-text-history-button-dark-mode {
+.writings-history-button-dark-mode {
     color: var(--dark-mode-anti-theme);
 }
 
@@ -336,8 +337,8 @@
 }
 
 .suggestion-dark-mode {
-    background-color: #686868;
-    color: white;
+    background-color: var(--active-dropdown-menu-dark-mode);
+    color: var(--dark-mode-anti-theme);
 }
 
 .bi-arrow-left {
@@ -353,7 +354,7 @@
     padding: 0.1rem 0.3rem;
 }
 
-.highlighted-marking-go-back-button {
+.blur-marking-button {
     padding: 0.1rem 0.3rem;
 }
 
@@ -405,13 +406,13 @@
     background-color: var(--dark-mode-theme);
     color: var(--dark-mode-anti-theme);
 }
-
-.written-text-dark-mode {
+/*is this even used?*/
+.writing-dark-mode {
     background-color: #9a9a9a;
     color: black;
 }
 
-.written-text-dark-mode:hover {
+.writing-dark-mode:hover {
     background-color: lightgray;
 }
 
@@ -478,12 +479,12 @@
 
 .modal-header-dark-mode {
     background-color: var(--dark-mode-theme);
-    color: white;
+    color: var(--dark-mode-anti-theme);
 }
 
 .modal-body-dark-mode {
     background-color: var(--dark-mode-theme);
-    color: white;
+    color: var(--dark-mode-anti-theme);
 }
 
 .modal-footer-dark-mode {
@@ -491,7 +492,7 @@
 }
 
 .history-deactivation-message {
-    color: #919191;
+    color: var(--dark-mode-smooth-theme);
     font-size: 13px;
 }
 
@@ -499,20 +500,22 @@
     margin: 1.5rem 0;
 }
 
-.written-text {
+.writing {
     box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
     border-radius: 5px;
     padding: 5px;
     overflow: hidden;
+    margin: 0 1rem;
 }
 
-.written-text:hover {
+.writing:hover {
     background-color: #f1f1f1;
 }
 
 /*TODO: apply dark mode for the history of the written texts*/
-.written-texts-history-dark-mode {
+.writings-history-dark-mode {
     background-color: var(--dark-mode-theme);
+    margin: 0 1rem;
 }
 .marking-type-label {
     position: relative;
@@ -571,6 +574,15 @@
     margin-top: 5px;
 }
 
+.modal-content-welcome-dark-mode {
+    background-color: var(--dark-mode-theme);
+    color: var(--dark-mode-anti-theme);
+}
+
+.modal-content-subscription-success-dark-mode {
+    background-color: var(--dark-mode-theme);
+    color: var(--dark-mode-anti-theme);
+}
 
 .switch {
     position: relative;
@@ -595,8 +607,8 @@
     right: 0;
     bottom: 0;
     background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
 }
 
 .slider:before {
@@ -607,8 +619,8 @@
     left: 2px;
     bottom: 1px;
     background-color: var(--dark-mode-anti-theme);
-    -webkit-transition: .4s;
-    transition: .4s;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
 }
 
 input:checked + .slider {
@@ -616,7 +628,7 @@ input:checked + .slider {
 }
 
 input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
+    box-shadow: 0 0 1px #2196f3;
 }
 
 input:checked + .slider:before {
@@ -640,6 +652,32 @@ input:checked + .slider:before {
 
 .history-modal-body {
     padding: 1rem 1rem 1rem 0rem;
+}
+
+.thank-you-modal-button {
+    display: none;
+}
+
+.thank-you-modal-footer {
+    display: flex;
+    justify-content: space-around;
+}
+
+.continue-button-thank-you-modal {
+    font-weight: 500;
+}
+
+.welcome-modal-button {
+    display: none;
+}
+
+.welcome-modal-footer-div {
+    display: flex;
+    justify-content: space-around;
+}
+
+.welcome-modal-continue-button {
+    font-weight: 500;
 }
 /*TODO change color on .suggestion:hover ?*/
 @media (max-width: 800px) {

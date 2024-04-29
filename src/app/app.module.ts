@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
@@ -12,6 +12,13 @@ import { HomeComponent } from './home/home.component';
 import { SettingsComponent } from './settings/settings.component';
 import { AboutComponent } from './about/about.component';
 import { ShortcutsComponent } from './shortcuts/shortcuts.component';
+import { AuthenticationComponent } from './authentication/authentication.component';
+import { ProfileComponent } from './profile/profile.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { CheckoutComponent } from './checkout/checkout.component';
+import { AuthenticationInterceptor } from './authentication.interceptor';
 
 @NgModule({
     declarations: [
@@ -22,10 +29,22 @@ import { ShortcutsComponent } from './shortcuts/shortcuts.component';
         HomeComponent,
         SettingsComponent,
         AboutComponent,
-        ShortcutsComponent
+        ShortcutsComponent,
+        AuthenticationComponent,
+        ProfileComponent,
+        PrivacyPolicyComponent,
+        TermsOfUseComponent,
+        DashboardComponent,
+        CheckoutComponent
     ],
     imports: [BrowserModule, HttpClientModule, FormsModule, AppRoutingModule],
-    providers: [],
+    providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthenticationInterceptor,
+            multi: true
+        }
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {}

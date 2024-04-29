@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from '../../environments/environment';
-import { DarkModeService } from '../dark-mode.service';
+import { DarkModeService } from '../services/dark-mode.service';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
     selector: 'app-header',
@@ -20,8 +21,9 @@ export class HeaderComponent {
 
     constructor(
         private http: HttpClient,
-        public darkModeService: DarkModeService,
-        private router: Router
+        private router: Router,
+        public authenticationService: AuthenticationService,
+        public darkModeService: DarkModeService
     ) {
         this.initializeURLs();
         this.http.get(this.getMarkingTypesCount).subscribe((data: any) => {
@@ -35,7 +37,7 @@ export class HeaderComponent {
         this.darkModeService.initializeDarkMode();
     }
 
-    initializeURLs(): void {
+    private initializeURLs(): void {
         this.baseURL = environment.baseURL;
         this.getMarkingTypes = `${this.baseURL}/api/getMarkingTypes`;
         this.getMarkingTypesCount = `${this.baseURL}/api/getMarkingTypesCount`;
@@ -46,7 +48,11 @@ export class HeaderComponent {
         document.getElementById('offcanvasCloseButton')!.click();
     }
 
-    isSettingsRoute() {
+    isSettingsRoute(): boolean {
         return this.router.url === '/settings';
+    }
+
+    logout(): void {
+        this.authenticationService.logout();
     }
 }

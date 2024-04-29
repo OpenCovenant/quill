@@ -22,9 +22,9 @@ describe("Shortcuts", () => {
         cy.get("body").type("2");
 
         cy.get("body").type("{Shift} + 1");
-        cy.get('[data-test="blur-marking-button"]').should("be.visible");
+        cy.get(".highlighted-marking-card").should("be.visible");
         cy.get("body").type("{Esc}");
-        cy.get('[data-test="blur-marking-button"]').should("not.exist");
+        cy.get(".highlighted-marking-card").should("not.exist");
 
         cy.get('[data-test="marking-card"]').should("have.length", 1);
         cy.get("body").type("d");
