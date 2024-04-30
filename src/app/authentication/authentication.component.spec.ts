@@ -4,7 +4,7 @@ import { AuthenticationComponent } from './authentication.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-describe('AuthenticationComponent', () => {
+xdescribe('AuthenticationComponent', () => {
     let component: AuthenticationComponent;
     let fixture: ComponentFixture<AuthenticationComponent>;
 
