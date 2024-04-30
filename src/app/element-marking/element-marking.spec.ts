@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from '../app.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TextMarking } from '../models/text-marking';
-import { markText } from './text-marking';
+import { Marking } from '../models/marking';
+import { markElement } from './element-marking';
 
 describe('Marker', () => {
     const EDITOR_ID = 'editor';
@@ -21,7 +21,7 @@ describe('Marker', () => {
         editor.id = EDITOR_ID;
         editor.innerHTML = html;
 
-        const markings: TextMarking[] = [
+        const markings: Marking[] = [
             {
                 from: 0,
                 to: 3,
@@ -32,7 +32,7 @@ describe('Marker', () => {
             }
         ];
 
-        markText(editor, numberOfMarkings, true, markings);
+        markElement(editor, numberOfMarkings, true, markings);
 
         const expectedHMTL = '<span class="typo">asd</span>';
         const expectedEditor = document.createElement('div');
@@ -53,7 +53,7 @@ describe('Marker', () => {
         editor.id = EDITOR_ID;
         editor.innerHTML = html;
 
-        const markings: TextMarking[] = [
+        const markings: Marking[] = [
             {
                 from: 4,
                 to: 7,
@@ -64,7 +64,7 @@ describe('Marker', () => {
             }
         ];
 
-        markText(editor, numberOfMarkings, true, markings);
+        markElement(editor, numberOfMarkings, true, markings);
 
         const expectedHMTL = 'pra <span class="typo">asd</span>';
         const expectedEditor = document.createElement('div');
@@ -85,7 +85,7 @@ describe('Marker', () => {
         editor.id = EDITOR_ID;
         editor.innerHTML = html;
 
-        const markings: TextMarking[] = [
+        const markings: Marking[] = [
             {
                 from: 0,
                 to: 3,
@@ -96,7 +96,7 @@ describe('Marker', () => {
             }
         ];
 
-        markText(editor, numberOfMarkings, true, markings);
+        markElement(editor, numberOfMarkings, true, markings);
 
         const expectedHMTL = '<span class="typo">asd</span> kaq';
         const expectedEditor = document.createElement('div');
@@ -117,7 +117,7 @@ describe('Marker', () => {
         editor.id = EDITOR_ID;
         editor.innerHTML = html;
 
-        const markings: TextMarking[] = [
+        const markings: Marking[] = [
             {
                 from: 0,
                 to: 3,
@@ -128,7 +128,7 @@ describe('Marker', () => {
             }
         ];
 
-        markText(editor, numberOfMarkings, true, markings);
+        markElement(editor, numberOfMarkings, true, markings);
 
         const expectedHMTL = '<span class="stylistic">asd</span> kaq';
         const expectedEditor = document.createElement('div');
@@ -149,7 +149,7 @@ describe('Marker', () => {
         editor.id = EDITOR_ID;
         editor.innerHTML = html;
 
-        const markings: TextMarking[] = [
+        const markings: Marking[] = [
             {
                 from: 0,
                 to: 3,
@@ -160,7 +160,7 @@ describe('Marker', () => {
             }
         ];
 
-        markText(editor, numberOfMarkings, true, markings);
+        markElement(editor, numberOfMarkings, true, markings);
 
         const expectedHMTL = '<span class="loanword">asd</span> kaq';
         const expectedEditor = document.createElement('div');
@@ -181,7 +181,7 @@ describe('Marker', () => {
         editor.id = EDITOR_ID;
         editor.innerHTML = html;
 
-        const markings: TextMarking[] = [
+        const markings: Marking[] = [
             {
                 from: 0,
                 to: 3,
@@ -200,7 +200,7 @@ describe('Marker', () => {
             }
         ];
 
-        markText(editor, numberOfMarkings, true, markings);
+        markElement(editor, numberOfMarkings, true, markings);
 
         const expectedHMTL =
             '<span class="typo">asd</span> <span class="typo">kli</span>';
@@ -222,7 +222,7 @@ describe('Marker', () => {
         editor.id = EDITOR_ID;
         editor.innerHTML = html;
 
-        const markings: TextMarking[] = [
+        const markings: Marking[] = [
             {
                 from: 0,
                 to: 3,
@@ -241,7 +241,7 @@ describe('Marker', () => {
             }
         ];
 
-        markText(editor, numberOfMarkings, true, markings);
+        markElement(editor, numberOfMarkings, true, markings);
 
         const expectedHMTL =
             '<span class="loanword">asd</span> <span class="stylistic">kli</span>';
@@ -267,7 +267,7 @@ describe('Marker', () => {
         editor.id = EDITOR_ID;
         editor.innerHTML = html;
 
-        const markings: TextMarking[] = [
+        const markings: Marking[] = [
             {
                 from: 0,
                 to: 11,
@@ -286,7 +286,7 @@ describe('Marker', () => {
             }
         ];
 
-        markText(editor, numberOfMarkings, true, markings);
+        markElement(editor, numberOfMarkings, true, markings);
 
         const expectedHMTL =
             '<span class="stylistic">asd <span class="typo">kli</span> ghj</span>';
@@ -312,7 +312,7 @@ describe('Marker', () => {
         editor.id = EDITOR_ID;
         editor.innerHTML = html;
 
-        const markings: TextMarking[] = [
+        const markings: Marking[] = [
             {
                 from: 0,
                 to: 19,
@@ -331,7 +331,7 @@ describe('Marker', () => {
             }
         ];
 
-        markText(editor, numberOfMarkings, true, markings);
+        markElement(editor, numberOfMarkings, true, markings);
 
         const expectedHMTL =
             '<span class="stylistic">asd pra <span class="typo">kli</span> pra ghj</span>';
@@ -358,7 +358,7 @@ describe('Marker', () => {
         editor.id = EDITOR_ID;
         editor.innerHTML = html;
 
-        const markings: TextMarking[] = [
+        const markings: Marking[] = [
             {
                 from: 0,
                 to: 296,
@@ -377,7 +377,7 @@ describe('Marker', () => {
             }
         ];
 
-        markText(editor, numberOfMarkings, true, markings);
+        markElement(editor, numberOfMarkings, true, markings);
 
         const expectedHMTL =
             '<span class="stylistic">Pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra <span class="typo">asd</span> pra pra pra pra pra pra pra pra pra.</span>';
@@ -404,7 +404,7 @@ describe('Marker', () => {
         editor.id = EDITOR_ID;
         editor.innerHTML = html;
 
-        const markings: TextMarking[] = [
+        const markings: Marking[] = [
             {
                 from: 0,
                 to: 335,
@@ -423,7 +423,7 @@ describe('Marker', () => {
             }
         ];
 
-        markText(editor, numberOfMarkings, true, markings);
+        markElement(editor, numberOfMarkings, true, markings);
 
         const expectedHMTL =
             '<span class="stylistic">Pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra pra <span class="typo">asd</span> pra pra pra pra pra pra pra pra pra. Edhe a a a a a a a a a a a a a a a kaq</span>';
@@ -449,7 +449,7 @@ describe('Marker', () => {
         editor.id = EDITOR_ID;
         editor.innerHTML = html;
 
-        const markings: TextMarking[] = [
+        const markings: Marking[] = [
             {
                 from: 4,
                 to: 15,
@@ -468,7 +468,7 @@ describe('Marker', () => {
             }
         ];
 
-        markText(editor, numberOfMarkings, true, markings);
+        markElement(editor, numberOfMarkings, true, markings);
 
         const expectedHMTL =
             'kaq <span class="stylistic">asd <span class="typo">kli</span> ghj</span> pra';
@@ -495,7 +495,7 @@ describe('Marker', () => {
         editor.id = EDITOR_ID;
         editor.innerHTML = html;
 
-        const markings: TextMarking[] = [
+        const markings: Marking[] = [
             {
                 from: 4,
                 to: 16,
@@ -514,7 +514,7 @@ describe('Marker', () => {
             }
         ];
 
-        markText(editor, numberOfMarkings, true, markings);
+        markElement(editor, numberOfMarkings, true, markings);
 
         const expectedHMTL =
             'kaq <span class="stylistic">asd <span class="typo">kli</span>\n ghj</span> pra';
@@ -540,7 +540,7 @@ describe('Marker', () => {
         editor.id = EDITOR_ID;
         editor.innerHTML = html;
 
-        const markings: TextMarking[] = [
+        const markings: Marking[] = [
             {
                 from: 0,
                 to: 19,
@@ -567,7 +567,7 @@ describe('Marker', () => {
             }
         ];
 
-        markText(editor, numberOfMarkings, true, markings);
+        markElement(editor, numberOfMarkings, true, markings);
 
         const expectedHMTL =
             '<span class="stylistic">asd <span class="typo">pra <span class="loanword">kli</span> vij</span> ghj</span>';
@@ -597,7 +597,7 @@ describe('Marker', () => {
         editor.id = EDITOR_ID;
         editor.innerHTML = html;
 
-        const markings: TextMarking[] = [
+        const markings: Marking[] = [
             {
                 from: 0,
                 to: 3,
@@ -624,7 +624,7 @@ describe('Marker', () => {
             }
         ];
 
-        markText(editor, numberOfMarkings, true, markings);
+        markElement(editor, numberOfMarkings, true, markings);
 
         const expectedHMTL =
             '<span class="typo">asd</span> <span class="typo">kli</span> <span class="typo">ghj</span>';
@@ -655,7 +655,7 @@ describe('Marker', () => {
         editor.id = EDITOR_ID;
         editor.innerHTML = html;
 
-        const markings: TextMarking[] = [
+        const markings: Marking[] = [
             {
                 from: 0,
                 to: 3,
@@ -682,7 +682,7 @@ describe('Marker', () => {
             }
         ];
 
-        markText(editor, numberOfMarkings, true, markings);
+        markElement(editor, numberOfMarkings, true, markings);
 
         const expectedHMTL =
             '<span class="typo">asd</span> pra <span class="typo">kli</span> vij <span class="typo">ghj</span>';
@@ -713,7 +713,7 @@ describe('Marker', () => {
         editor.id = EDITOR_ID;
         editor.innerHTML = html;
 
-        const markings: TextMarking[] = [
+        const markings: Marking[] = [
             {
                 from: 0,
                 to: 3,
@@ -740,7 +740,7 @@ describe('Marker', () => {
             }
         ];
 
-        markText(editor, numberOfMarkings, true, markings);
+        markElement(editor, numberOfMarkings, true, markings);
 
         const expectedHMTL =
             '<span class="typo">asd</span>\npra\n<span class="typo">kli</span> vij\n<span class="typo">ghj</span>';

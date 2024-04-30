@@ -1,0 +1,126 @@
+.dashboard {
+    margin-left: 20%;
+    width: 60%;
+}
+
+.dashboard-dark-mode {
+    color: var(--light);
+}
+
+.contact-us-button:hover {
+    background-color: purple !important;
+    color: var(--dark-mode-anti-theme);
+}
+
+.dashboard-header-dark-mode {
+    color: var(--dark-mode-anti-theme);
+}
+
+.current-tier-button {
+    background-color: #c5c5c5;
+    border-color: #c5c5c5;
+    cursor: not-allowed !important;
+}
+
+.current-tier-button:hover {
+    cursor: not-allowed !important;
+    background-color: #c5c5c5;
+}
+
+.dashboard-card {
+    min-height: 400px;
+    box-shadow: 0 0 10px #d8d8d899;
+    border: 0px solid rgba(0, 0, 0, 0.125);
+}
+
+.dashboard-card-header {
+    background-color: var(--dark-mode-anti-theme);
+}
+
+.free-pricing-card-heading-dark-mode {
+    background-color: var(--dark-mode-theme);
+    color: var(--dark-mode-anti-theme);
+    border-color: #71707099;
+}
+
+.pricing-card-body-dark-mode {
+    background-color: var(--dark-mode-theme);
+    color: var(--dark-mode-anti-theme);
+}
+
+.identify-anchor-dark-mode {
+    color: #0074e5;
+}
+
+.pricing-card-button-dark-mode {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.card-inside-content-list {
+    font-size: 1.05rem;
+}
+
+.inside-content-list {
+    padding-bottom: 1rem;
+}
+
+.check-icon-inside-list {
+    margin-right: 2rem;
+}
+
+.inside-premium-content-list {
+    padding-bottom: 11.55rem;
+}
+
+.package-card-footer {
+    padding-top: 0.8rem;
+}
+
+.package-card-footer-span {
+    color: var(--dark-mode-gray-color-checked-theme);
+    font-size: 0.8rem;
+}
+
+.empty-section-div {
+    height: 5.3rem;
+}
+
+.dashboard-premium-card {
+    border-color: #ebbcff;
+    min-height: 400px;
+}
+
+.dashboard-card-premium-header {
+    background-color: #ebbcff;
+    border-color: #ebbcff;
+}
+
+.ul-premium-content-inside {
+    font-size: 1.05rem;
+}
+
+.li-premium-content-inside {
+    padding-bottom: 1rem;
+}
+
+.dashboard-premium-card-checkmark {
+    margin-right: 2rem;
+}
+
+.dashboard-premium-card-choose-marking {
+    padding-bottom: 7.4rem;
+}
+
+.contact-us-button {
+    background-color: #ebbcff;
+}
+
+.dashboard-premium-card-span-div {
+    padding-top: 0.8rem;
+}
+
+.dashboard-premium-card-span {
+    color: var(--dark-mode-gray-color-checked-theme);
+    font-size: 0.8rem;
+}

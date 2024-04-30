@@ -11,3 +11,32 @@
 .component-router-div {
     flex: 1;
 }
+
+.continue-without-account-button {
+    color: var(--modal-go-back-button-color);
+    background-color: transparent;
+    font-weight: 500;
+    border: none;
+}
+
+.continue-without-account-button-dark-mode {
+    color: var(--dark-mode-anti-theme);
+}
+
+.re-authenticate-modal-dark-mode {
+    background-color: var(--dark-mode-theme);
+    color: var(--dark-mode-anti-theme);
+}
+
+.identify-modal-button {
+    display: none;
+}
+
+.identify-modal-footer {
+    display: flex;
+    justify-content: space-around;
+}
+
+.identify-modal-button-login {
+    font-weight: 500;
+}

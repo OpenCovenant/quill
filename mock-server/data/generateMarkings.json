@@ -3,7 +3,7 @@
         "request": "gabmim",
         "response": {
             "text": "gabmim\u00a0",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 0,
                     "to": 6,
@@ -36,7 +36,7 @@
         "request": "lider",
         "response": {
             "text": "lider\u00a0",
-            "textMarkings": [
+            "markings": [
                 {
                     "from": 0,
                     "to": 5,
@@ -65,21 +65,21 @@
         "request": "saktë",
         "response": {
             "text": "sakt\u00eb",
-            "textMarkings": []
+            "markings": []
         }
     },
     {
         "request": "saktë",
         "response": {
             "text": "sakt\u00eb",
-            "textMarkings": []
+            "markings": []
         }
     },
     {
         "response": "Shkoi tek zyra.",
         "request": {
             "text": "Shkoi tek zyra.",
-            "textMarkings": [
+            "markings": [
                 {
                     "id": "te-dhe-tek",
                     "from": 6,

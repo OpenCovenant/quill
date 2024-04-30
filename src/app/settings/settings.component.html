@@ -53,7 +53,6 @@
         <div class="central-settings-area">
             <div
                 class="card skeleton-main-card p-3"
-                style="width: 60%"
                 [ngClass]="{
                     'settings-dark-mode': darkModeService.isDarkMode
                 }"
@@ -74,12 +73,12 @@
                         >
                             <div>Ndrysho Pamjen</div>
                             <div class="toggle-switch">
-                                <label class="dark-mode-label cursor-pointer">
+                                <label class="dark-mode-label">
                                     <input
                                         data-test="dark-mode-button-toggle-switch"
                                         class="dark-mode-input"
                                         type="checkbox"
-                                        [id]="darkModeService"
+                                        name="dark-mode-input"
                                         [(ngModel)]="darkModeService.isDarkMode"
                                         (change)="
                                             darkModeService.onDarkModeChange()
@@ -140,7 +139,7 @@
                                 <span>{{ markingType[1].description }}</span>
                                 <span
                                     routerLink="/{{ markingType[0] }}"
-                                    class="cursor-pointer marking-type-routing-span"
+                                    class="marking-type-routing-span"
                                     ><i class="bi bi-box-arrow-up-right"></i
                                 ></span>
                             </span>
@@ -148,10 +147,6 @@
                             <span>
                                 <label
                                     class="marking-type-label"
-                                    style="
-                                        margin-bottom: 1.5rem;
-                                        margin-right: 0.5rem;
-                                    "
                                     [for]="markingType[0]"
                                 >
                                     <input
@@ -168,9 +163,7 @@
                                             )
                                         "
                                         data-test="switch-check-testing"
-                                    /><span
-                                        class="slider round cursor-pointer"
-                                    ></span> </label
+                                    /><span class="slider round"></span> </label
                             ></span>
                         </div>
                     </div>
@@ -188,7 +181,12 @@
     aria-hidden="true"
 >
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+        <div
+            class="modal-content"
+            [ngClass]="{
+                'modal-content-settings-dark-mode': darkModeService.isDarkMode
+            }"
+        >
             <div class="modal-header">
                 <h5 class="modal-title" id="dismissedMarkingsModalLabel">
                     Shenjimet e Larguara
@@ -196,68 +194,58 @@
                 <button
                     type="button"
                     class="btn-close"
+                    [ngClass]="{
+                        'btn-close-white': darkModeService.isDarkMode
+                    }"
                     data-bs-dismiss="modal"
                     aria-label="Close"
                 ></button>
             </div>
-            <div
-                class="modal-body"
-                style="
-                    display: flex;
-                    align-content: flex-start;
-                    justify-content: space-between;
-                "
-            >
-                <div>
+            <div class="modal-body dismissed-marking-list-modal">
+                <div *ngIf="dismissedMarkings.length !== 0">
                     <button
                         *ngFor="let dismissedMarking of dismissedMarkings"
                         type="button"
-                        class="btn position-relative"
-                        style="
-                            background-color: #ff7676;
-                            color: white;
-                            font-weight: 500;
-                            margin-right: 2rem;
-                            margin-bottom: 1.5rem;
-                        "
+                        class="btn position-relative list-of-dismissed-markings"
                     >
                         {{ dismissedMarking
                         }}<span
-                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
-                            style="background-color: #676767"
+                            (click)="undoMarkingDismissal(dismissedMarking)"
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill undo-dismissed-marking"
                         >
                             <button
-                                (click)="undoMarkingDismissal($event)"
                                 type="button"
-                                style="width: 0.2rem; height: 0.5rem"
-                                class="btn-close btn-close-white"
-                                [attr.data-dismissed-marking]="dismissedMarking"
+                                class="btn-close btn-close-white remove-marking-button"
                                 aria-label="Largo Shenjimin"
                             ></button>
                         </span>
                     </button>
                 </div>
+
+                <div *ngIf="dismissedMarkings.length === 0">
+                    <p>Nuk keni larguar ndonjë shenjim deri më tani.</p>
+                    <p>
+                        Mund të klikoni te ikona kryq te një shenjim në mënyrë
+                        që të mos shfaqet më. Më tej ajo mund të rikthehet
+                        nëpërmjet këtij dialogu.
+                    </p>
+                </div>
             </div>
-            <div
-                class="modal-footer"
-                style="display: flex; justify-content: space-around"
-            >
+            <div class="modal-footer dismissed-marking-modal-footer">
                 <button
                     type="button"
-                    style="
-                        background-color: transparent;
-                        color: #0d6efd;
-                        font-weight: 500;
-                        border: none;
-                    "
+                    class="modal-footer-button"
                     data-bs-dismiss="modal"
+                    [ngClass]="{
+                        'modal-footer-button-dark-mode':
+                            darkModeService.isDarkMode
+                    }"
                 >
                     Mbyll
                 </button>
                 <button
                     type="button"
-                    class="btn btn-primary"
-                    style="font-weight: 500"
+                    class="btn btn-primary undo-all-dismissed-markings"
                     data-bs-toggle="modal"
                     data-bs-target="#dismissedMarkingsModal"
                     aria-controls="dismissedMarkingsModal"

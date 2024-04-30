@@ -1,0 +1,14 @@
+.make-payment-h2 {
+    padding-top: 3rem;
+    padding-left: 4em;
+}
+
+.paypal-button-main-div {
+    display: flex;
+    justify-content: center;
+    padding-top: 6rem;
+}
+
+.paypal-button-div {
+    width: 400px;
+}

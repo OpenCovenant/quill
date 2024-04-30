@@ -1,0 +1,132 @@
+.central-profile-area {
+    display: flex;
+    justify-content: center;
+    padding-top: 2rem;
+}
+
+.card {
+    background-color: var(--light-mode-color);
+    position: relative;
+    display: flex;
+    border: 0px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+    box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
+    width: 60%;
+    margin-bottom: 2rem;
+}
+
+.card-body-dark-mode {
+    background-color: var(--dark-mode-theme);
+}
+
+.skeleton-header {
+    margin-bottom: 3rem;
+}
+
+.skeleton-text-area {
+    color: var(--skeleton-color);
+    border-radius: 0.25rem;
+}
+
+.dark-mode-profile-section {
+    margin: 3rem 0;
+}
+
+.dark-mode-label-flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+.profile-dark-mode {
+    background-color: var(--dark-mode-theme) !important;
+    color: var(--dark-mode-anti-theme);
+}
+
+.dark-mode-informative-text {
+    padding-top: 0.3rem;
+    font-size: 0.8rem;
+    color: var(--dark-mode-smooth-theme);
+}
+
+.modal-content-subscription-dark-mode {
+    background-color: var(--dark-mode-theme);
+    color: var(--dark-mode-anti-theme);
+}
+
+.modal-go-back-button-subscription {
+    color: var(--modal-go-back-button-color);
+    background-color: transparent;
+    font-weight: 500;
+    border: none;
+}
+
+.modal-go-back-button-subscription-dark-mode {
+    color: var(--dark-mode-anti-theme);
+}
+
+.modal-content-profile-dark-mode {
+    background-color: var(--dark-mode-theme);
+    color: var(--dark-mode-anti-theme);
+}
+
+.modal-go-back-button-profile {
+    background-color: transparent;
+    font-weight: 500;
+    border: none;
+    color: var(--modal-go-back-button-color);
+}
+
+.modal-go-back-button-profile-dark-mode {
+    color: var(--dark-mode-anti-theme);
+}
+
+.main-profile-card {
+    width: 60%;
+}
+
+.get-subscription-button {
+    font-weight: 500;
+}
+
+.informative-text-free-package-div {
+    padding-top: 0.5rem;
+}
+
+.cancel-subscription-button {
+    font-weight: 500;
+}
+
+.informative-text-premium-package-div {
+    padding-top: 0.5rem;
+}
+
+.facebook-logo-login {
+    padding-bottom: 3px;
+}
+
+.close-account-information {
+    display: flex;
+    justify-content: space-between;
+}
+
+.close-account-button {
+    font-weight: 500;
+}
+
+.cancel-subscription-modal-footer {
+    display: flex;
+    justify-content: space-around;
+}
+
+.cancel-subscription-modal-button {
+    font-weight: 500;
+}
+
+.close-account-modal {
+    display: flex;
+    justify-content: space-around;
+}
+
+.close-account-modal-button {
+    font-weight: 500;
+}

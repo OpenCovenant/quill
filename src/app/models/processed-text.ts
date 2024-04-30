@@ -1,6 +1,6 @@
-import { TextMarking } from './text-marking';
+import { Marking } from './marking';
 
 export interface ProcessedText {
     text: string;
-    textMarkings: Array<TextMarking>;
+    markings: Array<Marking>;
 }

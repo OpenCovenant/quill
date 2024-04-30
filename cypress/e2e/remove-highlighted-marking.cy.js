@@ -9,19 +9,13 @@ describe("Removing Highlighted Marking", () => {
         cy.get('[data-test="editor"]').type("gabmim ");
         cy.get('[data-test="editor"]').type("asd ");
         cy.get(".typo").first().click();
-        cy.get('[data-test="highlighted-text-marking"]')
+        cy.get('[data-test="highlighted-marking"]')
             .contains("asd")
             .should("exist");
         cy.get('[data-test="blur-marking-button"]').click();
-        cy.get('[data-test="text-marking-span"]')
-            .contains("asd")
-            .should("exist");
-        cy.get('[data-test="text-marking-span"]')
-            .contains("gabmim")
-            .should("exist");
-        cy.get('[data-test="text-marking-span"]')
-            .contains("asd")
-            .should("exist");
+        cy.get('[data-test="marking-span"]').contains("asd").should("exist");
+        cy.get('[data-test="marking-span"]').contains("gabmim").should("exist");
+        cy.get('[data-test="marking-span"]').contains("asd").should("exist");
         cy.get('[data-test="editor"]').clear();
     });
 });

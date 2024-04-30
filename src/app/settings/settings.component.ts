@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { DarkModeService } from '../dark-mode.service';
+import { DarkModeService } from '../services/dark-mode.service';
 
 @Component({
     selector: 'app-settings',
@@ -64,10 +64,7 @@ export class SettingsComponent implements OnInit {
         localStorage.setItem(markingTypeID, String(selected));
     }
 
-    undoMarkingDismissal($event: MouseEvent): void {
-        const dismissedMarking = ($event.target as any).getAttribute(
-            'data-dismissed-marking'
-        );
+    undoMarkingDismissal(dismissedMarking: string): void {
         let dismissedMarkings: string[] = JSON.parse(
             localStorage.getItem('penda-dismissed-markings')!
         ) as string[];
