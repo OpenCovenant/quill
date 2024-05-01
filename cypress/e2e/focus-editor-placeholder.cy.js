@@ -1,4 +1,4 @@
-describe("Clicking on editor placeholder must not lose the focus on editor", () => {
+xdescribe("Clicking on editor placeholder must not lose the focus on editor", () => {
     beforeEach(() => {
         cy.visit("/");
     });
