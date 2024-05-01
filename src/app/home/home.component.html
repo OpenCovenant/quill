@@ -16,8 +16,8 @@
                     <div
                         id="editor"
                         (paste)="onTextPaste($event)"
-                        (copy)='onTextCopy($event)'
-                        (cut)='onTextCut($event)'
+                        (copy)="onTextCopy($event)"
+                        (cut)="onTextCut($event)"
                         (keydown)="onKeyDown($event)"
                         [ngClass]="{
                             'editor-dark-mode': darkModeService.isDarkMode,

@@ -1488,7 +1488,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     private fetchEditorCopiableText(): string {
-        const paragraphs: NodeListOf<HTMLParagraphElement> = document.getElementById(this.EDITOR_KEY)!.querySelectorAll('p');
-        return Array.from(paragraphs).map((p: HTMLParagraphElement) => p.textContent).join('\n');
+        const paragraphs: NodeListOf<HTMLParagraphElement> = document
+            .getElementById(this.EDITOR_KEY)!
+            .querySelectorAll('p');
+        return Array.from(paragraphs)
+            .map((p: HTMLParagraphElement) => p.textContent)
+            .join('\n');
     }
 }
