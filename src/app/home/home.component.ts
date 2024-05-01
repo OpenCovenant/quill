@@ -198,6 +198,32 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         document.execCommand('insertText', false, text);
     }
 
+    /**
+     * Function that is called when text is copied from the editor.
+     * @param {ClipboardEvent} $event the event emitted
+     */
+    onTextCopy($event: ClipboardEvent): void {
+        $event.preventDefault();
+
+        const editorCopiableText: string = this.fetchEditorCopiableText();
+
+        // NOTE: this text/plain might be fine for now, but probably should be amended if we want to have richer text
+        $event.clipboardData!.setData('text/plain', editorCopiableText);
+    }
+
+    /**
+     * Function that is called when text is cut from the editor.
+     * @param {ClipboardEvent} $event the event emitted
+     */
+    onTextCut($event: ClipboardEvent): void {
+        $event.preventDefault();
+
+        const editorCopiableText: string = this.fetchEditorCopiableText();
+
+        // NOTE: this text/plain might be fine for now, but probably should be amended if we want to have richer text
+        $event.clipboardData!.setData('text/plain', editorCopiableText);
+    }
+
     onKeyDown($event: KeyboardEvent): void {
         if (this.characterCount >= this.MAX_EDITOR_CHARACTERS) {
             if ($event.key !== 'Backspace') {
@@ -387,7 +413,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 this.brieflyChangeClipboardIcon(copyToClipboardButton);
                 return;
             }
-            navigator.clipboard.writeText(editor.textContent).then();
+
+            const editorCopiableText: string = this.fetchEditorCopiableText();
+            navigator.clipboard.writeText(editorCopiableText).then();
         } else {
             // TODO some browsers still seem to use this deprecated method, keep it around for some more time
             let range, select: Selection;
@@ -1068,6 +1096,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     if (this.isEditorActive()) {
                         this.positionCursor(editor, cursorPlacement);
                     }
+                    this.updateCharacterAndWordCount();
                     this.shouldCollapseSuggestions = new Array<boolean>(
                         this.processedText.markings.length
                     ).fill(true);
@@ -1456,5 +1485,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     private fetchEditorMarkings(): NodeListOf<HTMLSpanElement> {
         return document.querySelectorAll('#editor > p > span');
+    }
+
+    private fetchEditorCopiableText(): string {
+        const paragraphs: NodeListOf<HTMLParagraphElement> = document.getElementById(this.EDITOR_KEY)!.querySelectorAll('p');
+        return Array.from(paragraphs).map((p: HTMLParagraphElement) => p.textContent).join('\n');
     }
 }
