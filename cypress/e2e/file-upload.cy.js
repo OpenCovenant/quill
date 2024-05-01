@@ -8,6 +8,8 @@ xdescribe("Upload Document Button Test", () => {
         });
     });
 
+    // TODO: also check for updated word/character/marking information
+
     it("should check for loanword in output container on WORD file", () => {
         // TODO update?
         // cy.get('button[id="uploadDocumentToggleButton"]').click();
