@@ -81,4 +81,17 @@ describe("Upload Document", () => {
             cy.get('[data-test="editor"]').clear();
         }
     });
+
+    it("should upload a big WORD file just fine", () => {
+        cy.get('[data-test="editor-placeholder-upload"]')
+            .click()
+            .selectFile("cypress/fixtures/big-test.docx");
+
+        cy.get(".typo").contains("asd").should("exist");
+
+        cy.get(".max-editor-characters").should("be.visible");
+        cy.get('[data-test="characters-words-markings"]')
+            .contains("6839 karaktere, 1710 fjalë, 1 shenjim")
+            .should("exist");
+    })
 });
