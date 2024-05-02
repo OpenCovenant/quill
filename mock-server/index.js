@@ -118,10 +118,8 @@ app.post("/api/uploadDocument", uploadFile, (req, res, next) => {
         "uploadDocument.json"
     );
 
-    const fullUploadFileName = `${path.dirname(__dirname)}/mock-server/${req.file.path}`
-    console.log('fUFN', fullUploadFileName)
     const foundDocumentData = parsedUploadDocumentDataFile
-        .filter(o => equalsByBuffer(o["filePath"], fullUploadFileName));
+        .filter(o => equalsByBuffer(o["filePath"], req.file.path));
 
     if (foundDocumentData.length === 0) {
         res.sendStatus(404).end();
@@ -134,7 +132,7 @@ app.post("/api/uploadDocument", uploadFile, (req, res, next) => {
 
     const firstFoundFileResponse = foundDocumentData[0]["response"];
 
-    fs.rmSync(fullUploadFileName);
+    fs.rmSync(req.file.path);
 
     res.json(firstFoundFileResponse);
 });
