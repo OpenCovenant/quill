@@ -118,7 +118,7 @@ app.post("/api/uploadDocument", uploadFile, (req, res, next) => {
         "uploadDocument.json"
     );
 
-    const fullUploadFileName = `${path.dirname(__dirname)}/${req.file.path}`
+    const fullUploadFileName = `${path.dirname(__dirname)}/mock-server/${req.file.path}`
     console.log('fUFN', fullUploadFileName)
     const foundDocumentData = parsedUploadDocumentDataFile
         .filter(o => equalsByBuffer(o["filePath"], fullUploadFileName));
@@ -134,7 +134,7 @@ app.post("/api/uploadDocument", uploadFile, (req, res, next) => {
 
     const firstFoundFileResponse = foundDocumentData[0]["response"];
 
-    // fs.rmSync(`${req.file.path}`);
+    fs.rmSync(fullUploadFileName);
 
     res.json(firstFoundFileResponse);
 });
@@ -147,7 +147,7 @@ function readParsedDataFromFile(filePath) { // TODO rename to readParsedFileFrom
 function equalsByBuffer(filePath1, filePath2) {
     const quillDirectoryPath = path.dirname(__dirname);
     return fs.readFileSync(`${quillDirectoryPath}/${filePath1}`)
-        .equals(fs.readFileSync(`${quillDirectoryPath}/${filePath2}`))
+        .equals(fs.readFileSync(filePath2))
 }
 
 // function readParsedFileFromAbsolutePath(filePath) {
