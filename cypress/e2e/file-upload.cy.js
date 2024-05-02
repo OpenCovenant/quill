@@ -93,5 +93,5 @@ describe("Upload Document", () => {
         cy.get('[data-test="characters-words-markings"]')
             .contains("6839 karaktere, 1710 fjalë, 1 shenjim")
             .should("exist");
-    })
+    });
 });
