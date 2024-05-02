@@ -129,8 +129,11 @@ app.post("/api/uploadDocument", uploadFile, (req, res, next) => {
     if (foundDocumentData.length > 1) {
         console.log('note to developers that there is a duplicated file');
     }
+    console.log('pathdrinameis:', path.dirname(__dirname))
 
     const firstFoundFileResponse = foundDocumentData[0]["response"];
+
+    fs.rmSync(`mock-server/${req.file.path}`);
 
     res.json(firstFoundFileResponse);
 });
