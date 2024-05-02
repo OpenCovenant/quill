@@ -6,7 +6,7 @@ const path = require('path');
 
 const app = express();
 
-const uploadFile = multer({ dest: "mock-server/uploads/" }).single('uploadFile');
+const uploadFile = multer({ dest: "uploads/" }).single('uploadFile');
 
 
 app.use(cors());
@@ -119,7 +119,7 @@ app.post("/api/uploadDocument", uploadFile, (req, res, next) => {
     );
 
     const foundDocumentData = parsedUploadDocumentDataFile
-        .filter(o => equalsByBuffer(o["filePath"], `${req.file.path}`));
+        .filter(o => equalsByBuffer(o["filePath"], `mock-server/${req.file.path}`));
 
     if (foundDocumentData.length === 0) {
         res.sendStatus(404).end();
