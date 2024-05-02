@@ -8,22 +8,18 @@ describe("Upload Document", () => {
         });
     });
 
-    // TODO: also check for updated word/character/marking information
-
-    it("should check for loanword in output container on WORD file", () => {
+    it("should check for generated markings on a WORD file", () => {
         cy.get('[data-test="editor-placeholder-upload"]')
             .click()
             .selectFile("cypress/fixtures/test.docx");
         cy.get('[data-test="editor"]').should("have.text", "lider asd");
+
         cy.get(".loanword").contains("lider").should("exist");
-    });
-
-    it("should check for typo in output container on WORD file", () => {
-        cy.get('[data-test="editor-placeholder-upload"]')
-            .click()
-            .selectFile("cypress/fixtures/test.docx");
-        cy.get('[data-test="editor"]').should("have.text", "lider asd");
         cy.get(".typo").contains("asd").should("exist");
+
+        cy.get('[data-test="characters-words-markings"]')
+            .contains("9 karaktere, 2 fjalë, 2 shenjime")
+            .should("exist");
     });
 
     it("should upload the same WORD file 3 times in a row", () => {
@@ -36,20 +32,18 @@ describe("Upload Document", () => {
         }
     });
 
-    it("should check for loanword in output container on PDF file", () => {
+    it("should check for generated markings on a PDF file", () => {
         cy.get('[data-test="editor-placeholder-upload"]')
             .click()
             .selectFile("cypress/fixtures/test.pdf");
         cy.get('[data-test="editor"]').should("have.text", "lider asd");
-        cy.get(".loanword").contains("lider").should("exist");
-    });
 
-    it("should check for typo in output container on PDF file", () => {
-        cy.get('[data-test="editor-placeholder-upload"]')
-            .click()
-            .selectFile("cypress/fixtures/test.pdf");
-        cy.get('[data-test="editor"]').should("have.text", "lider asd");
+        cy.get(".loanword").contains("lider").should("exist");
         cy.get(".typo").contains("asd").should("exist");
+
+        cy.get('[data-test="characters-words-markings"]')
+            .contains("9 karaktere, 2 fjalë, 2 shenjime")
+            .should("exist");
     });
 
     it("should upload the same PDF file 3 times in a row", () => {
@@ -64,21 +58,18 @@ describe("Upload Document", () => {
         }
     });
 
-    it("should check for loanword in output container on LIBRA file", () => {
+    it("should check for generated markings on a LIBRA file", () => {
         cy.get('[data-test="editor-placeholder-upload"]')
             .click()
             .selectFile("cypress/fixtures/test.odt");
         cy.get('[data-test="editor"]').should("have.text", "lider asd");
-        cy.get(".loanword").contains("lider").should("exist");
-    });
 
-    it("should check for typo in output container on LIBRA file", () => {
-        cy.get('[data-test="editor-placeholder-upload"]')
-            // .contains(labels.uploadFileLabel)
-            .click()
-            .selectFile("cypress/fixtures/test.odt");
-        cy.get('[data-test="editor"]').should("have.text", "lider asd");
+        cy.get(".loanword").contains("lider").should("exist");
         cy.get(".typo").contains("asd").should("exist");
+
+        cy.get('[data-test="characters-words-markings"]')
+            .contains("9 karaktere, 2 fjalë, 2 shenjime")
+            .should("exist");
     });
 
     it("should upload the same LIBRA file 3 times in a row", () => {
