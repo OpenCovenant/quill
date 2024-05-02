@@ -6,7 +6,7 @@ const path = require('path');
 
 const app = express();
 
-const uploadFile = multer({ dest: "uploads/" }).single('uploadFile');
+const uploadFile = multer({ dest: `${path.dirname(__dirname)}/mock-server/uploads/` }).single('uploadFile');
 
 
 app.use(cors());
