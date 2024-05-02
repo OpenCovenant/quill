@@ -6,7 +6,9 @@ const path = require('path');
 
 const app = express();
 
-const uploadFile = multer({ dest: `${path.dirname(__dirname)}/mock-server/uploads/` }).single('uploadFile');
+const quillDirectoryPath = path.dirname(__dirname);
+
+const uploadFile = multer({ dest: `${quillDirectoryPath}/mock-server/uploads/` }).single('uploadFile');
 
 
 app.use(cors());
@@ -138,14 +140,11 @@ app.post("/api/uploadDocument", uploadFile, (req, res, next) => {
 });
 
 function readParsedDataFromFile(filePath) { // TODO rename to readParsedFileFromRelativePath ?
-    const quillDirectoryPath = path.dirname(__dirname);
     return JSON.parse(fs.readFileSync(`${quillDirectoryPath}/mock-server/data/${filePath}`, "utf-8"));
 }
 
 function equalsByBuffer(filePath1, filePath2) {
-    const quillDirectoryPath = path.dirname(__dirname);
-    return fs.readFileSync(`${quillDirectoryPath}/${filePath1}`)
-        .equals(fs.readFileSync(filePath2))
+    return fs.readFileSync(`${quillDirectoryPath}/${filePath1}`).equals(fs.readFileSync(filePath2))
 }
 
 // function readParsedFileFromAbsolutePath(filePath) {
