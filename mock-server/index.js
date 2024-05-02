@@ -118,8 +118,10 @@ app.post("/api/uploadDocument", uploadFile, (req, res, next) => {
         "uploadDocument.json"
     );
 
+    const fullUploadFileName = `${path.dirname(__dirname)}/${req.file.path}`
+    console.log('fUFN', fullUploadFileName)
     const foundDocumentData = parsedUploadDocumentDataFile
-        .filter(o => equalsByBuffer(o["filePath"], `mock-server/${req.file.path}`));
+        .filter(o => equalsByBuffer(o["filePath"], fullUploadFileName));
 
     if (foundDocumentData.length === 0) {
         res.sendStatus(404).end();
@@ -129,11 +131,10 @@ app.post("/api/uploadDocument", uploadFile, (req, res, next) => {
     if (foundDocumentData.length > 1) {
         console.log('note to developers that there is a duplicated file');
     }
-    console.log('pathdrinameis:', path.dirname(__dirname))
 
     const firstFoundFileResponse = foundDocumentData[0]["response"];
 
-    fs.rmSync(`mock-server/${req.file.path}`);
+    // fs.rmSync(`${req.file.path}`);
 
     res.json(firstFoundFileResponse);
 });
