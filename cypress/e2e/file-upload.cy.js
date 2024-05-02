@@ -89,6 +89,7 @@ describe("Upload Document", () => {
 
         cy.get(".typo").contains("asd").should("exist");
 
+        // TODO: I guess no initial marking should be done if limit has been reached?
         cy.get(".max-editor-characters").should("be.visible");
         cy.get('[data-test="characters-words-markings"]')
             .contains("6839 karaktere, 1710 fjalë, 1 shenjim")
