@@ -16,6 +16,8 @@
                     <div
                         id="editor"
                         (paste)="onTextPaste($event)"
+                        (copy)="onTextCopy($event)"
+                        (cut)="onTextCut($event)"
                         (keydown)="onKeyDown($event)"
                         [ngClass]="{
                             'editor-dark-mode': darkModeService.isDarkMode,
@@ -42,7 +44,7 @@
                         }"
                         data-test="editor-placeholder"
                     >
-                        <span 
+                        <span
                             class="editor-placeholder-text"
                             data-test="editor-placeholder-text"
                             >Shkruaj këtu ose </span

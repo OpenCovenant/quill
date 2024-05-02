@@ -31,8 +31,9 @@ export class DarkModeService {
     }
 
     addTransitionClass(): void {
-        document.querySelectorAll('.dark-mode-slider')
-        .forEach(slider => slider.classList.add('transition-enabled'));
+        document
+            .querySelectorAll('.dark-mode-slider')
+            .forEach((slider) => slider.classList.add('transition-enabled'));
     }
 
     onDarkModeChange(): void {

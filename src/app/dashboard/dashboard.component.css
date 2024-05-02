@@ -8,8 +8,10 @@
 }
 
 .contact-us-button:hover {
-    background-color: purple !important;
-    color: var(--dark-mode-anti-theme);
+    /*TODO: undo once paying is enabled*/
+    /*background-color: purple !important;*/
+    cursor: not-allowed !important;
+    /*color: var(--dark-mode-anti-theme);*/
 }
 
 .dashboard-header-dark-mode {
@@ -113,7 +115,9 @@
 }
 
 .contact-us-button {
-    background-color: #ebbcff;
+    /*TODO: undo once paying is enabled*/
+    /*background-color: #ebbcff;*/
+    background-color: #f6d8ff;
 }
 
 .dashboard-premium-card-span-div {
