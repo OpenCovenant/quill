@@ -1,4 +1,4 @@
-xdescribe("Upload Document Button Test", () => {
+describe("Upload Document Button Test", () => {
     let labels;
 
     beforeEach(() => {
