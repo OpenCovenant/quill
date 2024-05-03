@@ -87,12 +87,12 @@ describe("Upload Document", () => {
             .click()
             .selectFile("cypress/fixtures/big-test.docx");
 
-        cy.get(".typo").contains("asd").should("exist");
+        cy.get(".typo").should("not.exist");
 
         // TODO: I guess no initial marking should be done if limit has been reached?
         cy.get(".max-editor-characters").should("be.visible");
         cy.get('[data-test="characters-words-markings"]')
-            .contains("6839 karaktere, 1710 fjalë, 1 shenjim")
+            .contains("6839 karaktere, 1710 fjalë, 0 shenjime")
             .should("exist");
     });
 });
