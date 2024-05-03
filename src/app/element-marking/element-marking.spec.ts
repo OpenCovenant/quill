@@ -590,7 +590,7 @@ describe('Marker', () => {
         expect(editor).toEqual(expectedEditor);
     });
 
-    it(`marking with the animate-marking-text class`, () => {
+    it(`marking with the animate marking class`, () => {
         const html = 'asd kli ghj';
         const editor = document.createElement('div');
         const numberOfMarkings = 3;
