@@ -1,4 +1,4 @@
-describe("Text Changes Detection - Character, Word, and Typo Count", () => {
+describe("editor toolbar", () => {
     beforeEach(() => {
         cy.visit("/");
     });
@@ -37,5 +37,26 @@ describe("Text Changes Detection - Character, Word, and Typo Count", () => {
         cy.get('[data-test="characters-words-markings"]')
             .contains("0 karaktere, 0 fjalë, 0 shenjime")
             .should("exist");
+    });
+
+    it("should copy the text from the editor and paste it correctly", () => {
+        cy.get('[data-test="editor"]').clear().type("test per butonin copy");
+
+        cy.get('[data-test="copy-to-clipboard-button"]').click();
+
+        cy.window().then((win) => {
+            win.navigator.clipboard.readText().then((text) => {
+                expect(text).to.eq("test per butonin copy");
+            });
+        });
+    });
+
+    it('should clear the text in the editor when the "x" button is clicked', () => {
+        cy.get('[data-test="clear-editor-icon"]').should("not.exist");
+        cy.get(".typo").should("not.exist");
+        cy.get('[data-test="editor"]').type("saktë");
+        cy.get('[data-test="clear-editor-icon"]').click();
+        cy.get('[data-test="editor"]').contains("saktë").should("not.exist");
+        cy.get('[data-test="clear-editor-icon"]').should("not.exist");
     });
 });
