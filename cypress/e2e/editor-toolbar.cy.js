@@ -3,30 +3,37 @@ describe("editor toolbar", () => {
         cy.visit("/");
     });
 
-    it("should correctly update karaktere, fjalë, shenjime counts as we type", () => {
-        cy.get(".typo").should("not.exist");
+    it("should correctly update the `karaktere, fjalë, shenjime` counts as we type", () => {
+        cy.get('[data-test="characters-words-markings"]')
+            .contains("0 karaktere, 0 fjalë, 0 shenjime")
+            .should("be.visible");
+
+        cy.get('[data-test="characters-words-markings"]')
+            .contains("0 karaktere, 0 fjalë, 0 shenjime")
+            .should("exist");
 
         cy.get('[data-test="editor"]').type("gabmim ");
-        cy.wait(2000);
+        cy.wait(2000); // TODO: instead wait on request to be made? intercept it I think?
         // TODO consider using should have text instead of contains
         cy.get('[data-test="characters-words-markings"]')
             .contains("7 karaktere, 1 fjalë, 1 shenjim")
-            .should("exist");
+            .should("be.visible");
 
         cy.get('[data-test="editor"]').type(" gabim");
         cy.get('[data-test="characters-words-markings"]')
             .contains("13 karaktere, 2 fjalë, 1 shenjim")
-            .should("exist");
-        cy.get('[data-test="clear-editor-icon"]').click();
+            .should("be.visible");
 
+        cy.get('[data-test="clear-editor-icon"]').click();
         cy.get('[data-test="editor"]').type("njeri-tjetri dhe  ckemi ");
         cy.get('[data-test="characters-words-markings"]')
             .contains("24 karaktere, 3 fjalë, 2 shenjime")
-            .should("exist");
+            .should("be.visible");
+
         cy.get('[data-test="clear-editor-icon"]').click();
         cy.get('[data-test="characters-words-markings"]')
             .contains("0 karaktere, 0 fjalë, 0 shenjime")
-            .should("exist");
+            .should("be.visible");
 
         cy.get('[data-test="editor"]').type("{shift}");
         cy.get('[data-test="characters-words-markings"]')
@@ -36,10 +43,10 @@ describe("editor toolbar", () => {
         cy.get('[data-test="editor"]').type("{enter}");
         cy.get('[data-test="characters-words-markings"]')
             .contains("0 karaktere, 0 fjalë, 0 shenjime")
-            .should("exist");
+            .should("be.visible");
     });
 
-    it("should copy the text from the editor and paste it correctly", () => {
+    it("should correctly copy the text from the editor", () => {
         cy.get('[data-test="editor"]').clear().type("test per butonin copy");
 
         cy.get('[data-test="copy-to-clipboard-button"]').click();
@@ -51,7 +58,7 @@ describe("editor toolbar", () => {
         });
     });
 
-    it('should clear the text in the editor when the "x" button is clicked', () => {
+    it('should clear the text in the editor when the `clear editor button` is clicked', () => {
         cy.get('[data-test="clear-editor-icon"]').should("not.exist");
         cy.get(".typo").should("not.exist");
         cy.get('[data-test="editor"]').type("saktë");
