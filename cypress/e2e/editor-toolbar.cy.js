@@ -46,14 +46,29 @@ describe("editor toolbar", () => {
             .should("be.visible");
     });
 
-    it("should correctly copy the text from the editor", () => {
-        cy.get('[data-test="editor"]').clear().type("test per butonin copy");
+    it("should correctly copy the text from one paragraph the editor", () => {
+        const text = "test per butonin copy";
+        cy.get('[data-test="editor"]').clear().type(text);
 
         cy.get('[data-test="copy-to-clipboard-button"]').click();
 
         cy.window().then((win) => {
-            win.navigator.clipboard.readText().then((text) => {
-                expect(text).to.eq("test per butonin copy");
+            win.navigator.clipboard.readText().then((t) => {
+                expect(t).to.eq(text);
+            });
+        });
+    });
+
+    it("should correctly copy the text from some paragraphs in the editor", () => {
+        const text = "test\n per butonin \ncopy";
+        cy.get('[data-test="editor"]').clear().type(text);
+
+        cy.get('[data-test="copy-to-clipboard-button"]').click();
+
+        cy.window().then((win) => {
+            win.navigator.clipboard.readText().then((t) => {
+                t = t.replace(/\u00A0/g, ' '); // TODO: extract to replaceNBSPWithSP
+                expect(t).to.eq(text);
             });
         });
     });
