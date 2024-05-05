@@ -3,7 +3,7 @@ describe("Editor Interaction with Loanword TextField", () => {
         cy.visit("/");
     });
 
-    it("should reflect changes in the loanword text field when suggestions are clicked in the editor", () => {
+    it("should reflect changes in the editor when suggestions of loanwords are applied", () => {
         cy.get('[data-test="editor"]').type("lider ");
         cy.get('[data-test="suggestion"]').contains("prijës").click();
         cy.get('[data-test="editor"]').contains("prijës").should("be.visible");
@@ -13,6 +13,5 @@ describe("Editor Interaction with Loanword TextField", () => {
         cy.get('[data-test="editor"]').type("lider ");
         cy.get('[data-test="suggestion"]').contains("udhëheqës").click();
         cy.get('[data-test="editor"]').contains("udhëheqës").should("be.visible");
-        cy.get('[data-test="clear-editor-icon"]').click();
     });
 });
