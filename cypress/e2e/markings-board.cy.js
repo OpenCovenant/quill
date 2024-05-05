@@ -51,4 +51,65 @@ describe("markings board", () => {
         cy.get('[data-test="suggestion"]').contains("është").click();
         cy.get('[data-test="editor"]').should("have.text", "saktë është");
     });
+
+    it("should hide marking types after being disabled and reappear after enabling", () => {
+        cy.visit("/settings");
+        cy.get('[data-test="switch-check-testing"]').should("be.checked");
+        cy.get('[data-test="switch-check-testing"]').click({
+            multiple: true,
+            force: true
+        });
+        cy.get('[data-test="switch-check-testing"]').should("not.be.checked");
+        cy.visit("/");
+        cy.get('[data-test="editor"]').type("Pra shkoi tek zyra. ");
+        cy.get(".typo-marking-header").should("be.visible");
+        cy.get(".list-group-item b")
+            .contains("shkrim pa gabime")
+            .should("exist");
+        cy.get(".list-group-item span")
+            .contains(
+                "shenjime për fjalë të shkruara gabim, gabime fonetikore, shenja pikësimi"
+            )
+            .should("exist");
+        cy.get('[data-test="editor"]').type("{enter}");
+        cy.get('[data-test="editor"]').type("Pra  kaq.");
+        cy.get(".typo-marking-header").should("be.visible");
+        cy.get(".list-group-item b")
+            .contains("shkrim pa gabime")
+            .should("exist");
+        cy.get(".list-group-item span")
+            .contains(
+                "shenjime për fjalë të shkruara gabim, gabime fonetikore, shenja pikësimi"
+            )
+            .should("exist");
+        cy.get('[data-test="editor"]').clear();
+        cy.visit("/settings");
+        cy.get('[data-test="switch-check-testing"]').should("not.be.checked");
+        cy.get('[data-test="switch-check-testing"]').click({
+            multiple: true,
+            force: true
+        });
+        cy.get('[data-test="switch-check-testing"]').should("be.checked");
+        cy.visit("/");
+        cy.get('[data-test="editor"]').type("Pra shkoi tek zyra. ");
+        cy.get('[data-test="marking-span"]').contains("tek").should("exist");
+        cy.get('[data-test="editor"]').type("{enter}");
+    });
+
+    it("should delete the marking in the editor when the dismiss-marking button is clicked", () => {
+        cy.get('[data-test="editor"]').type("gabmim ");
+        cy.get('[data-test="dismiss-marking-button"]').click();
+        cy.get('[data-test="suggestion"]').should("not.exist");
+    });
+
+    it("should delete the markings in the editor when dismiss-marking buttons are clicked", () => {
+        const text = "gabmim gabmim";
+        cy.get('[data-test="editor"]').type(text);
+        cy.get('[data-test="marking-card"]').each((card) => {
+            cy.wrap(card).find('[data-test="dismiss-marking-button"]').click();
+            cy.wrap(card).should("not.exist");
+        });
+        cy.get('[data-test="suggestion"]').should("not.be.visible");
+        cy.get('[data-test="editor"]').should("have.text", text);
+    });
 });
