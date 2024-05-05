@@ -40,6 +40,7 @@
 
         <div class="header-name-gear-icon">
             <i
+                routerLink="/settings"
                 class="p-3 settings-gear-button"
                 title="hap cilësimet"
                 [ngClass]="{
@@ -47,8 +48,7 @@
                     'bi bi-gear-fill': isSettingsRoute(),
                     'settings-gear-dark-mode': darkModeService.isDarkMode
                 }"
-                routerLink="/settings"
-                data-test="gear-button-testing"
+                data-test="settings-gear-button"
             ></i>
 
             <span class="header-separator">|</span>
@@ -201,7 +201,6 @@
                 <!--                </div>-->
                 <div>
                     <a
-                        data-test="settings-button"
                         routerLink="/settings"
                         class="nav-text list-group-item-action mb-3"
                         [ngClass]="{
@@ -225,7 +224,6 @@
                 </div>
                 <div>
                     <a
-                        data-test="shortcuts-button"
                         routerLink="/shortcuts"
                         class="nav-text list-group-item-action mb-3"
                         [ngClass]="{

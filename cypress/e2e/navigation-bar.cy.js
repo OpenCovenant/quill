@@ -10,7 +10,7 @@ describe("navigation bar", () => {
     });
 
     it("should navigate to the settings page when clicking on the the gear icon", () => {
-        cy.get('[data-test="gear-button-testing"]').click();
+        cy.get('[data-test="settings-gear-button"]').click(); // TODO rename to just settings button? bashke me class
         cy.url().should("include", "/settings");
     });
 });

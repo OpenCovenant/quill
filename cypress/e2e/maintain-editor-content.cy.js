@@ -6,7 +6,7 @@ describe("Written Text Should Stay On Editor When Navigating On Other Pages", ()
     it("should contain text in editor when navigating to other pages", () => {
         cy.get(".typo").should("not.exist");
         cy.get('[data-test="editor"]').type("gabmim ");
-        cy.get('[data-test="gear-button-testing"]').click();
+        cy.get('[data-test="settings-gear-button"]').click();
         cy.url().should("include", "/settings");
         cy.get('[data-test="home-button"]').click();
         cy.url().should("include", "");

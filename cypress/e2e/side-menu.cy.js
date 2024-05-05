@@ -1,0 +1,11 @@
+describe("side menu", () => {
+    beforeEach(() => {
+        cy.visit("/");
+    });
+
+    it('should navigate to the settings page when clicking on its corresponding list item on the side menu', () => {
+        cy.get('[data-test="navbar-toggler-icon"]').click();
+        cy.get('[data-test="settings-side-menu-item"]').click();
+        cy.url().should("include", "/settings");
+    });
+});
