@@ -143,4 +143,33 @@ describe("General Quill Flow", () => {
         cy.get('[data-test="contact"]').dblclick();
         cy.get('[data-test="highlighted-marking"]').should("be.visible");
     });
+
+    // TODO think this should be checked against the order in the markings board, but it isn't?
+    it("should verify the order of markings matches the order in the editor", () => {
+        cy.get('[data-test="editor"]').type("gabmi lider gabmim");
+        cy.get('[data-test="editor"] > p > span')
+            .eq(0)
+            .should("have.text", "gabmi");
+        cy.get('[data-test="editor"] > p > span')
+            .eq(1)
+            .should("have.text", "lider");
+        cy.get('[data-test="editor"] > p > span')
+            .eq(2)
+            .should("have.text", "gabmim");
+    });
+
+    it("should correctly generate marked text on the right-hand side without false updates when writing before marking", () => {
+        const initialText = "pra gabmim kaq";
+        cy.get('[data-test="editor"]').type(initialText);
+        cy.wait(3000);
+        for (let i = 0; i < initialText.length; i++) {
+            cy.get('[data-test="editor"]').type("{leftArrow}");
+        }
+        cy.get('[data-test="editor"]').type("edhe ");
+        // NOTE: timeout of 100 ms so that no other request will be made in the meantime
+        cy.get(".typo-marking-header", { timeout: 100 }).should(
+            "have.text",
+            "gabmim "
+        );
+    });
 });
