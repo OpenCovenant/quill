@@ -4,7 +4,6 @@ describe("Typing in the Editor Removes the Focused Typo", () => {
     });
 
     it("should remove the focused marking when typing in the editor", () => {
-        cy.get(".typo").should("not.exist");
         cy.get('[data-test="editor"]').type("gabmim asd ");
         cy.get(".typo").first().click();
         cy.get('[data-test="highlighted-marking"]').should(
@@ -14,10 +13,11 @@ describe("Typing in the Editor Removes the Focused Typo", () => {
         cy.get('[data-test="highlighted-marking"]')
             .contains("asd")
             .should("not.exist");
+
         cy.get('[data-test="editor"]').type("{end}");
         cy.get('[data-test="editor"]').type("pra ");
-        cy.get('[data-test="marking-span"]').contains("gabmim").should("exist");
-        cy.get('[data-test="marking-span"]').contains("asd").should("exist");
-        cy.get('[data-test="editor"]').clear();
+        cy.get('[data-test="highlighted-marking"]').should("not.exist");
+        cy.get('[data-test="marking-span"]').contains("gabmim").should("be.visible");
+        cy.get('[data-test="marking-span"]').contains("asd").should("be.visible");
     });
 });
