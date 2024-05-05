@@ -206,9 +206,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     onTextCopy($event: ClipboardEvent): void {
         $event.preventDefault();
 
-        const editorCopiableText: string = window.getSelection()!.toString().replace(/(?:\n){2,}/g, (match) => {
-            return match.substring(0, match.length - 1);
-        });
+        const editorCopiableText: string = window
+            .getSelection()!
+            .toString()
+            .replace(/(?:\n){2,}/g, (match) => {
+                return match.substring(0, match.length - 1);
+            });
 
         // NOTE: this text/plain might be fine for now, but probably should be amended if we want to have richer text
         $event.clipboardData!.setData('text/plain', editorCopiableText);
@@ -219,12 +222,15 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * @param {ClipboardEvent} $event the event emitted
      */
     onTextCut($event: ClipboardEvent): void {
-        if (window.getSelection()!.toString() === document.getElementById(this.EDITOR_KEY)!.innerText) {
+        if (
+            window.getSelection()!.toString() ===
+            document.getElementById(this.EDITOR_KEY)!.innerText
+        ) {
             $event.preventDefault();
 
-            const editorCopiableText: string = Array.from(document
-                .getElementById(this.EDITOR_KEY)!
-                .querySelectorAll('p'))
+            const editorCopiableText: string = Array.from(
+                document.getElementById(this.EDITOR_KEY)!.querySelectorAll('p')
+            )
                 .map((p: HTMLParagraphElement) => p.textContent)
                 .join('\n');
 
@@ -426,11 +432,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 return;
             }
 
-            const editorCopiableText: string = Array.from(document
-                .getElementById(this.EDITOR_KEY)!
-                .querySelectorAll('p'))
-                    .map((p: HTMLParagraphElement) => p.textContent)
-                    .join('\n');
+            const editorCopiableText: string = Array.from(
+                document.getElementById(this.EDITOR_KEY)!.querySelectorAll('p')
+            )
+                .map((p: HTMLParagraphElement) => p.textContent)
+                .join('\n');
             navigator.clipboard.writeText(editorCopiableText).then();
         } else {
             // TODO some browsers still seem to use this deprecated method, keep it around for some more time
