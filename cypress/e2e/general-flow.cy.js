@@ -86,4 +86,15 @@ describe("General Quill Flow", () => {
         cy.get('[data-test="editor"]').type("{del}");
         cy.get('[data-test="highlighted-marking"]').should("not.exist");
     });
+
+    it("should retain the text in editor when navigating to and from other pages", () => {
+        cy.get('[data-test="editor"]').type("gabmim ");
+        cy.get('[data-test="settings-gear-button"]').click();
+        cy.url().should("include", "/settings");
+
+        cy.get('[data-test="home-button"]').click();
+        cy.url().should("include", "");
+        cy.get('[data-test="editor"]').contains("gabmim").should("be.visible");
+        cy.get('[data-test="marking-span"').contains("gabmim").should("be.visible");
+    });
 });
