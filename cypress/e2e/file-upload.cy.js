@@ -14,12 +14,12 @@ describe("Upload Document", () => {
             .selectFile("cypress/fixtures/test.docx");
         cy.get('[data-test="editor"]').should("have.text", "lider asd");
 
-        cy.get(".loanword").contains("lider").should("exist");
-        cy.get(".typo").contains("asd").should("exist");
+        cy.get(".loanword").contains("lider").should("be.visible");
+        cy.get(".typo").contains("asd").should("be.visible");
 
         cy.get('[data-test="characters-words-markings"]')
             .contains("9 karaktere, 2 fjalë, 2 shenjime")
-            .should("exist");
+            .should("be.visible");
     });
 
     it("should upload the same WORD file 3 times in a row", () => {
@@ -38,12 +38,12 @@ describe("Upload Document", () => {
             .selectFile("cypress/fixtures/test.pdf");
         cy.get('[data-test="editor"]').should("have.text", "lider asd");
 
-        cy.get(".loanword").contains("lider").should("exist");
-        cy.get(".typo").contains("asd").should("exist");
+        cy.get(".loanword").contains("lider").should("be.visible");
+        cy.get(".typo").contains("asd").should("be.visible");
 
         cy.get('[data-test="characters-words-markings"]')
             .contains("9 karaktere, 2 fjalë, 2 shenjime")
-            .should("exist");
+            .should("be.visible");
     });
 
     it("should upload the same PDF file 3 times in a row", () => {
@@ -53,7 +53,7 @@ describe("Upload Document", () => {
                 .selectFile("cypress/fixtures/test.pdf");
             cy.get('[data-test="editor"]')
                 .contains("lider asd")
-                .should("exist");
+                .should("be.visible");
             cy.get('[data-test="editor"]').clear();
         }
     });
@@ -64,12 +64,12 @@ describe("Upload Document", () => {
             .selectFile("cypress/fixtures/test.odt");
         cy.get('[data-test="editor"]').should("have.text", "lider asd");
 
-        cy.get(".loanword").contains("lider").should("exist");
-        cy.get(".typo").contains("asd").should("exist");
+        cy.get(".loanword").contains("lider").should("be.visible");
+        cy.get(".typo").contains("asd").should("be.visible");
 
         cy.get('[data-test="characters-words-markings"]')
             .contains("9 karaktere, 2 fjalë, 2 shenjime")
-            .should("exist");
+            .should("be.visible");
     });
 
     it("should upload the same LIBRA file 3 times in a row", () => {
@@ -93,6 +93,6 @@ describe("Upload Document", () => {
         cy.get(".max-editor-characters").should("be.visible");
         cy.get('[data-test="characters-words-markings"]')
             .contains("6839 karaktere, 1710 fjalë, 0 shenjime")
-            .should("exist");
+            .should("be.visible");
     });
 });

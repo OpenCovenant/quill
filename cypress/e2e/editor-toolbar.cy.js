@@ -10,7 +10,7 @@ describe("editor toolbar", () => {
 
         cy.get('[data-test="characters-words-markings"]')
             .contains("0 karaktere, 0 fjalë, 0 shenjime")
-            .should("exist");
+            .should("be.visible");
 
         cy.get('[data-test="editor"]').type("gabmim ");
         cy.wait(2000); // TODO: instead wait on request to be made? intercept it I think?
@@ -38,7 +38,7 @@ describe("editor toolbar", () => {
         cy.get('[data-test="editor"]').type("{shift}");
         cy.get('[data-test="characters-words-markings"]')
             .contains("0 karaktere, 0 fjalë, 0 shenjime")
-            .should("exist");
+            .should("be.visible");
 
         cy.get('[data-test="editor"]').type("{enter}");
         cy.get('[data-test="characters-words-markings"]')

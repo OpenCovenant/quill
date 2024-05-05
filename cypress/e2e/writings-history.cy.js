@@ -15,7 +15,7 @@ describe("Writings History", () => {
         cy.get('[data-test="editor"]').type("saktë");
         cy.wait(16000);
         cy.get('[data-test="writings-history-button"]').click();
-        cy.get('[data-test="writing"]').contains("saktë").should("exist");
+        cy.get('[data-test="writing"]').contains("saktë").should("be.visible");
         cy.get('[data-test="close-writings-history-modal-button"]').click();
         cy.get('[data-test="flex-switch-check-checked"]').click();
         cy.get('[data-test="writings-history-modal-body"]').should(

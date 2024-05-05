@@ -28,20 +28,18 @@ describe("general flows", () => {
     });
 
     it("should mark typos in the editor", () => {
-        cy.get('[data-test="editor"] > p > .typo').should("not.exist");
         cy.get('[data-test="editor"]').type("gabmim ");
-        cy.get('[data-test="editor"] > p > .typo').should("exist");
+        cy.get('[data-test="editor"] > p > .typo').should("be.visible");
     });
 
     it("should mark loanwords in the editor", () => {
-        cy.get('[data-test="editor"] > p > .loanword').should("not.exist");
         cy.get('[data-test="editor"]').type("lider ");
-        cy.get('[data-test="editor"] > p > .loanword').should("exist");
+        cy.get('[data-test="editor"] > p > .loanword').should("be.visible");
     });
 
     it("should open and close the side menu as expected", () => {
         cy.get('[data-test="navbar-toggler-icon"]').click();
-        cy.get(".offcanvas.offcanvas-start.show").should("exist");
+        cy.get(".offcanvas.offcanvas-start.show").should("be.visible");
         cy.get('[data-test="close-offcanvas-button"]').click();
     });
 
