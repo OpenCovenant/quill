@@ -10,7 +10,7 @@ describe("editor", () => {
 
         cy.get('[data-test="editor"]').type("{selectall}");
         // waiting to see if any marking will be made
-        cy.wait(2000)
+        cy.wait(2000);
 
         cy.get(".typo-marking-header").should("be.visible");
         cy.get(".list-group-item b")

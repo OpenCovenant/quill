@@ -42,7 +42,9 @@ describe("dark mode", () => {
 
     it("should correctly update the dark mode status in local storage", () => {
         cy.window().then((win) => {
-            expect(win.localStorage.getItem("penda-dark-mode")).to.equal("false");
+            expect(win.localStorage.getItem("penda-dark-mode")).to.equal(
+                "false"
+            );
         });
 
         cy.get('[data-test="navbar-toggler-icon"]').click();
@@ -51,7 +53,9 @@ describe("dark mode", () => {
         });
         cy.reload();
         cy.window().then((win) => {
-            expect(win.localStorage.getItem("penda-dark-mode")).to.equal("true");
+            expect(win.localStorage.getItem("penda-dark-mode")).to.equal(
+                "true"
+            );
         });
 
         cy.get('[data-test="navbar-toggler-icon"]').click();
@@ -60,7 +64,9 @@ describe("dark mode", () => {
         });
         cy.reload();
         cy.window().then((win) => {
-            expect(win.localStorage.getItem("penda-dark-mode")).to.equal("false");
+            expect(win.localStorage.getItem("penda-dark-mode")).to.equal(
+                "false"
+            );
         });
     });
 });

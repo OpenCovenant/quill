@@ -67,13 +67,13 @@ describe("editor toolbar", () => {
 
         cy.window().then((win) => {
             win.navigator.clipboard.readText().then((t) => {
-                t = t.replace(/\u00A0/g, ' '); // TODO: extract to replaceNBSPWithSP
+                t = t.replace(/\u00A0/g, " "); // TODO: extract to replaceNBSPWithSP
                 expect(t).to.eq(text);
             });
         });
     });
 
-    it('should clear the text in the editor when the `clear editor button` is clicked', () => {
+    it("should clear the text in the editor when the `clear editor button` is clicked", () => {
         cy.get('[data-test="clear-editor-icon"]').should("not.exist");
         cy.get(".typo").should("not.exist");
         cy.get('[data-test="editor"]').type("saktë");

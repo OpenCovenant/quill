@@ -24,7 +24,9 @@ describe("general flows", () => {
 
         cy.get('[data-test="editor"]').type("lider ");
         cy.get('[data-test="suggestion"]').contains("udhëheqës").click();
-        cy.get('[data-test="editor"]').contains("udhëheqës").should("be.visible");
+        cy.get('[data-test="editor"]')
+            .contains("udhëheqës")
+            .should("be.visible");
     });
 
     it("should mark typos in the editor", () => {
@@ -95,10 +97,9 @@ describe("general flows", () => {
     });
 
     it("should make a request after rapidly applying suggestions", () => {
-        const text = "asd Për kryerjen e programeve gabmim asd \nasd Për kryerjen e programeve gabmim asd \nasd Për kryerjen e programeve gabmim asd \nasd Për kryerjen e programeve gabmim asd \n";
-        cy.get('[data-test="editor"]').type(
-            text
-        );
+        const text =
+            "asd Për kryerjen e programeve gabmim asd \nasd Për kryerjen e programeve gabmim asd \nasd Për kryerjen e programeve gabmim asd \nasd Për kryerjen e programeve gabmim asd \n";
+        cy.get('[data-test="editor"]').type(text);
         cy.wait(2000);
 
         cy.get('[data-test="marking-card"]').each((card, index) => {
@@ -107,10 +108,9 @@ describe("general flows", () => {
             }
         });
 
-        cy.intercept(
-            "POST",
-            "api/generateMarkingsForParagraphs"
-        ).as("postRequest");
+        cy.intercept("POST", "api/generateMarkingsForParagraphs").as(
+            "postRequest"
+        );
         cy.wait("@postRequest").then((interception) => {
             expect(interception.response.statusCode).to.equal(200);
         });
@@ -141,7 +141,9 @@ describe("general flows", () => {
     });
 
     it("should properly behave when briefly applying suggestions and dismissing markings", () => {
-        cy.get('[data-test="editor"]').type("gabmi lider e eshte e gabmim e saktë eshte pra eshte");
+        cy.get('[data-test="editor"]').type(
+            "gabmi lider e eshte e gabmim e saktë eshte pra eshte"
+        );
 
         cy.get(".typo-marking-header")
             .parent()
@@ -205,20 +207,26 @@ describe("general flows", () => {
             .find('[data-test="blur-marking-button"]')
             .click();
         cy.get(".typo").first().click();
-        cy.get("#editor > p > .typo").should("have.length", 3).should('be.visible');
+        cy.get("#editor > p > .typo")
+            .should("have.length", 3)
+            .should("be.visible");
 
         cy.get('[data-test="marking-card"]')
             .find('[data-test="suggestion"]')
             .first()
             .click();
         cy.get(".typo").first().click();
-        cy.get("#editor > p > .typo").should("have.length", 2).should('be.visible');
+        cy.get("#editor > p > .typo")
+            .should("have.length", 2)
+            .should("be.visible");
 
         cy.get('[data-test="marking-card"]')
             .find('[data-test="suggestion"]')
             .first()
             .click();
-        cy.get("#editor > p > .typo").should("have.length", 1).should('be.visible');
+        cy.get("#editor > p > .typo")
+            .should("have.length", 1)
+            .should("be.visible");
 
         cy.get('[data-test="marking-card"]')
             .find('[data-test="dismiss-marking-button"]')
@@ -236,9 +244,15 @@ describe("general flows", () => {
 
         cy.get('[data-test="blur-marking-button"]').click();
         cy.get('[data-test="highlighted-marking"]').should("not.exist");
-        cy.get('[data-test="marking-span"]').contains("asd").should("be.visible");
-        cy.get('[data-test="marking-span"]').contains("gabmim").should("be.visible");
-        cy.get('[data-test="marking-span"]').contains("asd").should("be.visible");
+        cy.get('[data-test="marking-span"]')
+            .contains("asd")
+            .should("be.visible");
+        cy.get('[data-test="marking-span"]')
+            .contains("gabmim")
+            .should("be.visible");
+        cy.get('[data-test="marking-span"]')
+            .contains("asd")
+            .should("be.visible");
     });
 
     it("should remove the highlighted marking when selecting all text in the editor and deleting it", () => {
@@ -257,7 +271,9 @@ describe("general flows", () => {
         cy.get('[data-test="home-button"]').click();
         cy.url().should("include", "");
         cy.get('[data-test="editor"]').contains("gabmim").should("be.visible");
-        cy.get('[data-test="marking-span"').contains("gabmim").should("be.visible");
+        cy.get('[data-test="marking-span"')
+            .contains("gabmim")
+            .should("be.visible");
     });
 
     it("should only removed selected markings even if they might be duplicated in content", () => {
@@ -347,7 +363,11 @@ describe("general flows", () => {
         cy.get('[data-test="editor"]').type("{end}");
         cy.get('[data-test="editor"]').type("pra ");
         cy.get('[data-test="highlighted-marking"]').should("not.exist");
-        cy.get('[data-test="marking-span"]').contains("gabmim").should("be.visible");
-        cy.get('[data-test="marking-span"]').contains("asd").should("be.visible");
+        cy.get('[data-test="marking-span"]')
+            .contains("gabmim")
+            .should("be.visible");
+        cy.get('[data-test="marking-span"]')
+            .contains("asd")
+            .should("be.visible");
     });
 });
