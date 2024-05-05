@@ -50,7 +50,6 @@ describe("Suggestion Marking - Fade Right Animation", () => {
         cy.wait(2000);
         cy.get('[data-test="marking-card"]').each((card, index) => {
             cy.wrap(card).find('[data-test="suggestion"]').first().click();
-            cy.wait(2000);
         });
         cy.get(".typo").should("not.exist");
     });
