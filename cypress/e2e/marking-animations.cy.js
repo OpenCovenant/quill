@@ -30,4 +30,28 @@ describe("Suggestion Marking - Fade Right Animation", () => {
             .should("have.class", "move-up-animation");
         cy.get('[data-test="marking-card"]').should("have.length", 2);
     });
+
+    // TODO how is the fade-out animation checked here?
+    it("should remove all cards and trigger fade-out animation", () => {
+        cy.get('[data-test="editor"]').type("sakt eshte");
+        cy.get('[data-test="dismiss-marking-button"]').should("be.visible");
+
+        cy.get('[data-test="marking-card"]').each((card, index) => {
+            cy.wrap(card).find('[data-test="dismiss-marking-button"]').click();
+            cy.wrap(card).should("not.exist");
+        });
+    });
+
+    // TODO how is the animation checked here?
+    it("should display smooth animations while selecting suggestions for all markings", () => {
+        cy.get('[data-test="editor"]').type(
+            "asd Për kryerjen e programeve gabmim asd \nasd Për kryerjen e programeve gabmim asd \nasd Për kryerjen e programeve gabmim asd \nasd Për kryerjen e programeve gabmim asd \n"
+        );
+        cy.wait(2000);
+        cy.get('[data-test="marking-card"]').each((card, index) => {
+            cy.wrap(card).find('[data-test="suggestion"]').first().click();
+            cy.wait(2000);
+        });
+        cy.get(".typo").should("not.exist");
+    });
 });
