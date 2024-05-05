@@ -3,9 +3,10 @@ describe("Quick Suggestion and Marking Dismissal Test", () => {
         cy.visit("/");
     });
 
-    it("should properly apply a suggestion and dismiss a marking", () => {
+    it("should properly behave when briefly applying a suggestion and dismissing a marking", () => {
         cy.get('[data-test="editor"]').clear().type("lider gabmim");
 
+        // TODO: extract this hierarchy traversal to a method?
         cy.get(".typo-marking-header")
             .parent()
             .parent()
@@ -26,10 +27,8 @@ describe("Quick Suggestion and Marking Dismissal Test", () => {
         cy.get(".template-marking-span").should("be.visible");
     });
 
-    it("should properly choose suggestions and dismiss markings", () => {
-        cy.get('[data-test="editor"]')
-            .clear()
-            .type("gabmi lider e eshte e gabmim e saktë eshte pra eshte");
+    it("should properly behave when briefly applying suggestions and dismissing markings", () => {
+        cy.get('[data-test="editor"]').type("gabmi lider e eshte e gabmim e saktë eshte pra eshte");
 
         cy.get(".typo-marking-header")
             .parent()
