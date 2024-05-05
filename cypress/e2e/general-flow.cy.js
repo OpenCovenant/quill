@@ -25,7 +25,7 @@ describe("General Quill Flow", () => {
         cy.get('[data-test="close-offcanvas-button"]').click();
     });
 
-    it("should handle suggestion expansion, collapse, and selection", () => {
+    it("should behave properly when performing different operations on expanding and collapsing on the markings", () => {
         cy.get('[data-test="editor"]').type("eshte");
         cy.get('[data-test="suggestion"]').children().should("have.length", 4);
         cy.get(
@@ -34,10 +34,12 @@ describe("General Quill Flow", () => {
         cy.get('[data-test="suggestion"]')
             .children()
             .should("have.length.gt", 4);
+
         cy.get(
             '[data-test="oscillate-suggestions-button"].bi-arrow-left-square'
         ).click();
         cy.get('[data-test="suggestion"]').children().should("have.length", 4);
+
         cy.get(
             '[data-test="oscillate-suggestions-button"].bi-arrow-right-square'
         ).click();
