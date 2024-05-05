@@ -1,10 +1,30 @@
-describe("General Quill Flow", () => {
+describe("general flows", () => {
     beforeEach(() => {
         cy.visit("/");
     });
 
-    it("should contain the editor in which we want to write", () => {
-        cy.get('[data-test="editor"]').should("exist");
+    it("should reflect changes in the editor when suggestions of typos are applied", () => {
+        cy.get('[data-test="editor"]').type("gabmim ");
+        cy.get('[data-test="suggestion"]').contains("gabime").click();
+        cy.get('[data-test="editor"]').contains("gabime").should("be.visible");
+        cy.get('[data-test="editor"]').clear();
+        cy.get(".typo").should("not.exist");
+
+        cy.get('[data-test="editor"]').type("gabmim ");
+        cy.get('[data-test="suggestion"]').contains("gabim").click();
+        cy.get('[data-test="editor"]').contains("gabim").should("be.visible");
+    });
+
+    it("should reflect changes in the editor when suggestions of loanwords are applied", () => {
+        cy.get('[data-test="editor"]').type("lider ");
+        cy.get('[data-test="suggestion"]').contains("prijës").click();
+        cy.get('[data-test="editor"]').contains("prijës").should("be.visible");
+        cy.get('[data-test="clear-editor-icon"]').click();
+        cy.get(".loanword").should("not.exist");
+
+        cy.get('[data-test="editor"]').type("lider ");
+        cy.get('[data-test="suggestion"]').contains("udhëheqës").click();
+        cy.get('[data-test="editor"]').contains("udhëheqës").should("be.visible");
     });
 
     it("should mark typos in the editor", () => {
@@ -19,7 +39,7 @@ describe("General Quill Flow", () => {
         cy.get('[data-test="editor"] > p > .loanword').should("exist");
     });
 
-    it("should open and close the offcanvas as expected", () => {
+    it("should open and close the side menu as expected", () => {
         cy.get('[data-test="navbar-toggler-icon"]').click();
         cy.get(".offcanvas.offcanvas-start.show").should("exist");
         cy.get('[data-test="close-offcanvas-button"]').click();
