@@ -109,7 +109,7 @@ describe("markings board", () => {
             cy.wrap(card).find('[data-test="dismiss-marking-button"]').click();
             cy.wrap(card).should("not.exist");
         });
-        cy.get('[data-test="suggestion"]').should("not.be.visible");
+        cy.get('[data-test="suggestion"]').should("not.exist");
         cy.get('[data-test="editor"]').should("have.text", text);
     });
 });
