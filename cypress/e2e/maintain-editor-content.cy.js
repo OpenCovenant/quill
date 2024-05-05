@@ -3,7 +3,7 @@ describe("Written Text Should Stay On Editor When Navigating On Other Pages", ()
         cy.visit("/");
     });
 
-    it("should contain text in editor when navigating to other pages", () => {
+    it("should retain the text in editor when navigating to and from other pages", () => {
         cy.get(".typo").should("not.exist");
         cy.get('[data-test="editor"]').type("gabmim ");
         cy.get('[data-test="settings-gear-button"]').click();
