@@ -78,4 +78,12 @@ describe("General Quill Flow", () => {
         cy.get(".typo").should("not.exist");
         cy.get('[data-test="marking-card"]').should("not.exist");
     });
+
+    it("should remove the highlighted marking when selecting all text in the editor and deleting it", () => {
+        cy.get('[data-test="editor"]').type("asd gabmim asd ");
+        cy.get(".typo").first().click();
+        cy.get('[data-test="editor"]').type("{selectall}");
+        cy.get('[data-test="editor"]').type("{del}");
+        cy.get('[data-test="highlighted-marking"]').should("not.exist");
+    });
 });
