@@ -1,5 +1,5 @@
-describe("Focus on Editor - Resolution Testing", () => {
-    context("Desktop - 720p Resolution", () => {
+describe("editor focus on different resolutions", () => {
+    context("Desktop - 1280x720 Resolution", () => {
         beforeEach(() => {
             cy.viewport(1280, 720);
             cy.visit("/");

@@ -195,6 +195,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         }
         const text: string = $event.clipboardData.getData('text/plain');
 
+        // TODO: is there new code that properly does here what we want?
         document.execCommand('insertText', false, text);
     }
 
@@ -205,7 +206,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     onTextCopy($event: ClipboardEvent): void {
         $event.preventDefault();
 
-        const editorCopiableText: string = this.fetchEditorCopiableText();
+        const editorCopiableText: string = window
+            .getSelection()!
+            .toString()
+            .replace(/(?:\n){2,}/g, (match) => {
+                return match.substring(0, match.length - 1);
+            });
 
         // NOTE: this text/plain might be fine for now, but probably should be amended if we want to have richer text
         $event.clipboardData!.setData('text/plain', editorCopiableText);
@@ -216,12 +222,24 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * @param {ClipboardEvent} $event the event emitted
      */
     onTextCut($event: ClipboardEvent): void {
-        $event.preventDefault();
+        if (
+            window.getSelection()!.toString() ===
+            document.getElementById(this.EDITOR_KEY)!.innerText
+        ) {
+            $event.preventDefault();
 
-        const editorCopiableText: string = this.fetchEditorCopiableText();
+            const editorCopiableText: string = Array.from(
+                document.getElementById(this.EDITOR_KEY)!.querySelectorAll('p')
+            )
+                .map((p: HTMLParagraphElement) => p.textContent)
+                .join('\n');
 
-        // NOTE: this text/plain might be fine for now, but probably should be amended if we want to have richer text
-        $event.clipboardData!.setData('text/plain', editorCopiableText);
+            // NOTE: this text/plain might be fine for now, but probably should be amended if we want to have richer text
+            $event.clipboardData!.setData('text/plain', editorCopiableText);
+
+            // TODO: try to do this for partial cut as well
+            this.clearEditor();
+        }
     }
 
     onKeyDown($event: KeyboardEvent): void {
@@ -414,7 +432,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 return;
             }
 
-            const editorCopiableText: string = this.fetchEditorCopiableText();
+            const editorCopiableText: string = Array.from(
+                document.getElementById(this.EDITOR_KEY)!.querySelectorAll('p')
+            )
+                .map((p: HTMLParagraphElement) => p.textContent)
+                .join('\n');
             navigator.clipboard.writeText(editorCopiableText).then();
         } else {
             // TODO some browsers still seem to use this deprecated method, keep it around for some more time
@@ -1485,14 +1507,5 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     private fetchEditorMarkings(): NodeListOf<HTMLSpanElement> {
         return document.querySelectorAll('#editor > p > span');
-    }
-
-    private fetchEditorCopiableText(): string {
-        const paragraphs: NodeListOf<HTMLParagraphElement> = document
-            .getElementById(this.EDITOR_KEY)!
-            .querySelectorAll('p');
-        return Array.from(paragraphs)
-            .map((p: HTMLParagraphElement) => p.textContent)
-            .join('\n');
     }
 }

@@ -86,7 +86,7 @@ describe("Shortcuts", () => {
 
     it("should not trigger a shortcut-copy when the user is specifically trying to copy something using Ctrl+c", () => {
         cy.get('[data-test="editor"]').type("saktë");
-        cy.get('[data-test="penda-home-button"]').dblclick();
+        cy.get('[data-test="home-button"]').dblclick();
 
         cy.get("body").type("{Control} + c");
         cy.window().then((win) => {

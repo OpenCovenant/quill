@@ -7,30 +7,30 @@ describe("Default Markings Checks", () => {
         cy.get(".typo-marking-header").should("be.visible");
         cy.get(".list-group-item b")
             .contains("shkrim pa gabime")
-            .should("exist");
+            .should("be.visible");
         cy.get(".list-group-item span")
             .contains(
                 "shenjime për fjalë të shkruara gabim, gabime fonetikore, shenja pikësimi"
             )
-            .should("exist");
+            .should("be.visible");
 
         cy.get(".loanword-marking-header").should("be.visible");
         cy.get(".list-group-item b")
             .contains("pa huazime për tani")
-            .should("exist");
+            .should("be.visible");
         cy.get(".list-group-item span")
             .contains(
                 "shenjime për huazime me origjinë italiane, angleze, sllave, gjermane, otomane, greke"
             )
-            .should("exist");
+            .should("be.visible");
 
-        cy.get(".stylistic-marking-header").should("exist");
+        cy.get(".stylistic-marking-header").should("be.visible");
         cy.get(".list-group-item b")
             .contains("stilistikë e duhur")
-            .should("exist");
+            .should("be.visible");
         cy.get(".list-group-item span")
             .contains("shenjime për fjali tepër të gjata")
-            .should("exist");
+            .should("be.visible");
     });
 
     it("should display default markings after applying a suggestion", () => {
