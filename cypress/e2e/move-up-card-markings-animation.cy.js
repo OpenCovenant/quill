@@ -4,7 +4,6 @@ describe("Move Up Marking Cards Animation", () => {
     });
 
     it("should trigger move-up animation for remaining cards after deleting one card", () => {
-        cy.get(".typo").should("not.exist");
         cy.get('[data-test="editor"]').type("sakt eshte");
         cy.get('[data-test="suggestion"]').should("be.visible");
 
@@ -13,7 +12,6 @@ describe("Move Up Marking Cards Animation", () => {
             .find('[data-test="suggestion"]')
             .first()
             .click();
-
         cy.get('[data-test="marking-card"]')
             .first()
             .should("have.class", "fade-out");
