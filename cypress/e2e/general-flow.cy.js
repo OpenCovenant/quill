@@ -48,7 +48,7 @@ describe("General Quill Flow", () => {
         cy.get('[data-test="editor"]').should("have.text", "është");
     });
 
-    it("should behave as expected when performing different operations on the markings", () => {
+    it("should behave properly when performing different operations on the markings", () => {
         cy.get('[data-test="editor"]').type("asd gabmim asd ");
         cy.get(".typo").should("be.visible");
 
