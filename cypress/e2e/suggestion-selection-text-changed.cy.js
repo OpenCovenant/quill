@@ -3,12 +3,13 @@ describe("Editor Marking Change Test", () => {
         cy.visit("/");
     });
 
-    it("should reflect rapid changes in text when selecting multiple suggestions", () => {
-        let shouldBe =
+    it("should behave properly when consecutively applying many suggestions", () => {
+            let text =
             "aks Për kryerjen e programeve gazmim aso aks Për kryerjen e programeve gazmim aso aks Për kryerjen e programeve gazmim aso aks Për kryerjen e programeve gazmim aso ";
 
         cy.get(".typo").should("not.exist");
 
+        // TODO improve
         cy.get('[data-test="editor"]').type(
             "asd Për kryerjen e programeve gabmim asd \nasd Për kryerjen e programeve gabmim asd \nasd Për kryerjen e programeve gabmim asd \nasd Për kryerjen e programeve gabmim asd \n"
         );
@@ -21,11 +22,10 @@ describe("Editor Marking Change Test", () => {
         cy.wait(3000);
         cy.get("#editor > p")
             .invoke("text")
-            .then((actualText) => {
-                actualText = actualText.replace(/\s+/g, " ").trim();
-                shouldBe = shouldBe.replace(/\s+/g, " ").trim();
-
-                expect(actualText).to.equal(shouldBe);
+            .then((t) => {
+                t = t.replace(/\s+/g, " ").trim();
+                text = text.replace(/\s+/g, " ").trim();
+                expect(t).to.equal(text);
             });
     });
 });
