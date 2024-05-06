@@ -37,6 +37,12 @@ describe("Shortcuts", () => {
             });
         });
 
+        cy.get("#offcanvasStart").should("not.be.visible");
+        cy.get("body").type("m");
+        cy.get("#offcanvasStart").should("be.visible");
+        cy.get("body").type("M");
+        cy.get("#offcanvasStart").should("not.be.visible");
+
         cy.get('[data-test="modal-dialog"]').should("not.be.visible");
         cy.get("body").type("h");
         cy.get('[data-test="modal-dialog"]').should("be.visible");
@@ -75,6 +81,12 @@ describe("Shortcuts", () => {
                 expect(text).to.eq("është reshtu si fjali me gabmime");
             });
         });
+
+        cy.get("#offcanvasStart").should("not.be.visible");
+        cy.get("body").type("M");
+        cy.get("#offcanvasStart").should("be.visible");
+        cy.get("body").type("m");
+        cy.get("#offcanvasStart").should("not.be.visible");
 
         cy.get('[data-test="modal-dialog"]').should("not.be.visible");
         cy.get("body").type("h");
