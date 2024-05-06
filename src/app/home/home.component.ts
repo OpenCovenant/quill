@@ -1409,6 +1409,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                         this.copyToClipboard();
                         return;
                     }
+                    case 'm':
+                    case 'M': {
+                        document.getElementById('off-canvas-start-button')!.click();
+                    }
                 }
             }
 
