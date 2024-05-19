@@ -7,11 +7,13 @@
     color: var(--light);
 }
 
+.contact-us-button {
+    background-color: #ebbcff;
+}
+
 .contact-us-button:hover {
-    /*TODO: undo once paying is enabled*/
-    /*background-color: purple !important;*/
-    cursor: not-allowed !important;
-    /*color: var(--dark-mode-anti-theme);*/
+    background-color: purple !important;
+    color: var(--dark-mode-anti-theme);
 }
 
 .dashboard-header-dark-mode {
@@ -112,12 +114,6 @@
 
 .dashboard-premium-card-choose-marking {
     padding-bottom: 7.4rem;
-}
-
-.contact-us-button {
-    /*TODO: undo once paying is enabled*/
-    /*background-color: #ebbcff;*/
-    background-color: #f6d8ff;
 }
 
 .dashboard-premium-card-span-div {
