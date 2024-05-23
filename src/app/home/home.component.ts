@@ -184,6 +184,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.animationRemovedSubscription.unsubscribe();
     }
 
+    FORBIDDEN_CHARACTERS = ['ë']
+
     /**
      * Function that is called when text is pasted in the editor.
      * @param {ClipboardEvent} $event the event emitted
@@ -1299,6 +1301,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 ),
                 debounceTime(this.EVENTUAL_MARKING_TIME),
                 filter(() => this.characterCount < this.MAX_EDITOR_CHARACTERS),
+                filter(() => {
+                    const v = !this.FORBIDDEN_CHARACTERS.some(fC => document.getElementById(this.EDITOR_KEY)?.innerText.includes(fC));
+                    console.log(v)
+                    return v;
+                }),
                 tap(() => {
                     this.blurHighlightedBoardMarking();
                     this.markEditor();
