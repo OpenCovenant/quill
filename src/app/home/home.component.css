@@ -352,10 +352,6 @@
     justify-content: space-between;
 }
 
-.history-card-close-button {
-    padding: 0.1rem 0.3rem;
-}
-
 .blur-marking-button {
     padding: 0.1rem 0.3rem;
 }
@@ -503,6 +499,9 @@
 }
 
 .writing {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
     box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
     border-radius: 5px;
     padding: 5px;
@@ -592,7 +591,6 @@
     width: 40px;
     height: 23px;
     float: right;
-    right: 53px;
 }
 
 .switch input {
