@@ -6,7 +6,7 @@
 }
 
 .penda-header-logo {
-    color: black;
+    color: red;
     font-size: 1.8125rem;
 }
 
@@ -23,7 +23,7 @@
 }
 
 .header-text-dark-mode {
-    color: var(--dark-mode-anti-theme);
+    color: red;
 }
 
 .navbar-toggler-icon {
@@ -309,4 +309,18 @@
 
 .menu-item-divider-dark-mode {
     color: var(--dark-mode-anti-theme);
+}
+
+.header-logo-div {
+    display: flex;
+    flex-direction: column;
+}
+
+.penda-header-logo-corrector {
+    color: #676767;
+    font-size: 17px;
+}
+
+.header-corrector-text-dark-mode {
+    color: #B8BABC;
 }
