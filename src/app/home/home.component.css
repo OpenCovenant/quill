@@ -10,7 +10,31 @@
     margin-left: 3rem;
 }
 
-.card-header {
+.typo-marking-card-header {
+    border-bottom: 0px solid rgba(0, 0, 0, 0.125);
+}
+
+.loanword-marking-card-header {
+    border-bottom: 0px solid rgba(0, 0, 0, 0.125);
+}
+
+.stylistic-marking-card-header {
+    border-bottom: 0px solid rgba(0, 0, 0, 0.125);
+}
+
+.grammatical-marking-card-header {
+    border-bottom: 0px solid rgba(0, 0, 0, 0.125);
+}
+
+.generated-marking-card-header {
+    border-bottom: 0px solid rgba(0, 0, 0, 0.125);
+}
+
+.highlighted-marking-card-header {
+    border-bottom: 0px solid rgba(0, 0, 0, 0.125);
+}
+
+.loading-reading-text-card-header {
     border-bottom: 0px solid rgba(0, 0, 0, 0.125);
 }
 
@@ -22,12 +46,11 @@
     display: none;
 }
 
-.card-body {
+.input-container-card-body {
     padding: 1rem;
     border-radius: 0.25rem;
     background-color: var(--light-mode-color);
 }
-
 .editor-flex {
     display: flex;
 }
@@ -141,7 +164,27 @@
     color: black;
 }
 
-.list-group-item {
+.typo-list-group-item {
+    background-color: var(--light-mode-color);
+}
+
+.loanword-list-group-item {
+    background-color: var(--light-mode-color);
+}
+
+.stylistic-list-group-item {
+    background-color: var(--light-mode-color);
+}
+
+.grammatical-list-group-item {
+    background-color: var(--light-mode-color);
+}
+
+.generated-marking-list-group-item {
+    background-color: var(--light-mode-color);
+}
+
+.highlighted-marking-list-group-item {
     background-color: var(--light-mode-color);
 }
 
@@ -274,7 +317,12 @@
     padding-bottom: 3px;
 }
 
-.bi-stars {
+.grammatical-marking-stars {
+    padding-right: 7px;
+    color: purple;
+}
+
+.generated-grammatical-marking-star {
     padding-right: 7px;
     color: purple;
 }
@@ -301,7 +349,12 @@
         center/1em auto no-repeat;
 }
 
-.text-reset {
+
+.close-button-text-reset {
+    cursor: pointer;
+}
+
+.dismiss-marking-close-button {
     cursor: pointer;
 }
 
