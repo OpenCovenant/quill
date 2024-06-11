@@ -45,3 +45,7 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# Source Files
+src/robots.txt
+src/sitemap.xml
