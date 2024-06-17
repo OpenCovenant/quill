@@ -10,8 +10,32 @@
     margin-left: 3rem;
 }
 
-.card-header {
-    border-bottom: 0px solid rgba(0, 0, 0, 0.125);
+.typo-marking-card-header {
+    border-bottom: 0px solid var(--light-black);
+}
+
+.loanword-marking-card-header {
+    border-bottom: 0px solid var(--light-black);
+}
+
+.stylistic-marking-card-header {
+    border-bottom: 0px solid var(--light-black);
+}
+
+.grammatical-marking-card-header {
+    border-bottom: 0px solid var(--light-black);
+}
+
+.generated-marking-card-header {
+    border-bottom: 0px solid var(--light-black);
+}
+
+.highlighted-marking-card-header {
+    border-bottom: 0px solid var(--light-black);
+}
+
+.loading-reading-text-card-header {
+    border-bottom: 0px solid var(--light-black);
 }
 
 .card-fade {
@@ -22,12 +46,11 @@
     display: none;
 }
 
-.card-body {
+.input-container-card-body {
     padding: 1rem;
     border-radius: 0.25rem;
     background-color: var(--light-mode-color);
 }
-
 .editor-flex {
     display: flex;
 }
@@ -141,7 +164,27 @@
     color: black;
 }
 
-.list-group-item {
+.typo-list-group-item {
+    background-color: var(--light-mode-color);
+}
+
+.loanword-list-group-item {
+    background-color: var(--light-mode-color);
+}
+
+.stylistic-list-group-item {
+    background-color: var(--light-mode-color);
+}
+
+.grammatical-list-group-item {
+    background-color: var(--light-mode-color);
+}
+
+.generated-marking-list-group-item {
+    background-color: var(--light-mode-color);
+}
+
+.highlighted-marking-list-group-item {
     background-color: var(--light-mode-color);
 }
 
@@ -274,7 +317,12 @@
     padding-bottom: 3px;
 }
 
-.bi-stars {
+.grammatical-marking-stars {
+    padding-right: 7px;
+    color: purple;
+}
+
+.generated-grammatical-marking-star {
     padding-right: 7px;
     color: purple;
 }
@@ -297,11 +345,15 @@
 
 .dismiss-marking-element-dark-mode {
     background: transparent
-        url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e")
-        center/1em auto no-repeat;
+    url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e")
+    center/1em auto no-repeat;
 }
 
-.text-reset {
+.close-button-text-reset {
+    cursor: pointer;
+}
+
+.dismiss-marking-close-button {
     cursor: pointer;
 }
 
