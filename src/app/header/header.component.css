@@ -6,7 +6,7 @@
 }
 
 .penda-header-logo {
-    color: red;
+    color: var(--dark-mode-theme);
     font-size: 1.8125rem;
 }
 
@@ -23,7 +23,7 @@
 }
 
 .header-text-dark-mode {
-    color: red;
+    color: var(--dark-mode-anti-theme);
 }
 
 .navbar-toggler-icon {
