@@ -48,7 +48,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     EDITOR_KEY: string = 'editor';
     PLACEHOLDER_ELEMENT_ID: string = 'editor-placeholder';
     MAX_EDITOR_CHARACTERS: number = 5000;
-    MAX_EDITOR_CHARACTERS_MESSAGE: string = `Keni arritur kufirin e ${this.MAX_EDITOR_CHARACTERS} karaktereve, shkurtoni shkrimin`;
+    MAX_EDITOR_CHARACTERS_MESSAGE: string = `Keni arritur kufirin e ${this.MAX_EDITOR_CHARACTERS} karaktereve, shkurtoni shkrimin.`;
+    UNCONVENTIONAL_CHARACTERS_MESSAGE: string = `Shkrimi juaj përmban karaktere jashtë standardit. Zëvendësoni këto karaktere për të gjeneruar shenjime.`;
     LINE_BREAK: string = '<br>';
     LINE_BROKEN_PARAGRAPH: string = '<p>' + this.LINE_BREAK + '</p>';
     processedText: ProcessedText | undefined;
@@ -306,7 +307,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     document.getElementById(this.EDITOR_KEY)!.innerHTML =
                         this.processedText.text; // TODO: improve to add newlines and such
                     // this.innerHTMLOfEditor = this.LINE_BROKEN_PARAGRAPH; // TODO careful with the <br> here
-                    this.markEditor(CursorPlacement.END);
+                    // if (this.characterCount < this.MAX_EDITOR_CHARACTERS) {
+                    this.markEditor(CursorPlacement.END); // TODO: the upload already marks, why mark again?
+                    // }
                 });
         } else {
             alert('Ngarko vetëm një dokument!');
@@ -1288,6 +1291,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.updateWordCount();
     }
 
+    checkIt(): boolean {
+        return !this.FORBIDDEN_CHARACTERS.some(fC => document.getElementById(this.EDITOR_KEY)?.innerText.includes(fC))
+    }
+
     /**
      * Functions that are called on a **input** event in the editor.
      */
@@ -1302,7 +1309,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 debounceTime(this.EVENTUAL_MARKING_TIME),
                 filter(() => this.characterCount < this.MAX_EDITOR_CHARACTERS),
                 filter(() => {
-                    const v = !this.FORBIDDEN_CHARACTERS.some(fC => document.getElementById(this.EDITOR_KEY)?.innerText.includes(fC));
+                    const v = this.checkIt();
                     console.log(v)
                     return v;
                 }),

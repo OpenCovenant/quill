@@ -721,6 +721,11 @@ input:checked + .slider:before {
     animation: shake 0.5s;
 }
 
+.unconventional-editor-characters {
+    color: red;
+    animation: shake 0.5s;
+}
+
 .editor-max-characters {
     color: gray;
 }
