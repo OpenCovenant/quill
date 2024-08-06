@@ -10,6 +10,7 @@
     margin-left: 3rem;
 }
 
+
 .typo-marking-card-header {
     border-bottom: 0px solid var(--light-black);
 }
@@ -753,7 +754,8 @@ input:checked + .slider:before {
     }
 
     .output-container {
-        margin-left: 3rem;
+        margin-left: 2.7rem;
+        margin-right: 2.7rem;
     }
 }
 
