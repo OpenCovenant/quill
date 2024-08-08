@@ -8,6 +8,7 @@
 .input-container {
     flex: 0 0 62%;
     margin-left: 3rem;
+    margin-top: 3rem;
 }
 
 .typo-marking-card-header {
@@ -126,6 +127,7 @@
 .output-container {
     flex: 0 0 30%;
     margin-right: 3rem;
+    margin-top: 3rem;
     /*padding-right: 25px;*/
     overflow-x: hidden;
     overflow-y: visible;
@@ -749,10 +751,12 @@ input:checked + .slider:before {
     }
 
     .input-container {
+        margin-top: 0;
         margin-right: 3rem;
     }
 
     .output-container {
+        margin-top: 0;
         margin-left: 2.7rem;
         margin-right: 2.7rem;
     }
