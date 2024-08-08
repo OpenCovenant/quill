@@ -29,7 +29,7 @@
                         spellcheck="false"
                         autocapitalize="off"
                         role="textbox"
-                        aria-label='redaktori'
+                        aria-label="redaktori"
                         aria-multiline="true"
                         data-test="editor"
                     ></div>
@@ -48,13 +48,13 @@
                         <span
                             class="editor-placeholder-text"
                             data-test="editor-placeholder-text"
-                        >Shkruaj këtu ose </span
+                            >Shkruaj këtu ose </span
                         ><label
-                        for="file-upload-input"
-                        class="editor-placeholder-upload"
-                        data-test="editor-placeholder-upload"
-                    >ngarko një dokument</label
-                    >
+                            for="file-upload-input"
+                            class="editor-placeholder-upload"
+                            data-test="editor-placeholder-upload"
+                            >ngarko një dokument</label
+                        >
                     </div>
                     <div *ngIf="editorHasText()">
                         <button
@@ -82,12 +82,12 @@
                                 characterCount >= MAX_EDITOR_CHARACTERS
                         }"
                         data-test="characters-words-markings"
-                    ><ng-container
-                        *ngIf="characterCount >= MAX_EDITOR_CHARACTERS"
-                    >{{
-                            MAX_EDITOR_CHARACTERS_MESSAGE
-                        }}&nbsp;–&nbsp;</ng-container
-                    >
+                        ><ng-container
+                            *ngIf="characterCount >= MAX_EDITOR_CHARACTERS"
+                            >{{
+                                MAX_EDITOR_CHARACTERS_MESSAGE
+                            }}&nbsp;–&nbsp;</ng-container
+                        >
                         {{ characterCount }}&nbsp;{{
                             characterCount === 1 ? "karakter" : "karaktere"
                         }}&comma;&nbsp;{{ wordCount }}&nbsp;fjalë&comma;&nbsp;{{
@@ -102,29 +102,29 @@
                         }}</span
                     >
                     <span
-                    ><button
-                        id="copy-to-clipboard-button"
-                        (click)="copyToClipboard()"
-                        class="bi bi-clipboard editor-footer-button"
-                        [ngClass]="{
+                        ><button
+                            id="copy-to-clipboard-button"
+                            (click)="copyToClipboard()"
+                            class="bi bi-clipboard editor-footer-button"
+                            [ngClass]="{
                                 'clipboard-button-dark-mode':
                                     darkModeService.isDarkMode
                             }"
-                        title="kopjo shkrimin"
-                        data-test="copy-to-clipboard-button"
-                    ></button
-                    >&nbsp;&nbsp;&nbsp;&nbsp;<button
-                        type="button"
-                        data-bs-toggle="modal"
-                        data-bs-target="#writingsHistoryModal"
-                        title="trego historikun e shkrimeve"
-                        class="bi bi-clock-history editor-footer-button"
-                        [ngClass]="{
+                            title="kopjo shkrimin"
+                            data-test="copy-to-clipboard-button"
+                        ></button
+                        >&nbsp;&nbsp;&nbsp;&nbsp;<button
+                            type="button"
+                            data-bs-toggle="modal"
+                            data-bs-target="#writingsHistoryModal"
+                            title="trego historikun e shkrimeve"
+                            class="bi bi-clock-history editor-footer-button"
+                            [ngClass]="{
                                 'writings-history-button-dark-mode':
                                     darkModeService.isDarkMode
                             }"
-                        data-test="writings-history-button"
-                    ></button
+                            data-test="writings-history-button"
+                        ></button
                     ></span>
                 </div>
             </div>
@@ -159,7 +159,7 @@
                 >
                     <div>
                         <span class="typo-marking-header template-marking-span"
-                        >gabime shkrimi</span
+                            >gabime shkrimi</span
                         >
                     </div>
                 </div>
@@ -173,7 +173,7 @@
                     >
                         <b>shkrim pa gabime</b> -
                         <span
-                        >shenjime për fjalë të shkruara gabim, gabime
+                            >shenjime për fjalë të shkruara gabim, gabime
                             fonetikore, shenja pikësimi</span
                         >
                     </li>
@@ -189,7 +189,7 @@
                     <div>
                         <span
                             class="loanword-marking-header template-marking-span"
-                        >sugjerime huazimesh</span
+                            >sugjerime huazimesh</span
                         >
                     </div>
                 </div>
@@ -203,7 +203,7 @@
                     >
                         <b>pa huazime për tani</b> -
                         <span
-                        >shenjime për huazime me origjinë italiane, angleze,
+                            >shenjime për huazime me origjinë italiane, angleze,
                             sllave, gjermane, otomane, greke</span
                         >
                     </li>
@@ -219,7 +219,7 @@
                     <div>
                         <span
                             class="stylistic-marking-header template-marking-span"
-                        >shenjime stilistike</span
+                            >shenjime stilistike</span
                         >
                     </div>
                 </div>
@@ -246,7 +246,7 @@
                     <div>
                         <span
                             class="grammatical-marking-header template-marking-span"
-                        >shenjime gabimesh gramatikore</span
+                            >shenjime gabimesh gramatikore</span
                         >
                     </div>
                 </div>
@@ -261,7 +261,7 @@
                         <i class="bi bi-stars grammatical-marking-stars"></i>
                         <b>sipas rregullave gramatikore</b> -
                         <span
-                        >shenjime për gabime gramatikore të llojeve të
+                            >shenjime për gabime gramatikore të llojeve të
                             ndryshme</span
                         >
                     </li>
@@ -296,7 +296,7 @@
                                     marking.type
                                 }}-marking-header"
                                 data-test="marking-span"
-                            >{{ getTextOfMarking(i) }}
+                                >{{ getTextOfMarking(i) }}
                             </span>
                         </div>
                         <div>
@@ -406,7 +406,7 @@
                                     ]?.type
                                 }}-marking-header"
                                 data-test="highlighted-marking"
-                            >{{
+                                >{{
                                     getTextOfMarking(highlightedMarkingIndex)
                                 }}</span
                             >
@@ -440,16 +440,16 @@
                                         class="bi bi-stars"
                                     ></i>
                                     <b>{{
-                                            processedText?.markings?.[
-                                                highlightedMarkingIndex
-                                                ]?.subtype
-                                        }}</b>
+                                        processedText?.markings?.[
+                                            highlightedMarkingIndex
+                                        ]?.subtype
+                                    }}</b>
                                     -
                                     <span>{{
-                                            processedText?.markings?.[
-                                                highlightedMarkingIndex
-                                                ]?.description
-                                        }}</span>
+                                        processedText?.markings?.[
+                                            highlightedMarkingIndex
+                                        ]?.description
+                                    }}</span>
                                 </div>
                                 <div
                                     *ngIf="
@@ -626,7 +626,7 @@
                     <label
                         class="form-check-label"
                         for="flex-switch-check-checked"
-                    >Përdor Historikun e Shkrimeve</label
+                        >Përdor Historikun e Shkrimeve</label
                     >
                     <label class="switch">
                         <input
@@ -641,7 +641,7 @@
                     </label>
                     <div>
                         <span class="history-deactivation-message"
-                        >çaktivizimi i historikut të shkrimeve do të fshijë
+                            >çaktivizimi i historikut të shkrimeve do të fshijë
                             shkrimet ekzistuese</span
                         >
                     </div>
