@@ -8,6 +8,7 @@
 .penda-header-logo {
     color: var(--dark-mode-theme);
     font-size: 1.8125rem;
+    padding-left: 7px;
 }
 
 .header-dark-mode {
@@ -191,13 +192,6 @@
     font-weight: 500;
 }
 
-/* #modeExplanationText{
-    padding: 1rem;
-    padding-top: 0.3rem;
-    font-size: 0.8rem;
-    color: #858585;
-} */
-
 .dark-mode-theme {
     padding: 0.3rem 1rem 1rem;
     font-size: 0.8rem;
@@ -215,15 +209,13 @@
 }
 
 .dark-mode-informative-text {
-    padding: 1rem;
-    padding-top: 0.3rem;
+    padding: 0.3rem 1rem 1rem;
     font-size: 0.8rem;
     color: var(--dark-mode-smooth-theme);
 }
 
 .light-mode-informative-text {
-    padding: 1rem;
-    padding-top: 0.3rem;
+    padding: 0.3rem 1rem 1rem;
     font-size: 0.8rem;
     color: var(--dark-mode-smooth-theme);
 }
@@ -319,9 +311,9 @@
 .penda-header-logo-corrector {
     color: #676767;
     font-size: 15px;
-    padding-left: 5px;
+    padding-left: 8px;
 }
 
 .header-corrector-text-dark-mode {
-    color: #B8BABC;
+    color: #b8babc;
 }
