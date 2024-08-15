@@ -94,7 +94,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private fromEditorInputEvent$: any;
 
     constructor(
-        private http: HttpClient,
+        private httpClient: HttpClient,
         private router: Router,
         private editorContentService: EditorContentService,
         private elementRef: ElementRef,
@@ -107,7 +107,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.showWelcomeModal();
         this.showThankYouModal();
 
-        this.http.get(this.pingURL).subscribe({
+        this.httpClient.get(this.pingURL).subscribe({
             next: () => console.log('pinging server...'),
             error: (e: HttpErrorResponse) => this.disableEditor(e)
         });
@@ -293,7 +293,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             const file: File = fileList[0];
             const formData: FormData = new FormData();
             formData.append('uploadFile', file, file.name);
-            this.http
+            this.httpClient
                 .post(this.uploadDocumentURL, formData)
                 .subscribe((next) => {
                     this.processedText = next as ProcessedText;
@@ -643,7 +643,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * */
     private postSuggestedText(): void {
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
-        this.http
+        this.httpClient
             .post(this.generateMarkingsURL, editor.innerHTML)
             .subscribe((next) => {
                 this.processedText = next as ProcessedText;
@@ -1059,7 +1059,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
 
         this.loading$.next(true);
-        this.http
+        this.httpClient
             .post(this.generateMarkingsURL, editor.innerHTML)
             .pipe(finalize(() => this.loading$.next(false)))
             .subscribe({

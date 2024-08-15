@@ -15,12 +15,12 @@ export class AboutComponent {
 
     constructor(
         public darkModeService: DarkModeService,
-        private http: HttpClient,
+        private httpClient: HttpClient,
         private activatedRoute: ActivatedRoute,
         private router: Router
     ) {
         this.initializeURLs();
-        this.http.get(this.getAboutURL).subscribe((html: any) => {
+        this.httpClient.get(this.getAboutURL).subscribe((html: any) => {
             document.getElementById('about')!.innerHTML = html['about_html'];
 
             this.handleURLFragmenting();

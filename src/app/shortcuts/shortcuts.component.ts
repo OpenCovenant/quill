@@ -16,12 +16,12 @@ export class ShortcutsComponent {
 
     constructor(
         public darkModeService: DarkModeService,
-        private http: HttpClient,
+        private httpClient: HttpClient,
         private activatedRoute: ActivatedRoute,
         private router: Router
     ) {
         this.initializeURLs();
-        this.http.get(this.getShortcutsURL).subscribe((html: any) => {
+        this.httpClient.get(this.getShortcutsURL).subscribe((html: any) => {
             document.getElementById('shortcuts')!.innerHTML =
                 html['shortcuts_html'];
 
