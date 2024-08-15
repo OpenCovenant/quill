@@ -45,6 +45,11 @@
     border-color: #71707099;
 }
 
+.plain-list {
+    padding-left: 0;
+    list-style: none;
+}
+
 .pricing-card-body-dark-mode {
     background-color: var(--dark-mode-theme);
     color: var(--dark-mode-anti-theme);
