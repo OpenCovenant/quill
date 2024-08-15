@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { DarkModeService } from '../services/dark-mode.service';
 import { environment } from '../../environments/environment';
+import { ActivatedRoute, Router } from '@angular/router'
 
 @Component({
     selector: 'app-shortcuts',
@@ -15,16 +16,38 @@ export class ShortcutsComponent {
 
     constructor(
         public darkModeService: DarkModeService,
-        private http: HttpClient
+        private http: HttpClient,
+        private activatedRoute: ActivatedRoute,
+        private router: Router
     ) {
         this.initializeURLs();
         this.http
             .get(this.getShortcutsURL)
             .subscribe(
-                (html: any) =>
-                    (document.getElementById('shortcuts')!.innerHTML =
-                        html['shortcuts_html'])
+                (html: any) => {
+                    document.getElementById('shortcuts')!.innerHTML =
+                        html['shortcuts_html'];
+
+                    this.handleURLFragmenting();
+                }
             );
+    }
+
+    private handleURLFragmenting(): void {
+        const fragment = this.router.url.split('#')[1];
+
+        if (fragment) {
+            this.activatedRoute.fragment.subscribe(f => {
+                document.querySelector('#' + f)?.scrollIntoView();
+            });
+        }
+
+        document.querySelectorAll('.link-icon').forEach(lI =>
+            lI.addEventListener('click', (e) => {
+                const currentFragment = (e.target as any).parentNode.id;
+                window.location.href = window.location.pathname + window.location.search + "#" + currentFragment;
+                document.querySelector('#' + currentFragment)?.scrollIntoView();
+            }))
     }
 
     private initializeURLs(): void {
