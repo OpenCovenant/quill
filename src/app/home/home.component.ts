@@ -47,7 +47,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     EMPTY_STRING: string = '';
     EDITOR_KEY: string = 'editor';
     PLACEHOLDER_ELEMENT_ID: string = 'editor-placeholder';
-    MAX_EDITOR_CHARACTERS: number = 5000;
+    MAX_EDITOR_CHARACTERS: number = 10000;
     MAX_EDITOR_CHARACTERS_MESSAGE: string = `Keni arritur kufirin e ${this.MAX_EDITOR_CHARACTERS} karaktereve, shkurtoni shkrimin`;
     LINE_BREAK: string = '<br>';
     LINE_BROKEN_PARAGRAPH: string = '<p>' + this.LINE_BREAK + '</p>';
@@ -94,7 +94,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private fromEditorInputEvent$: any;
 
     constructor(
-        private http: HttpClient,
+        private httpClient: HttpClient,
         private router: Router,
         private editorContentService: EditorContentService,
         private elementRef: ElementRef,
@@ -107,7 +107,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.showWelcomeModal();
         this.showThankYouModal();
 
-        this.http.get(this.pingURL).subscribe({
+        this.httpClient.get(this.pingURL).subscribe({
             next: () => console.log('pinging server...'),
             error: (e: HttpErrorResponse) => this.disableEditor(e)
         });
@@ -293,7 +293,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             const file: File = fileList[0];
             const formData: FormData = new FormData();
             formData.append('uploadFile', file, file.name);
-            this.http
+            this.httpClient
                 .post(this.uploadDocumentURL, formData)
                 .subscribe((next) => {
                     this.processedText = next as ProcessedText;
@@ -643,7 +643,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * */
     private postSuggestedText(): void {
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
-        this.http
+        this.httpClient
             .post(this.generateMarkingsURL, editor.innerHTML)
             .subscribe((next) => {
                 this.processedText = next as ProcessedText;
@@ -1059,7 +1059,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
 
         this.loading$.next(true);
-        this.http
+        this.httpClient
             .post(this.generateMarkingsURL, editor.innerHTML)
             .pipe(finalize(() => this.loading$.next(false)))
             .subscribe({
@@ -1411,7 +1411,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     }
                     case 'm':
                     case 'M': {
-                        document.getElementById('off-canvas-start-button')!.click();
+                        document
+                            .getElementById('off-canvas-start-button')!
+                            .click();
                     }
                 }
             }

@@ -1,5 +1,5 @@
 <div class="high-level-container">
-    <div class="input-container mt-5">
+    <div class="input-container">
         <div
             class="card input-container-card border-secondary"
             [ngClass]="{
@@ -29,6 +29,7 @@
                         spellcheck="false"
                         autocapitalize="off"
                         role="textbox"
+                        aria-label="redaktori"
                         aria-multiline="true"
                         data-test="editor"
                     ></div>
@@ -140,7 +141,7 @@
             />
         </div>
     </div>
-    <div class="output-container mt-5">
+    <div class="output-container">
         <div
             *ngIf="
                 (processedText === undefined ||
@@ -151,7 +152,7 @@
             <!-- TODO put into a method -->
             <div class="card typo-marking-card border-secondary">
                 <div
-                    class="card-header second-header"
+                    class="card-header typo-marking-card-header second-header"
                     [ngClass]="{
                         'second-header-dark-mode': darkModeService.isDarkMode
                     }"
@@ -625,7 +626,7 @@
                     <label
                         class="form-check-label"
                         for="flex-switch-check-checked"
-                    >Përdor Historikun e Shkrimeve</label
+                        >Përdor Historikun e Shkrimeve</label
                     >
                     <label class="switch">
                         <input
