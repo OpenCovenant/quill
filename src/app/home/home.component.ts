@@ -1329,8 +1329,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private disableEditor(errorResponse: HttpErrorResponse): void {
         const errorMessage =
             errorResponse.status === 429
-                ? 'Tepër kërkesa për shenjime për momentin'
-                : 'Fatkeqësisht kemi një problem me serverat. Ju kërkojmë ndjesë, ndërsa kërkojme për një zgjidhje.';
+                ? 'Tepër kërkesa për shenjime për momentin.'
+                : 'Fatkeqësisht kemi një problem me serverat. Ju kërkojmë ndjesë, ndërsa kërkojmë për një zgjidhje.';
         (
             document.getElementById(this.EDITOR_KEY) as HTMLDivElement
         ).contentEditable = 'false';
