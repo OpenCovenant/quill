@@ -48,7 +48,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     EDITOR_KEY: string = 'editor';
     PLACEHOLDER_ELEMENT_ID: string = 'editor-placeholder';
     MAX_EDITOR_CHARACTERS: number = 10000;
-    MAX_EDITOR_CHARACTERS_MESSAGE: string = `Keni arritur kufirin e ${this.MAX_EDITOR_CHARACTERS} karaktereve, shkurtoni shkrimin`;
+    MAX_EDITOR_CHARACTERS_MESSAGE: string = `Keni arritur kufirin e ${this.MAX_EDITOR_CHARACTERS} karaktereve, shkurtoni shkrimin.`;
+    UNCONVENTIONAL_CHARACTERS_MESSAGE: string = `Shkrimi juaj përmban karaktere jashtë standardit. Zëvendësoni këto karaktere për të gjeneruar shenjime.`;
+    UNCONVENTIONAL_CHARACTERS = ['ë']; // think there's something about "i" as well (and of course maybe for some others)
     LINE_BREAK: string = '<br>';
     LINE_BROKEN_PARAGRAPH: string = '<p>' + this.LINE_BREAK + '</p>';
     processedText: ProcessedText | undefined;
@@ -1286,6 +1288,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.updateWordCount();
     }
 
+    hasUnconventionalCharacters(): boolean {
+        return this.UNCONVENTIONAL_CHARACTERS.some((uC) =>
+            document.getElementById(this.EDITOR_KEY)?.innerText.includes(uC)
+        );
+    }
+
     /**
      * Functions that are called on a **input** event in the editor.
      */
@@ -1299,6 +1307,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 ),
                 debounceTime(this.EVENTUAL_MARKING_TIME),
                 filter(() => this.characterCount < this.MAX_EDITOR_CHARACTERS),
+                filter(() => !this.hasUnconventionalCharacters()),
                 tap(() => {
                     this.blurHighlightedBoardMarking();
                     this.markEditor();
