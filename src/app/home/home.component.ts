@@ -50,7 +50,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     MAX_EDITOR_CHARACTERS: number = 10000;
     MAX_EDITOR_CHARACTERS_MESSAGE: string = `Keni arritur kufirin e ${this.MAX_EDITOR_CHARACTERS} karaktereve, shkurtoni shkrimin.`;
     UNCONVENTIONAL_CHARACTERS_MESSAGE: string = `Shkrimi juaj përmban karaktere jashtë standardit. Zëvendësoni këto karaktere për të gjeneruar shenjime.`;
-    UNCONVENTIONAL_CHARACTERS = ['ë']
+    UNCONVENTIONAL_CHARACTERS = ['ë']; // think there's something about "i" as well (and of course maybe for some others)
     LINE_BREAK: string = '<br>';
     LINE_BROKEN_PARAGRAPH: string = '<p>' + this.LINE_BREAK + '</p>';
     processedText: ProcessedText | undefined;
@@ -1289,7 +1289,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     hasUnconventionalCharacters(): boolean {
-        return this.UNCONVENTIONAL_CHARACTERS.some(fC => document.getElementById(this.EDITOR_KEY)?.innerText.includes(fC))
+        return this.UNCONVENTIONAL_CHARACTERS.some((fC) =>
+            document.getElementById(this.EDITOR_KEY)?.innerText.includes(fC)
+        );
     }
 
     /**
