@@ -81,7 +81,7 @@
                             'max-editor-characters':
                                 characterCount >= MAX_EDITOR_CHARACTERS,
                             'unconventional-editor-characters':
-                                !checkIt()
+                                hasUnconventionalCharacters()
                         }"
                         data-test="characters-words-markings"
                         ><ng-container
@@ -89,7 +89,7 @@
                             >{{
                                 MAX_EDITOR_CHARACTERS_MESSAGE
                             }}&nbsp;–&nbsp;</ng-container
-                        ><ng-container *ngIf='!checkIt()'>
+                        ><ng-container *ngIf='hasUnconventionalCharacters()'>
                         {{UNCONVENTIONAL_CHARACTERS_MESSAGE}}
                     </ng-container>
                         {{ characterCount }}&nbsp;{{

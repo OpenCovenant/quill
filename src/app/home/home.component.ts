@@ -50,6 +50,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     MAX_EDITOR_CHARACTERS: number = 10000;
     MAX_EDITOR_CHARACTERS_MESSAGE: string = `Keni arritur kufirin e ${this.MAX_EDITOR_CHARACTERS} karaktereve, shkurtoni shkrimin.`;
     UNCONVENTIONAL_CHARACTERS_MESSAGE: string = `Shkrimi juaj përmban karaktere jashtë standardit. Zëvendësoni këto karaktere për të gjeneruar shenjime.`;
+    UNCONVENTIONAL_CHARACTERS = ['ë']
     LINE_BREAK: string = '<br>';
     LINE_BROKEN_PARAGRAPH: string = '<p>' + this.LINE_BREAK + '</p>';
     processedText: ProcessedText | undefined;
@@ -184,8 +185,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.eventualTextStoringSubscription$.unsubscribe();
         this.animationRemovedSubscription.unsubscribe();
     }
-
-    FORBIDDEN_CHARACTERS = ['ë']
 
     /**
      * Function that is called when text is pasted in the editor.
@@ -1289,8 +1288,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.updateWordCount();
     }
 
-    checkIt(): boolean {
-        return !this.FORBIDDEN_CHARACTERS.some(fC => document.getElementById(this.EDITOR_KEY)?.innerText.includes(fC))
+    hasUnconventionalCharacters(): boolean {
+        return this.UNCONVENTIONAL_CHARACTERS.some(fC => document.getElementById(this.EDITOR_KEY)?.innerText.includes(fC))
     }
 
     /**
@@ -1306,11 +1305,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 ),
                 debounceTime(this.EVENTUAL_MARKING_TIME),
                 filter(() => this.characterCount < this.MAX_EDITOR_CHARACTERS),
-                filter(() => {
-                    const v = this.checkIt();
-                    console.log(v)
-                    return v;
-                }),
+                filter(() => !this.hasUnconventionalCharacters()),
                 tap(() => {
                     this.blurHighlightedBoardMarking();
                     this.markEditor();
