@@ -1289,8 +1289,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     hasUnconventionalCharacters(): boolean {
-        return this.UNCONVENTIONAL_CHARACTERS.some((fC) =>
-            document.getElementById(this.EDITOR_KEY)?.innerText.includes(fC)
+        return this.UNCONVENTIONAL_CHARACTERS.some((uC) =>
+            document.getElementById(this.EDITOR_KEY)?.innerText.includes(uC)
         );
     }
 
