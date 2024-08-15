@@ -27,6 +27,7 @@
                     data-test="navbar-toggler-icon"
                 ></span>
             </button>
+            <div class="header-logo-div">
             <span
                 routerLink="/"
                 title="faqja kryesore"
@@ -37,6 +38,15 @@
                 data-test="home-button"
                 >&nbsp;penda</span
             >
+                <span
+                    class="penda-header-logo-corrector"
+                    [ngClass]="{
+                    'header-corrector-text-dark-mode': darkModeService.isDarkMode
+                }"
+                    data-test="home-label"
+                >&nbsp;korrektor i gjuhës shqipe</span
+                >
+            </div>
         </div>
 
         <div class="header-name-gear-icon">
