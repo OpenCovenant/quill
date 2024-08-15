@@ -21,7 +21,7 @@ export class AuthenticationService {
     public subscribed$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
 
     constructor(
-        private http: HttpClient,
+        private httpClient: HttpClient,
         private router: Router
     ) {
         this.initializeURLs();
@@ -49,7 +49,7 @@ export class AuthenticationService {
             google.accounts.id.disableAutoSelect();
         }
 
-        this.http.post(this.logoutURL, {}).subscribe((): void => {
+        this.httpClient.post(this.logoutURL, {}).subscribe((): void => {
             this.authenticated$.next(false);
             this.router.navigate(['/']);
             this.user = undefined;
@@ -64,7 +64,7 @@ export class AuthenticationService {
             this.authenticated$.next(false);
             return;
         }
-        this.http
+        this.httpClient
             .post(this.validateJWTURL, { access_token: access_token })
             .subscribe((r: any) => {
                 if (Object.keys(r).length > 0) {

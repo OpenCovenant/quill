@@ -32,7 +32,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
                 .subscribe(() =>
                     (
                         document.getElementById(
-                            'authenticationModalButton'
+                            'authentication-modal-button'
                         )! as HTMLButtonElement
                     ).click()
                 );

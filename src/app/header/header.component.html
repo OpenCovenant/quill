@@ -7,7 +7,7 @@
     >
         <div class="header-name-gear-icon">
             <button
-                id='off-canvas-start-button'
+                id="off-canvas-start-button"
                 class="off-canvas-start-button"
                 [ngClass]="{
                     'header-button-dark-mode': darkModeService.isDarkMode
@@ -27,16 +27,27 @@
                     data-test="navbar-toggler-icon"
                 ></span>
             </button>
-            <span
-                routerLink="/"
-                title="faqja kryesore"
-                class="penda-header-logo"
-                [ngClass]="{
-                    'header-text-dark-mode': darkModeService.isDarkMode
-                }"
-                data-test="home-button"
-                >&nbsp;penda</span
-            >
+            <div class="header-logo-div">
+                <span
+                    routerLink="/"
+                    title="faqja kryesore"
+                    class="penda-header-logo"
+                    [ngClass]="{
+                        'header-text-dark-mode': darkModeService.isDarkMode
+                    }"
+                    data-test="home-button"
+                    >penda</span
+                >
+                <span
+                    class="penda-header-logo-corrector"
+                    [ngClass]="{
+                        'header-corrector-text-dark-mode':
+                            darkModeService.isDarkMode
+                    }"
+                    data-test="home-label"
+                    >korrektor i gjuhës shqipe</span
+                >
+            </div>
         </div>
 
         <div class="header-name-gear-icon">
@@ -329,7 +340,7 @@
                                 darkModeService.isDarkMode
                         }"
                         ><i
-                            class="bi bi-info-circle"
+                            class="bi bi-shield-check"
                             [ngClass]="{
                                 'offcanvas-bi-info-circle-dark-mode':
                                     darkModeService.isDarkMode

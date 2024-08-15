@@ -31,12 +31,12 @@ describe("general flows", () => {
 
     it("should mark typos in the editor", () => {
         cy.get('[data-test="editor"]').type("gabmim ");
-        cy.get('.typo').should("be.visible");
+        cy.get(".typo").should("be.visible");
     });
 
     it("should mark loanwords in the editor", () => {
         cy.get('[data-test="editor"]').type("lider ");
-        cy.get('.loanword').should("be.visible");
+        cy.get(".loanword").should("be.visible");
     });
 
     it("should open and close the side menu as expected", () => {
@@ -207,26 +207,20 @@ describe("general flows", () => {
             .find('[data-test="blur-marking-button"]')
             .click();
         cy.get(".typo").first().click();
-        cy.get(".typo")
-            .should("have.length", 3)
-            .should("be.visible");
+        cy.get(".typo").should("have.length", 3).should("be.visible");
 
         cy.get('[data-test="marking-card"]')
             .find('[data-test="suggestion"]')
             .first()
             .click();
         cy.get(".typo").first().click();
-        cy.get(".typo")
-            .should("have.length", 2)
-            .should("be.visible");
+        cy.get(".typo").should("have.length", 2).should("be.visible");
 
         cy.get('[data-test="marking-card"]')
             .find('[data-test="suggestion"]')
             .first()
             .click();
-        cy.get(".typo")
-            .should("have.length", 1)
-            .should("be.visible");
+        cy.get(".typo").should("have.length", 1).should("be.visible");
 
         cy.get('[data-test="marking-card"]')
             .find('[data-test="dismiss-marking-button"]')

@@ -20,16 +20,18 @@ export class HeaderComponent {
     markingTypeKeys: Array<string> = [];
 
     constructor(
-        private http: HttpClient,
+        private httpClient: HttpClient,
         private router: Router,
         public authenticationService: AuthenticationService,
         public darkModeService: DarkModeService
     ) {
         this.initializeURLs();
-        this.http.get(this.getMarkingTypesCount).subscribe((data: any) => {
-            this.markingTypesCount = data['count'];
-        });
-        this.http.get(this.getMarkingTypes).subscribe((data: any) => {
+        this.httpClient
+            .get(this.getMarkingTypesCount)
+            .subscribe((data: any) => {
+                this.markingTypesCount = data['count'];
+            });
+        this.httpClient.get(this.getMarkingTypes).subscribe((data: any) => {
             this.markingTypes = data['marking_types'];
             this.markingTypeKeys = Object.keys(this.markingTypes);
         });

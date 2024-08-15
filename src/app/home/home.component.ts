@@ -47,7 +47,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     EMPTY_STRING: string = '';
     EDITOR_KEY: string = 'editor';
     PLACEHOLDER_ELEMENT_ID: string = 'editor-placeholder';
-    MAX_EDITOR_CHARACTERS: number = 5000;
+    MAX_EDITOR_CHARACTERS: number = 10000;
     MAX_EDITOR_CHARACTERS_MESSAGE: string = `Keni arritur kufirin e ${this.MAX_EDITOR_CHARACTERS} karaktereve, shkurtoni shkrimin.`;
     UNCONVENTIONAL_CHARACTERS_MESSAGE: string = `Shkrimi juaj përmban karaktere jashtë standardit. Zëvendësoni këto karaktere për të gjeneruar shenjime.`;
     LINE_BREAK: string = '<br>';
@@ -95,7 +95,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private fromEditorInputEvent$: any;
 
     constructor(
-        private http: HttpClient,
+        private httpClient: HttpClient,
         private router: Router,
         private editorContentService: EditorContentService,
         private elementRef: ElementRef,
@@ -108,7 +108,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.showWelcomeModal();
         this.showThankYouModal();
 
-        this.http.get(this.pingURL).subscribe({
+        this.httpClient.get(this.pingURL).subscribe({
             next: () => console.log('pinging server...'),
             error: (e: HttpErrorResponse) => this.disableEditor(e)
         });
@@ -296,7 +296,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             const file: File = fileList[0];
             const formData: FormData = new FormData();
             formData.append('uploadFile', file, file.name);
-            this.http
+            this.httpClient
                 .post(this.uploadDocumentURL, formData)
                 .subscribe((next) => {
                     this.processedText = next as ProcessedText;
@@ -307,9 +307,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     document.getElementById(this.EDITOR_KEY)!.innerHTML =
                         this.processedText.text; // TODO: improve to add newlines and such
                     // this.innerHTMLOfEditor = this.LINE_BROKEN_PARAGRAPH; // TODO careful with the <br> here
-                    // if (this.characterCount < this.MAX_EDITOR_CHARACTERS) {
-                    this.markEditor(CursorPlacement.END); // TODO: the upload already marks, why mark again?
-                    // }
+                    this.markEditor(CursorPlacement.END);
                 });
         } else {
             alert('Ngarko vetëm një dokument!');
@@ -648,7 +646,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * */
     private postSuggestedText(): void {
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
-        this.http
+        this.httpClient
             .post(this.generateMarkingsURL, editor.innerHTML)
             .subscribe((next) => {
                 this.processedText = next as ProcessedText;
@@ -1064,7 +1062,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
 
         this.loading$.next(true);
-        this.http
+        this.httpClient
             .post(this.generateMarkingsURL, editor.innerHTML)
             .pipe(finalize(() => this.loading$.next(false)))
             .subscribe({
@@ -1343,8 +1341,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private disableEditor(errorResponse: HttpErrorResponse): void {
         const errorMessage =
             errorResponse.status === 429
-                ? 'Tepër kërkesa për shenjime për momentin'
-                : 'Fatkeqësisht kemi një problem me serverat. Ju kërkojmë ndjesë, ndërsa kërkojme për një zgjidhje.';
+                ? 'Tepër kërkesa për shenjime për momentin.'
+                : 'Fatkeqësisht kemi një problem me serverat. Ju kërkojmë ndjesë, ndërsa kërkojmë për një zgjidhje.';
         (
             document.getElementById(this.EDITOR_KEY) as HTMLDivElement
         ).contentEditable = 'false';
@@ -1425,7 +1423,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     }
                     case 'm':
                     case 'M': {
-                        document.getElementById('off-canvas-start-button')!.click();
+                        document
+                            .getElementById('off-canvas-start-button')!
+                            .click();
                     }
                 }
             }

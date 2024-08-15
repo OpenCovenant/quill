@@ -1,5 +1,5 @@
 <div class="high-level-container">
-    <div class="input-container mt-5">
+    <div class="input-container">
         <div
             class="card input-container-card border-secondary"
             [ngClass]="{
@@ -7,7 +7,7 @@
             }"
         >
             <div
-                class="card-body"
+                class="card-body input-container-card-body"
                 [ngClass]="{
                     'card-body-dark-mode': darkModeService.isDarkMode
                 }"
@@ -29,7 +29,7 @@
                         spellcheck="false"
                         autocapitalize="off"
                         role="textbox"
-                        aria-label='redaktori'
+                        aria-label="redaktori"
                         aria-multiline="true"
                         data-test="editor"
                     ></div>
@@ -59,7 +59,7 @@
                     <div *ngIf="editorHasText()">
                         <button
                             type="button"
-                            class="btn-close text-reset"
+                            class="btn-close text-reset close-button-text-reset"
                             [ngClass]="{
                                 'clear-element-dark-mode':
                                     darkModeService.isDarkMode
@@ -145,7 +145,7 @@
             />
         </div>
     </div>
-    <div class="output-container mt-5">
+    <div class="output-container">
         <div
             *ngIf="
                 (processedText === undefined ||
@@ -156,7 +156,7 @@
             <!-- TODO put into a method -->
             <div class="card typo-marking-card border-secondary">
                 <div
-                    class="card-header second-header"
+                    class="card-header typo-marking-card-header second-header"
                     [ngClass]="{
                         'second-header-dark-mode': darkModeService.isDarkMode
                     }"
@@ -169,7 +169,7 @@
                 </div>
                 <ul class="list-group list-group-flush">
                     <li
-                        class="list-group-item"
+                        class="list-group-item typo-list-group-item"
                         [ngClass]="{
                             'list-group-item-dark-mode':
                                 darkModeService.isDarkMode
@@ -185,7 +185,7 @@
             </div>
             <div class="card loanword-marking-card border-secondary mt-4">
                 <div
-                    class="card-header second-header"
+                    class="card-header loanword-marking-card-header second-header"
                     [ngClass]="{
                         'second-header-dark-mode': darkModeService.isDarkMode
                     }"
@@ -199,7 +199,7 @@
                 </div>
                 <ul class="list-group list-group-flush">
                     <li
-                        class="list-group-item"
+                        class="list-group-item loanword-list-group-item"
                         [ngClass]="{
                             'list-group-item-dark-mode':
                                 darkModeService.isDarkMode
@@ -215,7 +215,7 @@
             </div>
             <div class="card stylistic-marking-card border-secondary mt-4">
                 <div
-                    class="card-header second-header"
+                    class="card-header stylistic-marking-card-header second-header"
                     [ngClass]="{
                         'second-header-dark-mode': darkModeService.isDarkMode
                     }"
@@ -229,7 +229,7 @@
                 </div>
                 <ul class="list-group list-group-flush">
                     <li
-                        class="list-group-item"
+                        class="list-group-item stylistic-list-group-item"
                         [ngClass]="{
                             'list-group-item-dark-mode':
                                 darkModeService.isDarkMode
@@ -242,7 +242,7 @@
             </div>
             <div class="card grammatical-marking-card border-secondary mt-4">
                 <div
-                    class="card-header second-header"
+                    class="card-header grammatical-marking-card-header second-header"
                     [ngClass]="{
                         'second-header-dark-mode': darkModeService.isDarkMode
                     }"
@@ -256,13 +256,13 @@
                 </div>
                 <ul class="list-group list-group-flush">
                     <li
-                        class="list-group-item"
+                        class="list-group-item grammatical-list-group-item"
                         [ngClass]="{
                             'list-group-item-dark-mode':
                                 darkModeService.isDarkMode
                         }"
                     >
-                        <i class="bi bi-stars"></i>
+                        <i class="bi bi-stars grammatical-marking-stars"></i>
                         <b>sipas rregullave gramatikore</b> -
                         <span
                             >shenjime për gabime gramatikore të llojeve të
@@ -288,7 +288,7 @@
                     data-test="marking-card"
                 >
                     <div
-                        class="card-header second-header"
+                        class="card-header generated-marking-card-header second-header"
                         [ngClass]="{
                             'second-header-dark-mode':
                                 darkModeService.isDarkMode
@@ -307,7 +307,7 @@
                             <button
                                 (click)="dismissMarking(i)"
                                 type="button"
-                                class="btn-close text-reset"
+                                class="btn-close text-reset dismiss-marking-close-button"
                                 [ngClass]="{
                                     'dismiss-marking-element-dark-mode':
                                         darkModeService.isDarkMode
@@ -320,7 +320,7 @@
                     </div>
                     <ul class="list-group list-group-flush">
                         <li
-                            class="list-group-item"
+                            class="list-group-item generated-marking-list-group-item"
                             [ngClass]="{
                                 'list-group-item-dark-mode':
                                     darkModeService.isDarkMode
@@ -330,7 +330,7 @@
                                 <div>
                                     <i
                                         *ngIf="marking.type === 'grammatical'"
-                                        class="bi bi-stars"
+                                        class="bi bi-stars generated-grammatical-marking-star"
                                     ></i>
                                     <b>{{ marking.subtype }}</b> -
                                     <span>{{ marking.description }}</span>
@@ -396,7 +396,7 @@
                     data-test="marking-card"
                 >
                     <div
-                        class="card-header second-header"
+                        class="card-header highlighted-marking-card-header second-header"
                         [ngClass]="{
                             'second-header-dark-mode':
                                 darkModeService.isDarkMode
@@ -427,7 +427,7 @@
                     </div>
                     <ul class="list-group list-group-flush">
                         <li
-                            class="list-group-item"
+                            class="list-group-item highlighted-marking-list-group-item"
                             [ngClass]="{
                                 'list-group-item-dark-mode':
                                     darkModeService.isDarkMode
@@ -559,7 +559,7 @@
             *ngIf="loading$ | async"
         >
             <div
-                class="card-header second-header"
+                class="card-header loading-reading-text-card-header second-header"
                 [ngClass]="{
                     'second-header-dark-mode': darkModeService.isDarkMode
                 }"
@@ -630,7 +630,7 @@
                     <label
                         class="form-check-label"
                         for="flex-switch-check-checked"
-                    >Përdor Historikun e Shkrimeve</label
+                        >Përdor Historikun e Shkrimeve</label
                     >
                     <label class="switch">
                         <input

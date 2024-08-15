@@ -24,9 +24,9 @@ export class CheckoutComponent implements OnInit {
     @ViewChild('paypalButton', { static: true }) paypalButton!: ElementRef;
 
     constructor(
-        private http: HttpClient,
+        private httpClient: HttpClient,
         private router: Router,
-        private zone: NgZone,
+        private ngZone: NgZone,
         private authenticationService: AuthenticationService
     ) {
         this.initializeURLs();
@@ -58,14 +58,14 @@ export class CheckoutComponent implements OnInit {
                     ) {
                         console.warn('Odd payment source, cancelling...');
                     }
-                    this.http
+                    this.httpClient
                         .post(this.storePayPalSubscriptionURL, data)
                         .subscribe(() => {
                             const navigationExtras: NavigationExtras = {
                                 state: { payload: 'penda-thank-you' }
                             };
 
-                            this.zone.run(() => {
+                            this.ngZone.run(() => {
                                 this.authenticationService.subscribed$.next(
                                     true
                                 );

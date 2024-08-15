@@ -16,14 +16,14 @@ export class MarkingDetailsComponent {
 
     constructor(
         public darkModeService: DarkModeService,
-        private route: ActivatedRoute,
-        private http: HttpClient
+        private activatedRoute: ActivatedRoute,
+        private httpClient: HttpClient
     ) {
         this.initializeURLs();
-        this.route.paramMap.subscribe((paramMap): void => {
+        this.activatedRoute.paramMap.subscribe((paramMap): void => {
             const id: string | null = paramMap.get('id');
 
-            this.http
+            this.httpClient
                 .get(this.getMarkingDetailsURL + '/' + id)
                 .subscribe(
                     (html: any) =>
