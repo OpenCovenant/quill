@@ -20,7 +20,7 @@ export class SettingsComponent implements OnInit {
     dismissedMarkings: string[] = [];
 
     constructor(
-        private http: HttpClient,
+        private httpClient: HttpClient,
         public darkModeService: DarkModeService
     ) {
         this.dismissedMarkings =
@@ -33,7 +33,7 @@ export class SettingsComponent implements OnInit {
         this.isLoading = true;
         this.initializeURLs();
         // TODO: consider making changes to `LocalStorageService`
-        this.http.get(this.markingTypesURL).subscribe((data: any) => {
+        this.httpClient.get(this.markingTypesURL).subscribe((data: any) => {
             if (
                 !localStorage.getItem(this.ALREADY_MADE_MARKING_TYPE_SELECTIONS)
             ) {

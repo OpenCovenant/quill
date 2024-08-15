@@ -14,13 +14,13 @@ export class TermsOfUseComponent {
     getTermsOfUseURL!: string;
 
     constructor(
-        private http: HttpClient,
+        private httpClient: HttpClient,
         public darkModeService: DarkModeService,
         private activatedRoute: ActivatedRoute,
         private router: Router
     ) {
         this.initializeURLs();
-        this.http.get(this.getTermsOfUseURL).subscribe((html: any) => {
+        this.httpClient.get(this.getTermsOfUseURL).subscribe((html: any) => {
             document.getElementById('terms-of-use')!.innerHTML =
                 html['terms_of_use_html'];
 
