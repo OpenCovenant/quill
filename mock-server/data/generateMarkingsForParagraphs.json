@@ -5175,6 +5175,28 @@
                 }
             ]
         }
+    },
+    {
+        "request": "<p>Pra çmimi është i perballueshem e kaq.</p>\n",
+        "response": {
+            "text": "<p>Pra \u00e7mimi \u00ebsht\u00eb i perballueshem e kaq.</p>",
+            "markings": [
+                {
+                    "from": 18,
+                    "to": 31,
+                    "type": "typo",
+                    "subtype": "gabim drejtshkrimi",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "p\u00ebrballuesh\u00ebm",
+                            "action": "p\u00ebrballuesh\u00ebm"
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
     }
 ]
 

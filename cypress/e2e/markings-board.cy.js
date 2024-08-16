@@ -60,6 +60,7 @@ describe("markings board", () => {
             force: true
         });
         cy.get('[data-test="marking-type-switch"]').should("not.be.checked");
+
         cy.visit("/");
         cy.get('[data-test="editor"]').type("Pra shkoi tek zyra. ");
         cy.get(".typo-marking-header").should("be.visible");
@@ -83,6 +84,7 @@ describe("markings board", () => {
             )
             .should("be.visible");
         cy.get('[data-test="editor"]').clear();
+
         cy.visit("/settings");
         cy.get('[data-test="marking-type-switch"]').should("not.be.checked");
         cy.get('[data-test="marking-type-switch"]').click({
@@ -90,6 +92,51 @@ describe("markings board", () => {
             force: true
         });
         cy.get('[data-test="marking-type-switch"]').should("be.checked");
+
+        cy.visit("/");
+        cy.get('[data-test="editor"]').type("Pra shkoi tek zyra. ");
+        cy.get('[data-test="marking-span"]')
+            .contains("tek")
+            .should("be.visible");
+        cy.get('[data-test="editor"]').type("{enter}"); // TODO why do we enter here?
+    });
+
+    // TODO
+    xit("should not immediately apply markings after being disabled and actually do so after enabling", () => {
+        cy.visit("/settings");
+        cy.get('[data-test="immediately-applied-markings-switch"]').should("be.checked");
+        cy.get('[data-test="immediately-applied-markings-switch"]').click();
+        cy.get('[data-test="immediately-applied-markings-switch"]').should("not.be.checked");
+
+        cy.visit("/");
+        cy.get('[data-test="editor"]').type("Pra çmimi është i perballueshem e kaq.");
+        cy.get(".typo-marking-header").should("be.visible"); // TODO
+        cy.get(".list-group-item b")
+            .contains("shkrim pa gabime")
+            .should("be.visible");
+        cy.get(".list-group-item span")
+            .contains(
+                "shenjime për fjalë të shkruara gabim, gabime fonetikore, shenja pikësimi"
+            )
+            .should("be.visible");
+        cy.get('[data-test="editor"]').type("{enter}");
+        cy.get('[data-test="editor"]').type("Pra  kaq.");
+        cy.get(".typo-marking-header").should("be.visible");
+        cy.get(".list-group-item b")
+            .contains("shkrim pa gabime")
+            .should("be.visible");
+        cy.get(".list-group-item span")
+            .contains(
+                "shenjime për fjalë të shkruara gabim, gabime fonetikore, shenja pikësimi"
+            )
+            .should("be.visible");
+        cy.get('[data-test="editor"]').clear();
+
+        cy.visit("/settings");
+        cy.get('[data-test="immediately-applied-markings-switch"]').should("not.be.checked");
+        cy.get('[data-test="immediately-applied-markings-switch"]').click();
+        cy.get('[data-test="immediately-applied-markings-switch"]').should("be.checked");
+
         cy.visit("/");
         cy.get('[data-test="editor"]').type("Pra shkoi tek zyra. ");
         cy.get('[data-test="marking-span"]')

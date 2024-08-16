@@ -663,8 +663,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                         this.processedText.markings
                     );
 
-                    this.tempProcessedText = this.tempProcessedText =
-                        JSON.parse(JSON.stringify(this.processedText));
+                    this.tempProcessedText = JSON.parse(JSON.stringify(this.processedText));
                     this.markingParagraphIndex = [];
                     this.separateParagraphIndex(this.tempProcessedText);
 
@@ -1081,8 +1080,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                         this.processedText.markings
                     );
 
-                    this.tempProcessedText = this.tempProcessedText =
-                        JSON.parse(JSON.stringify(this.processedText));
+                    this.tempProcessedText = JSON.parse(JSON.stringify(this.processedText));
                     this.markingParagraphIndex = [];
                     this.separateParagraphIndex(this.tempProcessedText);
 
