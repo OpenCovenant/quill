@@ -102,6 +102,39 @@
                     </div>
 
                     <div class="dark-mode-setting-section">
+                        <h5>Shenjime të Menjëhershme</h5>
+                        <hr />
+                        <div class="dark-mode-div dark-mode-label-flex">
+                            <div>
+                                Përdor Shenjimet e Menjëhershme, të cilat
+                                vetë-aplikojnë shenjime në rastet kur këto kanë
+                                vetëm një sugjerim. Për momentin kjo vlen vetëm
+                                për disa gabime shkrimi.
+                            </div>
+
+                            <span>
+                                <label
+                                    class="marking-type-label"
+                                    for="immediately-applied-markings"
+                                >
+                                    <input
+                                        class="marking-type-input"
+                                        role="switch"
+                                        type="checkbox"
+                                        id="immediately-applied-markings"
+                                        [(ngModel)]="immediatelyAppliedMarkings"
+                                        (ngModelChange)="
+                                            onImmediatelyAppliedMarkingsSwitch(
+                                                $event
+                                            )
+                                        "
+                                        data-test="immediately-applied-markings-switch"
+                                    /><span class="slider round"></span> </label
+                            ></span>
+                        </div>
+                    </div>
+
+                    <div class="dark-mode-setting-section">
                         <h5>Shenjimet e Hequra</h5>
                         <hr />
                         <div class="dark-mode-div dark-mode-label-flex">
@@ -158,7 +191,7 @@
                                                 $event
                                             )
                                         "
-                                        data-test="switch-check-testing"
+                                        data-test="marking-type-switch"
                                     /><span class="slider round"></span> </label
                             ></span>
                         </div>

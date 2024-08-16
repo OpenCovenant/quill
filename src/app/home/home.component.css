@@ -572,6 +572,7 @@
     background-color: var(--dark-mode-theme);
     margin: 0 1rem;
 }
+
 .marking-type-label {
     position: relative;
     display: inline-block;

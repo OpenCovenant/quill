@@ -54,12 +54,12 @@ describe("markings board", () => {
 
     it("should hide marking types after being disabled and reappear after enabling", () => {
         cy.visit("/settings");
-        cy.get('[data-test="switch-check-testing"]').should("be.checked");
-        cy.get('[data-test="switch-check-testing"]').click({
+        cy.get('[data-test="marking-type-switch"]').should("be.checked");
+        cy.get('[data-test="marking-type-switch"]').click({
             multiple: true,
             force: true
         });
-        cy.get('[data-test="switch-check-testing"]').should("not.be.checked");
+        cy.get('[data-test="marking-type-switch"]').should("not.be.checked");
         cy.visit("/");
         cy.get('[data-test="editor"]').type("Pra shkoi tek zyra. ");
         cy.get(".typo-marking-header").should("be.visible");
@@ -84,12 +84,12 @@ describe("markings board", () => {
             .should("be.visible");
         cy.get('[data-test="editor"]').clear();
         cy.visit("/settings");
-        cy.get('[data-test="switch-check-testing"]').should("not.be.checked");
-        cy.get('[data-test="switch-check-testing"]').click({
+        cy.get('[data-test="marking-type-switch"]').should("not.be.checked");
+        cy.get('[data-test="marking-type-switch"]').click({
             multiple: true,
             force: true
         });
-        cy.get('[data-test="switch-check-testing"]').should("be.checked");
+        cy.get('[data-test="marking-type-switch"]').should("be.checked");
         cy.visit("/");
         cy.get('[data-test="editor"]').type("Pra shkoi tek zyra. ");
         cy.get('[data-test="marking-span"]')

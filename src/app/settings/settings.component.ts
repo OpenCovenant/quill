@@ -19,14 +19,19 @@ export class SettingsComponent implements OnInit {
     markingTypes: any[] = [];
     dismissedMarkings: string[] = [];
 
+    immediatelyAppliedMarkings: boolean;
+
     constructor(
-        private httpClient: HttpClient,
-        public darkModeService: DarkModeService
+        public darkModeService: DarkModeService,
+        private httpClient: HttpClient
     ) {
         this.dismissedMarkings =
             (JSON.parse(
                 localStorage.getItem('penda-dismissed-markings')!
             ) as string[]) ?? [];
+        this.immediatelyAppliedMarkings =
+            localStorage.getItem('penda-immediately-applied-markings') ===
+            'true';
     }
 
     ngOnInit(): void {
@@ -62,6 +67,13 @@ export class SettingsComponent implements OnInit {
 
     onMarkingTypeSelection(markingTypeID: string, selected: boolean): void {
         localStorage.setItem(markingTypeID, String(selected));
+    }
+
+    onImmediatelyAppliedMarkingsSwitch(selected: boolean): void {
+        localStorage.setItem(
+            'penda-immediately-applied-markings',
+            String(selected)
+        );
     }
 
     undoMarkingDismissal(dismissedMarking: string): void {
