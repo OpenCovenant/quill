@@ -68,6 +68,7 @@
     /*color: #707070;*/
     color: var(--dark-mode-smooth-theme);
     pointer-events: none;
+    padding-right: 20px;
 }
 
 .editor-placeholder-text {
