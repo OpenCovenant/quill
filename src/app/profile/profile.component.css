@@ -8,7 +8,7 @@
     background-color: var(--light-mode-color);
     position: relative;
     display: flex;
-    border: 0px solid rgba(0, 0, 0, 0.125);
+    border: 0 solid rgba(0, 0, 0, 0.125);
     border-radius: 0.25rem;
     box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
     width: 60%;

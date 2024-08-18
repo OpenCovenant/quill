@@ -104,12 +104,16 @@ describe("markings board", () => {
     // TODO
     xit("should not immediately apply markings after being disabled and actually do so after enabling", () => {
         cy.visit("/settings");
-        cy.get('[data-test="immediately-applied-markings-switch"]').should("be.checked");
-        cy.get('[data-test="immediately-applied-markings-switch"]').click();
-        cy.get('[data-test="immediately-applied-markings-switch"]').should("not.be.checked");
+        cy.get('[data-test="immediate-markings-switch"]').should("be.checked");
+        cy.get('[data-test="immediate-markings-switch"]').click();
+        cy.get('[data-test="immediate-markings-switch"]').should(
+            "not.be.checked"
+        );
 
         cy.visit("/");
-        cy.get('[data-test="editor"]').type("Pra çmimi është i perballueshem e kaq.");
+        cy.get('[data-test="editor"]').type(
+            "Pra çmimi është i perballueshem e kaq."
+        );
         cy.get(".typo-marking-header").should("be.visible"); // TODO
         cy.get(".list-group-item b")
             .contains("shkrim pa gabime")
@@ -133,9 +137,11 @@ describe("markings board", () => {
         cy.get('[data-test="editor"]').clear();
 
         cy.visit("/settings");
-        cy.get('[data-test="immediately-applied-markings-switch"]').should("not.be.checked");
-        cy.get('[data-test="immediately-applied-markings-switch"]').click();
-        cy.get('[data-test="immediately-applied-markings-switch"]').should("be.checked");
+        cy.get('[data-test="immediate-markings-switch"]').should(
+            "not.be.checked"
+        );
+        cy.get('[data-test="immediate-markings-switch"]').click();
+        cy.get('[data-test="immediate-markings-switch"]').should("be.checked");
 
         cy.visit("/");
         cy.get('[data-test="editor"]').type("Pra shkoi tek zyra. ");

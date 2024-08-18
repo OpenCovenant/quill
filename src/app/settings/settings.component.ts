@@ -11,6 +11,8 @@ import { DarkModeService } from '../services/dark-mode.service';
 export class SettingsComponent implements OnInit {
     ALREADY_MADE_MARKING_TYPE_SELECTIONS =
         'penda-has-stored-marking-type-selections';
+    DISMISSED_MARKINGS = 'penda-dismissed-markings';
+    IMMEDIATE_MARKINGS = 'penda-immediate-markings';
 
     baseURL!: string;
     markingTypesURL!: string;
@@ -19,7 +21,7 @@ export class SettingsComponent implements OnInit {
     markingTypes: any[] = [];
     dismissedMarkings: string[] = [];
 
-    immediatelyAppliedMarkings: boolean;
+    immediateMarkings: boolean;
 
     constructor(
         public darkModeService: DarkModeService,
@@ -27,11 +29,10 @@ export class SettingsComponent implements OnInit {
     ) {
         this.dismissedMarkings =
             (JSON.parse(
-                localStorage.getItem('penda-dismissed-markings')!
+                localStorage.getItem(this.DISMISSED_MARKINGS)!
             ) as string[]) ?? [];
-        this.immediatelyAppliedMarkings =
-            localStorage.getItem('penda-immediately-applied-markings') ===
-            'true';
+        this.immediateMarkings =
+            localStorage.getItem(this.IMMEDIATE_MARKINGS) === 'true';
     }
 
     ngOnInit(): void {
@@ -69,31 +70,28 @@ export class SettingsComponent implements OnInit {
         localStorage.setItem(markingTypeID, String(selected));
     }
 
-    onImmediatelyAppliedMarkingsSwitch(selected: boolean): void {
-        localStorage.setItem(
-            'penda-immediately-applied-markings',
-            String(selected)
-        );
+    onImmediateMarkingsSwitch(selected: boolean): void {
+        localStorage.setItem(this.IMMEDIATE_MARKINGS, String(selected));
     }
 
     undoMarkingDismissal(dismissedMarking: string): void {
         let dismissedMarkings: string[] = JSON.parse(
-            localStorage.getItem('penda-dismissed-markings')!
+            localStorage.getItem(this.DISMISSED_MARKINGS)!
         ) as string[];
         dismissedMarkings = dismissedMarkings.filter(
             (dM) => dM !== dismissedMarking
         );
         this.dismissedMarkings = dismissedMarkings;
         localStorage.setItem(
-            'penda-dismissed-markings',
+            this.DISMISSED_MARKINGS,
             JSON.stringify(this.dismissedMarkings)
         );
     }
 
     undoMarkingsDismissal(): void {
-        localStorage.setItem('penda-dismissed-markings', JSON.stringify([]));
+        localStorage.setItem(this.DISMISSED_MARKINGS, JSON.stringify([]));
         this.dismissedMarkings = JSON.parse(
-            localStorage.getItem('penda-dismissed-markings')!
+            localStorage.getItem(this.DISMISSED_MARKINGS)!
         ) as string[];
     }
 

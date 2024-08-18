@@ -32,7 +32,7 @@
 .dashboard-card {
     min-height: 400px;
     box-shadow: 0 0 10px #d8d8d899;
-    border: 0px solid rgba(0, 0, 0, 0.125);
+    border: 0 solid rgba(0, 0, 0, 0.125);
 }
 
 .dashboard-card-header {

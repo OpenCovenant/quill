@@ -249,7 +249,7 @@
 }
 
 .dropdown-menu-item-list {
-    padding: 0px 5px 0px 5px;
+    padding: 0 5px 0 5px;
 }
 
 .menu-item-divider {
@@ -260,7 +260,7 @@
 
 .dropdown-menu-dark-mode {
     background-color: var(--dark-mode-theme);
-    box-shadow: 0px 0px 1px var(--dark-mode-smooth-theme);
+    box-shadow: 0 0 1px var(--dark-mode-smooth-theme);
 }
 
 .menu-dropdown-item-dark-mode {

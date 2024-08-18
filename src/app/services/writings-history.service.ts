@@ -12,7 +12,7 @@ export class WritingsHistoryService {
     WRITINGS_HISTORY_KEYS: string[] = Array(this.WRITINGS_HISTORY_LENGTH)
         .fill(this.WRITINGS_HISTORY_PREFIX)
         .map((s: string, i: number) => s + i.toString());
-    canStoreWritings: boolean = true;
+    canStoreWritings: boolean = false;
 
     // save last n "writings" te local storage
     // a writing is defined as whenever you paste something, or click outside the editor

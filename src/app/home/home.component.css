@@ -12,31 +12,31 @@
 }
 
 .typo-marking-card-header {
-    border-bottom: 0px solid var(--light-black);
+    border-bottom: 0 solid var(--light-black);
 }
 
 .loanword-marking-card-header {
-    border-bottom: 0px solid var(--light-black);
+    border-bottom: 0 solid var(--light-black);
 }
 
 .stylistic-marking-card-header {
-    border-bottom: 0px solid var(--light-black);
+    border-bottom: 0 solid var(--light-black);
 }
 
 .grammatical-marking-card-header {
-    border-bottom: 0px solid var(--light-black);
+    border-bottom: 0 solid var(--light-black);
 }
 
 .generated-marking-card-header {
-    border-bottom: 0px solid var(--light-black);
+    border-bottom: 0 solid var(--light-black);
 }
 
 .highlighted-marking-card-header {
-    border-bottom: 0px solid var(--light-black);
+    border-bottom: 0 solid var(--light-black);
 }
 
 .loading-reading-text-card-header {
-    border-bottom: 0px solid var(--light-black);
+    border-bottom: 0 solid var(--light-black);
 }
 
 .card-fade {
@@ -131,7 +131,7 @@
     /*padding-right: 25px;*/
     overflow-x: hidden;
     overflow-y: visible;
-    padding: 0px 5px 5px 5px;
+    padding: 0 5px 5px 5px;
 }
 
 .second-header {
@@ -200,7 +200,7 @@
         margin-bottom: 170px;
     }
     to {
-        margin-bottom: 0px;
+        margin-bottom: 0;
     }
 }
 
@@ -458,7 +458,8 @@
     background-color: var(--dark-mode-theme);
     color: var(--dark-mode-anti-theme);
 }
-/*is this even used?*/
+
+/*TODO is this even used?*/
 .writing-dark-mode {
     background-color: #9a9a9a;
     color: black;
@@ -583,49 +584,49 @@
 }
 
 .input-container-card {
-    border: 0px solid rgba(0, 0, 0, 0.125);
+    border: 0 solid rgba(0, 0, 0, 0.125);
     box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
     margin-top: 5px;
 }
 
 .typo-marking-card {
-    border: 0px solid rgba(0, 0, 0, 0.125);
+    border: 0 solid rgba(0, 0, 0, 0.125);
     box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
     margin-top: 5px;
 }
 
 .loanword-marking-card {
-    border: 0px solid rgba(0, 0, 0, 0.125);
+    border: 0 solid rgba(0, 0, 0, 0.125);
     box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
     margin-top: 5px;
 }
 
 .stylistic-marking-card {
-    border: 0px solid rgba(0, 0, 0, 0.125);
+    border: 0 solid rgba(0, 0, 0, 0.125);
     box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
     margin-top: 5px;
 }
 
 .grammatical-marking-card {
-    border: 0px solid rgba(0, 0, 0, 0.125);
+    border: 0 solid rgba(0, 0, 0, 0.125);
     box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
     margin-top: 5px;
 }
 
 .generated-marking-card {
-    border: 0px solid rgba(0, 0, 0, 0.125);
+    border: 0 solid rgba(0, 0, 0, 0.125);
     box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
     margin-top: 5px;
 }
 
 .highlighted-marking-card {
-    border: 0px solid rgba(0, 0, 0, 0.125);
+    border: 0 solid rgba(0, 0, 0, 0.125);
     box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
     margin-top: 5px;
 }
 
 .loading-reading-text-card {
-    border: 0px solid rgba(0, 0, 0, 0.125);
+    border: 0 solid rgba(0, 0, 0, 0.125);
     box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
     margin-top: 5px;
 }

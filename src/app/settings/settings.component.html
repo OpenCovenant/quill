@@ -115,20 +115,18 @@
                             <span>
                                 <label
                                     class="marking-type-label"
-                                    for="immediately-applied-markings"
+                                    for="immediate-markings"
                                 >
                                     <input
                                         class="marking-type-input"
                                         role="switch"
                                         type="checkbox"
-                                        id="immediately-applied-markings"
-                                        [(ngModel)]="immediatelyAppliedMarkings"
+                                        id="immediate-markings"
+                                        [(ngModel)]="immediateMarkings"
                                         (ngModelChange)="
-                                            onImmediatelyAppliedMarkingsSwitch(
-                                                $event
-                                            )
+                                            onImmediateMarkingsSwitch($event)
                                         "
-                                        data-test="immediately-applied-markings-switch"
+                                        data-test="immediate-markings-switch"
                                     /><span class="slider round"></span> </label
                             ></span>
                         </div>
@@ -141,10 +139,10 @@
                             <div>Rishiko shenjimet që keni hequr më parë.</div>
                             <button
                                 class="btn btn-secondary"
-                                id="dismissedMarkingsModalButton"
+                                id="dismissed-markings-modal-button"
                                 type="button"
                                 data-bs-toggle="modal"
-                                data-bs-target="#dismissedMarkingsModal"
+                                data-bs-target="#dismissed-markings-modal"
                             >
                                 Rishiko Shenjimet
                             </button>
@@ -204,9 +202,9 @@
 
 <div
     class="modal fade"
-    id="dismissedMarkingsModal"
+    id="dismissed-markings-modal"
     tabindex="-1"
-    aria-labelledby="dismissedMarkingsModalLabel"
+    aria-labelledby="dismissed-markings-modal-label"
     aria-hidden="true"
 >
     <div class="modal-dialog modal-dialog-centered">
@@ -217,7 +215,7 @@
             }"
         >
             <div class="modal-header">
-                <h5 class="modal-title" id="dismissedMarkingsModalLabel">
+                <h5 class="modal-title" id="dismissed-markings-modal-label">
                     Shenjimet e Larguara
                 </h5>
                 <button
@@ -276,9 +274,10 @@
                     type="button"
                     class="btn btn-primary undo-all-dismissed-markings"
                     data-bs-toggle="modal"
-                    data-bs-target="#dismissedMarkingsModal"
-                    aria-controls="dismissedMarkingsModal"
+                    data-bs-target="#dismissed-markings-modal"
+                    aria-controls="dismissed-markings-modal"
                     (click)="undoMarkingsDismissal()"
+                    [disabled]="dismissedMarkings.length === 0"
                 >
                     Zhbëj të Gjitha
                 </button>

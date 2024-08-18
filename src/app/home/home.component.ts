@@ -84,7 +84,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     shouldShowThankYouModal: boolean = false; // TODO: exists because `this.router.getCurrentNavigation()` is not null only in the constructor
     shouldShowWelcomeModal: boolean = false; // TODO: exists because `this.router.getCurrentNavigation()` is not null only in the constructor
 
-    private placeHolderElement!: HTMLElement;
     private baseURL!: string;
     private generateMarkingsURL!: string;
     private uploadDocumentURL!: string;
@@ -118,9 +117,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     ngAfterViewInit(): void {
         // save reference and reuse variable instead of reinitializing multiple times
         this.editorElement = document.getElementById(this.EDITOR_KEY)!;
-        this.placeHolderElement = document.getElementById(
-            this.PLACEHOLDER_ELEMENT_ID
-        )!;
 
         if (this.editorContentService.editorInnerHTML) {
             this.editorElement.innerHTML =
@@ -166,11 +162,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             });
 
         if (this.shouldShowThankYouModal) {
-            document.getElementById('thankYouModalButton')?.click();
+            document.getElementById('thank-you-modal-button')?.click();
             this.shouldShowThankYouModal = false;
         }
         if (this.shouldShowWelcomeModal) {
-            document.getElementById('welcomeModalButton')?.click();
+            document.getElementById('welcome-modal-button')?.click();
             this.shouldShowWelcomeModal = false;
         }
 
@@ -663,7 +659,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                         this.processedText.markings
                     );
 
-                    this.tempProcessedText = JSON.parse(JSON.stringify(this.processedText));
+                    this.tempProcessedText = JSON.parse(
+                        JSON.stringify(this.processedText)
+                    );
                     this.markingParagraphIndex = [];
                     this.separateParagraphIndex(this.tempProcessedText);
 
@@ -1080,7 +1078,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                         this.processedText.markings
                     );
 
-                    this.tempProcessedText = JSON.parse(JSON.stringify(this.processedText));
+                    this.tempProcessedText = JSON.parse(
+                        JSON.stringify(this.processedText)
+                    );
                     this.markingParagraphIndex = [];
                     this.separateParagraphIndex(this.tempProcessedText);
 
