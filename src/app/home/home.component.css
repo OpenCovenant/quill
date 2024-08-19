@@ -557,7 +557,7 @@
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
-    box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
+    box-shadow: 0 0 10px var(--some-box-shadow-color);
     border-radius: 5px;
     padding: 5px;
     overflow: hidden;
@@ -584,50 +584,50 @@
 }
 
 .input-container-card {
-    border: 0 solid rgba(0, 0, 0, 0.125);
-    box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
+    border: 0 solid var(--some-border-color);
+    box-shadow: 0 0 10px var(--some-box-shadow-color);
     margin-top: 5px;
 }
 
 .typo-marking-card {
-    border: 0 solid rgba(0, 0, 0, 0.125);
-    box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
+    border: 0 solid var(--some-border-color);
+    box-shadow: 0 0 10px var(--some-box-shadow-color);
     margin-top: 5px;
 }
 
 .loanword-marking-card {
-    border: 0 solid rgba(0, 0, 0, 0.125);
-    box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
+    border: 0 solid var(--some-border-color);
+    box-shadow: 0 0 10px var(--some-box-shadow-color);
     margin-top: 5px;
 }
 
 .stylistic-marking-card {
-    border: 0 solid rgba(0, 0, 0, 0.125);
-    box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
+    border: 0 solid var(--some-border-color);
+    box-shadow: 0 0 10px var(--some-box-shadow-color);
     margin-top: 5px;
 }
 
 .grammatical-marking-card {
-    border: 0 solid rgba(0, 0, 0, 0.125);
-    box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
+    border: 0 solid var(--some-border-color);
+    box-shadow: 0 0 10px var(--some-box-shadow-color);
     margin-top: 5px;
 }
 
 .generated-marking-card {
-    border: 0 solid rgba(0, 0, 0, 0.125);
-    box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
+    border: 0 solid var(--some-border-color);
+    box-shadow: 0 0 10px var(--some-box-shadow-color);
     margin-top: 5px;
 }
 
 .highlighted-marking-card {
-    border: 0 solid rgba(0, 0, 0, 0.125);
-    box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
+    border: 0 solid var(--some-border-color);
+    box-shadow: 0 0 10px var(--some-box-shadow-color);
     margin-top: 5px;
 }
 
 .loading-reading-text-card {
-    border: 0 solid rgba(0, 0, 0, 0.125);
-    box-shadow: 0 0 10px rgba(216, 216, 216, 0.6);
+    border: 0 solid var(--some-border-color);
+    box-shadow: 0 0 10px var(--some-box-shadow-color);
     margin-top: 5px;
 }
 
@@ -684,7 +684,7 @@ input:checked + .slider {
 }
 
 input:focus + .slider {
-    box-shadow: 0 0 1px #2196f3;
+    box-shadow: 0 0 1px var(--checked-blue-color-theme);
 }
 
 input:checked + .slider:before {
@@ -707,7 +707,7 @@ input:checked + .slider:before {
 }
 
 .history-modal-body {
-    padding: 1rem 1rem 1rem 0rem;
+    padding: 1rem 1rem 1rem 0;
 }
 
 .thank-you-modal-button {
@@ -735,6 +735,7 @@ input:checked + .slider:before {
 .welcome-modal-continue-button {
     font-weight: 500;
 }
+
 /*TODO change color on .suggestion:hover ?*/
 @media (max-width: 800px) {
     .high-level-container {

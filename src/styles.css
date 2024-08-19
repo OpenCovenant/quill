@@ -29,4 +29,7 @@
     --dark: #28292c;
     --dark-mode-hover-color: #545454;
     --checked-green-color-theme: #10a37f;
+
+    --some-border-color: rgba(0, 0, 0, 0.125);
+    --some-box-shadow-color: rgba(216, 216, 216, 0.6);
 }
