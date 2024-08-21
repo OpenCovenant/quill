@@ -249,3 +249,8 @@
 .undo-all-dismissed-markings {
     font-weight: 500;
 }
+
+.undo-all-dismissed-markings:disabled {
+    cursor: not-allowed;
+    pointer-events: all;
+}

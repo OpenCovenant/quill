@@ -35,10 +35,7 @@
                     ></div>
                     <div
                         id="editor-placeholder"
-                        *ngIf="
-                            !editorHasText() ||
-                            editorElement.innerHTML === EMPTY_STRING
-                        "
+                        *ngIf="!editorHasText() || editorHasEmptyText()"
                         [ngClass]="{
                             'editor-placeholder-dark-mode':
                                 darkModeService.isDarkMode

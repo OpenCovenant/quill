@@ -32,6 +32,7 @@ import {
 import { DarkModeService } from '../services/dark-mode.service';
 import { Router } from '@angular/router';
 import { EditorContentService } from '../services/editor-content.service';
+import { DISMISSED_MARKINGS_KEY, EMPTY_STRING } from '../services/constants';
 
 @Component({
     selector: 'app-home',
@@ -44,7 +45,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     EVENTUAL_MARKING_TIME: number = 1.5 * this.SECONDS;
     EVENTUAL_WRITTEN_TEXT_STORAGE_TIME: number = 15 * this.SECONDS;
     EVENTUAL_SUGGESTION_SELECTION_POST: number = 6 * this.SECONDS;
-    EMPTY_STRING: string = '';
     EDITOR_KEY: string = 'editor';
     PLACEHOLDER_ELEMENT_ID: string = 'editor-placeholder';
     MAX_EDITOR_CHARACTERS: number = 10000;
@@ -62,7 +62,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     innerHTMLOfEditor: string = this.LINE_BROKEN_PARAGRAPH;
     shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
     loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-    editorElement!: HTMLElement;
     highlightedMarkingIndex: number = -1;
 
     readonly ANIMATION_END_EVENT: string = 'animationend';
@@ -95,12 +94,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private fromEditorInputEvent$: any;
 
     constructor(
+        public darkModeService: DarkModeService,
+        public writingsHistoryService: WritingsHistoryService,
         private httpClient: HttpClient,
         private router: Router,
         private editorContentService: EditorContentService,
-        private elementRef: ElementRef,
-        public darkModeService: DarkModeService,
-        public writingsHistoryService: WritingsHistoryService
+        private elementRef: ElementRef
     ) {
         this.initializeURLs();
         this.addEventListenerForShortcuts();
@@ -115,11 +114,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit(): void {
-        // save reference and reuse variable instead of reinitializing multiple times
-        this.editorElement = document.getElementById(this.EDITOR_KEY)!;
-
         if (this.editorContentService.editorInnerHTML) {
-            this.editorElement.innerHTML =
+            document.getElementById(this.EDITOR_KEY)!.innerHTML =
                 this.editorContentService.editorInnerHTML;
         }
 
@@ -259,7 +255,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         }
         this.characterCount = editor.innerText.replace(
             /\n/g,
-            this.EMPTY_STRING
+            EMPTY_STRING
         ).length;
     }
 
@@ -268,7 +264,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      */
     updateWordCount(): void {
         const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
-        if (editor.innerText === this.EMPTY_STRING) {
+        if (editor.innerText === EMPTY_STRING) {
             this.wordCount = 0;
         } else {
             const wordMatches = editor.innerText.match(/\b([\w'-]+)\b/g)!;
@@ -368,6 +364,15 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         return (
             document.getElementById(this.EDITOR_KEY)!.innerHTML !==
             this.LINE_BROKEN_PARAGRAPH
+        );
+    }
+
+    /**
+     * Returns whether there is empty text in the editor or not
+     */
+    editorHasEmptyText(): boolean {
+        return (
+            document.getElementById(this.EDITOR_KEY)!.innerHTML === EMPTY_STRING
         );
     }
 
@@ -482,12 +487,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     getTextOfMarking(markingIndex: number): string {
         if (!this.processedText) {
-            return this.EMPTY_STRING;
+            return EMPTY_STRING;
         }
 
         const marking: Marking = this.processedText.markings[markingIndex];
         if (!marking) {
-            return this.EMPTY_STRING;
+            return EMPTY_STRING;
         }
 
         const virtualEditor: HTMLDivElement = document.createElement('div');
@@ -496,7 +501,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         const editorTextContent: string | null =
             virtualEditor.childNodes[marking.paragraph!].textContent;
         if (!editorTextContent) {
-            return this.EMPTY_STRING;
+            return EMPTY_STRING;
         }
 
         return editorTextContent.slice(marking.from, marking.to);
@@ -618,7 +623,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private filterDismissedMarkings(markings: Marking[]): Marking[] {
         const dismissedMarkings: string[] =
             (JSON.parse(
-                localStorage.getItem('penda-dismissed-markings')!
+                localStorage.getItem(DISMISSED_MARKINGS_KEY)!
             ) as string[]) ?? [];
         return markings.filter((m: Marking) => {
             const virtualEditor: HTMLDivElement = document.createElement('div');
@@ -676,7 +681,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                             const p: HTMLParagraphElement =
                                 document.createElement('p');
                             p.innerHTML = childNode.textContent!;
-                            if (childNode.textContent === this.EMPTY_STRING) {
+                            if (childNode.textContent === EMPTY_STRING) {
                                 p.innerHTML = this.LINE_BREAK;
                             }
                             editor.replaceChild(p, childNode);
@@ -1099,7 +1104,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                             const p: HTMLParagraphElement =
                                 document.createElement('p');
                             p.innerHTML = childNode.textContent!;
-                            if (childNode.textContent === this.EMPTY_STRING) {
+                            if (childNode.textContent === EMPTY_STRING) {
                                 p.innerHTML = this.LINE_BREAK;
                             }
                             editor.replaceChild(p, childNode);
@@ -1501,19 +1506,16 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     private storeDismissedMarking(markingIndex: number): void {
         // TODO: collection in LS should conceptually be a set
-        if (!localStorage.getItem('penda-dismissed-markings')) {
-            localStorage.setItem(
-                'penda-dismissed-markings',
-                JSON.stringify([])
-            );
+        if (!localStorage.getItem(DISMISSED_MARKINGS_KEY)) {
+            localStorage.setItem(DISMISSED_MARKINGS_KEY, JSON.stringify([]));
         }
         const dismissedMarkings: string[] = JSON.parse(
-            localStorage.getItem('penda-dismissed-markings')!
+            localStorage.getItem(DISMISSED_MARKINGS_KEY)!
         ) as string[];
         const markingText: string = this.getTextOfMarking(markingIndex);
         dismissedMarkings.push(markingText);
         localStorage.setItem(
-            'penda-dismissed-markings',
+            DISMISSED_MARKINGS_KEY,
             JSON.stringify(dismissedMarkings)
         );
     }
@@ -1521,4 +1523,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private fetchEditorMarkings(): NodeListOf<HTMLSpanElement> {
         return document.querySelectorAll('#editor > p > span');
     }
+
+    protected readonly EMPTY_STRING = EMPTY_STRING;
 }
