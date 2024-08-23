@@ -14,7 +14,7 @@ export class PrivacyPolicyComponent {
 
     constructor(
         public darkModeService: DarkModeService,
-        private httpClient: HttpClient,
+        private httpClient: HttpClient
     ) {
         this.initializeURLs();
         this.httpClient
