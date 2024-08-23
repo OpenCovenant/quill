@@ -19,10 +19,10 @@ export class ProfileComponent {
     cancelSubscriptionURL!: string;
 
     constructor(
-        private httpClient: HttpClient,
-        private router: Router,
         public darkModeService: DarkModeService,
-        public authenticationService: AuthenticationService
+        public authenticationService: AuthenticationService,
+        private httpClient: HttpClient,
+        private router: Router
     ) {
         this.initializeURLs();
     }

@@ -20,10 +20,10 @@ export class HeaderComponent {
     markingTypeKeys: Array<string> = [];
 
     constructor(
-        private httpClient: HttpClient,
-        private router: Router,
         public authenticationService: AuthenticationService,
-        public darkModeService: DarkModeService
+        public darkModeService: DarkModeService,
+        private httpClient: HttpClient,
+        private router: Router
     ) {
         this.initializeURLs();
         this.httpClient

@@ -13,8 +13,8 @@ export class PrivacyPolicyComponent {
     getPrivacyPolicyURL!: string;
 
     constructor(
+        public darkModeService: DarkModeService,
         private httpClient: HttpClient,
-        public darkModeService: DarkModeService
     ) {
         this.initializeURLs();
         this.httpClient
