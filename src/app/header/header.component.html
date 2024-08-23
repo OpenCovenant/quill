@@ -7,16 +7,16 @@
     >
         <div class="header-name-gear-icon">
             <button
-                id="off-canvas-start-button"
-                class="off-canvas-start-button"
+                id="side-menu-start-button"
+                class="side-menu-start-button"
                 [ngClass]="{
                     'header-button-dark-mode': darkModeService.isDarkMode
                 }"
                 type="button"
                 title="hap menynë"
                 data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasStart"
-                aria-controls="offcanvasStart"
+                data-bs-target="#side-menu-start"
+                aria-controls="side-menu-start"
             >
                 <span
                     class="navbar-toggler-icon"
@@ -64,7 +64,6 @@
             ></i>
 
             <span class="header-separator">|</span>
-
 
             <ng-template
                 [ngIf]="authenticationService.isAuthenticated() | async"
@@ -156,44 +155,43 @@
             </ng-template>
 
             <!-- <i class="bi bi-lock-fill" style='font-size: 20px'></i> ??? person-fill-lock -->
-
         </div>
     </nav>
 </div>
 
 <div
-    id="offcanvasStart"
-    class="offcanvas offcanvas-start"
+    id="side-menu-start"
+    class="offcanvas offcanvas-start side-menu-start"
     [ngClass]="{
-        'offcanvas-start-dark-mode': darkModeService.isDarkMode
+        'side-menu-start-dark-mode': darkModeService.isDarkMode
     }"
     tabindex="-1"
-    aria-labelledby="offcanvasStartLabel"
+    aria-labelledby="side-menu-start-label"
 >
     <div
         class="offcanvas-header"
         [ngClass]="{
-            'offcanvas-header-dark-mode': darkModeService.isDarkMode
+            'side-menu-header-dark-mode': darkModeService.isDarkMode
         }"
     >
-        <h5 id="offcanvasStartLabel">penda</h5>
+        <h5 id="side-menu-start-label">penda</h5>
         <button
-            id="offcanvasCloseButton"
+            id="side-menu-close-button"
             type="button"
             class="btn-close text-reset"
             [ngClass]="{
-                'offcanvas-close-button-dark-mode': darkModeService.isDarkMode
+                'side-menu-close-button-dark-mode': darkModeService.isDarkMode
             }"
             data-bs-dismiss="offcanvas"
             aria-label="Close"
-            data-test="close-offcanvas-button"
+            data-test="close-side-menu-button"
         ></button>
     </div>
-    <hr class="off-canvas-hr" />
+    <hr class="side-menu-hr" />
     <div
-        class="offcanvas-body"
+        class="offcanvas-body side-menu-body"
         [ngClass]="{
-            'offcanvas-body-dark-mode': darkModeService.isDarkMode
+            'side-menu-body-dark-mode': darkModeService.isDarkMode
         }"
     >
         <div class="list-group list-group-flush">
@@ -216,19 +214,19 @@
                         routerLink="/settings"
                         class="nav-text list-group-item-action mb-3"
                         [ngClass]="{
-                            'offcanvas-nav-text-dark-mode':
+                            'side-menu-nav-text-dark-mode':
                                 darkModeService.isDarkMode
                         }"
                         role="button"
                         data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasStart"
-                        aria-controls="offcanvasStart"
+                        data-bs-target="#side-menu-start"
+                        aria-controls="side-menu-start"
                         data-test="settings-side-menu-item"
                         ><i
                             class="bi bi-gear"
                             style="font-size: 1.2rem"
                             [ngClass]="{
-                                'offcanvas-bi-info-circle-dark-mode':
+                                'side-menu-bi-info-circle-dark-mode':
                                     darkModeService.isDarkMode
                             }"
                         >
@@ -241,18 +239,18 @@
                         routerLink="/shortcuts"
                         class="nav-text list-group-item-action mb-3"
                         [ngClass]="{
-                            'offcanvas-nav-text-dark-mode':
+                            'side-menu-nav-text-dark-mode':
                                 darkModeService.isDarkMode
                         }"
                         role="button"
                         data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasStart"
-                        aria-controls="offcanvasStart"
+                        data-bs-target="#side-menu-start"
+                        aria-controls="side-menu-start"
                         ><i
                             class="bi bi-keyboard"
                             style="font-size: 1.2rem"
                             [ngClass]="{
-                                'offcanvas-bi-info-circle-dark-mode':
+                                'side-menu-bi-info-circle-dark-mode':
                                     darkModeService.isDarkMode
                             }"
                         >
@@ -266,17 +264,17 @@
                         role="button"
                         class="nav-text list-group-item-action mb-3"
                         [ngClass]="{
-                            'offcanvas-nav-text-dark-mode':
+                            'side-menu-nav-text-dark-mode':
                                 darkModeService.isDarkMode
                         }"
                         data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasStart"
-                        aria-controls="offcanvasStart"
+                        data-bs-target="#side-menu-start"
+                        aria-controls="side-menu-start"
                         ><i
                             class="bi bi-stars"
                             style="font-size: 1.2rem"
                             [ngClass]="{
-                                'offcanvas-bi-info-circle-dark-mode':
+                                'side-menu-bi-info-circle-dark-mode':
                                     darkModeService.isDarkMode
                             }"
                         >
@@ -289,18 +287,18 @@
                         routerLink="/about"
                         role="button"
                         data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasStart"
-                        aria-controls="offcanvasStart"
+                        data-bs-target="#side-menu-start"
+                        aria-controls="side-menu-start"
                         class="nav-text list-group-item-action mb-3"
                         [ngClass]="{
-                            'offcanvas-nav-text-dark-mode':
+                            'side-menu-nav-text-dark-mode':
                                 darkModeService.isDarkMode
                         }"
                         ><i
                             class="bi bi-info-circle"
                             style="font-size: 1.2rem"
                             [ngClass]="{
-                                'offcanvas-bi-info-circle-dark-mode':
+                                'side-menu-bi-info-circle-dark-mode':
                                     darkModeService.isDarkMode
                             }"
                         >
@@ -313,17 +311,17 @@
                         routerLink="/privacy-policy"
                         role="button"
                         data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasStart"
-                        aria-controls="offcanvasStart"
+                        data-bs-target="#side-menu-start"
+                        aria-controls="side-menu-start"
                         class="nav-text list-group-item-action mb-3"
                         [ngClass]="{
-                            'offcanvas-nav-text-dark-mode':
+                            'side-menu-nav-text-dark-mode':
                                 darkModeService.isDarkMode
                         }"
                         ><i
                             class="bi bi-info-circle"
                             [ngClass]="{
-                                'offcanvas-bi-info-circle-dark-mode':
+                                'side-menu-bi-info-circle-dark-mode':
                                     darkModeService.isDarkMode
                             }"
                         >
@@ -336,18 +334,18 @@
                         routerLink="/terms-of-use"
                         role="button"
                         data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasStart"
-                        aria-controls="offcanvasStart"
+                        data-bs-target="#side-menu-start"
+                        aria-controls="side-menu-start"
                         class="nav-text list-group-item-action mb-3"
                         [ngClass]="{
-                            'offcanvas-nav-text-dark-mode':
+                            'side-menu-nav-text-dark-mode':
                                 darkModeService.isDarkMode
                         }"
                         ><i
                             class="bi bi-shield-check"
                             style="font-size: 1.2rem"
                             [ngClass]="{
-                                'offcanvas-bi-info-circle-dark-mode':
+                                'side-menu-bi-info-circle-dark-mode':
                                     darkModeService.isDarkMode
                             }"
                         >
@@ -361,7 +359,7 @@
                         role="button"
                         class="nav-text list-group-item-action mb-3"
                         [ngClass]="{
-                            'offcanvas-nav-text-dark-mode':
+                            'side-menu-nav-text-dark-mode':
                                 darkModeService.isDarkMode
                         }"
                         target="_blank"
@@ -370,7 +368,7 @@
                             class="bi bi-house-door"
                             style="font-size: 1.2rem"
                             [ngClass]="{
-                                'offcanvas-bi-info-circle-dark-mode':
+                                'side-menu-bi-info-circle-dark-mode':
                                     darkModeService.isDarkMode
                             }"
                         >
@@ -379,7 +377,7 @@
                     >
                 </div>
             </div>
-            <hr class="off-canvas-hr" />
+            <hr class="side-menu-hr" />
             <div class="d-flex dark-mode-div">
                 <div>Ndrysho Pamjen</div>
 

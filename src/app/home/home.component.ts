@@ -1424,7 +1424,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     case 'm':
                     case 'M': {
                         document
-                            .getElementById('off-canvas-start-button')!
+                            .getElementById('side-menu-start-button')!
                             .click();
                     }
                 }

@@ -47,7 +47,7 @@ export class HeaderComponent {
 
     // TODO: is this even used?
     closeOffcanvas(): void {
-        document.getElementById('offcanvasCloseButton')!.click();
+        document.getElementById('side-menu-close-button')!.click();
     }
 
     isSettingsRoute(): boolean {

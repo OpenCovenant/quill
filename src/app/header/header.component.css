@@ -48,7 +48,7 @@
 /*TODO: do something nice with the hover*/
 /*.penda-header-logo:hover {}*/
 
-.off-canvas-start-button {
+.side-menu-start-button {
     border: 0;
     border-radius: 0.5rem;
     height: 41px;
@@ -56,29 +56,29 @@
     align-items: center;
 }
 
-.off-canvas-start-button:hover {
+.side-menu-start-button:hover {
     background-color: var(--light-mode-hover-theme);
 }
 
-.offcanvas-header-dark-mode {
+.side-menu-header-dark-mode {
     background-color: var(--dark-mode-theme);
     color: var(--light);
 }
 
-.offcanvas-body-dark-mode {
+.side-menu-body-dark-mode {
     background-color: var(--dark-mode-theme);
     color: var(--light);
 }
 
-.offcanvas-nav-text-dark-mode {
+.side-menu-nav-text-dark-mode {
     color: var(--light) !important;
 }
 
-.offcanvas-nav-text-dark-mode:hover {
+.side-menu-nav-text-dark-mode:hover {
     background-color: var(--dark-mode-hover-color) !important;
 }
 
-.off-canvas-hr {
+.side-menu-hr {
     background-color: var(--dark-mode-gray-color-checked-theme);
     height: 1px;
     margin-bottom: 0;
@@ -108,20 +108,20 @@
     color: var(--pitch-black);
 }
 
-.offcanvas-bi-info-circle-dark-mode {
+.side-menu-bi-info-circle-dark-mode {
     color: var(--light);
 }
 
-.offcanvas-start {
+.side-menu-start {
     border-radius: 3px 3px;
     width: 350px;
 }
 
-.offcanvas-start-dark-mode {
+.side-menu-start-dark-mode {
     background-color: var(--dark-mode-theme);
 }
 
-.offcanvas-body {
+.side-menu-body {
     padding: 0;
 }
 
@@ -203,7 +203,7 @@
     color: var(--light);
 }
 
-.offcanvas-close-button-dark-mode {
+.side-menu-close-button-dark-mode {
     background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e")
         center/1em auto no-repeat;
 }
