@@ -1349,6 +1349,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         );
         if (placeholderElement) {
             placeholderElement.innerText = errorMessage;
+            placeholderElement.classList.add('error-message-placeholder')
         }
         (
             document.querySelectorAll(

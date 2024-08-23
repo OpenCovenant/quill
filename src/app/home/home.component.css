@@ -68,7 +68,10 @@
     /*color: #707070;*/
     color: var(--dark-mode-smooth-theme);
     pointer-events: none;
-    padding-right: 20px;
+}
+
+.error-message-placeholder {
+    padding-left: 20px;
 }
 
 .editor-placeholder-text {
