@@ -131,18 +131,18 @@
                             ></span>
                         </div>
 
-                        <br>
+                        <br />
 
                         <div class="dark-mode-div dark-mode-label-flex">
                             <div>
-                                Shfaq shenjimet e menjehershme te aplikuara te tabela e shenjimeve.
+                                Shfaq shenjimet e menjehershme te aplikuara te
+                                tabela e shenjimeve.
                             </div>
 
                             <span>
                                 <label
                                     class="marking-type-label"
                                     for="immediate-board-markings"
-                                    id='qweq'
                                 >
                                     <input
                                         class="marking-type-input"
@@ -151,7 +151,9 @@
                                         id="immediate-board-markings"
                                         [(ngModel)]="immediateBoardMarkings"
                                         (ngModelChange)="
-                                            onImmediateBoardMarkingsSwitch($event)
+                                            onImmediateBoardMarkingsSwitch(
+                                                $event
+                                            )
                                         "
                                         [disabled]="!immediateMarkings"
                                         data-test="immediate-board-markings-switch"

@@ -99,12 +99,18 @@ export class SettingsComponent implements OnInit {
 
         if (!selected) {
             this.immediateBoardMarkings = false;
-            localStorage.setItem(this.IMMEDIATE_BOARD_MARKINGS_KEY, String(selected));
+            localStorage.setItem(
+                this.IMMEDIATE_BOARD_MARKINGS_KEY,
+                String(selected)
+            );
         }
     }
 
     onImmediateBoardMarkingsSwitch(selected: boolean): void {
-        localStorage.setItem(this.IMMEDIATE_BOARD_MARKINGS_KEY, String(selected));
+        localStorage.setItem(
+            this.IMMEDIATE_BOARD_MARKINGS_KEY,
+            String(selected)
+        );
     }
 
     undoMarkingDismissal(dismissedMarking: string): void {
