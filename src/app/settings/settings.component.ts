@@ -21,6 +21,7 @@ interface MarkingTypeLocalStorage {
 export class SettingsComponent implements OnInit {
     SELECTED_MARKING_TYPES_KEY = 'penda-selected-marking-types';
     IMMEDIATE_MARKINGS_KEY = 'penda-immediate-markings';
+    IMMEDIATE_BOARD_MARKINGS_KEY = 'penda-immediate-board-markings';
 
     baseURL!: string;
     markingTypesURL!: string;
@@ -29,6 +30,7 @@ export class SettingsComponent implements OnInit {
     markingTypes: any[][] = [];
     dismissedMarkings: string[] = [];
     immediateMarkings: boolean;
+    immediateBoardMarkings: boolean;
 
     constructor(
         public darkModeService: DarkModeService,
@@ -40,6 +42,8 @@ export class SettingsComponent implements OnInit {
             ) as string[]) ?? [];
         this.immediateMarkings =
             localStorage.getItem(this.IMMEDIATE_MARKINGS_KEY) === 'true';
+        this.immediateBoardMarkings =
+            localStorage.getItem(this.IMMEDIATE_BOARD_MARKINGS_KEY) === 'true';
     }
 
     ngOnInit(): void {
@@ -92,6 +96,15 @@ export class SettingsComponent implements OnInit {
 
     onImmediateMarkingsSwitch(selected: boolean): void {
         localStorage.setItem(this.IMMEDIATE_MARKINGS_KEY, String(selected));
+
+        if (!selected) {
+            this.immediateBoardMarkings = false;
+            localStorage.setItem(this.IMMEDIATE_BOARD_MARKINGS_KEY, String(selected));
+        }
+    }
+
+    onImmediateBoardMarkingsSwitch(selected: boolean): void {
+        localStorage.setItem(this.IMMEDIATE_BOARD_MARKINGS_KEY, String(selected));
     }
 
     undoMarkingDismissal(dismissedMarking: string): void {

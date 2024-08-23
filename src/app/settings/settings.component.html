@@ -130,6 +130,34 @@
                                     /><span class="slider round"></span> </label
                             ></span>
                         </div>
+
+                        <br>
+
+                        <div class="dark-mode-div dark-mode-label-flex">
+                            <div>
+                                Shfaq shenjimet e menjehershme te aplikuara te tabela e shenjimeve.
+                            </div>
+
+                            <span>
+                                <label
+                                    class="marking-type-label"
+                                    for="immediate-board-markings"
+                                    id='qweq'
+                                >
+                                    <input
+                                        class="marking-type-input"
+                                        role="switch"
+                                        type="checkbox"
+                                        id="immediate-board-markings"
+                                        [(ngModel)]="immediateBoardMarkings"
+                                        (ngModelChange)="
+                                            onImmediateBoardMarkingsSwitch($event)
+                                        "
+                                        [disabled]="!immediateMarkings"
+                                        data-test="immediate-board-markings-switch"
+                                    /><span class="slider round"></span> </label
+                            ></span>
+                        </div>
                     </div>
 
                     <div class="dark-mode-setting-section">
