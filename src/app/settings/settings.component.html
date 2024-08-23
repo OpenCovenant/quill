@@ -51,68 +51,68 @@
                         </ng-template>
                     </div>
 
-                    <div class="dark-mode-setting-section">
-                        <h5>Shenjime të Menjëhershme</h5>
-                        <hr />
-                        <div class="dark-mode-div dark-mode-label-flex">
-                            <div>
-                                Përdor Shenjimet e Menjëhershme, të cilat
-                                vetë-aplikojnë shenjime në rastet kur këto kanë
-                                vetëm një sugjerim. Për momentin kjo vlen vetëm
-                                për disa gabime shkrimi.
-                            </div>
+                    <!--                    <div class="immediate-markings-setting-section">-->
+                    <!--                        <h5>Shenjime të Menjëhershme</h5>-->
+                    <!--                        <hr />-->
+                    <!--                        <div class="dark-mode-div dark-mode-label-flex">-->
+                    <!--                            <div>-->
+                    <!--                                Përdor Shenjimet e Menjëhershme, të cilat-->
+                    <!--                                vetë-aplikojnë shenjime në rastet kur këto kanë-->
+                    <!--                                vetëm një sugjerim. Për momentin kjo vlen vetëm-->
+                    <!--                                për disa gabime shkrimi.-->
+                    <!--                            </div>-->
 
-                            <span>
-                                <label
-                                    class="marking-type-label"
-                                    for="immediate-markings"
-                                >
-                                    <input
-                                        class="marking-type-input"
-                                        role="switch"
-                                        type="checkbox"
-                                        id="immediate-markings"
-                                        [(ngModel)]="immediateMarkings"
-                                        (ngModelChange)="
-                                            onImmediateMarkingsSwitch($event)
-                                        "
-                                        data-test="immediate-markings-switch"
-                                    /><span class="slider round"></span> </label
-                            ></span>
-                        </div>
+                    <!--                            <span>-->
+                    <!--                                <label-->
+                    <!--                                    class="marking-type-label"-->
+                    <!--                                    for="immediate-markings"-->
+                    <!--                                >-->
+                    <!--                                    <input-->
+                    <!--                                        class="marking-type-input"-->
+                    <!--                                        role="switch"-->
+                    <!--                                        type="checkbox"-->
+                    <!--                                        id="immediate-markings"-->
+                    <!--                                        [(ngModel)]="immediateMarkings"-->
+                    <!--                                        (ngModelChange)="-->
+                    <!--                                            onImmediateMarkingsSwitch($event)-->
+                    <!--                                        "-->
+                    <!--                                        data-test="immediate-markings-switch"-->
+                    <!--                                    /><span class="slider round"></span> </label-->
+                    <!--                            ></span>-->
+                    <!--                        </div>-->
 
-                        <br />
+                    <!--                        <br />-->
 
-                        <div class="dark-mode-div dark-mode-label-flex">
-                            <div>
-                                Shfaq shenjimet e menjehershme te aplikuara te
-                                tabela e shenjimeve.
-                            </div>
+                    <!--                        <div class="dark-mode-div dark-mode-label-flex">-->
+                    <!--                            <div>-->
+                    <!--                                Shfaq shenjimet e menjehershme te aplikuara te-->
+                    <!--                                tabela e shenjimeve.-->
+                    <!--                            </div>-->
 
-                            <span>
-                                <label
-                                    class="marking-type-label"
-                                    for="immediate-board-markings"
-                                >
-                                    <input
-                                        class="marking-type-input"
-                                        role="switch"
-                                        type="checkbox"
-                                        id="immediate-board-markings"
-                                        [(ngModel)]="immediateBoardMarkings"
-                                        (ngModelChange)="
-                                            onImmediateBoardMarkingsSwitch(
-                                                $event
-                                            )
-                                        "
-                                        [disabled]="!immediateMarkings"
-                                        data-test="immediate-board-markings-switch"
-                                    /><span class="slider round"></span> </label
-                            ></span>
-                        </div>
-                    </div>
+                    <!--                            <span>-->
+                    <!--                                <label-->
+                    <!--                                    class="marking-type-label"-->
+                    <!--                                    for="immediate-board-markings"-->
+                    <!--                                >-->
+                    <!--                                    <input-->
+                    <!--                                        class="marking-type-input"-->
+                    <!--                                        role="switch"-->
+                    <!--                                        type="checkbox"-->
+                    <!--                                        id="immediate-board-markings"-->
+                    <!--                                        [(ngModel)]="immediateBoardMarkings"-->
+                    <!--                                        (ngModelChange)="-->
+                    <!--                                            onImmediateBoardMarkingsSwitch(-->
+                    <!--                                                $event-->
+                    <!--                                            )-->
+                    <!--                                        "-->
+                    <!--                                        [disabled]="!immediateMarkings"-->
+                    <!--                                        data-test="immediate-board-markings-switch"-->
+                    <!--                                    /><span class="slider round"></span> </label-->
+                    <!--                            ></span>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
 
-                    <div class="dark-mode-setting-section">
+                    <div class="dismissed-markings-setting-section">
                         <h5>Shenjimet e Hequra</h5>
                         <hr />
                         <div class="dark-mode-div dark-mode-label-flex">
