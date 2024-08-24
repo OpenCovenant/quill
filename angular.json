@@ -83,13 +83,13 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "mock": {
-              "browserTarget": "quill:build:mock"
+              "buildTarget": "quill:build:mock"
             },
             "production": {
-              "browserTarget": "quill:build:production"
+              "buildTarget": "quill:build:production"
             },
             "development": {
-              "browserTarget": "quill:build:development"
+              "buildTarget": "quill:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -97,7 +97,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "quill:build"
+            "buildTarget": "quill:build"
           }
         },
         "test": {
