@@ -65,7 +65,6 @@
 
 #editor-placeholder {
     position: absolute;
-    /*color: #707070;*/
     color: var(--dark-mode-smooth-theme);
     pointer-events: none;
 }
@@ -457,16 +456,6 @@
 .while-reading-text-ul-dark-mode {
     background-color: var(--dark-mode-theme);
     color: var(--dark-mode-anti-theme);
-}
-
-/*TODO is this even used?*/
-.writing-dark-mode {
-    background-color: var(--dashboard-card);
-    color: black;
-}
-
-.writing-dark-mode:hover {
-    background-color: lightgray;
 }
 
 @keyframes fillBackground {
