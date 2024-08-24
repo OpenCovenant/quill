@@ -67,6 +67,7 @@
     position: absolute;
     color: var(--dark-mode-smooth-theme);
     pointer-events: none;
+    padding-right: 1rem;
 }
 
 .editor-placeholder-text {
