@@ -3,7 +3,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TermsOfUseComponent } from './terms-of-use.component';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import {
+    provideHttpClient,
+    withInterceptorsFromDi
+} from '@angular/common/http';
 
 describe('TermsOfUseComponent', () => {
     let component: TermsOfUseComponent;
@@ -11,10 +14,13 @@ describe('TermsOfUseComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-    declarations: [TermsOfUseComponent],
-    imports: [RouterTestingModule],
-    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
-}).compileComponents();
+            declarations: [TermsOfUseComponent],
+            imports: [RouterTestingModule],
+            providers: [
+                provideHttpClient(withInterceptorsFromDi()),
+                provideHttpClientTesting()
+            ]
+        }).compileComponents();
     });
 
     beforeEach(() => {

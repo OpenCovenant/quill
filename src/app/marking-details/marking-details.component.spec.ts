@@ -3,7 +3,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MarkingDetailsComponent } from './marking-details.component';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import {
+    provideHttpClient,
+    withInterceptorsFromDi
+} from '@angular/common/http';
 
 describe('MarkingDetailsComponent', () => {
     let component: MarkingDetailsComponent;
@@ -11,10 +14,13 @@ describe('MarkingDetailsComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-    declarations: [MarkingDetailsComponent],
-    imports: [RouterTestingModule],
-    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
-}).compileComponents();
+            declarations: [MarkingDetailsComponent],
+            imports: [RouterTestingModule],
+            providers: [
+                provideHttpClient(withInterceptorsFromDi()),
+                provideHttpClientTesting()
+            ]
+        }).compileComponents();
     });
 
     beforeEach(() => {

@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import {
+    HTTP_INTERCEPTORS,
+    provideHttpClient,
+    withInterceptorsFromDi
+} from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
@@ -20,7 +24,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { AuthenticationInterceptor } from './authentication.interceptor';
 
-@NgModule({ declarations: [
+@NgModule({
+    declarations: [
         AppComponent,
         MarkingDetailsComponent,
         HeaderComponent,
@@ -36,12 +41,15 @@ import { AuthenticationInterceptor } from './authentication.interceptor';
         DashboardComponent,
         CheckoutComponent
     ],
-    bootstrap: [AppComponent], imports: [BrowserModule, FormsModule, AppRoutingModule], providers: [
+    bootstrap: [AppComponent],
+    imports: [BrowserModule, FormsModule, AppRoutingModule],
+    providers: [
         {
             provide: HTTP_INTERCEPTORS,
             useClass: AuthenticationInterceptor,
             multi: true
         },
         provideHttpClient(withInterceptorsFromDi())
-    ] })
+    ]
+})
 export class AppModule {}
