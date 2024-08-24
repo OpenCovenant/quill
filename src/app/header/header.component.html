@@ -63,96 +63,96 @@
                 data-test="settings-gear-button"
             ></i>
 
-            <span class="header-separator">|</span>
+<!--            <span class="header-separator">|</span>-->
 
-            <ng-template
-                [ngIf]="authenticationService.isAuthenticated() | async"
-                [ngIfElse]="authenticateButton"
-            >
-                <div class="btn-group user-dropdown-menu">
-                    <button
-                        type="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                        class="btn btn-secondary dropdown-toggle"
-                    >
-                        <span>{{ authenticationService.user.first_name }}</span>
-                    </button>
-                    <ul
-                        class="dropdown-menu dropdown-menu-end"
-                        [ngClass]="{
-                            'dropdown-menu-dark-mode':
-                                darkModeService.isDarkMode
-                        }"
-                    >
-                        <li
-                            class="dropdown-menu-item-list"
-                            [ngClass]="{
-                                'dropdown-menu-item-list-dark-mode':
-                                    darkModeService.isDarkMode
-                            }"
-                        >
-                            <a
-                                class="dropdown-item menu-dropdown-item"
-                                [ngClass]="{
-                                    'menu-dropdown-item-dark-mode':
-                                        darkModeService.isDarkMode
-                                }"
-                                routerLink="/profile"
-                            >
-                                <span
-                                    class="profile-icon-dropdown bi-person-circle"
-                                ></span>
-                                <span>Profili</span>
-                            </a>
-                        </li>
-                        <li>
-                            <hr
-                                class="dropdown-divider menu-item-divider"
-                                [ngClass]="{
-                                    'menu-item-divider-dark-mode':
-                                        darkModeService.isDarkMode
-                                }"
-                            />
-                        </li>
-                        <li
-                            class="dropdown-menu-item-list"
-                            [ngClass]="{
-                                'dropdown-menu-item-list-dark-mode':
-                                    darkModeService.isDarkMode
-                            }"
-                        >
-                            <a
-                                class="dropdown-item menu-dropdown-item"
-                                [ngClass]="{
-                                    'menu-dropdown-item-dark-mode':
-                                        darkModeService.isDarkMode
-                                }"
-                                (click)="logout()"
-                            >
-                                <span
-                                    ><i
-                                        class="bi bi-box-arrow-right"
-                                        [ngClass]="{
-                                            'logout-icon-dark-mode':
-                                                darkModeService.isDarkMode
-                                        }"
-                                    ></i
-                                ></span>
-                                <span>Dil</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </ng-template>
-            <ng-template #authenticateButton>
-                <button
-                    class="btn btn-primary login-header-button"
-                    routerLink="/authentication"
-                >
-                    Identifikohu
-                </button>
-            </ng-template>
+<!--            <ng-template-->
+<!--                [ngIf]="authenticationService.isAuthenticated() | async"-->
+<!--                [ngIfElse]="authenticateButton"-->
+<!--            >-->
+<!--                <div class="btn-group user-dropdown-menu">-->
+<!--                    <button-->
+<!--                        type="button"-->
+<!--                        data-bs-toggle="dropdown"-->
+<!--                        aria-expanded="false"-->
+<!--                        class="btn btn-secondary dropdown-toggle"-->
+<!--                    >-->
+<!--                        <span>{{ authenticationService.user.first_name }}</span>-->
+<!--                    </button>-->
+<!--                    <ul-->
+<!--                        class="dropdown-menu dropdown-menu-end"-->
+<!--                        [ngClass]="{-->
+<!--                            'dropdown-menu-dark-mode':-->
+<!--                                darkModeService.isDarkMode-->
+<!--                        }"-->
+<!--                    >-->
+<!--                        <li-->
+<!--                            class="dropdown-menu-item-list"-->
+<!--                            [ngClass]="{-->
+<!--                                'dropdown-menu-item-list-dark-mode':-->
+<!--                                    darkModeService.isDarkMode-->
+<!--                            }"-->
+<!--                        >-->
+<!--                            <a-->
+<!--                                class="dropdown-item menu-dropdown-item"-->
+<!--                                [ngClass]="{-->
+<!--                                    'menu-dropdown-item-dark-mode':-->
+<!--                                        darkModeService.isDarkMode-->
+<!--                                }"-->
+<!--                                routerLink="/profile"-->
+<!--                            >-->
+<!--                                <span-->
+<!--                                    class="profile-icon-dropdown bi-person-circle"-->
+<!--                                ></span>-->
+<!--                                <span>Profili</span>-->
+<!--                            </a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <hr-->
+<!--                                class="dropdown-divider menu-item-divider"-->
+<!--                                [ngClass]="{-->
+<!--                                    'menu-item-divider-dark-mode':-->
+<!--                                        darkModeService.isDarkMode-->
+<!--                                }"-->
+<!--                            />-->
+<!--                        </li>-->
+<!--                        <li-->
+<!--                            class="dropdown-menu-item-list"-->
+<!--                            [ngClass]="{-->
+<!--                                'dropdown-menu-item-list-dark-mode':-->
+<!--                                    darkModeService.isDarkMode-->
+<!--                            }"-->
+<!--                        >-->
+<!--                            <a-->
+<!--                                class="dropdown-item menu-dropdown-item"-->
+<!--                                [ngClass]="{-->
+<!--                                    'menu-dropdown-item-dark-mode':-->
+<!--                                        darkModeService.isDarkMode-->
+<!--                                }"-->
+<!--                                (click)="logout()"-->
+<!--                            >-->
+<!--                                <span-->
+<!--                                    ><i-->
+<!--                                        class="bi bi-box-arrow-right"-->
+<!--                                        [ngClass]="{-->
+<!--                                            'logout-icon-dark-mode':-->
+<!--                                                darkModeService.isDarkMode-->
+<!--                                        }"-->
+<!--                                    ></i-->
+<!--                                ></span>-->
+<!--                                <span>Dil</span>-->
+<!--                            </a>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </ng-template>-->
+<!--            <ng-template #authenticateButton>-->
+<!--                <button-->
+<!--                    class="btn btn-primary login-header-button"-->
+<!--                    routerLink="/authentication"-->
+<!--                >-->
+<!--                    Identifikohu-->
+<!--                </button>-->
+<!--            </ng-template>-->
 
             <!-- <i class="bi bi-lock-fill" style='font-size: 20px'></i> ??? person-fill-lock -->
         </div>
