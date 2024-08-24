@@ -10,8 +10,8 @@ export const authenticationGuard = (route: ActivatedRouteSnapshot) => {
     return authService.isAuthenticated().pipe(
         // switchMap(g => ), // TODO: check JWT validity here?
         map((authenticated: boolean) => {
+            // home page
             if (route.url.length === 0) {
-                // home page
                 return true;
             }
 

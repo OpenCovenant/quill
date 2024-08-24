@@ -1,17 +1,19 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from '../app.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { Marking } from '../models/marking';
 import { markElement } from './element-marking';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('Marker', () => {
     const EDITOR_ID = 'editor';
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [AppComponent],
-            imports: [HttpClientTestingModule]
-        }).compileComponents();
+    declarations: [AppComponent],
+    imports: [],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+}).compileComponents();
     });
 
     it(`mark the typo`, () => {

@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ShortcutsComponent } from './shortcuts.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('ShortcutsComponent', () => {
     let component: ShortcutsComponent;
@@ -10,9 +10,9 @@ describe('ShortcutsComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [ShortcutsComponent],
-            imports: [RouterTestingModule, HttpClientTestingModule]
-        }).compileComponents();
+    declarations: [ShortcutsComponent],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+}).compileComponents();
     });
 
     beforeEach(() => {
