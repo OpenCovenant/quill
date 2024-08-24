@@ -42,7 +42,7 @@ describe("general flows", () => {
     it("should open and close the side menu as expected", () => {
         cy.get('[data-test="navbar-toggler-icon"]').click();
         cy.get(".offcanvas.offcanvas-start.show").should("be.visible");
-        cy.get('[data-test="close-offcanvas-button"]').click();
+        cy.get('[data-test="close-side-menu-button"]').click();
     });
 
     it("should behave properly when performing different operations on expanding and collapsing on the markings", () => {

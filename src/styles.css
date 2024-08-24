@@ -1,11 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~bootstrap";
-@import "~bootstrap-icons/font/bootstrap-icons.css";
+@import "bootstrap";
+@import "bootstrap-icons/font/bootstrap-icons.css";
 
 /*TODO: restructure/cleanup these a bit*/
 :root {
     --dark-mode-theme: #2c2c2c;
-    /*gray color*/
     --dark-mode-smooth-theme: #808080;
     --dark-mode-anti-theme: #ffffff;
     --media-cut-off-width: 800px; /*TODO: can this be utilized in the @medias?*/
@@ -14,7 +13,6 @@
     --stylistic-color: #a1b6dc;
     --grammatical-color: #ebbcff;
     --bar-color: #e9e9e9;
-    --pitch-black: #000000;
     --light-mode-hover-theme: #e3e3e3;
     --checked-blue-color-theme: #2196f3;
     --dark-mode-gray-color-checked-theme: #797979;
@@ -29,4 +27,14 @@
     --dark: #28292c;
     --dark-mode-hover-color: #545454;
     --checked-green-color-theme: #10a37f;
+    --slider-background: #ccc;
+    --dismissed-marking: #ff7676;
+    --identify-anchor-dark-mode: #0074e5;
+    --card-border-color: rgba(0, 0, 0, 0.125);
+    --card-box-shadow-color: rgba(216, 216, 216, 0.6);
+    --contact-us: #f6d8ff;
+    --header-corrector-dark-mode: #b8babc;
+    --dashboard-card: #d8d8d899;
+    --pricing-card: #6c757d;
+    --card-body-dark-mode: #9a9a9a;
 }

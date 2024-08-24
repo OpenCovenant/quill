@@ -19,20 +19,20 @@
 }
 
 .current-tier-button {
-    background-color: #c5c5c5;
-    border-color: #c5c5c5;
+    background-color: var(--slider-background);
+    border-color: var(--slider-background);
     cursor: not-allowed !important;
 }
 
 .current-tier-button:hover {
     cursor: not-allowed !important;
-    background-color: #c5c5c5;
+    background-color: var(--slider-background);
 }
 
 .dashboard-card {
     min-height: 400px;
-    box-shadow: 0 0 10px #d8d8d899;
-    border: 0px solid rgba(0, 0, 0, 0.125);
+    box-shadow: 0 0 10px var(--dashboard-card);
+    border: 0 solid var(--card-border-color);
 }
 
 .dashboard-card-header {
@@ -42,7 +42,7 @@
 .free-pricing-card-heading-dark-mode {
     background-color: var(--dark-mode-theme);
     color: var(--dark-mode-anti-theme);
-    border-color: #71707099;
+    border-color: var(--dark-mode-gray-color-checked-theme);
 }
 
 .plain-list {
@@ -56,12 +56,12 @@
 }
 
 .identify-anchor-dark-mode {
-    color: #0074e5;
+    color: var(--identify-anchor-dark-mode);
 }
 
 .pricing-card-button-dark-mode {
-    background-color: #6c757d;
-    border-color: #6c757d;
+    background-color: var(--pricing-card);
+    border-color: var(--pricing-card);
 }
 
 .card-inside-content-list {
@@ -94,13 +94,13 @@
 }
 
 .dashboard-premium-card {
-    border-color: #ebbcff;
+    border-color: var(--grammatical-color);
     min-height: 400px;
 }
 
 .dashboard-card-premium-header {
-    background-color: #ebbcff;
-    border-color: #ebbcff;
+    background-color: var(--grammatical-color);
+    border-color: var(--grammatical-color);
 }
 
 .ul-premium-content-inside {
@@ -121,8 +121,8 @@
 
 .contact-us-button {
     /*TODO: undo once paying is enabled*/
-    /*background-color: #ebbcff;*/
-    background-color: #f6d8ff;
+    /*background-color: var(--grammatical-color);*/
+    background-color: var(--contact-us);
 }
 
 .dashboard-premium-card-span-div {

@@ -1,8 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AboutComponent } from './about.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import {
+    provideHttpClient,
+    withInterceptorsFromDi
+} from '@angular/common/http';
+import { provideRouter } from '@angular/router';
 
 describe('AboutComponent', () => {
     let component: AboutComponent;
@@ -11,7 +15,11 @@ describe('AboutComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [AboutComponent],
-            imports: [RouterTestingModule, HttpClientTestingModule]
+            providers: [
+                provideHttpClient(withInterceptorsFromDi()),
+                provideHttpClientTesting(),
+                provideRouter([])
+            ]
         }).compileComponents();
     });
 

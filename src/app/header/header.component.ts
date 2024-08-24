@@ -20,10 +20,10 @@ export class HeaderComponent {
     markingTypeKeys: Array<string> = [];
 
     constructor(
-        private httpClient: HttpClient,
-        private router: Router,
         public authenticationService: AuthenticationService,
-        public darkModeService: DarkModeService
+        public darkModeService: DarkModeService,
+        private httpClient: HttpClient,
+        private router: Router
     ) {
         this.initializeURLs();
         this.httpClient
@@ -43,11 +43,6 @@ export class HeaderComponent {
         this.baseURL = environment.baseURL;
         this.getMarkingTypes = `${this.baseURL}/api/getMarkingTypes`;
         this.getMarkingTypesCount = `${this.baseURL}/api/getMarkingTypesCount`;
-    }
-
-    // TODO: is this even used?
-    closeOffcanvas(): void {
-        document.getElementById('offcanvasCloseButton')!.click();
     }
 
     isSettingsRoute(): boolean {

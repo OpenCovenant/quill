@@ -1,58 +1,8 @@
 <div>
-    <ng-template [ngIf]="isLoading" [ngIfElse]="loadingTemplate">
+    @if (!isLoading) {
         <div class="central-settings-area">
             <div
                 class="card main-card p-3"
-                [ngClass]="{
-                    'settings-dark-mode': darkModeService.isDarkMode
-                }"
-            >
-                <div
-                    class="card-body placeholder-glow flex-column"
-                    [ngClass]="{
-                        'settings-dark-mode': darkModeService.isDarkMode
-                    }"
-                >
-                    <h3
-                        class="placeholder col-5 placeholder-lg skeleton-header skeleton-text-area"
-                    ></h3>
-                    <p class="placeholder skeleton-text-area col-7"></p>
-                    <p class="placeholder skeleton-text-area col-11"></p>
-                    <p class="placeholder skeleton-text-area col-9"></p>
-                    <hr />
-
-                    <h3
-                        class="placeholder col-3 skeleton-header skeleton-text-area"
-                    ></h3>
-                    <p class="placeholder skeleton-text-area col-6"></p>
-                    <p class="placeholder skeleton-text-area col-12"></p>
-                    <p class="placeholder skeleton-text-area col-8"></p>
-                    <hr />
-
-                    <h3
-                        class="placeholder col-5 skeleton-header skeleton-text-area"
-                    ></h3>
-                    <p class="placeholder skeleton-text-area col-8"></p>
-                    <p class="placeholder skeleton-text-area col-7"></p>
-                    <p class="placeholder skeleton-text-area col-12"></p>
-
-                    <hr />
-
-                    <h3
-                        class="placeholder col-5 skeleton-header skeleton-text-area"
-                    ></h3>
-                    <p class="placeholder skeleton-text-area col-8"></p>
-                    <p class="placeholder skeleton-text-area col-7"></p>
-                    <p class="placeholder skeleton-text-area col-12"></p>
-                </div>
-            </div>
-        </div>
-    </ng-template>
-
-    <ng-template #loadingTemplate>
-        <div class="central-settings-area">
-            <div
-                class="card skeleton-main-card p-3"
                 [ngClass]="{
                     'settings-dark-mode': darkModeService.isDarkMode
                 }"
@@ -101,17 +51,78 @@
                         </ng-template>
                     </div>
 
-                    <div class="dark-mode-setting-section">
+                    <!--                    <div class="immediate-markings-setting-section">-->
+                    <!--                        <h5>Shenjime të Menjëhershme</h5>-->
+                    <!--                        <hr />-->
+                    <!--                        <div class="dark-mode-div dark-mode-label-flex">-->
+                    <!--                            <div>-->
+                    <!--                                Përdor Shenjimet e Menjëhershme, të cilat-->
+                    <!--                                vetë-aplikojnë shenjime në rastet kur këto kanë-->
+                    <!--                                vetëm një sugjerim. Për momentin kjo vlen vetëm-->
+                    <!--                                për disa gabime shkrimi.-->
+                    <!--                            </div>-->
+
+                    <!--                            <span>-->
+                    <!--                                <label-->
+                    <!--                                    class="marking-type-label"-->
+                    <!--                                    for="immediate-markings"-->
+                    <!--                                >-->
+                    <!--                                    <input-->
+                    <!--                                        class="marking-type-input"-->
+                    <!--                                        role="switch"-->
+                    <!--                                        type="checkbox"-->
+                    <!--                                        id="immediate-markings"-->
+                    <!--                                        [(ngModel)]="immediateMarkings"-->
+                    <!--                                        (ngModelChange)="-->
+                    <!--                                            onImmediateMarkingsSwitch($event)-->
+                    <!--                                        "-->
+                    <!--                                        data-test="immediate-markings-switch"-->
+                    <!--                                    /><span class="slider round"></span> </label-->
+                    <!--                            ></span>-->
+                    <!--                        </div>-->
+
+                    <!--                        <br />-->
+
+                    <!--                        <div class="dark-mode-div dark-mode-label-flex">-->
+                    <!--                            <div>-->
+                    <!--                                Shfaq shenjimet e menjehershme te aplikuara te-->
+                    <!--                                tabela e shenjimeve.-->
+                    <!--                            </div>-->
+
+                    <!--                            <span>-->
+                    <!--                                <label-->
+                    <!--                                    class="marking-type-label"-->
+                    <!--                                    for="immediate-board-markings"-->
+                    <!--                                >-->
+                    <!--                                    <input-->
+                    <!--                                        class="marking-type-input"-->
+                    <!--                                        role="switch"-->
+                    <!--                                        type="checkbox"-->
+                    <!--                                        id="immediate-board-markings"-->
+                    <!--                                        [(ngModel)]="immediateBoardMarkings"-->
+                    <!--                                        (ngModelChange)="-->
+                    <!--                                            onImmediateBoardMarkingsSwitch(-->
+                    <!--                                                $event-->
+                    <!--                                            )-->
+                    <!--                                        "-->
+                    <!--                                        [disabled]="!immediateMarkings"-->
+                    <!--                                        data-test="immediate-board-markings-switch"-->
+                    <!--                                    /><span class="slider round"></span> </label-->
+                    <!--                            ></span>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+
+                    <div class="dismissed-markings-setting-section">
                         <h5>Shenjimet e Hequra</h5>
                         <hr />
                         <div class="dark-mode-div dark-mode-label-flex">
                             <div>Rishiko shenjimet që keni hequr më parë.</div>
                             <button
                                 class="btn btn-secondary"
-                                id="dismissedMarkingsModalButton"
+                                id="dismissed-markings-modal-button"
                                 type="button"
                                 data-bs-toggle="modal"
-                                data-bs-target="#dismissedMarkingsModal"
+                                data-bs-target="#dismissed-markings-modal"
                             >
                                 Rishiko Shenjimet
                             </button>
@@ -150,7 +161,6 @@
                                         role="switch"
                                         type="checkbox"
                                         [id]="markingType[0]"
-                                        [value]="markingType[1].description"
                                         [(ngModel)]="markingType[1].enabled"
                                         (ngModelChange)="
                                             onMarkingTypeSelection(
@@ -158,7 +168,7 @@
                                                 $event
                                             )
                                         "
-                                        data-test="switch-check-testing"
+                                        data-test="marking-type-switch"
                                     /><span class="slider round"></span> </label
                             ></span>
                         </div>
@@ -166,14 +176,16 @@
                 </div>
             </div>
         </div>
-    </ng-template>
+    } @else {
+        <app-settings-skeleton></app-settings-skeleton>
+    }
 </div>
 
 <div
     class="modal fade"
-    id="dismissedMarkingsModal"
+    id="dismissed-markings-modal"
     tabindex="-1"
-    aria-labelledby="dismissedMarkingsModalLabel"
+    aria-labelledby="dismissed-markings-modal-label"
     aria-hidden="true"
 >
     <div class="modal-dialog modal-dialog-centered">
@@ -184,7 +196,7 @@
             }"
         >
             <div class="modal-header">
-                <h5 class="modal-title" id="dismissedMarkingsModalLabel">
+                <h5 class="modal-title" id="dismissed-markings-modal-label">
                     Shenjimet e Larguara
                 </h5>
                 <button
@@ -243,9 +255,10 @@
                     type="button"
                     class="btn btn-primary undo-all-dismissed-markings"
                     data-bs-toggle="modal"
-                    data-bs-target="#dismissedMarkingsModal"
-                    aria-controls="dismissedMarkingsModal"
+                    data-bs-target="#dismissed-markings-modal"
+                    aria-controls="dismissed-markings-modal"
                     (click)="undoMarkingsDismissal()"
+                    [disabled]="dismissedMarkings.length === 0"
                 >
                     Zhbëj të Gjitha
                 </button>

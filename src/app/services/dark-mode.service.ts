@@ -4,15 +4,15 @@ import { Injectable } from '@angular/core';
     providedIn: 'root'
 })
 export class DarkModeService {
-    DARK_MODE = 'penda-dark-mode';
+    DARK_MODE_KEY = 'penda-dark-mode';
     isDarkMode: boolean = false;
 
     initializeDarkMode(): void {
         const alreadySetDarkMode: string | null = localStorage.getItem(
-            this.DARK_MODE
+            this.DARK_MODE_KEY
         );
         if (!alreadySetDarkMode) {
-            localStorage.setItem(this.DARK_MODE, 'false');
+            localStorage.setItem(this.DARK_MODE_KEY, 'false');
             this.isDarkMode = false;
         } else {
             if (alreadySetDarkMode === 'false') {
@@ -38,6 +38,6 @@ export class DarkModeService {
 
     onDarkModeChange(): void {
         this.addTransitionClass();
-        localStorage.setItem(this.DARK_MODE, String(this.isDarkMode));
+        localStorage.setItem(this.DARK_MODE_KEY, String(this.isDarkMode));
     }
 }

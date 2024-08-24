@@ -14,8 +14,8 @@ export class TermsOfUseComponent {
     getTermsOfUseURL!: string;
 
     constructor(
-        private httpClient: HttpClient,
         public darkModeService: DarkModeService,
+        private httpClient: HttpClient,
         private activatedRoute: ActivatedRoute,
         private router: Router
     ) {
