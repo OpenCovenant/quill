@@ -1,0 +1,24 @@
+.settings-dark-mode {
+    background-color: var(--dark-mode-theme) !important;
+    color: var(--dark-mode-anti-theme);
+}
+
+.skeleton-header {
+    margin-bottom: 3rem;
+}
+
+.skeleton-text-area {
+    color: var(--skeleton-color);
+    border-radius: 0.25rem;
+}
+
+.skeleton-main-card {
+    background-color: var(--light-mode-color);
+    position: relative;
+    display: flex;
+    border: 0 solid var(--card-border-color);
+    border-radius: 0.25rem;
+    box-shadow: 0 0 10px var(--card-box-shadow-color);
+    width: 60%;
+    margin-bottom: 2rem;
+}

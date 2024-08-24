@@ -161,19 +161,11 @@
     justify-content: space-between;
     font-weight: 500;
 }
+
 .central-settings-area {
     display: flex;
     justify-content: center;
     padding-top: 2rem;
-}
-
-.skeleton-header {
-    margin-bottom: 3rem;
-}
-
-.skeleton-text-area {
-    color: var(--skeleton-color);
-    border-radius: 0.25rem;
 }
 
 .dark-mode-informative-text {
@@ -189,17 +181,6 @@
 }
 
 .main-card {
-    background-color: var(--light-mode-color);
-    position: relative;
-    display: flex;
-    border: 0 solid var(--card-border-color);
-    border-radius: 0.25rem;
-    box-shadow: 0 0 10px var(--card-box-shadow-color);
-    width: 60%;
-    margin-bottom: 2rem;
-}
-
-.skeleton-main-card {
     background-color: var(--light-mode-color);
     position: relative;
     display: flex;

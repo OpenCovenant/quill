@@ -1,8 +1,8 @@
 <div>
-    <ng-template [ngIf]="!isLoading" [ngIfElse]="loadingTemplate">
+    @if (!isLoading) {
         <div class="central-settings-area">
             <div
-                class="card skeleton-main-card p-3"
+                class="card main-card p-3"
                 [ngClass]="{
                     'settings-dark-mode': darkModeService.isDarkMode
                 }"
@@ -176,57 +176,9 @@
                 </div>
             </div>
         </div>
-    </ng-template>
-
-    <ng-template #loadingTemplate>
-        <div class="central-settings-area">
-            <div
-                class="card main-card p-3"
-                [ngClass]="{
-                    'settings-dark-mode': darkModeService.isDarkMode
-                }"
-            >
-                <div
-                    class="card-body placeholder-glow flex-column"
-                    [ngClass]="{
-                        'settings-dark-mode': darkModeService.isDarkMode
-                    }"
-                >
-                    <h3
-                        class="placeholder col-5 placeholder-lg skeleton-header skeleton-text-area"
-                    ></h3>
-                    <p class="placeholder skeleton-text-area col-7"></p>
-                    <p class="placeholder skeleton-text-area col-11"></p>
-                    <p class="placeholder skeleton-text-area col-9"></p>
-                    <hr />
-
-                    <h3
-                        class="placeholder col-3 skeleton-header skeleton-text-area"
-                    ></h3>
-                    <p class="placeholder skeleton-text-area col-6"></p>
-                    <p class="placeholder skeleton-text-area col-12"></p>
-                    <p class="placeholder skeleton-text-area col-8"></p>
-                    <hr />
-
-                    <h3
-                        class="placeholder col-5 skeleton-header skeleton-text-area"
-                    ></h3>
-                    <p class="placeholder skeleton-text-area col-8"></p>
-                    <p class="placeholder skeleton-text-area col-7"></p>
-                    <p class="placeholder skeleton-text-area col-12"></p>
-
-                    <hr />
-
-                    <h3
-                        class="placeholder col-5 skeleton-header skeleton-text-area"
-                    ></h3>
-                    <p class="placeholder skeleton-text-area col-8"></p>
-                    <p class="placeholder skeleton-text-area col-7"></p>
-                    <p class="placeholder skeleton-text-area col-12"></p>
-                </div>
-            </div>
-        </div>
-    </ng-template>
+    } @else {
+        <app-settings-skeleton></app-settings-skeleton>
+    }
 </div>
 
 <div

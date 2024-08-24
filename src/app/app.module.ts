@@ -23,6 +23,7 @@ import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { AuthenticationInterceptor } from './authentication.interceptor';
+import { SettingsSkeletonComponent } from './settings/settings-skeleton/settings-skeleton.component';
 
 @NgModule({
     declarations: [
@@ -42,7 +43,12 @@ import { AuthenticationInterceptor } from './authentication.interceptor';
         CheckoutComponent
     ],
     bootstrap: [AppComponent],
-    imports: [BrowserModule, FormsModule, AppRoutingModule],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        AppRoutingModule,
+        SettingsSkeletonComponent
+    ],
     providers: [
         {
             provide: HTTP_INTERCEPTORS,

@@ -199,6 +199,7 @@
                 <div>
                     <a
                         routerLink="/settings"
+                        style="display: flex; align-items: center"
                         class="nav-text list-group-item-action mb-3"
                         [ngClass]="{
                             'side-menu-nav-text-dark-mode':
@@ -224,6 +225,7 @@
                 <div>
                     <a
                         routerLink="/shortcuts"
+                        style="display: flex; align-items: center"
                         class="nav-text list-group-item-action mb-3"
                         [ngClass]="{
                             'side-menu-nav-text-dark-mode':
@@ -248,6 +250,7 @@
                 <div>
                     <a
                         routerLink="/dashboard"
+                        style="display: flex; align-items: center"
                         role="button"
                         class="nav-text list-group-item-action mb-3"
                         [ngClass]="{
@@ -272,6 +275,7 @@
                 <div>
                     <a
                         routerLink="/about"
+                        style="display: flex; align-items: center"
                         role="button"
                         data-bs-toggle="offcanvas"
                         data-bs-target="#side-menu-start"
@@ -293,32 +297,35 @@
                         >Rreth Pendës</a
                     >
                 </div>
-                <div>
-                    <a
-                        routerLink="/privacy-policy"
-                        role="button"
-                        data-bs-toggle="offcanvas"
-                        data-bs-target="#side-menu-start"
-                        aria-controls="side-menu-start"
-                        class="nav-text list-group-item-action mb-3"
-                        [ngClass]="{
-                            'side-menu-nav-text-dark-mode':
-                                darkModeService.isDarkMode
-                        }"
-                        ><i
-                            class="bi bi-info-circle"
-                            [ngClass]="{
-                                'side-menu-bi-info-circle-dark-mode':
-                                    darkModeService.isDarkMode
-                            }"
-                        >
-                        </i
-                        >Politikat e Privatësisë</a
-                    >
-                </div>
+                <!--                <div>-->
+                <!--                    <a-->
+                <!--                        routerLink="/privacy-policy"-->
+                <!--                        style='display: flex; align-items: center;'-->
+                <!--                        role="button"-->
+                <!--                        data-bs-toggle="offcanvas"-->
+                <!--                        data-bs-target="#side-menu-start"-->
+                <!--                        aria-controls="side-menu-start"-->
+                <!--                        class="nav-text list-group-item-action mb-3"-->
+                <!--                        [ngClass]="{-->
+                <!--                            'side-menu-nav-text-dark-mode':-->
+                <!--                                darkModeService.isDarkMode-->
+                <!--                        }"-->
+                <!--                        ><i-->
+                <!--                            class="bi bi-info-circle"-->
+                <!--                            style="font-size: 1.2rem"-->
+                <!--                            [ngClass]="{-->
+                <!--                                'side-menu-bi-info-circle-dark-mode':-->
+                <!--                                    darkModeService.isDarkMode-->
+                <!--                            }"-->
+                <!--                        >-->
+                <!--                        </i-->
+                <!--                        >Politikat e Privatësisë</a-->
+                <!--                    >-->
+                <!--                </div>-->
                 <div>
                     <a
                         routerLink="/terms-of-use"
+                        style="display: flex; align-items: center"
                         role="button"
                         data-bs-toggle="offcanvas"
                         data-bs-target="#side-menu-start"
@@ -343,6 +350,7 @@
                 <div>
                     <a
                         href="https://github.com/OpenCovenant"
+                        style="display: flex; align-items: center"
                         role="button"
                         class="nav-text list-group-item-action mb-3"
                         [ngClass]="{

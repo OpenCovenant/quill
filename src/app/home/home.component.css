@@ -100,7 +100,7 @@
 }
 
 .card-body-dark-mode {
-    background-color: var(--dashboard-card);
+    background-color: var(--card-body-dark-mode);
     border-radius: 0.25rem;
 }
 
@@ -562,6 +562,10 @@
 .writings-history-dark-mode {
     background-color: var(--dark-mode-theme);
     margin: 0 1rem;
+}
+
+.writings-history-dark-mode:hover {
+    background-color: var(--light-black);
 }
 
 .marking-type-label {
