@@ -124,5 +124,7 @@
       }
     }
   },
-  "defaultProject": "quill"
+  "cli": {
+    "analytics": false
+  }
 }

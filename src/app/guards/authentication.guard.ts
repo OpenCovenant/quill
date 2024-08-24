@@ -1,58 +1,38 @@
-import { Injectable } from '@angular/core';
-import {
-    ActivatedRouteSnapshot,
-    CanActivate,
-    Router,
-    RouterStateSnapshot,
-    UrlTree
-} from '@angular/router';
-import { map, Observable } from 'rxjs';
+import { inject } from '@angular/core';
+import { ActivatedRouteSnapshot, Router } from '@angular/router';
+import { map } from 'rxjs';
 import { AuthenticationService } from '../services/authentication.service';
 
-@Injectable({
-    providedIn: 'root'
-})
-export class AuthenticationGuard implements CanActivate {
-    constructor(
-        private authService: AuthenticationService,
-        private router: Router
-    ) {}
+export const authenticationGuard = (route: ActivatedRouteSnapshot) => {
+    const authService = inject(AuthenticationService);
+    const router = inject(Router);
 
-    canActivate(
-        route: ActivatedRouteSnapshot,
-        state: RouterStateSnapshot
-    ):
-        | Observable<boolean | UrlTree>
-        | Promise<boolean | UrlTree>
-        | boolean
-        | UrlTree {
-        return this.authService.isAuthenticated().pipe(
-            // switchMap(g => ), // TODO: check JWT validity here?
-            map((authenticated: boolean) => {
-                if (route.url.length === 0) {
-                    // home page
-                    return true;
-                }
+    return authService.isAuthenticated().pipe(
+        // switchMap(g => ), // TODO: check JWT validity here?
+        map((authenticated: boolean) => {
+            if (route.url.length === 0) {
+                // home page
+                return true;
+            }
 
-                const pathSuffix = route.url[route.url.length - 1].path;
+            const pathSuffix = route.url[route.url.length - 1].path;
 
-                const unauthenticatedProfile: boolean =
-                    pathSuffix === 'profile' && !authenticated;
-                const authenticatedAuthentication: boolean =
-                    pathSuffix === 'authentication' && authenticated;
-                const unauthenticatedCheckout: boolean =
-                    pathSuffix === 'checkout' && !authenticated;
+            const unauthenticatedProfile: boolean =
+                pathSuffix === 'profile' && !authenticated;
+            const authenticatedAuthentication: boolean =
+                pathSuffix === 'authentication' && authenticated;
+            const unauthenticatedCheckout: boolean =
+                pathSuffix === 'checkout' && !authenticated;
 
-                if (unauthenticatedProfile || authenticatedAuthentication) {
-                    this.router.navigate(['/']);
-                    return false;
-                } else if (unauthenticatedCheckout) {
-                    this.router.navigate(['/authentication']);
-                    return false;
-                } else {
-                    return true;
-                }
-            })
-        );
-    }
-}
+            if (unauthenticatedProfile || authenticatedAuthentication) {
+                router.navigate(['/']);
+                return false;
+            } else if (unauthenticatedCheckout) {
+                router.navigate(['/authentication']);
+                return false;
+            } else {
+                return true;
+            }
+        })
+    );
+};
