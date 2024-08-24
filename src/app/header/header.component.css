@@ -94,18 +94,18 @@
     height: 50px;
     padding: 1rem;
     text-decoration: none;
-    color: var(--pitch-black);
+    color: black;
     font-weight: 500;
 }
 
 .nav-text:hover {
     background-color: var(--light-mode-hover-theme);
-    color: var(--pitch-black);
+    color: black;
 }
 
 .bi {
     padding-right: 1rem;
-    color: var(--pitch-black);
+    color: black;
 }
 
 .side-menu-bi-info-circle-dark-mode {
@@ -309,11 +309,11 @@
 }
 
 .penda-header-logo-corrector {
-    color: #676767;
+    color: var(--active-dropdown-menu-dark-mode);
     font-size: 15px;
     padding-left: 8px;
 }
 
 .header-corrector-text-dark-mode {
-    color: #b8babc;
+    color: var(--header-corrector-dark-mode);
 }

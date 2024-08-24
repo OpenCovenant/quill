@@ -8,9 +8,9 @@
     background-color: var(--light-mode-color);
     position: relative;
     display: flex;
-    border: 0 solid var(--some-border-color);
+    border: 0 solid var(--card-border-color);
     border-radius: 0.25rem;
-    box-shadow: 0 0 10px var(--some-box-shadow-color);
+    box-shadow: 0 0 10px var(--card-box-shadow-color);
     width: 60%;
     margin-bottom: 2rem;
 }

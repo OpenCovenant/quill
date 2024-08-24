@@ -45,11 +45,6 @@ export class HeaderComponent {
         this.getMarkingTypesCount = `${this.baseURL}/api/getMarkingTypesCount`;
     }
 
-    // TODO: is this even used?
-    closeOffcanvas(): void {
-        document.getElementById('side-menu-close-button')!.click();
-    }
-
     isSettingsRoute(): boolean {
         return this.router.url === '/settings';
     }

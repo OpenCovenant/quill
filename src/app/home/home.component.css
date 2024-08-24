@@ -100,7 +100,7 @@
 }
 
 .card-body-dark-mode {
-    background-color: #9a9a9a;
+    background-color: var(--dashboard-card);
     border-radius: 0.25rem;
 }
 
@@ -385,7 +385,7 @@
 }
 
 .suggestion {
-    background-color: #eaeaea;
+    background-color: var(--light);
     border-radius: 4px;
     border: none;
     padding-top: 3px;
@@ -461,7 +461,7 @@
 
 /*TODO is this even used?*/
 .writing-dark-mode {
-    background-color: #9a9a9a;
+    background-color: var(--dashboard-card);
     color: black;
 }
 
@@ -557,7 +557,7 @@
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
-    box-shadow: 0 0 10px var(--some-box-shadow-color);
+    box-shadow: 0 0 10px var(--card-box-shadow-color);
     border-radius: 5px;
     padding: 5px;
     overflow: hidden;
@@ -565,7 +565,7 @@
 }
 
 .writing:hover {
-    background-color: #f1f1f1;
+    background-color: var(--light);
 }
 
 /*TODO: apply dark mode for the history of the written texts*/
@@ -584,50 +584,50 @@
 }
 
 .input-container-card {
-    border: 0 solid var(--some-border-color);
-    box-shadow: 0 0 10px var(--some-box-shadow-color);
+    border: 0 solid var(--card-border-color);
+    box-shadow: 0 0 10px var(--card-box-shadow-color);
     margin-top: 5px;
 }
 
 .typo-marking-card {
-    border: 0 solid var(--some-border-color);
-    box-shadow: 0 0 10px var(--some-box-shadow-color);
+    border: 0 solid var(--card-border-color);
+    box-shadow: 0 0 10px var(--card-box-shadow-color);
     margin-top: 5px;
 }
 
 .loanword-marking-card {
-    border: 0 solid var(--some-border-color);
-    box-shadow: 0 0 10px var(--some-box-shadow-color);
+    border: 0 solid var(--card-border-color);
+    box-shadow: 0 0 10px var(--card-box-shadow-color);
     margin-top: 5px;
 }
 
 .stylistic-marking-card {
-    border: 0 solid var(--some-border-color);
-    box-shadow: 0 0 10px var(--some-box-shadow-color);
+    border: 0 solid var(--card-border-color);
+    box-shadow: 0 0 10px var(--card-box-shadow-color);
     margin-top: 5px;
 }
 
 .grammatical-marking-card {
-    border: 0 solid var(--some-border-color);
-    box-shadow: 0 0 10px var(--some-box-shadow-color);
+    border: 0 solid var(--card-border-color);
+    box-shadow: 0 0 10px var(--card-box-shadow-color);
     margin-top: 5px;
 }
 
 .generated-marking-card {
-    border: 0 solid var(--some-border-color);
-    box-shadow: 0 0 10px var(--some-box-shadow-color);
+    border: 0 solid var(--card-border-color);
+    box-shadow: 0 0 10px var(--card-box-shadow-color);
     margin-top: 5px;
 }
 
 .highlighted-marking-card {
-    border: 0 solid var(--some-border-color);
-    box-shadow: 0 0 10px var(--some-box-shadow-color);
+    border: 0 solid var(--card-border-color);
+    box-shadow: 0 0 10px var(--card-box-shadow-color);
     margin-top: 5px;
 }
 
 .loading-reading-text-card {
-    border: 0 solid var(--some-border-color);
-    box-shadow: 0 0 10px var(--some-box-shadow-color);
+    border: 0 solid var(--card-border-color);
+    box-shadow: 0 0 10px var(--card-box-shadow-color);
     margin-top: 5px;
 }
 
@@ -662,7 +662,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    background-color: var(--slider-background);
     -webkit-transition: 0.4s;
     transition: 0.4s;
 }
