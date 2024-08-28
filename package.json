@@ -1,7 +1,11 @@
 {
   "name": "quill",
   "version": "0.0.0",
-  "scripts": {
+    "engines": {
+        "node": "^20",
+        "npm": "^10"
+    },
+    "scripts": {
     "ng": "ng",
     "install:mock-server": "cd mock-server; npm install",
     "start": "ng serve",
