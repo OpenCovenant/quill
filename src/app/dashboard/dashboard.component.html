@@ -57,12 +57,7 @@
                                 stilistike
                             </li>
                         </ul>
-                        <ng-template
-                            [ngIf]="
-                                !(authenticationService.isSubscribed() | async)
-                            "
-                            [ngIfElse]="emptySection"
-                        >
+                        @if (!(authenticationService.isSubscribed() | async)) {
                             <div class="text-center">
                                 <button
                                     type="button"
@@ -81,10 +76,9 @@
                                     >
                                 </div>
                             </div>
-                        </ng-template>
-                        <ng-template #emptySection>
+                        } @else {
                             <div class="empty-section-div"></div>
-                        </ng-template>
+                        }
                     </div>
                 </div>
             </div>
@@ -135,12 +129,7 @@
                                 >zgjidh çfarë lloj shenjimesh doni të shihni
                             </li>
                         </ul>
-                        <ng-template
-                            [ngIf]="
-                                !(authenticationService.isSubscribed() | async)
-                            "
-                            [ngIfElse]="otherEmptySection"
-                        >
+                        @if (!(authenticationService.isSubscribed() | async)) {
                             <div class="text-center">
                                 <!--                                routerLink="/checkout"-->
                                 <button
@@ -159,8 +148,7 @@
                                     >
                                 </div>
                             </div>
-                        </ng-template>
-                        <ng-template #otherEmptySection>
+                        } @else {
                             <div class="text-center">
                                 <button
                                     type="button"
@@ -170,7 +158,7 @@
                                     Abonimi Aktual
                                 </button>
                             </div>
-                        </ng-template>
+                        }
                     </div>
                 </div>
             </div>
