@@ -36,19 +36,15 @@
                                 </label>
                             </div>
                         </div>
-                        <ng-template
-                            [ngIf]="darkModeService.isDarkMode"
-                            [ngIfElse]="otherModeText"
-                        >
+                        @if (darkModeService.isDarkMode) {
                             <span class="dark-mode-informative-text"
                                 >Përdor Pamjen e Çelur</span
                             >
-                        </ng-template>
-                        <ng-template #otherModeText>
+                        } @else {
                             <span class="light-mode-informative-text"
                                 >Përdor Pamjen e Errët</span
                             >
-                        </ng-template>
+                        }
                     </div>
 
                     <!--                    <div class="immediate-markings-setting-section">-->
@@ -138,40 +134,42 @@
                         </p>
                         <!--                <hr />-->
 
-                        <div
-                            *ngFor="let markingType of markingTypes"
-                            class="marking-type-flex"
-                        >
-                            <span>
-                                <span>{{ markingType[1].description }}</span>
-                                <span
-                                    routerLink="/{{ markingType[0] }}"
-                                    class="marking-type-routing-span"
-                                    ><i class="bi bi-box-arrow-up-right"></i
+                        @for (markingType of markingTypes; track markingType) {
+                            <div class="marking-type-flex">
+                                <span>
+                                    <span>{{
+                                        markingType[1].description
+                                    }}</span>
+                                    <span
+                                        routerLink="/{{ markingType[0] }}"
+                                        class="marking-type-routing-span"
+                                        ><i class="bi bi-box-arrow-up-right"></i
+                                    ></span>
+                                </span>
+                                <span>
+                                    <label
+                                        class="marking-type-label"
+                                        [for]="markingType[0]"
+                                    >
+                                        <input
+                                            class="marking-type-input"
+                                            role="switch"
+                                            type="checkbox"
+                                            [id]="markingType[0]"
+                                            [(ngModel)]="markingType[1].enabled"
+                                            (ngModelChange)="
+                                                onMarkingTypeSelection(
+                                                    markingType[0],
+                                                    $event
+                                                )
+                                            "
+                                            data-test="marking-type-switch"
+                                        /><span
+                                            class="slider round"
+                                        ></span> </label
                                 ></span>
-                            </span>
-
-                            <span>
-                                <label
-                                    class="marking-type-label"
-                                    [for]="markingType[0]"
-                                >
-                                    <input
-                                        class="marking-type-input"
-                                        role="switch"
-                                        type="checkbox"
-                                        [id]="markingType[0]"
-                                        [(ngModel)]="markingType[1].enabled"
-                                        (ngModelChange)="
-                                            onMarkingTypeSelection(
-                                                markingType[0],
-                                                $event
-                                            )
-                                        "
-                                        data-test="marking-type-switch"
-                                    /><span class="slider round"></span> </label
-                            ></span>
-                        </div>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -210,34 +208,44 @@
                 ></button>
             </div>
             <div class="modal-body dismissed-marking-list-modal">
-                <div *ngIf="dismissedMarkings.length !== 0">
-                    <button
-                        *ngFor="let dismissedMarking of dismissedMarkings"
-                        type="button"
-                        class="btn position-relative list-of-dismissed-markings"
-                    >
-                        {{ dismissedMarking
-                        }}<span
-                            (click)="undoMarkingDismissal(dismissedMarking)"
-                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill undo-dismissed-marking"
-                        >
+                @if (dismissedMarkings.length !== 0) {
+                    <div>
+                        @for (
+                            dismissedMarking of dismissedMarkings;
+                            track dismissedMarking
+                        ) {
                             <button
                                 type="button"
-                                class="btn-close btn-close-white remove-marking-button"
-                                aria-label="Largo Shenjimin"
-                            ></button>
-                        </span>
-                    </button>
-                </div>
+                                class="btn position-relative list-of-dismissed-markings"
+                            >
+                                {{ dismissedMarking
+                                }}<span
+                                    (click)="
+                                        undoMarkingDismissal(dismissedMarking)
+                                    "
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill undo-dismissed-marking"
+                                >
+                                    <button
+                                        type="button"
+                                        class="btn-close btn-close-white remove-marking-button"
+                                        aria-label="Largo Shenjimin"
+                                    ></button>
+                                </span>
+                            </button>
+                        }
+                    </div>
+                }
 
-                <div *ngIf="dismissedMarkings.length === 0">
-                    <p>Nuk keni larguar ndonjë shenjim deri më tani.</p>
-                    <p>
-                        Mund të klikoni te ikona kryq te një shenjim në mënyrë
-                        që të mos shfaqet më. Më tej ajo mund të rikthehet
-                        nëpërmjet këtij dialogu.
-                    </p>
-                </div>
+                @if (dismissedMarkings.length === 0) {
+                    <div>
+                        <p>Nuk keni larguar ndonjë shenjim deri më tani.</p>
+                        <p>
+                            Mund të klikoni te ikona kryq te një shenjim në
+                            mënyrë që të mos shfaqet më. Më tej ajo mund të
+                            rikthehet nëpërmjet këtij dialogu.
+                        </p>
+                    </div>
+                }
             </div>
             <div class="modal-footer dismissed-marking-modal-footer">
                 <button
