@@ -1,4 +1,4 @@
-export function dismissMarkingByIndex(markingHeaderSelector, index = 0) {
+export function applySuggestionByIndex(markingHeaderSelector, index = 0) {
     cy.get(markingHeaderSelector)
         .parent()
         .parent()
@@ -9,7 +9,7 @@ export function dismissMarkingByIndex(markingHeaderSelector, index = 0) {
         .click();
 }
 
-export function applySuggestionByIndex(markingHeaderSelector, index = 0) {
+export function dismissMarkingByIndex (markingHeaderSelector) {
     cy.get(markingHeaderSelector)
         .parent()
         .parent()
