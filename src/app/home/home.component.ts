@@ -237,7 +237,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     onKeyDown($event: KeyboardEvent): void {
-        if (this.characterCount >= this.MAX_EDITOR_CHARACTERS) {
+        if (this.hasEditorOverMaxCharacters()) {
             if ($event.key !== 'Backspace') {
                 $event.preventDefault();
             }
@@ -1291,10 +1291,14 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.updateWordCount();
     }
 
-    hasUnconventionalCharacters(): boolean {
+    hasEditorUnconventionalCharacters(): boolean {
         return this.UNCONVENTIONAL_CHARACTERS.some((uC) =>
             document.getElementById(this.EDITOR_KEY)?.innerText.includes(uC)
         );
+    }
+
+    hasEditorOverMaxCharacters(): boolean {
+        return this.characterCount > this.MAX_EDITOR_CHARACTERS;
     }
 
     /**
@@ -1309,8 +1313,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                         !shouldNotMarkEditor(keyboardEvent)
                 ),
                 debounceTime(this.EVENTUAL_MARKING_TIME),
-                filter(() => this.characterCount < this.MAX_EDITOR_CHARACTERS),
-                filter(() => !this.hasUnconventionalCharacters()),
+                filter(() => !this.hasEditorOverMaxCharacters()),
+                filter(() => !this.hasEditorUnconventionalCharacters()),
                 tap(() => {
                     this.blurHighlightedBoardMarking();
                     this.markEditor();
@@ -1485,7 +1489,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     private showThankYouModal(): void {
-        const state = this.router.getCurrentNavigation()!.extras!.state;
+        const state = this.router.getCurrentNavigation()?.extras?.state;
         if (!state) {
             return;
         }
@@ -1495,7 +1499,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     private showWelcomeModal(): void {
-        const state = this.router.getCurrentNavigation()!.extras!.state;
+        const state = this.router.getCurrentNavigation()?.extras?.state;
         if (!state) {
             return;
         }
