@@ -86,10 +86,14 @@
                         data-test="characters-words-markings"
                     >
                         @if (hasEditorOverMaxCharacters()) {
-                            {{ MAX_EDITOR_CHARACTERS_MESSAGE }}&nbsp;–&nbsp;
+                            {{
+                                MAX_EDITOR_CHARACTERS_MESSAGE
+                            }}&nbsp;&nbsp;–&nbsp;
                         }
                         @if (hasEditorUnconventionalCharacters()) {
-                            {{ UNCONVENTIONAL_CHARACTERS_MESSAGE }}
+                            {{
+                                UNCONVENTIONAL_CHARACTERS_MESSAGE
+                            }}&nbsp;&nbsp;–&nbsp;
                         }
                         {{ characterCount }}&nbsp;{{
                             characterCount === 1 ? "karakter" : "karaktere"
