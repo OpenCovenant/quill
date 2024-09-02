@@ -5197,6 +5197,52 @@
                 }
             ]
         }
+    },
+    {
+        "request": "<p>Lapsi kuq mungonte nga kutia.</p>",
+        "response": {
+            "text": "<p>Lapsi kuq mungonte nga kutia.</p>",
+            "markings": [
+                {
+                    "id": "gabim-gramatikor",
+                    "from": 0,
+                    "to": 29,
+                    "type": "grammatical",
+                    "subtype": "gabim gramatikor",
+                    "description": "rishkruaj fjalin\u00eb",
+                    "suggestions": [
+                        {
+                            "display": "Lapsi i kuq mungonte nga kutia.",
+                            "action": "Lapsi i kuq mungonte nga kutia."
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
+    },
+    {
+        "request": "<p>Pra për mendimin tim, them se duhet të punojmë më shumë.</p>",
+        "response": {
+            "text": "<p>Pra p\u00ebr mendimin tim, them se duhet t\u00eb punojm\u00eb m\u00eb shum\u00eb.</p>",
+            "markings": [
+                {
+                    "id": "tautologji",
+                    "from": 4,
+                    "to": 29,
+                    "type": "stylistic",
+                    "subtype": "stilistik\u00eb, tautologji",
+                    "description": "e nj\u00ebjta gj\u00eb \u00ebsht\u00eb shprehur n\u00eb fraza t\u00eb ndryshme, thjesht\u00ebso",
+                    "suggestions": [
+                        {
+                            "display": "p\u00ebr mendimin tim,",
+                            "action": "p\u00ebr mendimin tim,"
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
     }
 ]
 

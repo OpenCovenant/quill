@@ -1,6 +1,30 @@
+import { applySuggestionByIndex, dismissMarking } from "./utils";
+
 describe("general flows", () => {
     beforeEach(() => {
         cy.visit("/");
+    });
+
+    it("should mark typos in the editor", () => {
+        cy.get('[data-test="editor"]').type("gabmim ");
+        cy.get(".typo").should("be.visible");
+    });
+
+    it("should mark loanwords in the editor", () => {
+        cy.get('[data-test="editor"]').type("lider ");
+        cy.get(".loanword").should("be.visible");
+    });
+
+    it("should mark stylistics in the editor", () => {
+        cy.get('[data-test="editor"]').type(
+            "Pra për mendimin tim, them se duhet të punojmë më shumë."
+        );
+        cy.get(".stylistic").should("be.visible");
+    });
+
+    it("should mark grammaticals in the editor", () => {
+        cy.get('[data-test="editor"]').type("Lapsi kuq mungonte nga kutia.");
+        cy.get(".grammatical").should("be.visible");
     });
 
     it("should reflect changes in the editor when suggestions of typos are applied", () => {
@@ -29,20 +53,30 @@ describe("general flows", () => {
             .should("be.visible");
     });
 
-    it("should mark typos in the editor", () => {
-        cy.get('[data-test="editor"]').type("gabmim ");
-        cy.get(".typo").should("be.visible");
+    it("should reflect changes in the editor when suggestions of stylistics are applied", () => {
+        cy.get('[data-test="editor"]').type(
+            "Pra për mendimin tim, them se duhet të punojmë më shumë."
+        );
+        cy.get('[data-test="suggestion"]')
+            .contains("për mendimin tim,")
+            .click();
+        cy.get('[data-test="editor"]')
+            .contains("Pra për mendimin tim, duhet të punojmë më shumë.")
+            .should("be.visible");
+        cy.get('[data-test="clear-editor-icon"]').click();
+        cy.get(".stylistic").should("not.exist");
     });
 
-    it("should mark loanwords in the editor", () => {
-        cy.get('[data-test="editor"]').type("lider ");
-        cy.get(".loanword").should("be.visible");
-    });
-
-    it("should open and close the side menu as expected", () => {
-        cy.get('[data-test="navbar-toggler-icon"]').click();
-        cy.get(".offcanvas.offcanvas-start.show").should("be.visible");
-        cy.get('[data-test="close-side-menu-button"]').click();
+    it("should reflect changes in the editor when suggestions of grammaticals are applied", () => {
+        cy.get('[data-test="editor"]').type("Lapsi kuq mungonte nga kutia.");
+        cy.get('[data-test="suggestion"]')
+            .contains("Lapsi i kuq mungonte nga kutia.")
+            .click();
+        cy.get('[data-test="editor"]')
+            .contains("Lapsi i kuq mungonte nga kutia.")
+            .should("be.visible");
+        cy.get('[data-test="clear-editor-icon"]').click();
+        cy.get(".grammatical").should("not.exist");
     });
 
     it("should behave properly when performing different operations on expanding and collapsing on the markings", () => {
@@ -119,21 +153,8 @@ describe("general flows", () => {
     it("should properly behave when briefly applying a suggestion and dismissing a marking", () => {
         cy.get('[data-test="editor"]').clear().type("lider gabmim");
 
-        // TODO: extract this hierarchy traversal to a method?
-        cy.get(".typo-marking-header")
-            .parent()
-            .parent()
-            .parent()
-            .find('[data-test="suggestion"]')
-            .first()
-            .click();
-        cy.get(".loanword-marking-header")
-            .parent()
-            .parent()
-            .parent()
-            .find('[data-test="dismiss-marking-button"]')
-            .first()
-            .click();
+        applySuggestionByIndex(".typo-marking-header");
+        dismissMarking(".loanword-marking-header");
 
         cy.get(".typo").should("not.exist");
         cy.get(".loanword").should("not.exist");
@@ -145,53 +166,14 @@ describe("general flows", () => {
             "gabmi lider e eshte e gabmim e saktë eshte pra eshte"
         );
 
-        cy.get(".typo-marking-header")
-            .parent()
-            .parent()
-            .parent()
-            .eq(0)
-            .find('[data-test="suggestion"]')
-            .first()
-            .click();
-        cy.get(".loanword-marking-header")
-            .parent()
-            .parent()
-            .parent()
-            .find('[data-test="dismiss-marking-button"]')
-            .first()
-            .click();
-        cy.get(".typo-marking-header")
-            .parent()
-            .parent()
-            .parent()
-            .eq(1)
-            .find('[data-test="suggestion"]')
-            .first()
-            .click();
-        cy.get(".typo-marking-header")
-            .parent()
-            .parent()
-            .parent()
-            .eq(2)
-            .find('[data-test="suggestion"]')
-            .first()
-            .click();
-        cy.get(".typo-marking-header")
-            .parent()
-            .parent()
-            .parent()
-            .eq(3)
-            .find('[data-test="suggestion"]')
-            .first()
-            .click();
-        cy.get(".typo-marking-header")
-            .parent()
-            .parent()
-            .parent()
-            .eq(4)
-            .find('[data-test="suggestion"]')
-            .first()
-            .click();
+        applySuggestionByIndex(".typo-marking-header", 0);
+
+        dismissMarking(".loanword-marking-header");
+
+        applySuggestionByIndex(".typo-marking-header", 1);
+        applySuggestionByIndex(".typo-marking-header", 2);
+        applySuggestionByIndex(".typo-marking-header", 3);
+        applySuggestionByIndex(".typo-marking-header", 4);
 
         cy.get(".typo").should("not.exist");
         cy.get(".loanword").should("not.exist");

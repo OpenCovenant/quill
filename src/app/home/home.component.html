@@ -22,7 +22,7 @@
                         [ngClass]="{
                             'editor-dark-mode': darkModeService.isDarkMode,
                             'editor-max-characters':
-                                characterCount >= MAX_EDITOR_CHARACTERS
+                                hasEditorOverMaxCharacters()
                         }"
                         contenteditable="true"
                         [innerHTML]="innerHTMLOfEditor"
@@ -79,17 +79,21 @@
                             'characters-words-markings-dark-mode':
                                 darkModeService.isDarkMode,
                             'max-editor-characters':
-                                characterCount >= MAX_EDITOR_CHARACTERS,
+                                hasEditorOverMaxCharacters(),
                             'unconventional-editor-characters':
-                                hasUnconventionalCharacters()
+                                hasEditorUnconventionalCharacters()
                         }"
                         data-test="characters-words-markings"
                     >
-                        @if (characterCount >= MAX_EDITOR_CHARACTERS) {
-                            {{ MAX_EDITOR_CHARACTERS_MESSAGE }}&nbsp;–&nbsp;
+                        @if (hasEditorOverMaxCharacters()) {
+                            {{
+                                MAX_EDITOR_CHARACTERS_MESSAGE
+                            }}&nbsp;&nbsp;–&nbsp;
                         }
-                        @if (hasUnconventionalCharacters()) {
-                            {{ UNCONVENTIONAL_CHARACTERS_MESSAGE }}
+                        @if (hasEditorUnconventionalCharacters()) {
+                            {{
+                                UNCONVENTIONAL_CHARACTERS_MESSAGE
+                            }}&nbsp;&nbsp;–&nbsp;
                         }
                         {{ characterCount }}&nbsp;{{
                             characterCount === 1 ? "karakter" : "karaktere"
