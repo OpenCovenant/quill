@@ -1,4 +1,4 @@
-import { applySuggestionByIndex, dismissMarkingByIndex } from "./utils";
+import { applySuggestionByIndex, dismissMarking } from "./utils";
 
 describe("general flows", () => {
     beforeEach(() => {
@@ -154,7 +154,7 @@ describe("general flows", () => {
         cy.get('[data-test="editor"]').clear().type("lider gabmim");
 
         applySuggestionByIndex(".typo-marking-header");
-        dismissMarkingByIndex(".loanword-marking-header");
+        dismissMarking(".loanword-marking-header");
 
         cy.get(".typo").should("not.exist");
         cy.get(".loanword").should("not.exist");
@@ -168,7 +168,7 @@ describe("general flows", () => {
 
         applySuggestionByIndex(".typo-marking-header", 0);
 
-        dismissMarkingByIndex(".loanword-marking-header");
+        dismissMarking(".loanword-marking-header");
 
         applySuggestionByIndex(".typo-marking-header", 1);
         applySuggestionByIndex(".typo-marking-header", 2);
