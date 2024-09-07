@@ -5,15 +5,23 @@ import { Injectable } from '@angular/core';
 })
 export class DarkModeService {
     DARK_MODE_KEY = 'penda-dark-mode';
-    isDarkMode: boolean = false;
-
+    isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    constructor() {
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            this.isDarkMode = e.matches;
+            this.onDarkModeChange()
+        });
+    }
     initializeDarkMode(): void {
         const alreadySetDarkMode: string | null = localStorage.getItem(
             this.DARK_MODE_KEY
         );
+
         if (!alreadySetDarkMode) {
-            localStorage.setItem(this.DARK_MODE_KEY, 'false');
-            this.isDarkMode = false;
+            const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            this.isDarkMode = systemTheme;
+            localStorage.setItem(this.DARK_MODE_KEY, String(systemTheme));
+            // this.isDarkMode = false;
         } else {
             if (alreadySetDarkMode === 'false') {
                 this.isDarkMode = false;
@@ -40,4 +48,6 @@ export class DarkModeService {
         this.addTransitionClass();
         localStorage.setItem(this.DARK_MODE_KEY, String(this.isDarkMode));
     }
+
 }
+
