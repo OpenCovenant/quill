@@ -631,6 +631,66 @@
         }
     },
     {
+        "request": "<p>gabmim <span class=\"typo animated-typo-marking\">gabmim</span></p>",
+        "response": {
+            "text": "<p>gabmim <span class=\"typo animated-typo-marking\">gabmim</span></p>",
+            "markings": [
+                {
+                    "from": 0,
+                    "to": 6,
+                    "type": "typo",
+                    "subtype": "gabim drejtshkrimi",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "gazmim",
+                            "action": "gazmim"
+                        },
+                        {
+                            "display": "gabimi",
+                            "action": "gabimi"
+                        },
+                        {
+                            "display": "gabime",
+                            "action": "gabime"
+                        },
+                        {
+                            "display": "gabim",
+                            "action": "gabim"
+                        }
+                    ],
+                    "paragraph": 0
+                },
+                {
+                    "from": 7,
+                    "to": 13,
+                    "type": "typo",
+                    "subtype": "gabim drejtshkrimi",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "gazmim",
+                            "action": "gazmim"
+                        },
+                        {
+                            "display": "gabimi",
+                            "action": "gabimi"
+                        },
+                        {
+                            "display": "gabime",
+                            "action": "gabime"
+                        },
+                        {
+                            "display": "gabim",
+                            "action": "gabim"
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
+    },
+    {
         "request": "<p>lider gabmim</p>",
         "response": {
             "text": "<p>lider gabmim</p>",
@@ -1844,144 +1904,148 @@
                     "from": 0,
                     "to": 4,
                     "type": "typo",
-                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "subtype": "gabim drejtshkrimi",
                     "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
                     "suggestions": [
                         {
-                            "display": "skot",
-                            "action": "skot"
-                        },
-                        {
-                            "display": "akti",
-                            "action": "akti"
-                        },
-                        {
-                            "display": "sakt\u00eb",
-                            "action": "sakt\u00eb"
-                        },
-                        {
-                            "display": "sakut",
-                            "action": "sakut"
-                        },
-                        {
-                            "display": "saka",
-                            "action": "saka"
-                        },
-                        {
-                            "display": "pakt",
-                            "action": "pakt"
-                        },
-                        {
-                            "display": "sata",
-                            "action": "sata"
-                        },
-                        {
-                            "display": "akut",
-                            "action": "akut"
-                        },
-                        {
-                            "display": "sak\u00ebt",
-                            "action": "sak\u00ebt"
-                        },
-                        {
-                            "display": "saku",
-                            "action": "saku"
-                        },
-                        {
-                            "display": "sati",
-                            "action": "sati"
-                        },
-                        {
-                            "display": "sak\u00eb",
-                            "action": "sak\u00eb"
-                        },
-                        {
-                            "display": "sakti",
-                            "action": "sakti"
-                        },
-                        {
-                            "display": "vakt",
-                            "action": "vakt"
-                        },
-                        {
-                            "display": "ak\u00ebt",
-                            "action": "ak\u00ebt"
-                        },
-                        {
-                            "display": "sekt",
-                            "action": "sekt"
-                        },
-                        {
-                            "display": "sait",
-                            "action": "sait"
-                        },
-                        {
                             "display": "takt",
                             "action": "takt"
-                        },
-                        {
-                            "display": "sakta",
-                            "action": "sakta"
-                        },
-                        {
-                            "display": "smat",
-                            "action": "smat"
-                        },
-                        {
-                            "display": "sakat",
-                            "action": "sakat"
-                        },
-                        {
-                            "display": "sat\u00eb",
-                            "action": "sat\u00eb"
-                        },
-                        {
-                            "display": "skit",
-                            "action": "skit"
-                        },
-                        {
-                            "display": "sakte",
-                            "action": "sakte"
-                        },
-                        {
-                            "display": "shat",
-                            "action": "shat"
                         },
                         {
                             "display": "akth",
                             "action": "akth"
                         },
                         {
-                            "display": "fakt",
-                            "action": "fakt"
+                            "display": "akut",
+                            "action": "akut"
                         },
                         {
                             "display": "akte",
                             "action": "akte"
                         },
                         {
+                            "display": "akti",
+                            "action": "akti"
+                        },
+                        {
+                            "display": "pakt",
+                            "action": "pakt"
+                        },
+                        {
+                            "display": "ak\u00ebt",
+                            "action": "ak\u00ebt"
+                        },
+                        {
+                            "display": "vakt",
+                            "action": "vakt"
+                        },
+                        {
+                            "display": "fakt",
+                            "action": "fakt"
+                        },
+                        {
+                            "display": "skot",
+                            "action": "skot"
+                        },
+                        {
+                            "display": "skut",
+                            "action": "skut"
+                        },
+                        {
+                            "display": "sekt",
+                            "action": "sekt"
+                        },
+                        {
+                            "display": "skit",
+                            "action": "skit"
+                        },
+                        {
+                            "display": "sajt",
+                            "action": "sajt"
+                        },
+                        {
+                            "display": "sat\u00eb",
+                            "action": "sat\u00eb"
+                        },
+                        {
                             "display": "spat",
                             "action": "spat"
                         },
                         {
-                            "display": "akt",
-                            "action": "akt"
+                            "display": "sait",
+                            "action": "sait"
                         },
                         {
                             "display": "sate",
                             "action": "sate"
                         },
                         {
-                            "display": "sako",
-                            "action": "sako"
+                            "display": "smat",
+                            "action": "smat"
+                        },
+                        {
+                            "display": "sata",
+                            "action": "sata"
+                        },
+                        {
+                            "display": "sati",
+                            "action": "sati"
+                        },
+                        {
+                            "display": "shat",
+                            "action": "shat"
+                        },
+                        {
+                            "display": "sak\u00eb",
+                            "action": "sak\u00eb"
+                        },
+                        {
+                            "display": "saka",
+                            "action": "saka"
                         },
                         {
                             "display": "sake",
                             "action": "sake"
                         },
                         {
-                            "display": "sajt",
-                            "action": "sajt"
+                            "display": "saku",
+                            "action": "saku"
+                        },
+                        {
+                            "display": "sako",
+                            "action": "sako"
+                        },
+                        {
+                            "display": "sakt\u00eb",
+                            "action": "sakt\u00eb"
+                        },
+                        {
+                            "display": "sakta",
+                            "action": "sakta"
+                        },
+                        {
+                            "display": "sakte",
+                            "action": "sakte"
+                        },
+                        {
+                            "display": "sakut",
+                            "action": "sakut"
+                        },
+                        {
+                            "display": "sakat",
+                            "action": "sakat"
+                        },
+                        {
+                            "display": "sak\u00ebt",
+                            "action": "sak\u00ebt"
+                        },
+                        {
+                            "display": "sakti",
+                            "action": "sakti"
+                        },
+                        {
+                            "display": "akt",
+                            "action": "akt"
                         },
                         {
                             "display": "sak",
@@ -2334,6 +2398,382 @@
                         {
                             "display": "eshke",
                             "action": "eshke"
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
+    },
+    {
+        "request": "<p>sakt <span class=\"typo animated-typo-marking\">eshte</span></p>",
+        "response": {
+            "text": "<p>sakt <span class=\"typo animated-typo-marking\">eshte</span></p>",
+            "markings": [
+                {
+                    "from": 0,
+                    "to": 4,
+                    "type": "typo",
+                    "subtype": "gabim drejtshkrimi",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "takt",
+                            "action": "takt"
+                        },
+                        {
+                            "display": "akth",
+                            "action": "akth"
+                        },
+                        {
+                            "display": "akut",
+                            "action": "akut"
+                        },
+                        {
+                            "display": "akte",
+                            "action": "akte"
+                        },
+                        {
+                            "display": "akti",
+                            "action": "akti"
+                        },
+                        {
+                            "display": "pakt",
+                            "action": "pakt"
+                        },
+                        {
+                            "display": "ak\u00ebt",
+                            "action": "ak\u00ebt"
+                        },
+                        {
+                            "display": "vakt",
+                            "action": "vakt"
+                        },
+                        {
+                            "display": "fakt",
+                            "action": "fakt"
+                        },
+                        {
+                            "display": "skot",
+                            "action": "skot"
+                        },
+                        {
+                            "display": "skut",
+                            "action": "skut"
+                        },
+                        {
+                            "display": "sekt",
+                            "action": "sekt"
+                        },
+                        {
+                            "display": "skit",
+                            "action": "skit"
+                        },
+                        {
+                            "display": "sajt",
+                            "action": "sajt"
+                        },
+                        {
+                            "display": "sat\u00eb",
+                            "action": "sat\u00eb"
+                        },
+                        {
+                            "display": "spat",
+                            "action": "spat"
+                        },
+                        {
+                            "display": "sait",
+                            "action": "sait"
+                        },
+                        {
+                            "display": "sate",
+                            "action": "sate"
+                        },
+                        {
+                            "display": "smat",
+                            "action": "smat"
+                        },
+                        {
+                            "display": "sata",
+                            "action": "sata"
+                        },
+                        {
+                            "display": "sati",
+                            "action": "sati"
+                        },
+                        {
+                            "display": "shat",
+                            "action": "shat"
+                        },
+                        {
+                            "display": "sak\u00eb",
+                            "action": "sak\u00eb"
+                        },
+                        {
+                            "display": "saka",
+                            "action": "saka"
+                        },
+                        {
+                            "display": "sake",
+                            "action": "sake"
+                        },
+                        {
+                            "display": "saku",
+                            "action": "saku"
+                        },
+                        {
+                            "display": "sako",
+                            "action": "sako"
+                        },
+                        {
+                            "display": "sakt\u00eb",
+                            "action": "sakt\u00eb"
+                        },
+                        {
+                            "display": "sakta",
+                            "action": "sakta"
+                        },
+                        {
+                            "display": "sakte",
+                            "action": "sakte"
+                        },
+                        {
+                            "display": "sakut",
+                            "action": "sakut"
+                        },
+                        {
+                            "display": "sakat",
+                            "action": "sakat"
+                        },
+                        {
+                            "display": "sak\u00ebt",
+                            "action": "sak\u00ebt"
+                        },
+                        {
+                            "display": "sakti",
+                            "action": "sakti"
+                        },
+                        {
+                            "display": "akt",
+                            "action": "akt"
+                        },
+                        {
+                            "display": "sak",
+                            "action": "sak"
+                        }
+                    ],
+                    "paragraph": 0
+                },
+                {
+                    "from": 5,
+                    "to": 10,
+                    "type": "typo",
+                    "subtype": "gabim drejtshkrimi",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "esht\u00eb",
+                            "action": "esht\u00eb"
+                        },
+                        {
+                            "display": "\u00ebsht\u00eb",
+                            "action": "\u00ebsht\u00eb"
+                        },
+                        {
+                            "display": "shyte",
+                            "action": "shyte"
+                        },
+                        {
+                            "display": "shtet",
+                            "action": "shtet"
+                        },
+                        {
+                            "display": "shete",
+                            "action": "shete"
+                        },
+                        {
+                            "display": "shthe",
+                            "action": "shthe"
+                        },
+                        {
+                            "display": "shtie",
+                            "action": "shtie"
+                        },
+                        {
+                            "display": "shute",
+                            "action": "shute"
+                        },
+                        {
+                            "display": "shite",
+                            "action": "shite"
+                        },
+                        {
+                            "display": "ishte",
+                            "action": "ishte"
+                        },
+                        {
+                            "display": "shtek",
+                            "action": "shtek"
+                        },
+                        {
+                            "display": "shter",
+                            "action": "shter"
+                        },
+                        {
+                            "display": "yshte",
+                            "action": "yshte"
+                        },
+                        {
+                            "display": "ushte",
+                            "action": "ushte"
+                        },
+                        {
+                            "display": "shote",
+                            "action": "shote"
+                        },
+                        {
+                            "display": "oshte",
+                            "action": "oshte"
+                        },
+                        {
+                            "display": "shteg",
+                            "action": "shteg"
+                        },
+                        {
+                            "display": "dehte",
+                            "action": "dehte"
+                        },
+                        {
+                            "display": "behte",
+                            "action": "behte"
+                        },
+                        {
+                            "display": "lehte",
+                            "action": "lehte"
+                        },
+                        {
+                            "display": "ethte",
+                            "action": "ethte"
+                        },
+                        {
+                            "display": "vehte",
+                            "action": "vehte"
+                        },
+                        {
+                            "display": "meste",
+                            "action": "meste"
+                        },
+                        {
+                            "display": "estet",
+                            "action": "estet"
+                        },
+                        {
+                            "display": "qeste",
+                            "action": "qeste"
+                        },
+                        {
+                            "display": "teste",
+                            "action": "teste"
+                        },
+                        {
+                            "display": "veste",
+                            "action": "veste"
+                        },
+                        {
+                            "display": "feste",
+                            "action": "feste"
+                        },
+                        {
+                            "display": "reshe",
+                            "action": "reshe"
+                        },
+                        {
+                            "display": "peshe",
+                            "action": "peshe"
+                        },
+                        {
+                            "display": "epshe",
+                            "action": "epshe"
+                        },
+                        {
+                            "display": "veshe",
+                            "action": "veshe"
+                        },
+                        {
+                            "display": "eshke",
+                            "action": "eshke"
+                        },
+                        {
+                            "display": "neshe",
+                            "action": "neshe"
+                        },
+                        {
+                            "display": "deshe",
+                            "action": "deshe"
+                        },
+                        {
+                            "display": "leshe",
+                            "action": "leshe"
+                        },
+                        {
+                            "display": "qeshe",
+                            "action": "qeshe"
+                        },
+                        {
+                            "display": "seshe",
+                            "action": "seshe"
+                        },
+                        {
+                            "display": "hesht",
+                            "action": "hesht"
+                        },
+                        {
+                            "display": "desht",
+                            "action": "desht"
+                        },
+                        {
+                            "display": "eshit",
+                            "action": "eshit"
+                        },
+                        {
+                            "display": "resht",
+                            "action": "resht"
+                        },
+                        {
+                            "display": "vesht",
+                            "action": "vesht"
+                        },
+                        {
+                            "display": "qeshte",
+                            "action": "qeshte"
+                        },
+                        {
+                            "display": "reshte",
+                            "action": "reshte"
+                        },
+                        {
+                            "display": "veshte",
+                            "action": "veshte"
+                        },
+                        {
+                            "display": "eshtre",
+                            "action": "eshtre"
+                        },
+                        {
+                            "display": "beshte",
+                            "action": "beshte"
+                        },
+                        {
+                            "display": "eshtek",
+                            "action": "eshtek"
+                        },
+                        {
+                            "display": "heshte",
+                            "action": "heshte"
+                        },
+                        {
+                            "display": "ehte",
+                            "action": "ehte"
                         }
                     ],
                     "paragraph": 0
