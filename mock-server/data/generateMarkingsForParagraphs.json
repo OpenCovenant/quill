@@ -4160,94 +4160,78 @@
     {
         "request": "<p>asd Për kryerjen e programeve gabmim asd&nbsp;</p><p>asd Për kryerjen e programeve gabmim asd&nbsp;</p><p>asd Për kryerjen e programeve gabmim asd&nbsp;</p><p>asd Për kryerjen e programeve gabmim asd&nbsp;</p><p><br></p>",
         "response": {
-            "text": "<p>asd Për kryerjen e programeve gabmim asd&nbsp;</p><p>asd Për kryerjen e programeve gabmim asd&nbsp;</p><p>asd Për kryerjen e programeve gabmim asd&nbsp;</p><p>asd Për kryerjen e programeve gabmim asd&nbsp;</p><p><br></p>",
+            "text": "<p>asd P\u00ebr kryerjen e programeve gabmim asd&nbsp;</p><p>asd P\u00ebr kryerjen e programeve gabmim asd&nbsp;</p><p>asd P\u00ebr kryerjen e programeve gabmim asd&nbsp;</p><p>asd P\u00ebr kryerjen e programeve gabmim asd&nbsp;</p><p><br></p>",
             "markings": [
                 {
                     "from": 0,
                     "to": 3,
                     "type": "typo",
-                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "subtype": "gabim drejtshkrimi",
                     "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
                     "suggestions": [
                         {
-                            "display": "aks",
-                            "action": "aks"
-                        },
-                        {
-                            "display": "qas",
-                            "action": "qas"
+                            "display": "kad",
+                            "action": "kad"
                         },
                         {
                             "display": "and",
                             "action": "and"
                         },
                         {
-                            "display": "asi",
-                            "action": "asi"
-                        },
-                        {
-                            "display": "kad",
-                            "action": "kad"
-                        },
-                        {
-                            "display": "ras",
-                            "action": "ras"
-                        },
-                        {
-                            "display": "aed",
-                            "action": "aed"
-                        },
-                        {
-                            "display": "sad",
-                            "action": "sad"
+                            "display": "mas",
+                            "action": "mas"
                         },
                         {
                             "display": "kas",
                             "action": "kas"
                         },
                         {
-                            "display": "has",
-                            "action": "has"
+                            "display": "qas",
+                            "action": "qas"
                         },
                         {
-                            "display": "ase",
-                            "action": "ase"
+                            "display": "aks",
+                            "action": "aks"
                         },
                         {
-                            "display": "aso",
-                            "action": "aso"
-                        },
-                        {
-                            "display": "pas",
-                            "action": "pas"
-                        },
-                        {
-                            "display": "ad",
-                            "action": "ad"
-                        },
-                        {
-                            "display": "mas",
-                            "action": "mas"
+                            "display": "asi",
+                            "action": "asi"
                         },
                         {
                             "display": "bas",
                             "action": "bas"
                         },
                         {
+                            "display": "pas",
+                            "action": "pas"
+                        },
+                        {
+                            "display": "ase",
+                            "action": "ase"
+                        },
+                        {
+                            "display": "has",
+                            "action": "has"
+                        },
+                        {
                             "display": "tas",
                             "action": "tas"
                         },
                         {
-                            "display": "as",
-                            "action": "as"
+                            "display": "ras",
+                            "action": "ras"
                         },
                         {
                             "display": "ars",
                             "action": "ars"
                         },
                         {
-                            "display": "uas",
-                            "action": "uas"
+                            "display": "aso",
+                            "action": "aso"
+                        },
+                        {
+                            "display": "as",
+                            "action": "as"
                         }
                     ],
                     "paragraph": 0
@@ -4256,16 +4240,12 @@
                     "from": 30,
                     "to": 36,
                     "type": "typo",
-                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "subtype": "gabim drejtshkrimi",
                     "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
                     "suggestions": [
                         {
                             "display": "gazmim",
                             "action": "gazmim"
-                        },
-                        {
-                            "display": "gabim",
-                            "action": "gabim"
                         },
                         {
                             "display": "gabimi",
@@ -4274,6 +4254,10 @@
                         {
                             "display": "gabime",
                             "action": "gabime"
+                        },
+                        {
+                            "display": "gabim",
+                            "action": "gabim"
                         }
                     ],
                     "paragraph": 0
@@ -4282,84 +4266,68 @@
                     "from": 37,
                     "to": 40,
                     "type": "typo",
-                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "subtype": "gabim drejtshkrimi",
                     "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
                     "suggestions": [
                         {
-                            "display": "aso",
-                            "action": "aso"
-                        },
-                        {
-                            "display": "aed",
-                            "action": "aed"
-                        },
-                        {
                             "display": "kad",
                             "action": "kad"
-                        },
-                        {
-                            "display": "ars",
-                            "action": "ars"
-                        },
-                        {
-                            "display": "pas",
-                            "action": "pas"
-                        },
-                        {
-                            "display": "has",
-                            "action": "has"
                         },
                         {
                             "display": "and",
                             "action": "and"
                         },
                         {
-                            "display": "sad",
-                            "action": "sad"
-                        },
-                        {
-                            "display": "tas",
-                            "action": "tas"
-                        },
-                        {
-                            "display": "bas",
-                            "action": "bas"
-                        },
-                        {
-                            "display": "aks",
-                            "action": "aks"
-                        },
-                        {
-                            "display": "qas",
-                            "action": "qas"
-                        },
-                        {
-                            "display": "asi",
-                            "action": "asi"
-                        },
-                        {
-                            "display": "ad",
-                            "action": "ad"
-                        },
-                        {
-                            "display": "uas",
-                            "action": "uas"
-                        },
-                        {
-                            "display": "ase",
-                            "action": "ase"
-                        },
-                        {
-                            "display": "ras",
-                            "action": "ras"
+                            "display": "mas",
+                            "action": "mas"
                         },
                         {
                             "display": "kas",
                             "action": "kas"
                         },
                         {
-                            "display": "mas",
-                            "action": "mas"
+                            "display": "qas",
+                            "action": "qas"
+                        },
+                        {
+                            "display": "aks",
+                            "action": "aks"
+                        },
+                        {
+                            "display": "asi",
+                            "action": "asi"
+                        },
+                        {
+                            "display": "bas",
+                            "action": "bas"
+                        },
+                        {
+                            "display": "pas",
+                            "action": "pas"
+                        },
+                        {
+                            "display": "ase",
+                            "action": "ase"
+                        },
+                        {
+                            "display": "has",
+                            "action": "has"
+                        },
+                        {
+                            "display": "tas",
+                            "action": "tas"
+                        },
+                        {
+                            "display": "ras",
+                            "action": "ras"
+                        },
+                        {
+                            "display": "ars",
+                            "action": "ars"
+                        },
+                        {
+                            "display": "aso",
+                            "action": "aso"
                         },
                         {
                             "display": "as",
@@ -4372,88 +4340,72 @@
                     "from": 0,
                     "to": 3,
                     "type": "typo",
-                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "subtype": "gabim drejtshkrimi",
                     "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
                     "suggestions": [
                         {
-                            "display": "aks",
-                            "action": "aks"
-                        },
-                        {
-                            "display": "qas",
-                            "action": "qas"
+                            "display": "kad",
+                            "action": "kad"
                         },
                         {
                             "display": "and",
                             "action": "and"
                         },
                         {
-                            "display": "asi",
-                            "action": "asi"
-                        },
-                        {
-                            "display": "kad",
-                            "action": "kad"
-                        },
-                        {
-                            "display": "ras",
-                            "action": "ras"
-                        },
-                        {
-                            "display": "aed",
-                            "action": "aed"
-                        },
-                        {
-                            "display": "sad",
-                            "action": "sad"
+                            "display": "mas",
+                            "action": "mas"
                         },
                         {
                             "display": "kas",
                             "action": "kas"
                         },
                         {
-                            "display": "has",
-                            "action": "has"
+                            "display": "qas",
+                            "action": "qas"
                         },
                         {
-                            "display": "ase",
-                            "action": "ase"
+                            "display": "aks",
+                            "action": "aks"
                         },
                         {
-                            "display": "aso",
-                            "action": "aso"
-                        },
-                        {
-                            "display": "pas",
-                            "action": "pas"
-                        },
-                        {
-                            "display": "ad",
-                            "action": "ad"
-                        },
-                        {
-                            "display": "mas",
-                            "action": "mas"
+                            "display": "asi",
+                            "action": "asi"
                         },
                         {
                             "display": "bas",
                             "action": "bas"
                         },
                         {
+                            "display": "pas",
+                            "action": "pas"
+                        },
+                        {
+                            "display": "ase",
+                            "action": "ase"
+                        },
+                        {
+                            "display": "has",
+                            "action": "has"
+                        },
+                        {
                             "display": "tas",
                             "action": "tas"
                         },
                         {
-                            "display": "as",
-                            "action": "as"
+                            "display": "ras",
+                            "action": "ras"
                         },
                         {
                             "display": "ars",
                             "action": "ars"
                         },
                         {
-                            "display": "uas",
-                            "action": "uas"
+                            "display": "aso",
+                            "action": "aso"
+                        },
+                        {
+                            "display": "as",
+                            "action": "as"
                         }
                     ],
                     "paragraph": 1
@@ -4462,16 +4414,12 @@
                     "from": 30,
                     "to": 36,
                     "type": "typo",
-                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "subtype": "gabim drejtshkrimi",
                     "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
                     "suggestions": [
                         {
                             "display": "gazmim",
                             "action": "gazmim"
-                        },
-                        {
-                            "display": "gabim",
-                            "action": "gabim"
                         },
                         {
                             "display": "gabimi",
@@ -4480,6 +4428,10 @@
                         {
                             "display": "gabime",
                             "action": "gabime"
+                        },
+                        {
+                            "display": "gabim",
+                            "action": "gabim"
                         }
                     ],
                     "paragraph": 1
@@ -4488,84 +4440,68 @@
                     "from": 37,
                     "to": 40,
                     "type": "typo",
-                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "subtype": "gabim drejtshkrimi",
                     "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
                     "suggestions": [
                         {
-                            "display": "aso",
-                            "action": "aso"
-                        },
-                        {
-                            "display": "aed",
-                            "action": "aed"
-                        },
-                        {
                             "display": "kad",
                             "action": "kad"
-                        },
-                        {
-                            "display": "ars",
-                            "action": "ars"
-                        },
-                        {
-                            "display": "pas",
-                            "action": "pas"
-                        },
-                        {
-                            "display": "has",
-                            "action": "has"
                         },
                         {
                             "display": "and",
                             "action": "and"
                         },
                         {
-                            "display": "sad",
-                            "action": "sad"
-                        },
-                        {
-                            "display": "tas",
-                            "action": "tas"
-                        },
-                        {
-                            "display": "bas",
-                            "action": "bas"
-                        },
-                        {
-                            "display": "aks",
-                            "action": "aks"
-                        },
-                        {
-                            "display": "qas",
-                            "action": "qas"
-                        },
-                        {
-                            "display": "asi",
-                            "action": "asi"
-                        },
-                        {
-                            "display": "ad",
-                            "action": "ad"
-                        },
-                        {
-                            "display": "uas",
-                            "action": "uas"
-                        },
-                        {
-                            "display": "ase",
-                            "action": "ase"
-                        },
-                        {
-                            "display": "ras",
-                            "action": "ras"
+                            "display": "mas",
+                            "action": "mas"
                         },
                         {
                             "display": "kas",
                             "action": "kas"
                         },
                         {
-                            "display": "mas",
-                            "action": "mas"
+                            "display": "qas",
+                            "action": "qas"
+                        },
+                        {
+                            "display": "aks",
+                            "action": "aks"
+                        },
+                        {
+                            "display": "asi",
+                            "action": "asi"
+                        },
+                        {
+                            "display": "bas",
+                            "action": "bas"
+                        },
+                        {
+                            "display": "pas",
+                            "action": "pas"
+                        },
+                        {
+                            "display": "ase",
+                            "action": "ase"
+                        },
+                        {
+                            "display": "has",
+                            "action": "has"
+                        },
+                        {
+                            "display": "tas",
+                            "action": "tas"
+                        },
+                        {
+                            "display": "ras",
+                            "action": "ras"
+                        },
+                        {
+                            "display": "ars",
+                            "action": "ars"
+                        },
+                        {
+                            "display": "aso",
+                            "action": "aso"
                         },
                         {
                             "display": "as",
@@ -4578,88 +4514,72 @@
                     "from": 0,
                     "to": 3,
                     "type": "typo",
-                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "subtype": "gabim drejtshkrimi",
                     "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
                     "suggestions": [
                         {
-                            "display": "aks",
-                            "action": "aks"
-                        },
-                        {
-                            "display": "qas",
-                            "action": "qas"
+                            "display": "kad",
+                            "action": "kad"
                         },
                         {
                             "display": "and",
                             "action": "and"
                         },
                         {
-                            "display": "asi",
-                            "action": "asi"
-                        },
-                        {
-                            "display": "kad",
-                            "action": "kad"
-                        },
-                        {
-                            "display": "ras",
-                            "action": "ras"
-                        },
-                        {
-                            "display": "aed",
-                            "action": "aed"
-                        },
-                        {
-                            "display": "sad",
-                            "action": "sad"
+                            "display": "mas",
+                            "action": "mas"
                         },
                         {
                             "display": "kas",
                             "action": "kas"
                         },
                         {
-                            "display": "has",
-                            "action": "has"
+                            "display": "qas",
+                            "action": "qas"
                         },
                         {
-                            "display": "ase",
-                            "action": "ase"
+                            "display": "aks",
+                            "action": "aks"
                         },
                         {
-                            "display": "aso",
-                            "action": "aso"
-                        },
-                        {
-                            "display": "pas",
-                            "action": "pas"
-                        },
-                        {
-                            "display": "ad",
-                            "action": "ad"
-                        },
-                        {
-                            "display": "mas",
-                            "action": "mas"
+                            "display": "asi",
+                            "action": "asi"
                         },
                         {
                             "display": "bas",
                             "action": "bas"
                         },
                         {
+                            "display": "pas",
+                            "action": "pas"
+                        },
+                        {
+                            "display": "ase",
+                            "action": "ase"
+                        },
+                        {
+                            "display": "has",
+                            "action": "has"
+                        },
+                        {
                             "display": "tas",
                             "action": "tas"
                         },
                         {
-                            "display": "as",
-                            "action": "as"
+                            "display": "ras",
+                            "action": "ras"
                         },
                         {
                             "display": "ars",
                             "action": "ars"
                         },
                         {
-                            "display": "uas",
-                            "action": "uas"
+                            "display": "aso",
+                            "action": "aso"
+                        },
+                        {
+                            "display": "as",
+                            "action": "as"
                         }
                     ],
                     "paragraph": 2
@@ -4668,16 +4588,12 @@
                     "from": 30,
                     "to": 36,
                     "type": "typo",
-                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "subtype": "gabim drejtshkrimi",
                     "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
                     "suggestions": [
                         {
                             "display": "gazmim",
                             "action": "gazmim"
-                        },
-                        {
-                            "display": "gabim",
-                            "action": "gabim"
                         },
                         {
                             "display": "gabimi",
@@ -4686,6 +4602,10 @@
                         {
                             "display": "gabime",
                             "action": "gabime"
+                        },
+                        {
+                            "display": "gabim",
+                            "action": "gabim"
                         }
                     ],
                     "paragraph": 2
@@ -4694,84 +4614,68 @@
                     "from": 37,
                     "to": 40,
                     "type": "typo",
-                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "subtype": "gabim drejtshkrimi",
                     "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
                     "suggestions": [
                         {
-                            "display": "aso",
-                            "action": "aso"
-                        },
-                        {
-                            "display": "aed",
-                            "action": "aed"
-                        },
-                        {
                             "display": "kad",
                             "action": "kad"
-                        },
-                        {
-                            "display": "ars",
-                            "action": "ars"
-                        },
-                        {
-                            "display": "pas",
-                            "action": "pas"
-                        },
-                        {
-                            "display": "has",
-                            "action": "has"
                         },
                         {
                             "display": "and",
                             "action": "and"
                         },
                         {
-                            "display": "sad",
-                            "action": "sad"
-                        },
-                        {
-                            "display": "tas",
-                            "action": "tas"
-                        },
-                        {
-                            "display": "bas",
-                            "action": "bas"
-                        },
-                        {
-                            "display": "aks",
-                            "action": "aks"
-                        },
-                        {
-                            "display": "qas",
-                            "action": "qas"
-                        },
-                        {
-                            "display": "asi",
-                            "action": "asi"
-                        },
-                        {
-                            "display": "ad",
-                            "action": "ad"
-                        },
-                        {
-                            "display": "uas",
-                            "action": "uas"
-                        },
-                        {
-                            "display": "ase",
-                            "action": "ase"
-                        },
-                        {
-                            "display": "ras",
-                            "action": "ras"
+                            "display": "mas",
+                            "action": "mas"
                         },
                         {
                             "display": "kas",
                             "action": "kas"
                         },
                         {
-                            "display": "mas",
-                            "action": "mas"
+                            "display": "qas",
+                            "action": "qas"
+                        },
+                        {
+                            "display": "aks",
+                            "action": "aks"
+                        },
+                        {
+                            "display": "asi",
+                            "action": "asi"
+                        },
+                        {
+                            "display": "bas",
+                            "action": "bas"
+                        },
+                        {
+                            "display": "pas",
+                            "action": "pas"
+                        },
+                        {
+                            "display": "ase",
+                            "action": "ase"
+                        },
+                        {
+                            "display": "has",
+                            "action": "has"
+                        },
+                        {
+                            "display": "tas",
+                            "action": "tas"
+                        },
+                        {
+                            "display": "ras",
+                            "action": "ras"
+                        },
+                        {
+                            "display": "ars",
+                            "action": "ars"
+                        },
+                        {
+                            "display": "aso",
+                            "action": "aso"
                         },
                         {
                             "display": "as",
@@ -4784,88 +4688,72 @@
                     "from": 0,
                     "to": 3,
                     "type": "typo",
-                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "subtype": "gabim drejtshkrimi",
                     "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
                     "suggestions": [
                         {
-                            "display": "aks",
-                            "action": "aks"
-                        },
-                        {
-                            "display": "qas",
-                            "action": "qas"
+                            "display": "kad",
+                            "action": "kad"
                         },
                         {
                             "display": "and",
                             "action": "and"
                         },
                         {
-                            "display": "asi",
-                            "action": "asi"
-                        },
-                        {
-                            "display": "kad",
-                            "action": "kad"
-                        },
-                        {
-                            "display": "ras",
-                            "action": "ras"
-                        },
-                        {
-                            "display": "aed",
-                            "action": "aed"
-                        },
-                        {
-                            "display": "sad",
-                            "action": "sad"
+                            "display": "mas",
+                            "action": "mas"
                         },
                         {
                             "display": "kas",
                             "action": "kas"
                         },
                         {
-                            "display": "has",
-                            "action": "has"
+                            "display": "qas",
+                            "action": "qas"
                         },
                         {
-                            "display": "ase",
-                            "action": "ase"
+                            "display": "aks",
+                            "action": "aks"
                         },
                         {
-                            "display": "aso",
-                            "action": "aso"
-                        },
-                        {
-                            "display": "pas",
-                            "action": "pas"
-                        },
-                        {
-                            "display": "ad",
-                            "action": "ad"
-                        },
-                        {
-                            "display": "mas",
-                            "action": "mas"
+                            "display": "asi",
+                            "action": "asi"
                         },
                         {
                             "display": "bas",
                             "action": "bas"
                         },
                         {
+                            "display": "pas",
+                            "action": "pas"
+                        },
+                        {
+                            "display": "ase",
+                            "action": "ase"
+                        },
+                        {
+                            "display": "has",
+                            "action": "has"
+                        },
+                        {
                             "display": "tas",
                             "action": "tas"
                         },
                         {
-                            "display": "as",
-                            "action": "as"
+                            "display": "ras",
+                            "action": "ras"
                         },
                         {
                             "display": "ars",
                             "action": "ars"
                         },
                         {
-                            "display": "uas",
-                            "action": "uas"
+                            "display": "aso",
+                            "action": "aso"
+                        },
+                        {
+                            "display": "as",
+                            "action": "as"
                         }
                     ],
                     "paragraph": 3
@@ -4874,16 +4762,12 @@
                     "from": 30,
                     "to": 36,
                     "type": "typo",
-                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "subtype": "gabim drejtshkrimi",
                     "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
                     "suggestions": [
                         {
                             "display": "gazmim",
                             "action": "gazmim"
-                        },
-                        {
-                            "display": "gabim",
-                            "action": "gabim"
                         },
                         {
                             "display": "gabimi",
@@ -4892,6 +4776,10 @@
                         {
                             "display": "gabime",
                             "action": "gabime"
+                        },
+                        {
+                            "display": "gabim",
+                            "action": "gabim"
                         }
                     ],
                     "paragraph": 3
@@ -4900,84 +4788,68 @@
                     "from": 37,
                     "to": 40,
                     "type": "typo",
-                    "subtype": "gabim gramatikor, drejtshkrim",
+                    "subtype": "gabim drejtshkrimi",
                     "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
                     "suggestions": [
                         {
-                            "display": "aso",
-                            "action": "aso"
-                        },
-                        {
-                            "display": "aed",
-                            "action": "aed"
-                        },
-                        {
                             "display": "kad",
                             "action": "kad"
-                        },
-                        {
-                            "display": "ars",
-                            "action": "ars"
-                        },
-                        {
-                            "display": "pas",
-                            "action": "pas"
-                        },
-                        {
-                            "display": "has",
-                            "action": "has"
                         },
                         {
                             "display": "and",
                             "action": "and"
                         },
                         {
-                            "display": "sad",
-                            "action": "sad"
-                        },
-                        {
-                            "display": "tas",
-                            "action": "tas"
-                        },
-                        {
-                            "display": "bas",
-                            "action": "bas"
-                        },
-                        {
-                            "display": "aks",
-                            "action": "aks"
-                        },
-                        {
-                            "display": "qas",
-                            "action": "qas"
-                        },
-                        {
-                            "display": "asi",
-                            "action": "asi"
-                        },
-                        {
-                            "display": "ad",
-                            "action": "ad"
-                        },
-                        {
-                            "display": "uas",
-                            "action": "uas"
-                        },
-                        {
-                            "display": "ase",
-                            "action": "ase"
-                        },
-                        {
-                            "display": "ras",
-                            "action": "ras"
+                            "display": "mas",
+                            "action": "mas"
                         },
                         {
                             "display": "kas",
                             "action": "kas"
                         },
                         {
-                            "display": "mas",
-                            "action": "mas"
+                            "display": "qas",
+                            "action": "qas"
+                        },
+                        {
+                            "display": "aks",
+                            "action": "aks"
+                        },
+                        {
+                            "display": "asi",
+                            "action": "asi"
+                        },
+                        {
+                            "display": "bas",
+                            "action": "bas"
+                        },
+                        {
+                            "display": "pas",
+                            "action": "pas"
+                        },
+                        {
+                            "display": "ase",
+                            "action": "ase"
+                        },
+                        {
+                            "display": "has",
+                            "action": "has"
+                        },
+                        {
+                            "display": "tas",
+                            "action": "tas"
+                        },
+                        {
+                            "display": "ras",
+                            "action": "ras"
+                        },
+                        {
+                            "display": "ars",
+                            "action": "ars"
+                        },
+                        {
+                            "display": "aso",
+                            "action": "aso"
                         },
                         {
                             "display": "as",
@@ -4989,6 +4861,11 @@
             ]
         }
     },
+    {"request": "<p>kad Për kryerjen e programeve gazmim kad&nbsp;</p><p>kad Për kryerjen e programeve gazmim kad&nbsp;</p><p>kad Për kryerjen e programeve gazmim kad&nbsp;</p><p>kad Për kryerjen e programeve gazmim kad&nbsp;</p><p><br></p>",
+    "response": {
+        "text": "<p>kad P\u00ebr kryerjen e programeve gazmim kad&nbsp;</p><p>kad P\u00ebr kryerjen e programeve gazmim kad&nbsp;</p><p>kad P\u00ebr kryerjen e programeve gazmim kad&nbsp;</p><p>kad P\u00ebr kryerjen e programeve gazmim kad&nbsp;</p><p><br></p>",
+        "markings": []
+    }},
     {
         "request": "<p><br></p><p><br></p>",
         "response": {
