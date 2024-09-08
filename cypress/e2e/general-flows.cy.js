@@ -106,7 +106,7 @@ describe("general flows", () => {
 
     it("should behave properly when consecutively applying many suggestions", () => {
         let text =
-            "aks Për kryerjen e programeve gazmim aso aks Për kryerjen e programeve gazmim aso aks Për kryerjen e programeve gazmim aso aks Për kryerjen e programeve gazmim aso ";
+            "kad Për kryerjen e programeve gazmim kad kad Për kryerjen e programeve gazmim kad kad Për kryerjen e programeve gazmim kad kad Për kryerjen e programeve gazmim kad ";
 
         cy.get(".typo").should("not.exist");
 
