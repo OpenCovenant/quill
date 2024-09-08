@@ -1,17 +1,28 @@
 import { Marking } from '../models/marking';
+import {
+    ANIMATED_GRAMMATICAL_MARKING_CLASS,
+    ANIMATED_LOANWORD_MARKING_CLASS,
+    ANIMATED_STYLISTIC_MARKING_CLASS,
+    ANIMATED_TYPO_MARKING_CLASS,
+    SPAN_TAG
+} from '../services/constants';
 
-const SPAN_TAG = 'span';
-const ANIMATED_TYPO_MARKING_CLASS = 'animated-typo-marking';
-const ANIMATED_LOANWORD_MARKING_CLASS = 'animated-loanword-marking';
-const ANIMATED_STYLISTIC_MARKING_CLASS = 'animated-stylistic-marking';
-const ANIMATED_GRAMMATICAL_MARKING_CLASS = 'animated-grammatical-marking';
 const highlightedMarkingWords: Array<string> = [];
 const lastHighlightedMarkingWords: Array<string> = [];
 let markingIndex = 0;
 let maxMarkings = 0;
 let lastIterationCounter = 0;
 
-/// requires the markings to be ordered ASC by "from" and DESC by "to"
+/**
+ * requires the markings to be ordered ASC by "from" and DESC by "to"
+ *
+ * @param node
+ * @param numberOfMarkings
+ * @param isLastChildNode
+ * @param markings
+ * @param additionalClasses
+ * @param replaceSpacesWithNBSP
+ */
 export function markElement(
     node: HTMLElement,
     numberOfMarkings: number,
@@ -29,8 +40,7 @@ export function markElement(
         for (let j: number = 0; j < childNodes.length; j++) {
             const childNode: HTMLElement = childNodes[j] as HTMLElement;
             lastIterationCounter = j;
-            if (childNode.nodeType === 1) {
-                // element node
+            if (childNode.nodeType === Node.ELEMENT_NODE) {
                 const currentTextContent: string = childNode.textContent!;
                 const deeperMarking: Marking = {
                     ...marking,
@@ -47,8 +57,7 @@ export function markElement(
                 );
 
                 traversalIndex += currentTextContent.length;
-            } else if (childNode.nodeType === 3) {
-                // text node
+            } else if (childNode.nodeType === Node.TEXT_NODE) {
                 const currentTextContent = childNode.textContent!;
                 const trueFrom = marking.from;
                 const trueTo = marking.to;

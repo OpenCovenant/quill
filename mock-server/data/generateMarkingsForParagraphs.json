@@ -5243,6 +5243,367 @@
                 }
             ]
         }
+    },
+    {
+        "request": "<p>është reshtu si fjali me gabmime</p>",
+        "response": {
+            "text": "<p>\u00ebsht\u00eb reshtu si fjali me gabmime</p>",
+            "markings": [
+                {
+                    "from": 25,
+                    "to": 32,
+                    "type": "typo",
+                    "subtype": "gabim drejtshkrimi",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "gabimet",
+                            "action": "gabimet"
+                        },
+                        {
+                            "display": "gabime",
+                            "action": "gabime"
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
+    },
+    {
+        "request": "<p>gabime&nbsp;</p>",
+        "response": {
+            "text": "<p>gabime&nbsp;</p>",
+            "markings": []
+        }
+    },
+    {
+        "request": "<p>prijës&nbsp;</p>",
+        "response": {
+            "text": "<p>prij\u00ebs&nbsp;</p>",
+            "markings": []
+        }
+    },
+    {
+        "request": "<p>udhëheqës&nbsp;</p>",
+        "response": {
+            "text": "<p>udh\u00ebheq\u00ebs&nbsp;</p>",
+            "markings": []
+        }
+    },
+    {
+        "request": "<p>Pra për mendimin tim, duhet të punojmë më shumë.</p>",
+        "response": {
+            "text": "<p>Pra p\u00ebr mendimin tim, duhet t\u00eb punojm\u00eb m\u00eb shum\u00eb.</p>",
+            "markings": []
+        }
+    },
+    {
+        "request": "<p>Lapsi i kuq mungonte nga kutia.</p>",
+        "response": {
+            "text": "<p>Lapsi i kuq mungonte nga kutia.</p>",
+            "markings": []
+        }
+    },
+    {
+        "request": "<p>është</p>",
+        "response": {
+            "text": "<p>\u00ebsht\u00eb</p>",
+            "markings": []
+        }
+    },
+    {
+        "request": "<p>aks Për kryerjen e programeve gazmim aso&nbsp;</p><p>aks Për kryerjen e programeve gazmim aso&nbsp;</p><p>aks Për kryerjen e programeve gazmim aso&nbsp;</p><p>aks Për kryerjen e programeve gazmim aso&nbsp;</p><p><br></p>",
+        "response": {
+            "text": "<p>aks P\u00ebr kryerjen e programeve gazmim aso&nbsp;</p><p>aks P\u00ebr kryerjen e programeve gazmim aso&nbsp;</p><p>aks P\u00ebr kryerjen e programeve gazmim aso&nbsp;</p><p>aks P\u00ebr kryerjen e programeve gazmim aso&nbsp;</p><p><br></p>",
+            "markings": [
+                {
+                    "from": 0,
+                    "to": 3,
+                    "type": "loanword",
+                    "subtype": "huazim anglisht",
+                    "description": "z\u00ebvend\u00ebsime n\u00eb shqip p\u00ebr aks jan\u00eb",
+                    "suggestions": [
+                        {
+                            "display": "bosht",
+                            "action": "bosht"
+                        }
+                    ],
+                    "paragraph": 0
+                },
+                {
+                    "from": 0,
+                    "to": 3,
+                    "type": "loanword",
+                    "subtype": "huazim anglisht",
+                    "description": "z\u00ebvend\u00ebsime n\u00eb shqip p\u00ebr aks jan\u00eb",
+                    "suggestions": [
+                        {
+                            "display": "bosht",
+                            "action": "bosht"
+                        }
+                    ],
+                    "paragraph": 1
+                },
+                {
+                    "from": 0,
+                    "to": 3,
+                    "type": "loanword",
+                    "subtype": "huazim anglisht",
+                    "description": "z\u00ebvend\u00ebsime n\u00eb shqip p\u00ebr aks jan\u00eb",
+                    "suggestions": [
+                        {
+                            "display": "bosht",
+                            "action": "bosht"
+                        }
+                    ],
+                    "paragraph": 2
+                },
+                {
+                    "from": 0,
+                    "to": 3,
+                    "type": "loanword",
+                    "subtype": "huazim anglisht",
+                    "description": "z\u00ebvend\u00ebsime n\u00eb shqip p\u00ebr aks jan\u00eb",
+                    "suggestions": [
+                        {
+                            "display": "bosht",
+                            "action": "bosht"
+                        }
+                    ],
+                    "paragraph": 3
+                }
+            ]
+        }
+    },
+    {
+        "request": "<p>sakte <span class=\"typo\">eshte</span></p>",
+        "response": {
+            "text": "<p>sakte <span class=\"typo\">eshte</span></p>",
+            "markings": [
+                {
+                    "from": 6,
+                    "to": 11,
+                    "type": "typo",
+                    "subtype": "gabim drejtshkrimi",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "esht\u00eb",
+                            "action": "esht\u00eb"
+                        },
+                        {
+                            "display": "\u00ebsht\u00eb",
+                            "action": "\u00ebsht\u00eb"
+                        },
+                        {
+                            "display": "shyte",
+                            "action": "shyte"
+                        },
+                        {
+                            "display": "shtet",
+                            "action": "shtet"
+                        },
+                        {
+                            "display": "shete",
+                            "action": "shete"
+                        },
+                        {
+                            "display": "shthe",
+                            "action": "shthe"
+                        },
+                        {
+                            "display": "shtie",
+                            "action": "shtie"
+                        },
+                        {
+                            "display": "shute",
+                            "action": "shute"
+                        },
+                        {
+                            "display": "shite",
+                            "action": "shite"
+                        },
+                        {
+                            "display": "ishte",
+                            "action": "ishte"
+                        },
+                        {
+                            "display": "shtek",
+                            "action": "shtek"
+                        },
+                        {
+                            "display": "shter",
+                            "action": "shter"
+                        },
+                        {
+                            "display": "yshte",
+                            "action": "yshte"
+                        },
+                        {
+                            "display": "ushte",
+                            "action": "ushte"
+                        },
+                        {
+                            "display": "shote",
+                            "action": "shote"
+                        },
+                        {
+                            "display": "oshte",
+                            "action": "oshte"
+                        },
+                        {
+                            "display": "shteg",
+                            "action": "shteg"
+                        },
+                        {
+                            "display": "dehte",
+                            "action": "dehte"
+                        },
+                        {
+                            "display": "behte",
+                            "action": "behte"
+                        },
+                        {
+                            "display": "lehte",
+                            "action": "lehte"
+                        },
+                        {
+                            "display": "ethte",
+                            "action": "ethte"
+                        },
+                        {
+                            "display": "vehte",
+                            "action": "vehte"
+                        },
+                        {
+                            "display": "meste",
+                            "action": "meste"
+                        },
+                        {
+                            "display": "estet",
+                            "action": "estet"
+                        },
+                        {
+                            "display": "qeste",
+                            "action": "qeste"
+                        },
+                        {
+                            "display": "teste",
+                            "action": "teste"
+                        },
+                        {
+                            "display": "veste",
+                            "action": "veste"
+                        },
+                        {
+                            "display": "feste",
+                            "action": "feste"
+                        },
+                        {
+                            "display": "reshe",
+                            "action": "reshe"
+                        },
+                        {
+                            "display": "peshe",
+                            "action": "peshe"
+                        },
+                        {
+                            "display": "epshe",
+                            "action": "epshe"
+                        },
+                        {
+                            "display": "veshe",
+                            "action": "veshe"
+                        },
+                        {
+                            "display": "eshke",
+                            "action": "eshke"
+                        },
+                        {
+                            "display": "neshe",
+                            "action": "neshe"
+                        },
+                        {
+                            "display": "deshe",
+                            "action": "deshe"
+                        },
+                        {
+                            "display": "leshe",
+                            "action": "leshe"
+                        },
+                        {
+                            "display": "qeshe",
+                            "action": "qeshe"
+                        },
+                        {
+                            "display": "seshe",
+                            "action": "seshe"
+                        },
+                        {
+                            "display": "hesht",
+                            "action": "hesht"
+                        },
+                        {
+                            "display": "desht",
+                            "action": "desht"
+                        },
+                        {
+                            "display": "eshit",
+                            "action": "eshit"
+                        },
+                        {
+                            "display": "resht",
+                            "action": "resht"
+                        },
+                        {
+                            "display": "vesht",
+                            "action": "vesht"
+                        },
+                        {
+                            "display": "qeshte",
+                            "action": "qeshte"
+                        },
+                        {
+                            "display": "reshte",
+                            "action": "reshte"
+                        },
+                        {
+                            "display": "veshte",
+                            "action": "veshte"
+                        },
+                        {
+                            "display": "eshtre",
+                            "action": "eshtre"
+                        },
+                        {
+                            "display": "beshte",
+                            "action": "beshte"
+                        },
+                        {
+                            "display": "eshtek",
+                            "action": "eshtek"
+                        },
+                        {
+                            "display": "heshte",
+                            "action": "heshte"
+                        },
+                        {
+                            "display": "ehte",
+                            "action": "ehte"
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
+    },
+    {
+        "request": "<p>saktë është</p>",
+        "response": {
+            "text": "<p>sakt\u00eb \u00ebsht\u00eb</p>",
+            "markings": []
+        }
     }
 ]
 
