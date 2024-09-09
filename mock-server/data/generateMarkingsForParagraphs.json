@@ -4861,11 +4861,13 @@
             ]
         }
     },
-    {"request": "<p>kad Për kryerjen e programeve gazmim kad&nbsp;</p><p>kad Për kryerjen e programeve gazmim kad&nbsp;</p><p>kad Për kryerjen e programeve gazmim kad&nbsp;</p><p>kad Për kryerjen e programeve gazmim kad&nbsp;</p><p><br></p>",
-    "response": {
-        "text": "<p>kad P\u00ebr kryerjen e programeve gazmim kad&nbsp;</p><p>kad P\u00ebr kryerjen e programeve gazmim kad&nbsp;</p><p>kad P\u00ebr kryerjen e programeve gazmim kad&nbsp;</p><p>kad P\u00ebr kryerjen e programeve gazmim kad&nbsp;</p><p><br></p>",
-        "markings": []
-    }},
+    {
+        "request": "<p>kad Për kryerjen e programeve gazmim kad&nbsp;</p><p>kad Për kryerjen e programeve gazmim kad&nbsp;</p><p>kad Për kryerjen e programeve gazmim kad&nbsp;</p><p>kad Për kryerjen e programeve gazmim kad&nbsp;</p><p><br></p>",
+        "response": {
+            "text": "<p>kad P\u00ebr kryerjen e programeve gazmim kad&nbsp;</p><p>kad P\u00ebr kryerjen e programeve gazmim kad&nbsp;</p><p>kad P\u00ebr kryerjen e programeve gazmim kad&nbsp;</p><p>kad P\u00ebr kryerjen e programeve gazmim kad&nbsp;</p><p><br></p>",
+            "markings": []
+        }
+    },
     {
         "request": "<p><br></p><p><br></p>",
         "response": {
@@ -5562,4 +5564,3 @@
         }
     }
 ]
-
