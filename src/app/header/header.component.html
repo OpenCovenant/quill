@@ -340,7 +340,7 @@
                             style="font-size: 1.2rem"
                             [ngClass]="{
                                 'side-menu-bi-info-circle-dark-mode':
-                                    darkModeService.isDarkMode
+                                     darkModeService.isDarkMode
                             }"
                         >
                         </i
@@ -376,19 +376,7 @@
             <div class="d-flex dark-mode-div">
                 <div>Ndrysho Pamjen</div>
 
-                <div class="toggle-switch">
-                    <label class="dark-mode-label">
-                        <input
-                            data-test="dark-mode-button-toggle-switch"
-                            class="dark-mode-input"
-                            type="checkbox"
-                            [id]="darkModeService"
-                            [(ngModel)]="darkModeService.isDarkMode"
-                            (change)="darkModeService.onDarkModeChange()"
-                        />
-                        <span class="dark-mode-slider"></span>
-                    </label>
-                </div>
+
             </div>
             @if (darkModeService.isDarkMode) {
                 <span class="dark-mode-informative-text"
@@ -400,5 +388,55 @@
                 >
             }
         </div>
-    </div>
+        <div class="toggle-switch">
+<!--            <label class="dark-mode-label">-->
+<!--                <input-->
+<!--                    data-test="dark-mode-button-toggle-switch"-->
+<!--                    class="dark-mode-input"-->
+<!--                    type="checkbox"-->
+<!--                    [id]="darkModeService"-->
+<!--                    [(ngModel)]="darkModeService.isDarkMode"-->
+<!--                    (change)="darkModeService.onDarkModeChange()"-->
+<!--                />-->
+            <div class="theme-selector">
+                <span
+                    class="option-set-night-mode"
+                    [ngClass]="{
+                                'option-dark-mode':
+                                     darkModeService.isDarkMode && !darkModeService.isSystemMode
+                            }"
+                    [class.active]="darkModeService.isDarkMode && !darkModeService.isSystemMode"
+
+                    (click)="darkModeService.setDarkMode(true)"
+                >
+        <span class="theme-span-icons">
+            <i class="bi bi-moon-fill"></i>
+        </span>
+        Dark
+    </span>
+
+                <span
+                    class="option"
+                    [class.active]="darkModeService.isSystemMode"
+                    (click)="darkModeService.setSystemMode()"
+                >
+        <span class="theme-span-icons">
+            <i class="bi bi-circle-half"></i>
+        </span>
+        System
+    </span>
+
+                <span
+                    class="option"
+                    [class.active]="!darkModeService.isDarkMode && !darkModeService.isSystemMode"
+                    (click)="darkModeService.setDarkMode(false)"
+                >
+        <span class="theme-span-icons">
+            <i class="bi bi-brightness-high-fill"></i>
+        </span>
+        Light
+    </span>
+            </div>
+
+        </div>
 </div>
