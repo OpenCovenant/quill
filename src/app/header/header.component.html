@@ -398,13 +398,14 @@
         >
             <span
                 class="option-set-night-mode"
-                [ngClass]="{
-                    'option-set-night-dark-mode': darkModeService.isDarkMode
-                }"
                 [class.active]="
                     darkModeService.isDarkMode && !darkModeService.isSystemMode
                 "
                 (click)="darkModeService.setDarkMode(true)"
+                [ngClass]="{
+                    'option-set-night-mode-dark-mode':
+                        darkModeService.isDarkMode
+                }"
             >
                 <span class="theme-span-icons">
                     <i
@@ -428,13 +429,15 @@
 
             <span
                 class="option-set-system-mode"
-                [class.active]="
-                    darkModeService.isDarkMode && darkModeService.isSystemMode
-                "
+                [class.active]="darkModeService.isSystemMode"
                 (click)="darkModeService.setSystemMode()"
                 [ngClass]="{
                     'option-set-system-mode-dark-mode':
-                        darkModeService.isDarkMode
+                        darkModeService.isSystemMode &&
+                        darkModeService.isDarkMode,
+                    'option-set-system-mode-light-mode':
+                        darkModeService.isSystemMode &&
+                        !darkModeService.isDarkMode
                 }"
             >
                 <span class="theme-span-icons">
