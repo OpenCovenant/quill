@@ -26,16 +26,7 @@ export class HeaderComponent {
         private router: Router
     ) {
         this.initializeURLs();
-        this.httpClient
-            .get(this.getMarkingTypesCount)
-            .subscribe((data: any) => {
-                this.markingTypesCount = data['count'];
-            });
-        this.httpClient.get(this.getMarkingTypes).subscribe((data: any) => {
-            this.markingTypes = data['marking_types'];
-            this.markingTypeKeys = Object.keys(this.markingTypes);
-        });
-
+        this.loadMarkingTypes();
         this.darkModeService.initializeDarkMode();
     }
 
@@ -45,8 +36,24 @@ export class HeaderComponent {
         this.getMarkingTypesCount = `${this.baseURL}/api/getMarkingTypesCount`;
     }
 
+    private loadMarkingTypes(): void {
+        this.httpClient
+            .get(this.getMarkingTypesCount)
+            .subscribe((data: any) => {
+                this.markingTypesCount = data['count'];
+            });
+        this.httpClient.get(this.getMarkingTypes).subscribe((data: any) => {
+            this.markingTypes = data['marking_types'];
+            this.markingTypeKeys = Object.keys(this.markingTypes);
+        });
+    }
+
     isSettingsRoute(): boolean {
         return this.router.url === '/settings';
+    }
+
+    toggleDarkMode(): void {
+        this.darkModeService.toggleDarkMode();
     }
 
     logout(): void {

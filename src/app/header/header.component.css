@@ -125,11 +125,6 @@
     padding: 0;
 }
 
-.toggle-switch {
-    position: relative;
-    width: 3.1rem;
-}
-
 .dark-mode-label {
     cursor: pointer;
     position: absolute;
@@ -137,45 +132,6 @@
     height: 1.6rem;
     border-radius: 50px;
     border: 1px solid var(--dark-mode-smooth-theme);
-}
-
-.dark-mode-input {
-    position: absolute;
-    display: none;
-}
-
-.dark-mode-slider {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 50px;
-}
-
-.dark-mode-input:checked ~ .dark-mode-slider {
-    background-color: var(--dark-mode-gray-color-checked-theme);
-}
-
-.dark-mode-slider.transition-enabled,
-.dark-mode-slider.transition-enabled::before {
-    transition: 0.4s;
-}
-
-.dark-mode-slider::before {
-    content: "";
-    position: absolute;
-    top: 0.1rem;
-    left: 0.1rem;
-    width: 1.2rem;
-    height: 1.3rem;
-    border-radius: 50%;
-    box-shadow: inset 7px -4px 0 0 var(--dark);
-    background-color: var(--dark);
-}
-
-.dark-mode-input:checked ~ .dark-mode-slider::before {
-    transform: translateX(1.5rem);
-    background-color: var(--dark-mode-gray-color-checked-theme);
-    box-shadow: inset -7px -3px 0 0 var(--dark-mode-anti-theme);
 }
 
 .settings-gear-dark-mode {
@@ -187,9 +143,10 @@
 }
 
 .dark-mode-div {
-    justify-content: space-between;
-    padding: 2rem 1rem 0 1rem;
+    justify-content: center;
+    padding: 0.5rem 1rem 0;
     font-weight: 500;
+    align-items: center;
 }
 
 .dark-mode-theme {
@@ -197,6 +154,7 @@
     font-size: 0.8rem;
     color: var(--dark-mode-theme);
 }
+
 .light-mode-theme {
     padding: 0.3rem 1rem 1rem;
     font-size: 0.8rem;
@@ -209,13 +167,29 @@
 }
 
 .dark-mode-informative-text {
-    padding: 0.3rem 1rem 1rem;
     font-size: 0.8rem;
     color: var(--dark-mode-smooth-theme);
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem 1rem 0;
+}
+
+.theme-selector {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: var(--dark-mode-anti-theme);
+    border-radius: 10px;
+    width: 300px;
+    margin: 0 auto;
 }
 
 .light-mode-informative-text {
-    padding: 0.3rem 1rem 1rem;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem 1rem 0;
     font-size: 0.8rem;
     color: var(--dark-mode-smooth-theme);
 }
@@ -317,4 +291,131 @@
 
 .header-corrector-text-dark-mode {
     color: var(--header-corrector-dark-mode);
+}
+
+.theme-span-icons {
+    display: flex;
+    justify-content: center;
+    padding-left: 10px;
+    color: white;
+    margin-top: 10px;
+}
+
+.off-canvas-dark-theme-dark-mode {
+    color: white;
+}
+
+.off-canvas-system-theme-dark-mode {
+    color: white;
+}
+
+.off-canvas-light-theme-dark-mode {
+    color: white;
+}
+
+.option-set-system-mode-light-mode.active {
+    background-color: var(--light-mode-hover-theme);
+    border-radius: 10px;
+}
+
+.option-set-system-mode-dark-mode.active {
+    background-color: var(--dark-mode-hover-color);
+    border-radius: 10px;
+}
+
+.option-set-night-mode.active {
+    background-color: var(--active-dropdown-menu-dark-mode);
+    border-radius: 10px;
+}
+
+.option-set-light-mode-span.active {
+    background-color: var(--light-mode-hover-theme);
+    border-radius: 10px;
+}
+
+.set-moon-icon {
+    color: var(--dark);
+}
+
+.set-sun-icon {
+    color: var(--dark);
+}
+
+.set-system-icon {
+    color: var(--dark);
+}
+
+.set-moon-icon-dark-mode {
+    color: var(--light);
+}
+
+.theme-selector-text-moon {
+    color: var(--dark);
+}
+
+.theme-selector-text-sun {
+    color: var(--dark);
+}
+
+.theme-selector-text-system {
+    color: var(--dark);
+}
+
+.theme-selector-dark-mode {
+    background-color: var(--dark-mode-theme);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 10px;
+    width: 300px;
+    margin: 0 auto;
+}
+
+.set-moon-icon-dark-mode {
+    color: var(--light);
+}
+
+.set-sun-icon-dark-mode {
+    color: var(--light);
+}
+
+.set-system-icon-dark-mode {
+    color: var(--light);
+}
+
+.set-moon-icon-dark-mode-dark-mode {
+    color: var(--light);
+}
+
+.theme-selector-text-moon-dark-mode {
+    color: var(--light);
+}
+
+.theme-selector-text-sun-dark-mode {
+    color: var(--light);
+}
+
+.theme-selector-text-system-dark-mode {
+    color: var(--light);
+}
+
+.theme-selector-paragraph {
+    display: flex;
+    justify-content: center;
+}
+
+.option-set-light-mode-span {
+    padding: 0 14px;
+    cursor: pointer;
+}
+
+.option-set-system-mode {
+    padding: 0 14px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.option-set-night-mode {
+    padding: 0 14px;
+    cursor: pointer;
 }

@@ -161,8 +161,12 @@ describe("markings board", () => {
         const text = "gabmim gabmim";
         cy.get('[data-test="editor"]').type(text);
         // TODO: we're currently allowing dismiss-marking to dismiss ALL occurrences of a marking, position regardless
-        cy.get('[data-test="marking-card"]').first().find('[data-test="dismiss-marking-button"]').first().click();
-        cy.get('[data-test="marking-card"]').should('not.exist');
+        cy.get('[data-test="marking-card"]')
+            .first()
+            .find('[data-test="dismiss-marking-button"]')
+            .first()
+            .click();
+        cy.get('[data-test="marking-card"]').should("not.exist");
         // cy.get('[data-test="marking-card"]').each((card) => {
         //     cy.wrap(card).find('[data-test="dismiss-marking-button"]').first().click();
         //     cy.wrap(card).should("not.exist");
