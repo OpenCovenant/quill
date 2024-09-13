@@ -36,11 +36,17 @@ describe("Suggestion Marking - Fade Right Animation", () => {
         cy.get('[data-test="editor"]').type("sakt eshte");
         cy.get('[data-test="dismiss-marking-button"]').should("be.visible");
 
-        cy.get('[data-test="marking-card"]').first().find('[data-test="dismiss-marking-button"]').first().click();
+        cy.get('[data-test="marking-card"]')
+            .first()
+            .find('[data-test="dismiss-marking-button"]')
+            .first()
+            .click();
         cy.wait(2000);
-        cy.get('[data-test="marking-card"]').find('[data-test="dismiss-marking-button"]').click();
+        cy.get('[data-test="marking-card"]')
+            .find('[data-test="dismiss-marking-button"]')
+            .click();
 
-        cy.get('[data-test="marking-card"]').should('not.exist');
+        cy.get('[data-test="marking-card"]').should("not.exist");
     });
 
     // TODO how is the animation checked here?

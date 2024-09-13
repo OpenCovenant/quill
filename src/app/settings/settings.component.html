@@ -19,32 +19,129 @@
                         <h5>Pamja e Zgjedhur</h5>
                         <hr />
                         <div class="dark-mode-div dark-mode-label-flex">
-                            <div>Ndrysho Pamjen</div>
-                            <div class="toggle-switch">
-                                <label class="dark-mode-label">
-                                    <input
-                                        data-test="dark-mode-button-toggle-switch"
-                                        class="dark-mode-input"
-                                        type="checkbox"
-                                        name="dark-mode-input"
-                                        [(ngModel)]="darkModeService.isDarkMode"
-                                        (change)="
-                                            darkModeService.onDarkModeChange()
-                                        "
-                                    />
-                                    <span class="dark-mode-slider"></span>
-                                </label>
+                            <div>
+                                Ndrysho Pamjen
+                                @if (darkModeService.isSystemMode) {
+                                    <span class="light-mode-informative-text"
+                                        >Përdor Pamjen e Sistemit</span
+                                    >
+                                } @else if (darkModeService.isDarkMode) {
+                                    <span class="dark-mode-informative-text"
+                                        >Përdor Pamjen e Errët</span
+                                    >
+                                } @else if (!darkModeService.isDarkMode) {
+                                    <span class="light-mode-informative-text"
+                                        >Përdor Pamjen e Çelur</span
+                                    >
+                                }
+                            </div>
+                            <div
+                                class="theme-selector"
+                                [ngClass]="{
+                                    'theme-selector-dark-mode':
+                                        darkModeService.isDarkMode
+                                }"
+                            >
+                                <span
+                                    class="option-set-night-mode"
+                                    [class.active]="
+                                        darkModeService.isDarkMode &&
+                                        !darkModeService.isSystemMode
+                                    "
+                                    (click)="darkModeService.setDarkMode(true)"
+                                    [ngClass]="{
+                                        'option-set-night-mode-dark-mode':
+                                            darkModeService.isDarkMode
+                                    }"
+                                >
+                                    <span class="theme-span-icons">
+                                        <i
+                                            class="bi bi-moon-fill set-moon-icon"
+                                            [ngClass]="{
+                                                'set-moon-icon-dark-mode':
+                                                    darkModeService.isDarkMode
+                                            }"
+                                        ></i>
+                                    </span>
+                                    <p
+                                        class="theme-selector-text-moon theme-selector-paragraph"
+                                        [ngClass]="{
+                                            'theme-selector-text-moon-dark-mode':
+                                                darkModeService.isDarkMode
+                                        }"
+                                    >
+                                        Errët
+                                    </p>
+                                </span>
+
+                                <span
+                                    class="option-set-system-mode"
+                                    [class.active]="
+                                        darkModeService.isSystemMode
+                                    "
+                                    (click)="darkModeService.setSystemMode()"
+                                    [ngClass]="{
+                                        'option-set-system-mode-dark-mode':
+                                            darkModeService.isSystemMode &&
+                                            darkModeService.isDarkMode,
+                                        'option-set-system-mode-light-mode':
+                                            darkModeService.isSystemMode &&
+                                            !darkModeService.isDarkMode
+                                    }"
+                                >
+                                    <span class="theme-span-icons">
+                                        <i
+                                            class="bi bi-circle-half set-system-icon"
+                                            [ngClass]="{
+                                                'set-system-icon-dark-mode':
+                                                    darkModeService.isDarkMode
+                                            }"
+                                        ></i>
+                                    </span>
+                                    <p
+                                        class="theme-selector-text-system theme-selector-paragraph"
+                                        [ngClass]="{
+                                            'theme-selector-text-system-dark-mode':
+                                                darkModeService.isDarkMode
+                                        }"
+                                    >
+                                        Sistemi
+                                    </p>
+                                </span>
+
+                                <span
+                                    class="option-set-light-mode-span"
+                                    [ngClass]="{
+                                        'option-set-light-dark-mode':
+                                            darkModeService.isDarkMode
+                                    }"
+                                    [class.active]="
+                                        !darkModeService.isDarkMode &&
+                                        !darkModeService.isSystemMode
+                                    "
+                                    (click)="darkModeService.setDarkMode(false)"
+                                >
+                                    <span class="theme-span-icons set-sun-icon">
+                                        <i
+                                            class="bi bi-brightness-high-fill theme-span-icons set-sun-icon"
+                                            [ngClass]="{
+                                                'set-sun-icon-dark-mode':
+                                                    darkModeService.isDarkMode
+                                            }"
+                                        ></i>
+                                    </span>
+                                    <p
+                                        class="theme-selector-text-sun theme-selector-paragraph"
+                                        [ngClass]="{
+                                            'theme-selector-text-sun-dark-mode':
+                                                darkModeService.isDarkMode
+                                        }"
+                                    >
+                                        Çelur
+                                    </p>
+                                </span>
                             </div>
                         </div>
-                        @if (darkModeService.isDarkMode) {
-                            <span class="dark-mode-informative-text"
-                                >Përdor Pamjen e Çelur</span
-                            >
-                        } @else {
-                            <span class="light-mode-informative-text"
-                                >Përdor Pamjen e Errët</span
-                            >
-                        }
                     </div>
 
                     <!--                    <div class="immediate-markings-setting-section">-->
