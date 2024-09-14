@@ -403,10 +403,9 @@
                 "
                 (click)="darkModeService.setDarkMode(true)"
                 [ngClass]="{
-                    'option-set-dark-mode-dark-mode':
-                        darkModeService.isDarkMode
+                    'option-set-dark-mode-dark-mode': darkModeService.isDarkMode
                 }"
-                data-test='dark-mode-button'
+                data-test="dark-mode-button"
             >
                 <span class="theme-span-icons">
                     <i
@@ -470,7 +469,7 @@
                     !darkModeService.isDarkMode && !darkModeService.isSystemMode
                 "
                 (click)="darkModeService.setDarkMode(false)"
-                data-test='light-mode-button'
+                data-test="light-mode-button"
             >
                 <span class="theme-span-icons set-sun-icon">
                     <i
