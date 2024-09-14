@@ -3878,13 +3878,6 @@
         }
     },
     {
-        "request": "<p>&nbsp;</p>",
-        "response": {
-            "text": "<p>&nbsp;</p>",
-            "markings": []
-        }
-    },
-    {
         "request": "<p>gabimi gabime</p>",
         "response": {
             "text": "<p>gabimi gabime</p>",
