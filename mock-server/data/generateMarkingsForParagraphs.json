@@ -6098,5 +6098,113 @@
             "text": "<p>sakt\u00eb \u00ebsht\u00eb</p>",
             "markings": []
         }
+    },
+    {
+        "request": "<p><span class=\"typo animated-typo-marking\">gabmim</span> <span class=\"typo animated-typo-marking\">asd</span>&nbsp;pra&nbsp;</p>",
+        "response": {
+            "text": "<p><span class=\"typo animated-typo-marking\">gabmim</span> <span class=\"typo animated-typo-marking\">asd</span>&nbsp;pra&nbsp;</p>",
+            "markings": [
+                {
+                    "from": 0,
+                    "to": 6,
+                    "type": "typo",
+                    "subtype": "gabim drejtshkrimi",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "gazmim",
+                            "action": "gazmim"
+                        },
+                        {
+                            "display": "gabimi",
+                            "action": "gabimi"
+                        },
+                        {
+                            "display": "gabime",
+                            "action": "gabime"
+                        },
+                        {
+                            "display": "gabim",
+                            "action": "gabim"
+                        }
+                    ],
+                    "paragraph": 0
+                },
+                {
+                    "from": 7,
+                    "to": 10,
+                    "type": "typo",
+                    "subtype": "gabim drejtshkrimi",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "kad",
+                            "action": "kad"
+                        },
+                        {
+                            "display": "and",
+                            "action": "and"
+                        },
+                        {
+                            "display": "mas",
+                            "action": "mas"
+                        },
+                        {
+                            "display": "kas",
+                            "action": "kas"
+                        },
+                        {
+                            "display": "qas",
+                            "action": "qas"
+                        },
+                        {
+                            "display": "aks",
+                            "action": "aks"
+                        },
+                        {
+                            "display": "asi",
+                            "action": "asi"
+                        },
+                        {
+                            "display": "bas",
+                            "action": "bas"
+                        },
+                        {
+                            "display": "pas",
+                            "action": "pas"
+                        },
+                        {
+                            "display": "ase",
+                            "action": "ase"
+                        },
+                        {
+                            "display": "has",
+                            "action": "has"
+                        },
+                        {
+                            "display": "tas",
+                            "action": "tas"
+                        },
+                        {
+                            "display": "ras",
+                            "action": "ras"
+                        },
+                        {
+                            "display": "ars",
+                            "action": "ars"
+                        },
+                        {
+                            "display": "aso",
+                            "action": "aso"
+                        },
+                        {
+                            "display": "as",
+                            "action": "as"
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
     }
 ]
