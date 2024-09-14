@@ -27,7 +27,6 @@ export class HeaderComponent {
     ) {
         this.initializeURLs();
         this.loadMarkingTypes();
-        this.darkModeService.initializeDarkMode();
     }
 
     private initializeURLs(): void {
