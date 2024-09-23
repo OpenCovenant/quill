@@ -40,6 +40,8 @@ describe("Default Markings Checks", () => {
         cy.get(".grammatical-marking-header").should("be.visible");
 
         cy.get('[data-test="editor"]').type("sakt");
+        // in case it isn't available in first four
+        cy.get('[data-test="oscillate-suggestions-button"]').click();
         cy.get('[data-test="suggestion"]').contains("saktë").click();
 
         cy.get(".typo-marking-header").should("be.visible");

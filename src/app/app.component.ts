@@ -13,8 +13,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     reauthenticationModalSubscription$!: Subscription;
 
     constructor(
-        private authenticationService: AuthenticationService,
-        public darkModeService: DarkModeService
+        public darkModeService: DarkModeService,
+        private authenticationService: AuthenticationService
     ) {}
 
     ngOnInit(): void {
@@ -32,7 +32,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
                 .subscribe(() =>
                     (
                         document.getElementById(
-                            'authenticationModalButton'
+                            'authentication-modal-button'
                         )! as HTMLButtonElement
                     ).click()
                 );

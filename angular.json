@@ -15,12 +15,16 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/quill",
+            "outputPath": {
+              "base": "dist/quill",
+              "browser": ""
+            },
             "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": [
+              "src/polyfills.ts"
+            ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/penda.png",
@@ -35,7 +39,8 @@
             "scripts": [
                 "@popperjs/core/dist/umd/popper.min.js",
                 "node_modules/bootstrap/dist/js/bootstrap.min.js"
-            ]
+            ],
+            "browser": "src/main.ts"
           },
           "configurations": {
             "production": {
@@ -47,7 +52,7 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
+                  "maximumWarning": "10kb",
                   "maximumError": "10kb"
                 }
               ],
@@ -69,9 +74,7 @@
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
@@ -83,13 +86,13 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "mock": {
-              "browserTarget": "quill:build:mock"
+              "buildTarget": "quill:build:mock"
             },
             "production": {
-              "browserTarget": "quill:build:production"
+              "buildTarget": "quill:build:production"
             },
             "development": {
-              "browserTarget": "quill:build:development"
+              "buildTarget": "quill:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -97,7 +100,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "quill:build"
+            "buildTarget": "quill:build"
           }
         },
         "test": {
@@ -124,5 +127,7 @@
       }
     }
   },
-  "defaultProject": "quill"
+  "cli": {
+    "analytics": false
+  }
 }

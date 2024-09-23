@@ -1,8 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProfileComponent } from './profile.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import {
+    provideHttpClient,
+    withInterceptorsFromDi
+} from '@angular/common/http';
 
 xdescribe('ProfileComponent', () => {
     let component: ProfileComponent;
@@ -11,7 +14,10 @@ xdescribe('ProfileComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [ProfileComponent],
-            imports: [HttpClientTestingModule, RouterTestingModule]
+            providers: [
+                provideHttpClient(withInterceptorsFromDi()),
+                provideHttpClientTesting()
+            ]
         }).compileComponents();
     });
 

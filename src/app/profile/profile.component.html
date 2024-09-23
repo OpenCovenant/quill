@@ -1,55 +1,5 @@
 <div>
-    <ng-template [ngIf]="isLoading" [ngIfElse]="loadingTemplate">
-        <div class="central-profile-area">
-            <div
-                class="card p-3"
-                [ngClass]="{
-                    'settings-dark-mode': darkModeService.isDarkMode
-                }"
-            >
-                <div
-                    class="card-body placeholder-glow flex-layout-div flex-column"
-                    [ngClass]="{
-                        'settings-dark-mode': darkModeService.isDarkMode
-                    }"
-                >
-                    <h3
-                        class="placeholder col-5 placeholder-lg skeleton-header skeleton-text-area"
-                    ></h3>
-                    <p class="placeholder skeleton-text-area col-7"></p>
-                    <p class="placeholder skeleton-text-area col-11"></p>
-                    <p class="placeholder skeleton-text-area col-9"></p>
-                    <hr />
-
-                    <h3
-                        class="placeholder col-3 skeleton-header skeleton-text-area"
-                    ></h3>
-                    <p class="placeholder skeleton-text-area col-6"></p>
-                    <p class="placeholder skeleton-text-area col-12"></p>
-                    <p class="placeholder skeleton-text-area col-8"></p>
-                    <hr />
-
-                    <h3
-                        class="placeholder col-5 skeleton-header skeleton-text-area"
-                    ></h3>
-                    <p class="placeholder skeleton-text-area col-8"></p>
-                    <p class="placeholder skeleton-text-area col-7"></p>
-                    <p class="placeholder skeleton-text-area col-12"></p>
-
-                    <hr />
-
-                    <h3
-                        class="placeholder col-5 skeleton-header skeleton-text-area"
-                    ></h3>
-                    <p class="placeholder skeleton-text-area col-8"></p>
-                    <p class="placeholder skeleton-text-area col-7"></p>
-                    <p class="placeholder skeleton-text-area col-12"></p>
-                </div>
-            </div>
-        </div>
-    </ng-template>
-
-    <ng-template #loadingTemplate>
+    @if (!isLoading) {
         <div class="central-profile-area">
             <div
                 class="card p-3 main-profile-card"
@@ -64,19 +14,11 @@
                     }"
                 >
                     <h3 class="card-title">Profili</h3>
-
                     <div class="dark-mode-profile-section">
                         <h5>Abonimi i Zgjedhur</h5>
                         <hr />
-                        <ng-template
-                            [ngIf]="
-                                !(authenticationService.isSubscribed() | async)
-                            "
-                            [ngIfElse]="paidSubscription"
-                        >
-                            <div
-                                class="flex-layout-div dark-mode-div dark-mode-label-flex"
-                            >
+                        @if (!(authenticationService.isSubscribed() | async)) {
+                            <div class="dark-mode-div dark-mode-label-flex">
                                 <div>Përmirëso shenjimet e Pendës.</div>
                                 <button
                                     class="btn btn-warning get-subscription-button"
@@ -95,17 +37,14 @@
                                     te analizuara.</span
                                 >
                             </div>
-                        </ng-template>
-                        <ng-template #paidSubscription>
-                            <div
-                                class="flex-layout-div dark-mode-div dark-mode-label-flex"
-                            >
+                        } @else {
+                            <div class="dark-mode-div dark-mode-label-flex">
                                 <div>Jeni duke përdorur Pendën e Artë.</div>
                                 <button
-                                    id="unsubscriptionModalButton"
+                                    id="unsubscription-modal-button"
                                     type="button"
                                     data-bs-toggle="modal"
-                                    data-bs-target="#unsubscriptionModal"
+                                    data-bs-target="#unsubscription-modal"
                                     class="btn btn-danger cancel-subscription-button"
                                 >
                                     Anulo Abonimin
@@ -117,77 +56,73 @@
                                     gjitha aftësitë e tij.</span
                                 >
                             </div>
-                        </ng-template>
+                        }
                     </div>
-
                     <div class="dark-mode-profile-section">
                         <h5>Llogaria e Lidhur</h5>
                         <hr />
-                        <div
-                            class="flex-layout-div dark-mode-div dark-mode-label-flex"
-                        >
+                        <div class="dark-mode-div dark-mode-label-flex">
                             <div>
                                 Llogaria e përdorur për tu identifikuar te
                                 Penda.
                             </div>
                             <div>
-                                <h5
-                                    *ngIf="
-                                        authenticationService.user.platform ===
-                                        'facebook'
-                                    "
-                                >
-                                    <svg
-                                        class="facebook-logo-login"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="22"
-                                        height="24"
-                                        fill="#1877F2"
-                                        viewBox="0 0 16 16"
-                                    >
-                                        <path
-                                            d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"
-                                        /></svg
-                                    >&nbsp;&nbsp;Facebook
-                                </h5>
-                                <h5
-                                    *ngIf="
-                                        authenticationService.user.platform ===
-                                        'google'
-                                    "
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        height="24"
-                                        viewBox="0 0 24 24"
-                                        width="24"
-                                    >
-                                        <path
-                                            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                                            fill="#4285F4"
-                                        />
-                                        <path
-                                            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                                            fill="#34A853"
-                                        />
-                                        <path
-                                            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                                            fill="#FBBC05"
-                                        />
-                                        <path
-                                            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                                            fill="#EA4335"
-                                        />
-                                        <path
-                                            d="M1 1h22v22H1z"
-                                            fill="none"
-                                        /></svg
-                                    >&nbsp;&nbsp;Google
-                                </h5>
+                                @if (
+                                    authenticationService.user.platform ===
+                                    "facebook"
+                                ) {
+                                    <h5>
+                                        <svg
+                                            class="facebook-logo-login"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="22"
+                                            height="24"
+                                            fill="#1877F2"
+                                            viewBox="0 0 16 16"
+                                        >
+                                            <path
+                                                d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"
+                                            /></svg
+                                        >&nbsp;&nbsp;Facebook
+                                    </h5>
+                                }
+                                @if (
+                                    authenticationService.user.platform ===
+                                    "google"
+                                ) {
+                                    <h5>
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            height="24"
+                                            viewBox="0 0 24 24"
+                                            width="24"
+                                        >
+                                            <path
+                                                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                                                fill="#4285F4"
+                                            />
+                                            <path
+                                                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                                                fill="#34A853"
+                                            />
+                                            <path
+                                                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                                                fill="#FBBC05"
+                                            />
+                                            <path
+                                                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                                                fill="#EA4335"
+                                            />
+                                            <path
+                                                d="M1 1h22v22H1z"
+                                                fill="none"
+                                            /></svg
+                                        >&nbsp;&nbsp;Google
+                                    </h5>
+                                }
                             </div>
                         </div>
                     </div>
-
                     <div>
                         <h5>Mbyll Llogarinë te Penda</h5>
                         <hr />
@@ -197,10 +132,10 @@
                                 të pezullojë abonimin nëse e keni një të tillë.
                             </p>
                             <button
-                                id="accountClosureModalButton"
+                                id="account-closure-modal-button"
                                 type="button"
                                 data-bs-toggle="modal"
-                                data-bs-target="#accountClosureModal"
+                                data-bs-target="#account-closure-modal"
                                 class="btn btn-danger close-account-button"
                             >
                                 Mbyll Llogarinë
@@ -210,14 +145,58 @@
                 </div>
             </div>
         </div>
-    </ng-template>
+    } @else {
+        <div class="central-profile-area">
+            <div
+                class="card p-3"
+                [ngClass]="{
+                    'settings-dark-mode': darkModeService.isDarkMode
+                }"
+            >
+                <div
+                    class="card-body placeholder-glow flex-column"
+                    [ngClass]="{
+                        'settings-dark-mode': darkModeService.isDarkMode
+                    }"
+                >
+                    <h3
+                        class="placeholder col-5 placeholder-lg skeleton-header skeleton-text-area"
+                    ></h3>
+                    <p class="placeholder skeleton-text-area col-7"></p>
+                    <p class="placeholder skeleton-text-area col-11"></p>
+                    <p class="placeholder skeleton-text-area col-9"></p>
+                    <hr />
+                    <h3
+                        class="placeholder col-3 skeleton-header skeleton-text-area"
+                    ></h3>
+                    <p class="placeholder skeleton-text-area col-6"></p>
+                    <p class="placeholder skeleton-text-area col-12"></p>
+                    <p class="placeholder skeleton-text-area col-8"></p>
+                    <hr />
+                    <h3
+                        class="placeholder col-5 skeleton-header skeleton-text-area"
+                    ></h3>
+                    <p class="placeholder skeleton-text-area col-8"></p>
+                    <p class="placeholder skeleton-text-area col-7"></p>
+                    <p class="placeholder skeleton-text-area col-12"></p>
+                    <hr />
+                    <h3
+                        class="placeholder col-5 skeleton-header skeleton-text-area"
+                    ></h3>
+                    <p class="placeholder skeleton-text-area col-8"></p>
+                    <p class="placeholder skeleton-text-area col-7"></p>
+                    <p class="placeholder skeleton-text-area col-12"></p>
+                </div>
+            </div>
+        </div>
+    }
 </div>
 
 <div
     class="modal fade"
-    id="unsubscriptionModal"
+    id="unsubscription-modal"
     tabindex="-1"
-    aria-labelledby="unsubscriptionModalLabel"
+    aria-labelledby="unsubscription-modal-label"
     aria-hidden="true"
 >
     <div class="modal-dialog modal-dialog-centered">
@@ -229,7 +208,7 @@
             }"
         >
             <div class="modal-header">
-                <h5 class="modal-title" id="unsubscriptionModalLabel">
+                <h5 class="modal-title" id="unsubscription-modal-label">
                     Konfirmo Anulimin e Abonimit
                 </h5>
                 <button
@@ -275,9 +254,9 @@
 
 <div
     class="modal fade"
-    id="accountClosureModal"
+    id="account-closure-modal"
     tabindex="-1"
-    aria-labelledby="accountClosureModalLabel"
+    aria-labelledby="account-closure-modal-label"
     aria-hidden="true"
 >
     <div class="modal-dialog modal-dialog-centered">
@@ -288,7 +267,7 @@
             }"
         >
             <div class="modal-header">
-                <h5 class="modal-title" id="accountClosureModalLabel">
+                <h5 class="modal-title" id="account-closure-modal-label">
                     Konfirmo Mbylljen e Llogarisë
                 </h5>
                 <button

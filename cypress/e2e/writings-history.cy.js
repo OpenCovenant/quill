@@ -1,6 +1,10 @@
 describe("Writings History", () => {
     beforeEach(() => {
-        cy.visit("/");
+        cy.visit("/", {
+            onBeforeLoad(win) {
+                win.localStorage.setItem("penda-can-store-writings", "true");
+            }
+        });
     });
 
     it("should not save empty text on the writings history", () => {

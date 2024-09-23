@@ -1,44 +1,25 @@
-import { Injectable } from '@angular/core';
-import {
-    ActivatedRouteSnapshot,
-    CanActivate,
-    Router,
-    RouterStateSnapshot,
-    UrlTree
-} from '@angular/router';
-import { map, Observable } from 'rxjs';
+import { inject } from '@angular/core';
+import { ActivatedRouteSnapshot, Router } from '@angular/router';
+import { map } from 'rxjs';
 import { AuthenticationService } from '../services/authentication.service';
 
-@Injectable({
-    providedIn: 'root'
-})
-export class SubscriptionGuard implements CanActivate {
-    constructor(
-        private authService: AuthenticationService,
-        private router: Router
-    ) {}
-    canActivate(
-        route: ActivatedRouteSnapshot,
-        state: RouterStateSnapshot
-    ):
-        | Observable<boolean | UrlTree>
-        | Promise<boolean | UrlTree>
-        | boolean
-        | UrlTree {
-        return this.authService.isSubscribed().pipe(
-            map((subscribed: boolean) => {
-                const pathSuffix: string = route.url[route.url.length - 1].path;
+export const subscriptionGuard = (route: ActivatedRouteSnapshot) => {
+    const authService = inject(AuthenticationService);
+    const router = inject(Router);
 
-                const subscribedCheckout: boolean =
-                    pathSuffix === 'checkout' && subscribed;
+    return authService.isSubscribed().pipe(
+        map((subscribed: boolean) => {
+            const pathSuffix: string = route.url[route.url.length - 1].path;
 
-                if (subscribedCheckout) {
-                    this.router.navigate(['/']);
-                    return false;
-                } else {
-                    return true;
-                }
-            })
-        );
-    }
-}
+            const subscribedCheckout: boolean =
+                pathSuffix === 'checkout' && subscribed;
+
+            if (subscribedCheckout) {
+                router.navigate(['/']);
+                return false;
+            } else {
+                return true;
+            }
+        })
+    );
+};
