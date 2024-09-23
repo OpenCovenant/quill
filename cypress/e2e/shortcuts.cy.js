@@ -37,11 +37,11 @@ describe("Shortcuts", () => {
             });
         });
 
-        cy.get("#offcanvasStart").should("not.be.visible");
+        cy.get("#side-menu-start").should("not.be.visible");
         cy.get("body").type("m");
-        cy.get("#offcanvasStart").should("be.visible");
+        cy.get("#side-menu-start").should("be.visible");
         cy.get("body").type("M");
-        cy.get("#offcanvasStart").should("not.be.visible");
+        cy.get("#side-menu-start").should("not.be.visible");
 
         cy.get('[data-test="modal-dialog"]').should("not.be.visible");
         cy.get("body").type("h");
@@ -82,11 +82,11 @@ describe("Shortcuts", () => {
             });
         });
 
-        cy.get("#offcanvasStart").should("not.be.visible");
+        cy.get("#side-menu-start").should("not.be.visible");
         cy.get("body").type("M");
-        cy.get("#offcanvasStart").should("be.visible");
+        cy.get("#side-menu-start").should("be.visible");
         cy.get("body").type("m");
-        cy.get("#offcanvasStart").should("not.be.visible");
+        cy.get("#side-menu-start").should("not.be.visible");
 
         cy.get('[data-test="modal-dialog"]').should("not.be.visible");
         cy.get("body").type("h");

@@ -19,16 +19,16 @@ export class ProfileComponent {
     cancelSubscriptionURL!: string;
 
     constructor(
-        private http: HttpClient,
-        private router: Router,
         public darkModeService: DarkModeService,
-        public authenticationService: AuthenticationService
+        public authenticationService: AuthenticationService,
+        private httpClient: HttpClient,
+        private router: Router
     ) {
         this.initializeURLs();
     }
 
     closeAccount(): void {
-        this.http.post(this.deactivateAccountURL, {}).subscribe(() => {
+        this.httpClient.post(this.deactivateAccountURL, {}).subscribe(() => {
             // give feed to user that their account has been successfully deactivated
             // TODO: clear localStorage and what not
             // TODO: sign user out (from anything that's left here)
@@ -39,7 +39,7 @@ export class ProfileComponent {
     }
 
     cancelSubscription(): void {
-        this.http.post(this.cancelSubscriptionURL, {}).subscribe((c) => {
+        this.httpClient.post(this.cancelSubscriptionURL, {}).subscribe((c) => {
             this.authenticationService.subscribed$.next(false);
         });
     }

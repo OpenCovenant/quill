@@ -1,58 +1,8 @@
 <div>
-    <ng-template [ngIf]="isLoading" [ngIfElse]="loadingTemplate">
+    @if (!isLoading) {
         <div class="central-settings-area">
             <div
                 class="card main-card p-3"
-                [ngClass]="{
-                    'settings-dark-mode': darkModeService.isDarkMode
-                }"
-            >
-                <div
-                    class="card-body placeholder-glow flex-layout-div flex-column"
-                    [ngClass]="{
-                        'settings-dark-mode': darkModeService.isDarkMode
-                    }"
-                >
-                    <h3
-                        class="placeholder col-5 placeholder-lg skeleton-header skeleton-text-area"
-                    ></h3>
-                    <p class="placeholder skeleton-text-area col-7"></p>
-                    <p class="placeholder skeleton-text-area col-11"></p>
-                    <p class="placeholder skeleton-text-area col-9"></p>
-                    <hr />
-
-                    <h3
-                        class="placeholder col-3 skeleton-header skeleton-text-area"
-                    ></h3>
-                    <p class="placeholder skeleton-text-area col-6"></p>
-                    <p class="placeholder skeleton-text-area col-12"></p>
-                    <p class="placeholder skeleton-text-area col-8"></p>
-                    <hr />
-
-                    <h3
-                        class="placeholder col-5 skeleton-header skeleton-text-area"
-                    ></h3>
-                    <p class="placeholder skeleton-text-area col-8"></p>
-                    <p class="placeholder skeleton-text-area col-7"></p>
-                    <p class="placeholder skeleton-text-area col-12"></p>
-
-                    <hr />
-
-                    <h3
-                        class="placeholder col-5 skeleton-header skeleton-text-area"
-                    ></h3>
-                    <p class="placeholder skeleton-text-area col-8"></p>
-                    <p class="placeholder skeleton-text-area col-7"></p>
-                    <p class="placeholder skeleton-text-area col-12"></p>
-                </div>
-            </div>
-        </div>
-    </ng-template>
-
-    <ng-template #loadingTemplate>
-        <div class="central-settings-area">
-            <div
-                class="card skeleton-main-card p-3"
                 [ngClass]="{
                     'settings-dark-mode': darkModeService.isDarkMode
                 }"
@@ -68,54 +18,204 @@
                     <div class="dark-mode-setting-section">
                         <h5>Pamja e Zgjedhur</h5>
                         <hr />
-                        <div
-                            class="flex-layout-div dark-mode-div dark-mode-label-flex"
-                        >
-                            <div>Ndrysho Pamjen</div>
-                            <div class="toggle-switch">
-                                <label class="dark-mode-label">
-                                    <input
-                                        data-test="dark-mode-button-toggle-switch"
-                                        class="dark-mode-input"
-                                        type="checkbox"
-                                        name="dark-mode-input"
-                                        [(ngModel)]="darkModeService.isDarkMode"
-                                        (change)="
-                                            darkModeService.onDarkModeChange()
-                                        "
-                                    />
-                                    <span class="dark-mode-slider"></span>
-                                </label>
+                        <div class="dark-mode-div dark-mode-label-flex">
+                            <div>
+                                Ndrysho Pamjen
+                                @if (darkModeService.isSystemMode) {
+                                    <span class="light-mode-informative-text"
+                                        >Përdor Pamjen e Sistemit</span
+                                    >
+                                } @else if (darkModeService.isDarkMode) {
+                                    <span class="dark-mode-informative-text"
+                                        >Përdor Pamjen e Errët</span
+                                    >
+                                } @else if (!darkModeService.isDarkMode) {
+                                    <span class="light-mode-informative-text"
+                                        >Përdor Pamjen e Çelur</span
+                                    >
+                                }
+                            </div>
+                            <div
+                                class="theme-selector"
+                                [ngClass]="{
+                                    'theme-selector-dark-mode':
+                                        darkModeService.isDarkMode
+                                }"
+                            >
+                                <span
+                                    class="option-set-night-mode"
+                                    [class.active]="
+                                        darkModeService.isDarkMode &&
+                                        !darkModeService.isSystemMode
+                                    "
+                                    (click)="darkModeService.setDarkMode(true)"
+                                    [ngClass]="{
+                                        'option-set-night-mode-dark-mode':
+                                            darkModeService.isDarkMode
+                                    }"
+                                >
+                                    <span class="theme-span-icons">
+                                        <i
+                                            class="bi bi-moon-fill set-moon-icon"
+                                            [ngClass]="{
+                                                'set-moon-icon-dark-mode':
+                                                    darkModeService.isDarkMode
+                                            }"
+                                        ></i>
+                                    </span>
+                                    <p
+                                        class="theme-selector-text-moon theme-selector-paragraph"
+                                        [ngClass]="{
+                                            'theme-selector-text-moon-dark-mode':
+                                                darkModeService.isDarkMode
+                                        }"
+                                    >
+                                        Errët
+                                    </p>
+                                </span>
+
+                                <span
+                                    class="option-set-system-mode"
+                                    [class.active]="
+                                        darkModeService.isSystemMode
+                                    "
+                                    (click)="darkModeService.setSystemMode()"
+                                    [ngClass]="{
+                                        'option-set-system-mode-dark-mode':
+                                            darkModeService.isSystemMode &&
+                                            darkModeService.isDarkMode,
+                                        'option-set-system-mode-light-mode':
+                                            darkModeService.isSystemMode &&
+                                            !darkModeService.isDarkMode
+                                    }"
+                                >
+                                    <span class="theme-span-icons">
+                                        <i
+                                            class="bi bi-circle-half set-system-icon"
+                                            [ngClass]="{
+                                                'set-system-icon-dark-mode':
+                                                    darkModeService.isDarkMode
+                                            }"
+                                        ></i>
+                                    </span>
+                                    <p
+                                        class="theme-selector-text-system theme-selector-paragraph"
+                                        [ngClass]="{
+                                            'theme-selector-text-system-dark-mode':
+                                                darkModeService.isDarkMode
+                                        }"
+                                    >
+                                        Sistemi
+                                    </p>
+                                </span>
+
+                                <span
+                                    class="option-set-light-mode-span"
+                                    [ngClass]="{
+                                        'option-set-light-dark-mode':
+                                            darkModeService.isDarkMode
+                                    }"
+                                    [class.active]="
+                                        !darkModeService.isDarkMode &&
+                                        !darkModeService.isSystemMode
+                                    "
+                                    (click)="darkModeService.setDarkMode(false)"
+                                >
+                                    <span class="theme-span-icons set-sun-icon">
+                                        <i
+                                            class="bi bi-brightness-high-fill theme-span-icons set-sun-icon"
+                                            [ngClass]="{
+                                                'set-sun-icon-dark-mode':
+                                                    darkModeService.isDarkMode
+                                            }"
+                                        ></i>
+                                    </span>
+                                    <p
+                                        class="theme-selector-text-sun theme-selector-paragraph"
+                                        [ngClass]="{
+                                            'theme-selector-text-sun-dark-mode':
+                                                darkModeService.isDarkMode
+                                        }"
+                                    >
+                                        Çelur
+                                    </p>
+                                </span>
                             </div>
                         </div>
-                        <ng-template
-                            [ngIf]="darkModeService.isDarkMode"
-                            [ngIfElse]="otherModeText"
-                        >
-                            <span class="dark-mode-informative-text"
-                                >Përdor Pamjen e Çelur</span
-                            >
-                        </ng-template>
-                        <ng-template #otherModeText>
-                            <span class="light-mode-informative-text"
-                                >Përdor Pamjen e Errët</span
-                            >
-                        </ng-template>
                     </div>
 
-                    <div class="dark-mode-setting-section">
+                    <!--                    <div class="immediate-markings-setting-section">-->
+                    <!--                        <h5>Shenjime të Menjëhershme</h5>-->
+                    <!--                        <hr />-->
+                    <!--                        <div class="dark-mode-div dark-mode-label-flex">-->
+                    <!--                            <div>-->
+                    <!--                                Përdor Shenjimet e Menjëhershme, të cilat-->
+                    <!--                                vetë-aplikojnë shenjime në rastet kur këto kanë-->
+                    <!--                                vetëm një sugjerim. Për momentin kjo vlen vetëm-->
+                    <!--                                për disa gabime shkrimi.-->
+                    <!--                            </div>-->
+
+                    <!--                            <span>-->
+                    <!--                                <label-->
+                    <!--                                    class="marking-type-label"-->
+                    <!--                                    for="immediate-markings"-->
+                    <!--                                >-->
+                    <!--                                    <input-->
+                    <!--                                        class="marking-type-input"-->
+                    <!--                                        role="switch"-->
+                    <!--                                        type="checkbox"-->
+                    <!--                                        id="immediate-markings"-->
+                    <!--                                        [(ngModel)]="immediateMarkings"-->
+                    <!--                                        (ngModelChange)="-->
+                    <!--                                            onImmediateMarkingsSwitch($event)-->
+                    <!--                                        "-->
+                    <!--                                        data-test="immediate-markings-switch"-->
+                    <!--                                    /><span class="slider round"></span> </label-->
+                    <!--                            ></span>-->
+                    <!--                        </div>-->
+
+                    <!--                        <br />-->
+
+                    <!--                        <div class="dark-mode-div dark-mode-label-flex">-->
+                    <!--                            <div>-->
+                    <!--                                Shfaq shenjimet e menjehershme te aplikuara te-->
+                    <!--                                tabela e shenjimeve.-->
+                    <!--                            </div>-->
+
+                    <!--                            <span>-->
+                    <!--                                <label-->
+                    <!--                                    class="marking-type-label"-->
+                    <!--                                    for="immediate-board-markings"-->
+                    <!--                                >-->
+                    <!--                                    <input-->
+                    <!--                                        class="marking-type-input"-->
+                    <!--                                        role="switch"-->
+                    <!--                                        type="checkbox"-->
+                    <!--                                        id="immediate-board-markings"-->
+                    <!--                                        [(ngModel)]="immediateBoardMarkings"-->
+                    <!--                                        (ngModelChange)="-->
+                    <!--                                            onImmediateBoardMarkingsSwitch(-->
+                    <!--                                                $event-->
+                    <!--                                            )-->
+                    <!--                                        "-->
+                    <!--                                        [disabled]="!immediateMarkings"-->
+                    <!--                                        data-test="immediate-board-markings-switch"-->
+                    <!--                                    /><span class="slider round"></span> </label-->
+                    <!--                            ></span>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+
+                    <div class="dismissed-markings-setting-section">
                         <h5>Shenjimet e Hequra</h5>
                         <hr />
-                        <div
-                            class="flex-layout-div dark-mode-div dark-mode-label-flex"
-                        >
+                        <div class="dark-mode-div dark-mode-label-flex">
                             <div>Rishiko shenjimet që keni hequr më parë.</div>
                             <button
                                 class="btn btn-secondary"
-                                id="dismissedMarkingsModalButton"
+                                id="dismissed-markings-modal-button"
                                 type="button"
                                 data-bs-toggle="modal"
-                                data-bs-target="#dismissedMarkingsModal"
+                                data-bs-target="#dismissed-markings-modal"
                             >
                                 Rishiko Shenjimet
                             </button>
@@ -131,53 +231,56 @@
                         </p>
                         <!--                <hr />-->
 
-                        <div
-                            *ngFor="let markingType of markingTypes"
-                            class="flex-layout-div marking-type-flex"
-                        >
-                            <span>
-                                <span>{{ markingType[1].description }}</span>
-                                <span
-                                    routerLink="/{{ markingType[0] }}"
-                                    class="marking-type-routing-span"
-                                    ><i class="bi bi-box-arrow-up-right"></i
+                        @for (markingType of markingTypes; track markingType) {
+                            <div class="marking-type-flex">
+                                <span>
+                                    <span>{{
+                                        markingType[1].description
+                                    }}</span>
+                                    <span
+                                        routerLink="/{{ markingType[0] }}"
+                                        class="marking-type-routing-span"
+                                        ><i class="bi bi-box-arrow-up-right"></i
+                                    ></span>
+                                </span>
+                                <span>
+                                    <label
+                                        class="marking-type-label"
+                                        [for]="markingType[0]"
+                                    >
+                                        <input
+                                            class="marking-type-input"
+                                            role="switch"
+                                            type="checkbox"
+                                            [id]="markingType[0]"
+                                            [(ngModel)]="markingType[1].enabled"
+                                            (ngModelChange)="
+                                                onMarkingTypeSelection(
+                                                    markingType[0],
+                                                    $event
+                                                )
+                                            "
+                                            data-test="marking-type-switch"
+                                        /><span
+                                            class="slider round"
+                                        ></span> </label
                                 ></span>
-                            </span>
-
-                            <span>
-                                <label
-                                    class="marking-type-label"
-                                    [for]="markingType[0]"
-                                >
-                                    <input
-                                        class="marking-type-input"
-                                        role="switch"
-                                        type="checkbox"
-                                        [id]="markingType[0]"
-                                        [value]="markingType[1].description"
-                                        [(ngModel)]="markingType[1].enabled"
-                                        (ngModelChange)="
-                                            onMarkingTypeSelection(
-                                                markingType[0],
-                                                $event
-                                            )
-                                        "
-                                        data-test="switch-check-testing"
-                                    /><span class="slider round"></span> </label
-                            ></span>
-                        </div>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
         </div>
-    </ng-template>
+    } @else {
+        <app-settings-skeleton></app-settings-skeleton>
+    }
 </div>
 
 <div
     class="modal fade"
-    id="dismissedMarkingsModal"
+    id="dismissed-markings-modal"
     tabindex="-1"
-    aria-labelledby="dismissedMarkingsModalLabel"
+    aria-labelledby="dismissed-markings-modal-label"
     aria-hidden="true"
 >
     <div class="modal-dialog modal-dialog-centered">
@@ -188,7 +291,7 @@
             }"
         >
             <div class="modal-header">
-                <h5 class="modal-title" id="dismissedMarkingsModalLabel">
+                <h5 class="modal-title" id="dismissed-markings-modal-label">
                     Shenjimet e Larguara
                 </h5>
                 <button
@@ -202,34 +305,44 @@
                 ></button>
             </div>
             <div class="modal-body dismissed-marking-list-modal">
-                <div *ngIf="dismissedMarkings.length !== 0">
-                    <button
-                        *ngFor="let dismissedMarking of dismissedMarkings"
-                        type="button"
-                        class="btn position-relative list-of-dismissed-markings"
-                    >
-                        {{ dismissedMarking
-                        }}<span
-                            (click)="undoMarkingDismissal(dismissedMarking)"
-                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill undo-dismissed-marking"
-                        >
+                @if (dismissedMarkings.length !== 0) {
+                    <div>
+                        @for (
+                            dismissedMarking of dismissedMarkings;
+                            track dismissedMarking
+                        ) {
                             <button
                                 type="button"
-                                class="btn-close btn-close-white remove-marking-button"
-                                aria-label="Largo Shenjimin"
-                            ></button>
-                        </span>
-                    </button>
-                </div>
+                                class="btn position-relative list-of-dismissed-markings"
+                            >
+                                {{ dismissedMarking
+                                }}<span
+                                    (click)="
+                                        undoMarkingDismissal(dismissedMarking)
+                                    "
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill undo-dismissed-marking"
+                                >
+                                    <button
+                                        type="button"
+                                        class="btn-close btn-close-white remove-marking-button"
+                                        aria-label="Largo Shenjimin"
+                                    ></button>
+                                </span>
+                            </button>
+                        }
+                    </div>
+                }
 
-                <div *ngIf="dismissedMarkings.length === 0">
-                    <p>Nuk keni larguar ndonjë shenjim deri më tani.</p>
-                    <p>
-                        Mund të klikoni te ikona kryq te një shenjim në mënyrë
-                        që të mos shfaqet më. Më tej ajo mund të rikthehet
-                        nëpërmjet këtij dialogu.
-                    </p>
-                </div>
+                @if (dismissedMarkings.length === 0) {
+                    <div>
+                        <p>Nuk keni larguar ndonjë shenjim deri më tani.</p>
+                        <p>
+                            Mund të klikoni te ikona kryq te një shenjim në
+                            mënyrë që të mos shfaqet më. Më tej ajo mund të
+                            rikthehet nëpërmjet këtij dialogu.
+                        </p>
+                    </div>
+                }
             </div>
             <div class="modal-footer dismissed-marking-modal-footer">
                 <button
@@ -247,9 +360,10 @@
                     type="button"
                     class="btn btn-primary undo-all-dismissed-markings"
                     data-bs-toggle="modal"
-                    data-bs-target="#dismissedMarkingsModal"
-                    aria-controls="dismissedMarkingsModal"
+                    data-bs-target="#dismissed-markings-modal"
+                    aria-controls="dismissed-markings-modal"
                     (click)="undoMarkingsDismissal()"
+                    [disabled]="dismissedMarkings.length === 0"
                 >
                     Zhbëj të Gjitha
                 </button>

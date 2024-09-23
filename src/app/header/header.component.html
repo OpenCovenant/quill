@@ -7,16 +7,16 @@
     >
         <div class="header-name-gear-icon">
             <button
-                id='off-canvas-start-button'
-                class="off-canvas-start-button"
+                id="side-menu-start-button"
+                class="side-menu-start-button"
                 [ngClass]="{
                     'header-button-dark-mode': darkModeService.isDarkMode
                 }"
                 type="button"
-                title="hap menynë"
+                title="hap menynë (m)"
                 data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasStart"
-                aria-controls="offcanvasStart"
+                data-bs-target="#side-menu-start"
+                aria-controls="side-menu-start"
             >
                 <span
                     class="navbar-toggler-icon"
@@ -27,16 +27,27 @@
                     data-test="navbar-toggler-icon"
                 ></span>
             </button>
-            <span
-                routerLink="/"
-                title="faqja kryesore"
-                class="penda-header-logo"
-                [ngClass]="{
-                    'header-text-dark-mode': darkModeService.isDarkMode
-                }"
-                data-test="home-button"
-                >&nbsp;penda</span
-            >
+            <div class="header-logo-div">
+                <span
+                    routerLink="/"
+                    title="faqja kryesore"
+                    class="penda-header-logo"
+                    [ngClass]="{
+                        'header-text-dark-mode': darkModeService.isDarkMode
+                    }"
+                    data-test="home-button"
+                    >penda</span
+                >
+                <span
+                    class="penda-header-logo-corrector"
+                    [ngClass]="{
+                        'header-corrector-text-dark-mode':
+                            darkModeService.isDarkMode
+                    }"
+                    data-test="home-label"
+                    >korrektor i gjuhës shqipe</span
+                >
+            </div>
         </div>
 
         <div class="header-name-gear-icon">
@@ -52,171 +63,158 @@
                 data-test="settings-gear-button"
             ></i>
 
-            <span class="header-separator">|</span>
+            <!--            <span class="header-separator">|</span>-->
 
-
-            <ng-template
-                [ngIf]="authenticationService.isAuthenticated() | async"
-                [ngIfElse]="authenticateButton"
-            >
-                <div class="btn-group user-dropdown-menu">
-                    <button
-                        type="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                        class="btn btn-secondary dropdown-toggle"
-                    >
-                        <span>{{ authenticationService.user.first_name }}</span>
-                    </button>
-                    <ul
-                        class="dropdown-menu dropdown-menu-end"
-                        [ngClass]="{
-                            'dropdown-menu-dark-mode':
-                                darkModeService.isDarkMode
-                        }"
-                    >
-                        <li
-                            class="dropdown-menu-item-list"
-                            [ngClass]="{
-                                'dropdown-menu-item-list-dark-mode':
-                                    darkModeService.isDarkMode
-                            }"
-                        >
-                            <a
-                                class="dropdown-item menu-dropdown-item"
-                                [ngClass]="{
-                                    'menu-dropdown-item-dark-mode':
-                                        darkModeService.isDarkMode
-                                }"
-                                routerLink="/profile"
-                            >
-                                <span
-                                    class="profile-icon-dropdown bi-person-circle"
-                                ></span>
-                                <span>Profili</span>
-                            </a>
-                        </li>
-                        <li>
-                            <hr
-                                class="dropdown-divider menu-item-divider"
-                                [ngClass]="{
-                                    'menu-item-divider-dark-mode':
-                                        darkModeService.isDarkMode
-                                }"
-                            />
-                        </li>
-                        <li
-                            class="dropdown-menu-item-list"
-                            [ngClass]="{
-                                'dropdown-menu-item-list-dark-mode':
-                                    darkModeService.isDarkMode
-                            }"
-                        >
-                            <a
-                                class="dropdown-item menu-dropdown-item"
-                                [ngClass]="{
-                                    'menu-dropdown-item-dark-mode':
-                                        darkModeService.isDarkMode
-                                }"
-                                (click)="logout()"
-                            >
-                                <span
-                                    ><i
-                                        class="bi bi-box-arrow-right"
-                                        [ngClass]="{
-                                            'logout-icon-dark-mode':
-                                                darkModeService.isDarkMode
-                                        }"
-                                    ></i
-                                ></span>
-                                <span>Dil</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </ng-template>
-            <ng-template #authenticateButton>
-                <button
-                    class="btn btn-primary login-header-button"
-                    routerLink="/authentication"
-                >
-                    Identifikohu
-                </button>
-            </ng-template>
+            <!--            <ng-template-->
+            <!--                [ngIf]="authenticationService.isAuthenticated() | async"-->
+            <!--                [ngIfElse]="authenticateButton"-->
+            <!--            >-->
+            <!--                <div class="btn-group user-dropdown-menu">-->
+            <!--                    <button-->
+            <!--                        type="button"-->
+            <!--                        data-bs-toggle="dropdown"-->
+            <!--                        aria-expanded="false"-->
+            <!--                        class="btn btn-secondary dropdown-toggle"-->
+            <!--                    >-->
+            <!--                        <span>{{ authenticationService.user.first_name }}</span>-->
+            <!--                    </button>-->
+            <!--                    <ul-->
+            <!--                        class="dropdown-menu dropdown-menu-end"-->
+            <!--                        [ngClass]="{-->
+            <!--                            'dropdown-menu-dark-mode':-->
+            <!--                                darkModeService.isDarkMode-->
+            <!--                        }"-->
+            <!--                    >-->
+            <!--                        <li-->
+            <!--                            class="dropdown-menu-item-list"-->
+            <!--                            [ngClass]="{-->
+            <!--                                'dropdown-menu-item-list-dark-mode':-->
+            <!--                                    darkModeService.isDarkMode-->
+            <!--                            }"-->
+            <!--                        >-->
+            <!--                            <a-->
+            <!--                                class="dropdown-item menu-dropdown-item"-->
+            <!--                                [ngClass]="{-->
+            <!--                                    'menu-dropdown-item-dark-mode':-->
+            <!--                                        darkModeService.isDarkMode-->
+            <!--                                }"-->
+            <!--                                routerLink="/profile"-->
+            <!--                            >-->
+            <!--                                <span-->
+            <!--                                    class="profile-icon-dropdown bi-person-circle"-->
+            <!--                                ></span>-->
+            <!--                                <span>Profili</span>-->
+            <!--                            </a>-->
+            <!--                        </li>-->
+            <!--                        <li>-->
+            <!--                            <hr-->
+            <!--                                class="dropdown-divider menu-item-divider"-->
+            <!--                                [ngClass]="{-->
+            <!--                                    'menu-item-divider-dark-mode':-->
+            <!--                                        darkModeService.isDarkMode-->
+            <!--                                }"-->
+            <!--                            />-->
+            <!--                        </li>-->
+            <!--                        <li-->
+            <!--                            class="dropdown-menu-item-list"-->
+            <!--                            [ngClass]="{-->
+            <!--                                'dropdown-menu-item-list-dark-mode':-->
+            <!--                                    darkModeService.isDarkMode-->
+            <!--                            }"-->
+            <!--                        >-->
+            <!--                            <a-->
+            <!--                                class="dropdown-item menu-dropdown-item"-->
+            <!--                                [ngClass]="{-->
+            <!--                                    'menu-dropdown-item-dark-mode':-->
+            <!--                                        darkModeService.isDarkMode-->
+            <!--                                }"-->
+            <!--                                (click)="logout()"-->
+            <!--                            >-->
+            <!--                                <span-->
+            <!--                                    ><i-->
+            <!--                                        class="bi bi-box-arrow-right"-->
+            <!--                                        [ngClass]="{-->
+            <!--                                            'logout-icon-dark-mode':-->
+            <!--                                                darkModeService.isDarkMode-->
+            <!--                                        }"-->
+            <!--                                    ></i-->
+            <!--                                ></span>-->
+            <!--                                <span>Dil</span>-->
+            <!--                            </a>-->
+            <!--                        </li>-->
+            <!--                    </ul>-->
+            <!--                </div>-->
+            <!--            </ng-template>-->
+            <!--            <ng-template #authenticateButton>-->
+            <!--                <button-->
+            <!--                    class="btn btn-primary login-header-button"-->
+            <!--                    routerLink="/authentication"-->
+            <!--                >-->
+            <!--                    Identifikohu-->
+            <!--                </button>-->
+            <!--            </ng-template>-->
 
             <!-- <i class="bi bi-lock-fill" style='font-size: 20px'></i> ??? person-fill-lock -->
-
         </div>
     </nav>
 </div>
 
 <div
-    id="offcanvasStart"
-    class="offcanvas offcanvas-start"
+    id="side-menu-start"
+    class="offcanvas offcanvas-start side-menu-start"
     [ngClass]="{
-        'offcanvas-start-dark-mode': darkModeService.isDarkMode
+        'side-menu-start-dark-mode': darkModeService.isDarkMode
     }"
     tabindex="-1"
-    aria-labelledby="offcanvasStartLabel"
+    aria-labelledby="side-menu-start-label"
 >
     <div
         class="offcanvas-header"
         [ngClass]="{
-            'offcanvas-header-dark-mode': darkModeService.isDarkMode
+            'side-menu-header-dark-mode': darkModeService.isDarkMode
         }"
     >
-        <h5 id="offcanvasStartLabel">penda</h5>
+        <h5 id="side-menu-start-label">penda</h5>
         <button
-            id="offcanvasCloseButton"
+            id="side-menu-close-button"
             type="button"
             class="btn-close text-reset"
             [ngClass]="{
-                'offcanvas-close-button-dark-mode': darkModeService.isDarkMode
+                'side-menu-close-button-dark-mode': darkModeService.isDarkMode
             }"
             data-bs-dismiss="offcanvas"
             aria-label="Close"
-            data-test="close-offcanvas-button"
+            data-test="close-side-menu-button"
         ></button>
     </div>
-    <hr class="off-canvas-hr" />
+    <hr class="side-menu-hr" />
     <div
-        class="offcanvas-body"
+        class="offcanvas-body side-menu-body"
         [ngClass]="{
-            'offcanvas-body-dark-mode': darkModeService.isDarkMode
+            'side-menu-body-dark-mode': darkModeService.isDarkMode
         }"
     >
         <div class="list-group list-group-flush">
             <div class="item-action-list">
-                <!--                <div style="box-shadow: 0 0 1px 1px #E3E3E3AE;">-->
-                <!--                    <a role="button" class="dropdown-toggle list-group-item list-group-item-action mb-3"-->
-                <!--                       data-bs-toggle="dropdown" aria-expanded="false">Llojet&nbsp;e&nbsp;Shenjimeve&nbsp;<span-->
-                <!--                        class="badge bg-primary rounded-pill">{{markingTypesCount}}</span>-->
-                <!--                    </a>-->
-                <!--                    <ul class="dropdown-menu">-->
-                <!--                        <li *ngFor="let markingTypeKey of markingTypeKeys">-->
-                <!--                            <a class="{{markingTypes[markingTypeKey]['enabled'] === false ? 'disabled':''}} dropdown-item"-->
-                <!--                               routerLink="{{markingTypeKey}}"-->
-                <!--                               (click)="closeOffcanvas()">{{markingTypes[markingTypeKey]['description']}}</a>-->
-                <!--                        </li>-->
-                <!--                    </ul>-->
-                <!--                </div>-->
                 <div>
                     <a
                         routerLink="/settings"
+                        style="display: flex; align-items: center"
                         class="nav-text list-group-item-action mb-3"
                         [ngClass]="{
-                            'offcanvas-nav-text-dark-mode':
+                            'side-menu-nav-text-dark-mode':
                                 darkModeService.isDarkMode
                         }"
                         role="button"
                         data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasStart"
-                        aria-controls="offcanvasStart"
+                        data-bs-target="#side-menu-start"
+                        aria-controls="side-menu-start"
                         data-test="settings-side-menu-item"
                         ><i
                             class="bi bi-gear"
+                            style="font-size: 1.2rem"
                             [ngClass]="{
-                                'offcanvas-bi-info-circle-dark-mode':
+                                'side-menu-bi-info-circle-dark-mode':
                                     darkModeService.isDarkMode
                             }"
                         >
@@ -227,19 +225,21 @@
                 <div>
                     <a
                         routerLink="/shortcuts"
+                        style="display: flex; align-items: center"
                         class="nav-text list-group-item-action mb-3"
                         [ngClass]="{
-                            'offcanvas-nav-text-dark-mode':
+                            'side-menu-nav-text-dark-mode':
                                 darkModeService.isDarkMode
                         }"
                         role="button"
                         data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasStart"
-                        aria-controls="offcanvasStart"
+                        data-bs-target="#side-menu-start"
+                        aria-controls="side-menu-start"
                         ><i
                             class="bi bi-keyboard"
+                            style="font-size: 1.2rem"
                             [ngClass]="{
-                                'offcanvas-bi-info-circle-dark-mode':
+                                'side-menu-bi-info-circle-dark-mode':
                                     darkModeService.isDarkMode
                             }"
                         >
@@ -250,19 +250,21 @@
                 <div>
                     <a
                         routerLink="/dashboard"
+                        style="display: flex; align-items: center"
                         role="button"
                         class="nav-text list-group-item-action mb-3"
                         [ngClass]="{
-                            'offcanvas-nav-text-dark-mode':
+                            'side-menu-nav-text-dark-mode':
                                 darkModeService.isDarkMode
                         }"
                         data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasStart"
-                        aria-controls="offcanvasStart"
+                        data-bs-target="#side-menu-start"
+                        aria-controls="side-menu-start"
                         ><i
                             class="bi bi-stars"
+                            style="font-size: 1.2rem"
                             [ngClass]="{
-                                'offcanvas-bi-info-circle-dark-mode':
+                                'side-menu-bi-info-circle-dark-mode':
                                     darkModeService.isDarkMode
                             }"
                         >
@@ -273,65 +275,71 @@
                 <div>
                     <a
                         routerLink="/about"
+                        style="display: flex; align-items: center"
                         role="button"
                         data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasStart"
-                        aria-controls="offcanvasStart"
+                        data-bs-target="#side-menu-start"
+                        aria-controls="side-menu-start"
                         class="nav-text list-group-item-action mb-3"
                         [ngClass]="{
-                            'offcanvas-nav-text-dark-mode':
+                            'side-menu-nav-text-dark-mode':
                                 darkModeService.isDarkMode
                         }"
                         ><i
                             class="bi bi-info-circle"
+                            style="font-size: 1.2rem"
                             [ngClass]="{
-                                'offcanvas-bi-info-circle-dark-mode':
+                                'side-menu-bi-info-circle-dark-mode':
                                     darkModeService.isDarkMode
                             }"
                         >
                         </i
-                        >Rreth&nbsp;Pendës</a
+                        >Rreth Pendës</a
                     >
                 </div>
-                <div>
-                    <a
-                        routerLink="/privacy-policy"
-                        role="button"
-                        data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasStart"
-                        aria-controls="offcanvasStart"
-                        class="nav-text list-group-item-action mb-3"
-                        [ngClass]="{
-                            'offcanvas-nav-text-dark-mode':
-                                darkModeService.isDarkMode
-                        }"
-                        ><i
-                            class="bi bi-info-circle"
-                            [ngClass]="{
-                                'offcanvas-bi-info-circle-dark-mode':
-                                    darkModeService.isDarkMode
-                            }"
-                        >
-                        </i
-                        >Politikat e Privatësisë</a
-                    >
-                </div>
+                <!--                <div>-->
+                <!--                    <a-->
+                <!--                        routerLink="/privacy-policy"-->
+                <!--                        style='display: flex; align-items: center;'-->
+                <!--                        role="button"-->
+                <!--                        data-bs-toggle="offcanvas"-->
+                <!--                        data-bs-target="#side-menu-start"-->
+                <!--                        aria-controls="side-menu-start"-->
+                <!--                        class="nav-text list-group-item-action mb-3"-->
+                <!--                        [ngClass]="{-->
+                <!--                            'side-menu-nav-text-dark-mode':-->
+                <!--                                darkModeService.isDarkMode-->
+                <!--                        }"-->
+                <!--                        ><i-->
+                <!--                            class="bi bi-info-circle"-->
+                <!--                            style="font-size: 1.2rem"-->
+                <!--                            [ngClass]="{-->
+                <!--                                'side-menu-bi-info-circle-dark-mode':-->
+                <!--                                    darkModeService.isDarkMode-->
+                <!--                            }"-->
+                <!--                        >-->
+                <!--                        </i-->
+                <!--                        >Politikat e Privatësisë</a-->
+                <!--                    >-->
+                <!--                </div>-->
                 <div>
                     <a
                         routerLink="/terms-of-use"
+                        style="display: flex; align-items: center"
                         role="button"
                         data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasStart"
-                        aria-controls="offcanvasStart"
+                        data-bs-target="#side-menu-start"
+                        aria-controls="side-menu-start"
                         class="nav-text list-group-item-action mb-3"
                         [ngClass]="{
-                            'offcanvas-nav-text-dark-mode':
+                            'side-menu-nav-text-dark-mode':
                                 darkModeService.isDarkMode
                         }"
                         ><i
-                            class="bi bi-info-circle"
+                            class="bi bi-shield-check"
+                            style="font-size: 1.2rem"
                             [ngClass]="{
-                                'offcanvas-bi-info-circle-dark-mode':
+                                'side-menu-bi-info-circle-dark-mode':
                                     darkModeService.isDarkMode
                             }"
                         >
@@ -342,57 +350,144 @@
                 <div>
                     <a
                         href="https://github.com/OpenCovenant"
+                        style="display: flex; align-items: center"
                         role="button"
                         class="nav-text list-group-item-action mb-3"
                         [ngClass]="{
-                            'offcanvas-nav-text-dark-mode':
+                            'side-menu-nav-text-dark-mode':
                                 darkModeService.isDarkMode
                         }"
                         target="_blank"
                         rel="noopener noreferrer"
                         ><i
                             class="bi bi-house-door"
+                            style="font-size: 1.2rem"
                             [ngClass]="{
-                                'offcanvas-bi-info-circle-dark-mode':
+                                'side-menu-bi-info-circle-dark-mode':
                                     darkModeService.isDarkMode
                             }"
                         >
                         </i
-                        >Rreth&nbsp;Nesh</a
+                        >Rreth Nesh</a
                     >
                 </div>
             </div>
-            <hr class="off-canvas-hr" />
+            <hr class="side-menu-hr" />
             <div class="d-flex dark-mode-div">
                 <div>Ndrysho Pamjen</div>
-
-                <div class="toggle-switch">
-                    <label class="dark-mode-label">
-                        <input
-                            data-test="dark-mode-button-toggle-switch"
-                            class="dark-mode-input"
-                            type="checkbox"
-                            [id]="darkModeService"
-                            [(ngModel)]="darkModeService.isDarkMode"
-                            (change)="darkModeService.onDarkModeChange()"
-                        />
-                        <span class="dark-mode-slider"></span>
-                    </label>
-                </div>
             </div>
-            <ng-template
-                [ngIf]="darkModeService.isDarkMode"
-                [ngIfElse]="otherModeText"
-            >
-                <span class="dark-mode-informative-text"
-                    >Përdor Pamjen e Çelur</span
-                >
-            </ng-template>
-            <ng-template #otherModeText>
+            @if (darkModeService.isSystemMode) {
                 <span class="light-mode-informative-text"
+                    >Përdor Pamjen e Sistemit</span
+                >
+            } @else if (darkModeService.isDarkMode) {
+                <span class="dark-mode-informative-text"
                     >Përdor Pamjen e Errët</span
                 >
-            </ng-template>
+            } @else if (!darkModeService.isDarkMode) {
+                <span class="light-mode-informative-text"
+                    >Përdor Pamjen e Çelur</span
+                >
+            }
+        </div>
+        <div
+            class="theme-selector"
+            [ngClass]="{
+                'theme-selector-dark-mode': darkModeService.isDarkMode
+            }"
+        >
+            <span
+                class="option-set-night-mode"
+                [class.active]="
+                    darkModeService.isDarkMode && !darkModeService.isSystemMode
+                "
+                (click)="darkModeService.setDarkMode(true)"
+                [ngClass]="{
+                    'option-set-night-mode-dark-mode':
+                        darkModeService.isDarkMode
+                }"
+            >
+                <span class="theme-span-icons">
+                    <i
+                        class="bi bi-moon-fill set-moon-icon"
+                        [ngClass]="{
+                            'set-moon-icon-dark-mode':
+                                darkModeService.isDarkMode
+                        }"
+                    ></i>
+                </span>
+                <p
+                    class="theme-selector-text-moon theme-selector-paragraph"
+                    [ngClass]="{
+                        'theme-selector-text-moon-dark-mode':
+                            darkModeService.isDarkMode
+                    }"
+                >
+                    Errët
+                </p>
+            </span>
+
+            <span
+                class="option-set-system-mode"
+                [class.active]="darkModeService.isSystemMode"
+                (click)="darkModeService.setSystemMode()"
+                [ngClass]="{
+                    'option-set-system-mode-dark-mode':
+                        darkModeService.isSystemMode &&
+                        darkModeService.isDarkMode,
+                    'option-set-system-mode-light-mode':
+                        darkModeService.isSystemMode &&
+                        !darkModeService.isDarkMode
+                }"
+            >
+                <span class="theme-span-icons">
+                    <i
+                        class="bi bi-circle-half set-system-icon"
+                        [ngClass]="{
+                            'set-system-icon-dark-mode':
+                                darkModeService.isDarkMode
+                        }"
+                    ></i>
+                </span>
+                <p
+                    class="theme-selector-text-system theme-selector-paragraph"
+                    [ngClass]="{
+                        'theme-selector-text-system-dark-mode':
+                            darkModeService.isDarkMode
+                    }"
+                >
+                    Sistemi
+                </p>
+            </span>
+
+            <span
+                class="option-set-light-mode-span"
+                [ngClass]="{
+                    'option-set-light-dark-mode': darkModeService.isDarkMode
+                }"
+                [class.active]="
+                    !darkModeService.isDarkMode && !darkModeService.isSystemMode
+                "
+                (click)="darkModeService.setDarkMode(false)"
+            >
+                <span class="theme-span-icons set-sun-icon">
+                    <i
+                        class="bi bi-brightness-high-fill theme-span-icons set-sun-icon"
+                        [ngClass]="{
+                            'set-sun-icon-dark-mode': darkModeService.isDarkMode
+                        }"
+                    ></i>
+                </span>
+                <p
+                    class="theme-selector-text-sun theme-selector-paragraph"
+                    [ngClass]="{
+                        'theme-selector-text-sun-dark-mode':
+                            darkModeService.isDarkMode
+                    }"
+                >
+                    Çelur
+                </p>
+            </span>
         </div>
     </div>
 </div>

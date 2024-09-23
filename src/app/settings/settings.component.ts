@@ -2,6 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { DarkModeService } from '../services/dark-mode.service';
+import { map } from 'rxjs';
+import { DISMISSED_MARKINGS_KEY } from '../services/constants';
+
+interface MarkingTypeDTO {
+    [key: string]: { description: string; enabled: boolean };
+}
+
+interface MarkingTypeLocalStorage {
+    [key: string]: boolean;
+}
 
 @Component({
     selector: 'app-settings',
@@ -9,79 +19,118 @@ import { DarkModeService } from '../services/dark-mode.service';
     styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
-    ALREADY_MADE_MARKING_TYPE_SELECTIONS =
-        'penda-has-stored-marking-type-selections';
+    SELECTED_MARKING_TYPES_KEY = 'penda-selected-marking-types';
+    IMMEDIATE_MARKINGS_KEY = 'penda-immediate-markings';
+    IMMEDIATE_BOARD_MARKINGS_KEY = 'penda-immediate-board-markings';
 
     baseURL!: string;
     markingTypesURL!: string;
     isLoading: boolean = false;
 
-    markingTypes: any[] = [];
+    markingTypes: any[][] = [];
     dismissedMarkings: string[] = [];
+    immediateMarkings: boolean;
+    immediateBoardMarkings: boolean;
 
     constructor(
-        private http: HttpClient,
-        public darkModeService: DarkModeService
+        public darkModeService: DarkModeService,
+        private httpClient: HttpClient
     ) {
         this.dismissedMarkings =
             (JSON.parse(
-                localStorage.getItem('penda-dismissed-markings')!
+                localStorage.getItem(DISMISSED_MARKINGS_KEY)!
             ) as string[]) ?? [];
+        this.immediateMarkings =
+            localStorage.getItem(this.IMMEDIATE_MARKINGS_KEY) === 'true';
+        this.immediateBoardMarkings =
+            localStorage.getItem(this.IMMEDIATE_BOARD_MARKINGS_KEY) === 'true';
     }
 
     ngOnInit(): void {
         this.isLoading = true;
         this.initializeURLs();
-        // TODO: consider making changes to `LocalStorageService`
-        this.http.get(this.markingTypesURL).subscribe((data: any) => {
-            if (
-                !localStorage.getItem(this.ALREADY_MADE_MARKING_TYPE_SELECTIONS)
-            ) {
-                localStorage.setItem(
-                    this.ALREADY_MADE_MARKING_TYPE_SELECTIONS,
-                    'true'
+        this.httpClient
+            .get(this.markingTypesURL)
+            .pipe(map((data: any) => data['marking_types']))
+            .subscribe((markingTypes: MarkingTypeDTO) => {
+                this.markingTypes = Object.entries(markingTypes).filter(
+                    (mT: any) => mT[1].enabled
                 );
-                this.markingTypes = Object.entries(
-                    data['marking_types']
-                ).filter((e: any) => e[1].enabled);
-                this.markingTypes.forEach((mT) =>
-                    localStorage.setItem(mT[0], mT[1].enabled)
-                );
-            } else {
-                // TODO: lot of cases here in which more/less types come from the endpoint than are in local storage
-                this.markingTypes = Object.entries(data['marking_types'])
-                    .filter((e: any) => e[1].enabled)
-                    .map((e: any) => {
-                        e[1].enabled = localStorage.getItem(e[0]) === 'true';
-                        return e;
+
+                if (!localStorage.getItem(this.SELECTED_MARKING_TYPES_KEY)) {
+                    const selectedMarkingTypes: MarkingTypeLocalStorage = {};
+                    this.markingTypes.forEach(
+                        (mT) => (selectedMarkingTypes[mT[0]] = true)
+                    );
+                    localStorage.setItem(
+                        this.SELECTED_MARKING_TYPES_KEY,
+                        JSON.stringify(selectedMarkingTypes)
+                    );
+                } else {
+                    // NOTE: lot of cases here in which more/less types come from the endpoint than are in local storage
+                    const selectedMarkingTypes: MarkingTypeLocalStorage =
+                        JSON.parse(
+                            localStorage.getItem(
+                                this.SELECTED_MARKING_TYPES_KEY
+                            )!
+                        );
+                    this.markingTypes = this.markingTypes.map((mT: any) => {
+                        mT[1].enabled = selectedMarkingTypes[mT[0]] === true;
+                        return mT;
                     });
-            }
-            this.isLoading = false;
-        });
+                }
+                this.isLoading = false;
+            });
     }
 
     onMarkingTypeSelection(markingTypeID: string, selected: boolean): void {
-        localStorage.setItem(markingTypeID, String(selected));
+        const selectedMarkingTypes = JSON.parse(
+            localStorage.getItem(this.SELECTED_MARKING_TYPES_KEY)!
+        );
+        selectedMarkingTypes[markingTypeID] = selected;
+        localStorage.setItem(
+            this.SELECTED_MARKING_TYPES_KEY,
+            JSON.stringify(selectedMarkingTypes)
+        );
+    }
+
+    onImmediateMarkingsSwitch(selected: boolean): void {
+        localStorage.setItem(this.IMMEDIATE_MARKINGS_KEY, String(selected));
+
+        if (!selected) {
+            this.immediateBoardMarkings = false;
+            localStorage.setItem(
+                this.IMMEDIATE_BOARD_MARKINGS_KEY,
+                String(selected)
+            );
+        }
+    }
+
+    onImmediateBoardMarkingsSwitch(selected: boolean): void {
+        localStorage.setItem(
+            this.IMMEDIATE_BOARD_MARKINGS_KEY,
+            String(selected)
+        );
     }
 
     undoMarkingDismissal(dismissedMarking: string): void {
         let dismissedMarkings: string[] = JSON.parse(
-            localStorage.getItem('penda-dismissed-markings')!
+            localStorage.getItem(DISMISSED_MARKINGS_KEY)!
         ) as string[];
         dismissedMarkings = dismissedMarkings.filter(
             (dM) => dM !== dismissedMarking
         );
         this.dismissedMarkings = dismissedMarkings;
         localStorage.setItem(
-            'penda-dismissed-markings',
+            DISMISSED_MARKINGS_KEY,
             JSON.stringify(this.dismissedMarkings)
         );
     }
 
     undoMarkingsDismissal(): void {
-        localStorage.setItem('penda-dismissed-markings', JSON.stringify([]));
+        localStorage.setItem(DISMISSED_MARKINGS_KEY, JSON.stringify([]));
         this.dismissedMarkings = JSON.parse(
-            localStorage.getItem('penda-dismissed-markings')!
+            localStorage.getItem(DISMISSED_MARKINGS_KEY)!
         ) as string[];
     }
 
