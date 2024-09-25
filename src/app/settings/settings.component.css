@@ -167,7 +167,7 @@
     border-radius: 10px;
 }
 
-.option-set-night-mode.active {
+.option-set-dark-mode.active {
     background-color: var(--active-dropdown-menu-dark-mode);
     border-radius: 10px;
 }
@@ -259,7 +259,7 @@
     border-radius: 10px;
 }
 
-.option-set-night-mode {
+.option-set-dark-mode {
     padding: 0px 14px;
     cursor: pointer;
 }

@@ -43,14 +43,14 @@
                                 }"
                             >
                                 <span
-                                    class="option-set-night-mode"
+                                    class="option-set-dark-mode"
                                     [class.active]="
                                         darkModeService.isDarkMode &&
                                         !darkModeService.isSystemMode
                                     "
                                     (click)="darkModeService.setDarkMode(true)"
                                     [ngClass]="{
-                                        'option-set-night-mode-dark-mode':
+                                        'option-set-dark-mode-dark-mode':
                                             darkModeService.isDarkMode
                                     }"
                                 >

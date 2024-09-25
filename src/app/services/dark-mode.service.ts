@@ -12,6 +12,7 @@ export class DarkModeService {
     isSystemMode: boolean = false;
 
     constructor() {
+        this.initializeDarkMode();
         window
             .matchMedia('(prefers-color-scheme: dark)')
             .addEventListener('change', (e) => {
