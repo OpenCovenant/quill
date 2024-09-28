@@ -625,10 +625,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     // TODO: rename
     actuallyDismissMarking(markingIndex: number): void {
-        const currentTextMarking = this.fetchEditorMarkings()[markingIndex];
-        currentTextMarking.parentNode!.replaceChild(
-            document.createTextNode(currentTextMarking.textContent!),
-            currentTextMarking
+        const currentMarking = this.fetchEditorMarkings()[markingIndex];
+        currentMarking.parentNode!.replaceChild(
+            document.createTextNode(currentMarking.textContent!),
+            currentMarking
         );
 
         this.processedText!.markings = this.processedText!.markings.filter(
