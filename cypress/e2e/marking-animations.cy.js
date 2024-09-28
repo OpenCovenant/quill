@@ -41,7 +41,7 @@ describe("Suggestion Marking - Fade Right Animation", () => {
             .find('[data-test="dismiss-marking-button"]')
             .first()
             .click();
-        cy.wait(2000);
+        cy.wait(2500);
         cy.get('[data-test="marking-card"]')
             .find('[data-test="dismiss-marking-button"]')
             .click();
