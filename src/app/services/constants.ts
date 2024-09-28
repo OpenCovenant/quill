@@ -24,6 +24,9 @@ export const MAX_EDITOR_CHARACTERS: number = 10000;
 // think there's something about "i" as well (and of course maybe for some others)
 export const UNCONVENTIONAL_CHARACTERS: string[] = ['ë'];
 
+export const APPLY_SUGGESTION_MESSAGE = 'apply-suggestion';
+export const DISMISS_MARKING_MESSAGE = 'dismiss-marking';
+
 export function filterDismissedMarkings(
     markings: Marking[],
     text: string
