@@ -1,20 +1,16 @@
 import { Marking } from '../models/marking';
-import {
-    SPAN_TAG
-} from '../services/constants';
+import { SPAN_TAG } from '../services/constants';
 
 /**
  * requires the markings to be ordered ASC by "from" and DESC by "to"
  *
  * @param node
- * @param numberOfMarkings
  * @param markings
  * @param additionalClasses
  * @param replaceSpacesWithNBSP
  */
 export function markElement(
     node: HTMLElement,
-    numberOfMarkings: number,
     markings: Marking[],
     additionalClasses: string[] = [],
     replaceSpacesWithNBSP: boolean = true
@@ -34,12 +30,7 @@ export function markElement(
                     to: marking.to - traversalIndex
                 };
 
-                markElement(
-                    childNode,
-                    numberOfMarkings,
-                    [deeperMarking],
-                    additionalClasses
-                );
+                markElement(childNode, [deeperMarking], additionalClasses);
 
                 traversalIndex += currentTextContent.length;
             } else if (childNode.nodeType === Node.TEXT_NODE) {

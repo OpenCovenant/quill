@@ -410,42 +410,6 @@
     }
 }
 
-.animated-typo-marking {
-    background: linear-gradient(to left, transparent 50%, var(--typo-color) 0);
-    background-size: 200% 100%;
-    animation: fillBackground 500ms linear forwards;
-}
-
-.animated-loanword-marking {
-    background: linear-gradient(
-        to left,
-        transparent 50%,
-        var(--loanword-color) 0
-    );
-    background-size: 200% 100%;
-    animation: fillBackground 500ms linear forwards;
-}
-
-.animated-stylistic-marking {
-    background: linear-gradient(
-        to left,
-        transparent 50%,
-        var(--stylistic-color) 0
-    );
-    background-size: 200% 100%;
-    animation: fillBackground 500ms linear forwards;
-}
-
-.animated-grammatical-marking {
-    background: linear-gradient(
-        to left,
-        transparent 50%,
-        var(--grammatical-color) 0
-    );
-    background-size: 200% 100%;
-    animation: fillBackground 500ms linear forwards;
-}
-
 .marking-focus {
     margin: 0 30px 0 -17px;
     border: 3px solid;

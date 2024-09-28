@@ -288,7 +288,6 @@
     margin: 0px;
 }
 
-
 @media (max-width: 800px) {
     .theme-selector-dark-mode {
         flex-direction: column;
@@ -298,4 +297,3 @@
         flex-direction: column;
     }
 }
-
