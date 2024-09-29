@@ -69,6 +69,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     wordCount: number = 0;
     innerHTMLOfEditor: string = LINE_BROKEN_PARAGRAPH;
     shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
+    shouldVeilMarkings: Array<boolean> = []; // TODO improve?
     loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     highlightedMarkingIndex: number = -1;
 
@@ -163,17 +164,21 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.eventualEditorActionsSubscription$ = this.rezo
             .pipe(buffer(this.rezo.pipe(debounceTime(2500))))
             .subscribe((payloads) => {
-                console.log('payloads:', payloads);
-                payloads.forEach((payload, index) => {
+                let countOfDismissedMarkings = 0;
+                payloads = payloads.sort(
+                    (a, b) => a.markingIndex - b.markingIndex
+                );
+                payloads.forEach((payload) => {
                     if (payload.message === APPLY_SUGGESTION_MESSAGE) {
                         this.actuallyChooseSuggestion(
-                            payload.markingIndex,
+                            payload.markingIndex - countOfDismissedMarkings,
                             payload.suggestionIndex
                         );
                     } else if (payload.message === DISMISS_MARKING_MESSAGE) {
                         this.actuallyDismissMarking(
-                            payload.markingIndex - index
+                            payload.markingIndex - countOfDismissedMarkings
                         );
+                        countOfDismissedMarkings += 1;
                     }
                 });
                 this.markEditor();
@@ -307,6 +312,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     this.shouldCollapseSuggestions = new Array<boolean>(
                         this.processedText.markings.length
                     ).fill(true);
+                    this.shouldVeilMarkings = new Array<boolean>(
+                        this.processedText.markings.length
+                    ).fill(false);
 
                     document.getElementById(EDITOR_ID)!.innerHTML =
                         this.processedText.text; // TODO: improve to add newlines and such
@@ -324,7 +332,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * @param {number} suggestionIndex the index of the chosen Suggestion of the above Marking
      */
     chooseSuggestion(markingIndex: number, suggestionIndex: number): void {
-        // TODO add over-text of card here
+        this.shouldVeilMarkings[markingIndex] = true;
         this.applySuggestionSubject$.next({
             message: APPLY_SUGGESTION_MESSAGE,
             markingIndex: markingIndex,
@@ -339,7 +347,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      */
     dismissMarking(markingIndex: number): void {
         this.storeDismissedMarking(markingIndex);
-        // TODO add over-text of card here
+        this.shouldVeilMarkings[markingIndex] = true;
         this.dismissMarkingSubject$.next({
             message: DISMISS_MARKING_MESSAGE,
             markingIndex: markingIndex
@@ -371,6 +379,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.processedText = undefined;
         this.updateCharacterAndWordCount();
         this.shouldCollapseSuggestions = new Array<boolean>(0);
+        this.shouldVeilMarkings = new Array<boolean>(0);
         this.blurHighlightedBoardMarking();
     }
 
@@ -581,6 +590,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     this.shouldCollapseSuggestions = new Array<boolean>(
                         this.processedText.markings.length
                     ).fill(true);
+                    this.shouldVeilMarkings = new Array<boolean>(
+                        this.processedText.markings.length
+                    ).fill(false);
                 },
                 complete: () => {
                     setTimeout(() => this.listenForMarkingHighlight(), 0);
@@ -601,42 +613,47 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         const editor: HTMLElement = document.getElementById(EDITOR_ID)!;
 
         const marking: Marking = this.processedText!.markings[markingIndex];
-        const childNode: ChildNode = editor.childNodes[marking.paragraph!];
-        const p = document.createElement(PARAGRAPH_TAG);
+        const editorParagraph: HTMLParagraphElement =
+            this.fetchEditorParagraphs()[marking.paragraph!];
+        const newEditorParagraph = document.createElement(PARAGRAPH_TAG);
 
-        const writtenText = childNode.textContent!;
+        const writtenText = editorParagraph.textContent!;
         const leftWrittenText = writtenText.slice(0, marking.from);
         const rightWrittenText = writtenText.slice(
             marking.to,
             writtenText.length
         );
 
-        p.innerHTML =
+        newEditorParagraph.innerHTML =
             leftWrittenText +
             marking.suggestions[suggestionIndex].action +
             rightWrittenText;
-        if (childNode.textContent === EMPTY_STRING) {
-            p.innerHTML = LINE_BREAK;
+        if (editorParagraph.textContent === EMPTY_STRING) {
+            newEditorParagraph.innerHTML = LINE_BREAK;
         }
-        editor.replaceChild(p, childNode); // TODO keep in mind that this nullifies other markings in this p as well
+        editor.replaceChild(newEditorParagraph, editorParagraph); // TODO keep in mind that this nullifies other markings in this p as well
 
         // TODO: this.processedText needs to be updated too
     }
 
     // TODO: rename
     actuallyDismissMarking(markingIndex: number): void {
-        const currentMarking = this.fetchEditorMarkings()[markingIndex];
-        currentMarking.parentNode!.replaceChild(
-            document.createTextNode(currentMarking.textContent!),
-            currentMarking
-        );
+        // const currentMarking = this.fetchEditorMarkings()[markingIndex];
+        // currentMarking.parentNode!.replaceChild(
+        //     document.createTextNode(currentMarking.textContent!),
+        //     currentMarking
+        // );
 
         this.processedText!.markings = this.processedText!.markings.filter(
             (tM) => tM !== this.processedText!.markings[markingIndex]
         );
-        this.shouldCollapseSuggestions = new Array<boolean>(
-            this.processedText!.markings.length
-        ).fill(true);
+        // // TODO is this needed here?
+        // this.shouldCollapseSuggestions = new Array<boolean>(
+        //     this.processedText!.markings.length
+        // ).fill(true);
+        // this.shouldVeilMarkings = new Array<boolean>(
+        //     this.processedText!.markings.length
+        // ).fill(false);
     }
 
     /**
@@ -999,5 +1016,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      */
     private fetchEditorMarkings(): NodeListOf<HTMLSpanElement> {
         return document.querySelectorAll('#editor > p > span');
+    }
+
+    /**
+     * @private
+     */
+    private fetchEditorParagraphs(): NodeListOf<HTMLParagraphElement> {
+        return document.querySelectorAll('#editor > p');
     }
 }

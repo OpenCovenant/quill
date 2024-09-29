@@ -295,149 +295,168 @@
                         track marking;
                         let i = $index
                     ) {
-                        <div
-                            class="card generated-marking-card border-secondary"
-                            [ngClass]="{ 'mt-2 mb-2': i > 0 }"
-                            data-test="marking-card"
-                        >
+                        @if (!shouldVeilMarkings[i]) {
                             <div
-                                class="card-header generated-marking-card-header second-header"
-                                [ngClass]="{
-                                    'second-header-dark-mode':
-                                        darkModeService.isDarkMode
-                                }"
+                                class="card border-secondary generated-marking-card"
+                                [ngClass]="{ 'mt-2 mb-2': i > 0 }"
+                                data-test="marking-card"
                             >
-                                <div class="generated-marking">
-                                    <span
-                                        class="marking {{
-                                            marking.type
-                                        }}-marking-header"
-                                        data-test="marking-span"
-                                        >{{ getTextOfMarking(i) }}
-                                    </span>
-                                </div>
-                                <div>
-                                    <button
-                                        (click)="dismissMarking(i)"
-                                        type="button"
-                                        class="btn-close text-reset dismiss-marking-close-button"
-                                        [ngClass]="{
-                                            'dismiss-marking-element-dark-mode':
-                                                darkModeService.isDarkMode
-                                        }"
-                                        title="hiq shenjimin"
-                                        aria-label="hiq shenjimin"
-                                        data-test="dismiss-marking-button"
-                                    ></button>
-                                </div>
-                            </div>
-                            <ul class="list-group list-group-flush">
-                                <li
-                                    class="list-group-item generated-marking-list-group-item"
+                                <div
+                                    class="card-header generated-marking-card-header second-header"
                                     [ngClass]="{
-                                        'list-group-item-dark-mode':
+                                        'second-header-dark-mode':
                                             darkModeService.isDarkMode
                                     }"
                                 >
-                                    <div class="information-circle-flex">
-                                        <div>
-                                            @if (
-                                                marking.type === "grammatical"
-                                            ) {
-                                                <i
-                                                    class="bi bi-stars generated-grammatical-marking-star"
-                                                ></i>
-                                            }
-                                            <b>{{ marking.subtype }}</b> -
-                                            <span>{{
-                                                marking.description
-                                            }}</span>
-                                        </div>
-                                        @if (marking.id) {
-                                            <div>
-                                                <i
-                                                    class="bi bi-info-circle information-circle"
-                                                    routerLink="/{{
-                                                        marking.id
-                                                    }}"
-                                                    data-test="marking-information-icon"
-                                                ></i>
-                                            </div>
-                                        }
+                                    <div class="generated-marking">
+                                        <span
+                                            class="marking {{
+                                                marking.type
+                                            }}-marking-header"
+                                            data-test="marking-span"
+                                            >{{ getTextOfMarking(i) }}
+                                        </span>
                                     </div>
-                                    @if (marking.suggestions.length > 0) {
-                                        <span>
-                                            <div class="suggestions">
-                                                @for (
-                                                    suggestion of marking.suggestions.slice(
-                                                        0,
-                                                        shouldCollapseSuggestions[
-                                                            i
-                                                        ]
-                                                            ? 4
-                                                            : marking
-                                                                  .suggestions
-                                                                  .length
-                                                    );
-                                                    track suggestion;
-                                                    let j = $index
-                                                ) {
-                                                    <button
-                                                        (click)="
-                                                            chooseSuggestion(
-                                                                i,
-                                                                j
-                                                            )
-                                                        "
-                                                        class="suggestion"
-                                                        data-test="suggestion"
-                                                        [ngClass]="{
-                                                            'suggestion-dark-mode':
-                                                                darkModeService.isDarkMode
-                                                        }"
-                                                    >
-                                                        <b>{{
-                                                            suggestion.display
-                                                        }}</b>
-                                                    </button>
-                                                }
+                                    <div>
+                                        <button
+                                            (click)="dismissMarking(i)"
+                                            type="button"
+                                            class="btn-close text-reset dismiss-marking-close-button"
+                                            [ngClass]="{
+                                                'dismiss-marking-element-dark-mode':
+                                                    darkModeService.isDarkMode
+                                            }"
+                                            title="hiq shenjimin"
+                                            aria-label="hiq shenjimin"
+                                            data-test="dismiss-marking-button"
+                                        ></button>
+                                    </div>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li
+                                        class="list-group-item generated-marking-list-group-item"
+                                        [ngClass]="{
+                                            'list-group-item-dark-mode':
+                                                darkModeService.isDarkMode
+                                        }"
+                                    >
+                                        <div class="information-circle-flex">
+                                            <div>
                                                 @if (
-                                                    marking.suggestions.length >
-                                                    4
+                                                    marking.type ===
+                                                    "grammatical"
                                                 ) {
-                                                    <div class="pipe-separator">
-                                                        |
-                                                    </div>
+                                                    <i
+                                                        class="bi bi-stars generated-grammatical-marking-star"
+                                                    ></i>
                                                 }
-                                                @if (
-                                                    marking.suggestions.length >
-                                                    4
-                                                ) {
-                                                    <div>
-                                                        <h3
+                                                <b>{{ marking.subtype }}</b> -
+                                                <span>{{
+                                                    marking.description
+                                                }}</span>
+                                            </div>
+                                            @if (marking.id) {
+                                                <div>
+                                                    <i
+                                                        class="bi bi-info-circle information-circle"
+                                                        routerLink="/{{
+                                                            marking.id
+                                                        }}"
+                                                        data-test="marking-information-icon"
+                                                    ></i>
+                                                </div>
+                                            }
+                                        </div>
+                                        @if (marking.suggestions.length > 0) {
+                                            <span>
+                                                <div class="suggestions">
+                                                    @for (
+                                                        suggestion of marking.suggestions.slice(
+                                                            0,
+                                                            shouldCollapseSuggestions[
+                                                                i
+                                                            ]
+                                                                ? 4
+                                                                : marking
+                                                                      .suggestions
+                                                                      .length
+                                                        );
+                                                        track suggestion;
+                                                        let j = $index
+                                                    ) {
+                                                        <button
                                                             (click)="
-                                                                oscillateSuggestion(
+                                                                chooseSuggestion(
                                                                     i,
-                                                                    $event
+                                                                    j
                                                                 )
                                                             "
-                                                            class="bi suggestions-header {{
-                                                                shouldCollapseSuggestions[
-                                                                    i
-                                                                ]
-                                                                    ? 'bi-arrow-right-square'
-                                                                    : 'bi-arrow-left-square'
-                                                            }}"
-                                                            data-test="oscillate-suggestions-button"
-                                                        ></h3>
-                                                    </div>
-                                                }
-                                            </div>
-                                        </span>
-                                    }
-                                </li>
-                            </ul>
-                        </div>
+                                                            class="suggestion"
+                                                            data-test="suggestion"
+                                                            [ngClass]="{
+                                                                'suggestion-dark-mode':
+                                                                    darkModeService.isDarkMode
+                                                            }"
+                                                        >
+                                                            <b>{{
+                                                                suggestion.display
+                                                            }}</b>
+                                                        </button>
+                                                    }
+                                                    @if (
+                                                        marking.suggestions
+                                                            .length > 4
+                                                    ) {
+                                                        <div
+                                                            class="pipe-separator"
+                                                        >
+                                                            |
+                                                        </div>
+                                                    }
+                                                    @if (
+                                                        marking.suggestions
+                                                            .length > 4
+                                                    ) {
+                                                        <div>
+                                                            <h3
+                                                                (click)="
+                                                                    oscillateSuggestion(
+                                                                        i,
+                                                                        $event
+                                                                    )
+                                                                "
+                                                                class="bi suggestions-header {{
+                                                                    shouldCollapseSuggestions[
+                                                                        i
+                                                                    ]
+                                                                        ? 'bi-arrow-right-square'
+                                                                        : 'bi-arrow-left-square'
+                                                                }}"
+                                                                data-test="oscillate-suggestions-button"
+                                                            ></h3>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </span>
+                                        }
+                                    </li>
+                                </ul>
+                            </div>
+                        } @else {
+                            <div
+                                class="card border-secondary processing-marking-veil"
+                                [ngClass]="{
+                                    'mt-2 mb-2': i > 0,
+                                    'processing-marking-veil-dark-mode':
+                                        darkModeService.isDarkMode
+                                }"
+                                data-test="marking-card"
+                            >
+                                <div>
+                                    <b>duke përpunuar shkrimin...</b>
+                                </div>
+                            </div>
+                        }
                     }
                 } @else {
                     <div
@@ -610,9 +629,7 @@
             </div>
         }
         @if (loading$ | async) {
-            <div
-                class="card loading-reading-text-card border-secondary reading-writing-flex"
-            >
+            <div class="card loading-reading-text-card border-secondary">
                 <div
                     class="card-header loading-reading-text-card-header second-header"
                     [ngClass]="{

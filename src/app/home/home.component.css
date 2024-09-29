@@ -352,10 +352,6 @@
     padding: 0.1rem 0.3rem;
 }
 
-.reading-writing-flex {
-    display: flex;
-}
-
 .pulsing-dots:after {
     content: ". . .";
     overflow: hidden;
@@ -529,6 +525,23 @@
     border: 0 solid var(--card-border-color);
     box-shadow: 0 0 10px var(--card-box-shadow-color);
     margin-top: 5px;
+}
+
+.processing-marking-veil {
+    display: flex;
+    border: 0 solid var(--card-border-color);
+    box-shadow: 0 0 10px var(--card-box-shadow-color);
+    margin-top: 5px;
+    height: 8rem;
+    padding: 1rem;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--light-mode-color);
+}
+
+.processing-marking-veil-dark-mode {
+    background-color: var(--dark-mode-theme);
+    color: var(--dark-mode-anti-theme);
 }
 
 .modal-content-welcome-dark-mode {

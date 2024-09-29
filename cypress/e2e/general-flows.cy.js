@@ -1,4 +1,7 @@
-import { applySuggestionByIndex, dismissMarking } from "./utils";
+import {
+    applyFirstSuggestionOfFirstMarking,
+    dismissFirstMarking
+} from "./utils";
 
 describe("general flows", () => {
     beforeEach(() => {
@@ -153,8 +156,8 @@ describe("general flows", () => {
     it("should behave properly when briefly applying a suggestion and dismissing a marking", () => {
         cy.get('[data-test="editor"]').clear().type("lider gabmim");
 
-        applySuggestionByIndex(".typo-marking-header");
-        dismissMarking(".loanword-marking-header");
+        applyFirstSuggestionOfFirstMarking(".typo-marking-header");
+        dismissFirstMarking(".loanword-marking-header");
 
         cy.get(".typo").should("not.exist");
         cy.get(".loanword").should("not.exist");
@@ -166,14 +169,15 @@ describe("general flows", () => {
             "gabmi lider e eshte e gabmim e saktë eshte pra eshte"
         );
 
-        applySuggestionByIndex(".typo-marking-header", 0);
+        applyFirstSuggestionOfFirstMarking(".typo-marking-header");
 
-        dismissMarking(".loanword-marking-header");
+        dismissFirstMarking(".loanword-marking-header");
 
-        applySuggestionByIndex(".typo-marking-header", 1);
-        applySuggestionByIndex(".typo-marking-header", 2);
-        applySuggestionByIndex(".typo-marking-header", 3);
-        applySuggestionByIndex(".typo-marking-header", 4);
+        applyFirstSuggestionOfFirstMarking(".typo-marking-header");
+
+        applyFirstSuggestionOfFirstMarking(".typo-marking-header");
+        applyFirstSuggestionOfFirstMarking(".typo-marking-header");
+        applyFirstSuggestionOfFirstMarking(".typo-marking-header");
 
         cy.get(".typo").should("not.exist");
         cy.get(".loanword").should("not.exist");
