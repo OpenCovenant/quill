@@ -22,7 +22,6 @@ import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { AuthenticationInterceptor } from './authentication.interceptor';
-import { SettingsSkeletonComponent } from './settings/settings-skeleton/settings-skeleton.component';
 
 @NgModule({
     declarations: [
@@ -38,7 +37,6 @@ import { SettingsSkeletonComponent } from './settings/settings-skeleton/settings
     imports: [
         BrowserModule,
         AppRoutingModule,
-        SettingsSkeletonComponent,
         SettingsComponent,
         AboutComponent,
         HeaderComponent,
