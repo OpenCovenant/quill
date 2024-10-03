@@ -3,13 +3,16 @@ import { HttpClient } from '@angular/common/http';
 
 import { environment } from '../../environments/environment';
 import { DarkModeService } from '../services/dark-mode.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
+    standalone: true,
     selector: 'app-header',
     templateUrl: './header.component.html',
-    styleUrls: ['./header.component.css']
+    styleUrls: ['./header.component.css'],
+    imports: [CommonModule, RouterModule]
 })
 export class HeaderComponent {
     baseURL!: string;

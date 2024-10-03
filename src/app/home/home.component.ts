@@ -19,6 +19,7 @@ import {
     Subject,
     tap
 } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 import { CursorPosition } from '../models/cursor-position';
 import { CursorPlacement } from '../models/cursor-placement';
@@ -32,7 +33,7 @@ import {
     sortMarkings
 } from '../element-marking/element-marking';
 import { DarkModeService } from '../services/dark-mode.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { EditorContentService } from '../services/editor-content.service';
 import {
     APPLY_SUGGESTION_MESSAGE,
@@ -43,8 +44,6 @@ import {
     EMPTY_STRING,
     EVENTUAL_MARKING_TIME,
     EVENTUAL_WRITTEN_TEXT_STORAGE_TIME,
-    filterDismissedMarkings,
-    filterUnselectedMarkingTypes,
     LINE_BREAK,
     LINE_BREAK_TAG_NAME,
     LINE_BROKEN_PARAGRAPH,
@@ -54,14 +53,18 @@ import {
     PLACEHOLDER_ELEMENT_ID,
     SECONDS,
     UNCONVENTIONAL_CHARACTERS,
-    WRITINGS_INPUT_ID
+    WRITINGS_INPUT_ID,
+    filterDismissedMarkings,
+    filterUnselectedMarkingTypes
 } from '../services/constants';
 
 @Component({
+    standalone: true,
     selector: 'app-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.css'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
+    imports: [CommonModule, RouterModule]
 })
 export class HomeComponent implements AfterViewInit, OnDestroy {
     processedText: ProcessedText | undefined;
@@ -79,7 +82,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private dismissMarkingSubject$: Subject<any> = new Subject<any>();
     private applySuggestionSubject$: Subject<any> = new Subject<any>();
 
-    rezo: Observable<any> = of();
+    eventualEditorActions$: Observable<any> = of();
 
     private shouldShowThankYouModal: boolean = false; // TODO: exists because `this.router.getCurrentNavigation()` is not null only in the constructor
     private shouldShowWelcomeModal: boolean = false; // TODO: exists because `this.router.getCurrentNavigation()` is not null only in the constructor
@@ -156,13 +159,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         // TODO: remove? only used for when switching from settings to home?
         this.markEditor(); // TODO: instead save processedText as well?
 
-        this.rezo = merge(
+        this.eventualEditorActions$ = merge(
             this.dismissMarkingSubject$.asObservable(),
             this.applySuggestionSubject$.asObservable()
         );
 
-        this.eventualEditorActionsSubscription$ = this.rezo
-            .pipe(buffer(this.rezo.pipe(debounceTime(2500))))
+        this.eventualEditorActionsSubscription$ = this.eventualEditorActions$
+            .pipe(buffer(this.eventualEditorActions$.pipe(debounceTime(2500))))
             .subscribe((payloads) => {
                 let countOfDismissedMarkings = 0;
                 payloads = payloads.sort(
@@ -613,8 +616,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         const editor: HTMLElement = document.getElementById(EDITOR_ID)!;
 
         const marking: Marking = this.processedText!.markings[markingIndex];
-        const editorParagraph: HTMLParagraphElement =
-            this.fetchEditorParagraphs()[marking.paragraph!];
+        const editorParagraph: HTMLParagraphElement = (
+            document.querySelectorAll(
+                '#editor > p'
+            ) as NodeListOf<HTMLParagraphElement>
+        )[marking.paragraph!];
         const newEditorParagraph = document.createElement(PARAGRAPH_TAG);
 
         const writtenText = editorParagraph.textContent!;
@@ -1008,20 +1014,5 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             DISMISSED_MARKINGS_KEY,
             JSON.stringify(dismissedMarkings)
         );
-    }
-
-    /**
-     * Assumes that all "span" elements are markings.
-     * @private
-     */
-    private fetchEditorMarkings(): NodeListOf<HTMLSpanElement> {
-        return document.querySelectorAll('#editor > p > span');
-    }
-
-    /**
-     * @private
-     */
-    private fetchEditorParagraphs(): NodeListOf<HTMLParagraphElement> {
-        return document.querySelectorAll('#editor > p');
     }
 }

@@ -4,6 +4,10 @@ import { environment } from '../../environments/environment';
 import { DarkModeService } from '../services/dark-mode.service';
 import { map } from 'rxjs';
 import { DISMISSED_MARKINGS_KEY } from '../services/constants';
+import { SettingsSkeletonComponent } from './settings-skeleton/settings-skeleton.component';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 interface MarkingTypeDTO {
     [key: string]: { description: string; enabled: boolean };
@@ -14,9 +18,16 @@ interface MarkingTypeLocalStorage {
 }
 
 @Component({
+    standalone: true,
     selector: 'app-settings',
     templateUrl: './settings.component.html',
-    styleUrls: ['./settings.component.css']
+    styleUrls: ['./settings.component.css'],
+    imports: [
+        SettingsSkeletonComponent,
+        CommonModule,
+        FormsModule,
+        RouterModule
+    ]
 })
 export class SettingsComponent implements OnInit {
     SELECTED_MARKING_TYPES_KEY = 'penda-selected-marking-types';
