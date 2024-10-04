@@ -239,7 +239,7 @@
                                                 </div>
                                             }
                                         </div>
-                                        @if (marking.suggestions.length > 0) {
+                                        @if (marking.suggestions.length) {
                                             <span>
                                                 <div class="suggestions">
                                                     @for (
@@ -412,7 +412,7 @@
                                         ] !== undefined &&
                                         (processedText?.markings?.[
                                             highlightedMarkingIndex
-                                        ]?.suggestions)!.length > 0
+                                        ]?.suggestions)!.length
                                     ) {
                                         <span>
                                             <div class="suggestions">
