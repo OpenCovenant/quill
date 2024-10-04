@@ -499,7 +499,6 @@ input:checked + .slider:before {
     padding: 1rem;
 }
 
-/* Rounded sliders */
 .slider.round {
     border-radius: 34px;
 }
