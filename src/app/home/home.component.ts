@@ -15,7 +15,6 @@ import {
     fromEvent,
     merge,
     Observable,
-    of,
     Subject,
     tap
 } from 'rxjs';
@@ -24,7 +23,6 @@ import { Router, RouterModule } from '@angular/router';
 
 import { CursorPosition } from '../models/cursor-position';
 import { CursorPlacement } from '../models/cursor-placement';
-import { WritingsHistoryService } from '../services/writings-history.service';
 import { ProcessedText } from '../models/processed-text';
 import { Marking } from '../models/marking';
 import { environment } from '../../environments/environment';
@@ -43,7 +41,6 @@ import {
     EDITOR_ID,
     EMPTY_STRING,
     EVENTUAL_MARKING_TIME,
-    EVENTUAL_WRITTEN_TEXT_STORAGE_TIME,
     LINE_BREAK,
     LINE_BREAK_TAG_NAME,
     LINE_BROKEN_PARAGRAPH,
@@ -53,7 +50,6 @@ import {
     PLACEHOLDER_ELEMENT_ID,
     SECONDS,
     UNCONVENTIONAL_CHARACTERS,
-    WRITINGS_INPUT_ID,
     filterDismissedMarkings,
     filterUnselectedMarkingTypes
 } from '../services/constants';
@@ -62,6 +58,7 @@ import { LoadingMarkingComponent } from './loading-marking/loading-marking.compo
 import { VeiledMarkingComponent } from './veiled-marking/veiled-marking.component';
 import { ThankYouComponent } from './modals/thank-you/thank-you.component';
 import { WelcomeComponent } from './modals/welcome/welcome.component';
+import { WritingsHistoryComponent } from './modals/writings-history/writings-history.component';
 
 @Component({
     standalone: true,
@@ -76,7 +73,8 @@ import { WelcomeComponent } from './modals/welcome/welcome.component';
         LoadingMarkingComponent,
         VeiledMarkingComponent,
         ThankYouComponent,
-        WelcomeComponent
+        WelcomeComponent,
+        WritingsHistoryComponent
     ]
 })
 export class HomeComponent implements AfterViewInit, OnDestroy {
@@ -108,13 +106,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private pingURL!: string;
     private savedCursorPosition: CursorPosition | undefined;
     private eventualMarkingSubscription$: any;
-    private eventualTextStoringSubscription$: any;
     private eventualEditorActionsSubscription$: any;
     private fromEditorInputEvent$: any;
 
     constructor(
         public darkModeService: DarkModeService,
-        public writingsHistoryService: WritingsHistoryService,
         private httpClient: HttpClient,
         private router: Router,
         private editorContentService: EditorContentService,
@@ -150,9 +146,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             // TODO some browsers still seem to use this deprecated method, keep it around for some more time
             minWidthMatchMedia.addListener(this.focusOnMediaMatch);
         }
-        (
-            document.getElementById(WRITINGS_INPUT_ID) as HTMLInputElement
-        ).checked = this.writingsHistoryService.canStoreWritings;
 
         this.fromEditorInputEvent$ = fromEvent(
             document.getElementById(EDITOR_ID)!,
@@ -160,7 +153,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         );
 
         this.subscribeForWritingInTheEditor();
-        this.subscribeForStoringWrittenText();
 
         // TODO: double check if IDs are picked up
         if (this.shouldShowThankYouModal) {
@@ -204,7 +196,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             this.elementRef.nativeElement.querySelector('#editor').innerHTML!;
 
         this.eventualMarkingSubscription$.unsubscribe();
-        this.eventualTextStoringSubscription$.unsubscribe();
         this.eventualEditorActionsSubscription$.unsubscribe();
     }
 
@@ -479,24 +470,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.brieflyChangeClipboardIcon(copyToClipboardButton);
     }
 
-    toggleStoringOfWritings(): void {
-        this.writingsHistoryService.toggleWritingPermission(
-            (document.getElementById(WRITINGS_INPUT_ID) as HTMLInputElement)
-                .checked
-        );
-    }
-
-    /**
-     * Replaces the text of the editor with the given **writtenText** and generates its markings
-     * @param {string} writtenText
-     */
-    placeWriting(writtenText: string): void {
-        document.getElementById(EDITOR_ID)!.innerText = writtenText;
-        document.getElementById('close-writings-history-modal-button')!.click();
-        this.markEditor();
-        this.updateCharacterAndWordCount();
-    }
-
     getTextOfMarking(markingIndex: number): string {
         if (!this.processedText) {
             return EMPTY_STRING;
@@ -541,12 +514,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         }
     }
 
+    // TODO move above as it is not private anymore
     /**
      * Make the call to mark the editor into paragraphs.
      * @param {CursorPlacement} cursorPlacement
      * @private
      */
-    private markEditor(
+    markEditor(
         cursorPlacement: CursorPlacement = CursorPlacement.LAST_SAVE
     ): void {
         this.loading$.next(true);
@@ -832,19 +806,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     this.blurHighlightedBoardMarking();
                     this.markEditor();
                 })
-            )
-            .subscribe();
-    }
-
-    private subscribeForStoringWrittenText(): void {
-        this.eventualTextStoringSubscription$ = this.fromEditorInputEvent$
-            .pipe(
-                debounceTime(EVENTUAL_WRITTEN_TEXT_STORAGE_TIME),
-                tap(() =>
-                    this.writingsHistoryService.storeWriting(
-                        document.getElementById(EDITOR_ID)!.innerText
-                    )
-                )
             )
             .subscribe();
     }

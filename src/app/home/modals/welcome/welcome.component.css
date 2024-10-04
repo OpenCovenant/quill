@@ -10,3 +10,8 @@
 .welcome-modal-continue-button {
     font-weight: 500;
 }
+
+.modal-content-welcome-dark-mode {
+    background-color: var(--dark-mode-theme);
+    color: var(--dark-mode-anti-theme);
+}

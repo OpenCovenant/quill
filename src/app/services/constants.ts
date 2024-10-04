@@ -20,6 +20,8 @@ export const EVENTUAL_WRITTEN_TEXT_STORAGE_TIME: number = 15 * SECONDS;
 export const EDITOR_ID: string = 'editor';
 export const PLACEHOLDER_ELEMENT_ID: string = 'editor-placeholder';
 export const WRITINGS_INPUT_ID: string = 'writings-input';
+export const CLOSE_WRITINGS_HISTORY_ID: string =
+    'close-writings-history-modal-button';
 export const MAX_EDITOR_CHARACTERS: number = 10000;
 // think there's something about "i" as well (and of course maybe for some others)
 export const UNCONVENTIONAL_CHARACTERS: string[] = ['ë'];

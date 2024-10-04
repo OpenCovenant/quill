@@ -342,6 +342,7 @@
     color: var(--dark-mode-anti-theme);
 }
 
+/*TODO: rename along with unfocus?*/
 .marking-focus {
     margin: 0 30px 0 -17px;
     border: 3px solid;
@@ -356,54 +357,6 @@
     margin: 0;
     border: 1px solid;
     font-weight: normal;
-}
-
-.modal-header-dark-mode {
-    background-color: var(--dark-mode-theme);
-    color: var(--dark-mode-anti-theme);
-}
-
-.modal-body-dark-mode {
-    background-color: var(--dark-mode-theme);
-    color: var(--dark-mode-anti-theme);
-}
-
-.modal-footer-dark-mode {
-    background-color: var(--dark-mode-theme);
-}
-
-.history-deactivation-message {
-    color: var(--dark-mode-smooth-theme);
-    font-size: 13px;
-}
-
-.home-list-group {
-    margin: 1.5rem 0;
-}
-
-.writing {
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    box-shadow: 0 0 10px var(--card-box-shadow-color);
-    border-radius: 5px;
-    padding: 5px;
-    overflow: hidden;
-    margin: 0 1rem;
-}
-
-.writing:hover {
-    background-color: var(--light);
-}
-
-/*TODO: apply dark mode for the history of the written texts*/
-.writings-history-dark-mode {
-    background-color: var(--dark-mode-theme);
-    margin: 0 1rem;
-}
-
-.writings-history-dark-mode:hover {
-    background-color: var(--light-black);
 }
 
 .marking-type-label {
@@ -431,84 +384,6 @@
     border: 0 solid var(--card-border-color);
     box-shadow: 0 0 10px var(--card-box-shadow-color);
     margin-top: 5px;
-}
-
-.modal-content-welcome-dark-mode {
-    background-color: var(--dark-mode-theme);
-    color: var(--dark-mode-anti-theme);
-}
-
-.modal-content-subscription-success-dark-mode {
-    background-color: var(--dark-mode-theme);
-    color: var(--dark-mode-anti-theme);
-}
-
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 40px;
-    height: 23px;
-    float: right;
-}
-
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: var(--slider-background);
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 21px;
-    width: 21px;
-    left: 2px;
-    bottom: 1px;
-    background-color: var(--dark-mode-anti-theme);
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
-}
-
-input:checked + .slider {
-    background-color: var(--checked-green-color-theme);
-}
-
-input:focus + .slider {
-    box-shadow: 0 0 1px var(--checked-blue-color-theme);
-}
-
-input:checked + .slider:before {
-    -webkit-transform: translateX(16px);
-    -ms-transform: translateX(16px);
-    transform: translateX(16px);
-}
-
-.history-body {
-    padding: 1rem;
-}
-
-.slider.round {
-    border-radius: 34px;
-}
-
-.slider.round:before {
-    border-radius: 50%;
-}
-
-.history-modal-body {
-    padding: 1rem 1rem 1rem 0;
 }
 
 /*TODO change color on .suggestion:hover ?*/

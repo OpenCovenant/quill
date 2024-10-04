@@ -10,3 +10,8 @@
 .continue-button-thank-you-modal {
     font-weight: 500;
 }
+
+.modal-content-subscription-success-dark-mode {
+    background-color: var(--dark-mode-theme);
+    color: var(--dark-mode-anti-theme);
+}
