@@ -60,8 +60,3 @@
 .grammatical-list-group-item {
     background-color: var(--light-mode-color);
 }
-
-.grammatical-marking-stars { /* TODO: conceptually duplicated? */
-    padding-right: 7px;
-    color: purple;
-}
