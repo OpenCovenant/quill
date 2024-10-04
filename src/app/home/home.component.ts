@@ -60,6 +60,8 @@ import {
 import { TemplateMarkingsComponent } from './template-markings/template-markings.component';
 import { LoadingMarkingComponent } from './loading-marking/loading-marking.component';
 import { VeiledMarkingComponent } from './veiled-marking/veiled-marking.component';
+import { ThankYouComponent } from './modals/thank-you/thank-you.component';
+import { WelcomeComponent } from './modals/welcome/welcome.component';
 
 @Component({
     standalone: true,
@@ -72,7 +74,9 @@ import { VeiledMarkingComponent } from './veiled-marking/veiled-marking.componen
         RouterModule,
         TemplateMarkingsComponent,
         LoadingMarkingComponent,
-        VeiledMarkingComponent
+        VeiledMarkingComponent,
+        ThankYouComponent,
+        WelcomeComponent
     ]
 })
 export class HomeComponent implements AfterViewInit, OnDestroy {
@@ -158,6 +162,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.subscribeForWritingInTheEditor();
         this.subscribeForStoringWrittenText();
 
+        // TODO: double check if IDs are picked up
         if (this.shouldShowThankYouModal) {
             document.getElementById('thank-you-modal-button')?.click();
             this.shouldShowThankYouModal = false;

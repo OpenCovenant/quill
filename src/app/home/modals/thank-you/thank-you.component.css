@@ -1,0 +1,12 @@
+.thank-you-modal-button {
+    display: none;
+}
+
+.thank-you-modal-footer {
+    display: flex;
+    justify-content: space-around;
+}
+
+.continue-button-thank-you-modal {
+    font-weight: 500;
+}

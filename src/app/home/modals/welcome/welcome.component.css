@@ -1,0 +1,12 @@
+.welcome-modal-button {
+    display: none;
+}
+
+.welcome-modal-footer-div {
+    display: flex;
+    justify-content: space-around;
+}
+
+.welcome-modal-continue-button {
+    font-weight: 500;
+}
