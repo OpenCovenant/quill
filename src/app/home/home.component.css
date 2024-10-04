@@ -11,22 +11,6 @@
     margin-top: 3rem;
 }
 
-.typo-marking-card-header {
-    border-bottom: 0 solid var(--light-black);
-}
-
-.loanword-marking-card-header {
-    border-bottom: 0 solid var(--light-black);
-}
-
-.stylistic-marking-card-header {
-    border-bottom: 0 solid var(--light-black);
-}
-
-.grammatical-marking-card-header {
-    border-bottom: 0 solid var(--light-black);
-}
-
 .generated-marking-card-header {
     border-bottom: 0 solid var(--light-black);
 }
@@ -35,23 +19,12 @@
     border-bottom: 0 solid var(--light-black);
 }
 
-.loading-reading-text-card-header {
-    border-bottom: 0 solid var(--light-black);
-}
-
-.card-fade {
-    opacity: 0;
-}
-
-.card-hidden {
-    display: none;
-}
-
 .input-container-card-body {
     padding: 1rem;
     border-radius: 0.25rem;
     background-color: var(--light-mode-color);
 }
+
 .editor-flex {
     display: flex;
 }
@@ -159,29 +132,6 @@
     padding-bottom: 3px;
 }
 
-.template-marking-span {
-    display: inline-block;
-    padding-left: 6px;
-    padding-right: 6px;
-    color: black;
-}
-
-.typo-list-group-item {
-    background-color: var(--light-mode-color);
-}
-
-.loanword-list-group-item {
-    background-color: var(--light-mode-color);
-}
-
-.stylistic-list-group-item {
-    background-color: var(--light-mode-color);
-}
-
-.grammatical-list-group-item {
-    background-color: var(--light-mode-color);
-}
-
 .generated-marking-list-group-item {
     background-color: var(--light-mode-color);
 }
@@ -259,11 +209,6 @@
     border-radius: 4px;
     padding-top: 3px;
     padding-bottom: 3px;
-}
-
-.grammatical-marking-stars {
-    padding-right: 7px;
-    color: purple;
 }
 
 .generated-grammatical-marking-star {
@@ -397,15 +342,6 @@
     color: var(--dark-mode-anti-theme);
 }
 
-@keyframes fillBackground {
-    0% {
-        background-position: 100% 0%;
-    }
-    100% {
-        background-position: 0% 0%;
-    }
-}
-
 .marking-focus {
     margin: 0 30px 0 -17px;
     border: 3px solid;
@@ -485,30 +421,6 @@
     margin-top: 5px;
 }
 
-.typo-marking-card {
-    border: 0 solid var(--card-border-color);
-    box-shadow: 0 0 10px var(--card-box-shadow-color);
-    margin-top: 5px;
-}
-
-.loanword-marking-card {
-    border: 0 solid var(--card-border-color);
-    box-shadow: 0 0 10px var(--card-box-shadow-color);
-    margin-top: 5px;
-}
-
-.stylistic-marking-card {
-    border: 0 solid var(--card-border-color);
-    box-shadow: 0 0 10px var(--card-box-shadow-color);
-    margin-top: 5px;
-}
-
-.grammatical-marking-card {
-    border: 0 solid var(--card-border-color);
-    box-shadow: 0 0 10px var(--card-box-shadow-color);
-    margin-top: 5px;
-}
-
 .generated-marking-card {
     border: 0 solid var(--card-border-color);
     box-shadow: 0 0 10px var(--card-box-shadow-color);
@@ -519,29 +431,6 @@
     border: 0 solid var(--card-border-color);
     box-shadow: 0 0 10px var(--card-box-shadow-color);
     margin-top: 5px;
-}
-
-.loading-reading-text-card {
-    border: 0 solid var(--card-border-color);
-    box-shadow: 0 0 10px var(--card-box-shadow-color);
-    margin-top: 5px;
-}
-
-.processing-marking-veil {
-    display: flex;
-    border: 0 solid var(--card-border-color);
-    box-shadow: 0 0 10px var(--card-box-shadow-color);
-    margin-top: 5px;
-    height: 8rem;
-    padding: 1rem;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--light-mode-color);
-}
-
-.processing-marking-veil-dark-mode {
-    background-color: var(--dark-mode-theme);
-    color: var(--dark-mode-anti-theme);
 }
 
 .modal-content-welcome-dark-mode {
