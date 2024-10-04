@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, EventEmitter, OnDestroy, Output } from '@angular/core'
+import {
+    AfterViewInit,
+    Component,
+    EventEmitter,
+    OnDestroy,
+    Output
+} from '@angular/core';
 import { debounceTime, fromEvent, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
