@@ -154,135 +154,7 @@
                 processedText!.markings.length === 0) &&
             !(loading$ | async)
         ) {
-            <div>
-                <!-- TODO put into a method -->
-                <div class="card typo-marking-card border-secondary">
-                    <div
-                        class="card-header typo-marking-card-header second-header"
-                        [ngClass]="{
-                            'second-header-dark-mode':
-                                darkModeService.isDarkMode
-                        }"
-                    >
-                        <div>
-                            <span
-                                class="typo-marking-header template-marking-span"
-                                >gabime shkrimi</span
-                            >
-                        </div>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li
-                            class="list-group-item typo-list-group-item"
-                            [ngClass]="{
-                                'list-group-item-dark-mode':
-                                    darkModeService.isDarkMode
-                            }"
-                        >
-                            <b>shkrim pa gabime</b> -
-                            <span
-                                >shenjime për fjalë të shkruara gabim, gabime
-                                fonetikore, shenja pikësimi</span
-                            >
-                        </li>
-                    </ul>
-                </div>
-                <div class="card loanword-marking-card border-secondary mt-4">
-                    <div
-                        class="card-header loanword-marking-card-header second-header"
-                        [ngClass]="{
-                            'second-header-dark-mode':
-                                darkModeService.isDarkMode
-                        }"
-                    >
-                        <div>
-                            <span
-                                class="loanword-marking-header template-marking-span"
-                                >sugjerime huazimesh</span
-                            >
-                        </div>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li
-                            class="list-group-item loanword-list-group-item"
-                            [ngClass]="{
-                                'list-group-item-dark-mode':
-                                    darkModeService.isDarkMode
-                            }"
-                        >
-                            <b>pa huazime për tani</b> -
-                            <span
-                                >shenjime për huazime me origjinë italiane,
-                                angleze, sllave, gjermane, otomane, greke</span
-                            >
-                        </li>
-                    </ul>
-                </div>
-                <div class="card stylistic-marking-card border-secondary mt-4">
-                    <div
-                        class="card-header stylistic-marking-card-header second-header"
-                        [ngClass]="{
-                            'second-header-dark-mode':
-                                darkModeService.isDarkMode
-                        }"
-                    >
-                        <div>
-                            <span
-                                class="stylistic-marking-header template-marking-span"
-                                >shenjime stilistike</span
-                            >
-                        </div>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li
-                            class="list-group-item stylistic-list-group-item"
-                            [ngClass]="{
-                                'list-group-item-dark-mode':
-                                    darkModeService.isDarkMode
-                            }"
-                        >
-                            <b>stilistikë e duhur</b> -
-                            <span>shenjime për fjali tepër të gjata</span>
-                        </li>
-                    </ul>
-                </div>
-                <div
-                    class="card grammatical-marking-card border-secondary mt-4"
-                >
-                    <div
-                        class="card-header grammatical-marking-card-header second-header"
-                        [ngClass]="{
-                            'second-header-dark-mode':
-                                darkModeService.isDarkMode
-                        }"
-                    >
-                        <div>
-                            <span
-                                class="grammatical-marking-header template-marking-span"
-                                >shenjime gabimesh gramatikore</span
-                            >
-                        </div>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li
-                            class="list-group-item grammatical-list-group-item"
-                            [ngClass]="{
-                                'list-group-item-dark-mode':
-                                    darkModeService.isDarkMode
-                            }"
-                        >
-                            <i
-                                class="bi bi-stars grammatical-marking-stars"
-                            ></i>
-                            <b>sipas rregullave gramatikore</b> -
-                            <span
-                                >shenjime për gabime gramatikore të llojeve të
-                                ndryshme</span
-                            >
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            <app-template-markings />
         }
         @if (processedText?.markings) {
             <div
@@ -443,225 +315,190 @@
                                 </ul>
                             </div>
                         } @else {
-                            <div
-                                class="card border-secondary processing-marking-veil"
-                                [ngClass]="{
-                                    'mt-2 mb-2': i > 0,
-                                    'processing-marking-veil-dark-mode':
-                                        darkModeService.isDarkMode
-                                }"
-                                data-test="marking-card"
-                            >
-                                <div>
-                                    <b>duke përpunuar shkrimin...</b>
-                                </div>
-                            </div>
+                            <app-veiled-marking
+                                [veiledMarkingIndex]="i"
+                            ></app-veiled-marking>
                         }
                     }
                 } @else {
-                    <div
-                        class="card highlighted-marking-card border-secondary"
-                        data-test="marking-card"
-                    >
+                    @if (!shouldVeilMarkings[highlightedMarkingIndex]) {
                         <div
-                            class="card-header highlighted-marking-card-header second-header"
-                            [ngClass]="{
-                                'second-header-dark-mode':
-                                    darkModeService.isDarkMode
-                            }"
+                            class="card highlighted-marking-card border-secondary"
+                            data-test="marking-card"
                         >
-                            <div class="generated-marking">
-                                <span
-                                    class="marking {{
-                                        processedText?.markings?.[
-                                            highlightedMarkingIndex
-                                        ]?.type
-                                    }}-marking-header"
-                                    data-test="highlighted-marking"
-                                    >{{
-                                        getTextOfMarking(
-                                            highlightedMarkingIndex
-                                        )
-                                    }}</span
-                                >
-                            </div>
-                            <div>
-                                <button
-                                    (click)="blurHighlightedBoardMarking()"
-                                    class="btn btn-secondary blur-marking-button"
-                                    data-test="blur-marking-button"
-                                >
-                                    <i class="bi bi-arrow-left"></i>KTHEHU
-                                </button>
-                            </div>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            <li
-                                class="list-group-item highlighted-marking-list-group-item"
+                            <div
+                                class="card-header highlighted-marking-card-header second-header"
                                 [ngClass]="{
-                                    'list-group-item-dark-mode':
+                                    'second-header-dark-mode':
                                         darkModeService.isDarkMode
                                 }"
                             >
-                                <div class="information-circle-flex">
-                                    <div>
+                                <div class="generated-marking">
+                                    <span
+                                        class="marking {{
+                                            processedText?.markings?.[
+                                                highlightedMarkingIndex
+                                            ]?.type
+                                        }}-marking-header"
+                                        data-test="highlighted-marking"
+                                        >{{
+                                            getTextOfMarking(
+                                                highlightedMarkingIndex
+                                            )
+                                        }}</span
+                                    >
+                                </div>
+                                <div>
+                                    <button
+                                        (click)="blurHighlightedBoardMarking()"
+                                        class="btn btn-secondary blur-marking-button"
+                                        data-test="blur-marking-button"
+                                    >
+                                        <i class="bi bi-arrow-left"></i>KTHEHU
+                                    </button>
+                                </div>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li
+                                    class="list-group-item highlighted-marking-list-group-item"
+                                    [ngClass]="{
+                                        'list-group-item-dark-mode':
+                                            darkModeService.isDarkMode
+                                    }"
+                                >
+                                    <div class="information-circle-flex">
+                                        <div>
+                                            @if (
+                                                processedText?.markings?.[
+                                                    highlightedMarkingIndex
+                                                ]?.subtype === "grammatical"
+                                            ) {
+                                                <i class="bi bi-stars"></i>
+                                            }
+                                            <b>{{
+                                                processedText?.markings?.[
+                                                    highlightedMarkingIndex
+                                                ]?.subtype
+                                            }}</b>
+                                            -
+                                            <span>{{
+                                                processedText?.markings?.[
+                                                    highlightedMarkingIndex
+                                                ]?.description
+                                            }}</span>
+                                        </div>
                                         @if (
                                             processedText?.markings?.[
                                                 highlightedMarkingIndex
-                                            ]?.subtype === "grammatical"
+                                            ]?.id
                                         ) {
-                                            <i class="bi bi-stars"></i>
+                                            <div>
+                                                <i
+                                                    class="bi bi-info-circle information-circle"
+                                                    routerLink="{{
+                                                        processedText
+                                                            ?.markings?.[
+                                                            highlightedMarkingIndex
+                                                        ]?.id
+                                                    }}"
+                                                    data-test="marking-information-icon"
+                                                ></i>
+                                            </div>
                                         }
-                                        <b>{{
-                                            processedText?.markings?.[
-                                                highlightedMarkingIndex
-                                            ]?.subtype
-                                        }}</b>
-                                        -
-                                        <span>{{
-                                            processedText?.markings?.[
-                                                highlightedMarkingIndex
-                                            ]?.description
-                                        }}</span>
                                     </div>
                                     @if (
                                         processedText?.markings?.[
                                             highlightedMarkingIndex
-                                        ]?.id
+                                        ] !== undefined &&
+                                        (processedText?.markings?.[
+                                            highlightedMarkingIndex
+                                        ]?.suggestions)!.length > 0
                                     ) {
-                                        <div>
-                                            <i
-                                                class="bi bi-info-circle information-circle"
-                                                routerLink="{{
-                                                    processedText?.markings?.[
+                                        <span>
+                                            <div class="suggestions">
+                                                @for (
+                                                    suggestion of processedText?.markings?.[
                                                         highlightedMarkingIndex
-                                                    ]?.id
-                                                }}"
-                                                data-test="marking-information-icon"
-                                            ></i>
-                                        </div>
-                                    }
-                                </div>
-                                @if (
-                                    processedText?.markings?.[
-                                        highlightedMarkingIndex
-                                    ] !== undefined &&
-                                    (processedText?.markings?.[
-                                        highlightedMarkingIndex
-                                    ]?.suggestions)!.length > 0
-                                ) {
-                                    <span>
-                                        <div class="suggestions">
-                                            @for (
-                                                suggestion of processedText?.markings?.[
-                                                    highlightedMarkingIndex
-                                                ]?.suggestions!.slice(
-                                                    0,
-                                                    shouldCollapseSuggestions[
-                                                        highlightedMarkingIndex
-                                                    ]
-                                                        ? 4
-                                                        : (processedText
-                                                              ?.markings?.[
-                                                              highlightedMarkingIndex
-                                                          ]?.suggestions)!
-                                                              .length
-                                                );
-                                                track suggestion;
-                                                let j = $index
-                                            ) {
-                                                <button
-                                                    (click)="
-                                                        chooseSuggestion(
-                                                            highlightedMarkingIndex,
-                                                            j
-                                                        )
-                                                    "
-                                                    class="suggestion"
-                                                    data-test="suggestion"
-                                                >
-                                                    <b>{{
-                                                        suggestion.display
-                                                    }}</b>
-                                                </button>
-                                            }
-                                            @if (
-                                                (processedText?.markings?.[
-                                                    highlightedMarkingIndex
-                                                ]?.suggestions)!.length > 4
-                                            ) {
-                                                <div class="pipe-separator">
-                                                    |
-                                                </div>
-                                            }
-                                            @if (
-                                                (processedText?.markings?.[
-                                                    highlightedMarkingIndex
-                                                ]?.suggestions)!.length > 4
-                                            ) {
-                                                <div>
-                                                    <h3
+                                                    ]?.suggestions!.slice(
+                                                        0,
+                                                        shouldCollapseSuggestions[
+                                                            highlightedMarkingIndex
+                                                        ]
+                                                            ? 4
+                                                            : (processedText
+                                                                  ?.markings?.[
+                                                                  highlightedMarkingIndex
+                                                              ]?.suggestions)!
+                                                                  .length
+                                                    );
+                                                    track suggestion;
+                                                    let j = $index
+                                                ) {
+                                                    <button
                                                         (click)="
-                                                            oscillateSuggestion(
+                                                            chooseSuggestion(
                                                                 highlightedMarkingIndex,
-                                                                $event
+                                                                j
                                                             )
                                                         "
-                                                        class="bi suggestions-header"
-                                                        [ngClass]="
-                                                            shouldCollapseSuggestions[
-                                                                highlightedMarkingIndex
-                                                            ]
-                                                                ? 'bi-arrow-right-square'
-                                                                : 'bi-arrow-left-square'
-                                                        "
-                                                        data-test="oscillate-suggestions-button"
-                                                    ></h3>
-                                                </div>
-                                            }
-                                        </div>
-                                    </span>
-                                }
-                            </li>
-                        </ul>
-                    </div>
+                                                        class="suggestion"
+                                                        data-test="suggestion"
+                                                    >
+                                                        <b>{{
+                                                            suggestion.display
+                                                        }}</b>
+                                                    </button>
+                                                }
+                                                @if (
+                                                    (processedText?.markings?.[
+                                                        highlightedMarkingIndex
+                                                    ]?.suggestions)!.length > 4
+                                                ) {
+                                                    <div class="pipe-separator">
+                                                        |
+                                                    </div>
+                                                }
+                                                @if (
+                                                    (processedText?.markings?.[
+                                                        highlightedMarkingIndex
+                                                    ]?.suggestions)!.length > 4
+                                                ) {
+                                                    <div>
+                                                        <h3
+                                                            (click)="
+                                                                oscillateSuggestion(
+                                                                    highlightedMarkingIndex,
+                                                                    $event
+                                                                )
+                                                            "
+                                                            class="bi suggestions-header"
+                                                            [ngClass]="
+                                                                shouldCollapseSuggestions[
+                                                                    highlightedMarkingIndex
+                                                                ]
+                                                                    ? 'bi-arrow-right-square'
+                                                                    : 'bi-arrow-left-square'
+                                                            "
+                                                            data-test="oscillate-suggestions-button"
+                                                        ></h3>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </span>
+                                    }
+                                </li>
+                            </ul>
+                        </div>
+                    } @else {
+                        <app-veiled-marking
+                            [veiledMarkingIndex]="highlightedMarkingIndex"
+                        ></app-veiled-marking>
+                    }
                 }
             </div>
         }
         @if (loading$ | async) {
-            <div class="card loading-reading-text-card border-secondary">
-                <div
-                    class="card-header loading-reading-text-card-header second-header"
-                    [ngClass]="{
-                        'second-header-dark-mode': darkModeService.isDarkMode
-                    }"
-                >
-                    <div>
-                        <span
-                            class="pulsing-dots"
-                            [ngClass]="{
-                                'pulsing-dots-dark-mode':
-                                    darkModeService.isDarkMode
-                            }"
-                        >
-                            duke lexuar shkrimin
-                        </span>
-                    </div>
-                </div>
-                <ul
-                    class="list-group list-group-flush while-reading-text-ul"
-                    [ngClass]="{
-                        'while-reading-text-ul-dark-mode':
-                            darkModeService.isDarkMode
-                    }"
-                >
-                    <div class="spinner-border" role="status">
-                        <span class="visually-hidden"
-                            >duke lexuar shkrimin...</span
-                        >
-                    </div>
-                </ul>
-            </div>
+            <app-loading-marking />
         }
     </div>
 </div>

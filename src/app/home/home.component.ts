@@ -20,6 +20,7 @@ import {
     tap
 } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
 
 import { CursorPosition } from '../models/cursor-position';
 import { CursorPlacement } from '../models/cursor-placement';
@@ -33,7 +34,6 @@ import {
     sortMarkings
 } from '../element-marking/element-marking';
 import { DarkModeService } from '../services/dark-mode.service';
-import { Router, RouterModule } from '@angular/router';
 import { EditorContentService } from '../services/editor-content.service';
 import {
     APPLY_SUGGESTION_MESSAGE,
@@ -57,6 +57,9 @@ import {
     filterDismissedMarkings,
     filterUnselectedMarkingTypes
 } from '../services/constants';
+import { TemplateMarkingsComponent } from './template-markings/template-markings.component';
+import { LoadingMarkingComponent } from './loading-marking/loading-marking.component';
+import { VeiledMarkingComponent } from './veiled-marking/veiled-marking.component';
 
 @Component({
     standalone: true,
@@ -64,25 +67,33 @@ import {
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.css'],
     encapsulation: ViewEncapsulation.None,
-    imports: [CommonModule, RouterModule]
+    imports: [
+        CommonModule,
+        RouterModule,
+        TemplateMarkingsComponent,
+        LoadingMarkingComponent,
+        VeiledMarkingComponent
+    ]
 })
 export class HomeComponent implements AfterViewInit, OnDestroy {
     processedText: ProcessedText | undefined;
     characterCount: number = 0;
     wordCount: number = 0;
     innerHTMLOfEditor: string = LINE_BROKEN_PARAGRAPH;
-    shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
-    shouldVeilMarkings: Array<boolean> = []; // TODO improve?
+    shouldCollapseSuggestions: Array<boolean> = []; // NOTE: improve
+    shouldVeilMarkings: Array<boolean> = []; // NOTE: improve?
     loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     highlightedMarkingIndex: number = -1;
 
     readonly MAX_EDITOR_CHARACTERS_MESSAGE: string = `Keni arritur kufirin e ${MAX_EDITOR_CHARACTERS} karaktereve, shkurtoni shkrimin.`;
     readonly UNCONVENTIONAL_CHARACTERS_MESSAGE: string = `Shkrimi juaj përmban karaktere jashtë standardit. Zëvendësoni këto karaktere për të gjeneruar shenjime.`;
 
-    private dismissMarkingSubject$: Subject<any> = new Subject<any>();
-    private applySuggestionSubject$: Subject<any> = new Subject<any>();
-
-    eventualEditorActions$: Observable<any> = of();
+    private readonly dismissMarkingSubject$: Subject<any> = new Subject<any>();
+    private readonly applySuggestionSubject$: Subject<any> = new Subject<any>();
+    private readonly eventualEditorActions$: Observable<any> = merge(
+        this.dismissMarkingSubject$.asObservable(),
+        this.applySuggestionSubject$.asObservable()
+    );
 
     private shouldShowThankYouModal: boolean = false; // TODO: exists because `this.router.getCurrentNavigation()` is not null only in the constructor
     private shouldShowWelcomeModal: boolean = false; // TODO: exists because `this.router.getCurrentNavigation()` is not null only in the constructor
@@ -158,11 +169,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         // TODO: remove? only used for when switching from settings to home?
         this.markEditor(); // TODO: instead save processedText as well?
-
-        this.eventualEditorActions$ = merge(
-            this.dismissMarkingSubject$.asObservable(),
-            this.applySuggestionSubject$.asObservable()
-        );
 
         this.eventualEditorActionsSubscription$ = this.eventualEditorActions$
             .pipe(buffer(this.eventualEditorActions$.pipe(debounceTime(2500))))
@@ -596,6 +602,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     this.shouldVeilMarkings = new Array<boolean>(
                         this.processedText.markings.length
                     ).fill(false);
+                    this.blurHighlightedBoardMarking();
                 },
                 complete: () => {
                     setTimeout(() => this.listenForMarkingHighlight(), 0);
@@ -877,6 +884,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      */
     private highlightBoardMarking(markingIndex: number): void {
         this.highlightedMarkingIndex = markingIndex;
+        this.shouldVeilMarkings = new Array<boolean>(
+            this.processedText!.markings.length
+        ).fill(false);
     }
 
     private brieflyChangeClipboardIcon(

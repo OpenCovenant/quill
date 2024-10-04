@@ -184,8 +184,7 @@ describe("general flows", () => {
         cy.get(".template-marking-span").should("be.visible");
     });
 
-    // TODO
-    xit("should behave properly when performing different operations on the markings", () => {
+    it("should behave properly when performing different operations on the markings", () => {
         cy.get('[data-test="editor"]').type("asd gabmim asd ");
         cy.get(".typo").should("be.visible");
 

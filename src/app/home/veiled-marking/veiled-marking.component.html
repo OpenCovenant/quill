@@ -1,0 +1,12 @@
+<div
+    class="card border-secondary processing-marking-veil"
+    [ngClass]="{
+        'mt-2 mb-2': veiledMarkingIndex > 0,
+        'processing-marking-veil-dark-mode': darkModeService.isDarkMode
+    }"
+    data-test="marking-card"
+>
+    <div>
+        <b>duke përpunuar shkrimin...</b>
+    </div>
+</div>
