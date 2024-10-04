@@ -46,6 +46,14 @@
     background-color: var(--light-black);
 }
 
+.history-body {
+    padding: 1rem;
+}
+
+.history-modal-body {
+    padding: 1rem 1rem 1rem 0;
+}
+
 .switch {
     position: relative;
     display: inline-block;
@@ -84,6 +92,7 @@
     transition: 0.4s;
 }
 
+/*TODO: do NOT use `input`, use propper class*/
 input:checked + .slider {
     background-color: var(--checked-green-color-theme);
 }
@@ -98,18 +107,10 @@ input:checked + .slider:before {
     transform: translateX(16px);
 }
 
-.history-body {
-    padding: 1rem;
-}
-
 .slider.round {
     border-radius: 34px;
 }
 
 .slider.round:before {
     border-radius: 50%;
-}
-
-.history-modal-body {
-    padding: 1rem 1rem 1rem 0;
 }
