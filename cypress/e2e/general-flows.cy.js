@@ -256,7 +256,7 @@ describe("general flows", () => {
             .should("be.visible");
     });
 
-    // TODO: currently all occurrences of the same marking are dismissed
+    // NOTE: currently all occurrences of the same marking are dismissed
     xit("should only dismiss selected markings even if they might be duplicated in content", () => {
         const totalNumberOfMarkings = 9;
 
@@ -288,6 +288,7 @@ describe("general flows", () => {
             });
     });
 
+    // TODO: sticky on top is not currently working (if this test depends on this)
     xit("should stick the highlighted remain on the top after adding multiple new lines", () => {
         cy.get('[data-test="editor"]').type("gabmim");
 

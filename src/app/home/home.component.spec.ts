@@ -27,6 +27,7 @@ describe('HomeComponent', () => {
         fixture.detectChanges();
     });
 
+    // TODO currently causes NG0100
     xit('should create', () => {
         expect(component).toBeTruthy();
     });
