@@ -19,7 +19,7 @@
                         <h5>Pamja e Zgjedhur</h5>
                         <hr />
                         <div class="dark-mode-div dark-mode-label-flex">
-                            <div>
+                            <div class="theme-mode-info">
                                 Ndrysho Pamjen
                                 @if (darkModeService.isSystemMode) {
                                     <span class="light-mode-informative-text"
@@ -121,9 +121,9 @@
                                     "
                                     (click)="darkModeService.setDarkMode(false)"
                                 >
-                                    <span class="theme-span-icons set-sun-icon">
+                                    <span class="theme-span-icons">
                                         <i
-                                            class="bi bi-brightness-high-fill theme-span-icons set-sun-icon"
+                                            class="bi bi-brightness-high-fill set-sun-icon"
                                             [ngClass]="{
                                                 'set-sun-icon-dark-mode':
                                                     darkModeService.isDarkMode
