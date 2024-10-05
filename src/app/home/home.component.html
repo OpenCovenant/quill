@@ -165,12 +165,12 @@
                     @for (
                         marking of processedText?.markings;
                         track marking;
-                        let i = $index
+                        let markingIndex = $index
                     ) {
-                        @if (!shouldVeilMarkings[i]) {
+                        @if (!shouldVeilMarkings[markingIndex]) {
                             <div
                                 class="card border-secondary generated-marking-card"
-                                [ngClass]="{ 'mt-2 mb-2': i > 0 }"
+                                [ngClass]="{ 'mt-2 mb-2': markingIndex > 0 }"
                                 data-test="marking-card"
                             >
                                 <div
@@ -186,12 +186,16 @@
                                                 marking.type
                                             }}-marking-header"
                                             data-test="marking-span"
-                                            >{{ getTextOfMarking(i) }}
+                                            >{{
+                                                getTextOfMarking(markingIndex)
+                                            }}
                                         </span>
                                     </div>
                                     <div>
                                         <button
-                                            (click)="dismissMarking(i)"
+                                            (click)="
+                                                dismissMarking(markingIndex)
+                                            "
                                             type="button"
                                             class="btn-close text-reset dismiss-marking-close-button"
                                             [ngClass]="{
@@ -246,7 +250,7 @@
                                                         suggestion of marking.suggestions.slice(
                                                             0,
                                                             shouldCollapseSuggestions[
-                                                                i
+                                                                markingIndex
                                                             ]
                                                                 ? 4
                                                                 : marking
@@ -254,13 +258,13 @@
                                                                       .length
                                                         );
                                                         track suggestion;
-                                                        let j = $index
+                                                        let suggestionIndex = $index
                                                     ) {
                                                         <button
                                                             (click)="
                                                                 chooseSuggestion(
-                                                                    i,
-                                                                    j
+                                                                    markingIndex,
+                                                                    suggestionIndex
                                                                 )
                                                             "
                                                             class="suggestion"
@@ -293,13 +297,13 @@
                                                             <h3
                                                                 (click)="
                                                                     oscillateSuggestion(
-                                                                        i,
+                                                                        markingIndex,
                                                                         $event
                                                                     )
                                                                 "
                                                                 class="bi suggestions-header {{
                                                                     shouldCollapseSuggestions[
-                                                                        i
+                                                                        markingIndex
                                                                     ]
                                                                         ? 'bi-arrow-right-square'
                                                                         : 'bi-arrow-left-square'
@@ -316,7 +320,7 @@
                             </div>
                         } @else {
                             <app-veiled-marking
-                                [veiledMarkingIndex]="i"
+                                [veiledMarkingIndex]="markingIndex"
                             ></app-veiled-marking>
                         }
                     }
