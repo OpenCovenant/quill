@@ -2,7 +2,6 @@ import {
     AfterViewInit,
     Component,
     ElementRef,
-    EventEmitter,
     OnDestroy,
     ViewEncapsulation
 } from '@angular/core';
@@ -32,7 +31,34 @@ import {
 import { DarkModeService } from '../services/dark-mode.service';
 import { Router } from '@angular/router';
 import { EditorContentService } from '../services/editor-content.service';
-import { DISMISSED_MARKINGS_KEY, EMPTY_STRING } from '../services/constants';
+import {
+    ANIMATED_TYPO_MARKING_CLASS,
+    ANIMATION_END_EVENT,
+    CARD_HIDDEN_CLASS,
+    DISMISSED_MARKINGS_KEY,
+    DIV_TAG,
+    EDITOR_ID,
+    EMPTY_STRING,
+    EVENTUAL_MARKING_TIME,
+    EVENTUAL_WRITTEN_TEXT_STORAGE_TIME,
+    filterDismissedMarkings,
+    filterUnselectedMarkingTypes,
+    LINE_BREAK,
+    LINE_BREAK_TAG_NAME,
+    LINE_BROKEN_PARAGRAPH,
+    MAX_EDITOR_CHARACTERS,
+    MOVE_UP_ANIMATION_CLASS,
+    MOVE_UP_MULTIPLE_ANIMATION_CLASS,
+    PARAGRAPH_TAG,
+    PARAGRAPH_TAG_NAME,
+    PLACEHOLDER_ELEMENT_ID,
+    SCREEN_HEIGHT_DELAY_CLASS,
+    SECONDS,
+    SPAN_TAG_NAME,
+    STICKY_CONTAINER_ID,
+    UNCONVENTIONAL_CHARACTERS,
+    WRITINGS_INPUT_ID
+} from '../services/constants';
 
 @Component({
     selector: 'app-home',
@@ -41,47 +67,28 @@ import { DISMISSED_MARKINGS_KEY, EMPTY_STRING } from '../services/constants';
     encapsulation: ViewEncapsulation.None
 })
 export class HomeComponent implements AfterViewInit, OnDestroy {
-    SECONDS: number = 1000;
-    EVENTUAL_MARKING_TIME: number = 1.5 * this.SECONDS;
-    EVENTUAL_WRITTEN_TEXT_STORAGE_TIME: number = 15 * this.SECONDS;
-    EVENTUAL_SUGGESTION_SELECTION_POST: number = 6 * this.SECONDS;
-    EDITOR_KEY: string = 'editor';
-    PLACEHOLDER_ELEMENT_ID: string = 'editor-placeholder';
-    MAX_EDITOR_CHARACTERS: number = 10000;
-    MAX_EDITOR_CHARACTERS_MESSAGE: string = `Keni arritur kufirin e ${this.MAX_EDITOR_CHARACTERS} karaktereve, shkurtoni shkrimin.`;
-    UNCONVENTIONAL_CHARACTERS_MESSAGE: string = `Shkrimi juaj përmban karaktere jashtë standardit. Zëvendësoni këto karaktere për të gjeneruar shenjime.`;
-    UNCONVENTIONAL_CHARACTERS = ['ë']; // think there's something about "i" as well (and of course maybe for some others)
-    LINE_BREAK: string = '<br>';
-    LINE_BROKEN_PARAGRAPH: string = '<p>' + this.LINE_BREAK + '</p>';
     processedText: ProcessedText | undefined;
-
-    tempProcessedText: ProcessedText | undefined;
-
     characterCount: number = 0;
     wordCount: number = 0;
-    innerHTMLOfEditor: string = this.LINE_BROKEN_PARAGRAPH;
+    innerHTMLOfEditor: string = LINE_BROKEN_PARAGRAPH;
     shouldCollapseSuggestions: Array<boolean> = []; // TODO improve
     loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     highlightedMarkingIndex: number = -1;
 
-    readonly ANIMATION_END_EVENT: string = 'animationend';
-    indicesOfMarkingsToDismiss: number[] = [];
-    suggestionsOfMarkingsToChoose: {
+    readonly MAX_EDITOR_CHARACTERS_MESSAGE: string = `Keni arritur kufirin e ${MAX_EDITOR_CHARACTERS} karaktereve, shkurtoni shkrimin.`;
+    readonly UNCONVENTIONAL_CHARACTERS_MESSAGE: string = `Shkrimi juaj përmban karaktere jashtë standardit. Zëvendësoni këto karaktere për të gjeneruar shenjime.`;
+
+    private indicesOfMarkingsToDismiss: number[] = [];
+    private suggestionsOfMarkingsToChoose: {
         markingIndex: number;
         suggestionIndex: number;
     }[] = [];
-    characterCountPrePost: number = 0; // TODO: seems like a crutch
-    cardCountSelectedPrePost: number = 0; // TODO: seems like a crutch
-    markingCardsToDismiss: any[] = [];
-    animationRemoved: EventEmitter<void> = new EventEmitter<void>(); // TODO consider replacing with the proper subject
-    suggestedMarkingCardCounter: number = 0; // TODO: seems like a crutch
-    markingParagraphIndex: any[] = [];
 
-    markingDismissalSubject$: Subject<void> = new Subject<void>();
-    suggestionChoosingSubject$: Subject<void> = new Subject<void>();
+    private markingDismissalSubject$: Subject<void> = new Subject<void>();
+    private suggestionChoosingSubject$: Subject<void> = new Subject<void>();
 
-    shouldShowThankYouModal: boolean = false; // TODO: exists because `this.router.getCurrentNavigation()` is not null only in the constructor
-    shouldShowWelcomeModal: boolean = false; // TODO: exists because `this.router.getCurrentNavigation()` is not null only in the constructor
+    private shouldShowThankYouModal: boolean = false; // TODO: exists because `this.router.getCurrentNavigation()` is not null only in the constructor
+    private shouldShowWelcomeModal: boolean = false; // TODO: exists because `this.router.getCurrentNavigation()` is not null only in the constructor
 
     private baseURL!: string;
     private generateMarkingsURL!: string;
@@ -90,7 +97,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private savedCursorPosition: CursorPosition | undefined;
     private eventualMarkingSubscription$: any;
     private eventualTextStoringSubscription$: any;
-    private animationRemovedSubscription: any;
     private fromEditorInputEvent$: any;
 
     constructor(
@@ -115,7 +121,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     ngAfterViewInit(): void {
         if (this.editorContentService.editorInnerHTML) {
-            document.getElementById(this.EDITOR_KEY)!.innerHTML =
+            document.getElementById(EDITOR_ID)!.innerHTML =
                 this.editorContentService.editorInnerHTML;
         }
 
@@ -132,19 +138,16 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             minWidthMatchMedia.addListener(this.focusOnMediaMatch);
         }
         (
-            document.getElementById(
-                'flex-switch-check-checked'
-            ) as HTMLInputElement
+            document.getElementById(WRITINGS_INPUT_ID) as HTMLInputElement
         ).checked = this.writingsHistoryService.canStoreWritings;
 
         this.fromEditorInputEvent$ = fromEvent(
-            document.getElementById(this.EDITOR_KEY)!,
+            document.getElementById(EDITOR_ID)!,
             'input'
         );
 
         this.subscribeForWritingInTheEditor();
         this.subscribeForStoringWrittenText();
-        this.subscribeForRemovedSuggestionCardAnimation();
 
         this.markingDismissalSubject$
             .pipe(
@@ -175,7 +178,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         this.eventualMarkingSubscription$.unsubscribe();
         this.eventualTextStoringSubscription$.unsubscribe();
-        this.animationRemovedSubscription.unsubscribe();
     }
 
     /**
@@ -218,12 +220,14 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     onTextCut($event: ClipboardEvent): void {
         if (
             window.getSelection()!.toString() ===
-            document.getElementById(this.EDITOR_KEY)!.innerText
+            document.getElementById(EDITOR_ID)!.innerText
         ) {
             $event.preventDefault();
 
             const editorCopiableText: string = Array.from(
-                document.getElementById(this.EDITOR_KEY)!.querySelectorAll('p')
+                document
+                    .getElementById(EDITOR_ID)!
+                    .querySelectorAll(PARAGRAPH_TAG)
             )
                 .map((p: HTMLParagraphElement) => p.textContent)
                 .join('\n');
@@ -248,8 +252,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * Updates the character count field to the number of characters shown in the editor
      */
     updateCharacterCount(): void {
-        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
-        if (editor.innerHTML === this.LINE_BROKEN_PARAGRAPH) {
+        const editor: HTMLElement = document.getElementById(EDITOR_ID)!;
+        if (editor.innerHTML === LINE_BROKEN_PARAGRAPH) {
             this.characterCount = 0;
             return;
         }
@@ -263,7 +267,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * Updates the word count field to the number of words shown in the editor
      */
     updateWordCount(): void {
-        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
+        const editor: HTMLElement = document.getElementById(EDITOR_ID)!;
         if (editor.innerText === EMPTY_STRING) {
             this.wordCount = 0;
         } else {
@@ -289,13 +293,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             formData.append('uploadFile', file, file.name);
             this.httpClient
                 .post(this.uploadDocumentURL, formData)
-                .subscribe((next) => {
-                    this.processedText = next as ProcessedText;
+                .subscribe((value) => {
+                    this.processedText = value as ProcessedText;
                     this.shouldCollapseSuggestions = new Array<boolean>(
                         this.processedText.markings.length
                     ).fill(true);
 
-                    document.getElementById(this.EDITOR_KEY)!.innerHTML =
+                    document.getElementById(EDITOR_ID)!.innerHTML =
                         this.processedText.text; // TODO: improve to add newlines and such
                     // this.innerHTMLOfEditor = this.LINE_BROKEN_PARAGRAPH; // TODO careful with the <br> here
                     this.markEditor(CursorPlacement.END);
@@ -312,8 +316,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      */
     chooseSuggestion(markingIndex: number, suggestionIndex: number): void {
         // if (this.cardsToRemove.length >= 1) return; // prevents collision action between suggestion and deletion
-        this.suggestedMarkingCardCounter++;
-        this.cardCountSelectedPrePost++;
         this.suggestionsOfMarkingsToChoose.push({
             markingIndex: markingIndex,
             suggestionIndex
@@ -321,7 +323,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         if (this.highlightedMarkingIndex >= 0) {
             this.chooseSelectedSuggestions();
-            this.postSuggestedText();
+            this.markEditorForSuggestion();
             return;
         }
 
@@ -330,7 +332,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         if (this.fetchEditorMarkings().length === 1) {
             setTimeout(() => {
                 this.chooseSelectedSuggestions();
-                this.postSuggestedText();
+                this.markEditorForSuggestion();
             }, 900);
             return;
         }
@@ -344,13 +346,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * @param {number} markingIndex the index of the text marking from the list of the sorted text markings
      */
     dismissMarking(markingIndex: number): void {
-        // TODO: think we should rename this to dismissTextMarking or even just dismissMarking
         // based on the assumption that all spans within the paragraphs of the editor are markings
         // if (this.cardSuggestionsToRemove.length >= 1) return; // prevents collision action between suggestion and deletion
 
-        this.storeDismissedMarking(markingIndex); // TODO: uncomment before merging
+        this.storeDismissedMarking(markingIndex);
 
-        this.cardCountSelectedPrePost++;
         this.indicesOfMarkingsToDismiss.push(markingIndex);
         this.applySlideFadeAnimationToCard(markingIndex);
 
@@ -362,8 +362,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      */
     editorHasText(): boolean {
         return (
-            document.getElementById(this.EDITOR_KEY)!.innerHTML !==
-            this.LINE_BROKEN_PARAGRAPH
+            document.getElementById(EDITOR_ID)!.innerHTML !==
+            LINE_BROKEN_PARAGRAPH
         );
     }
 
@@ -371,27 +371,30 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * Returns whether there is empty text in the editor or not
      */
     editorHasEmptyText(): boolean {
-        return (
-            document.getElementById(this.EDITOR_KEY)!.innerHTML === EMPTY_STRING
-        );
+        return document.getElementById(EDITOR_ID)!.innerHTML === EMPTY_STRING;
     }
 
     /**
      * Clears the written text in the editor
      */
     clearEditor(): void {
-        document.getElementById(this.EDITOR_KEY)!.innerHTML =
-            this.LINE_BROKEN_PARAGRAPH;
+        document.getElementById(EDITOR_ID)!.innerHTML = LINE_BROKEN_PARAGRAPH;
         this.processedText = undefined;
         this.updateCharacterAndWordCount();
         this.shouldCollapseSuggestions = new Array<boolean>(0);
         this.blurHighlightedBoardMarking();
         this.indicesOfMarkingsToDismiss = [];
         this.suggestionsOfMarkingsToChoose = [];
-        this.suggestedMarkingCardCounter = 0;
-        this.markingParagraphIndex = [];
-        this.characterCountPrePost = 0;
-        this.cardCountSelectedPrePost = 0;
+    }
+
+    hasEditorUnconventionalCharacters(): boolean {
+        return UNCONVENTIONAL_CHARACTERS.some((uC) =>
+            document.getElementById(EDITOR_ID)?.innerText.includes(uC)
+        );
+    }
+
+    hasEditorOverMaxCharacters(): boolean {
+        return this.characterCount > MAX_EDITOR_CHARACTERS;
     }
 
     /**
@@ -428,7 +431,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         );
         copyToClipboardButton.style.setProperty('color', 'green', 'important');
 
-        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
+        const editor: HTMLElement = document.getElementById(EDITOR_ID)!;
         if (navigator.clipboard) {
             if (!editor.textContent) {
                 this.brieflyChangeClipboardIcon(copyToClipboardButton);
@@ -436,7 +439,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             }
 
             const editorCopiableText: string = Array.from(
-                document.getElementById(this.EDITOR_KEY)!.querySelectorAll('p')
+                document
+                    .getElementById(EDITOR_ID)!
+                    .querySelectorAll(PARAGRAPH_TAG)
             )
                 .map((p: HTMLParagraphElement) => p.textContent)
                 .join('\n');
@@ -466,11 +471,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     toggleStoringOfWritings(): void {
         this.writingsHistoryService.toggleWritingPermission(
-            (
-                document.getElementById(
-                    'flex-switch-check-checked'
-                ) as HTMLInputElement
-            ).checked
+            (document.getElementById(WRITINGS_INPUT_ID) as HTMLInputElement)
+                .checked
         );
     }
 
@@ -479,7 +481,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * @param {string} writtenText
      */
     placeWriting(writtenText: string): void {
-        document.getElementById(this.EDITOR_KEY)!.innerText = writtenText;
+        document.getElementById(EDITOR_ID)!.innerText = writtenText;
         document.getElementById('close-writings-history-modal-button')!.click();
         this.markEditor();
         this.updateCharacterAndWordCount();
@@ -495,7 +497,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             return EMPTY_STRING;
         }
 
-        const virtualEditor: HTMLDivElement = document.createElement('div');
+        const virtualEditor: HTMLDivElement = document.createElement(DIV_TAG);
         virtualEditor.innerHTML = this.processedText.text;
 
         const editorTextContent: string | null =
@@ -522,6 +524,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.pingURL = this.baseURL + '/api/ping';
     }
 
+    // TODO rename, add docs
+    private focusOnMediaMatch(mediaMatch: any): void {
+        if (mediaMatch.matches) {
+            document.getElementById(EDITOR_ID)?.focus();
+        }
+    }
+
     /**
      * Handle animations for card suggestion in the editor.
      *
@@ -537,104 +546,33 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         const cards: NodeListOf<HTMLElement> = document.querySelectorAll(
             '.generated-marking-card'
         ) as NodeListOf<HTMLElement>;
+        const countOfCards: number = cards.length;
 
-        const countOfCardSuggestionsToRemove: number =
-            this.suggestionsOfMarkingsToChoose.length;
-        const countOfCards: number = document.querySelectorAll(
-            '.generated-marking-card'
-        ).length;
         // TODO when does the following occur?
-        if (this.cardCountSelectedPrePost >= countOfCards) {
+        if (
+            this.suggestionsOfMarkingsToChoose.length +
+                this.indicesOfMarkingsToDismiss.length >=
+            countOfCards
+        ) {
             this.chooseSelectedSuggestions();
             // this.postSuggestedText();
             return;
         }
 
-        const lastIndex: number = countOfCards - 1;
-
         cards.forEach((card: HTMLElement, index: number) => {
             if (index >= markingIndex) {
-                if (countOfCardSuggestionsToRemove === 1) {
-                    card.classList.add('move-up-animation');
-                    card.addEventListener(
-                        this.ANIMATION_END_EVENT,
-                        (): void => {
-                            card.classList.remove('move-up-animation');
-                            if (
-                                this.suggestionsOfMarkingsToChoose &&
-                                index === lastIndex
-                            ) {
-                                this.animationRemoved.emit();
-                            }
-                        }
+                if (this.suggestionsOfMarkingsToChoose.length === 1) {
+                    card.classList.add(MOVE_UP_ANIMATION_CLASS);
+                    card.addEventListener(ANIMATION_END_EVENT, (): void =>
+                        card.classList.remove(MOVE_UP_ANIMATION_CLASS)
                     );
-                } else if (countOfCardSuggestionsToRemove >= 2) {
-                    card.classList.add('move-up-multiple-animation');
-                    card.addEventListener(
-                        this.ANIMATION_END_EVENT,
-                        (): void => {
-                            card.classList.remove('move-up-multiple-animation');
-                            if (
-                                this.suggestionsOfMarkingsToChoose &&
-                                index === lastIndex
-                            ) {
-                                this.animationRemoved.emit();
-                            }
-                        }
+                } else if (this.suggestionsOfMarkingsToChoose.length >= 2) {
+                    card.classList.add(MOVE_UP_MULTIPLE_ANIMATION_CLASS);
+                    card.addEventListener(ANIMATION_END_EVENT, (): void =>
+                        card.classList.remove(MOVE_UP_MULTIPLE_ANIMATION_CLASS)
                     );
                 }
             }
-        });
-    }
-
-    /**
-     * Evaluates readiness of cards and initiates a post request when ready.
-     *
-     * This method inspects the cards and determines if they're ready for further processing.
-     */
-    private checkForAnimationRemoval(): void {
-        const cards: NodeListOf<HTMLElement> = document.querySelectorAll(
-            '.generated-marking-card'
-        ) as NodeListOf<HTMLElement>;
-
-        if (
-            this.isMarkingInAnimation(cards) ||
-            this.suggestedMarkingCardCounter === cards.length
-        ) {
-            this.postSuggestedText();
-        }
-    }
-
-    /**
-     * Check the animation state of cards within an HTML document.
-     * The presence of these classes indicates that the corresponding card is still undergoing animation.
-     *
-     * @param {NodeListOf<HTMLElement>} cards - A NodeList containing the HTML elements representing the cards to be checked.
-     * @returns {boolean} - Returns `true` if any card in the provided list still contains the animation classes; otherwise, returns `false`.
-     */
-    private isMarkingInAnimation(cards: NodeListOf<HTMLElement>): boolean {
-        return Array.from(cards).some(
-            (card: HTMLElement) =>
-                card.classList.contains('move-up-animation') ||
-                card.classList.contains('move-up-multiple-animation')
-        );
-    }
-
-    private filterDismissedMarkings(markings: Marking[]): Marking[] {
-        const dismissedMarkings: string[] =
-            (JSON.parse(
-                localStorage.getItem(DISMISSED_MARKINGS_KEY)!
-            ) as string[]) ?? [];
-        return markings.filter((m: Marking) => {
-            const virtualEditor: HTMLDivElement = document.createElement('div');
-            virtualEditor.innerHTML = this.processedText?.text!;
-
-            const editorTextContent: string | null =
-                virtualEditor.childNodes[m.paragraph!].textContent;
-
-            const markingText: string = editorTextContent!.slice(m.from, m.to);
-
-            return !dismissedMarkings.includes(markingText);
         });
     }
 
@@ -644,97 +582,71 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * This method sends the content of the editor to the server, receives processed text with markings,
      * and updates the editor's content, applying text markings and adjusting cursor position.
      * */
-    private postSuggestedText(): void {
-        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
+    private markEditorForSuggestion(
+        cursorPlacement: CursorPlacement = CursorPlacement.LAST_SAVE
+    ): void {
         this.httpClient
-            .post(this.generateMarkingsURL, editor.innerHTML)
-            .subscribe((next) => {
-                this.processedText = next as ProcessedText;
-
-                this.processedText.markings = this.filterUnselectedMarkingTypes(
-                    this.processedText.markings
-                );
-
-                this.processedText.markings = this.filterDismissedMarkings(
-                    this.processedText.markings
-                );
-
-                if (this.processedText?.markings.length != 0) {
-                    this.processedText.markings = sortMarkings(
-                        this.processedText.markings
-                    );
-
-                    this.tempProcessedText = JSON.parse(
-                        JSON.stringify(this.processedText)
-                    );
-                    this.markingParagraphIndex = [];
-                    this.separateParagraphIndex(this.tempProcessedText);
-
-                    const consumableMarkings: Marking[] = Array.from(
-                        this.processedText.markings
-                    );
-
-                    editor.childNodes.forEach(
-                        (childNode: ChildNode, index: number) => {
-                            const isLastChildNode =
-                                index === editor.childNodes.length - 1;
-                            const p: HTMLParagraphElement =
-                                document.createElement('p');
-                            p.innerHTML = childNode.textContent!;
-                            if (childNode.textContent === EMPTY_STRING) {
-                                p.innerHTML = this.LINE_BREAK;
-                            }
-                            editor.replaceChild(p, childNode);
-                            markElement(
-                                p,
-                                consumableMarkings.length,
-                                isLastChildNode,
-                                consumableMarkings.filter(
-                                    (tm: Marking) => tm.paragraph === index
-                                )
-                            );
-                        }
-                    );
-
-                    // TODO editor or childNode here? I guess we have to do the whole thing always...
-                    // markText(editor, consumableTextMarkings.filter((tm: TextMarking) => tm.paragraph === textMarking.paragraph!));
-                }
-
-                if (this.isEditorActive()) {
-                    this.positionCursorToEnd(editor);
-                }
-                this.updateCharacterAndWordCount();
-
-                this.shouldCollapseSuggestions = new Array<boolean>(
-                    this.processedText.markings.length
-                ).fill(true);
+            .post(
+                this.generateMarkingsURL,
+                document.getElementById(EDITOR_ID)!.innerHTML
+            )
+            .subscribe((value) => {
+                this._markEditor(value, cursorPlacement);
 
                 this.blurHighlightedBoardMarking();
                 this.listenForMarkingHighlight();
                 this.suggestionsOfMarkingsToChoose = [];
-                this.characterCountPrePost = 0;
-                this.suggestedMarkingCardCounter = 0;
-                this.cardCountSelectedPrePost = 0;
             });
     }
 
-    /**
-     * @param tempProcessedText
-     * @private
-     */
-    private separateParagraphIndex(
-        tempProcessedText: ProcessedText | undefined
-    ): void {
-        let tempIndexValue: number = 0;
-        tempProcessedText?.markings.forEach(
-            (marking: Marking, index: number): void => {
-                if (tempIndexValue > marking.to) {
-                    // TODO: first comparison always fails? as the first shortest marking is from 0 to 1?
-                    this.markingParagraphIndex.push(index);
-                }
-                tempIndexValue = marking.to;
-            }
+    private _markEditor(value: Object, cursorPlacement: CursorPlacement) {
+        const editor: HTMLElement = document.getElementById(EDITOR_ID)!;
+        this.processedText = value as ProcessedText;
+
+        this.processedText.markings = filterUnselectedMarkingTypes(
+            this.processedText.markings
         );
+
+        this.processedText.markings = filterDismissedMarkings(
+            this.processedText.markings,
+            this.processedText.text
+        );
+
+        this.processedText.markings = sortMarkings(this.processedText.markings);
+
+        const consumableMarkings: Marking[] = Array.from(
+            this.processedText.markings
+        );
+        if (cursorPlacement === CursorPlacement.LAST_SAVE) {
+            this.savedCursorPosition = this.saveCursorPosition(editor);
+        }
+
+        editor.childNodes.forEach((childNode: ChildNode, index: number) => {
+            const isLastChildNode = index === editor.childNodes.length - 1;
+            const p: HTMLParagraphElement =
+                document.createElement(PARAGRAPH_TAG);
+            p.innerHTML = childNode.textContent!;
+            if (childNode.textContent === EMPTY_STRING) {
+                p.innerHTML = LINE_BREAK;
+            }
+            editor.replaceChild(p, childNode);
+            markElement(
+                p,
+                consumableMarkings.length,
+                isLastChildNode,
+                consumableMarkings.filter(
+                    (tm: Marking) => tm.paragraph === index
+                )
+            );
+        });
+
+        if (this.isEditorActive()) {
+            this.positionCursor(editor, cursorPlacement);
+        }
+        this.updateCharacterAndWordCount();
+        this.shouldCollapseSuggestions = new Array<boolean>(
+            this.processedText.markings.length
+        ).fill(true);
     }
 
     /**
@@ -747,42 +659,38 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private chooseSelectedSuggestions(): void {
         this.suggestionsOfMarkingsToChoose.forEach(
             ({ markingIndex: mI, suggestionIndex: sI }): void => {
-                const editor: HTMLElement = document.getElementById(
-                    this.EDITOR_KEY
-                )!;
+                const editor: HTMLElement = document.getElementById(EDITOR_ID)!;
 
                 const marking: Marking = this.processedText!.markings[mI];
-                const tempMarking: Marking =
-                    this.tempProcessedText!.markings[mI];
                 const childNode: ChildNode =
                     editor.childNodes[marking.paragraph!];
-                const p: HTMLParagraphElement = document.createElement('p');
+                const p: HTMLParagraphElement =
+                    document.createElement(PARAGRAPH_TAG);
 
                 const currentNode: string = childNode.textContent!.substring(
-                    tempMarking.from,
-                    tempMarking.to
+                    marking.from,
+                    marking.to
                 );
                 const suggestedNode: string = marking.suggestions[sI].action;
-                this.characterCountPrePost =
-                    currentNode.length - suggestedNode.length;
                 let counterChar: number = 0;
 
                 childNode.childNodes.forEach((node: ChildNode): void => {
-                    // Clone the child node
                     const clonedNode: Element = node.cloneNode(true) as Element;
                     counterChar += node.textContent?.length!;
-                    const isWithinRange: number = Math.abs(
-                        counterChar - tempMarking.to
-                    );
+                    const isWithinRange: boolean =
+                        Math.abs(counterChar - marking.to) === 0;
 
-                    if (node.nodeName === 'SPAN') {
-                        clonedNode.classList.remove('animated-typo-marking');
+                    // TODO why are we removing it, to stop the animation?
+                    if (node.nodeName === SPAN_TAG_NAME) {
+                        clonedNode.classList.remove(
+                            ANIMATED_TYPO_MARKING_CLASS
+                        );
                     }
 
                     if (
                         node.textContent &&
                         node.textContent.includes(currentNode) &&
-                        isWithinRange === 0 // if the index is within range
+                        isWithinRange
                     ) {
                         const lengthDiff = Math.abs(
                             suggestedNode.length - currentNode.length
@@ -794,72 +702,16 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                             suggestedNode
                         );
 
-                        const newText: Text =
-                            document.createTextNode(replacedText);
-
-                        p.appendChild(newText);
+                        p.appendChild(document.createTextNode(replacedText));
                     } else {
                         p.appendChild(clonedNode);
                     }
                 });
 
                 editor.replaceChild(p, childNode);
-                this.updateCharacterCount();
-                this.updateWordCount();
-                this.updateTempMarkings(mI);
+                this.updateCharacterAndWordCount();
             }
         );
-    }
-
-    /**
-     * Updates the char index for all markings
-     * @param {number} markingIndex selected marking index
-     */
-    private updateTempMarkings(markingIndex: number): void {
-        if (this.characterCountPrePost === 0) return; // if no changes are needed
-        const pIndexSelected = this.findRange(markingIndex);
-
-        this.tempProcessedText!.markings.forEach((marking, index) => {
-            if (
-                index > markingIndex &&
-                pIndexSelected[0] <= index &&
-                pIndexSelected[1] > index
-            ) {
-                marking.from -= this.characterCountPrePost;
-                marking.to -= this.characterCountPrePost;
-            }
-        });
-    }
-
-    private findRange(index: number): [number, number] {
-        let rangeStart: number | null = null;
-        let rangeEnd: number | null = null;
-
-        for (let i: number = 0; i < this.markingParagraphIndex.length; i++) {
-            if (this.markingParagraphIndex[i] <= index) {
-                if (
-                    rangeStart === null ||
-                    this.markingParagraphIndex[i] > rangeStart
-                ) {
-                    rangeStart = this.markingParagraphIndex[i];
-                }
-            }
-
-            if (this.markingParagraphIndex[i] > index) {
-                if (
-                    rangeEnd === null ||
-                    this.markingParagraphIndex[i] < rangeEnd
-                ) {
-                    rangeEnd = this.markingParagraphIndex[i];
-                }
-            }
-        }
-
-        // Handle edge case for the first index and last index
-        rangeEnd = rangeEnd ?? this.tempProcessedText!.markings.length;
-        rangeStart = rangeStart ?? 0;
-
-        return [rangeStart, rangeEnd];
     }
 
     private moveUpRemainingChosenSuggestionMarkings(): void {
@@ -870,10 +722,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.suggestionsOfMarkingsToChoose.forEach(
             ({ markingIndex: mI, suggestionIndex: _ }) => {
                 document
-                    .getElementById('sticky-container')!
-                    .classList.add('screen-height-delay');
+                    .getElementById(STICKY_CONTAINER_ID)!
+                    .classList.add(SCREEN_HEIGHT_DELAY_CLASS);
 
-                cards[mI].classList.add('card-hidden');
+                cards[mI].classList.add(CARD_HIDDEN_CLASS);
 
                 this.handleAnimationsOfCardsOnSuggestionChoosing(mI);
             }
@@ -881,21 +733,14 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         setTimeout((): void => {
             document
-                .getElementById('sticky-container')!
-                .classList.remove('screen-height-delay');
+                .getElementById(STICKY_CONTAINER_ID)!
+                .classList.remove(SCREEN_HEIGHT_DELAY_CLASS);
         }, 800);
 
         // don't choose suggestions on an uploaded file
         this.chooseSelectedSuggestions();
 
         this.suggestionsOfMarkingsToChoose = [];
-    }
-
-    // TODO rename, add docs
-    private focusOnMediaMatch(mediaMatch: any): void {
-        if (mediaMatch.matches) {
-            document.getElementById(this.EDITOR_KEY)?.focus();
-        }
     }
 
     /**
@@ -905,48 +750,35 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * certain marked cards have been deleted.
      */
     private moveUpRemainingDismissedMarkings(): void {
-        const markings: NodeListOf<Element> = this.fetchEditorMarkings();
         const cards: NodeListOf<HTMLElement> = document.querySelectorAll(
             '.generated-marking-card'
         ) as NodeListOf<HTMLElement>;
-        const markingValues: any[] = []; // TODO: (just a note for me) basically "eshte" for the typo eshte
 
         this.indicesOfMarkingsToDismiss.forEach((mI: number): void => {
             const card: HTMLElement = cards[mI];
-            const cardToRemove = this.extractMarkingValue(card);
-            markingValues.push(cardToRemove!);
 
             // TODO: does this need to be done for every marking?
             document
-                .getElementById('sticky-container')!
-                .classList.add('screen-height-delay');
+                .getElementById(STICKY_CONTAINER_ID)!
+                .classList.add(SCREEN_HEIGHT_DELAY_CLASS);
 
-            card.classList.add('card-hidden');
+            card.classList.add(CARD_HIDDEN_CLASS);
 
             this.handleAnimationsOfCardsOnMarkingDismissal(mI);
         });
 
         setTimeout((): void => {
             document
-                .getElementById('sticky-container')!
-                .classList.remove('screen-height-delay');
+                .getElementById(STICKY_CONTAINER_ID)!
+                .classList.remove(SCREEN_HEIGHT_DELAY_CLASS);
         }, 800);
-
-        markingValues.forEach((elementMarking): void => {
-            markings.forEach((card: Element, index: number): void => {
-                if (card.textContent === elementMarking) {
-                    this.markingCardsToDismiss.push({
-                        cardElement: card,
-                        index
-                    });
-                }
-            });
-        });
 
         this.dismissSelectedMarkings();
 
+        this.shouldCollapseSuggestions = new Array<boolean>(
+            this.processedText!.markings.length
+        ).fill(true);
         this.indicesOfMarkingsToDismiss = [];
-        this.markingCardsToDismiss = [];
     }
 
     /**
@@ -957,15 +789,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
      * the processed text data accordingly.
      */
     private dismissSelectedMarkings(): void {
-        // TODO: why do we have duplicates here to begin with?
-        const cardsToRemoveSet: Set<number> = new Set(
-            this.indicesOfMarkingsToDismiss
-        );
-        this.markingCardsToDismiss.forEach((cardElement): void => {
-            if (cardsToRemoveSet.has(cardElement.index)) {
-                const currentMarking = cardElement.cardElement;
+        const cards: NodeListOf<HTMLElement> = this.fetchEditorMarkings();
+        this.indicesOfMarkingsToDismiss.forEach((index): void => {
+            if (cards.length > index) {
+                const currentMarking = cards[index];
                 const textNode: Text = document.createTextNode(
-                    currentMarking.textContent || ''
+                    currentMarking.textContent!
                 );
                 currentMarking.parentNode?.replaceChild(
                     textNode,
@@ -978,10 +807,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             (_: Marking, index: number) =>
                 !this.indicesOfMarkingsToDismiss.includes(index)
         );
-
-        this.shouldCollapseSuggestions = new Array<boolean>(
-            this.processedText!.markings.length
-        ).fill(true);
     }
 
     /**
@@ -1006,21 +831,15 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 this.indicesOfMarkingsToDismiss.length;
             if (index >= markingIndex) {
                 if (countOfCardsToRemove === 1) {
-                    card.classList.add('move-up-animation');
-                    card.addEventListener(
-                        this.ANIMATION_END_EVENT,
-                        (): void => {
-                            card.classList.remove('move-up-animation');
-                        }
-                    );
+                    card.classList.add(MOVE_UP_ANIMATION_CLASS);
+                    card.addEventListener(ANIMATION_END_EVENT, (): void => {
+                        card.classList.remove(MOVE_UP_ANIMATION_CLASS);
+                    });
                 } else if (countOfCardsToRemove >= 2) {
-                    card.classList.add('move-up-multiple-animation');
-                    card.addEventListener(
-                        this.ANIMATION_END_EVENT,
-                        (): void => {
-                            card.classList.remove('move-up-multiple-animation');
-                        }
-                    );
+                    card.classList.add(MOVE_UP_MULTIPLE_ANIMATION_CLASS);
+                    card.addEventListener(ANIMATION_END_EVENT, (): void => {
+                        card.classList.remove(MOVE_UP_MULTIPLE_ANIMATION_CLASS);
+                    });
                 }
             }
         });
@@ -1042,17 +861,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     /**
-     * Returns the actual value of the marking.
-     * @param {HTMLElement} card - child node
-     */
-    private extractMarkingValue(card: HTMLElement): any {
-        return card.childNodes[0].childNodes[0].childNodes[0].textContent?.replace(
-            ' ',
-            ''
-        );
-    }
-
-    /**
      * Make the call to mark the editor into paragraphs.
      * @param {CursorPlacement} cursorPlacement
      * @private
@@ -1060,95 +868,21 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private markEditor(
         cursorPlacement: CursorPlacement = CursorPlacement.LAST_SAVE
     ): void {
-        const editor: HTMLElement = document.getElementById(this.EDITOR_KEY)!;
-
         this.loading$.next(true);
         this.httpClient
-            .post(this.generateMarkingsURL, editor.innerHTML)
+            .post(
+                this.generateMarkingsURL,
+                document.getElementById(EDITOR_ID)!.innerHTML
+            )
             .pipe(finalize(() => this.loading$.next(false)))
             .subscribe({
                 next: (value) => {
-                    this.processedText = value as ProcessedText;
-
-                    this.processedText.markings =
-                        this.filterUnselectedMarkingTypes(
-                            this.processedText.markings
-                        );
-
-                    this.processedText.markings = this.filterDismissedMarkings(
-                        this.processedText.markings
-                    );
-
-                    this.processedText.markings = sortMarkings(
-                        this.processedText.markings
-                    );
-
-                    this.tempProcessedText = JSON.parse(
-                        JSON.stringify(this.processedText)
-                    );
-                    this.markingParagraphIndex = [];
-                    this.separateParagraphIndex(this.tempProcessedText);
-
-                    const consumableMarkings: Marking[] = Array.from(
-                        this.processedText.markings
-                    );
-                    if (cursorPlacement === CursorPlacement.LAST_SAVE) {
-                        this.savedCursorPosition =
-                            this.saveCursorPosition(editor);
-                    }
-
-                    editor.childNodes.forEach(
-                        (childNode: ChildNode, index: number) => {
-                            const isLastChildNode =
-                                index === editor.childNodes.length - 1;
-                            const p: HTMLParagraphElement =
-                                document.createElement('p');
-                            p.innerHTML = childNode.textContent!;
-                            if (childNode.textContent === EMPTY_STRING) {
-                                p.innerHTML = this.LINE_BREAK;
-                            }
-                            editor.replaceChild(p, childNode);
-                            markElement(
-                                p,
-                                consumableMarkings.length,
-                                isLastChildNode,
-                                consumableMarkings.filter(
-                                    (tm: Marking) => tm.paragraph === index
-                                )
-                            );
-                        }
-                    );
-
-                    this.suggestedMarkingCardCounter = 0;
-                    if (this.isEditorActive()) {
-                        this.positionCursor(editor, cursorPlacement);
-                    }
-                    this.updateCharacterAndWordCount();
-                    this.shouldCollapseSuggestions = new Array<boolean>(
-                        this.processedText.markings.length
-                    ).fill(true);
+                    this._markEditor(value, cursorPlacement);
                 },
                 complete: () => {
                     setTimeout(() => this.listenForMarkingHighlight(), 0);
                 }
             });
-    }
-
-    private filterUnselectedMarkingTypes(markings: Marking[]): Marking[] {
-        return markings.filter((tM: Marking): boolean => {
-            if (tM.id) {
-                const items = { ...localStorage };
-                let b = true;
-                Object.entries(items).forEach((e: any) => {
-                    if (e[0] === tM.id) {
-                        b = e[1] === 'true';
-                    }
-                });
-                return b;
-            } else {
-                return true;
-            }
-        });
     }
 
     /**
@@ -1199,8 +933,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         elementNode.childNodes.forEach((n: Node, key: number) => {
             if (
                 n.isSameNode(range.startContainer.parentNode) ||
-                (n.nodeName === 'P' &&
-                    n.firstChild!.nodeName === 'BR' &&
+                (n.nodeName === PARAGRAPH_TAG_NAME &&
+                    n.firstChild!.nodeName === LINE_BREAK_TAG_NAME &&
                     n.isSameNode(range.startContainer))
             ) {
                 row = key;
@@ -1236,7 +970,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
         // TODO shift instead of pop?
         while (!stop && (node = nodeStack.pop())) {
-            if (node.nodeName === 'BR') {
+            if (node.nodeName === LINE_BREAK_TAG_NAME) {
                 // TODO extract this before this while loop?
                 range.setStart(node, 0);
                 range.setEnd(node, 0);
@@ -1291,18 +1025,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.updateWordCount();
     }
 
-    hasEditorUnconventionalCharacters(): boolean {
-        return this.UNCONVENTIONAL_CHARACTERS.some((uC) =>
-            document.getElementById(this.EDITOR_KEY)?.innerText.includes(uC)
-        );
-    }
-
-    hasEditorOverMaxCharacters(): boolean {
-        return this.characterCount > this.MAX_EDITOR_CHARACTERS;
-    }
-
     /**
-     * Functions that are called on a **input** event in the editor.
+     * Functions that are called on an **input** event in the editor.
      */
     private subscribeForWritingInTheEditor(): void {
         this.eventualMarkingSubscription$ = this.fromEditorInputEvent$
@@ -1312,7 +1036,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                     (keyboardEvent: KeyboardEvent) =>
                         !shouldNotMarkEditor(keyboardEvent)
                 ),
-                debounceTime(this.EVENTUAL_MARKING_TIME),
+                debounceTime(EVENTUAL_MARKING_TIME),
                 filter(() => !this.hasEditorOverMaxCharacters()),
                 filter(() => !this.hasEditorUnconventionalCharacters()),
                 tap(() => {
@@ -1326,20 +1050,14 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private subscribeForStoringWrittenText(): void {
         this.eventualTextStoringSubscription$ = this.fromEditorInputEvent$
             .pipe(
-                debounceTime(this.EVENTUAL_WRITTEN_TEXT_STORAGE_TIME),
+                debounceTime(EVENTUAL_WRITTEN_TEXT_STORAGE_TIME),
                 tap(() =>
                     this.writingsHistoryService.storeWriting(
-                        document.getElementById(this.EDITOR_KEY)!.innerText
+                        document.getElementById(EDITOR_ID)!.innerText
                     )
                 )
             )
             .subscribe();
-    }
-
-    private subscribeForRemovedSuggestionCardAnimation(): void {
-        this.animationRemovedSubscription = this.animationRemoved
-            .pipe(debounceTime(this.EVENTUAL_SUGGESTION_SELECTION_POST))
-            .subscribe(() => this.checkForAnimationRemoval());
     }
 
     private disableEditor(errorResponse: HttpErrorResponse): void {
@@ -1347,12 +1065,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             errorResponse.status === 429
                 ? 'Tepër kërkesa për shenjime për momentin.'
                 : 'Fatkeqësisht kemi një problem me serverat. Ju kërkojmë ndjesë, ndërsa kërkojmë për një zgjidhje.';
-        (
-            document.getElementById(this.EDITOR_KEY) as HTMLDivElement
-        ).contentEditable = 'false';
+        (document.getElementById(EDITOR_ID) as HTMLDivElement).contentEditable =
+            'false';
 
         const placeholderElement = document.getElementById(
-            this.PLACEHOLDER_ELEMENT_ID
+            PLACEHOLDER_ELEMENT_ID
         );
         if (placeholderElement) {
             placeholderElement.innerText = errorMessage;
@@ -1394,7 +1111,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
                 'bi-clipboard'
             );
             copyToClipboardButton.style.color = 'black';
-        }, 2 * this.SECONDS);
+        }, 2 * SECONDS);
     }
 
     private addEventListenerForShortcuts(): void {
@@ -1483,9 +1200,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     private isEditorActive(): boolean {
-        return (
-            document.activeElement === document.getElementById(this.EDITOR_KEY)!
-        );
+        return document.activeElement === document.getElementById(EDITOR_ID)!;
     }
 
     private showThankYouModal(): void {
@@ -1527,6 +1242,4 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     private fetchEditorMarkings(): NodeListOf<HTMLSpanElement> {
         return document.querySelectorAll('#editor > p > span');
     }
-
-    protected readonly EMPTY_STRING = EMPTY_STRING;
 }

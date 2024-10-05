@@ -224,10 +224,10 @@
 }
 
 .move-up-animation {
-    animation: moveUp 1s cubic-bezier(0.42, 0, 0.58, 1);
+    animation: move-up 1s cubic-bezier(0.42, 0, 0.58, 1);
 }
 
-@keyframes moveUp {
+@keyframes move-up {
     from {
         transform: translateY(calc(100% + 5px));
         opacity: 1;
