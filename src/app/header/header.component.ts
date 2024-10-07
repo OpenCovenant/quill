@@ -6,7 +6,7 @@ import { DarkModeService } from '../services/dark-mode.service';
 import { Router, RouterModule } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 import { CommonModule } from '@angular/common';
-import {DarkModeButtonsComponent} from "../settings/dark-mode-buttons/dark-mode-buttons.component";
+import { DarkModeButtonsComponent } from '../settings/dark-mode-buttons/dark-mode-buttons.component';
 
 @Component({
     standalone: true,

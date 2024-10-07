@@ -8,7 +8,7 @@ import { SettingsSkeletonComponent } from './settings-skeleton/settings-skeleton
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import {DarkModeButtonsComponent} from "./dark-mode-buttons/dark-mode-buttons.component";
+import { DarkModeButtonsComponent } from './dark-mode-buttons/dark-mode-buttons.component';
 
 interface MarkingTypeDTO {
     [key: string]: { description: string; enabled: boolean };
