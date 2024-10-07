@@ -181,10 +181,6 @@
     color: var(--dark);
 }
 
-.set-sun-icon {
-    color: var(--dark);
-}
-
 .set-system-icon {
     color: var(--dark);
 }
@@ -296,6 +292,13 @@
 
     .theme-selector {
         flex-direction: column;
+    }
+
+    .theme-mode-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
 }
 
