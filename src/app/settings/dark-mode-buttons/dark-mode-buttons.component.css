@@ -141,6 +141,7 @@
     align-items: center;
     border-radius: 10px;
     width: 300px;
+    margin: 0 auto;
 }
 
 .theme-span-icons {
