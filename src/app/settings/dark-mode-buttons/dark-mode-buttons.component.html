@@ -6,6 +6,7 @@
                                 }"
 >
                                 <span
+                                    data-test="dark-mode-button"
                                     class="option-set-dark-mode"
                                     [class.active]="
                                         darkModeService.isDarkMode &&
@@ -75,6 +76,7 @@
                                 </span>
 
     <span
+        data-test="light-mode-button"
         class="option-set-light-mode-span"
         [ngClass]="{
                                         'option-set-light-dark-mode':
