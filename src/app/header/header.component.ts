@@ -6,13 +6,14 @@ import { DarkModeService } from '../services/dark-mode.service';
 import { Router, RouterModule } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 import { CommonModule } from '@angular/common';
+import {DarkModeButtonsComponent} from "../settings/dark-mode-buttons/dark-mode-buttons.component";
 
 @Component({
     standalone: true,
     selector: 'app-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.css'],
-    imports: [CommonModule, RouterModule]
+    imports: [CommonModule, RouterModule, DarkModeButtonsComponent]
 })
 export class HeaderComponent {
     baseURL!: string;
