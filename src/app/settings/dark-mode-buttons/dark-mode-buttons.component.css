@@ -156,7 +156,7 @@
     align-items: center;
     border-radius: 10px var(--dark-mode-theme);
     width: 300px;
-    margin: 0px;
+    margin: 0px auto;
 }
 
 @media (max-width: 800px) {
