@@ -60,3 +60,7 @@
 .grammatical-list-group-item {
     background-color: var(--light-mode-color);
 }
+
+.list-group-item-dark-mode {
+    background-color: var(--dark-mode-theme);
+}
