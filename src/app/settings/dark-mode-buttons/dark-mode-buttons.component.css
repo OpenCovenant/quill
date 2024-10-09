@@ -141,7 +141,7 @@
     align-items: center;
     border-radius: 10px;
     width: 300px;
-    margin: 0 auto;
+    margin: 0;
 }
 
 .theme-span-icons {
@@ -157,7 +157,7 @@
     align-items: center;
     border-radius: 10px var(--dark-mode-theme);
     width: 300px;
-    margin: 0px auto;
+    margin: 0;
 }
 
 @media (max-width: 800px) {
