@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DarkModeService } from '../../services/dark-mode.service';
 
@@ -6,6 +6,7 @@ import { DarkModeService } from '../../services/dark-mode.service';
     selector: 'app-dark-mode-buttons',
     standalone: true,
     imports: [CommonModule],
+    encapsulation: ViewEncapsulation.None,
     templateUrl: './dark-mode-buttons.component.html',
     styleUrl: './dark-mode-buttons.component.css'
 })
