@@ -156,3 +156,12 @@
     cursor: not-allowed;
     pointer-events: all;
 }
+
+@media (max-width: 800px) {
+    .theme-mode-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+}

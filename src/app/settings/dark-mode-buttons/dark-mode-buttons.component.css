@@ -161,18 +161,9 @@
 }
 
 @media (max-width: 800px) {
-    .theme-selector-settings-dark-mode {
+    .settings-page .theme-selector,
+    .settings-page .theme-selector-dark-mode {
+        width: auto;
         flex-direction: column;
-    }
-
-    .theme-selector-settings {
-        flex-direction: column;
-    }
-
-    .theme-mode-info {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
     }
 }
