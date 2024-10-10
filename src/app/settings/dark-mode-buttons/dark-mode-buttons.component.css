@@ -98,20 +98,13 @@
     margin: 0;
 }
 
-.header-page-theme-buttons .theme-selector {
-    margin: 0 auto;
-}
-
+.header-page-theme-buttons .theme-selector,
 .header-page-theme-buttons .theme-selector-dark-mode {
     margin: 0 auto;
 }
 
 @media (max-width: 800px) {
-    .settings-page-theme-buttons .theme-selector {
-        width: auto;
-        flex-direction: column;
-    }
-
+    .settings-page-theme-buttons .theme-selector,
     .settings-page-theme-buttons .theme-selector-dark-mode {
         width: auto;
         flex-direction: column;
