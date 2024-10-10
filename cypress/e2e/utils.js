@@ -1,15 +1,15 @@
-export function applySuggestionByIndex(markingHeaderSelector, index = 0) {
+export function applyFirstSuggestionOfFirstMarking(markingHeaderSelector) {
     cy.get(markingHeaderSelector)
         .parent()
         .parent()
         .parent()
-        .eq(index)
+        .first()
         .find('[data-test="suggestion"]')
         .first()
         .click();
 }
 
-export function dismissMarking(markingHeaderSelector) {
+export function dismissFirstMarking(markingHeaderSelector) {
     cy.get(markingHeaderSelector)
         .parent()
         .parent()

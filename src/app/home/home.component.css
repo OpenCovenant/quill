@@ -11,22 +11,6 @@
     margin-top: 3rem;
 }
 
-.typo-marking-card-header {
-    border-bottom: 0 solid var(--light-black);
-}
-
-.loanword-marking-card-header {
-    border-bottom: 0 solid var(--light-black);
-}
-
-.stylistic-marking-card-header {
-    border-bottom: 0 solid var(--light-black);
-}
-
-.grammatical-marking-card-header {
-    border-bottom: 0 solid var(--light-black);
-}
-
 .generated-marking-card-header {
     border-bottom: 0 solid var(--light-black);
 }
@@ -35,23 +19,12 @@
     border-bottom: 0 solid var(--light-black);
 }
 
-.loading-reading-text-card-header {
-    border-bottom: 0 solid var(--light-black);
-}
-
-.card-fade {
-    opacity: 0;
-}
-
-.card-hidden {
-    display: none;
-}
-
 .input-container-card-body {
     padding: 1rem;
     border-radius: 0.25rem;
     background-color: var(--light-mode-color);
 }
+
 .editor-flex {
     display: flex;
 }
@@ -159,29 +132,6 @@
     padding-bottom: 3px;
 }
 
-.template-marking-span {
-    display: inline-block;
-    padding-left: 6px;
-    padding-right: 6px;
-    color: black;
-}
-
-.typo-list-group-item {
-    background-color: var(--light-mode-color);
-}
-
-.loanword-list-group-item {
-    background-color: var(--light-mode-color);
-}
-
-.stylistic-list-group-item {
-    background-color: var(--light-mode-color);
-}
-
-.grammatical-list-group-item {
-    background-color: var(--light-mode-color);
-}
-
 .generated-marking-list-group-item {
     background-color: var(--light-mode-color);
 }
@@ -193,64 +143,6 @@
 .list-group-item-dark-mode {
     background-color: var(--dark-mode-theme);
     color: var(--dark-mode-anti-theme);
-}
-
-@keyframes reduceMargin {
-    from {
-        margin-bottom: 170px;
-    }
-    to {
-        margin-bottom: 0;
-    }
-}
-
-.screen-height-delay {
-    animation: reduceMargin 1s cubic-bezier(0.42, 0, 0.58, 1);
-}
-
-.fade-out {
-    animation: fade-out-and-slide-right 1s cubic-bezier(0.42, 0, 0.58, 1);
-}
-
-@keyframes fade-out-and-slide-right {
-    from {
-        opacity: 1;
-        transform: translateX(0px);
-    }
-    to {
-        opacity: 0;
-        transform: translateX(200px);
-    }
-}
-
-.move-up-animation {
-    animation: move-up 1s cubic-bezier(0.42, 0, 0.58, 1);
-}
-
-@keyframes move-up {
-    from {
-        transform: translateY(calc(100% + 5px));
-        opacity: 1;
-    }
-    to {
-        transform: translateY(0px);
-        opacity: 1;
-    }
-}
-
-.move-up-multiple-animation {
-    animation: move-up-multiple 0.8s cubic-bezier(0.42, 0, 0.58, 1);
-}
-
-@keyframes move-up-multiple {
-    from {
-        transform: translateY(100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0px);
-        opacity: 1;
-    }
 }
 
 .first-header {
@@ -320,11 +212,6 @@
 }
 
 .grammatical-marking-stars {
-    padding-right: 7px;
-    color: purple;
-}
-
-.generated-grammatical-marking-star {
     padding-right: 7px;
     color: purple;
 }
@@ -410,10 +297,6 @@
     padding: 0.1rem 0.3rem;
 }
 
-.reading-writing-flex {
-    display: flex;
-}
-
 .pulsing-dots:after {
     content: ". . .";
     overflow: hidden;
@@ -459,51 +342,7 @@
     color: var(--dark-mode-anti-theme);
 }
 
-@keyframes fillBackground {
-    0% {
-        background-position: 100% 0%;
-    }
-    100% {
-        background-position: 0% 0%;
-    }
-}
-
-.animated-typo-marking {
-    background: linear-gradient(to left, transparent 50%, var(--typo-color) 0);
-    background-size: 200% 100%;
-    animation: fillBackground 500ms linear forwards;
-}
-
-.animated-loanword-marking {
-    background: linear-gradient(
-        to left,
-        transparent 50%,
-        var(--loanword-color) 0
-    );
-    background-size: 200% 100%;
-    animation: fillBackground 500ms linear forwards;
-}
-
-.animated-stylistic-marking {
-    background: linear-gradient(
-        to left,
-        transparent 50%,
-        var(--stylistic-color) 0
-    );
-    background-size: 200% 100%;
-    animation: fillBackground 500ms linear forwards;
-}
-
-.animated-grammatical-marking {
-    background: linear-gradient(
-        to left,
-        transparent 50%,
-        var(--grammatical-color) 0
-    );
-    background-size: 200% 100%;
-    animation: fillBackground 500ms linear forwards;
-}
-
+/*TODO: rename along with unfocus?*/
 .marking-focus {
     margin: 0 30px 0 -17px;
     border: 3px solid;
@@ -518,54 +357,6 @@
     margin: 0;
     border: 1px solid;
     font-weight: normal;
-}
-
-.modal-header-dark-mode {
-    background-color: var(--dark-mode-theme);
-    color: var(--dark-mode-anti-theme);
-}
-
-.modal-body-dark-mode {
-    background-color: var(--dark-mode-theme);
-    color: var(--dark-mode-anti-theme);
-}
-
-.modal-footer-dark-mode {
-    background-color: var(--dark-mode-theme);
-}
-
-.history-deactivation-message {
-    color: var(--dark-mode-smooth-theme);
-    font-size: 13px;
-}
-
-.home-list-group {
-    margin: 1.5rem 0;
-}
-
-.writing {
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    box-shadow: 0 0 10px var(--card-box-shadow-color);
-    border-radius: 5px;
-    padding: 5px;
-    overflow: hidden;
-    margin: 0 1rem;
-}
-
-.writing:hover {
-    background-color: var(--light);
-}
-
-/*TODO: apply dark mode for the history of the written texts*/
-.writings-history-dark-mode {
-    background-color: var(--dark-mode-theme);
-    margin: 0 1rem;
-}
-
-.writings-history-dark-mode:hover {
-    background-color: var(--light-black);
 }
 
 .marking-type-label {
@@ -583,30 +374,6 @@
     margin-top: 5px;
 }
 
-.typo-marking-card {
-    border: 0 solid var(--card-border-color);
-    box-shadow: 0 0 10px var(--card-box-shadow-color);
-    margin-top: 5px;
-}
-
-.loanword-marking-card {
-    border: 0 solid var(--card-border-color);
-    box-shadow: 0 0 10px var(--card-box-shadow-color);
-    margin-top: 5px;
-}
-
-.stylistic-marking-card {
-    border: 0 solid var(--card-border-color);
-    box-shadow: 0 0 10px var(--card-box-shadow-color);
-    margin-top: 5px;
-}
-
-.grammatical-marking-card {
-    border: 0 solid var(--card-border-color);
-    box-shadow: 0 0 10px var(--card-box-shadow-color);
-    margin-top: 5px;
-}
-
 .generated-marking-card {
     border: 0 solid var(--card-border-color);
     box-shadow: 0 0 10px var(--card-box-shadow-color);
@@ -617,117 +384,6 @@
     border: 0 solid var(--card-border-color);
     box-shadow: 0 0 10px var(--card-box-shadow-color);
     margin-top: 5px;
-}
-
-.loading-reading-text-card {
-    border: 0 solid var(--card-border-color);
-    box-shadow: 0 0 10px var(--card-box-shadow-color);
-    margin-top: 5px;
-}
-
-.modal-content-welcome-dark-mode {
-    background-color: var(--dark-mode-theme);
-    color: var(--dark-mode-anti-theme);
-}
-
-.modal-content-subscription-success-dark-mode {
-    background-color: var(--dark-mode-theme);
-    color: var(--dark-mode-anti-theme);
-}
-
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 40px;
-    height: 23px;
-    float: right;
-}
-
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: var(--slider-background);
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 21px;
-    width: 21px;
-    left: 2px;
-    bottom: 1px;
-    background-color: var(--dark-mode-anti-theme);
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
-}
-
-input:checked + .slider {
-    background-color: var(--checked-green-color-theme);
-}
-
-input:focus + .slider {
-    box-shadow: 0 0 1px var(--checked-blue-color-theme);
-}
-
-input:checked + .slider:before {
-    -webkit-transform: translateX(16px);
-    -ms-transform: translateX(16px);
-    transform: translateX(16px);
-}
-
-.history-body {
-    padding: 1rem;
-}
-
-/* Rounded sliders */
-.slider.round {
-    border-radius: 34px;
-}
-
-.slider.round:before {
-    border-radius: 50%;
-}
-
-.history-modal-body {
-    padding: 1rem 1rem 1rem 0;
-}
-
-.thank-you-modal-button {
-    display: none;
-}
-
-.thank-you-modal-footer {
-    display: flex;
-    justify-content: space-around;
-}
-
-.continue-button-thank-you-modal {
-    font-weight: 500;
-}
-
-.welcome-modal-button {
-    display: none;
-}
-
-.welcome-modal-footer-div {
-    display: flex;
-    justify-content: space-around;
-}
-
-.welcome-modal-continue-button {
-    font-weight: 500;
 }
 
 /*TODO change color on .suggestion:hover ?*/

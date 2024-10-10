@@ -13,8 +13,7 @@ describe('SettingsComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [SettingsComponent],
-            imports: [],
+            imports: [SettingsComponent],
             providers: [
                 provideHttpClient(withInterceptorsFromDi()),
                 provideHttpClientTesting()

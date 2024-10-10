@@ -1,0 +1,60 @@
+<button
+    id="thank-you-modal-button"
+    type="button"
+    class="btn btn-primary thank-you-modal-button"
+    data-bs-toggle="modal"
+    data-bs-target="#thank-you-modal"
+>
+    Dialog për Falenderim
+</button>
+<div
+    class="modal fade"
+    id="thank-you-modal"
+    tabindex="-1"
+    aria-labelledby="thank-you-modal-label"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered">
+        <div
+            class="modal-content"
+            [ngClass]="{
+                'modal-content-subscription-success-dark-mode':
+                    darkModeService.isDarkMode
+            }"
+        >
+            <div class="modal-header">
+                <h5 class="modal-title" id="thank-you-modal-label">
+                    Abonimi u Krye me Sukses
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    [ngClass]="{
+                        'btn-close-white': darkModeService.isDarkMode
+                    }"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Ju falenderojmë përzemërsisht për abonimin, shpresojmë që
+                    Penda t'ju ndihmojë sa më shumë në shkrimet tuaja.
+                </p>
+                <p>
+                    Për çdo paqartësi apo shqetësim mos ngurroni të na
+                    kontaktoni te penda.information&#64;gmail.com
+                </p>
+            </div>
+            <div class="modal-footer thank-you-modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-success continue-button-thank-you-modal"
+                    data-bs-dismiss="modal"
+                >
+                    Vazhdo
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

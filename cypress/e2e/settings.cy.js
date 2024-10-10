@@ -21,6 +21,7 @@ describe("settings", () => {
         cy.get('[data-test="marking-type-switch"]').should("be.checked");
     });
 
+    // TODO I guess depends on immediate-markings which is still WIP
     xit("should persist the enabled/disabled status of immediate markings after reloading", () => {
         cy.get('[data-test="immediate-markings-switch"]').should(
             "not.be.checked"

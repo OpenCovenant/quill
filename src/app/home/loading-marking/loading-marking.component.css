@@ -1,0 +1,9 @@
+.loading-reading-text-card {
+    border: 0 solid var(--card-border-color);
+    box-shadow: 0 0 10px var(--card-box-shadow-color);
+    margin-top: 5px;
+}
+
+.loading-reading-text-card-header {
+    border-bottom: 0 solid var(--light-black);
+}

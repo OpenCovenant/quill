@@ -6,6 +6,7 @@ import {
     provideHttpClient,
     withInterceptorsFromDi
 } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
 
 describe('HeaderComponent', () => {
     let component: HeaderComponent;
@@ -13,10 +14,11 @@ describe('HeaderComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [HeaderComponent],
+            imports: [HeaderComponent],
             providers: [
                 provideHttpClient(withInterceptorsFromDi()),
-                provideHttpClientTesting()
+                provideHttpClientTesting(),
+                provideRouter([])
             ]
         }).compileComponents();
     });

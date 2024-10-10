@@ -4,11 +4,14 @@ import { ActivatedRoute } from '@angular/router';
 
 import { environment } from '../../environments/environment';
 import { DarkModeService } from '../services/dark-mode.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
+    standalone: true,
     selector: 'app-marking-details',
     templateUrl: './marking-details.component.html',
-    styleUrls: ['./marking-details.component.css']
+    styleUrls: ['./marking-details.component.css'],
+    imports: [CommonModule]
 })
 export class MarkingDetailsComponent {
     baseURL!: string;

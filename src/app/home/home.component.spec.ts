@@ -13,7 +13,7 @@ describe('HomeComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [HomeComponent],
+            imports: [HomeComponent],
             providers: [
                 provideHttpClient(withInterceptorsFromDi()),
                 provideHttpClientTesting()
@@ -27,6 +27,7 @@ describe('HomeComponent', () => {
         fixture.detectChanges();
     });
 
+    // TODO currently causes NG0100
     xit('should create', () => {
         expect(component).toBeTruthy();
     });

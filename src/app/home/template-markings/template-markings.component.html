@@ -1,0 +1,112 @@
+<div>
+    <div class="card typo-marking-card border-secondary">
+        <div
+            class="card-header typo-marking-card-header second-header"
+            [ngClass]="{
+                'second-header-dark-mode': darkModeService.isDarkMode
+            }"
+        >
+            <div>
+                <span class="typo-marking-header template-marking-span"
+                    >gabime shkrimi</span
+                >
+            </div>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li
+                class="list-group-item typo-list-group-item"
+                [ngClass]="{
+                    'list-group-item-dark-mode': darkModeService.isDarkMode
+                }"
+            >
+                <b>shkrim pa gabime</b> -
+                <span
+                    >shenjime për fjalë të shkruara gabim, gabime fonetikore,
+                    shenja pikësimi</span
+                >
+            </li>
+        </ul>
+    </div>
+    <div class="card loanword-marking-card border-secondary mt-4">
+        <div
+            class="card-header loanword-marking-card-header second-header"
+            [ngClass]="{
+                'second-header-dark-mode': darkModeService.isDarkMode
+            }"
+        >
+            <div>
+                <span class="loanword-marking-header template-marking-span"
+                    >sugjerime huazimesh</span
+                >
+            </div>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li
+                class="list-group-item loanword-list-group-item"
+                [ngClass]="{
+                    'list-group-item-dark-mode': darkModeService.isDarkMode
+                }"
+            >
+                <b>pa huazime për tani</b> -
+                <span
+                    >shenjime për huazime me origjinë italiane, angleze, sllave,
+                    gjermane, otomane, greke</span
+                >
+            </li>
+        </ul>
+    </div>
+    <div class="card stylistic-marking-card border-secondary mt-4">
+        <div
+            class="card-header stylistic-marking-card-header second-header"
+            [ngClass]="{
+                'second-header-dark-mode': darkModeService.isDarkMode
+            }"
+        >
+            <div>
+                <span class="stylistic-marking-header template-marking-span"
+                    >shenjime stilistike</span
+                >
+            </div>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li
+                class="list-group-item stylistic-list-group-item"
+                [ngClass]="{
+                    'list-group-item-dark-mode': darkModeService.isDarkMode
+                }"
+            >
+                <b>stilistikë e duhur</b> -
+                <span>shenjime për fjali tepër të gjata</span>
+            </li>
+        </ul>
+    </div>
+    <div class="card grammatical-marking-card border-secondary mt-4">
+        <div
+            class="card-header grammatical-marking-card-header second-header"
+            [ngClass]="{
+                'second-header-dark-mode': darkModeService.isDarkMode
+            }"
+        >
+            <div>
+                <span class="grammatical-marking-header template-marking-span"
+                    >shenjime gabimesh gramatikore</span
+                >
+            </div>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li
+                class="list-group-item grammatical-list-group-item"
+                [ngClass]="{
+                    'list-group-item-dark-mode': darkModeService.isDarkMode
+                }"
+            >
+                <i class="bi bi-stars grammatical-marking-stars"></i>
+                <b>sipas rregullave gramatikore</b> -
+                <span
+                    >shenjime për gabime gramatikore të llojeve të
+                    ndryshme</span
+                >
+            </li>
+        </ul>
+    </div>
+</div>
