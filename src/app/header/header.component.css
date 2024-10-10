@@ -1,5 +1,5 @@
 .header-name-gear-icon {
-    margin-left: 3rem;
+    margin-left: 2.5rem;
     font-size: 1.4rem;
     display: flex;
     align-items: center;
@@ -13,14 +13,6 @@
 
 .header-dark-mode {
     background-color: var(--dark-mode-theme);
-}
-
-.header-button-dark-mode {
-    background-color: var(--dark-mode-theme);
-}
-
-.header-button-dark-mode:hover {
-    background-color: var(--dark-mode-hover-color) !important;
 }
 
 .header-text-dark-mode {
@@ -54,10 +46,20 @@
     height: 41px;
     display: flex;
     align-items: center;
+    background-color: var(--light-mode-color);
+    margin-bottom: 17.5px;
 }
 
 .side-menu-start-button:hover {
     background-color: var(--light-mode-hover-theme);
+}
+
+.header-button-dark-mode {
+    background-color: var(--dark-mode-theme);
+}
+
+.header-button-dark-mode:hover {
+    background-color: var(--dark-mode-hover-color) !important;
 }
 
 .side-menu-header-dark-mode {
@@ -196,7 +198,7 @@
 
 .settings-gear-button {
     cursor: pointer;
-    margin-right: 3rem; /*TODO: remove for auth.*/
+    margin-right: 2.2rem; /*TODO: remove for auth.*/
     padding: 0.5rem !important;
     border-radius: 0.5rem;
 }
@@ -286,7 +288,9 @@
 .penda-header-logo-corrector {
     color: var(--active-dropdown-menu-dark-mode);
     font-size: 15px;
-    padding-left: 8px;
+    padding-left: 8.5px;
+    font-style: italic;
+    font-weight: 500;
 }
 
 .header-corrector-text-dark-mode {
