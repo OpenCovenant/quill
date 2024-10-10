@@ -18,11 +18,6 @@
     border-radius: 10px;
 }
 
-.option-set-dark-mode.active {
-    background-color: var(--active-dropdown-menu-dark-mode);
-    border-radius: 10px;
-}
-
 .option-set-system-mode:hover {
     background-color: var(--light-mode-hover-theme);
     border-radius: 10px;
@@ -50,30 +45,7 @@
 
 .option-set-dark-mode-dark-mode.active {
     background-color: var(--active-dropdown-menu-dark-mode);
-}
-
-.set-moon-icon {
-    color: var(--dark);
-}
-
-.set-system-icon {
-    color: var(--dark);
-}
-
-.set-moon-icon-dark-mode {
-    color: var(--light);
-}
-
-.theme-selector-text-moon {
-    color: var(--dark);
-}
-
-.theme-selector-text-sun {
-    color: var(--dark);
-}
-
-.theme-selector-text-system {
-    color: var(--dark);
+    border-radius: 10px;
 }
 
 .theme-selector-dark-mode {
@@ -86,39 +58,6 @@
     margin: 0 auto;
 }
 
-.set-moon-icon-dark-mode {
-    color: var(--light);
-}
-
-.set-sun-icon-dark-mode {
-    color: var(--light);
-}
-
-.set-system-icon-dark-mode {
-    color: var(--light);
-}
-
-.set-moon-icon-dark-mode-dark-mode {
-    color: var(--light);
-}
-
-.theme-selector-text-moon-dark-mode {
-    color: var(--light);
-}
-
-.theme-selector-text-sun-dark-mode {
-    color: var(--light);
-}
-
-.theme-selector-text-system-dark-mode {
-    color: var(--light);
-}
-
-.theme-selector-paragraph {
-    display: flex;
-    justify-content: center;
-}
-
 .option-set-light-mode-span {
     padding: 0px 14px;
     cursor: pointer;
@@ -127,7 +66,6 @@
 .option-set-system-mode {
     padding: 0px 14px;
     cursor: pointer;
-    border-radius: 10px;
 }
 
 .option-set-dark-mode {
@@ -160,9 +98,21 @@
     margin: 0;
 }
 
+.header-page-theme-buttons .theme-selector {
+    margin: 0 auto;
+}
+
+.header-page-theme-buttons .theme-selector-dark-mode {
+    margin: 0 auto;
+}
+
 @media (max-width: 800px) {
-    .settings-page .theme-selector,
-    .settings-page .theme-selector-dark-mode {
+    .settings-page-theme-buttons .theme-selector {
+        width: auto;
+        flex-direction: column;
+    }
+
+    .settings-page-theme-buttons .theme-selector-dark-mode {
         width: auto;
         flex-direction: column;
     }
