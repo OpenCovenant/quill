@@ -101,7 +101,7 @@ describe("markings board", () => {
         cy.get('[data-test="editor"]').type("{enter}"); // TODO why do we enter here?
     });
 
-    // TODO
+    // TODO I guess depends on immediate-markings which is still WIP
     xit("should not immediately apply markings after being disabled and actually do so after enabling", () => {
         cy.visit("/settings");
         cy.get('[data-test="immediate-markings-switch"]').should("be.checked");

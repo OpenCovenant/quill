@@ -631,9 +631,9 @@
         }
     },
     {
-        "request": "<p>gabmim <span class=\"typo animated-typo-marking\">gabmim</span></p>",
+        "request": "<p>gabmim <span class=\"typo\">gabmim</span></p>",
         "response": {
-            "text": "<p>gabmim <span class=\"typo animated-typo-marking\">gabmim</span></p>",
+            "text": "<p>gabmim <span class=\"typo\">gabmim</span></p>",
             "markings": [
                 {
                     "from": 0,
@@ -1567,9 +1567,39 @@
         }
     },
     {
-        "request": "<p>gamit <span class=\"loanword animated-loanword-marking\">lider</span> e eshtë e gazmim e saktë eshtë pra eshtë</p>",
+        "request": "<p>gamit lider e eshtë e gazmim e saktë eshtë pra eshtë</p>",
         "response": {
-            "text": "<p>gamit <span class=\"loanword animated-loanword-marking\">lider</span> e esht\u00eb e gazmim e sakt\u00eb esht\u00eb pra esht\u00eb</p>",
+            "text": "<p>gamit lider e esht\u00eb e gazmim e sakt\u00eb esht\u00eb pra esht\u00eb</p>",
+            "markings": [
+                {
+                    "from": 6,
+                    "to": 11,
+                    "type": "loanword",
+                    "subtype": "huazim anglisht",
+                    "description": "z\u00ebvend\u00ebsime n\u00eb shqip p\u00ebr lider jan\u00eb",
+                    "suggestions": [
+                        {
+                            "display": "prij\u00ebs",
+                            "action": "prij\u00ebs"
+                        },
+                        {
+                            "display": "drejtues",
+                            "action": "drejtues"
+                        },
+                        {
+                            "display": "udh\u00ebheq\u00ebs",
+                            "action": "udh\u00ebheq\u00ebs"
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
+    },
+    {
+        "request": "<p>gamit <span class=\"loanword\">lider</span> e eshtë e gazmim e saktë eshtë pra eshtë</p>",
+        "response": {
+            "text": "<p>gamit <span class=\"loanword\">lider</span> e esht\u00eb e gazmim e sakt\u00eb esht\u00eb pra esht\u00eb</p>",
             "markings": [
                 {
                     "from": 6,
@@ -2406,9 +2436,9 @@
         }
     },
     {
-        "request": "<p>sakt <span class=\"typo animated-typo-marking\">eshte</span></p>",
+        "request": "<p>sakt <span class=\"typo\">eshte</span></p>",
         "response": {
-            "text": "<p>sakt <span class=\"typo animated-typo-marking\">eshte</span></p>",
+            "text": "<p>sakt <span class=\"typo\">eshte</span></p>",
             "markings": [
                 {
                     "from": 0,
@@ -4033,7 +4063,7 @@
     {
         "request": "<p>aks gazmim <span class=\"typo\">asd</span>&nbsp;</p>",
         "response": {
-            "text": "<p>aks gazmim <span class=\"typo animated-typo-marking\">asd</span>&nbsp;</p>",
+            "text": "<p>aks gazmim <span class=\"typo\">asd</span>&nbsp;</p>",
             "markings": [
                 {
                     "from": 11,
@@ -4869,9 +4899,9 @@
         }
     },
     {
-        "request": "<p>saktë <span class=\"typo animated-typo-marking\">gabmim</span>&nbsp;</p><p><br></p>",
+        "request": "<p>saktë <span class=\"typo\">gabmim</span>&nbsp;</p><p><br></p>",
         "response": {
-            "text": "<p>sakt\u00eb <span class=\"typo animated-typo-marking\">gabmim</span>&nbsp;</p><p><br></p>",
+            "text": "<p>sakt\u00eb <span class=\"typo\">gabmim</span>&nbsp;</p><p><br></p>",
             "markings": [
                 {
                     "from": 6,
@@ -5225,7 +5255,7 @@
         }
     },
     {
-        "request": "<p>është <span class=\"typo\">keshtu</span> si fjali me <span class=\"typo\">gabmime</span></p>",
+        "request": "<p>është keshtu si fjali me gabmime</p>",
         "response": {
             "text": "<p>është keshtu si fjali me gabmime</p>",
             "markings": [
@@ -5299,9 +5329,9 @@
         }
     },
     {
-        "request": "<p>aks P\u00ebr kryerjen e programeve gazmim aso&nbsp;</p><p>aks P\u00ebr kryerjen e programeve gazmim aso&nbsp;</p><p>aks P\u00ebr kryerjen e programeve gazmim aso&nbsp;</p><p><span class=\"typo animated-typo-marking\">asd</span> P\u00ebr kryerjen e programeve <span class=\"typo animated-typo-marking\">gabmim</span> <span class=\"typo animated-typo-marking\">asd</span>&nbsp;</p><p><br></p>",
+        "request": "<p>aks P\u00ebr kryerjen e programeve gazmim aso&nbsp;</p><p>aks P\u00ebr kryerjen e programeve gazmim aso&nbsp;</p><p>aks P\u00ebr kryerjen e programeve gazmim aso&nbsp;</p><p><span class=\"typo\">asd</span> P\u00ebr kryerjen e programeve <span class=\"typo\">gabmim</span> <span class=\"typo\">asd</span>&nbsp;</p><p><br></p>",
         "response": {
-            "text": "<p>aks P\u00ebr kryerjen e programeve gazmim aso&nbsp;</p><p>aks P\u00ebr kryerjen e programeve gazmim aso&nbsp;</p><p>aks P\u00ebr kryerjen e programeve gazmim aso&nbsp;</p><p><span class=\"typo animated-typo-marking\">asd</span> P\u00ebr kryerjen e programeve <span class=\"typo animated-typo-marking\">gabmim</span> <span class=\"typo animated-typo-marking\">asd</span>&nbsp;</p><p><br></p>",
+            "text": "<p>aks P\u00ebr kryerjen e programeve gazmim aso&nbsp;</p><p>aks P\u00ebr kryerjen e programeve gazmim aso&nbsp;</p><p>aks P\u00ebr kryerjen e programeve gazmim aso&nbsp;</p><p><span class=\"typo\">asd</span> P\u00ebr kryerjen e programeve <span class=\"typo\">gabmim</span> <span class=\"typo\">asd</span>&nbsp;</p><p><br></p>",
             "markings": [
                 {
                     "from": 0,
@@ -5557,9 +5587,9 @@
         }
     },
     {
-        "request": "<p>kad Për kryerjen e programeve gazmim kad&nbsp;</p><p>kad Për kryerjen e programeve gazmim kad&nbsp;</p><p>kad Për kryerjen e programeve gazmim kad&nbsp;</p><p><span class=\"typo animated-typo-marking\">asd</span> Për kryerjen e programeve <span class=\"typo animated-typo-marking\">gabmim</span> <span class=\"typo animated-typo-marking\">asd</span>&nbsp;</p><p><br></p>",
+        "request": "<p>kad Për kryerjen e programeve gazmim kad&nbsp;</p><p>kad Për kryerjen e programeve gazmim kad&nbsp;</p><p>kad Për kryerjen e programeve gazmim kad&nbsp;</p><p><span class=\"typo\">asd</span> Për kryerjen e programeve <span class=\"typo\">gabmim</span> <span class=\"typo\">asd</span>&nbsp;</p><p><br></p>",
         "response": {
-            "text": "<p>kad P\u00ebr kryerjen e programeve gazmim kad&nbsp;</p><p>kad P\u00ebr kryerjen e programeve gazmim kad&nbsp;</p><p>kad P\u00ebr kryerjen e programeve gazmim kad&nbsp;</p><p><span class=\"typo animated-typo-marking\">asd</span> P\u00ebr kryerjen e programeve <span class=\"typo animated-typo-marking\">gabmim</span> <span class=\"typo animated-typo-marking\">asd</span>&nbsp;</p><p><br></p>",
+            "text": "<p>kad P\u00ebr kryerjen e programeve gazmim kad&nbsp;</p><p>kad P\u00ebr kryerjen e programeve gazmim kad&nbsp;</p><p>kad P\u00ebr kryerjen e programeve gazmim kad&nbsp;</p><p><span class=\"typo\">asd</span> P\u00ebr kryerjen e programeve <span class=\"typo\">gabmim</span> <span class=\"typo\">asd</span>&nbsp;</p><p><br></p>",
             "markings": [
                 {
                     "from": 0,
@@ -6100,9 +6130,9 @@
         }
     },
     {
-        "request": "<p><span class=\"typo animated-typo-marking\">gabmim</span> <span class=\"typo animated-typo-marking\">asd</span>&nbsp;pra&nbsp;</p>",
+        "request": "<p><span class=\"typo\">gabmim</span> <span class=\"typo\">asd</span>&nbsp;pra&nbsp;</p>",
         "response": {
-            "text": "<p><span class=\"typo animated-typo-marking\">gabmim</span> <span class=\"typo animated-typo-marking\">asd</span>&nbsp;pra&nbsp;</p>",
+            "text": "<p><span class=\"typo\">gabmim</span> <span class=\"typo\">asd</span>&nbsp;pra&nbsp;</p>",
             "markings": [
                 {
                     "from": 0,
@@ -6200,6 +6230,66 @@
                         {
                             "display": "as",
                             "action": "as"
+                        }
+                    ],
+                    "paragraph": 0
+                }
+            ]
+        }
+    },
+    {
+        "request": "<p><span class=\"typo\">gabmim</span> <span class=\"typo\">gabmim</span></p>",
+        "response": {
+            "text": "<p><span class=\"typo\">gabmim</span> <span class=\"typo\">gabmim</span></p>",
+            "markings": [
+                {
+                    "from": 0,
+                    "to": 6,
+                    "type": "typo",
+                    "subtype": "gabim drejtshkrimi",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "gazmim",
+                            "action": "gazmim"
+                        },
+                        {
+                            "display": "gabimi",
+                            "action": "gabimi"
+                        },
+                        {
+                            "display": "gabime",
+                            "action": "gabime"
+                        },
+                        {
+                            "display": "gabim",
+                            "action": "gabim"
+                        }
+                    ],
+                    "paragraph": 0
+                },
+                {
+                    "from": 7,
+                    "to": 13,
+                    "type": "typo",
+                    "subtype": "gabim drejtshkrimi",
+                    "description": "kjo fjal\u00eb nuk ekziston, a doje t\u00eb shkruaje",
+                    "suggestions": [
+                        {
+                            "display": "gazmim",
+                            "action": "gazmim"
+                        },
+                        {
+                            "display": "gabimi",
+                            "action": "gabimi"
+                        },
+                        {
+                            "display": "gabime",
+                            "action": "gabime"
+                        },
+                        {
+                            "display": "gabim",
+                            "action": "gabim"
                         }
                     ],
                     "paragraph": 0

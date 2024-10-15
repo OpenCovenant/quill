@@ -1,0 +1,55 @@
+<button
+    id="welcome-modal-button"
+    type="button"
+    class="btn btn-primary welcome-modal-button"
+    data-bs-toggle="modal"
+    data-bs-target="#welcome-modal"
+>
+    Dialog per Mirësëardhje
+</button>
+<div
+    class="modal fade"
+    id="welcome-modal"
+    tabindex="-1"
+    aria-labelledby="welcome-modal-label"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered">
+        <div
+            class="modal-content"
+            [ngClass]="{
+                'modal-content-welcome-dark-mode': darkModeService.isDarkMode
+            }"
+        >
+            <div class="modal-header">
+                <h5 class="modal-title" id="welcome-modal-label">
+                    Mirë se Vini te Penda
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    [ngClass]="{
+                        'btn-close-white': darkModeService.isDarkMode
+                    }"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Për çdo paqartësi apo shqetësim mos ngurroni të na
+                    kontaktoni te penda.information&#64;gmail.com
+                </p>
+            </div>
+            <div class="modal-footer welcome-modal-footer-div">
+                <button
+                    type="button"
+                    class="btn btn-success welcome-modal-continue-button"
+                    data-bs-dismiss="modal"
+                >
+                    Vazhdo
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

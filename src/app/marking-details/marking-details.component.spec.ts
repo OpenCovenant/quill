@@ -14,7 +14,7 @@ describe('MarkingDetailsComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [MarkingDetailsComponent],
+            imports: [MarkingDetailsComponent],
             providers: [
                 provideHttpClient(withInterceptorsFromDi()),
                 provideHttpClientTesting(),
