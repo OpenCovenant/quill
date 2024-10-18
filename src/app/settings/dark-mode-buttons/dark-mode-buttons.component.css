@@ -1,0 +1,112 @@
+.option-set-system-mode-light-mode.active {
+    background-color: var(--light-mode-hover-theme);
+    border-radius: 10px;
+}
+
+.option-set-dark-mode:hover {
+    background-color: var(--light-mode-hover-theme);
+    border-radius: 10px;
+}
+
+.option-set-light-mode-span:hover {
+    background-color: var(--light-mode-hover-theme);
+    border-radius: 10px;
+}
+
+.option-set-system-mode-dark-mode.active {
+    background-color: var(--dark-mode-hover-color);
+    border-radius: 10px;
+}
+
+.option-set-system-mode:hover {
+    background-color: var(--light-mode-hover-theme);
+    border-radius: 10px;
+}
+
+.option-system-dark-mode:hover {
+    background-color: var(--dark-mode-hover-color);
+    border-radius: 10px;
+}
+
+.option-set-light-mode-span.active {
+    background-color: var(--active-dropdown-menu);
+    border-radius: 10px;
+}
+
+.option-set-light-dark-mode:hover {
+    background-color: var(--dark-mode-hover-color);
+    border-radius: 10px;
+}
+
+.option-set-dark-mode-dark-mode:hover {
+    background-color: var(--dark-mode-hover-color);
+    border-radius: 10px;
+}
+
+.option-set-dark-mode-dark-mode.active {
+    background-color: var(--active-dropdown-menu-dark-mode);
+    border-radius: 10px;
+}
+
+.theme-selector-dark-mode {
+    background-color: var(--dark-mode-theme);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 10px;
+    width: 300px;
+    margin: 0 auto;
+}
+
+.option-set-light-mode-span {
+    padding: 0px 14px;
+    cursor: pointer;
+}
+
+.option-set-system-mode {
+    padding: 0px 14px;
+    cursor: pointer;
+}
+
+.option-set-dark-mode {
+    padding: 0px 14px;
+    cursor: pointer;
+}
+
+.theme-selector {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 10px;
+    width: 300px;
+    margin: 0;
+}
+
+.theme-span-icons {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.theme-selector-dark-mode {
+    background-color: var(--dark-mode-theme);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 10px var(--dark-mode-theme);
+    width: 300px;
+    margin: 0;
+}
+
+.header-page-theme-buttons .theme-selector,
+.header-page-theme-buttons .theme-selector-dark-mode {
+    margin: 0 auto;
+}
+
+@media (max-width: 800px) {
+    .settings-page-theme-buttons .theme-selector,
+    .settings-page-theme-buttons .theme-selector-dark-mode {
+        width: auto;
+        flex-direction: column;
+    }
+}

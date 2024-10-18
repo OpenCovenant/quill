@@ -1,0 +1,29 @@
+<div class="card loading-reading-text-card border-secondary">
+    <div
+        class="card-header loading-reading-text-card-header second-header"
+        [ngClass]="{
+            'second-header-dark-mode': darkModeService.isDarkMode
+        }"
+    >
+        <div>
+            <span
+                class="pulsing-dots"
+                [ngClass]="{
+                    'pulsing-dots-dark-mode': darkModeService.isDarkMode
+                }"
+            >
+                duke lexuar shkrimin
+            </span>
+        </div>
+    </div>
+    <ul
+        class="list-group list-group-flush while-reading-text-ul"
+        [ngClass]="{
+            'while-reading-text-ul-dark-mode': darkModeService.isDarkMode
+        }"
+    >
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">duke lexuar shkrimin...</span>
+        </div>
+    </ul>
+</div>

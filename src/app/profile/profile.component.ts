@@ -4,11 +4,14 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
+    standalone: true,
     selector: 'app-profile',
     templateUrl: './profile.component.html',
-    styleUrls: ['./profile.component.css']
+    styleUrls: ['./profile.component.css'],
+    imports: [CommonModule]
 })
 export class ProfileComponent {
     // TODO we do need this below here now but when/why was this added?

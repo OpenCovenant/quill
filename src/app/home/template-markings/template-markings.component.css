@@ -1,0 +1,66 @@
+.template-marking-span {
+    display: inline-block;
+    padding-left: 6px;
+    padding-right: 6px;
+    color: black;
+}
+
+.typo-marking-card {
+    border: 0 solid var(--card-border-color);
+    box-shadow: 0 0 10px var(--card-box-shadow-color);
+    margin-top: 5px;
+}
+
+.loanword-marking-card {
+    border: 0 solid var(--card-border-color);
+    box-shadow: 0 0 10px var(--card-box-shadow-color);
+    margin-top: 5px;
+}
+
+.stylistic-marking-card {
+    border: 0 solid var(--card-border-color);
+    box-shadow: 0 0 10px var(--card-box-shadow-color);
+    margin-top: 5px;
+}
+
+.grammatical-marking-card {
+    border: 0 solid var(--card-border-color);
+    box-shadow: 0 0 10px var(--card-box-shadow-color);
+    margin-top: 5px;
+}
+
+.typo-marking-card-header {
+    border-bottom: 0 solid var(--light-black);
+}
+
+.loanword-marking-card-header {
+    border-bottom: 0 solid var(--light-black);
+}
+
+.stylistic-marking-card-header {
+    border-bottom: 0 solid var(--light-black);
+}
+
+.grammatical-marking-card-header {
+    border-bottom: 0 solid var(--light-black);
+}
+
+.typo-list-group-item {
+    background-color: var(--light-mode-color);
+}
+
+.loanword-list-group-item {
+    background-color: var(--light-mode-color);
+}
+
+.stylistic-list-group-item {
+    background-color: var(--light-mode-color);
+}
+
+.grammatical-list-group-item {
+    background-color: var(--light-mode-color);
+}
+
+.list-group-item-dark-mode {
+    background-color: var(--dark-mode-theme);
+}

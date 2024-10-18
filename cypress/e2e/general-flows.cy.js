@@ -1,4 +1,7 @@
-import { applySuggestionByIndex, dismissMarking } from "./utils";
+import {
+    applyFirstSuggestionOfFirstMarking,
+    dismissFirstMarking
+} from "./utils";
 
 describe("general flows", () => {
     beforeEach(() => {
@@ -150,30 +153,31 @@ describe("general flows", () => {
         });
     });
 
-    it("should properly behave when briefly applying a suggestion and dismissing a marking", () => {
+    it("should behave properly when briefly applying a suggestion and dismissing a marking", () => {
         cy.get('[data-test="editor"]').clear().type("lider gabmim");
 
-        applySuggestionByIndex(".typo-marking-header");
-        dismissMarking(".loanword-marking-header");
+        applyFirstSuggestionOfFirstMarking(".typo-marking-header");
+        dismissFirstMarking(".loanword-marking-header");
 
         cy.get(".typo").should("not.exist");
         cy.get(".loanword").should("not.exist");
         cy.get(".template-marking-span").should("be.visible");
     });
 
-    it("should properly behave when briefly applying suggestions and dismissing markings", () => {
+    it("should behave properly when briefly applying suggestions and dismissing markings", () => {
         cy.get('[data-test="editor"]').type(
             "gabmi lider e eshte e gabmim e saktë eshte pra eshte"
         );
 
-        applySuggestionByIndex(".typo-marking-header", 0);
+        applyFirstSuggestionOfFirstMarking(".typo-marking-header");
 
-        dismissMarking(".loanword-marking-header");
+        dismissFirstMarking(".loanword-marking-header");
 
-        applySuggestionByIndex(".typo-marking-header", 1);
-        applySuggestionByIndex(".typo-marking-header", 2);
-        applySuggestionByIndex(".typo-marking-header", 3);
-        applySuggestionByIndex(".typo-marking-header", 4);
+        applyFirstSuggestionOfFirstMarking(".typo-marking-header");
+
+        applyFirstSuggestionOfFirstMarking(".typo-marking-header");
+        applyFirstSuggestionOfFirstMarking(".typo-marking-header");
+        applyFirstSuggestionOfFirstMarking(".typo-marking-header");
 
         cy.get(".typo").should("not.exist");
         cy.get(".loanword").should("not.exist");
@@ -252,7 +256,7 @@ describe("general flows", () => {
             .should("be.visible");
     });
 
-    // TODO: currently all occurrences of the same marking are dismissed
+    // NOTE: currently all occurrences of the same marking are dismissed
     xit("should only dismiss selected markings even if they might be duplicated in content", () => {
         const totalNumberOfMarkings = 9;
 
@@ -284,6 +288,7 @@ describe("general flows", () => {
             });
     });
 
+    // TODO: sticky on top is not currently working (if this test depends on this)
     xit("should stick the highlighted remain on the top after adding multiple new lines", () => {
         cy.get('[data-test="editor"]').type("gabmim");
 

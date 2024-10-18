@@ -5,7 +5,6 @@ import {
     provideHttpClient,
     withInterceptorsFromDi
 } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { MarkingDetailsComponent } from './marking-details/marking-details.component';
@@ -23,20 +22,12 @@ import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { AuthenticationInterceptor } from './authentication.interceptor';
-import { SettingsSkeletonComponent } from './settings/settings-skeleton/settings-skeleton.component';
 
 @NgModule({
     declarations: [
         AppComponent,
-        MarkingDetailsComponent,
-        HeaderComponent,
-        FooterComponent,
-        HomeComponent,
-        SettingsComponent,
-        AboutComponent,
         ShortcutsComponent,
         AuthenticationComponent,
-        ProfileComponent,
         PrivacyPolicyComponent,
         TermsOfUseComponent,
         DashboardComponent,
@@ -45,9 +36,14 @@ import { SettingsSkeletonComponent } from './settings/settings-skeleton/settings
     bootstrap: [AppComponent],
     imports: [
         BrowserModule,
-        FormsModule,
         AppRoutingModule,
-        SettingsSkeletonComponent
+        SettingsComponent,
+        AboutComponent,
+        HeaderComponent,
+        FooterComponent,
+        MarkingDetailsComponent,
+        ProfileComponent,
+        HomeComponent
     ],
     providers: [
         {
