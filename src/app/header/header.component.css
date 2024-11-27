@@ -296,3 +296,9 @@
 .header-corrector-text-dark-mode {
     color: var(--header-corrector-dark-mode);
 }
+
+@media (max-width: 800px) {
+    .settings-gear-button {
+        margin-right: 2rem;
+    }
+}
