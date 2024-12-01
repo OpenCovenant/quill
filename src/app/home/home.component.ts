@@ -59,11 +59,7 @@ import { VeiledMarkingComponent } from './veiled-marking/veiled-marking.componen
 import { ThankYouComponent } from './modals/thank-you/thank-you.component';
 import { WelcomeComponent } from './modals/welcome/welcome.component';
 import { WritingsHistoryComponent } from './modals/writings-history/writings-history.component';
-import {
-    DocumentUploadComponent,
-    MarkedPage
-} from './modals/document-upload/document-upload.component';
-import { DocumentUploadService } from './modals/document-upload/document-upload.service';
+import { DocumentUploadComponent } from './modals/document-upload/document-upload.component';
 
 @Component({
     selector: 'app-home',
@@ -107,7 +103,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     private baseURL!: string;
     private generateMarkingsURL!: string;
-    private uploadDocumentURL!: string;
     private pingURL!: string;
     private savedCursorPosition: CursorPosition | undefined;
     private eventualMarkingSubscription$: any;
@@ -119,8 +114,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         private httpClient: HttpClient,
         private router: Router,
         private editorContentService: EditorContentService,
-        private elementRef: ElementRef,
-        private documentUploadService: DocumentUploadService
+        private elementRef: ElementRef
     ) {
         this.initializeURLs();
         this.addEventListenerForShortcuts();
@@ -305,49 +299,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         }
     }
 
-    // TODO: shiko a mund te cohet kjo tani te new comp.
-    /**
-     * Uploads the selected document to be marked
-     * @param {Event} $event the event emitted when the file is selected
-     */
-    uploadDocument($event: Event): void {
-        const fileList: FileList | null = ($event.target as HTMLInputElement)
-            .files;
-        if (fileList && fileList.length === 1) {
-            const file: File = fileList[0];
-            const fileSize = file.size / (1024 * 1024);
-            if (fileSize > 20) {
-                alert(
-                    'File is too large. Please select a file smaller than 20 MB.'
-                );
-            }
-            document.getElementById('fileName')!.textContent = file.name;
-            const formData: FormData = new FormData();
-            formData.append('uploadFile', file, file.name);
-            this.httpClient
-                .post(this.uploadDocumentURL, formData)
-                .subscribe((value) => {
-                    const markedPages = value as MarkedPage[];
-                    this.documentUploadService.updateData(markedPages);
-
-                    // this.processedText = value as ProcessedText;
-                    // this.shouldCollapseSuggestions = new Array<boolean>(
-                    //     this.processedText.markings.length
-                    // ).fill(true);
-                    // this.shouldVeilMarkings = new Array<boolean>(
-                    //     this.processedText.markings.length
-                    // ).fill(false);
-                    //
-                    // document.getElementById(EDITOR_ID)!.innerHTML =
-                    //     this.processedText.text; // TODO: improve to add newlines and such
-                    // // this.innerHTMLOfEditor = this.LINE_BROKEN_PARAGRAPH; // TODO careful with the <br> here
-                    // this.markEditor(CursorPlacement.END);
-                });
-        } else {
-            alert('Ngarko vetëm një dokument!');
-        }
-    }
-
     /**
      * Apply the chosen suggestion in the editor.
      * @param {number} markingIndex the index of the chosen Marking
@@ -520,7 +471,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.baseURL = environment.baseURL;
         this.generateMarkingsURL =
             this.baseURL + '/api/generateMarkingsForParagraphs';
-        this.uploadDocumentURL = this.baseURL + '/api/uploadDocument';
         this.pingURL = this.baseURL + '/api/ping';
     }
 

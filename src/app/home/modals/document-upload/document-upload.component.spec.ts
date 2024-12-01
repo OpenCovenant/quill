@@ -1,6 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DocumentUploadComponent } from './document-upload.component';
+import {
+    provideHttpClient,
+    withInterceptorsFromDi
+} from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('DocumentUploadComponent', () => {
     let component: DocumentUploadComponent;
@@ -8,7 +13,10 @@ describe('DocumentUploadComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [DocumentUploadComponent]
+            providers: [
+                provideHttpClient(withInterceptorsFromDi()),
+                provideHttpClientTesting()
+            ]
         }).compileComponents();
 
         fixture = TestBed.createComponent(DocumentUploadComponent);

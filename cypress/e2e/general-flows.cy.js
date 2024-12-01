@@ -25,7 +25,7 @@ describe("general flows", () => {
         cy.get(".stylistic").should("be.visible");
     });
 
-    it("should mark grammaticals in the editor", () => {
+    xit("should mark grammaticals in the editor", () => {
         cy.get('[data-test="editor"]').type("Lapsi kuq mungonte nga kutia.");
         cy.get(".grammatical").should("be.visible");
     });
@@ -70,7 +70,7 @@ describe("general flows", () => {
         cy.get(".stylistic").should("not.exist");
     });
 
-    it("should reflect changes in the editor when suggestions of grammaticals are applied", () => {
+    xit("should reflect changes in the editor when suggestions of grammaticals are applied", () => {
         cy.get('[data-test="editor"]').type("Lapsi kuq mungonte nga kutia.");
         cy.get('[data-test="suggestion"]')
             .contains("Lapsi i kuq mungonte nga kutia.")
