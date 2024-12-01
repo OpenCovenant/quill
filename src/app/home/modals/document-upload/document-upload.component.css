@@ -7,7 +7,7 @@
     justify-content: space-around;
 }
 
-.continue-button-document-upload-modal {
+.clear-document-upload-modal {
     font-weight: 500;
 }
 
@@ -24,6 +24,11 @@
     color: var(--dark-mode-smooth-theme);
     font-size: 13px;
     margin-left: 2.9rem;
+}
+
+.clear-document-upload-modal:disabled {
+    cursor: not-allowed;
+    pointer-events: all;
 }
 
 /*#fileName {*/

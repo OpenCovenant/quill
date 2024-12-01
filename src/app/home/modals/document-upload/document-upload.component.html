@@ -43,7 +43,7 @@
                             type="file"
                             (change)="uploadDocument($event)"
                             accept=".pdf,.doc,.docx,.odt"
-                        /><i id="fileName"></i>
+                        /><i id="file-name"></i>
                     </p>
                     <span class="about-file-upload-message"
                         >Lexoni këtu për të mësuar se si vepron ky
@@ -55,7 +55,10 @@
                     <div style="overflow-y: scroll; max-height: 400px">
                         @if (markedPages.length) {
                             @for (markedPage of markedPages; track markedPage) {
-                                <h6>Faqja {{ markedPage.pageNumber }}</h6>
+                                <h6>
+                                    Faqja {{ markedPage.pageNumber }} -
+                                    {{ markedPage.markings.length }} shenjime
+                                </h6>
                                 <p>
                                     @for (
                                         pageMarking of markedPage.markings;
@@ -112,10 +115,11 @@
             <div class="modal-footer document-upload-modal-footer">
                 <button
                     type="button"
-                    class="btn btn-secondary continue-button-document-upload-modal"
-                    (click)="renewModal()"
+                    class="btn btn-secondary clear-document-upload-modal"
+                    (click)="clearModal()"
+                    [disabled]="loading$ | async"
                 >
-                    Ngarko Dokument të Ri
+                    Pastro Dritaren
                 </button>
             </div>
         </div>

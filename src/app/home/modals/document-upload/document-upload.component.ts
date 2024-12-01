@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
@@ -14,20 +14,25 @@ import { MarkedPage } from '../../../models/marked-page';
     imports: [CommonModule],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DocumentUploadComponent {
+export class DocumentUploadComponent implements OnDestroy {
     loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     markedPages: MarkedPage[] | undefined = undefined;
-    totalMarkingsCount: any;
-    totalPagesMarkedCount: any;
+    totalMarkingsCount: number | undefined = undefined;
+    totalPagesMarkedCount: number | undefined = undefined;
 
     private baseURL!: string;
     private uploadDocumentURL!: string;
+    private documentUploadSubscription$: any;
 
     constructor(
         public darkModeService: DarkModeService,
         private httpClient: HttpClient
     ) {
         this.initializeURLs();
+    }
+
+    ngOnDestroy(): void {
+        this.documentUploadSubscription$.unsubscribe();
     }
 
     /**
@@ -45,11 +50,12 @@ export class DocumentUploadComponent {
                     'File is too large. Please select a file smaller than 20 MB.'
                 );
             }
+            this.clearModal();
             this.loading$.next(true);
-            document.getElementById('fileName')!.textContent = file.name;
+            document.getElementById('file-name')!.textContent = file.name;
             const formData: FormData = new FormData();
             formData.append('uploadFile', file, file.name);
-            this.httpClient
+            this.documentUploadSubscription$ = this.httpClient
                 .post(this.uploadDocumentURL, formData)
                 .subscribe((value) => {
                     const markedPages = value as MarkedPage[];
@@ -65,9 +71,13 @@ export class DocumentUploadComponent {
         }
     }
 
-    renewModal(): void {
-        console.log('renewModal');
-        // TODO:
+    clearModal(): void {
+        this.markedPages = undefined;
+        this.totalMarkingsCount = undefined;
+        this.totalPagesMarkedCount = undefined;
+        (document.getElementById('document-upload-input')! as any).value = null;
+        document.getElementById('file-name')!.textContent = '';
+        // this.documentUploadSubscription$.unsubscribe();
     }
 
     private initializeURLs(): void {
