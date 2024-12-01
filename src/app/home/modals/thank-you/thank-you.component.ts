@@ -4,7 +4,6 @@ import { DarkModeService } from '../../../services/dark-mode.service';
 
 @Component({
     selector: 'app-thank-you',
-    standalone: true,
     imports: [CommonModule],
     templateUrl: './thank-you.component.html',
     styleUrl: './thank-you.component.css'

@@ -66,7 +66,6 @@ import {
 import { DocumentUploadService } from './modals/document-upload/document-upload.service';
 
 @Component({
-    standalone: true,
     selector: 'app-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.css'],

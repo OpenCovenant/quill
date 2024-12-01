@@ -9,7 +9,6 @@ import { CommonModule } from '@angular/common';
 import { DarkModeButtonsComponent } from '../settings/dark-mode-buttons/dark-mode-buttons.component';
 
 @Component({
-    standalone: true,
     selector: 'app-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.css'],

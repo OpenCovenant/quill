@@ -24,15 +24,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { AuthenticationInterceptor } from './authentication.interceptor';
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        ShortcutsComponent,
-        AuthenticationComponent,
-        PrivacyPolicyComponent,
-        TermsOfUseComponent,
-        DashboardComponent,
-        CheckoutComponent
-    ],
+    declarations: [AppComponent],
     bootstrap: [AppComponent],
     imports: [
         BrowserModule,
@@ -43,7 +35,13 @@ import { AuthenticationInterceptor } from './authentication.interceptor';
         FooterComponent,
         MarkingDetailsComponent,
         ProfileComponent,
-        HomeComponent
+        HomeComponent,
+        TermsOfUseComponent,
+        ShortcutsComponent,
+        AuthenticationComponent,
+        PrivacyPolicyComponent,
+        DashboardComponent,
+        CheckoutComponent
     ],
     providers: [
         {

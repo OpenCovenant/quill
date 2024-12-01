@@ -4,7 +4,6 @@ import { NgClass } from '@angular/common';
 
 @Component({
     selector: 'app-settings-skeleton',
-    standalone: true,
     imports: [NgClass],
     templateUrl: './settings-skeleton.component.html',
     styleUrl: './settings-skeleton.component.css'

@@ -4,11 +4,13 @@ import { HttpClient } from '@angular/common/http';
 import { DarkModeService } from '../services/dark-mode.service';
 import { environment } from '../../environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-shortcuts',
     templateUrl: './shortcuts.component.html',
-    styleUrls: ['./shortcuts.component.css']
+    styleUrls: ['./shortcuts.component.css'],
+    imports: [CommonModule]
 })
 export class ShortcutsComponent {
     baseURL!: string;

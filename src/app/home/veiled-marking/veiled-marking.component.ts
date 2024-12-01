@@ -5,7 +5,6 @@ import { DarkModeService } from '../../services/dark-mode.service';
 
 @Component({
     selector: 'app-veiled-marking',
-    standalone: true,
     imports: [CommonModule],
     templateUrl: './veiled-marking.component.html',
     styleUrl: './veiled-marking.component.css'

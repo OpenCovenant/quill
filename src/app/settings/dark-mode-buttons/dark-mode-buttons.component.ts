@@ -4,7 +4,6 @@ import { DarkModeService } from '../../services/dark-mode.service';
 
 @Component({
     selector: 'app-dark-mode-buttons',
-    standalone: true,
     imports: [CommonModule],
     encapsulation: ViewEncapsulation.None,
     templateUrl: './dark-mode-buttons.component.html',

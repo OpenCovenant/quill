@@ -25,7 +25,6 @@ export interface DocumentMarking {
 
 @Component({
     selector: 'app-document-upload',
-    standalone: true,
     templateUrl: './document-upload.component.html',
     styleUrl: './document-upload.component.css',
     imports: [CommonModule],

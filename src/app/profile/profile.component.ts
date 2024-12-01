@@ -7,7 +7,6 @@ import { AuthenticationService } from '../services/authentication.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
-    standalone: true,
     selector: 'app-profile',
     templateUrl: './profile.component.html',
     styleUrls: ['./profile.component.css'],

@@ -7,7 +7,6 @@ import { DarkModeService } from '../services/dark-mode.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
-    standalone: true,
     selector: 'app-marking-details',
     templateUrl: './marking-details.component.html',
     styleUrls: ['./marking-details.component.css'],

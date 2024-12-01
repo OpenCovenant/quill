@@ -78,19 +78,19 @@
                     </div>
                     <hr />
                     <div style="padding-top: 1rem">
-                        <b
-                            >Përmbledhje</b>:
-                            @if (totalPagesMarkedCount === 1) {
-                                <b>1</b> faqe e shenjuar,
-                            } @else {
-                                <b>{{ totalPagesMarkedCount }}</b> faqe të shenjuara,
-                            }
-                            me një total prej
-                            @if (totalMarkingsCount === 1) {
-                                <b>1</b> shenjimi.
-                            } @else {
-                                <b>{{ totalMarkingsCount }}</b> shenjimesh.
-                            }
+                        <b>Përmbledhje</b>:
+                        @if (totalPagesMarkedCount === 1) {
+                            <b>1</b> faqe e shenjuar,
+                        } @else {
+                            <b>{{ totalPagesMarkedCount }}</b> faqe të
+                            shenjuara,
+                        }
+                        me një total prej
+                        @if (totalMarkingsCount === 1) {
+                            <b>1</b> shenjimi.
+                        } @else {
+                            <b>{{ totalMarkingsCount }}</b> shenjimesh.
+                        }
                     </div>
                 } @else {
                     @if (loading$ | async) {
