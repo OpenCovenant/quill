@@ -1,0 +1,123 @@
+<div
+    class="modal fade"
+    id="document-upload-modal"
+    tabindex="-1"
+    aria-labelledby="document-upload-modal-label"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div
+            class="modal-content"
+            [ngClass]="{
+                'modal-content-subscription-success-dark-mode':
+                    darkModeService.isDarkMode
+            }"
+        >
+            <div class="modal-header">
+                <h5 class="modal-title" id="document-upload-modal-label">
+                    Ngarko Dokument
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    [ngClass]="{
+                        'btn-close-white': darkModeService.isDarkMode
+                    }"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <p style="display: flex; justify-content: space-around">
+                        Zgjidhni dokumentin per te ngarkuar...
+                        <label
+                            for="document-upload-input"
+                            class="btn btn-primary document-upload-label-button"
+                            >Ngarko</label
+                        >
+                        <input
+                            id="document-upload-input"
+                            class="d-none"
+                            onclick="this.value = null"
+                            type="file"
+                            (change)="uploadDocument($event)"
+                            accept=".pdf,.doc,.docx,.odt"
+                        /><i id="fileName"></i>
+                    </p>
+                    <span class="about-file-upload-message"
+                        >Lexoni këtu për të mësuar se si vepron ky
+                        funksionalitet.</span
+                    >
+                </div>
+                @if (markedPages) {
+                    <hr />
+                    <div style="overflow-y: scroll; max-height: 400px">
+                        @if (markedPages.length) {
+                            @for (markedPage of markedPages; track markedPage) {
+                                <h6>Faqja {{ markedPage.pageNumber }}</h6>
+                                <p>
+                                    @for (
+                                        pageMarking of markedPage.markings;
+                                        track pageMarking
+                                    ) {
+                                        <span>
+                                            "{{ pageMarking.text }}" -
+                                            {{ pageMarking.subtype }} -
+                                            {{ pageMarking.description }}
+                                        </span>
+                                        <br />
+                                    }
+                                </p>
+                            }
+                        } @else {
+                            <div>
+                                Nuk ka shenjime për dokumentin e ngarkuar!
+                            </div>
+                        }
+                    </div>
+                    <hr />
+                    <div style="padding-top: 1rem">
+                        <b
+                            >Përmbledhje</b>:
+                            @if (totalPagesMarkedCount === 1) {
+                                <b>1</b> faqe e shenjuar,
+                            } @else {
+                                <b>{{ totalPagesMarkedCount }}</b> faqe të shenjuara,
+                            }
+                            me një total prej
+                            @if (totalMarkingsCount === 1) {
+                                <b>1</b> shenjimi.
+                            } @else {
+                                <b>{{ totalMarkingsCount }}</b> shenjimesh.
+                            }
+                    </div>
+                } @else {
+                    @if (loading$ | async) {
+                        <hr />
+                        <div
+                            style="display: flex; justify-content: space-around"
+                        >
+                            <div>Duke përpunuar dokumentin...</div>
+                            <div
+                                class="spinner-border text-success"
+                                role="status"
+                            >
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="modal-footer document-upload-modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-secondary continue-button-document-upload-modal"
+                    (click)="renewModal()"
+                >
+                    Ngarko Dokument të Ri
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

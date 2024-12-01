@@ -1,0 +1,36 @@
+.document-upload-modal-button {
+    /*display: none;*/
+}
+
+.document-upload-modal-footer {
+    display: flex;
+    justify-content: space-around;
+}
+
+.continue-button-document-upload-modal {
+    font-weight: 500;
+}
+
+.document-upload-label-button {
+    font-weight: 500;
+}
+
+.modal-content-subscription-success-dark-mode {
+    background-color: var(--dark-mode-theme);
+    color: var(--dark-mode-anti-theme);
+}
+
+.about-file-upload-message {
+    color: var(--dark-mode-smooth-theme);
+    font-size: 13px;
+    margin-left: 2.9rem;
+}
+
+/*#fileName {*/
+/*    display: inline-block;*/
+/*    max-width: 100px; !* Adjust this value as needed *!*/
+/*    white-space: nowrap;*/
+/*    overflow: hidden;*/
+/*    text-overflow: ellipsis;*/
+/*    vertical-align: middle;*/
+/*}*/

@@ -47,8 +47,11 @@
                                 data-test="editor-placeholder-text"
                                 >Shkruaj këtu ose </span
                             ><label
-                                for="file-upload-input"
-                                class="editor-placeholder-upload"
+                                id="document-upload-modal-button"
+                                type="button"
+                                class="document-upload-modal-button editor-placeholder-upload"
+                                data-bs-toggle="modal"
+                                data-bs-target="#document-upload-modal"
                                 data-test="editor-placeholder-upload"
                                 >ngarko një dokument</label
                             >
@@ -135,17 +138,6 @@
                     ></span>
                 </div>
             </div>
-
-            <!-- TODO: is this a good place to put this? -->
-            <input
-                id="file-upload-input"
-                class="d-none"
-                onclick="this.value = null"
-                type="file"
-                (change)="uploadDocument($event)"
-                placeholder="SHTYP KËTU"
-                accept=".pdf,.doc,.docx,.odt"
-            />
         </div>
     </div>
     <div class="output-container">
@@ -512,3 +504,5 @@
 <app-thank-you />
 
 <app-welcome />
+
+<app-document-upload (uploadDocumentEmitter)="uploadDocument($event)" />
