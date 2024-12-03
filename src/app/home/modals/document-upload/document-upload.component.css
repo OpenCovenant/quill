@@ -61,7 +61,7 @@
     pointer-events: all;
 }
 
-#file-name {
+.uploaded-document-name {
     min-width: 300px;
     max-width: 300px;
     white-space: nowrap;

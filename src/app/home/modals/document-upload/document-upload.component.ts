@@ -68,7 +68,8 @@ export class DocumentUploadComponent implements OnDestroy {
                 (Math.round(fileSize) + 1) * 60 * 1000;
             this.startProcessingTimer(sizeBasedTimerEstimation);
 
-            document.getElementById('file-name')!.textContent = file.name;
+            document.getElementById('uploaded-document-name')!.textContent =
+                file.name;
             const formData: FormData = new FormData();
             formData.append('uploadFile', file, file.name);
             this.documentUploadSubscription$ = this.httpClient
@@ -93,7 +94,7 @@ export class DocumentUploadComponent implements OnDestroy {
         this.totalMarkingsCount = undefined;
         this.totalPagesMarkedCount = undefined;
         (document.getElementById('document-upload-input')! as any).value = null;
-        document.getElementById('file-name')!.textContent = '';
+        document.getElementById('uploaded-document-name')!.textContent = '';
     }
 
     private startProcessingTimer(totalMinutes: number = 3 * 60 * 1000): void {
