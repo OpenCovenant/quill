@@ -22,6 +22,7 @@ import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { AuthenticationInterceptor } from './authentication.interceptor';
+import { AboutDocumentUploadComponent } from './about-document-upload/about-document-upload.component'
 
 @NgModule({
     declarations: [AppComponent],
@@ -41,6 +42,7 @@ import { AuthenticationInterceptor } from './authentication.interceptor';
         AuthenticationComponent,
         PrivacyPolicyComponent,
         DashboardComponent,
+        AboutDocumentUploadComponent,
         CheckoutComponent
     ],
     providers: [

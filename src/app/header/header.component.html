@@ -249,6 +249,31 @@
                 </div>
                 <div>
                     <a
+                        routerLink="/document-upload"
+                        style="display: flex; align-items: center"
+                        class="nav-text list-group-item-action mb-3"
+                        [ngClass]="{
+                            'side-menu-nav-text-dark-mode':
+                                darkModeService.isDarkMode
+                        }"
+                        role="button"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#side-menu-start"
+                        aria-controls="side-menu-start"
+                    ><i
+                        class="bi bi-file-text"
+                        style="font-size: 1.2rem"
+                        [ngClass]="{
+                                'side-menu-bi-info-circle-dark-mode':
+                                    darkModeService.isDarkMode
+                            }"
+                    >
+                    </i
+                    >Ngarkim Dokumenti</a
+                    >
+                </div>
+                <div>
+                    <a
                         routerLink="/dashboard"
                         style="display: flex; align-items: center"
                         role="button"

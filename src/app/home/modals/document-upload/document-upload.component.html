@@ -48,10 +48,19 @@
                         class="uploaded-document-name"
                     ></i>
                 </div>
-                <div class="about-file-upload-message-div">
-                    <span class="about-file-upload-message"
-                        >Lexoni këtu për të mësuar se si vepron ky
-                        funksionalitet.</span
+                <div class='about-document-upload-message-div'>
+                    <span class='about-document-upload-message'
+                        >Lexoni
+                        <label
+                            id="document-upload-modal-button"
+                            type="button"
+                            class="document-upload-modal-button editor-placeholder-upload"
+                            data-bs-toggle="modal"
+                            data-bs-target="#document-upload-modal"
+                            data-test="about-document-upload"
+                            >këtu</label
+                        >
+                        për të mësuar se si vepron ky funksionalitet.</span
                     >
                 </div>
                 @if (markedPages) {
@@ -68,13 +77,12 @@
                                         pageMarking of markedPage.markings;
                                         track pageMarking
                                     ) {
-                                        <span class="marked-page-item">
+                                        <div class="marked-page-item">
                                             <b>"{{ pageMarking.text }}"</b> -
                                             {{ pageMarking.subtype }} -
                                             {{ pageMarking.description }}:
                                             <i>{{ pageMarking.suggestions }}</i>
-                                        </span>
-                                        <br />
+                                        </div>
                                     }
                                 </p>
                             }

@@ -70,6 +70,8 @@ export class DocumentUploadComponent implements OnDestroy {
 
             document.getElementById('uploaded-document-name')!.textContent =
                 file.name;
+            document.getElementById('uploaded-document-name')!.title =
+                file.name;
             const formData: FormData = new FormData();
             formData.append('uploadFile', file, file.name);
             this.documentUploadSubscription$ = this.httpClient
@@ -95,6 +97,7 @@ export class DocumentUploadComponent implements OnDestroy {
         this.totalPagesMarkedCount = undefined;
         (document.getElementById('document-upload-input')! as any).value = null;
         document.getElementById('uploaded-document-name')!.textContent = '';
+        document.getElementById('uploaded-document-name')!.title = '';
     }
 
     private startProcessingTimer(totalMinutes: number = 3 * 60 * 1000): void {

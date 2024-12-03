@@ -47,11 +47,11 @@
     color: var(--dark-mode-anti-theme);
 }
 
-.about-file-upload-message-div {
+.about-document-upload-message-div {
     padding-top: 2rem;
 }
 
-.about-file-upload-message {
+.about-document-upload-message {
     color: var(--dark-mode-smooth-theme);
     font-size: 13px;
 }
