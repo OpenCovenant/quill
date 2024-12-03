@@ -1,7 +1,16 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs';
+import {
+    BehaviorSubject,
+    interval,
+    map,
+    Observable,
+    startWith,
+    Subject,
+    Subscription,
+    takeUntil
+} from 'rxjs';
 
 import { DarkModeService } from '../../../services/dark-mode.service';
 import { environment } from '../../../../environments/environment';
@@ -11,18 +20,20 @@ import { MarkedPage } from '../../../models/marked-page';
     selector: 'app-document-upload',
     templateUrl: './document-upload.component.html',
     styleUrl: './document-upload.component.css',
-    imports: [CommonModule],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    imports: [CommonModule]
 })
 export class DocumentUploadComponent implements OnDestroy {
     loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     markedPages: MarkedPage[] | undefined = undefined;
     totalMarkingsCount: number | undefined = undefined;
     totalPagesMarkedCount: number | undefined = undefined;
+    processingTimeLeft: string | undefined = undefined;
 
     private baseURL!: string;
     private uploadDocumentURL!: string;
-    private documentUploadSubscription$: any;
+    private documentUploadSubscription$: Subscription | undefined = undefined;
+    private countdownSubject: Subject<void> = new Subject();
+    private countdown$: Observable<number> | undefined = undefined;
 
     constructor(
         public darkModeService: DarkModeService,
@@ -32,11 +43,11 @@ export class DocumentUploadComponent implements OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.documentUploadSubscription$.unsubscribe();
+        this.documentUploadSubscription$?.unsubscribe();
     }
 
     /**
-     * Uploads the selected document to be marked
+     * Uploads the selected document to be marked.
      * @param {Event} $event the event emitted when the file is selected
      */
     uploadDocument($event: Event): void {
@@ -52,6 +63,11 @@ export class DocumentUploadComponent implements OnDestroy {
             }
             this.clearModal();
             this.loading$.next(true);
+
+            const sizeBasedTimerEstimation =
+                (Math.round(fileSize) + 1) * 60 * 1000;
+            this.startProcessingTimer(sizeBasedTimerEstimation);
+
             document.getElementById('file-name')!.textContent = file.name;
             const formData: FormData = new FormData();
             formData.append('uploadFile', file, file.name);
@@ -65,6 +81,7 @@ export class DocumentUploadComponent implements OnDestroy {
                         .reduce((a, b) => a + b, 0);
                     this.totalPagesMarkedCount = markedPages.length;
                     this.loading$.next(false);
+                    this.stopProcessingTimer();
                 });
         } else {
             alert('Ngarko vetëm një dokument!');
@@ -77,7 +94,27 @@ export class DocumentUploadComponent implements OnDestroy {
         this.totalPagesMarkedCount = undefined;
         (document.getElementById('document-upload-input')! as any).value = null;
         document.getElementById('file-name')!.textContent = '';
-        // this.documentUploadSubscription$.unsubscribe();
+    }
+
+    private startProcessingTimer(totalMinutes: number = 3 * 60 * 1000): void {
+        this.countdown$ = interval(60 * 1000).pipe(
+            startWith(0),
+            map((_, index) => totalMinutes - index * 60 * 1000),
+            takeUntil(this.countdownSubject)
+        );
+
+        this.countdown$.subscribe((count: any) => {
+            const countInMinutes = count / 60000;
+            this.processingTimeLeft =
+                countInMinutes === 1 ? '1 minutë' : `${countInMinutes} minuta`;
+            if (count === 0) {
+                this.stopProcessingTimer();
+            }
+        });
+    }
+
+    private stopProcessingTimer(): void {
+        this.countdownSubject.next();
     }
 
     private initializeURLs(): void {

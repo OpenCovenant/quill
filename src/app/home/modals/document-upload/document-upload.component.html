@@ -28,23 +28,24 @@
                 ></button>
             </div>
             <div class="modal-body">
-                <div>
-                    <p style="display: flex; justify-content: space-around">
-                        Zgjidhni dokumentin per te ngarkuar...
-                        <label
-                            for="document-upload-input"
-                            class="btn btn-primary document-upload-label-button"
-                            >Ngarko</label
-                        >
-                        <input
-                            id="document-upload-input"
-                            class="d-none"
-                            onclick="this.value = null"
-                            type="file"
-                            (change)="uploadDocument($event)"
-                            accept=".pdf,.doc,.docx,.odt"
-                        /><i id="file-name"></i>
-                    </p>
+                <div class="marked-pages-document-upload">
+                    <span>Zgjidhni dokumentin PDF për të ngarkuar...</span>
+                    <label
+                        for="document-upload-input"
+                        class="btn btn-primary document-upload-label-button"
+                        >Ngarko</label
+                    >
+                    <input
+                        id="document-upload-input"
+                        class="d-none"
+                        onclick="this.value = null"
+                        type="file"
+                        (change)="uploadDocument($event)"
+                        accept=".pdf"
+                    />
+                    <i id="file-name"></i>
+                </div>
+                <div class="about-file-upload-message-div">
                     <span class="about-file-upload-message"
                         >Lexoni këtu për të mësuar se si vepron ky
                         funksionalitet.</span
@@ -52,22 +53,23 @@
                 </div>
                 @if (markedPages) {
                     <hr />
-                    <div style="overflow-y: scroll; max-height: 400px">
+                    <div class="marked-pages-section">
                         @if (markedPages.length) {
                             @for (markedPage of markedPages; track markedPage) {
-                                <h6>
+                                <h5>
                                     Faqja {{ markedPage.pageNumber }} -
                                     {{ markedPage.markings.length }} shenjime
-                                </h6>
+                                </h5>
                                 <p>
                                     @for (
                                         pageMarking of markedPage.markings;
                                         track pageMarking
                                     ) {
-                                        <span>
-                                            "{{ pageMarking.text }}" -
+                                        <span class="marked-page-item">
+                                            <b>"{{ pageMarking.text }}"</b> -
                                             {{ pageMarking.subtype }} -
-                                            {{ pageMarking.description }}
+                                            {{ pageMarking.description }}:
+                                            <i>{{ pageMarking.suggestions }}</i>
                                         </span>
                                         <br />
                                     }
@@ -80,7 +82,7 @@
                         }
                     </div>
                     <hr />
-                    <div style="padding-top: 1rem">
+                    <div class="marked-pages-summary">
                         <b>Përmbledhje</b>:
                         @if (totalPagesMarkedCount === 1) {
                             <b>1</b> faqe e shenjuar,
@@ -98,15 +100,22 @@
                 } @else {
                     @if (loading$ | async) {
                         <hr />
-                        <div
-                            style="display: flex; justify-content: space-around"
-                        >
-                            <div>Duke përpunuar dokumentin...</div>
-                            <div
-                                class="spinner-border text-success"
-                                role="status"
-                            >
-                                <span class="visually-hidden">Loading...</span>
+                        <div class="marked-pages-loading-section">
+                            <div>
+                                Duke përpunuar dokumentin.<br />Nevojiten
+                                mesatarisht dhe rreth
+                                <b>{{ processingTimeLeft }}</b
+                                >...
+                            </div>
+                            <div class="marked-pages-spinner">
+                                <div
+                                    class="spinner-border text-success"
+                                    role="status"
+                                >
+                                    <span class="visually-hidden"
+                                        >Loading...</span
+                                    >
+                                </div>
                             </div>
                         </div>
                     }
