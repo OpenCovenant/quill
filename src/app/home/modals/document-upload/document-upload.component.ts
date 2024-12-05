@@ -1,6 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { RouterLink } from '@angular/router';
 import {
     BehaviorSubject,
     interval,
@@ -20,7 +21,7 @@ import { MarkedPage } from '../../../models/marked-page';
     selector: 'app-document-upload',
     templateUrl: './document-upload.component.html',
     styleUrl: './document-upload.component.css',
-    imports: [CommonModule]
+    imports: [CommonModule, RouterLink]
 })
 export class DocumentUploadComponent implements OnDestroy {
     loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -58,8 +59,9 @@ export class DocumentUploadComponent implements OnDestroy {
             const fileSize = file.size / (1024 * 1024);
             if (fileSize > 20) {
                 alert(
-                    'File is too large. Please select a file smaller than 20 MB.'
+                    'Dokumenti është tepër i madh. Zgjidhni një dokument më të vogel se 20 MB.'
                 );
+                return;
             }
             this.clearModal();
             this.loading$.next(true);
@@ -76,15 +78,24 @@ export class DocumentUploadComponent implements OnDestroy {
             formData.append('uploadFile', file, file.name);
             this.documentUploadSubscription$ = this.httpClient
                 .post(this.uploadDocumentURL, formData)
-                .subscribe((value) => {
-                    const markedPages = value as MarkedPage[];
-                    this.markedPages = markedPages;
-                    this.totalMarkingsCount = markedPages
-                        .map((mP) => mP.markings.length)
-                        .reduce((a, b) => a + b, 0);
-                    this.totalPagesMarkedCount = markedPages.length;
-                    this.loading$.next(false);
-                    this.stopProcessingTimer();
+                .subscribe({
+                    next: (value) => {
+                        const markedPages = value as MarkedPage[];
+                        this.markedPages = markedPages;
+                        this.totalMarkingsCount = markedPages
+                            .map((mP) => mP.markings.length)
+                            .reduce((a, b) => a + b, 0);
+                        this.totalPagesMarkedCount = markedPages.length;
+                        this.loading$.next(false);
+                        this.stopProcessingTimer();
+                    },
+                    error: (e) => {
+                        this.stopProcessingTimer();
+                        this.loading$.next(false);
+                        this.clearModal();
+                        console.log('due:', e);
+                        alert('Ngarkimi dështoi, provojeni përsëri.');
+                    }
                 });
         } else {
             alert('Ngarko vetëm një dokument!');
@@ -107,7 +118,7 @@ export class DocumentUploadComponent implements OnDestroy {
             takeUntil(this.countdownSubject)
         );
 
-        this.countdown$.subscribe((count: any) => {
+        this.countdown$.subscribe((count: number) => {
             const countInMinutes = count / 60000;
             this.processingTimeLeft =
                 countInMinutes === 1 ? '1 minutë' : `${countInMinutes} minuta`;
@@ -124,5 +135,9 @@ export class DocumentUploadComponent implements OnDestroy {
     private initializeURLs(): void {
         this.baseURL = environment.baseURL;
         this.uploadDocumentURL = this.baseURL + '/api/uploadDocument';
+    }
+
+    downloadReport(): void {
+        console.log('Downloading Document');
     }
 }

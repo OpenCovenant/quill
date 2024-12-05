@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
-import { DarkModeService } from '../services/dark-mode.service'
-import { environment } from '../../environments/environment'
+import { DarkModeService } from '../services/dark-mode.service';
+import { environment } from '../../environments/environment';
 
 @Component({
     selector: 'app-about-document-upload',
@@ -23,12 +23,14 @@ export class AboutDocumentUploadComponent {
         private router: Router
     ) {
         this.initializeURLs();
-        this.httpClient.get(this.getAboutDocumentUploadURL).subscribe((html: any) => {
-            document.getElementById('about-document-upload')!.innerHTML =
-                html['about_document_upload_html'];
+        this.httpClient
+            .get(this.getAboutDocumentUploadURL)
+            .subscribe((html: any) => {
+                document.getElementById('about-document-upload')!.innerHTML =
+                    html['about_document_upload_html'];
 
-            this.handleURLFragmenting();
-        });
+                this.handleURLFragmenting();
+            });
     }
 
     private handleURLFragmenting(): void {
@@ -55,6 +57,7 @@ export class AboutDocumentUploadComponent {
 
     private initializeURLs(): void {
         this.baseURL = environment.baseURL;
-        this.getAboutDocumentUploadURL = this.baseURL + '/api/getAboutDocumentUpload';
+        this.getAboutDocumentUploadURL =
+            this.baseURL + '/api/getAboutDocumentUpload';
     }
 }

@@ -6,6 +6,7 @@ import {
     withInterceptorsFromDi
 } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideRouter } from '@angular/router';
 
 describe('DocumentUploadComponent', () => {
     let component: DocumentUploadComponent;
@@ -15,7 +16,8 @@ describe('DocumentUploadComponent', () => {
         await TestBed.configureTestingModule({
             providers: [
                 provideHttpClient(withInterceptorsFromDi()),
-                provideHttpClientTesting()
+                provideHttpClientTesting(),
+                provideRouter([])
             ]
         }).compileComponents();
 

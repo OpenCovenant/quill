@@ -7,8 +7,28 @@
     font-weight: 500;
 }
 
+.clear-document-upload-modal:disabled {
+    cursor: not-allowed;
+    pointer-events: all;
+}
+
+.download-report-button {
+    font-weight: 500;
+}
+
+.download-report-button:disabled {
+    cursor: not-allowed;
+    pointer-events: all;
+}
+
 .document-upload-label-button {
     font-weight: 500;
+}
+
+.document-upload-label-button-disabled {
+    cursor: not-allowed;
+    pointer-events: all;
+    opacity: 0.65;
 }
 
 .marked-pages-section {
@@ -54,11 +74,6 @@
 .about-document-upload-message {
     color: var(--dark-mode-smooth-theme);
     font-size: 13px;
-}
-
-.clear-document-upload-modal:disabled {
-    cursor: not-allowed;
-    pointer-events: all;
 }
 
 .uploaded-document-name {

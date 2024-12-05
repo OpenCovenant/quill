@@ -13,7 +13,7 @@ import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.componen
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { subscriptionGuard } from './guards/subscription.guard';
-import { AboutDocumentUploadComponent } from './about-document-upload/about-document-upload.component'
+import { AboutDocumentUploadComponent } from './about-document-upload/about-document-upload.component';
 
 const routes: Routes = [
     {

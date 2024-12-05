@@ -33,6 +33,10 @@
                     <label
                         for="document-upload-input"
                         class="btn btn-primary document-upload-label-button"
+                        [ngClass]="{
+                            'document-upload-label-button-disabled':
+                                loading$ | async
+                        }"
                         >Ngarko</label
                     >
                     <input
@@ -42,25 +46,27 @@
                         type="file"
                         (change)="uploadDocument($event)"
                         accept=".pdf"
+                        [disabled]="loading$ | async"
                     />
                     <i
                         id="uploaded-document-name"
                         class="uploaded-document-name"
                     ></i>
                 </div>
-                <div class='about-document-upload-message-div'>
-                    <span class='about-document-upload-message'
+                <div class="about-document-upload-message-div">
+                    <span class="about-document-upload-message"
                         >Lexoni
-                        <label
-                            id="document-upload-modal-button"
+                        <a
                             type="button"
-                            class="document-upload-modal-button editor-placeholder-upload"
-                            data-bs-toggle="modal"
-                            data-bs-target="#document-upload-modal"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                            routerLink="/document-upload"
+                            class="editor-placeholder-upload"
                             data-test="about-document-upload"
-                            >këtu</label
+                            >këtu</a
                         >
-                        për të mësuar se si vepron ky funksionalitet.</span
+                        për të mësuar se si vepron ky funksionalitet. Kujdes,
+                        hapja e kesaj faqeje do të pastrojë këtë dritare.</span
                     >
                 </div>
                 @if (markedPages) {
@@ -140,6 +146,14 @@
                     [disabled]="loading$ | async"
                 >
                     Pastro Dritaren
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-success download-report-button"
+                    (click)="downloadReport()"
+                    [disabled]="!markedPages"
+                >
+                    Shkarko Raportin
                 </button>
             </div>
         </div>
