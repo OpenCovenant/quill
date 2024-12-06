@@ -36,6 +36,7 @@
     "concurrently": "^7.6.0",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",
+    "xlsx": "^0.18.5",
     "zone.js": "~0.15.0"
   },
   "devDependencies": {

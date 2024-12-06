@@ -12,10 +12,13 @@ import {
     Subscription,
     takeUntil
 } from 'rxjs';
+import * as XLSX from 'xlsx';
 
 import { DarkModeService } from '../../../services/dark-mode.service';
 import { environment } from '../../../../environments/environment';
 import { MarkedPage } from '../../../models/marked-page';
+import { DocumentMarking } from '../../../models/document-marking';
+import { WorkBook, WorkSheet } from 'xlsx';
 
 @Component({
     selector: 'app-document-upload',
@@ -89,11 +92,10 @@ export class DocumentUploadComponent implements OnDestroy {
                         this.loading$.next(false);
                         this.stopProcessingTimer();
                     },
-                    error: (e) => {
+                    error: () => {
                         this.stopProcessingTimer();
                         this.loading$.next(false);
                         this.clearModal();
-                        console.log('due:', e);
                         alert('Ngarkimi dështoi, provojeni përsëri.');
                     }
                 });
@@ -137,7 +139,49 @@ export class DocumentUploadComponent implements OnDestroy {
         this.uploadDocumentURL = this.baseURL + '/api/uploadDocument';
     }
 
+    getMaxLength(arr: any[], property: string): number {
+        return Math.max(...arr.map((item) => item[property].toString().length));
+    }
+
     downloadReport(): void {
-        console.log('Downloading Document');
+        const data: any[][] = [
+            ['Numri i Faqes', 'Shenjimi', 'Lloji', 'Përshkrimi', 'Sugjerimet']
+        ];
+
+        this.markedPages?.forEach((markedPage: MarkedPage) => {
+            markedPage.markings.forEach((pageMarking: DocumentMarking) => {
+                const markingEntry = [
+                    markedPage.pageNumber,
+                    pageMarking.text,
+                    pageMarking.subtype,
+                    pageMarking.description,
+                    pageMarking.suggestions
+                ];
+                data.push(markingEntry);
+            });
+        });
+
+        const columns = Object.keys(data[0]);
+        const columnWidths = columns.map((col) => ({
+            wch: Math.max(col.length, this.getMaxLength(data, col))
+        }));
+
+        const markedPagesReport: WorkBook = XLSX.utils.book_new();
+        const reportWorksheet: WorkSheet = XLSX.utils.aoa_to_sheet(data);
+        reportWorksheet['!cols'] = columnWidths;
+
+        XLSX.utils.book_append_sheet(
+            markedPagesReport,
+            reportWorksheet,
+            'penda-raport'
+        );
+
+        const fileName = document.getElementById(
+            'uploaded-document-name'
+        )!.textContent;
+        XLSX.writeFile(
+            markedPagesReport,
+            `penda-${fileName?.substring(0, fileName?.length - 4)}.xlsx`
+        );
     }
 }
