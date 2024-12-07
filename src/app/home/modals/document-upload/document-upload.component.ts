@@ -13,12 +13,12 @@ import {
     takeUntil
 } from 'rxjs';
 import * as XLSX from 'xlsx';
+import { WorkBook, WorkSheet } from 'xlsx';
 
 import { DarkModeService } from '../../../services/dark-mode.service';
 import { environment } from '../../../../environments/environment';
 import { MarkedPage } from '../../../models/marked-page';
 import { DocumentMarking } from '../../../models/document-marking';
-import { WorkBook, WorkSheet } from 'xlsx';
 
 @Component({
     selector: 'app-document-upload',
@@ -113,6 +113,48 @@ export class DocumentUploadComponent implements OnDestroy {
         document.getElementById('uploaded-document-name')!.title = '';
     }
 
+    downloadReport(): void {
+        const data: any[][] = [
+            ['Numri i Faqes', 'Shenjimi', 'Lloji', 'Përshkrimi', 'Sugjerimet']
+        ];
+
+        this.markedPages?.forEach((markedPage: MarkedPage) => {
+            markedPage.markings.forEach((pageMarking: DocumentMarking) => {
+                const markingEntry = [
+                    markedPage.pageNumber,
+                    pageMarking.text,
+                    pageMarking.subtype,
+                    pageMarking.description,
+                    pageMarking.suggestions
+                ];
+                data.push(markingEntry);
+            });
+        });
+
+        const columns = Object.keys(data[0]);
+        const columnWidths = columns.map((col) => ({
+            wch: Math.max(col.length, this.getMaxCellLength(data, col))
+        }));
+
+        const markedPagesReport: WorkBook = XLSX.utils.book_new();
+        const reportWorksheet: WorkSheet = XLSX.utils.aoa_to_sheet(data);
+        reportWorksheet['!cols'] = columnWidths;
+
+        XLSX.utils.book_append_sheet(
+            markedPagesReport,
+            reportWorksheet,
+            'penda-raport'
+        );
+
+        const fileName = document.getElementById(
+            'uploaded-document-name'
+        )!.textContent;
+        XLSX.writeFile(
+            markedPagesReport,
+            `penda-${fileName?.substring(0, fileName?.length - 4)}.xlsx`
+        );
+    }
+
     private startProcessingTimer(totalMinutes: number = 3 * 60 * 1000): void {
         this.countdown$ = interval(60 * 1000).pipe(
             startWith(0),
@@ -134,54 +176,12 @@ export class DocumentUploadComponent implements OnDestroy {
         this.countdownSubject.next();
     }
 
-    private initializeURLs(): void {
-        this.baseURL = environment.baseURL;
-        this.uploadDocumentURL = this.baseURL + '/api/uploadDocument';
-    }
-
-    getMaxLength(arr: any[], property: string): number {
+    private getMaxCellLength(arr: any[], property: string): number {
         return Math.max(...arr.map((item) => item[property].toString().length));
     }
 
-    downloadReport(): void {
-        const data: any[][] = [
-            ['Numri i Faqes', 'Shenjimi', 'Lloji', 'Përshkrimi', 'Sugjerimet']
-        ];
-
-        this.markedPages?.forEach((markedPage: MarkedPage) => {
-            markedPage.markings.forEach((pageMarking: DocumentMarking) => {
-                const markingEntry = [
-                    markedPage.pageNumber,
-                    pageMarking.text,
-                    pageMarking.subtype,
-                    pageMarking.description,
-                    pageMarking.suggestions
-                ];
-                data.push(markingEntry);
-            });
-        });
-
-        const columns = Object.keys(data[0]);
-        const columnWidths = columns.map((col) => ({
-            wch: Math.max(col.length, this.getMaxLength(data, col))
-        }));
-
-        const markedPagesReport: WorkBook = XLSX.utils.book_new();
-        const reportWorksheet: WorkSheet = XLSX.utils.aoa_to_sheet(data);
-        reportWorksheet['!cols'] = columnWidths;
-
-        XLSX.utils.book_append_sheet(
-            markedPagesReport,
-            reportWorksheet,
-            'penda-raport'
-        );
-
-        const fileName = document.getElementById(
-            'uploaded-document-name'
-        )!.textContent;
-        XLSX.writeFile(
-            markedPagesReport,
-            `penda-${fileName?.substring(0, fileName?.length - 4)}.xlsx`
-        );
+    private initializeURLs(): void {
+        this.baseURL = environment.baseURL;
+        this.uploadDocumentURL = this.baseURL + '/api/uploadDocument';
     }
 }
