@@ -1,0 +1,85 @@
+.document-upload-modal-footer {
+    display: flex;
+    justify-content: space-around;
+}
+
+.clear-document-upload-modal {
+    font-weight: 500;
+}
+
+.clear-document-upload-modal:disabled {
+    cursor: not-allowed;
+    pointer-events: all;
+}
+
+.download-report-button {
+    font-weight: 500;
+}
+
+.download-report-button:disabled {
+    cursor: not-allowed;
+    pointer-events: all;
+}
+
+.document-upload-label-button {
+    font-weight: 500;
+}
+
+.document-upload-label-button-disabled {
+    cursor: not-allowed;
+    pointer-events: all;
+    opacity: 0.65;
+}
+
+.marked-pages-section {
+    overflow-y: scroll;
+    max-height: 400px;
+}
+
+.marked-page-summary {
+    padding-top: 1rem;
+}
+
+.marked-pages-loading-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.marked-pages-spinner {
+    min-width: 300px;
+    max-width: 300px;
+}
+
+.marked-pages-document-upload {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.marked-page-item {
+    white-space: nowrap;
+    padding-right: 1rem;
+}
+
+.modal-content-subscription-success-dark-mode {
+    background-color: var(--dark-mode-theme);
+    color: var(--dark-mode-anti-theme);
+}
+
+.about-document-upload-message-div {
+    padding-top: 2rem;
+}
+
+.about-document-upload-message {
+    color: var(--dark-mode-smooth-theme);
+    font-size: 13px;
+}
+
+.uploaded-document-name {
+    min-width: 300px;
+    max-width: 300px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}

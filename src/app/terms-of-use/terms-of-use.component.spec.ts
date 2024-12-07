@@ -14,7 +14,6 @@ describe('TermsOfUseComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [TermsOfUseComponent],
             providers: [
                 provideHttpClient(withInterceptorsFromDi()),
                 provideHttpClientTesting(),

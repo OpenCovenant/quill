@@ -13,8 +13,6 @@ describe('PrivacyPolicyComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [PrivacyPolicyComponent],
-            imports: [],
             providers: [
                 provideHttpClient(withInterceptorsFromDi()),
                 provideHttpClientTesting()

@@ -14,7 +14,6 @@ describe('ShortcutsComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [ShortcutsComponent],
             providers: [
                 provideHttpClient(withInterceptorsFromDi()),
                 provideHttpClientTesting(),

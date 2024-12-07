@@ -19,7 +19,6 @@ import {
 
 @Component({
     selector: 'app-writings-history',
-    standalone: true,
     imports: [CommonModule],
     templateUrl: './writings-history.component.html',
     styleUrl: './writings-history.component.css'
