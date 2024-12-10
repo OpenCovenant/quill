@@ -5,13 +5,15 @@ import { HttpClient } from '@angular/common/http';
 import { AuthenticationService } from '../services/authentication.service';
 import { DarkModeService } from '../services/dark-mode.service';
 import { environment } from '../../environments/environment';
+import { CommonModule } from '@angular/common';
 
 declare const google: any;
 
 @Component({
     selector: 'app-authentication',
     templateUrl: './authentication.component.html',
-    styleUrls: ['./authentication.component.css']
+    styleUrls: ['./authentication.component.css'],
+    imports: [CommonModule]
 })
 export class AuthenticationComponent implements OnInit {
     private baseURL!: string;

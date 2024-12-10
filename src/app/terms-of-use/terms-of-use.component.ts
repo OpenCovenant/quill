@@ -3,11 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { DarkModeService } from '../services/dark-mode.service';
 import { environment } from '../../environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-terms-of-use',
     templateUrl: './terms-of-use.component.html',
-    styleUrls: ['./terms-of-use.component.css']
+    styleUrls: ['./terms-of-use.component.css'],
+    imports: [CommonModule]
 })
 export class TermsOfUseComponent {
     baseURL!: string;

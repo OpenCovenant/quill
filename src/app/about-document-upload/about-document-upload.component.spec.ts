@@ -1,27 +1,27 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DashboardComponent } from './dashboard.component';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { AboutDocumentUploadComponent } from './about-document-upload.component';
 import {
     provideHttpClient,
     withInterceptorsFromDi
 } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideRouter } from '@angular/router';
 
-describe('DashboardComponent', () => {
-    let component: DashboardComponent;
-    let fixture: ComponentFixture<DashboardComponent>;
+describe('AboutDocumentUploadComponent', () => {
+    let component: AboutDocumentUploadComponent;
+    let fixture: ComponentFixture<AboutDocumentUploadComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             providers: [
                 provideHttpClient(withInterceptorsFromDi()),
-                provideHttpClientTesting()
+                provideHttpClientTesting(),
+                provideRouter([])
             ]
         }).compileComponents();
-    });
 
-    beforeEach(() => {
-        fixture = TestBed.createComponent(DashboardComponent);
+        fixture = TestBed.createComponent(AboutDocumentUploadComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

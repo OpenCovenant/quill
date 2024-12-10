@@ -1,20 +1,20 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
-import { DarkModeService } from '../services/dark-mode.service';
-import { environment } from '../../environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
+import { DarkModeService } from '../services/dark-mode.service';
+import { environment } from '../../environments/environment';
+
 @Component({
-    selector: 'app-shortcuts',
-    templateUrl: './shortcuts.component.html',
-    styleUrls: ['./shortcuts.component.css'],
+    selector: 'app-about-document-upload',
+    templateUrl: './about-document-upload.component.html',
+    styleUrl: './about-document-upload.component.css',
     imports: [CommonModule]
 })
-export class ShortcutsComponent {
+export class AboutDocumentUploadComponent {
     baseURL!: string;
-    getShortcutsURL!: string;
+    getAboutDocumentUploadURL!: string;
 
     constructor(
         public darkModeService: DarkModeService,
@@ -23,12 +23,14 @@ export class ShortcutsComponent {
         private router: Router
     ) {
         this.initializeURLs();
-        this.httpClient.get(this.getShortcutsURL).subscribe((html: any) => {
-            document.getElementById('shortcuts')!.innerHTML =
-                html['shortcuts_html'];
+        this.httpClient
+            .get(this.getAboutDocumentUploadURL)
+            .subscribe((html: any) => {
+                document.getElementById('about-document-upload')!.innerHTML =
+                    html['about_document_upload_html'];
 
-            this.handleURLFragmenting();
-        });
+                this.handleURLFragmenting();
+            });
     }
 
     private handleURLFragmenting(): void {
@@ -55,6 +57,7 @@ export class ShortcutsComponent {
 
     private initializeURLs(): void {
         this.baseURL = environment.baseURL;
-        this.getShortcutsURL = this.baseURL + '/api/getShortcuts';
+        this.getAboutDocumentUploadURL =
+            this.baseURL + '/api/getAboutDocumentUpload';
     }
 }

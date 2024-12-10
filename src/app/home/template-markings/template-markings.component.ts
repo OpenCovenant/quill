@@ -5,7 +5,6 @@ import { DarkModeService } from '../../services/dark-mode.service';
 
 @Component({
     selector: 'app-template-markings',
-    standalone: true,
     templateUrl: './template-markings.component.html',
     styleUrl: './template-markings.component.css',
     imports: [CommonModule]

@@ -1,0 +1,8 @@
+.about-document-upload {
+    margin-left: 20%;
+    width: 60%;
+}
+
+.about-document-upload-dark-mode {
+    color: var(--light);
+}

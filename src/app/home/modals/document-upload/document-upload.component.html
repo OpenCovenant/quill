@@ -1,0 +1,160 @@
+<div
+    class="modal fade"
+    id="document-upload-modal"
+    tabindex="-1"
+    aria-labelledby="document-upload-modal-label"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div
+            class="modal-content"
+            [ngClass]="{
+                'modal-content-subscription-success-dark-mode':
+                    darkModeService.isDarkMode
+            }"
+        >
+            <div class="modal-header">
+                <h5 class="modal-title" id="document-upload-modal-label">
+                    Ngarko Dokument
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    [ngClass]="{
+                        'btn-close-white': darkModeService.isDarkMode
+                    }"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <div class="marked-pages-document-upload">
+                    <span>Zgjidhni dokumentin PDF për të ngarkuar...</span>
+                    <label
+                        for="document-upload-input"
+                        class="btn btn-primary document-upload-label-button"
+                        [ngClass]="{
+                            'document-upload-label-button-disabled':
+                                loading$ | async
+                        }"
+                        >Ngarko</label
+                    >
+                    <input
+                        id="document-upload-input"
+                        class="d-none"
+                        onclick="this.value = null"
+                        type="file"
+                        (change)="uploadDocument($event)"
+                        accept=".pdf"
+                        [disabled]="loading$ | async"
+                    />
+                    <i
+                        id="uploaded-document-name"
+                        class="uploaded-document-name"
+                    ></i>
+                </div>
+                <div class="about-document-upload-message-div">
+                    <span class="about-document-upload-message"
+                        >Lexoni
+                        <a
+                            type="button"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                            routerLink="/document-upload"
+                            class="editor-placeholder-upload"
+                            data-test="about-document-upload"
+                            >këtu</a
+                        >
+                        për të mësuar se si vepron ky funksionalitet.</span
+                    >
+                </div>
+                @if (markedPages) {
+                    <hr />
+                    <div class="marked-pages-section">
+                        @if (markedPages.length) {
+                            @for (markedPage of markedPages; track markedPage) {
+                                <h5>
+                                    Faqja {{ markedPage.pageNumber }} -
+                                    {{ markedPage.markings.length }} shenjime
+                                </h5>
+                                <p>
+                                    @for (
+                                        pageMarking of markedPage.markings;
+                                        track pageMarking
+                                    ) {
+                                        <div class="marked-page-item">
+                                            <b>"{{ pageMarking.text }}"</b> -
+                                            {{ pageMarking.subtype }} -
+                                            {{ pageMarking.description }}:
+                                            <i>{{ pageMarking.suggestions }}</i>
+                                        </div>
+                                    }
+                                </p>
+                            }
+                        } @else {
+                            <div>
+                                Nuk ka shenjime për dokumentin e ngarkuar!
+                            </div>
+                        }
+                    </div>
+                    <hr />
+                    <div class="marked-pages-summary">
+                        <b>Përmbledhje</b>:
+                        @if (totalPagesMarkedCount === 1) {
+                            <b>1</b> faqe e shenjuar,
+                        } @else {
+                            <b>{{ totalPagesMarkedCount }}</b> faqe të
+                            shenjuara,
+                        }
+                        me një total prej
+                        @if (totalMarkingsCount === 1) {
+                            <b>1</b> shenjimi.
+                        } @else {
+                            <b>{{ totalMarkingsCount }}</b> shenjimesh.
+                        }
+                    </div>
+                } @else {
+                    @if (loading$ | async) {
+                        <hr />
+                        <div class="marked-pages-loading-section">
+                            <div>
+                                Duke përpunuar dokumentin.<br />Nevojiten
+                                mesatarisht dhe rreth
+                                <b>{{ processingTimeLeft }}</b
+                                >...
+                            </div>
+                            <div class="marked-pages-spinner">
+                                <div
+                                    class="spinner-border text-success"
+                                    role="status"
+                                >
+                                    <span class="visually-hidden"
+                                        >Loading...</span
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="modal-footer document-upload-modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-secondary clear-document-upload-modal"
+                    (click)="clearModal()"
+                    [disabled]="loading$ | async"
+                >
+                    Pastro Dritaren
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-success download-report-button"
+                    (click)="downloadReport()"
+                    [disabled]="!markedPages?.length"
+                >
+                    Shkarko Raportin
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

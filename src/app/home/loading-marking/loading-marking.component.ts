@@ -5,7 +5,6 @@ import { DarkModeService } from '../../services/dark-mode.service';
 
 @Component({
     selector: 'app-loading-marking',
-    standalone: true,
     imports: [CommonModule],
     templateUrl: './loading-marking.component.html',
     styleUrl: './loading-marking.component.css'
